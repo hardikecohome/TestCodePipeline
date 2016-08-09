@@ -33,6 +33,7 @@ namespace DealnetPortal.Api.Controllers
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
+            //TODO: add role manager
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
