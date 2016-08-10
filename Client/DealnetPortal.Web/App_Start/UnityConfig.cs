@@ -1,5 +1,4 @@
 using System;
-using DealnetPortal.Web.Models;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
