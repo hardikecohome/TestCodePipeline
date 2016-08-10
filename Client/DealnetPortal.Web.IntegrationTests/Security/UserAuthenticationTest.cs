@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.IntegrationTests.Security
             ISecurityServiceAgent serviceAgent = new SecurityServiceAgent(_client);
             var user = serviceAgent.Authenicate("user@ya.ru", "123_Qwe").Result;
 
-            //Assert.IsNotNull(user);
+            Assert.IsNotNull(user);
         }
 
         [TestMethod]

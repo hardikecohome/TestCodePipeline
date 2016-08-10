@@ -7,6 +7,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Web.Common.Api;
+using DealnetPortal.Web.Common.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -45,33 +46,26 @@ namespace DealnetPortal.Web.ServiceAgent
                 var response = await Client.Client.PostAsync(_loginUri.AbsoluteUri, data);
                 var results =
                     JsonConvert.DeserializeObject<Dictionary<string, string>>(
-                        response.Content.ReadAsStringAsync().Result);
+                        response.Content.ReadAsStringAsync().Result);                
 
                 if (!results.ContainsKey("access_token"))
                     return null;
-
-                IEnumerable<string> userData;
-                if (response.Headers.TryGetValues("user", out userData))
+                
+                var claims = new List<Claim>();
+                string returnedName;
+                if (results.TryGetValue("userName", out returnedName))
                 {
-                    JObject userProxy = JsonConvert.DeserializeObject<dynamic>(userData.First());
-
-                    var coursesTokens = userProxy.SelectTokens("Claims[*]").ToList();
-
-                    //var claims = coursesTokens
-                    //    .Select(coursesToken => JsonConvert.DeserializeObject<ServerClaim>(coursesToken.ToString()))
-                    //    .Select(serverClaim => new Claim(serverClaim.ClaimType, serverClaim.ClaimValue)).ToList();
-
-
-                    //claims.Add(new Claim(ClaimTypes.Name, userProxy.SelectTokens("UserName").Select(s => s.ToString()).First()));
+                    claims.Add(new Claim(ClaimTypes.Name, returnedName));
                 }
 
+                var identity = new UserIdentity(claims) {Token = results["access_token"] };
+                user = new UserPrincipal(identity);
             }
             catch (Exception ex)
             {
                 //TODO: log error
                 return null;
             }
-
             return user;
         }
 

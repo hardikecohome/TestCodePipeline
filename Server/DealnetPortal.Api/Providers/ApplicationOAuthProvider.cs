@@ -39,6 +39,9 @@ namespace DealnetPortal.Api.Providers
                 return;
             }
 
+            //TODO: special clames and other headers info can be added here
+            //context.OwinContext.Response.Headers.Append("user", "userHeader");
+
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);            
 
@@ -47,7 +50,7 @@ namespace DealnetPortal.Api.Providers
 
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-            context.Validated(ticket);
+            context.Validated(ticket);            
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 
