@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        private ISecurityManager _securityManager;
+        //private ISecurityManager _securityManager;
 
         public AccountController()
         {

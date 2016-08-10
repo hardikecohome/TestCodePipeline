@@ -56,6 +56,10 @@
       <Project>{7B096FBB-C366-4560-8C78-38D3FB2DBDF4}</Project>
       <Name>DealnetPortal.Web.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Web.ServiceAgent\DealnetPortal.Web.ServiceAgent.csproj">
+      <Project>{9D034D24-D090-4FFD-9F50-7FF073568343}</Project>
+      <Name>DealnetPortal.Web.ServiceAgent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

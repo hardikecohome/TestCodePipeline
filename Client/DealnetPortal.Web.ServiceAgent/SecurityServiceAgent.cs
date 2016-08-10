@@ -59,7 +59,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 }
 
                 var identity = new UserIdentity(claims) {Token = results["access_token"] };
-                user = new UserPrincipal(identity);
+                user = new UserPrincipal(identity);                
             }
             catch (Exception ex)
             {
