@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.SessionState;
+using DealnetPortal.Web.Common.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -18,14 +21,19 @@ namespace DealnetPortal.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ISecurityManager _securityManager;
+
         public AccountController()
         {
+            //_securityManager = new DealnetPortal.Web.Core.Security.SecurityManager(AuthenticationManager);
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IAuthenticationManager authenticationManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+
+            //_securityManager = new DealnetPortal.Web.Core.Security.SecurityManager(authenticationManager);
         }
 
         public ApplicationSignInManager SignInManager
@@ -72,6 +80,9 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View(model);
             }
+            
+            //_securityManager.Login("User1", "123");
+            //return RedirectToLocal(returnUrl);
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -391,7 +402,8 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            _securityManager.Logout();
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
 
