@@ -1,4 +1,5 @@
 using System;
+using System.Web.Http;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -10,7 +11,7 @@ namespace DealnetPortal.Api.App_Start
     public class UnityConfig
     {
         #region Unity Container
-        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
+        private static Lazy<IUnityContainer> _container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
             RegisterTypes(container);
@@ -22,7 +23,7 @@ namespace DealnetPortal.Api.App_Start
         /// </summary>
         public static IUnityContainer GetConfiguredContainer()
         {
-            return container.Value;
+            return _container.Value;
         }
         #endregion
 
@@ -37,6 +38,7 @@ namespace DealnetPortal.Api.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-        }
+            container.RegisterInstance<HttpConfiguration>(GlobalConfiguration.Configuration);
+        }        
     }
 }
