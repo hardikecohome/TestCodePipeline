@@ -43,16 +43,21 @@ namespace DealnetPortal.Web.Core.Security
 
             var principal = await _securityService.Authenicate(userName, password);
 
-            try
-            {   
-                SetUser(principal);                
-                return true;
-            }
-            catch (Exception)
+            if (principal != null)
             {
-                // log error
-                return false;
+                try
+                {
+                    SetUser(principal);
+                    _securityService.SetAuthorizationHeader(principal);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    // log error
+                    return false;
+                }
             }
+            return false;
         }
 
         public IPrincipal GetUser()
@@ -87,6 +92,7 @@ namespace DealnetPortal.Web.Core.Security
             }
 
             HttpContext.Current.User = null;
+            _securityService.SetAuthorizationHeader(null);
         }
 
         private void CreateCookie(IPrincipal user, bool isPersistent = false)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -69,9 +70,15 @@ namespace DealnetPortal.Web.ServiceAgent
             return user;
         }
 
+        /// <summary>
+        /// Set Authorization header
+        /// </summary>
+        /// <param name="principal">user</param>
         public void SetAuthorizationHeader(IPrincipal principal)
         {
-            throw new NotImplementedException();
+            //Set Authorization header
+            Client.Client.DefaultRequestHeaders.Authorization =
+               new AuthenticationHeaderValue("Bearer", ((UserIdentity)principal?.Identity)?.Token ?? string.Empty);
         }
     }
 }

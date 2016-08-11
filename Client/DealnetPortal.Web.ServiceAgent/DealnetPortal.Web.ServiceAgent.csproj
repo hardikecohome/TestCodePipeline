@@ -45,9 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiBase.cs" />
+    <Compile Include="IUserManagementServiceAgent.cs" />
     <Compile Include="SecurityServiceAgent.cs" />
     <Compile Include="ISecurityServiceAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserManagementServiceAgent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Web.Common\DealnetPortal.Web.Common.csproj">
