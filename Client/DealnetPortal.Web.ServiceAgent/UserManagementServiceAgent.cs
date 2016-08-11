@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Web.Common.Api;
@@ -16,14 +17,22 @@ namespace DealnetPortal.Web.ServiceAgent
         {
         }
 
-        public void Logout()
+        public async Task<bool> Logout()
         {
-            throw new NotImplementedException();
+            var result = await Client.Client.PostAsync(string.Format("{0}/Logout", _fullUri), null);
+            return result.IsSuccessStatusCode;
         }
 
-        public Task<bool> Register()
+        public async Task<bool> Register(DealnetPortal.Api.Models.RegisterBindingModel registerModel)
         {
-            throw new NotImplementedException();
+            var result = await Client.PostAsyncWithHttpResponse(string.Format("{0}/Register", _fullUri), registerModel);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ChangePassword(DealnetPortal.Api.Models.ChangePasswordBindingModel changePasswordModel)
+        {
+            var result = await Client.PostAsyncWithHttpResponse(string.Format("{0}/ChangePassword", _fullUri), changePasswordModel);
+            return result.IsSuccessStatusCode;
         }
     }
 }

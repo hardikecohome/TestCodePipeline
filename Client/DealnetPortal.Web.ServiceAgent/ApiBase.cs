@@ -10,6 +10,7 @@ namespace DealnetPortal.Web.ServiceAgent
     public class ApiBase
     {
         protected readonly string _uri;
+        protected readonly string _fullUri;
 
         public ApiBase(IHttpApiClient client, string controllerName)
         {
@@ -19,6 +20,7 @@ namespace DealnetPortal.Web.ServiceAgent
             Client = client;
 
             _uri = controllerName;
+            _fullUri = string.Format("{0}/{1}", Client.Client.BaseAddress, _uri);
         }
 
         /// <summary>

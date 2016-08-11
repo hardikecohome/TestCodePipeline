@@ -18,14 +18,16 @@ namespace DealnetPortal.Web.Core.Security
     public class SecurityManager : ISecurityManager
     {
         private readonly ISecurityServiceAgent _securityService;
+        private readonly IUserManagementServiceAgent _userManagementService;
 
         private const string EmptyUser = "Admin";//use administrator here because for testing empty username and password are using
 
         private const string CookieName = "DEALNET_AUTH_COOKIE";
 
-        public SecurityManager(ISecurityServiceAgent securityService)
+        public SecurityManager(ISecurityServiceAgent securityService, IUserManagementServiceAgent userManagementService)
         {
             _securityService = securityService;
+            _userManagementService = userManagementService;
         }
 
         public async Task<bool> Login(string userName, string password)
@@ -51,7 +53,7 @@ namespace DealnetPortal.Web.Core.Security
                     _securityService.SetAuthorizationHeader(principal);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // log error
                     return false;
@@ -80,19 +82,27 @@ namespace DealnetPortal.Web.Core.Security
         public void SetUser(IPrincipal user)
         {
             CreateCookie(user);
-            HttpContext.Current.User = user; // ?
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.User = user; // ?
+            }
         }
 
         public void Logout()
         {
-            var httpCookie = HttpContext.Current.Response.Cookies[CookieName];
+            var httpCookie = HttpContext.Current?.Response.Cookies[CookieName];
             if (httpCookie != null)
             {
                 httpCookie.Value = string.Empty;
             }
 
-            HttpContext.Current.User = null;
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.User = null;
+            }
             _securityService.SetAuthorizationHeader(null);
+
+            _userManagementService?.Logout();
         }
 
         private void CreateCookie(IPrincipal user, bool isPersistent = false)
@@ -118,7 +128,7 @@ namespace DealnetPortal.Web.Core.Security
                     Value = encTicket,
                     Expires = DateTime.Now.Add(FormsAuthentication.Timeout) //?
                 };
-                HttpContext.Current.Response.Cookies.Set(AuthCookie); // ??
+                HttpContext.Current?.Response?.Cookies?.Set(AuthCookie); // ??
             }
 
         }
