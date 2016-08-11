@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Api", "Dealne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Api.Tests", "DealnetPortal.Api.Tests\DealnetPortal.Api.Tests.csproj", "{67CFB61A-31AD-45A6-A270-1211918F6C14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Api.Models", "DealnetPortal.Api.Models\DealnetPortal.Api.Models.csproj", "{68167614-D9F6-48BC-AF28-1519BA5C67FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{67CFB61A-31AD-45A6-A270-1211918F6C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67CFB61A-31AD-45A6-A270-1211918F6C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67CFB61A-31AD-45A6-A270-1211918F6C14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68167614-D9F6-48BC-AF28-1519BA5C67FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68167614-D9F6-48BC-AF28-1519BA5C67FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68167614-D9F6-48BC-AF28-1519BA5C67FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68167614-D9F6-48BC-AF28-1519BA5C67FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

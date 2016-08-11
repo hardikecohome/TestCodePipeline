@@ -15,5 +15,15 @@ namespace DealnetPortal.Web.ServiceAgent
             : base(client, AccountApi)
         {
         }
+
+        public void Logout()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Register()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
