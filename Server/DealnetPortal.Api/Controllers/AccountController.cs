@@ -321,39 +321,9 @@ namespace DealnetPortal.Api.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                var code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                var callbackUrl = this.Url.Route("ConfirmEmail",new { userId = user.Id, code = code });
-
-                await this.UserManager.SendEmailAsync(user.Id,
-                   "Confirm your account",
-                   "Please confirm your account by clicking this link: <a href=\""
-                                                   + callbackUrl + "\">link</a>");
-            }
-            else
-            {
-                return this.GetErrorResult(result);
-            }
-
-            return this.Ok();
-        }
-
-        [AllowAnonymous]
-        [Route("ConfirmEmail")]
+        [Route("ConfirmEmail", Name = "ConfirmEmail")]
+        [HttpGet]
         public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -376,6 +346,39 @@ namespace DealnetPortal.Api.Controllers
             }
             return this.BadRequest();
         }
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+
+            IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                var code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = this.Url.Request.RequestUri.GetLeftPart(UriPartial.Authority) + this.Url.Route("ConfirmEmail", new { userId = user.Id, code = code });
+
+                await this.UserManager.SendEmailAsync(user.Id,
+                   "Confirm your account",
+                   "Please confirm your account by clicking this link: <a href=\""
+                                                   + callbackUrl + "\">link</a>");
+            }
+            else
+            {
+                return this.GetErrorResult(result);
+            }
+
+            return this.Ok();
+        }
+
+
 
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
