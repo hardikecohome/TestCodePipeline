@@ -19,6 +19,8 @@ using DealnetPortal.Api.Results;
 
 namespace DealnetPortal.Api.Controllers
 {
+    using System.Web.Http.Results;
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -126,7 +128,7 @@ namespace DealnetPortal.Api.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -259,9 +261,9 @@ namespace DealnetPortal.Api.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -324,21 +326,55 @@ namespace DealnetPortal.Api.Controllers
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
+            IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
             {
-                return GetErrorResult(result);
+                var code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = this.Url.Route("ConfirmEmail",new { userId = user.Id, code = code });
+
+                await this.UserManager.SendEmailAsync(user.Id,
+                   "Confirm your account",
+                   "Please confirm your account by clicking this link: <a href=\""
+                                                   + callbackUrl + "\">link</a>");
+            }
+            else
+            {
+                return this.GetErrorResult(result);
             }
 
-            return Ok();
+            return this.Ok();
+        }
+
+        [AllowAnonymous]
+        [Route("ConfirmEmail")]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return this.BadRequest();
+            }
+            IdentityResult result;
+            try
+            {
+                result = await this.UserManager.ConfirmEmailAsync(userId, code);
+            }
+            catch (InvalidOperationException ioe)
+            {
+                return new ExceptionResult(ioe, this);
+            }
+
+            if (result.Succeeded)
+            {
+                return this.Ok();
+            }
+            return this.BadRequest();
         }
 
         // POST api/Account/RegisterExternal
@@ -369,7 +405,7 @@ namespace DealnetPortal.Api.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }
