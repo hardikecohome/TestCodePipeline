@@ -5,13 +5,21 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly ISecurityManager _securityManager;
+        public AccountController(ISecurityManager securityManager)
+        {
+            _securityManager = securityManager;
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -26,17 +34,28 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            var success = await _securityManager.Login(model.Email, model.Password);
+            if (!success)
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
-            //TODO: Implement logging in
-
-            ModelState.AddModelError("", "Invalid login attempt.");
-            return View(model);
+        // POST: /Account/LogOff
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            _securityManager.Logout();
+            return RedirectToAction("Index", "Home");
         }
 
         //

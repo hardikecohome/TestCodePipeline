@@ -1,4 +1,8 @@
 using System;
+using DealnetPortal.Web.Common.Api;
+using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Core.Security;
+using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -37,6 +41,10 @@ namespace DealnetPortal.Web.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
+            container.RegisterType<IHttpApiClient, HttpApiClient>(new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
+            container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
+            container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
+            container.RegisterType<ISecurityManager, SecurityManager>();
         }
     }
 }
