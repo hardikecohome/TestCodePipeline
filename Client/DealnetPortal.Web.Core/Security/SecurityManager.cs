@@ -132,12 +132,14 @@ namespace DealnetPortal.Web.Core.Security
                 // Encrypt the ticket.
                 var encTicket = FormsAuthentication.Encrypt(ticket);
                 // Create the cookie.
-                var AuthCookie = new HttpCookie(CookieName)
+                var authCookie = new HttpCookie(CookieName)
                 {
                     Value = encTicket,
+                    HttpOnly = true,
+                    //Secure = true, Uncomment after enabling https
                     Expires = DateTime.Now.Add(FormsAuthentication.Timeout) //?
                 };
-                HttpContext.Current?.Response?.Cookies?.Set(AuthCookie); // ??
+                HttpContext.Current?.Response?.Cookies?.Set(authCookie); // ??
             }
 
         }
