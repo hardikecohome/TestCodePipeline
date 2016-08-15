@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.Models;
@@ -40,8 +41,8 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View(model);
             }
-            var success = await _securityManager.Login(model.Email, model.Password);
-            if (!success)
+            var result = await _securityManager.Login(model.Email, model.Password);
+            if (result.Any(item => item.Type == AlertType.Error))
             {
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Models;
 
 namespace DealnetPortal.Web.Common.Security
 {
@@ -19,7 +20,7 @@ namespace DealnetPortal.Web.Common.Security
         /// <param name="userName">user name</param>
         /// <param name="password">password</param>
         /// <returns></returns>
-        Task<bool> Login(string userName, string password);
+        Task<IList<Alert>> Login(string userName, string password);
         IPrincipal GetUser();
         /// <summary>
         /// Set user's Principal

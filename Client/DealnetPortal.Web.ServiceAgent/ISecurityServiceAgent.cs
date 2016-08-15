@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Models;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -18,7 +19,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="userName">user name</param>
         /// <param name="password">password</param>
         /// <returns>Tos security principal</returns>
-        Task<IPrincipal> Authenicate(string userName, string password);
+        Task<Tuple<IPrincipal, IList<Alert>>> Authenicate(string userName, string password);
         /// <summary>
         /// Sets default request header for bearer authorization
         /// </summary>

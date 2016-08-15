@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6ECA6353
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Web.IntegrationTests", "DealnetPortal.Web.IntegrationTests\DealnetPortal.Web.IntegrationTests.csproj", "{765F5301-2074-47B2-90CA-BEF60C9A7982}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Web.Models", "DealnetPortal.Web.Models\DealnetPortal.Web.Models.csproj", "{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{765F5301-2074-47B2-90CA-BEF60C9A7982}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{765F5301-2074-47B2-90CA-BEF60C9A7982}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{765F5301-2074-47B2-90CA-BEF60C9A7982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

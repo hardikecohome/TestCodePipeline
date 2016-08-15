@@ -36,8 +36,12 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestAuthorizedLogout()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client);
-            var user = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
-            securityServiceAgent.SetAuthorizationHeader(user);            
+            var result = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Item1);
+            Assert.IsNotNull(result.Item2);
+            Assert.AreEqual(result.Item2.Count, 0);
+            securityServiceAgent.SetAuthorizationHeader(result.Item1);
 
             IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
             var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
@@ -52,12 +56,13 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
             RegisterBindingModel newUser = new RegisterBindingModel()
             {
-                Email = "new_user@ya.ru",
-                Password = "1Q2w3e_",
+                Email = "user3@ya.ru",
+                Password = "456_Qwe",
                 ConfirmPassword = "1Q2w3e_"
             };
             var result = userManagementServiceAgent.Register(newUser).GetAwaiter().GetResult();
-            Assert.IsTrue(result);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count, 0);
         }
     }
 }
