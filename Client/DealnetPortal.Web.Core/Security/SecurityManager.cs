@@ -65,14 +65,14 @@ namespace DealnetPortal.Web.Core.Security
         public IPrincipal GetUser()
         {
             //HttpContext.Current.User
-            var authCookie = HttpContext.Current.Response.Cookies[CookieName];
+            var authCookie = HttpContext.Current.Request.Cookies[CookieName];
             if (!string.IsNullOrEmpty(authCookie?.Value))
             {
                 var ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 if (ticket != null)
                 {
                     var claims = new List<Claim>() { new Claim(ClaimTypes.Name, ticket.Name) };                    
-                    var currentUser = new UserPrincipal(new UserIdentity() {Token = ticket.UserData});
+                    var currentUser = new UserPrincipal(new UserIdentity(claims) {Token = ticket.UserData});
                     return currentUser;
                 }
             }
@@ -85,6 +85,15 @@ namespace DealnetPortal.Web.Core.Security
             if (HttpContext.Current != null)
             {
                 HttpContext.Current.User = user; // ?
+            }
+        }
+
+        public void SetUserFromContext()
+        {
+            var user = GetUser();
+            if (user != null)
+            {
+                SetUser(user);
             }
         }
 
@@ -123,12 +132,14 @@ namespace DealnetPortal.Web.Core.Security
                 // Encrypt the ticket.
                 var encTicket = FormsAuthentication.Encrypt(ticket);
                 // Create the cookie.
-                var AuthCookie = new HttpCookie(CookieName)
+                var authCookie = new HttpCookie(CookieName)
                 {
                     Value = encTicket,
+                    HttpOnly = true,
+                    //Secure = true, Uncomment after enabling https
                     Expires = DateTime.Now.Add(FormsAuthentication.Timeout) //?
                 };
-                HttpContext.Current?.Response?.Cookies?.Set(AuthCookie); // ??
+                HttpContext.Current?.Response?.Cookies?.Set(authCookie); // ??
             }
 
         }
