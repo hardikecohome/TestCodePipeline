@@ -38,19 +38,26 @@ namespace DealnetPortal.Api.Providers
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
+            //DEAL-10
+            if (!user.EmailConfirmed)
+            {
+                context.SetError("reset_password_required", "Your on-time password is correct, now please change the password");
+                return;
+            }
+            //end DEAL-10
 
             //TODO: special clames and other headers info can be added here
             //context.OwinContext.Response.Headers.Append("user", "userHeader");
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-               OAuthDefaults.AuthenticationType);            
+               OAuthDefaults.AuthenticationType);
 
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-            context.Validated(ticket);            
+            context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 

@@ -20,6 +20,7 @@ using DealnetPortal.Api.Results;
 namespace DealnetPortal.Api.Controllers
 {
     using System.Web.Http.Results;
+    using Helpers;
 
     [Authorize]
     [RoutePrefix("api/Account")]
@@ -134,6 +135,16 @@ namespace DealnetPortal.Api.Controllers
                 return GetErrorResult(result);
             }
 
+            var user = await this.UserManager.FindAsync(User.Identity.GetUserName(), model.NewPassword);
+            if (user != null && !user.EmailConfirmed)
+            {
+                user.EmailConfirmed = true;
+                result = await this.UserManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+            }
             return Ok();
         }
 
@@ -320,33 +331,6 @@ namespace DealnetPortal.Api.Controllers
 
             return logins;
         }
-
-        [AllowAnonymous]
-        [Route("ConfirmEmail", Name = "ConfirmEmail")]
-        [HttpGet]
-        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return this.BadRequest();
-            }
-            IdentityResult result;
-            try
-            {
-                result = await this.UserManager.ConfirmEmailAsync(userId, code);
-            }
-            catch (InvalidOperationException ioe)
-            {
-                return new ExceptionResult(ioe, this);
-            }
-
-            if (result.Succeeded)
-            {
-                return this.Ok();
-            }
-            return this.BadRequest();
-        }
-
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -356,19 +340,14 @@ namespace DealnetPortal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
+            var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
+            IdentityResult result = await this.UserManager.CreateAsync(user, oneTimePass);
             if (result.Succeeded)
             {
-                var code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                var callbackUrl = this.Url.Request.RequestUri.GetLeftPart(UriPartial.Authority) + this.Url.Route("ConfirmEmail", new { userId = user.Id, code = code });
-
                 await this.UserManager.SendEmailAsync(user.Id,
-                   "Confirm your account",
-                   "Please confirm your account by clicking this link: <a href=\""
-                                                   + callbackUrl + "\">link</a>");
+                   "Your one-time password",
+                   $"This is your one-time password: {oneTimePass}\r\n Please use it to login the protal, and then you will be prompted to change the password.");
             }
             else
             {
