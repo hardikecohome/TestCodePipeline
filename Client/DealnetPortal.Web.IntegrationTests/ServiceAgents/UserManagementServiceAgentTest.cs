@@ -45,15 +45,15 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         }
 
         //worked, by excluded from tests as user have been created already
-        [Ignore]
+        //[Ignore]
         [TestMethod]
         public void TestRegisterUser()
         {
             IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
             RegisterBindingModel newUser = new RegisterBindingModel()
             {
-                Email = "new_user@ya.ru",
-                Password = "1Q2w3e_",
+                Email = "user3@ya.ru",
+                Password = "456_Qwe",
                 ConfirmPassword = "1Q2w3e_"
             };
             var result = userManagementServiceAgent.Register(newUser).GetAwaiter().GetResult();
