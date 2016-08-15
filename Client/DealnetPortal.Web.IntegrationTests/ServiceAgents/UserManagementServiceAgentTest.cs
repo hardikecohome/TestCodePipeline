@@ -36,8 +36,12 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestAuthorizedLogout()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client);
-            var user = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
-            securityServiceAgent.SetAuthorizationHeader(user);            
+            var result = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Item1);
+            Assert.IsNotNull(result.Item2);
+            Assert.AreEqual(result.Item2.Count, 0);
+            securityServiceAgent.SetAuthorizationHeader(result.Item1);
 
             IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
             var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
@@ -45,7 +49,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         }
 
         //worked, by excluded from tests as user have been created already
-        //[Ignore]
+        [Ignore]
         [TestMethod]
         public void TestRegisterUser()
         {
@@ -57,7 +61,8 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
                 ConfirmPassword = "1Q2w3e_"
             };
             var result = userManagementServiceAgent.Register(newUser).GetAwaiter().GetResult();
-            Assert.IsTrue(result);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count, 0);
         }
     }
 }

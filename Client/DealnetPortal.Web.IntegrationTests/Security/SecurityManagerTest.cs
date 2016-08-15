@@ -1,4 +1,5 @@
-﻿using DealnetPortal.Web.Common.Api;
+﻿using DealnetPortal.Api.Models.Enumeration;
+using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.ServiceAgent;
@@ -33,8 +34,9 @@ namespace DealnetPortal.Web.IntegrationTests.Security
             IUserManagementServiceAgent userManagementService = new UserManagementServiceAgent(_client);
             ISecurityManager securityManager = new SecurityManager(serviceAgent, userManagementService);
 
-            var user = securityManager.Login(DefUserName, DefUserPassword).GetAwaiter().GetResult();
-            Assert.IsTrue(user);
+            var result = securityManager.Login(DefUserName, DefUserPassword).GetAwaiter().GetResult();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count, 0);
             securityManager.Logout();
         }
 
@@ -44,8 +46,10 @@ namespace DealnetPortal.Web.IntegrationTests.Security
             ISecurityServiceAgent serviceAgent = new SecurityServiceAgent(_client);
             IUserManagementServiceAgent userManagementService = new UserManagementServiceAgent(_client);
             ISecurityManager securityManager = new SecurityManager(serviceAgent, userManagementService);
-            var user = securityManager.Login("admin", "notadmin").GetAwaiter().GetResult();
-            Assert.IsFalse(user);
+            var result = securityManager.Login("admin", "notadmin").GetAwaiter().GetResult();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual(result[0].Type, AlertType.Error);
         }
     }
 }

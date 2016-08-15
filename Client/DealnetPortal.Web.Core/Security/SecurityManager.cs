@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
+using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.AspNet.Identity;
@@ -30,8 +32,10 @@ namespace DealnetPortal.Web.Core.Security
             _userManagementService = userManagementService;
         }
 
-        public async Task<bool> Login(string userName, string password)
+        public async Task<IList<Alert>> Login(string userName, string password)
         {
+            var alerts = new List<Alert>();
+
             if (userName == null)
                 throw new ArgumentNullException("userName");
             if (password == null)
@@ -45,21 +49,26 @@ namespace DealnetPortal.Web.Core.Security
 
             var principal = await _securityService.Authenicate(userName, password);
 
-            if (principal != null)
+            if (principal?.Item1 != null && principal.Item2.Any(i => i.Type == AlertType.Error))
             {
                 try
                 {
-                    SetUser(principal);
-                    _securityService.SetAuthorizationHeader(principal);
-                    return true;
+                    SetUser(principal.Item1);
+                    _securityService.SetAuthorizationHeader(principal.Item1);
+                    alerts.AddRange(principal.Item2);
                 }
                 catch (Exception ex)
                 {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Message = ex.ToString()
+                    });
                     // log error
-                    return false;
+                    return principal.Item2;
                 }
             }
-            return false;
+            return alerts;
         }
 
         public IPrincipal GetUser()
