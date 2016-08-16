@@ -34,8 +34,9 @@
     <Reference Include="DealnetPortal.Api.Models">
       <HintPath>..\lib\DealnetPortal.Api.Models.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity">
-      <HintPath>..\DealnetPortal.Web\Bin\Microsoft.Practices.Unity.dll</HintPath>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
