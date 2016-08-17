@@ -47,15 +47,14 @@ namespace DealnetPortal.Web.Core.Security
                 password = EmptyUser;
             }
 
-            var principal = await _securityService.Authenicate(userName, password);
+            var result = await _securityService.Authenicate(userName, password);
 
-            if (principal?.Item1 != null && principal.Item2.Any(i => i.Type == AlertType.Error))
+            if (result?.Item1 != null)
             {
                 try
                 {
-                    SetUser(principal.Item1);
-                    _securityService.SetAuthorizationHeader(principal.Item1);
-                    alerts.AddRange(principal.Item2);
+                    SetUser(result.Item1);
+                    _securityService.SetAuthorizationHeader(result.Item1);
                 }
                 catch (Exception ex)
                 {
@@ -65,8 +64,12 @@ namespace DealnetPortal.Web.Core.Security
                         Message = ex.ToString()
                     });
                     // log error
-                    return principal.Item2;
+                    return result.Item2;
                 }
+            }
+            if (result?.Item2 != null && result.Item2.Any(x => x.Type == AlertType.Error))
+            {
+                alerts.AddRange(result.Item2);
             }
             return alerts;
         }

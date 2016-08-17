@@ -148,6 +148,42 @@ namespace DealnetPortal.Api.Controllers
             return Ok();
         }
 
+        // POST api/Account/ChangePassword
+        [Route("ChangePasswordAnonymously")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ChangePasswordAnonymously(ChangePasswordAnonymouslyBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid user email.");
+                return BadRequest(ModelState);
+            }
+            IdentityResult result = await UserManager.ChangePasswordAsync(user.Id, model.OldPassword,
+                model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            
+            if (!user.EmailConfirmed)
+            {
+                user.EmailConfirmed = true;
+                result = await this.UserManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+            }
+            return Ok();
+        }
+
         // POST api/Account/SetPassword
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)

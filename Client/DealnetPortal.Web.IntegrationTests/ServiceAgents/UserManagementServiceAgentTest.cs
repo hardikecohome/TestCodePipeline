@@ -56,9 +56,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
             RegisterBindingModel newUser = new RegisterBindingModel()
             {
-                Email = "user3@ya.ru",
-                Password = "456_Qwe",
-                ConfirmPassword = "1Q2w3e_"
+                Email = "user3@ya.ru"
             };
             var result = userManagementServiceAgent.Register(newUser).GetAwaiter().GetResult();
             Assert.IsNotNull(result);

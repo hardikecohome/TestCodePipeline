@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+Client/lib/DealnetPortal.Api.Models.dll
+Client/lib/DealnetPortal.Api.Models.dll
+Client/lib/DealnetPortal.Api.Common.dll
