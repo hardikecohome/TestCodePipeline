@@ -389,11 +389,13 @@ namespace DealnetPortal.Api.Controllers
             try
             {            
                 IdentityResult result = await this.UserManager.CreateAsync(user, oneTimePass);
+                _loggingService.LogInfo("DB entry for an user created");
                 if (result.Succeeded)
                 {
                     await this.UserManager.SendEmailAsync(user.Id,
                        "Your one-time password",
                        $"This is your one-time password: {oneTimePass}\r\n Please use it to login the protal, and then you will be prompted to change the password.");
+                    _loggingService.LogInfo("Confirmation email sended");
                 }
                 else
                 {
@@ -406,7 +408,7 @@ namespace DealnetPortal.Api.Controllers
                 ModelState.AddModelError(ErrorConstants.ServiceFailed, "Error on Register user");
                 return BadRequest(ModelState);
             }
-
+            _loggingService.LogInfo("User registered successfully");
             return this.Ok();
         }
 
