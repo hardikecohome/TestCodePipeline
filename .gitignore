@@ -246,3 +246,5 @@ ModelManifest.xml
 Client/lib/DealnetPortal.Api.Models.dll
 Client/lib/DealnetPortal.Api.Models.dll
 Client/lib/DealnetPortal.Api.Common.dll
+/Server/deployment
+/Client/deployment
