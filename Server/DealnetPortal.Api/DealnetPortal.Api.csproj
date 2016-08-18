@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -322,6 +325,10 @@
     <ProjectReference Include="..\DealnetPortal.Api.Models\DealnetPortal.Api.Models.csproj">
       <Project>{68167614-d9f6-48bc-af28-1519ba5c67fd}</Project>
       <Name>DealnetPortal.Api.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Utilities\DealnetPortal.Utilities.csproj">
+      <Project>{cbe9faab-5346-4831-aa25-52e7c28fb029}</Project>
+      <Name>DealnetPortal.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
