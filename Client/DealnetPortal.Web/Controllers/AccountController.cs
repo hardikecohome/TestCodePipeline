@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Web.Common.Security;
@@ -41,7 +42,7 @@ namespace DealnetPortal.Web.Controllers
                 return View(model);
             }
             var result = await _securityManager.Login(model.Email, model.Password);
-            if (result.Any(item => item.Type == AlertType.Error && item.Header == "reset_password_required"))
+            if (result.Any(item => item.Type == AlertType.Error && item.Header == ErrorConstants.ResetPasswordRequired))
             {
                 return RedirectToAction("ChangePasswordAfterRegistration");
             }
