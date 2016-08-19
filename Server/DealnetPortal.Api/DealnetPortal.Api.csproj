@@ -335,6 +335,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">
+      <Project>{23FA957A-A9DE-4929-9FFD-603BAE271FBA}</Project>
+      <Name>DealnetPortal.Api.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Api.Models\DealnetPortal.Api.Models.csproj">
       <Project>{68167614-d9f6-48bc-af28-1519ba5c67fd}</Project>
       <Name>DealnetPortal.Api.Models</Name>

@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DealnetPortal.Api.Common">
+      <HintPath>..\lib\DealnetPortal.Api.Common.dll</HintPath>
+    </Reference>
     <Reference Include="DealnetPortal.Api.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\DealnetPortal.Api.Models.dll</HintPath>
@@ -239,6 +242,9 @@
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmSuccessfullRegistration.cshtml" />
+    <Content Include="Views\Account\ChangePasswordAfterRegistration.cshtml" />
+    <Content Include="Views\Account\ConfirmSuccessfullPassChange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
