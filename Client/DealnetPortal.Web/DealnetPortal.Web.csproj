@@ -46,11 +46,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DealnetPortal.Api.Common">
-      <HintPath>..\lib\DealnetPortal.Api.Common.dll</HintPath>
+      <HintPath>..\..\lib\DealnetPortal.Api.Common.dll</HintPath>
     </Reference>
     <Reference Include="DealnetPortal.Api.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\DealnetPortal.Api.Models.dll</HintPath>
+      <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="DealnetPortal.Utilities">
+      <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
