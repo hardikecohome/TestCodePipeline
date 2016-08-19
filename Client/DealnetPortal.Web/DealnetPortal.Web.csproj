@@ -183,6 +183,10 @@
     <Content Include="Content\images\icon-reports%403x.png" />
     <Content Include="Content\images\icon-reports.png" />
     <Content Include="Content\images\icon-reports.svg" />
+    <Content Include="Content\images\logo-eco-home%402x.png" />
+    <Content Include="Content\images\logo-eco-home%403x.png" />
+    <Content Include="Content\images\logo-eco-home.png" />
+    <Content Include="Content\images\logo-eco-home.svg" />
     <Content Include="Content\images\new-rental%402x.png" />
     <Content Include="Content\images\new-rental%403x.png" />
     <Content Include="Content\images\new-rental.png" />

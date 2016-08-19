@@ -21,16 +21,16 @@
 }
 
 .dealnet-page-content {
-    padding-left:0px;
+    padding-left: 0px;
     padding-right: 0px;
 }
 
 .dealnet-page-header-logo {
     height: 50px;
-    opacity: 0.2;
-    background-color: #060222;
+    background-color: #32201D;
     padding-left: 0px;
-    padding-right: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .dealnet-page-header {
@@ -46,8 +46,6 @@
     font-size: 14px;
     font-weight: 700;
     color: #ffffff;
-    
-
 }
 
 .dealnet-sidebar-item-inner {
@@ -88,4 +86,14 @@
 
 .dealnet-image-reports {
     background-image: url('images/icon-reports.png');
+}
+
+.dealnet-image-ecologo {
+    width: 140px;
+    height: 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    z-index: -1;
+    background-image: url('images/logo-eco-home.png');
 }
