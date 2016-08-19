@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Security;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Enumeration;
+using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.AspNet.Identity;
@@ -21,15 +22,18 @@ namespace DealnetPortal.Web.Core.Security
     {
         private readonly ISecurityServiceAgent _securityService;
         private readonly IUserManagementServiceAgent _userManagementService;
+        private readonly ILoggingService _loggingService;
 
         private const string EmptyUser = "Admin";//use administrator here because for testing empty username and password are using
 
         private const string CookieName = "DEALNET_AUTH_COOKIE";
 
-        public SecurityManager(ISecurityServiceAgent securityService, IUserManagementServiceAgent userManagementService)
+        public SecurityManager(ISecurityServiceAgent securityService, IUserManagementServiceAgent userManagementService,
+            ILoggingService loggingService)
         {
             _securityService = securityService;
             _userManagementService = userManagementService;
+            _loggingService = loggingService;
         }
 
         public async Task<IList<Alert>> Login(string userName, string password)
@@ -63,7 +67,7 @@ namespace DealnetPortal.Web.Core.Security
                         Type = AlertType.Error,
                         Message = ex.ToString()
                     });
-                    // log error
+                    _loggingService.LogError("Error on Login", ex);
                     return result.Item2;
                 }
             }

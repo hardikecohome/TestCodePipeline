@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Enumeration;
+using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.Models;
@@ -20,10 +21,13 @@ namespace DealnetPortal.Web.Controllers
     {
         private readonly ISecurityManager _securityManager;
         private readonly IUserManagementServiceAgent _userManagementServiceAgent;
-        public AccountController(ISecurityManager securityManager, IUserManagementServiceAgent userManagementServiceAgent)
+        private readonly ILoggingService _loggingService;
+        public AccountController(ISecurityManager securityManager, IUserManagementServiceAgent userManagementServiceAgent,
+            ILoggingService loggingService)
         {
             _securityManager = securityManager;
             _userManagementServiceAgent = userManagementServiceAgent;
+            _loggingService = loggingService;
         }
         
         // GET: /Account/Login
@@ -41,13 +45,17 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View(model);
             }
+            _loggingService.LogInfo(string.Format("Attemtp to login user: {0}", model.Email));
             var result = await _securityManager.Login(model.Email, model.Password);
             if (result.Any(item => item.Type == AlertType.Error && item.Header == ErrorConstants.ResetPasswordRequired))
             {
+                _loggingService.LogInfo(string.Format("Attemtp to login user: {0}; needs change password", model.Email));
                 return RedirectToAction("ChangePasswordAfterRegistration");
             }
             if (result.Any(item => item.Type == AlertType.Error))
             {
+                var error = result.FirstOrDefault(r => r.Type == AlertType.Error);
+                _loggingService.LogError(string.Format("Invalid login attempt for user: {0} - {1}:{2}", model.Email, error?.Header, error?.Message));
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
             }
@@ -59,7 +67,8 @@ namespace DealnetPortal.Web.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            _securityManager.Logout();
+            _loggingService.LogInfo(string.Format("User {0} logged out", User?.Identity?.Name));
+            _securityManager.Logout();            
             return RedirectToAction("Index", "Home");
         }
 

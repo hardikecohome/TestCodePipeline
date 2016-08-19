@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
+using DealnetPortal.Api.Common.Constants;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Providers;
 using DealnetPortal.Api.Results;
+using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
@@ -28,17 +29,22 @@ namespace DealnetPortal.Api.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        private ILoggingService _loggingService;
+        //private readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public AccountController()
         {
+            _loggingService = (ILoggingService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(ILoggingService));
         }
 
         public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
+            ILoggingService loggingService)
         {
             //TODO: add role manager
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            _loggingService = loggingService;
         }
 
         public ApplicationUserManager UserManager
@@ -376,20 +382,33 @@ namespace DealnetPortal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            _loggingService.LogInfo(string.Format("Recieved request for register user {0}", model.Email));
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
             var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
-            IdentityResult result = await this.UserManager.CreateAsync(user, oneTimePass);
-            if (result.Succeeded)
-            {
-                await this.UserManager.SendEmailAsync(user.Id,
-                   "Your one-time password",
-                   $"This is your one-time password: {oneTimePass}\r\n Please use it to login the protal, and then you will be prompted to change the password.");
+            try
+            {            
+                IdentityResult result = await this.UserManager.CreateAsync(user, oneTimePass);
+                _loggingService.LogInfo("DB entry for an user created");
+                if (result.Succeeded)
+                {
+                    await this.UserManager.SendEmailAsync(user.Id,
+                       "Your one-time password",
+                       $"This is your one-time password: {oneTimePass}\r\n Please use it to login the protal, and then you will be prompted to change the password.");
+                    _loggingService.LogInfo("Confirmation email sended");
+                }
+                else
+                {
+                    return this.GetErrorResult(result);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return this.GetErrorResult(result);
+                _loggingService.LogError("Error on Register user", ex);
+                ModelState.AddModelError(ErrorConstants.ServiceFailed, "Error on Register user");
+                return BadRequest(ModelState);
             }
-
+            _loggingService.LogInfo("User registered successfully");
             return this.Ok();
         }
 
