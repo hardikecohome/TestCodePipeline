@@ -41,7 +41,7 @@
     </Reference>
     <Reference Include="DealnetPortal.Api.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\DealnetPortal.Api.Models.dll</HintPath>
+      <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
     </Reference>
     <Reference Include="DealnetPortal.Utilities">
       <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
