@@ -8,7 +8,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
-
+    @Scripts.Render("~/bundles/dealnet")
+    @RenderSection("Scripts", false)
 </head>
 <body>
     <div class="container">
@@ -17,29 +18,32 @@
                 <div class="col-md-2 dealnet-page-header-logo">
                     <span class="dealnet-image-ecologo"></span>
                 </div>
+                <div class="dealnet-page-header-login">
+                    @Html.ActionLink("Login", "Login", "Account", null, new { @class = "dealnet-link" })
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2 dealnet-page-sidebar">
-                <div class="dealnet-sidebar-item">
+                <div class="dealnet-sidebar-item" id="sidebar-item-homepage">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-homepage"></div>
-                    <div class="dealnet-sidebar-item-inner">Home page</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Home page", "Index", "Home", null, new { @class = "dealnet-link" })</div>
                 </div>
-                <div class="dealnet-sidebar-item dealnet-sidebar-item-selected">
+                <div class="dealnet-sidebar-item" id="sidebar-item-newrental">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-newrental"></div>
-                    <div class="dealnet-sidebar-item-inner">New rental</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("New rental", "Index", "Home", null, new { @class = "dealnet-link" })</div>
                 </div>
-                <div class="dealnet-sidebar-item">
+                <div class="dealnet-sidebar-item" id="sidebar-item-checkcredit">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-checkcredit"></div>
-                    <div class="dealnet-sidebar-item-inner">Credit check</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Credit check", "Index", "Home", null, new { @class = "dealnet-link" })</div>
                 </div>
-                <div class="dealnet-sidebar-item">
+                <div class="dealnet-sidebar-item" id="sidebar-item-mydeals">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-mydeals"></div>
-                    <div class="dealnet-sidebar-item-inner">My deals</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My deals", "Index", "Home", null, new { @class = "dealnet-link" })</div>
                 </div>
-                <div class="dealnet-sidebar-item">
+                <div class="dealnet-sidebar-item" id="sidebar-item-reports">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-reports"></div>
-                    <div class="dealnet-sidebar-item-inner">Reports</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Reports", "Index", "Home", null, new { @class = "dealnet-link" })</div>
                 </div>
             </div>
             <div class="col-md-10">

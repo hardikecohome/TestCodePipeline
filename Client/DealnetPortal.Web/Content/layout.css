@@ -1,9 +1,33 @@
-﻿.dealnet-page-header {
+﻿a.dealnet-link {
+    color: #FFFFFF;
+}
+
+a.dealnet-link:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+    
+}
+
+
+
+.dealnet-page-header {
     height: 50px;
     background-color: #3e281d;
     padding-left: 0px;
     padding-right: 0px;
     min-width: 240px;
+}
+
+
+.dealnet-page-header-login {
+    padding-right: 15px;
+    float: right;
+    vertical-align: middle;
+    line-height: 50px;
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
 }
 
 .dealnet-page-sidebar {
@@ -46,6 +70,7 @@
     font-size: 14px;
     font-weight: 700;
     color: #ffffff;
+    cursor: pointer;
 }
 
 .dealnet-sidebar-item-inner {
