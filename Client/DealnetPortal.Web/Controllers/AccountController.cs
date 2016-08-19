@@ -63,7 +63,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         // POST: /Account/LogOff
-        [HttpPost]
+        [HttpGet]
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {

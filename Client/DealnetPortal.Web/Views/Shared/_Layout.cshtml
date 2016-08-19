@@ -19,8 +19,18 @@
                     <span class="dealnet-image-ecologo"></span>
                 </div>
                 <div class="dealnet-page-header-login">
-                    @Html.ActionLink("Login", "Login", "Account", null, new { @class = "dealnet-link" })
-                </div>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <span class="dealnet-button-holder">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "dealnet-link" })</span>
+                            <span class="dealnet-button-holder">@Html.ActionLink("Register", "Register", "Account", null, new { @class = "dealnet-link" })</span>
+                        }
+                        else
+                        {
+                            <span class="dealnet-button-holder">@($"Welcome, {User.Identity.Name}!")</span>
+                            <span class="dealnet-button-holder">
+                                @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })</span>
+                            }
+</div>
             </div>
         </div>
         <div class="row">
@@ -31,19 +41,19 @@
                 </div>
                 <div class="dealnet-sidebar-item" id="sidebar-item-newrental">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-newrental"></div>
-                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("New rental", "Index", "Home", null, new { @class = "dealnet-link" })</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("New rental", "About", "Home", null, new { @class = "dealnet-link" })</div>
                 </div>
                 <div class="dealnet-sidebar-item" id="sidebar-item-checkcredit">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-checkcredit"></div>
-                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Credit check", "Index", "Home", null, new { @class = "dealnet-link" })</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Credit check", "Contact", "Home", null, new { @class = "dealnet-link" })</div>
                 </div>
                 <div class="dealnet-sidebar-item" id="sidebar-item-mydeals">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-mydeals"></div>
-                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My deals", "Index", "Home", null, new { @class = "dealnet-link" })</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My deals", "Login", "Account", null, new { @class = "dealnet-link" })</div>
                 </div>
                 <div class="dealnet-sidebar-item" id="sidebar-item-reports">
                     <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-reports"></div>
-                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Reports", "Index", "Home", null, new { @class = "dealnet-link" })</div>
+                    <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Reports", "Register", "Account", null, new { @class = "dealnet-link" })</div>
                 </div>
             </div>
             <div class="col-md-10">
