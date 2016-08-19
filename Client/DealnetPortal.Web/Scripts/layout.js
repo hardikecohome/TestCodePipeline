@@ -6,7 +6,7 @@
 
         var link = selectedItem.find('a').attr('href').toLowerCase();
         var location = window.location.pathname.toLowerCase();
-        if (link && location != link.toLowerCase() && !location.indexOf('/account',0)) {
+        if (link && location != link.toLowerCase() && location.indexOf('/account',0)) {
             window.location.href = link;
         }
         var sidebarItems = $('.dealnet-sidebar-item');
