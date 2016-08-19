@@ -14,7 +14,7 @@ namespace DealnetPortal.Api.Helpers
         public static async Task<string> GeneratePasswordAsync()
         {
             var length = Convert.ToInt32(ConfigurationManager.AppSettings["SecurityHelper.RandomPasswordLength"]);
-            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+\\/.,?<>|{}[]=";
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+\\/.,?|{}[]=";
             var res = new StringBuilder();
             var rnd = new Random();
             while (0 < length--)

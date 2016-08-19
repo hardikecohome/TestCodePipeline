@@ -25,14 +25,14 @@ namespace DealnetPortal.Web.ServiceAgent
 
         public async Task<bool> Logout()
         {
-            var result = await Client.Client.PostAsync(string.Format("{0}/Logout", _fullUri), null);
+            var result = await Client.Client.PostAsync($"{_fullUri}/Logout", null);
             return result.IsSuccessStatusCode;
         }
 
         public async Task<IList<Alert>> Register(DealnetPortal.Api.Models.RegisterBindingModel registerModel)
         {
             var alerts = new List<Alert>();
-            var result = await Client.PostAsyncWithHttpResponse(string.Format("{0}/Register", _fullUri), registerModel);
+            var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/Register", registerModel);
 
             if (!result.IsSuccessStatusCode)
             {
@@ -46,7 +46,21 @@ namespace DealnetPortal.Web.ServiceAgent
         public async Task<IList<Alert>> ChangePassword(DealnetPortal.Api.Models.ChangePasswordBindingModel changePasswordModel)
         {
             var alerts = new List<Alert>();
-            var result = await Client.PostAsyncWithHttpResponse(string.Format("{0}/ChangePassword", _fullUri), changePasswordModel);
+            var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ChangePassword", changePasswordModel);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                var errorAlerts = await HttpResponseHelpers.GetModelStateErrorsAsync(result.Content);
+                alerts.AddRange(errorAlerts);
+            }
+
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> ChangePasswordAnonymously(DealnetPortal.Api.Models.ChangePasswordAnonymouslyBindingModel changePasswordModel)
+        {
+            var alerts = new List<Alert>();
+            var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ChangePasswordAnonymously", changePasswordModel);
 
             if (!result.IsSuccessStatusCode)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -35,13 +36,13 @@ namespace DealnetPortal.Api.Providers
 
             if (user == null)
             {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
+                context.SetError(ErrorConstants.InvalidGrant, "The user name or password is incorrect.");
                 return;
             }
 
             if (!user.EmailConfirmed)
             {
-                context.SetError("reset_password_required", "Your on-time password is correct, now please change the password");
+                context.SetError(ErrorConstants.ResetPasswordRequired, "Your on-time password is correct, now please change the password");
                 return;
             }
 
