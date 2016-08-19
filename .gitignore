@@ -246,4 +246,5 @@ ModelManifest.xml
 Client/lib/DealnetPortal.Api.Models.dll
 Client/lib/DealnetPortal.Api.Models.dll
 Client/lib/DealnetPortal.Api.Common.dll
-/Server/DealnetPortal.Api/Logs/service-log.txt
+/Server/DealnetPortal.Api/Logs
+/Client/DealnetPortal.Web/Logs

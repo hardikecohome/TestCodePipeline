@@ -40,7 +40,7 @@ namespace DealnetPortal.Api.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterInstance<HttpConfiguration>(GlobalConfiguration.Configuration);
-            container.RegisterInstance<ILoggingService>(new LoggingService());
+            container.RegisterType<ILoggingService, LoggingService>();
         }        
     }
 }
