@@ -1,4 +1,5 @@
 using System;
+using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
@@ -45,6 +46,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<ISecurityManager, SecurityManager>();
+            container.RegisterType<ILoggingService, LoggingService>();
         }
     }
 }
