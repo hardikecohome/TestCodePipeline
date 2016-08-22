@@ -1,4 +1,40 @@
-﻿.dealnet-green-button {
+﻿.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+.dealnet-green-button {
   height: 39px;
   border-radius: 4px;
   background-color: #61c53c;
@@ -108,3 +144,65 @@
   font-weight: 500;
   color: #dcdcdc;
 }
+
+.dealnet-empty-circle {
+    height: 50px;
+    width: 50px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: transparent;
+    color: #dcdcdc;
+    border: solid 1px #dcdcdc;
+    font-family: Lato;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.dealnet-green-circle {
+    height: 38px;
+    width: 38px;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: #61c53c;
+    color: #ffffff;
+    line-height: 36px;
+}
+
+.dealnet-gray-circle {
+    height: 16px;
+    width: 16px;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: #dcdcdc;
+    color: #ffffff;
+    line-height: 14px;
+}
+
+#steps {
+    margin-top: 17px;
+}
+
+.step-centered {
+  display: table;
+  margin: 0 auto;
+}
+
+#step5 {
+    float: right;
+}
+
+#steps-line {
+    height: 1px;
+    background-color: #dcdcdc;
+}
+
+
