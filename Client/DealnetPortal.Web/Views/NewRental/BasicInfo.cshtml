@@ -1,0 +1,143 @@
+﻿﻿@Styles.Render("~/Content/basic-info.css")
+
+@Html.ActionLink("New Rental", "BasicInfo", null, new {@class = "dealnet-action-link"}) >
+
+<div class="dealnet-large-header" id="basic-info">Basic Info</div>
+
+<form>
+    <div class="dealnet-middle-header">Home Owner Information</div>
+
+    <div class="row" id="scanlicense-button">
+        <div class="col-md-3 col-lg-3">
+            <button class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12">
+                
+                <p class="dealnet-green-button-text"><img src="~/content/images/scan-license.png">Scan License</p>
+            </button>
+        </div>
+    </div>
+
+    <div class="row" id="owner-info">
+        <div class="col-md-4 col-lg-4">
+            First Name
+            <input type="text" class="form-control dealnet-input" placeholder="First Name"/>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            Last Name
+            <input type="text" class="form-control dealnet-input" placeholder="Last Name"/>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            Date of Birth
+            <input type="date" class="form-control dealnet-input" placeholder="mm/dd/yyyy"/>
+        </div>
+    </div>
+
+    <div id="add-additional-applicant" onclick="">
+        <p><img src="~/Content/images/add-app.png"/>Add additional applicant</p>
+    </div>
+
+    <p id="address-info-label" class="dealnet-middle-header">Adress Information</p>
+
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            <button class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12">
+                <p class="dealnet-green-button-text"><img src="~/content/images/get-location.png">Get My Location</p>
+            </button>
+        </div>
+    </div>
+
+    <div class="row" id="address-info1">
+        <div class="col-md-6 col-lg-6">
+            Installation Adress
+            <input type="text" class="form-control dealnet-input" id="address-input1" placeholder="St."/>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            Unit #
+            <input type="text" class="form-control dealnet-input" id="address-input2" placeholder="12345"/>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            City
+            <input type="text" class="form-control dealnet-input" id="address-input3" placeholder="Ottawa"/>
+        </div>
+    </div>
+
+    <div class="row" id="address-info2">
+        <div class="col-md-4 col-lg-4">
+            Province
+            <input type="text" class="form-control dealnet-input" id="address-input4" placeholder="Nepean"/>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            Postal Code
+            <input type="text" class="form-control dealnet-input" id="address-input5" placeholder="12345"/>
+        </div>
+        <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
+            Clear Address
+        </div>
+    </div>
+
+    <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox"/> Mailing adress is different
+
+    <div id="mailing-adress">
+        <div class="row" id="mailing-adress1">
+            <div class="col-md-6 col-lg-6">
+                Mailing Adress
+                <input type="text" class="form-control dealnet-input" id="mailing-address-input1" placeholder="St."/>
+            </div>
+            <div class="col-md-2 col-lg-2">
+                Unit #
+                <input type="text" class="form-control dealnet-input" id="mailing-address-input2" placeholder="12345"/>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                City
+                <input type="text" class="form-control dealnet-input" id="mailing-address-input3" placeholder="Ottawa"/>
+            </div>
+        </div>
+
+        <div class="row" id="mailing-adress2">
+            <div class="col-md-4 col-lg-4">
+                Province
+                <input type="text" class="form-control dealnet-input" id="mailing-address-input4" placeholder="Nepean"/>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                Postal Code
+                <input type="text" class="form-control dealnet-input" id="mailing-address-input5" placeholder="12345"/>
+            </div>
+            <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-mailing-address">
+                Clear Address
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="saveproceed-button">
+        <div class="col-md-3 col-lg-3">
+            <button class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12">
+                <p class="dealnet-green-button-text">Save and Proceed</p>
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $("#mailing-adress").hide();
+    $("#mailing-adress-checkbox").click(function () {
+        if ($(this).is(":checked")) {
+            $("#mailing-adress").show(300);
+        } else {
+            $("#mailing-adress").hide(200);
+        }
+    });
+    $("#clear-address").click(function () {
+        document.getElementById('address-input1').value = '';
+        document.getElementById('address-input2').value = '';
+        document.getElementById('address-input3').value = '';
+        document.getElementById('address-input4').value = '';
+        document.getElementById('address-input5').value = '';
+    });
+    $("#clear-mailing-address").click(function () {
+        document.getElementById('mailing-address-input1').value = '';
+        document.getElementById('mailing-address-input2').value = '';
+        document.getElementById('mailing-address-input3').value = '';
+        document.getElementById('mailing-address-input4').value = '';
+        document.getElementById('mailing-address-input5').value = '';
+    });
+</script>
+

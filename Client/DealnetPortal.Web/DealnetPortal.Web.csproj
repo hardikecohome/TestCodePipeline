@@ -161,6 +161,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,10 +173,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\basic-info.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\add-app%402x.png" />
+    <Content Include="Content\images\add-app%403x.png" />
+    <Content Include="Content\images\add-app.png" />
+    <Content Include="Content\images\add-app.svg" />
+    <Content Include="Content\images\get-location%402x.png" />
+    <Content Include="Content\images\get-location%403x.png" />
+    <Content Include="Content\images\get-location.png" />
+    <Content Include="Content\images\get-location.svg" />
     <Content Include="Content\images\home-page%402x.png" />
     <Content Include="Content\images\home-page%403x.png" />
     <Content Include="Content\images\home-page.png" />
@@ -200,7 +210,12 @@
     <Content Include="Content\images\new-rental%403x.png" />
     <Content Include="Content\images\new-rental.png" />
     <Content Include="Content\images\new-rental.svg" />
+    <Content Include="Content\images\scan-license%402x.png" />
+    <Content Include="Content\images\scan-license%403x.png" />
+    <Content Include="Content\images\scan-license.png" />
+    <Content Include="Content\images\scan-license.svg" />
     <Content Include="Content\layout.css" />
+    <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -243,6 +258,7 @@
     <Content Include="Views\Account\ConfirmSuccessfullRegistration.cshtml" />
     <Content Include="Views\Account\ChangePasswordAfterRegistration.cshtml" />
     <Content Include="Views\Account\ConfirmSuccessfullPassChange.cshtml" />
+    <Content Include="Views\NewRental\BasicInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

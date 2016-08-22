@@ -1,0 +1,58 @@
+﻿#owner-info {
+    margin-top: 27px;
+}
+
+#basic-info {
+    margin-top: 6px;
+}
+
+#scanlicense-button {
+    margin-top: 16px;
+}
+
+#add-additional-applicant {
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: 500;
+    color: #38aaee;
+    margin-top: 26px;
+}
+
+#add-additional-applicant > p > img {
+    margin-right: 9px;
+    margin-top: -2px;
+}
+
+#address-info-label {
+    margin-top: 37px;
+}
+
+#address-info1 {
+    margin-top: 37px;
+}
+
+#address-info2 {
+    margin-top: 16px;
+}
+
+#mailing-adress-checkbox {
+    margin-top: 25px;
+}
+
+#saveproceed-button {
+    margin-top: 15px;
+}
+
+#mailing-adress1 {
+    margin-top: 16px;
+}
+
+#mailing-adress2 {
+    margin-top: 16px;
+}
+
+.clear-address {
+    vertical-align: central;
+    margin-top: 35px;
+    cursor: default;
+}
