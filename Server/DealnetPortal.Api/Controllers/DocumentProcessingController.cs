@@ -23,6 +23,7 @@ namespace DealnetPortal.Api.Controllers
             _loggingService = loggingService;
         }
 
+        [HttpPost]
         public HttpResponseMessage GetDriverLicense(ScanningRequest scanningRequest)
         {
             ImageScanManager scanManager = new ImageScanManager();

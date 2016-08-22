@@ -55,5 +55,22 @@ namespace DealnetPortal.Web.Common.Api
         /// <param name="cancellationToken">Allows clients to cancel a request.</param>
         /// <returns>The response and result from the api.</returns>
         Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken());
+
+        /// <summary>
+        /// Perform a get operation against a uri.
+        /// </summary>
+        /// <typeparam name="T">Type of the content or model.</typeparam>
+        /// <param name="requestUri">Uri of resource</param>
+        /// <param name="cancellationToken">Allows clients to cancel a request.</param>
+        /// <returns>Model or resource from the Get operation against the uri.</returns>
+        Task<T> GetAsync<T>(string requestUri, CancellationToken cancellationToken = new CancellationToken());
+
+        /// <summary>
+        /// Perform a get operation against a uri synchronously.
+        /// </summary>
+        /// <typeparam name="T">Type of the content or model.</typeparam>
+        /// <param name="requestUri">Uri of resource</param>
+        /// <returns>Model or resource from the Get operation against the uri.</returns>
+        T Get<T>(string requestUri);
     }
 }
