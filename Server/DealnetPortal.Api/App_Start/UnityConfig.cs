@@ -1,5 +1,6 @@
 using System;
 using System.Web.Http;
+using DealnetPortal.Api.Controllers;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
@@ -41,6 +42,9 @@ namespace DealnetPortal.Api.App_Start
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterInstance<HttpConfiguration>(GlobalConfiguration.Configuration);
             container.RegisterType<ILoggingService, LoggingService>();
+
+            container.RegisterType<AccountController, AccountController>();
+            container.RegisterType<DocumentProcessingController, DocumentProcessingController>();
         }        
     }
 }

@@ -343,6 +343,10 @@
       <Project>{23FA957A-A9DE-4929-9FFD-603BAE271FBA}</Project>
       <Name>DealnetPortal.Api.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Api.Integration\DealnetPortal.Api.Integration.csproj">
+      <Project>{f0ace5bd-77bb-4b88-951f-56edac0dca06}</Project>
+      <Name>DealnetPortal.Api.Integration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Api.Models\DealnetPortal.Api.Models.csproj">
       <Project>{68167614-d9f6-48bc-af28-1519ba5c67fd}</Project>
       <Name>DealnetPortal.Api.Models</Name>
