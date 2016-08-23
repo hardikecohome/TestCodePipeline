@@ -4,8 +4,36 @@
 
 <div class="dealnet-large-header" id="basic-info">Basic Info</div>
 
+<div class="row" id="steps">
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <div class="dealnet-empty-circle">
+            <div class="dealnet-green-circle">1</div>
+        </div>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <div class="step-centered">
+            <div class="dealnet-empty-circle">2</div>
+        </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <div class="step-centered">
+            <div class="dealnet-empty-circle">3</div>
+        </div>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <div class="step-centered">
+            <div class="dealnet-empty-circle">4</div>
+        </div>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <div id="step5">
+            <div class="dealnet-empty-circle">5</div>
+        </div>
+    </div>
+</div>
+
 <form>
-    <div class="dealnet-middle-header">Home Owner Information</div>
+    <div class="dealnet-middle-header" id="owner-info-label">Home Owner Information</div>
 
     <div class="row" id="scanlicense-button">
         <div class="col-md-3 col-lg-3">
@@ -70,11 +98,14 @@
             <input type="text" class="form-control dealnet-input" id="address-input5" placeholder="12345"/>
         </div>
         <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
-            Clear Address
+            <p>
+                <div class="dealnet-gray-circle">x</div>
+                Clear Address
+            </p>
         </div>
     </div>
 
-    <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox"/> Mailing adress is different
+    <p id="mailing-adress-different"><input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox"/>Mailing adress is different</p>
 
     <div id="mailing-adress">
         <div class="row" id="mailing-adress1">
@@ -102,7 +133,10 @@
                 <input type="text" class="form-control dealnet-input" id="mailing-address-input5" placeholder="12345"/>
             </div>
             <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-mailing-address">
-                Clear Address
+                <p>
+                    <div class="dealnet-gray-circle">x</div>
+                    Clear Address
+                </p>
             </div>
         </div>
     </div>
