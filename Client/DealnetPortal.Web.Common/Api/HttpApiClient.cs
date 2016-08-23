@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace DealnetPortal.Web.Common.Api
                 BaseAddress = new Uri(baseAddress),
                 Timeout = Timeout.InfiniteTimeSpan
             };
+            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
         }
 
         public Uri ConstructUrl(string requestUri)
@@ -78,7 +80,7 @@ namespace DealnetPortal.Web.Common.Api
         }
 
         /// <summary>
-		/// See <see cref="PA.Tos.Common.Api.IHttpApiClient"/>
+		/// See <see cref="IHttpApiClient"/>
 		/// </summary>
 		/// <remarks>This operation will retry.</remarks>
 		/// <typeparam name="T"></typeparam>

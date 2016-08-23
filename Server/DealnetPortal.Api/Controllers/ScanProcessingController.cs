@@ -13,35 +13,23 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
-    //[Authorize]
-    //[AllowAnonymous]
-    public class DocumentProcessingController : ApiController
+    [Authorize]
+    public class ScanProcessingController : ApiController
     {
         private ILoggingService _loggingService;
 
-        //public DocumentProcessingController()
-        //{
-            
-        //}
-
-        public DocumentProcessingController(ILoggingService loggingService)
+        public ScanProcessingController(ILoggingService loggingService)
         {
             _loggingService = loggingService;
         }
-
-        public IHttpActionResult GetDocument(int id)
+       
+        public IHttpActionResult PostScanProcessing(ScanningRequest scanningRequest)
         {
-            ScanningRequest scanningRequest = new ScanningRequest()
+            if (!ModelState.IsValid)
             {
-                OperationId = "1",
-                ImageForReadRaw = new byte[] {1, 2, 3}
-            };
-            return Ok(scanningRequest);
-        }
+                return BadRequest(ModelState);
+            }
 
-
-        public IHttpActionResult PostDocumentProcessing(ScanningRequest scanningRequest)
-        {
             ImageScanManager scanManager = new ImageScanManager();
             var result = scanManager.ReadDriverLicense(scanningRequest);
 
@@ -50,15 +38,18 @@ namespace DealnetPortal.Api.Controllers
             if (result != null && result.Item2.All(al => al.Type != AlertType.Error))
             {
                 _loggingService.LogInfo("Driver license scanned successfully");
-                return Ok(); ///Request.CreateResponse(HttpStatusCode.OK, result);
+                //return Ok(result.Item1);
             }
             else
             {
-                _loggingService.LogError(string.Format("Failed to scan driver license: {0}",
+                var errorMsg = string.Format("Failed to scan driver license: {0}",
                     result?.Item2.Aggregate(string.Empty, (current, alert) =>
-                    current + $"{alert.Header}: {alert.Message};")));
-                return BadRequest(); //Request.CreateResponse(HttpStatusCode.BadRequest, result);
+                        current + $"{alert.Header}: {alert.Message};"));
+                _loggingService.LogError(errorMsg);
+                ModelState.AddModelError(ErrorConstants.ScanFailed, errorMsg);
+                //return BadRequest();
             }
+            return Ok(result);
         }
 
     }

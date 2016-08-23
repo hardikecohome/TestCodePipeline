@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using DealnetPortal.Api.App_Start;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
@@ -28,7 +27,6 @@ namespace DealnetPortal.Api
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Formatters.Add(new BinaryMediaTypeFormatter());
             config.Formatters.Add(new BsonMediaTypeFormatter());
 
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
