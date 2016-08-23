@@ -34,7 +34,9 @@ namespace DealnetPortal.Api.Controllers
 
         public AccountController()
         {
-            _loggingService = (ILoggingService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(ILoggingService));
+            _loggingService =
+                (ILoggingService)
+                    GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (ILoggingService));
         }
 
         public AccountController(ApplicationUserManager userManager,
