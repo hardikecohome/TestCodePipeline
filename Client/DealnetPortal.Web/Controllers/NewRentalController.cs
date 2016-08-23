@@ -40,13 +40,14 @@ namespace DealnetPortal.Web.Controllers
             };
 
             var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
+            Session["ScannedInfo"] = result.Item1;
 
-            return RedirectToAction("TestLicenseScanning", new { data = result.Item1 });
+            return RedirectToAction("TestLicenseScanning");
         }
 
-        public ActionResult TestLicenseScanning(DriverLicenseData data)
+        public ActionResult TestLicenseScanning()
         {
-            return View(data);
+            return View((DriverLicenseData)Session["ScannedInfo"]);
         }
 
         private byte[] String_To_Bytes2(string strInput)

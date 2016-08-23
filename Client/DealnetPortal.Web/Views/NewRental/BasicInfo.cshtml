@@ -192,19 +192,24 @@
     </script>
     <script>
         $("#Camera").webcam({
-             width: 320,
-             height: 240,
+             width: 570,
+             height: 400,
              mode: "save",
              swffile: "@Url.Content("~/Scripts/jscam.swf")",
              onTick: function () { },
              onSave: function () {
+                 UploadPic();
              },
              onCapture: function () {
                  webcam.save("@Url.Content("~/NewRental/TestScanPosting")/");
              },
              debug: function () { },
              onLoad: function () { }
-         });
+        });
+
+        function UploadPic() {
+            window.location.href = "/NewRental/TestLicenseScanning";
+        }
     </script>
 }
 

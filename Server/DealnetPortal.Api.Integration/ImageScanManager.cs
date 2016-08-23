@@ -38,7 +38,7 @@ namespace DealnetPortal.Api.Integration
                     Barcode[] barcodes = reader.Read(mStream);
                     aamva = barcodes.First().Decode(BarcodeDecoding.aamva);
                 }
-                catch (InvalidOperationException ex)
+                catch (Exception ex)
                 {
                     alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = ex.ToString() });
                 }
