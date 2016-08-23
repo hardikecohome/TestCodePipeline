@@ -1,6 +1,19 @@
-﻿a.dealnet-link {
+﻿.navbar {
+    background-color: #4c423e; 
+}
+
+
+
+.navbar-header {
+    background-color: #32201D;
+}
+
+a.dealnet-link {
     color: #FFFFFF;
 }
+
+
+
 
 a.dealnet-link:hover {
     color: #FFFFFF;
@@ -9,19 +22,26 @@ a.dealnet-link:hover {
 }
 
 .dealnet-button-holder {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 
-.dealnet-page-header {
-    height: 50px;
-    background-color: #3e281d;
-    padding-left: 0px;
-    padding-right: 0px;
-    min-width: 240px;
-}
 
+.navbar-brand {
+  float: none;
+  }
+
+.navbar-center
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+    margin: auto;
+  height:100%;
+}
 
 .dealnet-page-header-login {
     padding-right: 15px;
@@ -54,7 +74,11 @@ a.dealnet-link:hover {
 }
 
 .dealnet-page-header-logo {
+
     height: 50px;
+    line-height: 50px;
+    margin-right: 0px;
+    vertical-align: middle;
     background-color: #32201D;
     padding-left: 0px;
     padding-bottom: 5px;
@@ -62,7 +86,7 @@ a.dealnet-link:hover {
 }
 
 .dealnet-page-header {
-    height: 50px;
+    height: 55px;
     background-color: #3e281d;
 }
 
@@ -119,7 +143,7 @@ a.dealnet-link:hover {
 
 .dealnet-image-ecologo {
     width: 140px;
-    height: 40px;
+    height: 50px;
     background-position: center;
     background-repeat: no-repeat;
     display: inline-block;

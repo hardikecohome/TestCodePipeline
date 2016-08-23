@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dealnet")
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-lg-2">
+                <nav class="navbar navbar-inverse navbar-fixed-side">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle pull-left" data-target=".navbar-collapse" data-toggle="collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="dealnet-image-ecologo">
+                        </div>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
+                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-homepage"></div>
+                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Home page", "Index", "Home", null, new { @class = "dealnet-link" })</div>
+                            </li>
+                            <li class="dealnet-sidebar-item" id="sidebar-item-newrental">
+                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-newrental"></div>
+                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("New rental", "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })</div>
+                            </li>
+                            <li class="dealnet-sidebar-item" id="sidebar-item-checkcredit">
+                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-checkcredit"></div>
+                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Credit check", "Contact", "Home", null, new { @class = "dealnet-link" })</div>
+                            </li>
+                            <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
+                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-mydeals"></div>
+                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My deals", "Login", "Account", null, new { @class = "dealnet-link" })</div>
+                            </li>
+                            <li class="dealnet-sidebar-item" id="sidebar-item-reports">
+                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-reports"></div>
+                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Reports", "Register", "Account", null, new { @class = "dealnet-link" })</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </nav>
+            </div>
+            <div class="col-sm-9 col-lg-10">
+                <div class="hidden-sm hidden-xs visible-md-block visible-lg-block">
+                    <div class="row dealnet-page-header">
+                        <div class="col-lg-12 col-md-12">
+                            dfdfdf
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                        @RenderBody()
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

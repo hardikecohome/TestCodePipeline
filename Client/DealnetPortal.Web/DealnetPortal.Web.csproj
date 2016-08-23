@@ -215,6 +215,7 @@
     <Content Include="Content\images\scan-license.png" />
     <Content Include="Content\images\scan-license.svg" />
     <Content Include="Content\layout.css" />
+    <Content Include="Content\navbar-fixed-side.css" />
     <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -259,6 +260,7 @@
     <Content Include="Views\Account\ChangePasswordAfterRegistration.cshtml" />
     <Content Include="Views\Account\ConfirmSuccessfullPassChange.cshtml" />
     <Content Include="Views\NewRental\BasicInfo.cshtml" />
+    <Content Include="Views\Shared\_LayoutMobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
