@@ -9,8 +9,8 @@ using DealnetPortal.Api.Models.Scanning;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    public interface IDocumentProcessingServiceAgent
+    public interface IScanProcessingServiceAgent
     {
-        Task<HttpResponseMessage> GetDriverLicense(ScanningRequest scanningRequest);
+        Task<Tuple<DriverLicenseData, IList<Alert>>> ScanDriverLicense(ScanningRequest scanningRequest);
     }
 }

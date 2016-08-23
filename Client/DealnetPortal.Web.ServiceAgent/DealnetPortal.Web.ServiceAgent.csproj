@@ -58,8 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiBase.cs" />
-    <Compile Include="DocumentProcessingServiceAgent.cs" />
-    <Compile Include="IDocumentProcessingServiceAgent.cs" />
+    <Compile Include="ScanProcessingServiceAgent.cs" />
+    <Compile Include="IScanProcessingServiceAgent.cs" />
     <Compile Include="IUserManagementServiceAgent.cs" />
     <Compile Include="SecurityServiceAgent.cs" />
     <Compile Include="ISecurityServiceAgent.cs" />
