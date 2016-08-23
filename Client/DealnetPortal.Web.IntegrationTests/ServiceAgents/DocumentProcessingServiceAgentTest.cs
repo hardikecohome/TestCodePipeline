@@ -23,15 +23,15 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         }
 
         [TestMethod]
-        public async Task TestScanDriverLicense()
+        public void TestScanDriverLicense()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
-            securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
+            //ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client);
+            //var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            //securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
 
             IDocumentProcessingServiceAgent serviceAgent = new DocumentProcessingServiceAgent(_client);
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            //IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
 
             var imgRaw = File.ReadAllBytes("Img//Barcode-Driver_License.CA.jpg");
             ScanningRequest scanningRequest = new ScanningRequest()
@@ -39,10 +39,10 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
                 ImageForReadRaw = imgRaw
             };            
 
-            var result = await serviceAgent.GetDriverLicense(scanningRequest);
+            var result = serviceAgent.GetDriverLicense(scanningRequest).GetAwaiter().GetResult();
 
 
-            var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
+            //var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
         }
     }
 }

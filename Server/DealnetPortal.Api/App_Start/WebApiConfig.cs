@@ -17,10 +17,7 @@ namespace DealnetPortal.Api
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
-
-            //config.Formatters.Add(new BinaryMediaTypeFormatter());
-            config.Formatters.Add(new BsonMediaTypeFormatter());
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));            
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -30,6 +27,11 @@ namespace DealnetPortal.Api
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Formatters.Add(new BinaryMediaTypeFormatter());
+            config.Formatters.Add(new BsonMediaTypeFormatter());
+
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
         }
     }
 }
