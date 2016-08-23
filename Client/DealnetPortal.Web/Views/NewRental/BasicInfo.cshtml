@@ -37,10 +37,21 @@
 
     <div class="row" id="scanlicense-button">
         <div class="col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12">
-                
-                <p class="dealnet-green-button-text"><img src="~/content/images/scan-license.png">Scan License</p>
+            <button type="button" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#myModal">
+                <p class="dealnet-green-button-text"><img src="~/content/images/scan-license.png">Scan License
+                </p>
             </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="Camera"></div>
+                    <input type="button" value="Shoot!" onclick="webcam.capture();" />
+                </div>
+            </div>
         </div>
     </div>
 
@@ -152,21 +163,21 @@
 
 <script type="text/javascript">
     $("#mailing-adress").hide();
-    $("#mailing-adress-checkbox").click(function () {
+    $("#mailing-adress-checkbox").click(function() {
         if ($(this).is(":checked")) {
             $("#mailing-adress").show(300);
         } else {
             $("#mailing-adress").hide(200);
         }
     });
-    $("#clear-address").click(function () {
+    $("#clear-address").click(function() {
         document.getElementById('address-input1').value = '';
         document.getElementById('address-input2').value = '';
         document.getElementById('address-input3').value = '';
         document.getElementById('address-input4').value = '';
         document.getElementById('address-input5').value = '';
     });
-    $("#clear-mailing-address").click(function () {
+    $("#clear-mailing-address").click(function() {
         document.getElementById('mailing-address-input1').value = '';
         document.getElementById('mailing-address-input2').value = '';
         document.getElementById('mailing-address-input3').value = '';
@@ -174,4 +185,26 @@
         document.getElementById('mailing-address-input5').value = '';
     });
 </script>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.webcam.js")">
+    </script>
+    <script>
+        $("#Camera").webcam({
+             width: 320,
+             height: 240,
+             mode: "save",
+             swffile: "@Url.Content("~/Scripts/jscam.swf")",
+             onTick: function () { },
+             onSave: function () {
+             },
+             onCapture: function () {
+                 webcam.save("@Url.Content("~/NewRental/TestScanPosting")/");
+             },
+             debug: function () { },
+             onLoad: function () { }
+         });
+    </script>
+}
 

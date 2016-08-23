@@ -9,7 +9,6 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dealnet")
-    @RenderSection("Scripts", false)
 </head>
 <body>
     <div class="container">
@@ -59,6 +58,8 @@
             <div class="col-md-10">
                 @RenderBody()
             </div>
+
+            @RenderSection("Scripts", false)
         </div>
     </div>
 </body>
