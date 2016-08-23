@@ -1,5 +1,6 @@
 using Microsoft.Practices.Unity;
 using System.Web.Http;
+using DealnetPortal.Api.Controllers;
 using DealnetPortal.Utilities;
 using Unity.WebApi;
 
@@ -23,6 +24,8 @@ namespace DealnetPortal.Api
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<ILoggingService, LoggingService>();
+
+            container.RegisterType<AccountController>(new InjectionConstructor());
         }
     }
 }
