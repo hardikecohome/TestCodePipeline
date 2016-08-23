@@ -25,16 +25,25 @@ namespace DealnetPortal.Api.Integration
             if (scanningRequest?.ImageForReadRaw != null)
             {
                 var mStream = new MemoryStream(scanningRequest.ImageForReadRaw);
-                BarcodeReader reader = new BarcodeReader()
+                string aamva = string.Empty;
+                try
                 {
-                    Horizontal = true,
-                    Vertical = true,
-                    Diagonal = true,
-                    DrvLicID = true,
-                };
-                Barcode[] barcodes = reader.Read(mStream);
-                string aamva = barcodes.First().Decode(BarcodeDecoding.aamva);
-                if (aamva != "")
+                    BarcodeReader reader = new BarcodeReader()
+                    {
+                        Horizontal = true,
+                        Vertical = true,
+                        Diagonal = true,
+                        DrvLicID = true,
+                    };
+                    Barcode[] barcodes = reader.Read(mStream);
+                    aamva = barcodes.First().Decode(BarcodeDecoding.aamva);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = ex.ToString() });
+                }
+                
+                if (!string.IsNullOrEmpty(aamva))
                 {
                     try
                     {

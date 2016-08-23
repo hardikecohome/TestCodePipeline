@@ -13,7 +13,7 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ScanProcessingController : ApiController
     {
         private ILoggingService _loggingService;
