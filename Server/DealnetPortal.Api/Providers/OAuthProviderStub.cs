@@ -29,7 +29,12 @@ namespace DealnetPortal.Api.Providers
                 oAuthIdentity.AddClaim(new Claim(ClaimTypes.Name, clientName));
                 ClaimsIdentity cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
                 cookiesIdentity.AddClaim(new Claim(ClaimTypes.Name, clientName));
-                var ticket = new AuthenticationTicket(oAuthIdentity, new AuthenticationProperties());
+                IDictionary<string, string> data = new Dictionary<string, string>
+                {
+                    { "userName", clientName }
+                };
+                AuthenticationProperties properties = new AuthenticationProperties(data);
+                var ticket = new AuthenticationTicket(oAuthIdentity, properties);
                 context.Validated(ticket);
                 context.Request.Context.Authentication.SignIn(cookiesIdentity);
             });

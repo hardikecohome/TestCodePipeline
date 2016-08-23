@@ -28,6 +28,14 @@ namespace DealnetPortal.Api.Integration
                 string aamva = string.Empty;
                 try
                 {
+                    ImageEditor repair = new ImageEditor();
+                    MemoryStream ms = new MemoryStream(scanningRequest.ImageForReadRaw);
+                    repair.Image.Open(ms, 0);
+                    repair.AutoDeskew();
+                    repair.AutoRotate();
+                    repair.CleanNoise(3);                    
+
+
                     BarcodeReader reader = new BarcodeReader()
                     {
                         Horizontal = true,
@@ -35,10 +43,10 @@ namespace DealnetPortal.Api.Integration
                         Diagonal = true,
                         DrvLicID = true,
                     };
-                    Barcode[] barcodes = reader.Read(mStream);
+                    Barcode[] barcodes = reader.Read(repair);
                     aamva = barcodes.First().Decode(BarcodeDecoding.aamva);
                 }
-                catch (InvalidOperationException ex)
+                catch (Exception ex)
                 {
                     alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = ex.ToString() });
                 }
