@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DriverLicenseViewModel.cs" />
     <Compile Include="OAuthErrorResponseModel.cs" />
     <Compile Include="ErrorResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

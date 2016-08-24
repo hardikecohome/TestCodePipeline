@@ -1,4 +1,21 @@
-﻿@model DealnetPortal.Api.Models.Scanning.DriverLicenseData
+﻿@model DealnetPortal.Web.Models.DriverLicenseViewModel
 
-@Model.FirstName
-@Model.LastName
+@if (!Model.RecognitionErrors.Any())
+{
+    <p>@Model.DriverLicense.FirstName</p>
+    <p>@Model.DriverLicense.LastName</p>
+    <p>@Model.DriverLicense.PostalCode</p>
+    <p>@Model.DriverLicense.Country</p>
+    <p>@Model.DriverLicense.State</p>
+    <p>@Model.DriverLicense.City</p>
+    <p>@Model.DriverLicense.Street</p>        
+}
+else
+{
+    <ul>
+        @foreach (var error in Model.RecognitionErrors)
+        {
+            <li>@error</li>
+        }
+    </ul>
+}

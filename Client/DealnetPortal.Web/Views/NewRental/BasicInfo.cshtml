@@ -37,8 +37,9 @@
 
     <div class="row" id="scanlicense-button">
         <div class="col-md-3 col-lg-3">
-            <button type="button" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#myModal">
-                <p class="dealnet-green-button-text"><img src="~/content/images/scan-license.png">Scan License
+            <button type="button" id="scan-btn" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#myModal">
+                <p class="dealnet-green-button-text">
+                    <img src="~/content/images/scan-license.png">Scan License
                 </p>
             </button>
         </div>
@@ -48,12 +49,30 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div id="Camera"></div>
-                    <input type="button" value="Shoot!" onclick="webcam.capture();" />
+                    <div class="row">
+                        <div class="dealnet-middle-header">Scan License</div>
+                        How do you want to do this?
+                    </div>
+                    <ul class="nav nav-pills">
+                        <li role="presentation" class="active"><a href="#cameratab" aria-controls="cameratab" role="tab" data-toggle="tab">Use Camera</a></li>
+                        <li role="presentation"><a href="#uploadtab" aria-controls="uploadtab" role="tab" data-toggle="tab">Upload</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="cameratab">
+                            <div id="Camera"></div>
+                            <input type="button" value="Shoot!" class="btn dealnet-button dealnet-green-button"
+                                   onclick="webcam.capture();"/>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="uploadtab">
+                            <input type="file" id="uploadFile"/>
+                            <button id="submitUpload" class="btn dealnet-button dealnet-green-button" >Upload</button>                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 
     <div class="row" id="owner-info">
         <div class="col-md-4 col-lg-4">
@@ -189,27 +208,62 @@
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/jquery.webcam.js")">
+
+    
     </script>
     <script>
         $("#Camera").webcam({
-             width: 570,
-             height: 400,
-             mode: "save",
-             swffile: "@Url.Content("~/Scripts/jscam.swf")",
-             onTick: function () { },
-             onSave: function () {
-                 UploadPic();
-             },
-             onCapture: function () {
-                 webcam.save("@Url.Content("~/NewRental/TestScanPosting")/");
-             },
-             debug: function () { },
-             onLoad: function () { }
+            width: 570,
+            height: 400,
+            mode: "save",
+            swffile: "@Url.Content("~/Scripts/jscam.swf")",
+            onTick: function() {},
+            onSave: function() {
+                UploadPic();
+            },
+            onCapture: function() {
+                webcam.save("@Url.Content("TestScanPosting")/");
+            },
+            debug: function() {},
+            onLoad: function() {}
         });
 
         function UploadPic() {
-            window.location.href = "/NewRental/TestLicenseScanning";
+            window.location.href = "TestLicenseScanning";
         }
+
+
+        $('#submitUpload').on('click', function (e) {            
+            e.preventDefault();
+            var files = document.getElementById('uploadFile').files;
+            if (files.length > 0) {
+                if (window.FormData !== undefined) {
+                    var data = new FormData();
+                    for (var x = 0; x < files.length; x++) {
+                        data.append("file" + x, files[x]);
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("UploadDriverLicensePhoto", "NewRental")',
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function(json) {
+                            if (json.isRedirect) {
+                                window.location.href = json.redirectUrl;
+                            }
+                        },
+                        error: function (xhr, status, p3) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                } else {
+                    alert("Browser doesn't support HTML5 file upload!");
+                }
+            }
+        });
+
     </script>
 }
 

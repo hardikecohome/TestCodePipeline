@@ -49,6 +49,7 @@ namespace DealnetPortal.Api.Integration
                 catch (Exception ex)
                 {
                     alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = ex.ToString() });
+                    return new Tuple<DriverLicenseData, IList<Alert>>(driverLicense, alerts);
                 }
                 
                 if (!string.IsNullOrEmpty(aamva))
@@ -65,7 +66,7 @@ namespace DealnetPortal.Api.Integration
                 }
                 else
                 {
-                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = "" });
+                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = "Image wasn't recognized" });
                 }
             }
             else

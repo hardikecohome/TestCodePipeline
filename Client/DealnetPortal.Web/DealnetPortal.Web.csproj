@@ -45,6 +45,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DealnetPortal.Api.Common">
       <HintPath>..\..\lib\DealnetPortal.Api.Common.dll</HintPath>
     </Reference>
@@ -154,6 +158,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -287,6 +292,10 @@
     <ProjectReference Include="..\DealnetPortal.Web.Core\DealnetPortal.Web.Core.csproj">
       <Project>{bf1b17e7-04b8-42c3-897f-0ceecb75e479}</Project>
       <Name>DealnetPortal.Web.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Web.Models\DealnetPortal.Web.Models.csproj">
+      <Project>{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}</Project>
+      <Name>DealnetPortal.Web.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Web.ServiceAgent\DealnetPortal.Web.ServiceAgent.csproj">
       <Project>{9d034d24-d090-4ffd-9f50-7ff073568343}</Project>
