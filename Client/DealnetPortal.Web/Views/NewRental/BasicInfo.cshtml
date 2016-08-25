@@ -60,9 +60,21 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="cameratab">
-                            <div id="Camera"></div>
-                            <input type="button" value="Shoot!" class="btn dealnet-button dealnet-green-button"
-                                   onclick="webcam.capture();"/>
+                            @*<div id="Camera"></div>*@
+                            @*<video autoplay></video>
+                            <img src="">
+                            <canvas style="display: none;"></canvas>*@
+
+                            <video autoplay width="320" height="240"></video>
+                            <canvas width='320' height='240' style="border:1px solid #d3d3d3;"></canvas>
+                            <div>
+                                <input type="button" value="start capture" onclick="startCapture()" />
+                                <input type="button" value="take snapshot" onclick="takePhoto()" />
+                                <input type="button" value="stop capture" onclick="stopCapture()" />
+                            </div>
+                            
+                            @*<input type="button" value="Shoot!" class="btn dealnet-button dealnet-green-button"
+                                   onclick="webcam.capture();"/>*@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="uploadtab">
                             <input type="file" id="uploadFile"/>
@@ -209,13 +221,45 @@
 {
     <script src="@Url.Content("~/Scripts/jquery.webcam.js")">
 
+
     
     </script>
     <script>
-        $("#Camera").webcam({
+        //camera scripts
+        var localMediaStream = null;
+        var video = document.querySelector('video');
+        var canvas = document.querySelector('canvas');
+
+        function takePhoto() {
+            if (localMediaStream) {
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, 320, 240);                
+            }
+        }
+
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+        window.URL = window.URL || window.webkitURL;
+
+        function startCapture() {
+            navigator.getUserMedia({ video: true }, function (stream) {
+                video.src = window.URL.createObjectURL(stream);
+                localMediaStream = stream;
+            }, function (e) {
+                console.log(e);
+            });
+        }
+
+        function stopCapture() {
+            video.pause();
+            localMediaStream.stop();
+        }
+        //camera scripts
+
+
+        @*$("#Camera").webcam({
             width: 570,
             height: 400,
-            mode: "save",
+            mode: "save",                       
             swffile: "@Url.Content("~/Scripts/jscam.swf")",
             onTick: function() {},
             onSave: function() {
@@ -230,10 +274,9 @@
 
         function UploadPic() {
             window.location.href = "TestLicenseScanning";
-        }
+        }*@        
 
-
-        $('#submitUpload').on('click', function (e) {            
+        $('#submitUpload').on('click', function(e) {
             e.preventDefault();
             var files = document.getElementById('uploadFile').files;
             if (files.length > 0) {
@@ -254,7 +297,7 @@
                                 window.location.href = json.redirectUrl;
                             }
                         },
-                        error: function (xhr, status, p3) {
+                        error: function(xhr, status, p3) {
                             alert(xhr.responseText);
                         }
                     });
