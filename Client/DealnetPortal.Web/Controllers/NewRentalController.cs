@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -29,16 +30,17 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> TestScanPosting()
+        public async Task<ActionResult> TestScanPosting(string imgBase64)
         {
-            var stream = Request.InputStream;
-            string dump;
+            if (imgBase64 == null)
+            {
+                Session["ScannedErrors"] = new List<Alert> {new Alert {Type = AlertType.Error, Header = "noimagedata_submitted", Message = "No image was uploaded"} };
+                return RedirectToAction("TestLicenseScanning");
+            }
+            imgBase64 = imgBase64.Replace("data:image/png;base64,", "");
+            imgBase64 = imgBase64.Replace(' ', '+');
 
-            using (var reader = new StreamReader(stream))
-                dump = reader.ReadToEnd();
-
-            var bytes = String_To_Bytes2(dump);
-
+            var bytes = Convert.FromBase64String(imgBase64);
             var scanningRequest = new ScanningRequest()
             {
                 ImageForReadRaw = bytes

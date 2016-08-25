@@ -65,12 +65,13 @@
                             <img src="">
                             <canvas style="display: none;"></canvas>*@
 
-                            <video autoplay width="320" height="240"></video>
-                            <canvas width='320' height='240' style="border:1px solid #d3d3d3;"></canvas>
+                            <video autoplay width="570" height="428"></video>
+                            <canvas id="capture-canvas" width='570' height='428' style="border:1px solid #d3d3d3;"></canvas>
                             <div>
-                                <input type="button" value="start capture" onclick="startCapture()" />
-                                <input type="button" value="take snapshot" onclick="takePhoto()" />
-                                <input type="button" value="stop capture" onclick="stopCapture()" />
+                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Start" onclick="startCapture()" />
+                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Capture" onclick="takePhoto()" />
+                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Stop" onclick="stopCapture()"/>
+                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Upload" onclick="uploadCaptured()" />
                             </div>
                             
                             @*<input type="button" value="Shoot!" class="btn dealnet-button dealnet-green-button"
@@ -219,13 +220,12 @@
 
 @section scripts
 {
-    <script src="@Url.Content("~/Scripts/jquery.webcam.js")">
+    @*<script src="@Url.Content("~/Scripts/jquery.webcam.js")">
 
 
     
-    </script>
+    </script>*@
     <script>
-        //camera scripts
         var localMediaStream = null;
         var video = document.querySelector('video');
         var canvas = document.querySelector('canvas');
@@ -233,7 +233,7 @@
         function takePhoto() {
             if (localMediaStream) {
                 var ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, 320, 240);                
+                ctx.drawImage(video, 0, 0, 570, 428);
             }
         }
 
@@ -253,13 +253,27 @@
             video.pause();
             localMediaStream.stop();
         }
+
+        function uploadCaptured() {
+            var canvas = document.getElementById('capture-canvas');
+            var dataUrl = canvas.toDataURL();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Content("TestScanPosting")/",
+                data: {
+                    imgBase64: dataUrl
+                }
+            }).done(function (o) {
+                window.location.href = "TestLicenseScanning";
+            });
+        }
         //camera scripts
 
 
         @*$("#Camera").webcam({
             width: 570,
             height: 400,
-            mode: "save",                       
+            mode: "save",
             swffile: "@Url.Content("~/Scripts/jscam.swf")",
             onTick: function() {},
             onSave: function() {
@@ -274,7 +288,7 @@
 
         function UploadPic() {
             window.location.href = "TestLicenseScanning";
-        }*@        
+        }*@
 
         $('#submitUpload').on('click', function(e) {
             e.preventDefault();
