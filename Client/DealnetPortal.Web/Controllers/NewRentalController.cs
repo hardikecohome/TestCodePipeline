@@ -45,8 +45,8 @@ namespace DealnetPortal.Web.Controllers
             };
 
             var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
-            TempData["ScannedInfo"] = result.Item1;
-            TempData["ScannedErrors"] = result.Item2;
+            Session["ScannedInfo"] = result.Item1;
+            Session["ScannedErrors"] = result.Item2;
 
             return RedirectToAction("TestLicenseScanning");
         }
@@ -55,8 +55,8 @@ namespace DealnetPortal.Web.Controllers
         {
             ScanningRequest scanningRequest = (ScanningRequest)Session["ScanningRequest"];
             var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
-            TempData["ScannedInfo"] = result.Item1;
-            TempData["ScannedErrors"] = result.Item2;
+            Session["ScannedInfo"] = result.Item1;
+            Session["ScannedErrors"] = result.Item2;
             return RedirectToAction("TestLicenseScanning");
         }        
 
@@ -84,8 +84,8 @@ namespace DealnetPortal.Web.Controllers
 
         public ActionResult TestLicenseScanning()
         {
-            var driverLicenseData = (DriverLicenseData)TempData["ScannedInfo"];
-            var errors = (IList<Alert>)TempData["ScannedErrors"];
+            var driverLicenseData = (DriverLicenseData)Session["ScannedInfo"];
+            var errors = (IList<Alert>)Session["ScannedErrors"];
             var driverLicenseViewModel = AutoMapper.Mapper.Map<DriverLicenseViewModel>(new Tuple<DriverLicenseData, IList<Alert>>(driverLicenseData, errors));
             return View(driverLicenseViewModel);
         }
