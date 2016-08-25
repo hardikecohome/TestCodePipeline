@@ -19,18 +19,19 @@
                     <span class="dealnet-image-ecologo"></span>
                 </div>
                 <div class="dealnet-page-header-login">
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <span class="dealnet-button-holder">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "dealnet-link" })</span>
+                   @if (!User.Identity.IsAuthenticated)
+                   {
+                        <span class="dealnet-button-holder">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "dealnet-link" })</span>
                             <span class="dealnet-button-holder">@Html.ActionLink("Register", "Register", "Account", null, new { @class = "dealnet-link" })</span>
-                        }
-                        else
-                        {
-                            <span class="dealnet-button-holder">@($"Welcome, {User.Identity.Name}!")</span>
+                    }
+                    else
+                    {
+                        <span class="dealnet-button-holder">@($"Welcome, {User.Identity.Name}!")</span>
                             <span class="dealnet-button-holder">
-                                @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })</span>
-                            }
-</div>
+                                @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })
+                            </span>
+                    }
+                </div>
             </div>
         </div>
         <div class="row">

@@ -3,21 +3,50 @@
 }
 
 
-
 .navbar-header {
     background-color: #32201D;
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+    position: relative;
 }
+
+.dealnet-login-buttons-holder {
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    margin-left: auto;
+}
+
 
 a.dealnet-link {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
+    font-family: Lato !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
 }
 
 
+.dealnet-login-buttons {
+    width: 100px;
+    display: inline-block;
+}
+
+.dealnet-login-buttons .dropdown-toggle {
+    line-height: 50px;
+    vertical-align: middle;
+}
+
+.dealnet-login-buttons .dropdown-menu {
+    background-color: #3e281d;
+}
 
 
 a.dealnet-link:hover {
-    color: #FFFFFF;
-    text-decoration: none;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    background-color: #3e281d !important;
     
 }
 
@@ -86,8 +115,10 @@ a.dealnet-link:hover {
 }
 
 .dealnet-page-header {
-    height: 55px;
+    height: 50px;
     background-color: #3e281d;
+    text-align: right;
+    line-height: 50px;
 }
 
 .dealnet-sidebar-item {
