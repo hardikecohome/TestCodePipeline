@@ -246,7 +246,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -260,7 +259,7 @@
     <Content Include="Views\Account\ChangePasswordAfterRegistration.cshtml" />
     <Content Include="Views\Account\ConfirmSuccessfullPassChange.cshtml" />
     <Content Include="Views\NewRental\BasicInfo.cshtml" />
-    <Content Include="Views\Shared\_LayoutMobile.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\LoginButtons.cshtml" />
   </ItemGroup>
   <ItemGroup>
