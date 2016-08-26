@@ -37,7 +37,7 @@
 
     <div class="row" id="scanlicense-button">
         <div class="col-md-3 col-lg-3">
-            <button type="button" id="scan-btn" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#myModal">
+            <button type="button" id="scan-btn" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#camera-modal">
                 <p class="dealnet-green-button-text">
                     <img src="~/content/images/scan-license.png">Scan License
                 </p>
@@ -45,43 +45,68 @@
         </div>
     </div>
 
-    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal fade" id="camera-modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="dealnet-middle-header">Scan License</div>
-                        How do you want to do this?
+                    <div class="dealnet-middle-header">Scan License</div>
+                    <div class="dealnet-middle-header-2" id="you-want">How do you want to do this?</div>
+
+                    <div class="tabs" id="tabs">
+                        <div class="tab-2">
+                            <label for="tab2-1">Use Camera</label>
+                            <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
+                            <div id="capture-area">
+                                <video autoplay style="width: 100%; height: auto;"></video>
+                                @*<canvas id="capture-canvas"></canvas>
+                                <canvas id="big-capture-canvas" width='1280' height='720'></canvas>*@
+                                <div id="capture-buttons">
+                                    <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Capture" onclick="takePhoto()"/>
+                                    <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Save" onclick="uploadCaptured()" />
+                                    <div id="retake">Retake</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-2">
+                            <label for="tab2-2">Upload</label>
+                            <input id="tab2-2" name="tabs-two" type="radio">
+                            <div>
+                                <input type="file" id="uploadFile"/>
+                                <button id="submitUpload" class="btn dealnet-button dealnet-green-button">Upload</button>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="nav nav-pills">
+
+                    @*<ul class="nav nav-pills">
                         <li role="presentation" class="active"><a href="#cameratab" aria-controls="cameratab" role="tab" data-toggle="tab">Use Camera</a></li>
                         <li role="presentation"><a href="#uploadtab" aria-controls="uploadtab" role="tab" data-toggle="tab">Upload</a></li>
-                    </ul>
+                    </ul>*@
                     <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="cameratab">
-                            @*<div id="Camera"></div>*@
-                            @*<video autoplay></video>
+                    @*<div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="cameratab">*@
+                    @*<div id="Camera"></div>*@
+                    @*<video autoplay></video>
                             <img src="">
                             <canvas style="display: none;"></canvas>*@
 
-                            <video autoplay width="570" height="428"></video>
-                            <canvas id="capture-canvas" width='570' height='428' style="border:1px solid #d3d3d3;"></canvas>
+                    @*<video autoplay style="width:100%; height:auto;"></video>
+                            <canvas id="capture-canvas"></canvas>
+                            <canvas id="big-capture-canvas" width='1280' height='720'></canvas>
                             <div>
-                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Start" onclick="startCapture()" />
+                                
                                 <input type="button" class="btn dealnet-button dealnet-green-button" value="Capture" onclick="takePhoto()" />
-                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Stop" onclick="stopCapture()"/>
+                                
                                 <input type="button" class="btn dealnet-button dealnet-green-button" value="Upload" onclick="uploadCaptured()" />
-                            </div>
-                            
-                            @*<input type="button" value="Shoot!" class="btn dealnet-button dealnet-green-button"
+                            </div>*@
+
+                    @*<input type="button" value="Shoot!" class="btn dealnet-button dealnet-green-button"
                                    onclick="webcam.capture();"/>*@
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="uploadtab">
+                    @*</div>*@
+                    @*<div role="tabpanel" class="tab-pane" id="uploadtab">
                             <input type="file" id="uploadFile"/>
                             <button id="submitUpload" class="btn dealnet-button dealnet-green-button" >Upload</button>                            
-                        </div>
-                    </div>
+                        </div>*@
+                    @*</div>*@
                 </div>
             </div>
         </div>
@@ -194,7 +219,7 @@
 </form>
 
 <script type="text/javascript">
-    $("#mailing-adress").hide();
+    $("#mailing-adress").hide();   
     $("#mailing-adress-checkbox").click(function() {
         if ($(this).is(":checked")) {
             $("#mailing-adress").show(300);
@@ -221,42 +246,52 @@
 @section scripts
 {
     @*<script src="@Url.Content("~/Scripts/jquery.webcam.js")">
-
-
-    
     </script>*@
+
     <script>
+        $("#big-capture-canvas").hide();
         var localMediaStream = null;
         var video = document.querySelector('video');
-        var canvas = document.querySelector('canvas');
+        var canvas = document.getElementById('capture-canvas');
+        var bigCanvas = document.getElementById('big-capture-canvas');
 
         function takePhoto() {
             if (localMediaStream) {
                 var ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, 570, 428);
+                var ratio = video.videoHeight / video.videoWidth;
+                alert(video.offsetWidth);
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoWidth * ratio;
+                bigCanvas.height = 1280 * ratio;
+                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoWidth * ratio);
+                ctx = bigCanvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, 1280, 1280 * ratio);
             }
         }
+
+        $('#camera-modal').on('shown.bs.modal', function () {
+            navigator.getUserMedia({ video: true }, function (stream) {
+                video.src = window.URL.createObjectURL(stream);
+                localMediaStream = stream;
+                //video.on('playing', function () {
+                //    alert(video.videoHeight);
+                //    alert(video.videoWidth);
+                //});
+            }, function (e) {
+                console.log(e);
+            });
+        });
+        
+        $('#camera-modal').on('hidden.bs.modal', function () {
+            video.pause();
+            localMediaStream.stop();
+        });
 
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
         window.URL = window.URL || window.webkitURL;
 
-        function startCapture() {
-            navigator.getUserMedia({ video: true }, function (stream) {
-                video.src = window.URL.createObjectURL(stream);
-                localMediaStream = stream;
-            }, function (e) {
-                console.log(e);
-            });
-        }
-
-        function stopCapture() {
-            video.pause();
-            localMediaStream.stop();
-        }
-
         function uploadCaptured() {
-            var canvas = document.getElementById('capture-canvas');
-            var dataUrl = canvas.toDataURL();
+            var dataUrl = bigCanvas.toDataURL();
             $.ajax({
                 type: "POST",
                 url: "@Url.Content("TestScanPosting")/",
