@@ -220,6 +220,7 @@
     <Content Include="Content\images\scan-license.png" />
     <Content Include="Content\images\scan-license.svg" />
     <Content Include="Content\layout.css" />
+    <Content Include="Content\navbar-fixed-side.css" />
     <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -255,7 +256,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -269,6 +269,8 @@
     <Content Include="Views\Account\ChangePasswordAfterRegistration.cshtml" />
     <Content Include="Views\Account\ConfirmSuccessfullPassChange.cshtml" />
     <Content Include="Views\NewRental\BasicInfo.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\LoginButtons.cshtml" />
     <Content Include="Scripts\Makefile" />
     <Content Include="Scripts\webcam.jquery.json" />
     <Content Include="Views\NewRental\TestLicenseScanning.cshtml" />
