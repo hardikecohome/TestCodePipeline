@@ -57,12 +57,12 @@
                             <label for="tab2-1">Use Camera</label>
                             <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
                             <div id="capture-area">
-                                <video autoplay class="capture-frame"></video>
+                                <video autoplay class="capture-frame" id="video"></video>
                                 <canvas id="capture-canvas" class="capture-frame"></canvas>
                                 <canvas id="big-capture-canvas"></canvas>
                                 <div id="capture-buttons">
-                                    <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Capture" onclick="takePhoto()"/>
-                                    <div>
+                                    <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
+                                    <div id="capture-buttons-2">
                                         <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Save" onclick="uploadCaptured()" />
                                         <div id="retake">Retake</div>
                                     </div>
@@ -72,9 +72,11 @@
                         <div class="tab-2">
                             <label for="tab2-2">Upload</label>
                             <input id="tab2-2" name="tabs-two" type="radio">
-                            <div>
-                                <input type="file" id="uploadFile"/>
-                                <button id="submitUpload" class="btn dealnet-button dealnet-green-button">Upload</button>
+                            <div id="upload-area">
+                                <div id="upload-buttons">
+                                    <input type="file" id="uploadFile" />
+                                    <button id="submitUpload" class="btn dealnet-button dealnet-green-button big-green-button">Upload</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -251,7 +253,8 @@
     </script>*@
 
     <script>
-        $("#big-capture-canvas").hide();
+        $("#capture-canvas").hide();
+        $("#capture-buttons-2").hide();
         var localMediaStream = null;
         var video = document.querySelector('video');
         var canvas = document.getElementById('capture-canvas');
@@ -259,10 +262,10 @@
 
         function takePhoto() {
             if (localMediaStream) {
-                alert(video.offsetWidth);
-                alert(video.offsetHeight);
-                alert(video.videoHeight);
-                alert(video.videoWidth);
+                //alert(video.offsetWidth);
+                //alert(video.offsetHeight);
+                //alert(video.videoHeight);
+                //alert(video.videoWidth);
                 canvas.width = video.offsetWidth;
                 canvas.height = video.offsetHeight;
                 bigCanvas.height = video.videoHeight;
@@ -270,7 +273,11 @@
                 var ctx = bigCanvas.getContext('2d');
                 ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
                 ctx = canvas.getContext('2d');
+                //$("#video").hide();
+                $("#capture-buttons-1").hide();
                 ctx.drawImage(video, 0, 0, video.offsetWidth, video.offsetHeight);
+                $("#capture-canvas").show();
+                $("#capture-buttons-2").show();
             }
         }
 

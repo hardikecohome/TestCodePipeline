@@ -85,6 +85,10 @@
     text-align: center;
 }
 
+#big-capture-canvas {
+    display: none;
+}
+
 .capture-frame {
     width: 100%; 
     height: auto;
@@ -94,11 +98,21 @@
     padding-top: 26px;
     display: inline-block;
 }
+
 #retake {
     font-family: Lato;
     font-size: 16px;
     color: #42a01f;
     padding-top: 15px;
+}
+
+#upload-buttons {
+    display: inline-block;
+}
+
+#upload-area {
+    padding-top: 31px;
+    text-align: center;
 }
 
 .big-green-button {
