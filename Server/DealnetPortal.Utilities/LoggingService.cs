@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Utilities
 {
+    /// <summary>
+    /// Logging service implementation
+    /// (log4net used)
+    /// </summary>
     public class LoggingService : ILoggingService
     {
         private readonly log4net.ILog _logger;

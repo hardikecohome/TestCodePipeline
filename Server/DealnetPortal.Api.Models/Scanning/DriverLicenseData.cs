@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Scanning
 {
+    /// <summary>
+    /// Driver License data
+    /// </summary>
     public class DriverLicenseData
     {
         public string Id { get; set; }

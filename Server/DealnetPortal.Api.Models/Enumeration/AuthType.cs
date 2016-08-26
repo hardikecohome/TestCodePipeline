@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Enumeration
 {
+    /// <summary>
+    /// For flexible client/service authentification configuration
+    /// </summary>
     public enum AuthType
     {
         AuthProvider,

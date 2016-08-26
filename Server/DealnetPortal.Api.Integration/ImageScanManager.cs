@@ -13,10 +13,15 @@ using Inlite.ClearImageNet;
 namespace DealnetPortal.Api.Integration
 {
     /// <summary>
-    /// Read and extract data from images
+    /// Read, recognize and extract data from images manager
     /// </summary>
     public class ImageScanManager
     {
+        /// <summary>
+        /// Recognize Driver License image
+        /// </summary>
+        /// <param name="scanningRequest">Scanned image request</param>
+        /// <returns></returns>
         public Tuple<DriverLicenseData, IList<Alert>>  ReadDriverLicense(ScanningRequest scanningRequest)
         {
             List<Alert> alerts = new List<Alert>();

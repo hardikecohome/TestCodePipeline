@@ -19,7 +19,9 @@ namespace DealnetPortal.Api.Models
             Message = string.Empty;
             Code = 0;
         }
-
+        /// <summary>
+        /// Alert integer code
+        /// </summary>
         public int Code { get; set; }
 
         /// <summary>
