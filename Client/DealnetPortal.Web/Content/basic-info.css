@@ -85,6 +85,11 @@
     text-align: center;
 }
 
+.capture-frame {
+    width: 100%; 
+    height: auto;
+}
+
 #capture-buttons {
     padding-top: 26px;
     display: inline-block;

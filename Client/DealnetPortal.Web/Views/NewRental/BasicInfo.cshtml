@@ -57,13 +57,15 @@
                             <label for="tab2-1">Use Camera</label>
                             <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
                             <div id="capture-area">
-                                <video autoplay style="width: 100%; height: auto;"></video>
-                                @*<canvas id="capture-canvas"></canvas>
-                                <canvas id="big-capture-canvas" width='1280' height='720'></canvas>*@
+                                <video autoplay class="capture-frame"></video>
+                                <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                <canvas id="big-capture-canvas"></canvas>
                                 <div id="capture-buttons">
                                     <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Capture" onclick="takePhoto()"/>
-                                    <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Save" onclick="uploadCaptured()" />
-                                    <div id="retake">Retake</div>
+                                    <div>
+                                        <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Save" onclick="uploadCaptured()" />
+                                        <div id="retake">Retake</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -257,20 +259,40 @@
 
         function takePhoto() {
             if (localMediaStream) {
-                var ctx = canvas.getContext('2d');
-                var ratio = video.videoHeight / video.videoWidth;
                 alert(video.offsetWidth);
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoWidth * ratio;
-                bigCanvas.height = 1280 * ratio;
-                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoWidth * ratio);
-                ctx = bigCanvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, 1280, 1280 * ratio);
+                alert(video.offsetHeight);
+                alert(video.videoHeight);
+                alert(video.videoWidth);
+                canvas.width = video.offsetWidth;
+                canvas.height = video.offsetHeight;
+                bigCanvas.height = video.videoHeight;
+                bigCanvas.width = video.videoWidth;
+                var ctx = bigCanvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+                ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, video.offsetWidth, video.offsetHeight);
             }
         }
 
         $('#camera-modal').on('shown.bs.modal', function () {
-            navigator.getUserMedia({ video: true }, function (stream) {
+            var constraints = {
+                audio: false,
+                video: {
+                    width: 9999,
+                    height: 9999,
+                    optional: [
+                        { minWidth: 320 },
+                        { minWidth: 640 },
+                        { minWidth: 800 },
+                        { minWidth: 900 },
+                        { minWidth: 1024 },
+                        { minWidth: 1280 },
+                        { minWidth: 1920 },
+                        { minWidth: 2560 }
+                    ]
+                }
+            };
+            navigator.getUserMedia(constraints, function (stream) {
                 video.src = window.URL.createObjectURL(stream);
                 localMediaStream = stream;
                 //video.on('playing', function () {
