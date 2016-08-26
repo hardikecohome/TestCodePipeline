@@ -29,7 +29,7 @@ namespace DealnetPortal.Web
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/layout.css", 
-                      "~/Content/theme.css"));
+                      "~/Content/theme.css","~/Content/Navbar-fixed-side.css"));
         }
     }
 }
