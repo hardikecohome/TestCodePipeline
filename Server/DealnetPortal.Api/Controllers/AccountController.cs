@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Providers;
 using DealnetPortal.Api.Results;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers

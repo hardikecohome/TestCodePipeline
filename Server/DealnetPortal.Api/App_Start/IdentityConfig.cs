@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using DealnetPortal.DataAccess;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using DealnetPortal.Api.Models;
+using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api
 {
