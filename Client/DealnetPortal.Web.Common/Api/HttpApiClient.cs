@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace DealnetPortal.Web.Common.Api
                 BaseAddress = new Uri(baseAddress),
                 Timeout = Timeout.InfiniteTimeSpan
             };
+            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
         }
 
         public Uri ConstructUrl(string requestUri)
@@ -76,5 +78,46 @@ namespace DealnetPortal.Web.Common.Api
         {
             return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
         }
+
+        /// <summary>
+		/// See <see cref="IHttpApiClient"/>
+		/// </summary>
+		/// <remarks>This operation will retry.</remarks>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="requestUri"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		public async Task<T> GetAsync<T>(string requestUri, CancellationToken cancellationToken = new CancellationToken())
+        {
+            HttpResponseMessage response = await Client.GetAsync(requestUri, cancellationToken);           
+
+            if (response == null || response.Content == null)
+                return default(T);
+
+            return await response.Content.ReadAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+		/// Perform a get operation against a uri synchronously.
+		/// </summary>
+		/// <typeparam name="T">Type of the content or model.</typeparam>
+		/// <param name="requestUri">Uri of resource</param>
+		/// <returns>Model or resource from the Get operation against the uri.</returns>
+		public T Get<T>(string requestUri)
+        {
+            var response = Client.GetAsync(requestUri).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = response.Content;
+
+                // by calling .Result you are synchronously reading the result
+                return responseContent.ReadAsAsync<T>().Result;
+            }
+            else
+                return default(T);
+        }
+
+
     }
 }
