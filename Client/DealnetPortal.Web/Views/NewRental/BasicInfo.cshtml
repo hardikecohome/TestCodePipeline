@@ -74,8 +74,12 @@
                             <input id="tab2-2" name="tabs-two" type="radio">
                             <div id="upload-area">
                                 <div id="upload-buttons">
-                                    <input type="file" id="uploadFile" />
-                                    <button id="submitUpload" class="btn dealnet-button dealnet-green-button big-green-button">Upload</button>
+                                    <div class="file-upload btn dealnet-button dealnet-green-button">
+                                        <p class="dealnet-green-button-text">
+                                            <img src="~/content/images/upload.png">Upload Photo
+                                        </p>
+                                        <input type="file" class="upload" id="upload-file" onchange="submitUpload()"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -273,9 +277,10 @@
                 var ctx = bigCanvas.getContext('2d');
                 ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
                 ctx = canvas.getContext('2d');
-                //$("#video").hide();
+                
                 $("#capture-buttons-1").hide();
                 ctx.drawImage(video, 0, 0, video.offsetWidth, video.offsetHeight);
+                $("#video").hide();
                 $("#capture-canvas").show();
                 $("#capture-buttons-2").show();
             }
@@ -354,9 +359,8 @@
             window.location.href = "TestLicenseScanning";
         }*@
 
-        $('#submitUpload').on('click', function(e) {
-            e.preventDefault();
-            var files = document.getElementById('uploadFile').files;
+        function submitUpload() {
+            var files = document.getElementById('upload-file').files;
             if (files.length > 0) {
                 if (window.FormData !== undefined) {
                     var data = new FormData();
@@ -383,7 +387,7 @@
                     alert("Browser doesn't support HTML5 file upload!");
                 }
             }
-        });
+        }
 
     </script>
 }

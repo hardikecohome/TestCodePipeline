@@ -219,6 +219,10 @@
     <Content Include="Content\images\scan-license%403x.png" />
     <Content Include="Content\images\scan-license.png" />
     <Content Include="Content\images\scan-license.svg" />
+    <Content Include="Content\images\upload%402x.png" />
+    <Content Include="Content\images\upload%403x.png" />
+    <Content Include="Content\images\upload.png" />
+    <Content Include="Content\images\upload.svg" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\navbar-fixed-side.css" />
     <Content Include="Content\theme.css" />
