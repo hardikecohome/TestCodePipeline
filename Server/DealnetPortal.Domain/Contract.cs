@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DealnetPortal.Domain.Enums;
+
+namespace DealnetPortal.Domain
+{
+    public class Contract
+    {
+        public Contract()
+        {
+            HomeOwners = new List<HomeOwner>();
+        }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        public ApplicationUser Dealer { get; set; }
+        public ContractState ContractState { get; set; }
+        public ContractAddress Address { get; set; }
+
+        public ICollection<HomeOwner> HomeOwners { get; set; }
+    }
+}
