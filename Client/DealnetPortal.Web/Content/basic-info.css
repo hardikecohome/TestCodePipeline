@@ -78,10 +78,11 @@
 
 #you-want {
     padding-top: 6px;
+    padding-bottom: 10px;
 }
 
 #capture-area {
-    padding-top: 31px;
+    padding-top: 20px;
     text-align: center;
 }
 
@@ -104,14 +105,18 @@
     font-size: 16px;
     color: #42a01f;
     padding-top: 15px;
+    cursor: pointer;
 }
 
 #upload-buttons {
-    display: inline-block;
+    display: table-cell;
+    width: 400px;
+    height: 270px;
+    vertical-align: middle;
+    text-align: center;
 }
 
 #upload-area {
-    padding-top: 31px;
     text-align: center;
 }
 
@@ -132,69 +137,50 @@
     padding-top: 10px;
 }
 
-.tabs {
-  display: block;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -moz-flex-wrap: wrap;
-  flex-wrap: wrap;
-  margin: 0;
-  overflow: hidden;
-}
-
-.tabs [class^="tab"] label, .tabs [class*=" tab"] label {
-  cursor: pointer;
-  display: block;
-  line-height: 1em;
-  padding: 2rem 0 1rem;
-  text-align: center;
-  font-family: Lato;
+.nav-tabs { border-bottom: 1px solid #dcdcdc; }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+    .nav-tabs > li > a { border: none; font-family: Lato;
   font-size: 18px;
-  color: #525251;
+  color: #525251; }
+        .nav-tabs > li.active > a, .nav-tabs > li > a:hover { font-family: Lato;  font-size: 18px;
+  font-weight: bold;
+  color: #1f1f1f !important; border: none; background: transparent; }
+        .nav-tabs > li > a::after { content: ""; background: #61c53c; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+    .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.tab-pane { padding: 5px 0; }
+.tab-content{padding:10px}
+
+.nav-tabs > li, .nav-pills > li {
+    float: none;
+    display: inline-block;
+    *display: inline; /* ie7 fix */
+    zoom: 1; /* hasLayout ie7 trigger */
+    width: 138px;
 }
 
-.tabs [class^="tab"] [type="radio"], .tabs [class*=" tab"] [type="radio"] {
-  border-bottom: 1px solid #dcdcdc;
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  display: block;
-  width: 100%;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+.nav-tabs, .nav-pills {
+    text-align:center;
 }
 
-.tabs [class^="tab"] [type="radio"]:hover, .tabs [class^="tab"] [type="radio"]:focus, .tabs [class*=" tab"] [type="radio"]:hover, .tabs [class*=" tab"] [type="radio"]:focus { border-bottom: 1px solid #61c53c; outline: none;}
-
-.tabs [class^="tab"] [type="radio"]:checked, .tabs [class*=" tab"] [type="radio"]:checked { border-bottom: 3px solid #61c53c; }
-
-.tabs [class^="tab"] [type="radio"]:checked + div, .tabs [class*=" tab"] [type="radio"]:checked + div { opacity: 1; }
-
-.tabs [class^="tab"] [type="radio"] + div, .tabs [class*=" tab"] [type="radio"] + div {
-  display: block;
-  opacity: 0;
-  padding: 2rem 0;
-  width: 90%;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+.file-upload {
+    position: relative;
+    overflow: hidden;
+    line-height: 22px;
+    width: 235px;
+    height: 39px;
+    display: inline-block;
 }
 
-.tabs .tab-2 { width: 50%; }
-
-.tabs .tab-2 [type="radio"] + div {
-  width: 200%;
-  margin-left: 200%;
+.file-upload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    height: 50px;
 }
-
-.tabs .tab-2 [type="radio"]:checked + div { margin-left: 0; }
-
-.tabs .tab-2:last-child [type="radio"] + div { margin-left: 100%; }
-
-.tabs .tab-2:last-child [type="radio"]:checked + div { margin-left: -100%; }

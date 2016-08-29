@@ -87,10 +87,7 @@
 .dealnet-button {
     box-sizing: border-box;
     display: inline-block;
-    text-align: center;
-    vertical-align: middle;
     background-repeat: no-repeat;
-    object-fit: contain;
 }
 
 .dealnet-button > p {

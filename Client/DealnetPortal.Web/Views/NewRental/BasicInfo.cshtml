@@ -52,65 +52,39 @@
                     <div class="dealnet-middle-header">Scan License</div>
                     <div class="dealnet-middle-header-2" id="you-want">How do you want to do this?</div>
 
-                    <div class="tabs" id="tabs">
-                        <div class="tab-2">
-                            <label for="tab2-1">Use Camera</label>
-                            <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Use Camera</a></li>
+                        <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Upload</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
                             <div id="capture-area">
                                 <video autoplay class="capture-frame" id="video"></video>
                                 <canvas id="capture-canvas" class="capture-frame"></canvas>
                                 <canvas id="big-capture-canvas"></canvas>
                                 <div id="capture-buttons">
-                                    <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
+                                    <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()" />
                                     <div id="capture-buttons-2">
                                         <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Save" onclick="uploadCaptured()" />
-                                        <div id="retake">Retake</div>
+                                        <div id="retake" onclick="retakePhoto()">Retake</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-2">
-                            <label for="tab2-2">Upload</label>
-                            <input id="tab2-2" name="tabs-two" type="radio">
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
                             <div id="upload-area">
                                 <div id="upload-buttons">
-                                    <input type="file" id="uploadFile" />
-                                    <button id="submitUpload" class="btn dealnet-button dealnet-green-button big-green-button">Upload</button>
+                                    <div class="file-upload btn dealnet-button dealnet-green-button">
+                                        <p class="dealnet-green-button-text">
+                                            <img src="~/content/images/upload.png">Upload Photo
+                                        </p>
+                                        <input type="file" class="upload" id="upload-file" onchange="submitUpload()" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>                       
                     </div>
-
-                    @*<ul class="nav nav-pills">
-                        <li role="presentation" class="active"><a href="#cameratab" aria-controls="cameratab" role="tab" data-toggle="tab">Use Camera</a></li>
-                        <li role="presentation"><a href="#uploadtab" aria-controls="uploadtab" role="tab" data-toggle="tab">Upload</a></li>
-                    </ul>*@
-                    <!-- Tab panes -->
-                    @*<div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="cameratab">*@
-                    @*<div id="Camera"></div>*@
-                    @*<video autoplay></video>
-                            <img src="">
-                            <canvas style="display: none;"></canvas>*@
-
-                    @*<video autoplay style="width:100%; height:auto;"></video>
-                            <canvas id="capture-canvas"></canvas>
-                            <canvas id="big-capture-canvas" width='1280' height='720'></canvas>
-                            <div>
-                                
-                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Capture" onclick="takePhoto()" />
-                                
-                                <input type="button" class="btn dealnet-button dealnet-green-button" value="Upload" onclick="uploadCaptured()" />
-                            </div>*@
-
-                    @*<input type="button" value="Shoot!" class="btn dealnet-button dealnet-green-button"
-                                   onclick="webcam.capture();"/>*@
-                    @*</div>*@
-                    @*<div role="tabpanel" class="tab-pane" id="uploadtab">
-                            <input type="file" id="uploadFile"/>
-                            <button id="submitUpload" class="btn dealnet-button dealnet-green-button" >Upload</button>                            
-                        </div>*@
-                    @*</div>*@
                 </div>
             </div>
         </div>
@@ -249,9 +223,6 @@
 
 @section scripts
 {
-    @*<script src="@Url.Content("~/Scripts/jquery.webcam.js")">
-    </script>*@
-
     <script>
         $("#capture-canvas").hide();
         $("#capture-buttons-2").hide();
@@ -262,10 +233,6 @@
 
         function takePhoto() {
             if (localMediaStream) {
-                //alert(video.offsetWidth);
-                //alert(video.offsetHeight);
-                //alert(video.videoHeight);
-                //alert(video.videoWidth);
                 canvas.width = video.offsetWidth;
                 canvas.height = video.offsetHeight;
                 bigCanvas.height = video.videoHeight;
@@ -273,12 +240,19 @@
                 var ctx = bigCanvas.getContext('2d');
                 ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
                 ctx = canvas.getContext('2d');
-                //$("#video").hide();
                 $("#capture-buttons-1").hide();
                 ctx.drawImage(video, 0, 0, video.offsetWidth, video.offsetHeight);
+                $("#video").hide();
                 $("#capture-canvas").show();
                 $("#capture-buttons-2").show();
             }
+        }
+
+        function retakePhoto() {
+            $("#capture-canvas").hide();
+            $("#capture-buttons-2").hide();
+            $("#video").show();
+            $("#capture-buttons-1").show();
         }
 
         $('#camera-modal').on('shown.bs.modal', function () {
@@ -302,10 +276,6 @@
             navigator.getUserMedia(constraints, function (stream) {
                 video.src = window.URL.createObjectURL(stream);
                 localMediaStream = stream;
-                //video.on('playing', function () {
-                //    alert(video.videoHeight);
-                //    alert(video.videoWidth);
-                //});
             }, function (e) {
                 console.log(e);
             });
@@ -331,32 +301,9 @@
                 window.location.href = "TestLicenseScanning";
             });
         }
-        //camera scripts
 
-
-        @*$("#Camera").webcam({
-            width: 570,
-            height: 400,
-            mode: "save",
-            swffile: "@Url.Content("~/Scripts/jscam.swf")",
-            onTick: function() {},
-            onSave: function() {
-                UploadPic();
-            },
-            onCapture: function() {
-                webcam.save("@Url.Content("TestScanPosting")/");
-            },
-            debug: function() {},
-            onLoad: function() {}
-        });
-
-        function UploadPic() {
-            window.location.href = "TestLicenseScanning";
-        }*@
-
-        $('#submitUpload').on('click', function(e) {
-            e.preventDefault();
-            var files = document.getElementById('uploadFile').files;
+        function submitUpload() {
+            var files = document.getElementById('upload-file').files;
             if (files.length > 0) {
                 if (window.FormData !== undefined) {
                     var data = new FormData();
@@ -383,8 +330,7 @@
                     alert("Browser doesn't support HTML5 file upload!");
                 }
             }
-        });
-
+        }
     </script>
 }
 
