@@ -2,15 +2,18 @@
 using System.IO;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
 {
     [TestClass]
     public class ScanProcessingServiceAgentTest
     {
+        private Mock<ILoggingService> _loggingService;
         private IHttpApiClient _client;
         private const string DefUserName = "user@ya.ru";
         private const string DefUserPassword = "123_Qwe";
@@ -18,6 +21,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestInitialize]
         public void Intialize()
         {
+            _loggingService = new Mock<ILoggingService>();
             string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];
             _client = new HttpApiClient(baseUrl);
         }
@@ -26,7 +30,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [Ignore]
         public void TestScanDriverLicense()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var authResult = securityServiceAgent.Authenicate(DefUserName, DefUserPassword).GetAwaiter().GetResult();
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 

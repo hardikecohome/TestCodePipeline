@@ -17,6 +17,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
+    //[Authorize]
     public class NewRentalController : Controller
     {
         private readonly IScanProcessingServiceAgent _serviceAgent;
