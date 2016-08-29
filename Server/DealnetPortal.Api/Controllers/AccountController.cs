@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -14,6 +15,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Api.Providers;
 using DealnetPortal.Api.Results;
 using DealnetPortal.Domain;
@@ -31,13 +33,14 @@ namespace DealnetPortal.Api.Controllers
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
         private ILoggingService _loggingService;
-        //private readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private AuthType _authType;
 
         public AccountController()
         {
             _loggingService =
                 (ILoggingService)
                     GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (ILoggingService));
+            InitController();
         }
 
         public AccountController(ApplicationUserManager userManager,
@@ -48,6 +51,15 @@ namespace DealnetPortal.Api.Controllers
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
             _loggingService = loggingService;
+            InitController();            
+        }
+
+        private void InitController()
+        {
+            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
+            {
+                _authType = AuthType.AuthProvider;
+            }
         }
 
         public ApplicationUserManager UserManager
@@ -387,17 +399,20 @@ namespace DealnetPortal.Api.Controllers
             }
 
             _loggingService.LogInfo(string.Format("Recieved request for register user {0}", model.Email));
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-            var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };            
             try
-            {            
-                IdentityResult result = await this.UserManager.CreateAsync(user, oneTimePass);
+            {
+                var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
+
+                string password = _authType == AuthType.AuthProviderOneStepRegister ? model.Password : oneTimePass;
+
+                IdentityResult result = await this.UserManager.CreateAsync(user, password);
                 _loggingService.LogInfo("DB entry for an user created");
-                if (result.Succeeded)
+                if (result.Succeeded && _authType != AuthType.AuthProviderOneStepRegister)
                 {
                     await this.UserManager.SendEmailAsync(user.Id,
-                       "Your one-time password",
-                       $"This is your one-time password: {oneTimePass}\r\n Please use it to login the protal, and then you will be prompted to change the password.");
+                            "Your one-time password",
+                            $"This is your one-time password: {oneTimePass}\r\n Please use it to login the protal, and then you will be prompted to change the password.");
                     _loggingService.LogInfo("Confirmation email sended");
                 }
                 else

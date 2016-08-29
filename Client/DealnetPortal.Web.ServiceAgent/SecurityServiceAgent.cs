@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Enumeration;
+using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Models;
@@ -21,12 +22,14 @@ namespace DealnetPortal.Web.ServiceAgent
     public class SecurityServiceAgent : ApiBase, ISecurityServiceAgent
     {
         private readonly Uri _loginUri;
+        private readonly ILoggingService _loggingService;
 
-        public SecurityServiceAgent(IHttpApiClient client)
+        public SecurityServiceAgent(IHttpApiClient client, ILoggingService loggingService)
             : base(client, string.Empty)
         {
             var baseUri = Client.Client.BaseAddress;
             _loginUri = new Uri(baseUri.GetLeftPart(UriPartial.Authority) + "/Token");
+            _loggingService = loggingService;
         }
 
         /// <summary>
@@ -67,6 +70,10 @@ namespace DealnetPortal.Web.ServiceAgent
                     {
                         claims.Add(new Claim(ClaimTypes.Name, returnedName));
                     }
+                    else
+                    {
+                        claims.Add(new Claim(ClaimTypes.Name, userName));
+                    }
 
                     var identity = new UserIdentity(claims) {Token = results["access_token"]};
                     user = new UserPrincipal(identity);
@@ -92,9 +99,10 @@ namespace DealnetPortal.Web.ServiceAgent
                 alerts.Add(new Alert()
                 {
                     Type = AlertType.Error,
+                    Header = "An error occurred during authentication",
                     Message = ex.ToString(),                    
                 });
-                //TODO: log error
+                _loggingService.LogError("An error occurred during authentication", ex);                
                 //return null;
             }
             return new Tuple<IPrincipal, IList<Alert>>(user, alerts);

@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
 {
     [TestClass]
     public class UserManagementServiceAgentTest
     {
+        private Mock<ILoggingService> _loggingService;
         private IHttpApiClient _client;
         private const string DefUserName = "user@ya.ru";
         private const string DefUserPassword = "123_Qwe";
@@ -19,6 +23,8 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestInitialize]
         public void Intialize()
         {
+            _loggingService = new Mock<ILoggingService>();
+
             string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];
             _client = new HttpApiClient(baseUrl);
         }
@@ -35,7 +41,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public async Task TestAuthorizedLogout()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var result = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Item1);

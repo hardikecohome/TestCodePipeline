@@ -22,7 +22,7 @@ namespace DealnetPortal.Web.Common.Api
                 BaseAddress = new Uri(baseAddress),
                 Timeout = Timeout.InfiniteTimeSpan
             };
-            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
+            //Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
         }
 
         public Uri ConstructUrl(string requestUri)

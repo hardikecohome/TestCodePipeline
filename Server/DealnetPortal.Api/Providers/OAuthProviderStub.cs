@@ -26,9 +26,12 @@ namespace DealnetPortal.Api.Providers
             {
                 var clientName = context.UserName ?? DefaultClientName;
                 var oAuthIdentity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+                var nameIdentifier = Guid.NewGuid().ToString();
                 oAuthIdentity.AddClaim(new Claim(ClaimTypes.Name, clientName));
+                oAuthIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, nameIdentifier));
                 ClaimsIdentity cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
                 cookiesIdentity.AddClaim(new Claim(ClaimTypes.Name, clientName));
+                cookiesIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, nameIdentifier));
                 IDictionary<string, string> data = new Dictionary<string, string>
                 {
                     { "userName", clientName }
