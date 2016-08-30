@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace DealnetPortal.Domain
 {
     public class ContractAddress
-    {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [ForeignKey("Contract")]
+    {        
         public int Id { get; set; }
         [MinLength(2)]
         [MaxLength(20)]
@@ -22,7 +20,7 @@ namespace DealnetPortal.Domain
         public string City { get; set; }
         public string Province { get; set; }
         public string PostalCode { get; set; }
-
+        [Required]
         public Contract Contract { get; set; }
     }
 }

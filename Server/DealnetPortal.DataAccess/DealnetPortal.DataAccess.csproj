@@ -63,11 +63,26 @@
     <Compile Include="Migrations\201608291241162_InitialCreate.Designer.cs">
       <DependentUpon>201608291241162_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608301457538_migration1.cs" />
+    <Compile Include="Migrations\201608301457538_migration1.Designer.cs">
+      <DependentUpon>201608301457538_migration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608301507117_remove addresses table.cs" />
+    <Compile Include="Migrations\201608301507117_remove addresses table.Designer.cs">
+      <DependentUpon>201608301507117_remove addresses table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\ContractRepository.cs" />
+    <Compile Include="Repositories\IContractRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Api.Models\DealnetPortal.Api.Models.csproj">
+      <Project>{68167614-D9F6-48BC-AF28-1519BA5C67FD}</Project>
+      <Name>DealnetPortal.Api.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Domain\DealnetPortal.Domain.csproj">
       <Project>{E19A2AB3-216E-45E0-BA5B-9211B2D112E3}</Project>
       <Name>DealnetPortal.Domain</Name>
@@ -80,6 +95,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608291241162_InitialCreate.resx">
       <DependentUpon>201608291241162_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608301457538_migration1.resx">
+      <DependentUpon>201608301457538_migration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608301507117_remove addresses table.resx">
+      <DependentUpon>201608301507117_remove addresses table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
