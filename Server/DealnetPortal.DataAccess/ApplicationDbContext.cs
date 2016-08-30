@@ -20,6 +20,14 @@ namespace DealnetPortal.DataAccess
 
         public DbSet<HomeOwner> HomeOwners { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+            //modelBuilder.Entity<Contract>()
+            //    .HasMany<HomeOwner>(c => c.HomeOwners).WithRequired(ho => ho.Contract).WillCascadeOnDelete(true);
+            base.OnModelCreating(modelBuilder);
+        }
+
         //public DbSet<ContractAddress> ContractAddresses { get; set; }
     }
 }

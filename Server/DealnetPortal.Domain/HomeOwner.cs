@@ -19,6 +19,8 @@ namespace DealnetPortal.Domain
         [MaxLength(100)]
         public string LastName { get; set; }
         [Required]
-        public DateTime DateOfBirth { get; set; }        
+        public DateTime DateOfBirth { get; set; }
+        [Required]
+        public Contract Contract { get; set; }
     }
 }

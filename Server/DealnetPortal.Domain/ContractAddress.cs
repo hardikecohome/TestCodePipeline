@@ -10,6 +10,7 @@ namespace DealnetPortal.Domain
 {
     public class ContractAddress
     {        
+        [ForeignKey("Contract")]
         public int Id { get; set; }
         [MinLength(2)]
         [MaxLength(20)]

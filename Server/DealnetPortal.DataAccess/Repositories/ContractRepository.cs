@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Security.Policy;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Enums;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -53,10 +56,23 @@ namespace DealnetPortal.DataAccess.Repositories
             return deleted;
         }
 
+        public bool CleanContract(string contractOwnerId, int contractId)
+        {
+            bool cleaned = false;
+            var contract = _dbContext.Contracts.FirstOrDefault(c => c.Dealer.Id == contractOwnerId && c.Id == contractId);
+            if (contract != null)
+            {
+                contract.ContractAddress = null;
+                contract.HomeOwners.ForEach(ho => _dbContext.Entry(ho).State = EntityState.Deleted);
+                cleaned = true;
+            }
+            return cleaned;
+        }
+
         public Contract UpdateContract(Contract contract)
         {
             contract.ContractState = ContractState.InProgress;
-            //_dbContext.Entry(contract).State = EntityState.Modified;
+            _dbContext.Entry(contract).State = EntityState.Modified;
             return contract;
         }
 
@@ -70,32 +86,15 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     if (contractData.ContractAddress != null)
                     {
-                        ContractAddress address;
-                        if (contract.ContractAddress != null)
-                        {
-                            address = contract.ContractAddress;
-                            //_dbContext.Entry(address).State = EntityState.Modified;                        
-                        }
-                        else
-                        {
-                            address = new ContractAddress()
-                            {
-                                Contract = contract
-                            };
-                            //_dbContext.ContractAddresses.Add(address);
-                        }
-                        address.City = contractData.ContractAddress.City;
-                        address.PostalCode = contractData.ContractAddress.PostalCode;
-                        address.Street = contractData.ContractAddress.Street;
-                        address.Province = contractData.ContractAddress.Province;
-                        address.Unit = contractData.ContractAddress.Unit;
-                        //_dbContext.ContractAddresses.AddOrUpdate(address);
-
+                        AddOrUpdateContractAddress(contract, contractData.ContractAddress);
+                        contract.ContractState = ContractState.InProgress;                        
                         updated = true;
                     }
-                    if (contractData.HomeOwners != null && contractData.HomeOwners.Any())
+                    if (contractData.HomeOwners != null)
                     {
-                        //???                    
+                        AddOrUpdateContractHomeOwners(contract, contractData.HomeOwners);
+                        contract.ContractState = ContractState.InProgress;
+                        updated = true;
                     }
                 }
             }
@@ -110,6 +109,43 @@ namespace DealnetPortal.DataAccess.Repositories
         public ContractData GetContractData(int contractId)
         {
             throw new System.NotImplementedException();
+        }
+
+        private Contract AddOrUpdateContractAddress(Contract contract, ContractAddress contractAddress)
+        {
+            ContractAddress address;
+            if (contract.ContractAddress != null)
+            {
+                address = contractAddress;
+                _dbContext.Entry(address).State = EntityState.Modified;                        
+            }
+            else
+            {
+                address = new ContractAddress()
+                {
+                    Contract = contract
+                };
+            }
+            address.City = contractAddress.City;
+            address.PostalCode = contractAddress.PostalCode;
+            address.Street = contractAddress.Street;
+            address.Province = contractAddress.Province;
+            address.Unit = contractAddress.Unit;
+            contract.ContractAddress = address;
+            return contract;
+        }
+
+        private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<HomeOwner> homeOwners)
+        {            
+            contract.HomeOwners.ForEach(entry => contract.HomeOwners.Remove(entry));
+            //homeOwners.ForEach(ho => contract.HomeOwners.Add(ho));
+
+            //var updatedEntities =
+            //    homeOwners.Where(
+            //        ho => _dbContext.Entry(ho).State == EntityState.Modified || _dbContext.Entry(ho).State == EntityState.Unchanged).ToList();
+            //contract.HomeOwners.Except(updatedEntities).ToList().ForEach(entry => contract.HomeOwners.Remove(entry));
+            //homeOwners.Except(updatedEntities).ForEach(entry => contract.HomeOwners.Add(entry));            
+            return contract;
         }
     }
 }
