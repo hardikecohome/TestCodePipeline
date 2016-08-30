@@ -184,3 +184,15 @@
     filter: alpha(opacity=0);
     height: 50px;
 }
+
+/*.pac-item > span:last-child {
+    display: none;
+}*/
+
+.pac-icon {
+    display: none;
+}
+
+.pac-item {
+    padding-left: 12px;
+}
