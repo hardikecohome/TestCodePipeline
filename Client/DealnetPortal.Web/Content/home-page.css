@@ -1,0 +1,14 @@
+﻿.dealnet-page-button {
+    height: 90px;
+    width: 100%;
+    border-radius: 4px;
+    background-color: #61c53c;
+    box-shadow: 0 1px 0 0 #42a01f;
+    line-height: 90px;
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+}
