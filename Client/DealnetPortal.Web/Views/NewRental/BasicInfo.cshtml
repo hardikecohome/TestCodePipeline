@@ -37,11 +37,11 @@
 
     <div class="row" id="scanlicense-button">
         <div class="col-md-3 col-lg-3">
-            <button type="button" id="scan-btn" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#camera-modal">
+            <div type="button" id="scan-btn" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#camera-modal">
                 <p class="dealnet-green-button-text">
                     <img src="~/content/images/scan-license.png">Scan License
                 </p>
-            </button>
+            </div>
         </div>
     </div>
 
@@ -113,9 +113,9 @@
 
     <div class="row">
         <div class="col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12">
+            <div class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" onclick="autodetectAddress()">
                 <p class="dealnet-green-button-text"><img src="~/content/images/get-location.png">Get My Location</p>
-            </button>
+            </div>
         </div>
     </div>
 
@@ -130,18 +130,18 @@
         </div>
         <div class="col-md-4 col-lg-4">
             City
-            <input type="text" class="form-control dealnet-input" id="address-input3" placeholder="Ottawa"/>
+            <input type="text" class="form-control dealnet-input" id="locality" placeholder="Ottawa"/>
         </div>
     </div>
 
     <div class="row" id="address-info2">
         <div class="col-md-4 col-lg-4">
             Province
-            <input type="text" class="form-control dealnet-input" id="address-input4" placeholder="Nepean"/>
+            <input type="text" class="form-control dealnet-input" id="administrative_area_level_1" placeholder="Nepean"/>
         </div>
         <div class="col-md-4 col-lg-4">
             Postal Code
-            <input type="text" class="form-control dealnet-input" id="address-input5" placeholder="12345"/>
+            <input type="text" class="form-control dealnet-input" id="postal_code" placeholder="12345"/>
         </div>
         <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
             <p>
@@ -208,9 +208,9 @@
     $("#clear-address").click(function() {
         document.getElementById('address-input1').value = '';
         document.getElementById('address-input2').value = '';
-        document.getElementById('address-input3').value = '';
-        document.getElementById('address-input4').value = '';
-        document.getElementById('address-input5').value = '';
+        document.getElementById('locality').value = '';
+        document.getElementById('administrative_area_level_1').value = '';
+        document.getElementById('postal_code').value = '';
     });
     $("#clear-mailing-address").click(function() {
         document.getElementById('mailing-address-input1').value = '';
@@ -255,7 +255,7 @@
             $("#capture-buttons-1").show();
         }
 
-        $('#camera-modal').on('shown.bs.modal', function () {
+        $('#camera-modal').on('shown.bs.modal', function() {
             var constraints = {
                 audio: false,
                 video: {
@@ -273,15 +273,15 @@
                     ]
                 }
             };
-            navigator.getUserMedia(constraints, function (stream) {
+            navigator.getUserMedia(constraints, function(stream) {
                 video.src = window.URL.createObjectURL(stream);
                 localMediaStream = stream;
-            }, function (e) {
+            }, function(e) {
                 console.log(e);
             });
         });
-        
-        $('#camera-modal').on('hidden.bs.modal', function () {
+
+        $('#camera-modal').on('hidden.bs.modal', function() {
             video.pause();
             localMediaStream.stop();
         });
@@ -297,7 +297,7 @@
                 data: {
                     imgBase64: dataUrl
                 }
-            }).done(function (o) {
+            }).done(function(o) {
                 window.location.href = "TestLicenseScanning";
             });
         }
@@ -328,6 +328,70 @@
                     });
                 } else {
                     alert("Browser doesn't support HTML5 file upload!");
+                }
+            }
+        }
+    </script>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=initGoogleServices" async defer></script>
+
+    <script type="text/javascript">
+        var placeSearch, autocomplete, geocoder;
+        var addressForm = {
+            street_number: 'short_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            postal_code: 'short_name'
+        };
+        function initGoogleServices() {
+            geocoder = new google.maps.Geocoder;
+        }
+        function autodetectAddress() {
+            if (geocoder) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                        geocoder.geocode({
+                            'latLng': latlng
+                        }, function (results, status) {
+                            if (status === google.maps.GeocoderStatus.OK) {
+                                if (results[0]) {
+                                    var street;
+                                    for (var i = 0; i < results[0].address_components.length; i++) {
+                                        var addressType = results[0].address_components[i].types[0];
+                                        if (addressForm[addressType]) {
+                                            var val = results[0].address_components[i][addressForm[addressType]];
+                                            if (addressType == 'street_number') {
+                                                if (!street) {
+                                                    street = val;
+                                                } else {
+                                                    street += ", " + val;
+                                                }
+                                                continue;
+                                            }
+                                            if (addressType == 'route') {
+                                                if (!street) {
+                                                    street = val;
+                                                } else {
+                                                    street = val + ", " + street;
+                                                }
+                                                continue;
+                                            }
+                                            document.getElementById(addressType).value = val;
+                                        }
+                                    }
+                                    if (street) {
+                                        document.getElementById('address-input1').value = street;
+                                    }
+                                } else {
+                                    console.log('No results by Location service');
+                                }
+                            } else {
+                                console.log('Geocoder failed due to: ' + status);
+                            }
+                        });
+                    });
                 }
             }
         }
