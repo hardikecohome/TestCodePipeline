@@ -12,12 +12,12 @@ namespace DealnetPortal.DataAccess.Repositories
 
         bool DeleteContract(string contractOwnerId, int contractId);
 
+        bool CleanContract(string contractOwnerId, int contractId);
+
         Contract UpdateContract(Contract contract);
 
         bool UpdateContractData(ContractData contractData);
 
         Contract GetContract(int contractId);
-
-        ContractData GetContractData(int contractId);
     }
 }
