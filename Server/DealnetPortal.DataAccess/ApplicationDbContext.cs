@@ -20,6 +20,6 @@ namespace DealnetPortal.DataAccess
 
         public DbSet<HomeOwner> HomeOwners { get; set; }
 
-        public DbSet<ContractAddress> ContractAddresses { get; set; }
+        //public DbSet<ContractAddress> ContractAddresses { get; set; }
     }
 }

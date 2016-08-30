@@ -15,12 +15,12 @@ namespace DealnetPortal.Domain
             HomeOwners = new List<HomeOwner>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
         public int Id { get; set; }
 
         public ApplicationUser Dealer { get; set; }
         public ContractState ContractState { get; set; }
-        public ContractAddress Address { get; set; }
+        public ContractAddress ContractAddress { get; set; }
 
         public ICollection<HomeOwner> HomeOwners { get; set; }
     }

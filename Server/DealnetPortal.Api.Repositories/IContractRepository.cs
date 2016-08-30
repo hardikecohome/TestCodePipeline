@@ -8,5 +8,6 @@ namespace DealnetPortal.Api.Repositories
 {
     public interface IContractRepository
     {
+
     }
 }
