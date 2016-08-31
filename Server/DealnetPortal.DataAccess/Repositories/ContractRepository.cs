@@ -115,7 +115,15 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public ContractData GetContractData(int contractId)
         {
-            throw new System.NotImplementedException();
+            ContractData contractData = new ContractData()
+            {
+                Id = contractId
+            };
+            var contract = GetContractAsUntracked(contractId);
+            contractData.ContractAddress = contract.ContractAddress;
+            contractData.HomeOwners = contract.HomeOwners.ToList();       
+
+            return contractData;
         }
 
         private Contract AddOrUpdateContractAddress(Contract contract, ContractAddress contractAddress)
