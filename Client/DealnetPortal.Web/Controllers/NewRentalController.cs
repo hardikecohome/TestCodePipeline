@@ -30,79 +30,42 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> TestScanPosting(string imgBase64)
+        [HttpPost]
+        public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
         {
             if (imgBase64 == null)
             {
-                Session["ScannedErrors"] = new List<Alert> {new Alert {Type = AlertType.Error, Header = "noimagedata_submitted", Message = "No image was uploaded"} };
-                return RedirectToAction("TestLicenseScanning");
+                return GetErrorJson();
             }
             imgBase64 = imgBase64.Replace("data:image/png;base64,", "");
             imgBase64 = imgBase64.Replace(' ', '+');
-
             var bytes = Convert.FromBase64String(imgBase64);
             var scanningRequest = new ScanningRequest()
             {
                 ImageForReadRaw = bytes
             };
-
             var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
-            Session["ScannedInfo"] = result.Item1;
-            Session["ScannedErrors"] = result.Item2;
-
-            return RedirectToAction("TestLicenseScanning");
-        }
-
-        public async Task<ActionResult> RecognizeDriverLicense()
-        {
-            ScanningRequest scanningRequest = (ScanningRequest)Session["ScanningRequest"];
-            var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
-            Session["ScannedInfo"] = result.Item1;
-            Session["ScannedErrors"] = result.Item2;
-            return RedirectToAction("TestLicenseScanning");
-        }        
+            return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
+        }       
 
         [HttpPost]
-        public JsonResult UploadDriverLicensePhoto()
+        public async Task<JsonResult> RecognizeDriverLicensePhoto()
         {
-            if (Request.Files != null && Request.Files.Count > 0)
+            if (Request.Files == null || Request.Files.Count <= 0)
             {
-                var file = Request.Files[0];
-                byte[] data = new byte[file.ContentLength];
-                file.InputStream.Read(data, 0, file.ContentLength);
-
-                ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
-                Session["ScanningRequest"] = scanningRequest;
-                //var result = _serviceAgent.ScanDriverLicense(scanningRequest).GetAwaiter().GetResult();                
-                return Json(new
-                {
-                    redirectUrl = Url.Action("RecognizeDriverLicense", "NewRental"),
-                    isRedirect = true
-                });
+                return GetErrorJson();
             }
-            return Json(new {isRedirect = false});            
+            var file = Request.Files[0];
+            byte[] data = new byte[file.ContentLength];
+            file.InputStream.Read(data, 0, file.ContentLength);
+            ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
+            var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
+            return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
 
-
-        public ActionResult TestLicenseScanning()
+        private JsonResult GetErrorJson()
         {
-            var driverLicenseData = (DriverLicenseData)Session["ScannedInfo"];
-            var errors = (IList<Alert>)Session["ScannedErrors"];
-            var driverLicenseViewModel = AutoMapper.Mapper.Map<DriverLicenseViewModel>(new Tuple<DriverLicenseData, IList<Alert>>(driverLicenseData, errors));
-            return View(driverLicenseViewModel);
-        }
-
-        private byte[] String_To_Bytes2(string strInput)
-        {
-            int numBytes = (strInput.Length) / 2;
-            byte[] bytes = new byte[numBytes];
-
-            for (int x = 0; x < numBytes; ++x)
-            {
-                bytes[x] = Convert.ToByte(strInput.Substring(x * 2, 2), 16);
-            }
-
-            return bytes;
+            return Json(new { isError = true });
         }
     }
 }

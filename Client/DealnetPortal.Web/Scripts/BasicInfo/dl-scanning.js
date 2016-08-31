@@ -55,9 +55,13 @@ $('#camera-modal').on('shown.bs.modal', function() {
     });
 });
 
-$('#camera-modal').on('hidden.bs.modal', function() {
-    video.pause();
-    localMediaStream.stop();
+$('#camera-modal').on('hidden.bs.modal', function () {
+    if (video) {
+        video.pause();
+    }
+    if (localMediaStream && localMediaStream.stop) {
+        localMediaStream.stop();
+    }
 });
 
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -67,13 +71,25 @@ function uploadCaptured() {
     var dataUrl = bigCanvas.toDataURL();
     $.ajax({
         type: "POST",
-        url: "/NewRental/TestScanPosting/",
+        url: document.getElementById('upload-capture').getAttribute("data-uploadUrl"),
         data: {
-        imgBase64: dataUrl
-        }
-}).done(function(o) {
-    window.location.href = "/NewRental/TestLicenseScanning";
-});
+            imgBase64: dataUrl
+        },
+        success: function(json) {
+            if (json.isError) {
+                alert("Can't recognize driver license");
+            } else {
+                document.getElementById('first-name').value = json.FirstName;
+                document.getElementById('last-name').value = json.LastName;
+                var date = new Date(parseInt(json.DateOfBirth.substr(6)));
+                document.getElementById('birth-date').value = date;
+                $('#camera-modal').modal('hide');
+            }
+        },
+    error: function(xhr, status, p3) {
+        alert(xhr.responseText);
+    }
+    });
 }
 
 function submitUpload() {
@@ -92,8 +108,14 @@ function submitUpload() {
                 processData: false,
                 data: data,
                 success: function(json) {
-                    if (json.isRedirect) {
-                        window.location.href = json.redirectUrl;
+                    if (json.isError) {
+                        alert("Can't recognize driver license");
+                    } else {
+                        document.getElementById('first-name').value = json.FirstName;
+                        document.getElementById('last-name').value = json.LastName;
+                        var date = new Date(parseInt(json.DateOfBirth.substr(6)));
+                        document.getElementById('birth-date').value = date;
+                        $('#camera-modal').modal('hide');
                     }
                 },
                 error: function(xhr, status, p3) {

@@ -273,7 +273,6 @@
     <Content Include="Views\NewRental\BasicInfo.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\LoginButtons.cshtml" />
-    <Content Include="Views\NewRental\TestLicenseScanning.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

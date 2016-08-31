@@ -66,7 +66,7 @@
                                 <div id="capture-buttons">
                                     <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
                                     <div id="capture-buttons-2">
-                                        <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" value="Save" onclick="uploadCaptured()"/>
+                                        <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" id="upload-capture" data-uploadUrl="@Url.Action("RecognizeDriverLicense", "NewRental")" value="Save" onclick="uploadCaptured()"/>
                                         <div id="retake" onclick="retakePhoto()">Retake</div>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                         <p class="dealnet-green-button-text">
                                             <img src="~/content/images/upload.png">Upload Photo
                                         </p>
-                                        <input type="file" class="upload" id="upload-file" data-uploadUrl="@Url.Action("UploadDriverLicensePhoto", "NewRental")" onchange="submitUpload()"/>
+                                        <input type="file" class="upload" id="upload-file" data-uploadUrl="@Url.Action("RecognizeDriverLicensePhoto", "NewRental")" onchange="submitUpload()"/>
                                     </div>
                                 </div>
                             </div>
@@ -93,15 +93,15 @@
     <div class="row" id="owner-info">
         <div class="col-md-4 col-lg-4">
             First Name
-            <input type="text" class="form-control dealnet-input" placeholder="First Name"/>
+            <input type="text" class="form-control dealnet-input" id="first-name" placeholder="First Name"/>
         </div>
         <div class="col-md-4 col-lg-4">
             Last Name
-            <input type="text" class="form-control dealnet-input" placeholder="Last Name"/>
+            <input type="text" class="form-control dealnet-input" id="last-name" placeholder="Last Name"/>
         </div>
         <div class="col-md-4 col-lg-4">
             Date of Birth
-            <input type="date" class="form-control dealnet-input" placeholder="mm/dd/yyyy"/>
+            <input type="text" class="form-control dealnet-input" id="birth-date" placeholder="mm/dd/yyyy"/>
         </div>
     </div>
 
