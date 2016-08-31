@@ -21,6 +21,7 @@ namespace DealnetPortal.Api
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DatabaseConfig.Initialize();
+            AutoMapperConfig.Configure();
         }
     }
 }

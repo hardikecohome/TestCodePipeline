@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using DealnetPortal.Domain;
+using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api.Providers
 {
@@ -56,7 +57,7 @@ namespace DealnetPortal.Api.Providers
             //context.OwinContext.Response.Headers.Append("user", "userHeader");
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-               OAuthDefaults.AuthenticationType);
+               OAuthDefaults.AuthenticationType);                        
 
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);

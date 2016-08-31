@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DealnetPortal.Api.Models.Enumeration;
+
+namespace DealnetPortal.Api.Models.Contract
+{
+    public class ContractDTO
+    {
+        public ContractDTO()
+        {
+            HomeOwners = new List<HomeOwnerDTO>();
+        }
+        public int Id { get; set; }
+
+        public ContractState ContractState { get; set; }
+
+        public ContractAddressDTO ContractAddress { get; set; }
+
+        public List<HomeOwnerDTO> HomeOwners { get; set; }
+    }
+}
