@@ -229,20 +229,18 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
+    <Content Include="Scripts\BasicInfo\basic-info.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
-    <Content Include="Scripts\bower.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\BasicInfo\dl-scanning.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jquery.webcam.js" />
-    <Content Include="Scripts\jquery.webcam.min.js" />
-    <Content Include="Scripts\jscam.swf" />
-    <Content Include="Scripts\jscam_canvas_only.swf" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -275,8 +273,6 @@
     <Content Include="Views\NewRental\BasicInfo.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\LoginButtons.cshtml" />
-    <Content Include="Scripts\Makefile" />
-    <Content Include="Scripts\webcam.jquery.json" />
     <Content Include="Views\NewRental\TestLicenseScanning.cshtml" />
   </ItemGroup>
   <ItemGroup>
