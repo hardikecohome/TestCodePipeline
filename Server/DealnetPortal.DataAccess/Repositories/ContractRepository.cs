@@ -44,6 +44,18 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
+        public Contract GetContract(int contractId)
+        {
+            return _dbContext.Contracts.Include(c => c.HomeOwners).
+                FirstOrDefault(c => c.Id == contractId);
+        }
+
+        public Contract GetContractAsUntracked(int contractId)
+        {
+            return _dbContext.Contracts.Include(c => c.HomeOwners).AsNoTracking().
+                FirstOrDefault(c => c.Id == contractId);
+        }
+
         public bool DeleteContract(string contractOwnerId, int contractId)
         {
             bool deleted = false;
@@ -99,12 +111,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
             return updated;
-        }        
-
-        public Contract GetContract(int contractId)
-        {
-            return _dbContext.Contracts.FirstOrDefault(c => c.Id == contractId);
-        }
+        }                
 
         public ContractData GetContractData(int contractId)
         {
@@ -136,16 +143,20 @@ namespace DealnetPortal.DataAccess.Repositories
         }
 
         private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<HomeOwner> homeOwners)
-        {            
-            contract.HomeOwners.ForEach(entry => contract.HomeOwners.Remove(entry));
-            //homeOwners.ForEach(ho => contract.HomeOwners.Add(ho));
+        {
+            var existingEntities =
+                contract.HomeOwners.Where(
+                    ho => homeOwners.Any(cho => cho.Id == ho.Id)).ToList();
 
-            //var updatedEntities =
-            //    homeOwners.Where(
-            //        ho => _dbContext.Entry(ho).State == EntityState.Modified || _dbContext.Entry(ho).State == EntityState.Unchanged).ToList();
-            //contract.HomeOwners.Except(updatedEntities).ToList().ForEach(entry => contract.HomeOwners.Remove(entry));
-            //homeOwners.Except(updatedEntities).ForEach(entry => contract.HomeOwners.Add(entry));            
+            var entriesForDelete = contract.HomeOwners.Except(existingEntities);
+            _dbContext.HomeOwners.RemoveRange(entriesForDelete);
+            homeOwners.ForEach(ho =>
+            {
+                ho.Contract = contract;
+                _dbContext.HomeOwners.AddOrUpdate(ho);
+            });
+                              
             return contract;
-        }
+        }        
     }
 }

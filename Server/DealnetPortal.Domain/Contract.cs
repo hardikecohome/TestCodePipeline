@@ -22,6 +22,6 @@ namespace DealnetPortal.Domain
         public ContractState ContractState { get; set; }
         public ContractAddress ContractAddress { get; set; }
 
-        public ICollection<HomeOwner> HomeOwners { get; set; }
+        public virtual ICollection<HomeOwner> HomeOwners { get; set; }
     }
 }
