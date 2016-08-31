@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Policy;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Enums;
 using Microsoft.Practices.ObjectBuilder2;

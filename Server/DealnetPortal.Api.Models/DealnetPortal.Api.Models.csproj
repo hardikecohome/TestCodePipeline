@@ -43,9 +43,12 @@
   <ItemGroup>
     <Compile Include="AccountBindingModels.cs" />
     <Compile Include="Alert.cs" />
-    <Compile Include="ContractData.cs" />
+    <Compile Include="Contract\ContractAddressDTO.cs" />
+    <Compile Include="Contract\ContractDTO.cs" />
+    <Compile Include="Contract\HomeOwnerDTO.cs" />
     <Compile Include="Enumeration\AlertType.cs" />
     <Compile Include="Enumeration\AuthType.cs" />
+    <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />
@@ -56,6 +59,7 @@
       <Name>DealnetPortal.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy $(TargetPath)  ..\..\..\..\lib\  /y/q/r/c</PostBuildEvent>

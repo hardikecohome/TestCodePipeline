@@ -2,6 +2,7 @@ using Microsoft.Practices.Unity;
 using System.Web.Http;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.DataAccess;
+using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
 using Unity.WebApi;
 
@@ -28,6 +29,8 @@ namespace DealnetPortal.Api
 
             container.RegisterType<IDatabaseFactory, DatabaseFactory>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
+
+            container.RegisterType<IContractRepository, ContractRepository>();
 
             container.RegisterType<AccountController>(new InjectionConstructor());
         }

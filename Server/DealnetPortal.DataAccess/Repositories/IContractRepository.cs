@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 
 namespace DealnetPortal.DataAccess.Repositories
