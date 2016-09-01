@@ -6,7 +6,8 @@
     public enum ContractState
     {
         Started = 0,
-        InProgress = 1,
-        Completed = 2
+        CustomerInfoInputted = 1,
+        CreditContirmed = 2,
+        Completed = 3
     }
 }

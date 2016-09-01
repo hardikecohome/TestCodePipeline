@@ -14,9 +14,11 @@ namespace DealnetPortal.Domain.Enums
     {
         [Description("Started to fill new contract")]
         Started = 0,
-        [Description("Contract in progress, some data have been filled")]
-        InProgress = 1,
+        [Description("Client data inputted")]
+        CustomerInfoInputted = 1,
+        [Description("Credit check confirmed")]
+        CreditContirmed = 2,
         [Description("Contract filled and sent to Aspire")]
-        Completed = 2
+        Completed = 3
     }
 }
