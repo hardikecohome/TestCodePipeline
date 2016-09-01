@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Api.Models.Scanning;
 using Inlite.ClearImageNet;
 
-namespace DealnetPortal.Api.Integration
+namespace DealnetPortal.Api.Integration.Services
 {
     /// <summary>
     /// Read, recognize and extract data from images manager
     /// </summary>
-    public class ImageScanManager
+    public class ImageScanService
     {
         /// <summary>
         /// Recognize Driver License image

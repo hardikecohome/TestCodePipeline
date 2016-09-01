@@ -29,6 +29,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract = new Contract()
                     {
                         ContractState = ContractState.Started,
+                        CreationTime = DateTime.Now,
                         Dealer = dealer
                     };
                     _dbContext.Contracts.Add(contract);
@@ -41,6 +42,14 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var contracts = _dbContext.Contracts.Where(c => c.Dealer.Id == ownerUserId).ToList();
             return contracts;
+        }
+
+        public Contract UpdateContractState(int contractId, ContractState newState)
+        {            
+            var contract = GetContract(contractId);
+            contract.ContractState = newState;
+            contract.LastUpdateTime = DateTime.Now;
+            return contract;
         }
 
         public Contract GetContract(int contractId)
@@ -84,6 +93,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             contract.ContractState = ContractState.CustomerInfoInputted;
             _dbContext.Entry(contract).State = EntityState.Modified;
+            contract.LastUpdateTime = DateTime.Now;
             return contract;
         }
 
@@ -98,13 +108,15 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.ContractAddress != null)
                     {
                         AddOrUpdateContractAddress(contract, contractData.ContractAddress);
-                        contract.ContractState = ContractState.CustomerInfoInputted;                        
+                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
                         updated = true;
                     }
                     if (contractData.Customers != null)
                     {
                         AddOrUpdateContractHomeOwners(contract, contractData.Customers);
                         contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
                         updated = true;
                     }
                 }
@@ -125,7 +137,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
 
             return contract;
-        }
+        }        
 
         public ContractData GetContractData(int contractId)
         {

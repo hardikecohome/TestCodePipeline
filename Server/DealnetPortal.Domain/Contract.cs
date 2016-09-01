@@ -22,6 +22,10 @@ namespace DealnetPortal.Domain
         public ContractState ContractState { get; set; }
         public ContractAddress ContractAddress { get; set; }
 
+        public DateTime CreationTime { get; set; }
+
+        public DateTime? LastUpdateTime { get; set; }
+
         public virtual ICollection<Customer> Customers { get; set; }
     }
 }
