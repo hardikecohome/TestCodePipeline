@@ -18,13 +18,13 @@ namespace DealnetPortal.DataAccess
 
         public DbSet<Contract> Contracts { get; set; }
 
-        public DbSet<HomeOwner> HomeOwners { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
             //modelBuilder.Entity<Contract>()
-            //    .HasMany<HomeOwner>(c => c.HomeOwners).WithRequired(ho => ho.Contract).WillCascadeOnDelete(true);
+            //    .HasMany<Customer>(c => c.Customers).WithRequired(ho => ho.Contract).WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
 

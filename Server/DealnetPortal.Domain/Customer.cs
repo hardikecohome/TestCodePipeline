@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Domain
 {
-    public class HomeOwner
+    public class Customer
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

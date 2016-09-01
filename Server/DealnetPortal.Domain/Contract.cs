@@ -12,7 +12,7 @@ namespace DealnetPortal.Domain
     {
         public Contract()
         {
-            HomeOwners = new List<HomeOwner>();
+            Customers = new List<Customer>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
@@ -22,6 +22,6 @@ namespace DealnetPortal.Domain
         public ContractState ContractState { get; set; }
         public ContractAddress ContractAddress { get; set; }
 
-        public virtual ICollection<HomeOwner> HomeOwners { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }

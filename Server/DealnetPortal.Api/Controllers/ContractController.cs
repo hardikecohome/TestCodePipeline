@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Web.Http;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
-using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
@@ -42,7 +41,7 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateContract(ContractData contractData)
+        public IHttpActionResult UpdateContract(ContractDTO contractData)
         {
             throw new NotImplementedException();
         }
