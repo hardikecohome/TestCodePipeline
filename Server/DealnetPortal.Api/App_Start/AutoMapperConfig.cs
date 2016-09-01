@@ -23,19 +23,19 @@ namespace DealnetPortal.Api.App_Start
         private static void MapDomainsToModels(IMapperConfigurationExpression mapperConfig)
         {
             mapperConfig.CreateMap<ContractAddress, ContractAddressDTO>();
-            mapperConfig.CreateMap<HomeOwner, HomeOwnerDTO>();
+            mapperConfig.CreateMap<Customer, CustomerDTO>();
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.ContractAddress, o => o.MapFrom(src => src.ContractAddress))
-                .ForMember(x => x.HomeOwners, o => o.MapFrom(src => src.HomeOwners));
+                .ForMember(x => x.Customers, o => o.MapFrom(src => src.Customers));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
         {
             mapperConfig.CreateMap<ContractAddressDTO, ContractAddress>();
-            mapperConfig.CreateMap<HomeOwnerDTO, HomeOwner>();
+            mapperConfig.CreateMap<CustomerDTO, Customer>();
             mapperConfig.CreateMap<ContractDTO, ContractData>()
                 .ForMember(x => x.ContractAddress, o => o.MapFrom(src => src.ContractAddress))
-                .ForMember(x => x.HomeOwners, o => o.MapFrom(src => src.HomeOwners));
+                .ForMember(x => x.Customers, o => o.MapFrom(src => src.Customers));
         }
 
     }

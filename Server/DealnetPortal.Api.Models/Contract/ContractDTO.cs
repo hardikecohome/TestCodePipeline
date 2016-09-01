@@ -11,7 +11,7 @@ namespace DealnetPortal.Api.Models.Contract
     {
         public ContractDTO()
         {
-            HomeOwners = new List<HomeOwnerDTO>();
+            Customers = new List<CustomerDTO>();
         }
         public int Id { get; set; }
 
@@ -19,6 +19,6 @@ namespace DealnetPortal.Api.Models.Contract
 
         public ContractAddressDTO ContractAddress { get; set; }
 
-        public List<HomeOwnerDTO> HomeOwners { get; set; }
+        public List<CustomerDTO> Customers { get; set; }
     }
 }

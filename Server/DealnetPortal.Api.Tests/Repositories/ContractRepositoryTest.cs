@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -20,9 +22,16 @@ namespace DealnetPortal.Api.Tests.Repositories
         private IContractRepository _contractRepository;
         private ApplicationUser _user;
 
+        public TestContext TestContext { get; set; }
+        [ClassInitialize]
+        public static void SetUp(TestContext context)
+        {
+            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(context.TestDeploymentDir, string.Empty));
+        }
+
         [TestInitialize]
         public void Intialize()
-        {
+        {            
             Database.SetInitializer(
                 new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
 
@@ -96,15 +105,15 @@ namespace DealnetPortal.Api.Tests.Repositories
             contract = _contractRepository.GetContract(contract.Id);
             Assert.IsNull(contract.ContractAddress);
 
-            contract.HomeOwners = new List<HomeOwner>()
+            contract.Customers = new List<Customer>()
             {
-                new HomeOwner()
+                new Customer()
                 {
                     FirstName = "Fst1",
                     LastName = "Lst1",
                     DateOfBirth = DateTime.Today
                 },
-                new HomeOwner()
+                new Customer()
                 {
                     FirstName = "Fst2",
                     LastName = "Lst2",
@@ -114,7 +123,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             _contractRepository.UpdateContract(contract);
             _unitOfWork.Save();            
             contract = _contractRepository.GetContract(contract.Id);
-            Assert.AreEqual(contract.HomeOwners.Count, 2);
+            Assert.AreEqual(contract.Customers.Count, 2);
 
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();
@@ -143,15 +152,15 @@ namespace DealnetPortal.Api.Tests.Repositories
             _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contractData.ContractAddress = null;
-            contractData.HomeOwners = new List<HomeOwner>()
+            contractData.Customers = new List<Customer>()
             {
-                new HomeOwner()
+                new Customer()
                 {
                     FirstName = "Fst1",
                     LastName = "Lst1",
                     DateOfBirth = DateTime.Today
                 },
-                new HomeOwner()
+                new Customer()
                 {
                     FirstName = "Fst2",
                     LastName = "Lst2",
@@ -161,22 +170,22 @@ namespace DealnetPortal.Api.Tests.Repositories
             _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.HomeOwners.Count, 2);
+            Assert.AreEqual(contract.Customers.Count, 2);
 
-            var owners = contract.HomeOwners;
+            var owners = contract.Customers;
             owners.Remove(owners.First());
             owners.Last().FirstName = "Name changed";
-            owners.Add(new HomeOwner()
+            owners.Add(new Customer()
             {
                 FirstName = "Fst3",
                 LastName = "Lst3",
                 DateOfBirth = DateTime.Today
             });            
-            contractData.HomeOwners = owners.ToList();
+            contractData.Customers = owners.ToList();
             _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.HomeOwners.Count, 2);            
+            Assert.AreEqual(contract.Customers.Count, 2);            
 
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();

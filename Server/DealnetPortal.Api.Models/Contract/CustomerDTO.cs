@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Contract
 {
-    public class HomeOwnerDTO
+    public class CustomerDTO
     {        
         public string FirstName { get; set; }
         [Required]

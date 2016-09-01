@@ -52,7 +52,7 @@
     <Compile Include="ContractAddress.cs" />
     <Compile Include="ContractData.cs" />
     <Compile Include="Enums\ContractState.cs" />
-    <Compile Include="HomeOwner.cs" />
+    <Compile Include="Customer.cs" />
     <Compile Include="LoggedInUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -363,7 +363,7 @@
       <Name>DealnetPortal.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Domain\DealnetPortal.Domain.csproj">
-      <Project>{e19a2ab3-216e-45e0-ba5b-9211b2d112e3}</Project>
+      <Project>{E19A2AB3-216E-45E0-BA5B-9211B2D112E3}</Project>
       <Name>DealnetPortal.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Utilities\DealnetPortal.Utilities.csproj">
