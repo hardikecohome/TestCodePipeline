@@ -120,6 +120,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Repositories\ContractRepositoryTest.cs" />
     <Compile Include="TrdPartySDKs\MailGunTest.cs" />
+    <Compile Include="MappingTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
