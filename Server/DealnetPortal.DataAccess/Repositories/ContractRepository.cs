@@ -110,7 +110,22 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
             return updated;
-        }                
+        }
+
+        public Contract UpdateContractClientData(int contractId, ContractAddress contractAddress, IList<Customer> customers)
+        {
+            var contract = GetContract(contractId);
+            if (contractAddress != null)
+            {
+                AddOrUpdateContractAddress(contract, contractAddress);
+            }
+            if (customers != null)
+            {
+                AddOrUpdateContractHomeOwners(contract, customers);
+            }
+
+            return contract;
+        }
 
         public ContractData GetContractData(int contractId)
         {
@@ -149,15 +164,15 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<Customer> homeOwners)
+        private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<Customer> customers)
         {
             var existingEntities =
                 contract.Customers.Where(
-                    ho => homeOwners.Any(cho => cho.Id == ho.Id)).ToList();
+                    ho => customers.Any(cho => cho.Id == ho.Id)).ToList();
 
             var entriesForDelete = contract.Customers.Except(existingEntities);
             _dbContext.Customers.RemoveRange(entriesForDelete);
-            homeOwners.ForEach(ho =>
+            customers.ForEach(ho =>
             {
                 ho.Contract = contract;
                 _dbContext.Customers.AddOrUpdate(ho);
