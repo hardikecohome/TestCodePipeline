@@ -9,6 +9,7 @@ namespace DealnetPortal.Api.Models.Contract
 {
     public class CustomerDTO
     {        
+        public int Id { get; set; }
         public string FirstName { get; set; }
         [Required]
         [MaxLength(100)]
