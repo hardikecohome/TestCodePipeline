@@ -9,4 +9,8 @@
             window.location.href = $(this).find('a').attr('href');
         });
 
+        $('.dealnet-page-button').click(function () {
+            window.location.href = $(this).find('a').attr('href');
+        });
+
     });

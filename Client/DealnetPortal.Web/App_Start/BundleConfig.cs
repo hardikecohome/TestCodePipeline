@@ -22,16 +22,22 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
+            bundles.Add(new ScriptBundle("~/bundles/libs").Include(
+                     "~/Scripts/datatables/jquery.dataTables.js", "~/Scripts/chart.js"));
             bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
                      "~/Scripts/layout.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
                      "~/Scripts/BasicInfo", "*.js"));
+                     "~/Scripts/layout.js", "~/Scripts/home-page.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/layout.css", 
-                      "~/Content/theme.css","~/Content/Navbar-fixed-side.css"));
+                      "~/Content/layout.css",
+                      "~/Content/theme.css",
+                      "~/Content/Navbar-fixed-side.css",
+                      "~/Content/home-page.css",
+                      "~/Content/datatables/css/jquery.dataTables.css"));
         }
     }
 }
