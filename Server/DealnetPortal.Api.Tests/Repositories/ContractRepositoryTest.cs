@@ -26,7 +26,7 @@ namespace DealnetPortal.Api.Tests.Repositories
         [ClassInitialize]
         public static void SetUp(TestContext context)
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(context.TestDeploymentDir, string.Empty));
+            AppDomain.CurrentDomain.SetData("DataDirectory", context.TestDeploymentDir);
         }
 
         [TestInitialize]

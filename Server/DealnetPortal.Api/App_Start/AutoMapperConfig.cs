@@ -35,7 +35,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Id, o => o.Ignore())
                 .ForMember(x => x.Contract, o => o.Ignore());
             mapperConfig.CreateMap<CustomerDTO, Customer>()
-                .ForMember(d => d.Id, s => s.Ignore())
                 .ForMember(d => d.Contract, s => s.Ignore());
             mapperConfig.CreateMap<ContractDTO, ContractData>()
                 .ForMember(x => x.ContractAddress, o => o.MapFrom(src => src.ContractAddress))

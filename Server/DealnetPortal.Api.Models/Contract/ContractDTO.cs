@@ -19,6 +19,10 @@ namespace DealnetPortal.Api.Models.Contract
 
         public ContractAddressDTO ContractAddress { get; set; }
 
+        public DateTime CreationTime { get; set; }
+
+        public DateTime? LastUpdateTime { get; set; }
+
         public List<CustomerDTO> Customers { get; set; }
     }
 }
