@@ -82,7 +82,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public Contract UpdateContract(Contract contract)
         {
-            contract.ContractState = ContractState.InProgress;
+            contract.ContractState = ContractState.CustomerInfoInputted;
             _dbContext.Entry(contract).State = EntityState.Modified;
             return contract;
         }
@@ -98,13 +98,13 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.ContractAddress != null)
                     {
                         AddOrUpdateContractAddress(contract, contractData.ContractAddress);
-                        contract.ContractState = ContractState.InProgress;                        
+                        contract.ContractState = ContractState.CustomerInfoInputted;                        
                         updated = true;
                     }
                     if (contractData.Customers != null)
                     {
                         AddOrUpdateContractHomeOwners(contract, contractData.Customers);
-                        contract.ContractState = ContractState.InProgress;
+                        contract.ContractState = ContractState.CustomerInfoInputted;
                         updated = true;
                     }
                 }
