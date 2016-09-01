@@ -149,10 +149,11 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Id = contract.Id,
                 ContractAddress = address
             };
-            _contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractClientData(contract.Id, address, null);
+            //_contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contractData.ContractAddress = null;
-            contractData.Customers = new List<Customer>()
+            var customers = new List<Customer>()
             {
                 new Customer()
                 {
@@ -167,7 +168,9 @@ namespace DealnetPortal.Api.Tests.Repositories
                     DateOfBirth = DateTime.Today
                 }
             };
-            _contractRepository.UpdateContractData(contractData);
+            contractData.Customers = customers;
+            //_contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractClientData(contract.Id, null, customers);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
             Assert.AreEqual(contract.Customers.Count, 2);
@@ -182,10 +185,12 @@ namespace DealnetPortal.Api.Tests.Repositories
                 DateOfBirth = DateTime.Today
             });            
             contractData.Customers = owners.ToList();
-            _contractRepository.UpdateContractData(contractData);
+            //_contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractClientData(contract.Id, null, owners.ToList());
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.Customers.Count, 2);            
+            Assert.AreEqual(contract.Customers.Count, 2);
+            Assert.AreEqual(contract.Customers.First().FirstName, "Name changed");
 
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();
