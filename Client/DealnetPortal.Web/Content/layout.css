@@ -1,5 +1,9 @@
 ﻿.navbar { background-color: #4c423e; }
 
+.dealnet-home-page > .row {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 
 .navbar-header {
     background-color: #32201D;
