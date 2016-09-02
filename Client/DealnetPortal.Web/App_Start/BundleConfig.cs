@@ -23,20 +23,26 @@ namespace DealnetPortal.Web
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
             bundles.Add(new ScriptBundle("~/bundles/libs").Include(
-                     "~/Scripts/datatables/jquery.dataTables.js", "~/Scripts/chart.js","~/Scripts/datatables/datatables.responsive.js", "~/Scripts/datatables/responsive.bootstrap.js"));
+                     "~/Scripts/chart.js",
+                     "~/Scripts/DataTables/jquery.dataTables.js",
+                     "~/Scripts/datatables/dataTables.bootstrap.js",
+                     "~/Scripts/datatables/dataTables.responsive.js")
+                     );
             bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
                      "~/Scripts/layout.js", "~/Scripts/home-page.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
                      "~/Scripts/BasicInfo", "*.js").Include("~/Scripts/jquery-ui-1.12.0.js"));                    
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/datatables/css/jquery.dataTables.css",
-                "~/Content/datatables/css/responsive.bootstrap.css",
+
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/layout.css",
                       "~/Content/theme.css",
                       "~/Content/Navbar-fixed-side.css",
+                      "~/Content/datatables/css/jquery.dataTables.css",
+                "~/Content/datatables/css/dataTables.bootstrap.css",
+                "~/Content/datatables/css/responsive.bootstrap.css",
                       "~/Content/home-page.css"
                       ));
         }

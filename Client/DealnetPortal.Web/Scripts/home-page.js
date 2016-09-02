@@ -30,10 +30,17 @@ function showChart() {
                             chart.destroy();
                         }
                         var canvas = document.getElementById("data-flow-overview");
-                        chart = new Chart(canvas, {
+                        chart = new Chart(canvas,
+                        {
                             type: 'bar',
                             data: data,
                             options: {
+                                tooltips: {
+                                    backgroundColor: 'rgba(0, 0, 0, 1)',
+                                    titleFontColor: '#1f1f1f',
+                                    bodyFontColor: '#1f1f1f',
+                                    cornerRadius: 4
+                                },
                                 legend: {
                                     display: false
                                 },
@@ -75,5 +82,7 @@ function showTable() {
                     { title: "Date" }
                 ]
             });
+        $('.paginate_button.previous a').text('<');
+        $('.paginate_button.next a').text('>');
     });
 };
