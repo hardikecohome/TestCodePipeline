@@ -1,4 +1,10 @@
-﻿.navbar { background-color: #4c423e; }
+﻿.body {
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.navbar { background-color: #4c423e; }
 
 .dealnet-home-page > .row {
     margin-top: 15px;

@@ -59,6 +59,10 @@ namespace DealnetPortal.Web.Controllers
                     {
                         foreach (var month in DateTimeFormatInfo.CurrentInfo.MonthNames)
                         {
+                            if (string.IsNullOrEmpty(month))
+                            {
+                                continue;
+                            }
                             data.Add(rand.Next(1, 100));
                             labels.Add(month);
                         }

@@ -1,4 +1,6 @@
-﻿$(document)
+﻿var chart = null;
+
+$(document)
     .ready(function () {
         showChart();
         showTable();
@@ -14,7 +16,7 @@
 
 
 function showChart() {
-    $.when($.ajax('/reports/DealFlowOverview',
+    $.when($.ajax('/client/reports/DealFlowOverview',
                 {
                     mode: 'GET',
                     data: {
@@ -23,8 +25,12 @@ function showChart() {
                 })
                     )
                     .done(function (data) {
+
+                        if (chart) {
+                            chart.destroy();
+                        }
                         var canvas = document.getElementById("data-flow-overview");
-                        var chart = new Chart(canvas, {
+                        chart = new Chart(canvas, {
                             type: 'bar',
                             data: data,
                             options: {
@@ -49,7 +55,7 @@ function showChart() {
 };
 
 function showTable() {
-    $.when($.ajax('/reports/WorkItems', { mode: 'GET' }))
+    $.when($.ajax('/client/reports/WorkItems', { mode: 'GET' }))
     .done(function (data) {
         $('#work-items-table').DataTable({
             'data': data,
