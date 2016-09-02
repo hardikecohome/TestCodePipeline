@@ -46,7 +46,7 @@
         <div class="col-xs-12 col-md-3 col-lg-3">
             <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
                 <p class="dealnet-green-button-text">
-                    <img src="~/content/images/icon-scan-licen.png">Scan License
+                    <img src="~/content/images/icon-scan-licen.png">Scan Licence
                 </p>
             </div>
         </div>
@@ -122,7 +122,7 @@
             <div class="col-xs-12 col-md-3 col-lg-3">
                 <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional1-scan-button" data-toggle="modal" data-target="#camera-modal">
                     <p class="dealnet-green-button-text">
-                        <img src="~/content/images/icon-scan-licen.png">Scan License
+                        <img src="~/content/images/icon-scan-licen.png">Scan Licence
                     </p>
                 </div>
             </div>
@@ -154,7 +154,7 @@
             <div class="col-xs-12 col-md-3 col-lg-3">
                 <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
                     <p class="dealnet-green-button-text">
-                        <img src="~/content/images/icon-scan-licen.png">Scan License
+                        <img src="~/content/images/icon-scan-licen.png">Scan Licence
                     </p>
                 </div>
             </div>
@@ -186,7 +186,7 @@
             <div class="col-xs-12 col-md-3 col-lg-3">
                 <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional3-scan-button" data-toggle="modal" data-target="#camera-modal">
                     <p class="dealnet-green-button-text">
-                        <img src="~/content/images/icon-scan-licen.png">Scan License
+                        <img src="~/content/images/icon-scan-licen.png">Scan Licence
                     </p>
                 </div>
             </div>
@@ -217,7 +217,7 @@
             </div>
         </div>
 
-        <p id="address-info-label" class="dealnet-middle-header">Adress Information</p>
+        <p id="address-info-label" class="dealnet-middle-header">Address Information</p>
 
         <div class="row">
             <div class="col-xs-12 col-md-3 col-lg-3">
@@ -231,7 +231,7 @@
 
         <div class="row" id="address-info1">
             <div class="col-md-6 col-lg-6">
-                Installation Adress
+                Installation Address
                 @Html.TextBoxFor(m => m.AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
                 @Html.ValidationMessageFor(m => m.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
             </div>
@@ -266,13 +266,13 @@
         </div>
 
         <p id="mailing-adress-different">
-            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" />Mailing adress is different
+            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" />Mailing address is different
         </p>
 
         <div id="mailing-adress">
             <div class="row" id="mailing-adress1">
                 <div class="col-md-6 col-lg-6">
-                    Mailing Adress
+                    Mailing Address
                     @Html.TextBoxFor(m => m.MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
                     @Html.ValidationMessageFor(m => m.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
                 </div>
