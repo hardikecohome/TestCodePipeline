@@ -1,51 +1,58 @@
-﻿﻿@Styles.Render("~/Content/basic-info.css")
+﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
 
-@Html.ActionLink("New Rental", "BasicInfo", null, new {@class = "dealnet-action-link"}) >
+﻿@Styles.Render("~/Content/basic-info.css")
+
+<div id="label-steps">
+    <div class="dealnet-action-link">New Rental</div> >
+</div>
+
 
 <div class="dealnet-large-header" id="basic-info">Basic Info</div>
 
+<div id="steps-line"></div>
 <div class="row" id="steps">
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <div class="dealnet-empty-circle">
-            <div class="dealnet-green-circle">1</div>
-        </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <a href="@Url.Action("BasicInfo")">
+            <div class="dealnet-empty-circle">
+                <div class="dealnet-green-circle">1</div>
+            </div>
+        </a>
     </div>
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <div class="step-centered">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step2">
             <div class="dealnet-empty-circle">2</div>
         </div>
-    </div>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-        <div class="step-centered">
+        <div id="step3">
             <div class="dealnet-empty-circle">3</div>
         </div>
     </div>
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <div class="step-centered">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step4">
             <div class="dealnet-empty-circle">4</div>
         </div>
     </div>
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div id="step5">
             <div class="dealnet-empty-circle">5</div>
         </div>
     </div>
 </div>
 
-<form>
-    <div class="dealnet-middle-header" id="owner-info-label">Home Owner Information</div>
+@using (Html.BeginForm())
+{
+    <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 
-    <div class="row" id="scanlicense-button">
-        <div class="col-md-3 col-lg-3">
-            <div type="button" id="scan-btn" class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" data-toggle="modal" data-target="#camera-modal">
+    <div class="row scanlicense-button">
+        <div class="col-xs-12 col-md-3 col-lg-3">
+            <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
                 <p class="dealnet-green-button-text">
-                    <img src="~/content/images/scan-license.png">Scan License
+                    <img src="~/content/images/icon-scan-licen.png">Scan License
                 </p>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="camera-modal" role="dialog">
+    <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -90,119 +97,218 @@
         </div>
     </div>
 
-    <div class="row" id="owner-info">
+    <div class="row owner-info">
         <div class="col-md-4 col-lg-4">
             First Name
-            <input type="text" class="form-control dealnet-input" id="first-name" placeholder="First Name"/>
+            @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = "First Name" })
+            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-4 col-lg-4">
             Last Name
-            <input type="text" class="form-control dealnet-input" id="last-name" placeholder="Last Name"/>
+            @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name" })
+            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-4 col-lg-4">
             Date of Birth
-            <input type="text" class="form-control dealnet-input" id="birth-date" placeholder="mm/dd/yyyy"/>
+            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy" })
+            @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div id="add-additional-applicant" onclick="">
-        <p><img src="~/Content/images/add-app.png"/>Add additional applicant
-        </p>
-    </div>
+    <div id="additional1-section">
+        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional1-remove">x</div></div>
 
-    <p id="address-info-label" class="dealnet-middle-header">Adress Information</p>
+        <div class="row scanlicense-button">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional1-scan-button" data-toggle="modal" data-target="#camera-modal">
+                    <p class="dealnet-green-button-text">
+                        <img src="~/content/images/icon-scan-licen.png">Scan License
+                    </p>
+                </div>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col-md-3 col-lg-3">
-            <div class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12" onclick="autodetectAddress()">
-                <p class="dealnet-green-button-text"><img src="~/content/images/get-location.png">Get My Location
-                </p>
+        <div class="row owner-info">
+            <div class="col-md-4 col-lg-4">
+                First Name
+                <input type="text" class="form-control dealnet-input" id="additional-first-name-1" placeholder="First Name" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+                Last Name
+                <input type="text" class="form-control dealnet-input" id="additional-last-name-1" placeholder="Last Name" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+                Date of Birth
+                <input type="text" class="form-control dealnet-input" id="additional-birth-date-1" placeholder="mm/dd/yyyy" />
             </div>
         </div>
     </div>
 
-    <div class="row" id="address-info1">
-        <div class="col-md-6 col-lg-6">
-            Installation Adress
-            <input type="text" class="form-control dealnet-input" id="street" placeholder="St."/>
+    <div id="additional2-section">
+        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional2-remove">x</div></div>
+
+        <div class="row scanlicense-button">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
+                    <p class="dealnet-green-button-text">
+                        <img src="~/content/images/icon-scan-licen.png">Scan License
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2 col-lg-2">
-            Unit #
-            <input type="text" class="form-control dealnet-input" id="unit_number" placeholder="12345"/>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            City
-            <input type="text" class="form-control dealnet-input" id="locality" placeholder="Ottawa"/>
+
+        <div class="row owner-info">
+            <div class="col-md-4 col-lg-4">
+                First Name
+                <input type="text" class="form-control dealnet-input" id="additional-first-name-2" placeholder="First Name" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+                Last Name
+                <input type="text" class="form-control dealnet-input" id="additional-last-name-2" placeholder="Last Name" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+                Date of Birth
+                <input type="text" class="form-control dealnet-input" id="additional-birth-date-2" placeholder="mm/dd/yyyy" />
+            </div>
         </div>
     </div>
 
-    <div class="row" id="address-info2">
-        <div class="col-md-4 col-lg-4">
-            Province
-            <input type="text" class="form-control dealnet-input" id="administrative_area_level_1" placeholder="Nepean"/>
+    <div id="additional3-section">
+        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional3-remove">x</div></div>
+
+        <div class="row scanlicense-button">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional3-scan-button" data-toggle="modal" data-target="#camera-modal">
+                    <p class="dealnet-green-button-text">
+                        <img src="~/content/images/icon-scan-licen.png">Scan License
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 col-lg-4">
-            Postal Code
-            <input type="text" class="form-control dealnet-input" id="postal_code" placeholder="12345"/>
-        </div>
-        <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
-            <p>
-                <div class="dealnet-gray-circle">x</div>
-                Clear Address
-            </p>
+
+        <div class="row owner-info">
+            <div class="col-md-4 col-lg-4">
+                First Name
+                <input type="text" class="form-control dealnet-input" id="additional-first-name-3" placeholder="First Name" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+                Last Name
+                <input type="text" class="form-control dealnet-input" id="additional-last-name-3" placeholder="Last Name" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+                Date of Birth
+                <input type="text" class="form-control dealnet-input" id="additional-birth-date-3" placeholder="mm/dd/yyyy" />
+            </div>
         </div>
     </div>
 
-    <p id="mailing-adress-different"><input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox"/>Mailing adress is different
-    </p>
+    <div id="add-additional-applicant">
+            <div>
+                <img src="~/Content/images/add-app.png" />Add additional applicant
+            </div>
+        </div>
 
-    <div id="mailing-adress">
-        <div class="row" id="mailing-adress1">
+        <p id="address-info-label" class="dealnet-middle-header">Adress Information</p>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <div class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" onclick="autodetectAddress()">
+                    <p class="dealnet-green-button-text">
+                        <img src="~/content/images/get-location.png">Get My Location
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="address-info1">
             <div class="col-md-6 col-lg-6">
-                Mailing Adress
-                <input type="text" class="form-control dealnet-input" id="mailing_street" placeholder="St."/>
+                Installation Adress
+                @Html.TextBoxFor(m => m.AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
+                @Html.ValidationMessageFor(m => m.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-2 col-lg-2">
                 Unit #
-                <input type="text" class="form-control dealnet-input" id="mailing_unit_number" placeholder="12345"/>
+                @Html.TextBoxFor(m => m.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
             </div>
             <div class="col-md-4 col-lg-4">
                 City
-                <input type="text" class="form-control dealnet-input" id="mailing_locality" placeholder="Ottawa"/>
+                @Html.TextBoxFor(m => m.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
+                @Html.ValidationMessageFor(m => m.AddressInformation.City, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="row" id="mailing-adress2">
+        <div class="row" id="address-info2">
             <div class="col-md-4 col-lg-4">
                 Province
-                <input type="text" class="form-control dealnet-input" id="mailing_administrative_area_level_1" placeholder="Nepean"/>
+                @Html.TextBoxFor(m => m.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
+                @Html.ValidationMessageFor(m => m.AddressInformation.Province, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Postal Code
-                <input type="text" class="form-control dealnet-input" id="mailing_postal_code" placeholder="12345"/>
+                @Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code", placeholder = "12345" })
+                @Html.ValidationMessageFor(m => m.AddressInformation.PostalCode, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-mailing-address">
+            <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
                 <p>
                     <div class="dealnet-gray-circle">x</div>
                     Clear Address
                 </p>
             </div>
         </div>
-    </div>
 
-    <div class="row" id="saveproceed-button">
-        <div class="col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-green-button col-lg-12 col-md-12">
-                <p class="dealnet-green-button-text">Save and Proceed</p>
-            </button>
+        <p id="mailing-adress-different">
+            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" />Mailing adress is different
+        </p>
+
+        <div id="mailing-adress">
+            <div class="row" id="mailing-adress1">
+                <div class="col-md-6 col-lg-6">
+                    Mailing Adress
+                    <input type="text" class="form-control dealnet-input" id="mailing_street" placeholder="St." />
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    Unit #
+                    <input type="text" class="form-control dealnet-input" id="mailing_unit_number" placeholder="12345" />
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    City
+                    <input type="text" class="form-control dealnet-input" id="mailing_locality" placeholder="Ottawa" />
+                </div>
+            </div>
+
+            <div class="row" id="mailing-adress2">
+                <div class="col-md-4 col-lg-4">
+                    Province
+                    <input type="text" class="form-control dealnet-input" id="mailing_administrative_area_level_1" placeholder="Nepean" />
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    Postal Code
+                    <input type="text" class="form-control dealnet-input" id="mailing_postal_code" placeholder="12345" />
+                </div>
+                <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-mailing-address">
+                    <p>
+                        <div class="dealnet-gray-circle">x</div>
+                        Clear Address
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-</form>
 
+        <div class="row" id="saveproceed-button">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <button class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
+                    <p class="dealnet-green-button-text">Save and Proceed</p>
+                </button>
+            </div>
+        </div>
+}
+
+<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
 @Scripts.Render("~/bundles/basic-info")
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=initGoogleServices" async defer></script>
 }
 

@@ -188,6 +188,7 @@
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewRentalViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +345,7 @@
     <Content Include="Content\home-page.css" />
     <Content Include="Content\images\add-app%402x.png" />
     <Content Include="Content\images\add-app%403x.png" />
+    <Content Include="Content\images\add-app-hover.svg" />
     <Content Include="Content\images\add-app.png" />
     <Content Include="Content\images\add-app.svg" />
     <Content Include="Content\images\get-location%402x.png" />
@@ -374,6 +376,10 @@
     <Content Include="Content\images\icon-reports-btn.svg" />
     <Content Include="Content\images\icon-reports.png" />
     <Content Include="Content\images\icon-reports.svg" />
+    <Content Include="Content\images\icon-scan-licen%402x.png" />
+    <Content Include="Content\images\icon-scan-licen%403x.png" />
+    <Content Include="Content\images\icon-scan-licen.png" />
+    <Content Include="Content\images\icon-scan-licen.svg" />
     <Content Include="Content\images\logo-eco-home%402x.png" />
     <Content Include="Content\images\logo-eco-home%403x.png" />
     <Content Include="Content\images\logo-eco-home.png" />
@@ -482,6 +488,8 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.0.js" />
+    <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\home-page.js" />
     <Content Include="Scripts\BasicInfo\dl-scanning.js" />
@@ -524,6 +532,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\themes\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\Rentals\" />

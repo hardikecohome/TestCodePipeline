@@ -79,10 +79,11 @@ function uploadCaptured() {
             if (json.isError) {
                 alert("Can't recognize driver license");
             } else {
-                document.getElementById('first-name').value = json.FirstName;
-                document.getElementById('last-name').value = json.LastName;
+                var modal = document.getElementById('camera-modal');
+                document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
+                document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                 var date = new Date(parseInt(json.DateOfBirth.substr(6)));
-                document.getElementById('birth-date').value = date;
+                document.getElementById(modal.getAttribute('data-bdToFill')).value = date;
                 $('#camera-modal').modal('hide');
             }
         },
@@ -111,10 +112,11 @@ function submitUpload() {
                     if (json.isError) {
                         alert("Can't recognize driver license");
                     } else {
-                        document.getElementById('first-name').value = json.FirstName;
-                        document.getElementById('last-name').value = json.LastName;
+                        var modal = document.getElementById('camera-modal');
+                        document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
+                        document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(parseInt(json.DateOfBirth.substr(6)));
-                        document.getElementById('birth-date').value = date;
+                        $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
                         $('#camera-modal').modal('hide');
                     }
                 },
@@ -122,6 +124,7 @@ function submitUpload() {
                     alert(xhr.responseText);
                 }
             });
+            $("#upload-file").val("");
         } else {
             alert("Browser doesn't support HTML5 file upload!");
         }

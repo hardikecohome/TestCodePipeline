@@ -27,7 +27,7 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
                      "~/Scripts/layout.js", "~/Scripts/home-page.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
-                     "~/Scripts/BasicInfo", "*.js"));                    
+                     "~/Scripts/BasicInfo", "*.js").Include("~/Scripts/jquery-ui-1.12.0.js"));                    
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
