@@ -41,6 +41,15 @@
   box-shadow: 0 1px 0 0 #42a01f;
 }
 
+    .dealnet-green-button:hover {
+        background-color: #4fb12b;
+    }
+
+    .dealnet-green-button:active {
+        background-color: #4fb12b;
+        box-shadow: none;
+    }
+
 .dealnet-green-button-text {
   font-family: Lato;
   font-size: 14px;
@@ -53,6 +62,7 @@
   font-size: 12px;
   font-weight: 400;
   color: #38aaee;
+  display: inline-block;
 }
 
 .dealnet-large-header {
@@ -151,17 +161,19 @@
 .dealnet-empty-circle {
     height: 50px;
     width: 50px;
+    min-width: 50px;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
     border-radius: 50%;
-    background: transparent;
+    background: white;
     color: #dcdcdc;
     border: solid 1px #dcdcdc;
     font-family: Lato;
     font-size: 20px;
     font-weight: 700;
     text-align: center;
+    cursor: pointer;
 }
 
 .dealnet-green-circle {
@@ -194,9 +206,19 @@
     margin-top: 17px;
 }
 
-.step-centered {
-  display: table;
-  margin: 0 auto;
+#step2 {
+    display: inline-block;
+    margin-left: -30px;
+}
+
+#step3 {
+    float: right;
+    margin-right: -40px;
+}
+
+#step4 {
+    float: right;
+    margin-right: -30px;
 }
 
 #step5 {
@@ -206,6 +228,41 @@
 #steps-line {
     height: 1px;
     background-color: #dcdcdc;
+    margin-top: 42px; 
+    margin-bottom: -42px;
 }
+
+/*@media (max-width: 768px) {
+    [class*="col-"] {
+        margin-bottom: 16px;
+    }
+}*/
+
+/*@media (min-width: 768px) 
+{ 
+    div[class^="col"]{padding-left:10px; padding-right:10px;}
+    .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+}
+
+@media (min-width: 992px) 
+{   
+    div[class^="col"]{padding-left:10px; padding-right:10px;}
+    .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+}
+
+@media (min-width: 1200px) 
+{
+    div[class^="col"]{padding-left:10px; padding-right:10px;}
+    .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+}*/
 
 
