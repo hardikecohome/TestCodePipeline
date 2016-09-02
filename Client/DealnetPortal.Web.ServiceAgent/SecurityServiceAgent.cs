@@ -26,8 +26,15 @@ namespace DealnetPortal.Web.ServiceAgent
             : base(client, string.Empty)
         {
             var baseUri = Client.Client.BaseAddress;
-            _loginUri = new Uri(baseUri.GetLeftPart(UriPartial.Authority) + "/Token");
-        }
+            try
+            {
+                _loginUri = new Uri(baseUri.AbsoluteUri.Replace("/api", "") + "/Token");
+            }
+            catch (Exception)
+            {
+                _loginUri = new Uri(baseUri.GetLeftPart(UriPartial.Authority) + "/Token");
+            }
+        }    
 
         /// <summary>
         /// Authenicate user 
