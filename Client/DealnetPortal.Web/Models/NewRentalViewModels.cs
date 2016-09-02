@@ -43,7 +43,6 @@ namespace DealnetPortal.Web.Models
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public ApplicantPersonalInfo[] AdditionalApplicants { get; set; }
         public AddressInformation AddressInformation { get; set; }
-        public bool MailingAddressDiffers { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
     }
 }
