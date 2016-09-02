@@ -9,19 +9,15 @@ using DealnetPortal.Web.App_Start;
 
 namespace DealnetPortal.Web
 {
-    using System.Web.Http;
-
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutoMapperConfig.Configure();
-            
+            AutoMapperConfig.Configure();            
         }
     }
 }
