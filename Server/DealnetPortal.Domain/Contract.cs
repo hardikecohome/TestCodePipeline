@@ -13,18 +13,20 @@ namespace DealnetPortal.Domain
         public Contract()
         {
             Customers = new List<Customer>();
+            Addresses = new List<ContractAddress>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
         public int Id { get; set; }
 
         public ApplicationUser Dealer { get; set; }
-        public ContractState ContractState { get; set; }
-        public ContractAddress ContractAddress { get; set; }
+        public ContractState ContractState { get; set; }        
 
         public DateTime CreationTime { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
+
+        public virtual ICollection<ContractAddress> Addresses { get; set; }
 
         public virtual ICollection<Customer> Customers { get; set; }
     }

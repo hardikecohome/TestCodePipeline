@@ -55,7 +55,7 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Result of update</returns>
         bool UpdateContractData(ContractData contractData);
 
-        Contract UpdateContractClientData(int contractId, ContractAddress contractAddress, IList<Customer> customers);
+        Contract UpdateContractClientData(int contractId, IList<ContractAddress> addresses, IList<Customer> customers);
 
         Contract UpdateContractState(int contractId, Domain.Enums.ContractState newState);
 
