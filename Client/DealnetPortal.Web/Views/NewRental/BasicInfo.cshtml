@@ -1,4 +1,6 @@
-﻿﻿@Styles.Render("~/Content/basic-info.css")
+﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
+
+﻿@Styles.Render("~/Content/basic-info.css")
 
 <div id="label-steps">
     <div class="dealnet-action-link">New Rental</div> >
@@ -36,7 +38,8 @@
     </div>
 </div>
 
-<form>
+@using (Html.BeginForm())
+{
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 
     <div class="row scanlicense-button">
@@ -97,15 +100,18 @@
     <div class="row owner-info">
         <div class="col-md-4 col-lg-4">
             First Name
-            <input type="text" class="form-control dealnet-input" id="first-name" placeholder="First Name"/>
+            @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = "First Name" })
+            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-4 col-lg-4">
             Last Name
-            <input type="text" class="form-control dealnet-input" id="last-name" placeholder="Last Name"/>
+            @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name" })
+            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-4 col-lg-4">
             Date of Birth
-            <input type="text" class="form-control dealnet-input" id="birth-date" placeholder="mm/dd/yyyy"/>
+            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy" })
+            @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -217,26 +223,30 @@
         <div class="row" id="address-info1">
             <div class="col-md-6 col-lg-6">
                 Installation Adress
-                <input type="text" class="form-control dealnet-input" id="street" placeholder="St." />
+                @Html.TextBoxFor(m => m.AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
+                @Html.ValidationMessageFor(m => m.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-2 col-lg-2">
                 Unit #
-                <input type="text" class="form-control dealnet-input" id="unit_number" placeholder="12345" />
+                @Html.TextBoxFor(m => m.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
             </div>
             <div class="col-md-4 col-lg-4">
                 City
-                <input type="text" class="form-control dealnet-input" id="locality" placeholder="Ottawa" />
+                @Html.TextBoxFor(m => m.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
+                @Html.ValidationMessageFor(m => m.AddressInformation.City, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="row" id="address-info2">
             <div class="col-md-4 col-lg-4">
                 Province
-                <input type="text" class="form-control dealnet-input" id="administrative_area_level_1" placeholder="Nepean" />
+                @Html.TextBoxFor(m => m.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
+                @Html.ValidationMessageFor(m => m.AddressInformation.Province, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Postal Code
-                <input type="text" class="form-control dealnet-input" id="postal_code" placeholder="12345" />
+                @Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code", placeholder = "12345" })
+                @Html.ValidationMessageFor(m => m.AddressInformation.PostalCode, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
                 <p>
@@ -291,7 +301,7 @@
                 </button>
             </div>
         </div>
-</form>
+}
 
 <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
 @Scripts.Render("~/bundles/basic-info")

@@ -31,6 +31,16 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult BasicInfo(BasicInfoViewModel basicInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            return View();
+        }
+
+        [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
         {
             if (imgBase64 == null)
