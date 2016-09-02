@@ -1,10 +1,8 @@
 ﻿.dealnet-page-button {
-    height: 90px;
-    width: 100%;
     border-radius: 4px;
     background-color: #61c53c;
     box-shadow: 0 1px 0 0 #42a01f;
-    line-height: 90px;
+    line-height: 89px;
     font-family: Lato;
     font-size: 14px;
     font-weight: bold;
@@ -22,24 +20,26 @@
     font-size: 18px;
     text-align: center;
     color: #525251;
+    margin-right: 25px;
+    margin-bottom: 
+}
+
+.dealnet-chart-switch-button:hover {
+    border: solid 1px #f0f0f0;
+    border-radius: 4px;
 }
 
 .dealnet-chart-switch-button-selected {
     border-radius: 4px;
+    height: 40px;
     border: solid 1px #dcdcdc;
     font-weight: bold;
+    line-height: 40px;
+}
+.dealnet-home-page .row {
+    margin-top: 21px;
 }
 
-a.paginate_button.current {
-    width: 30px;
-    height: 30px;
-    border-radius: 4px;
-    border: solid 1px #dcdcdc;
-    font-family: Lato;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    color: #525251;
-    background-color: transparent;
-    background-image: none;
+.dealnet-home-page .row {
+    margin-top: 21px;
 }

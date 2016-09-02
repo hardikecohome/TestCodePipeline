@@ -35,7 +35,7 @@ function showChart() {
                             data: data,
                             options: {
                                 legend: {
-                                  display:false  
+                                    display: false
                                 },
                                 elements: {
                                     rectangle: {
@@ -57,17 +57,23 @@ function showChart() {
 function showTable() {
     $.when($.ajax('/client/reports/WorkItems', { mode: 'GET' }))
     .done(function (data) {
-        $('#work-items-table').DataTable({
-            'data': data,
-            'columns': [
-                { title: "Contract #" },
-                { title: "Customer" },
-                { title: "Status" },
-                { title: "Action req." },
-                { title: "Email" },
-                { title: "Phone" },
-                { title: "Date" }
-            ]
-        });
+        $('#work-items-table')
+            .DataTable({
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.childRowImmediate
+                    }
+                },
+                data: data,
+                columns: [
+                    { title: "Contract #" },
+                    { title: "Customer" },
+                    { title: "Status" },
+                    { title: "Action req." },
+                    { title: "Email" },
+                    { title: "Phone" },
+                    { title: "Date" }
+                ]
+            });
     });
 };

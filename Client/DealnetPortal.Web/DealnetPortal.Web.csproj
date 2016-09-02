@@ -180,6 +180,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\StubController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -386,6 +387,10 @@
     <Content Include="Content\images\logo-eco-home.svg" />
     <Content Include="Content\images\new-rental%402x.png" />
     <Content Include="Content\images\new-rental%403x.png" />
+    <Content Include="Content\images\new-rental-btn%402x.png" />
+    <Content Include="Content\images\new-rental-btn%403x.png" />
+    <Content Include="Content\images\new-rental-btn.png" />
+    <Content Include="Content\images\new-rental-btn.svg" />
     <Content Include="Content\images\new-rental.png" />
     <Content Include="Content\images\new-rental.svg" />
     <Content Include="Content\images\scan-license%402x.png" />
@@ -529,6 +534,9 @@
     <Content Include="Views\NewRental\BasicInfo.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\LoginButtons.cshtml" />
+    <Content Include="Views\Stub\CreditCheck.cshtml" />
+    <Content Include="Views\Stub\MyDeals.cshtml" />
+    <Content Include="Views\Stub\Reports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
