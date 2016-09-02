@@ -131,15 +131,18 @@
         <div class="row owner-info">
             <div class="col-md-4 col-lg-4">
                 First Name
-                <input type="text" class="form-control dealnet-input" id="additional-first-name-1" placeholder="First Name" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[0].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-1", placeholder = "First Name", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Last Name
-                <input type="text" class="form-control dealnet-input" id="additional-last-name-1" placeholder="Last Name" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[0].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-1", placeholder = "Last Name", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Date of Birth
-                <input type="text" class="form-control dealnet-input" id="additional-birth-date-1" placeholder="mm/dd/yyyy" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -160,15 +163,18 @@
         <div class="row owner-info">
             <div class="col-md-4 col-lg-4">
                 First Name
-                <input type="text" class="form-control dealnet-input" id="additional-first-name-2" placeholder="First Name" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[1].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-2", placeholder = "First Name", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Last Name
-                <input type="text" class="form-control dealnet-input" id="additional-last-name-2" placeholder="Last Name" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[1].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-2", placeholder = "Last Name", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Date of Birth
-                <input type="text" class="form-control dealnet-input" id="additional-birth-date-2" placeholder="mm/dd/yyyy" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -189,15 +195,18 @@
         <div class="row owner-info">
             <div class="col-md-4 col-lg-4">
                 First Name
-                <input type="text" class="form-control dealnet-input" id="additional-first-name-3" placeholder="First Name" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[2].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-3", placeholder = "First Name", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Last Name
-                <input type="text" class="form-control dealnet-input" id="additional-last-name-3" placeholder="Last Name" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[2].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-3", placeholder = "Last Name", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 Date of Birth
-                <input type="text" class="form-control dealnet-input" id="additional-birth-date-3" placeholder="mm/dd/yyyy" />
+                @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -264,26 +273,30 @@
             <div class="row" id="mailing-adress1">
                 <div class="col-md-6 col-lg-6">
                     Mailing Adress
-                    <input type="text" class="form-control dealnet-input" id="mailing_street" placeholder="St." />
+                    @Html.TextBoxFor(m => m.MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-2 col-lg-2">
                     Unit #
-                    <input type="text" class="form-control dealnet-input" id="mailing_unit_number" placeholder="12345" />
+                    @Html.TextBoxFor(m => m.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
                 </div>
                 <div class="col-md-4 col-lg-4">
                     City
-                    <input type="text" class="form-control dealnet-input" id="mailing_locality" placeholder="Ottawa" />
+                    @Html.TextBoxFor(m => m.MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "mailing_locality", placeholder = "Ottawa", disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.City, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="row" id="mailing-adress2">
                 <div class="col-md-4 col-lg-4">
                     Province
-                    <input type="text" class="form-control dealnet-input" id="mailing_administrative_area_level_1" placeholder="Nepean" />
+                    @Html.TextBoxFor(m => m.MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder = "Nepean", disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.Province, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-4 col-lg-4">
                     Postal Code
-                    <input type="text" class="form-control dealnet-input" id="mailing_postal_code" placeholder="12345" />
+                    @Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-mailing-address">
                     <p>
@@ -303,7 +316,7 @@
         </div>
 }
 
-<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
 @Scripts.Render("~/bundles/basic-info")
 
 @section scripts

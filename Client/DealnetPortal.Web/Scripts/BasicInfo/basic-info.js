@@ -22,9 +22,19 @@ var mailingAddress = $("#mailing-adress");
 mailingAddress.hide();
 $("#mailing-adress-checkbox").click(function () {
     if ($(this).is(":checked")) {
+        $("#mailing_street").prop("disabled", false);
+        $("#mailing_unit_number").prop("disabled", false);
+        $("#mailing_locality").prop("disabled", false);
+        $("#mailing_administrative_area_level_1").prop("disabled", false);
+        $("#mailing_postal_code").prop("disabled", false);
         mailingAddress.show(300);
     } else {
         mailingAddress.hide(200);
+        $("#mailing_street").prop("disabled", true);
+        $("#mailing_unit_number").prop("disabled", true);
+        $("#mailing_locality").prop("disabled", true);
+        $("#mailing_administrative_area_level_1").prop("disabled", true);
+        $("#mailing_postal_code").prop("disabled", true);
     }
 });
 $("#clear-address").click(function () {
@@ -68,28 +78,49 @@ $("#additional3-scan-button").click(function () {
 $("#add-additional-applicant").click(function() {
     if (!aditional1Section.is(':visible')) {
         aditional1Section.show();
+        $("#additional-first-name-1").prop("disabled", false);
+        $("#additional-last-name-1").prop("disabled", false);
+        $("#additional-birth-date-1").prop("disabled", false);
         if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
             addAdditionalButton.hide();
         }
     } else if (!aditional2Section.is(':visible')) {
         aditional2Section.show();
+        $("#additional-first-name-2").prop("disabled", false);
+        $("#additional-last-name-2").prop("disabled", false);
+        $("#additional-birth-date-2").prop("disabled", false);
         if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
             addAdditionalButton.hide();
         }
     } else if (!aditional3Section.is(':visible')) {
         aditional3Section.show();
+        $("#additional-first-name-3").prop("disabled", false);
+        $("#additional-last-name-3").prop("disabled", false);
+        $("#additional-birth-date-3").prop("disabled", false);
         addAdditionalButton.hide();
     }
 });
 $("#additional1-remove").click(function () {
     aditional1Section.hide();
+    //Needed for validation
+    $("#additional-first-name-1").prop("disabled", true);
+    $("#additional-last-name-1").prop("disabled", true);
+    $("#additional-birth-date-1").prop("disabled", true);
     addAdditionalButton.show();
 });
 $("#additional2-remove").click(function () {
     aditional2Section.hide();
+    //Needed for validation
+    $("#additional-first-name-2").prop("disabled", true);
+    $("#additional-last-name-2").prop("disabled", true);
+    $("#additional-birth-date-2").prop("disabled", true);
     addAdditionalButton.show();
 });
 $("#additional3-remove").click(function () {
     aditional3Section.hide();
+    //Needed for validation
+    $("#additional-first-name-3").prop("disabled", true);
+    $("#additional-last-name-3").prop("disabled", true);
+    $("#additional-birth-date-3").prop("disabled", true);
     addAdditionalButton.show();
 });
