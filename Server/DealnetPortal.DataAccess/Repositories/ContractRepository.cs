@@ -54,13 +54,18 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public Contract GetContract(int contractId)
         {
-            return _dbContext.Contracts.Include(c => c.Customers).
-                FirstOrDefault(c => c.Id == contractId);
+            return _dbContext.Contracts
+                .Include(c => c.Customers)
+                .Include(c => c.Addresses)
+                .FirstOrDefault(c => c.Id == contractId);
         }
 
         public Contract GetContractAsUntracked(int contractId)
         {
-            return _dbContext.Contracts.Include(c => c.Customers).AsNoTracking().
+            return _dbContext.Contracts
+                .Include(c => c.Customers)
+                .Include(c => c.Addresses)
+                .AsNoTracking().
                 FirstOrDefault(c => c.Id == contractId);
         }
 
@@ -82,7 +87,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = _dbContext.Contracts.FirstOrDefault(c => c.Dealer.Id == contractOwnerId && c.Id == contractId);
             if (contract != null)
             {
-                contract.ContractAddress = null;
+                contract.Addresses.ForEach(a => _dbContext.Entry(a).State = EntityState.Deleted);
                 contract.Customers.ForEach(ho => _dbContext.Entry(ho).State = EntityState.Deleted);
                 cleaned = true;
             }
@@ -105,9 +110,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 var contract = GetContract(contractData.Id);
                 if (contract != null)
                 {
-                    if (contractData.ContractAddress != null)
+                    if (contractData.Addresses != null)
                     {
-                        AddOrUpdateContractAddress(contract, contractData.ContractAddress);
+                        AddOrUpdateContractAddresses(contract, contractData.Addresses);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                         updated = true;
@@ -130,10 +135,12 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contractAddress != null)
             {
                 AddOrUpdateContractAddress(contract, contractAddress);
+                contract.ContractState = ContractState.CustomerInfoInputted;
             }
             if (customers != null)
             {
                 AddOrUpdateContractHomeOwners(contract, customers);
+                contract.ContractState = ContractState.CustomerInfoInputted;
             }
 
             return contract;
@@ -146,34 +153,35 @@ namespace DealnetPortal.DataAccess.Repositories
                 Id = contractId
             };
             var contract = GetContractAsUntracked(contractId);
-            contractData.ContractAddress = contract.ContractAddress;
+            contractData.Addresses = contract.Addresses.ToList();
             contractData.Customers = contract.Customers.ToList();       
 
             return contractData;
         }
 
-        private Contract AddOrUpdateContractAddress(Contract contract, ContractAddress contractAddress)
+        private Contract AddOrUpdateContractAddresses(Contract contract, IList<ContractAddress> contractAddresses)
         {
-            ContractAddress address;
-            if (contract.ContractAddress != null)
-            {
-                address = contractAddress;
-                _dbContext.Entry(address).State = EntityState.Modified;                        
-            }
-            else
-            {
-                address = new ContractAddress()
-                {
-                    Contract = contract
-                };
-            }
-            address.City = contractAddress.City;
-            address.PostalCode = contractAddress.PostalCode;
-            address.Street = contractAddress.Street;
-            address.Province = contractAddress.Province;
-            address.Unit = contractAddress.Unit;
-            contract.ContractAddress = address;
-            return contract;
+            //ContractAddress address;
+            //if (contract.Addresses != null)
+            //{
+
+            //    address = contractAddress;
+            //    _dbContext.Entry(address).State = EntityState.Modified;                        
+            //}
+            //else
+            //{
+            //    address = new ContractAddress()
+            //    {
+            //        Contract = contract
+            //    };
+            //}
+            //address.City = contractAddress.City;
+            //address.PostalCode = contractAddress.PostalCode;
+            //address.Street = contractAddress.Street;
+            //address.Province = contractAddress.Province;
+            //address.Unit = contractAddress.Unit;
+            //contract.ContractAddress = address;
+            //return contract;
         }
 
         private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<Customer> customers)

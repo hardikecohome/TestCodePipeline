@@ -51,6 +51,7 @@
     <Compile Include="Contract.cs" />
     <Compile Include="ContractAddress.cs" />
     <Compile Include="ContractData.cs" />
+    <Compile Include="Enums\AddressType.cs" />
     <Compile Include="Enums\ContractState.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="LoggedInUser.cs" />

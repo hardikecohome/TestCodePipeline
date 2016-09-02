@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Domain.Enums;
 
 namespace DealnetPortal.Domain
 {
@@ -12,6 +13,9 @@ namespace DealnetPortal.Domain
     {        
         [ForeignKey("Contract")]
         public int Id { get; set; }
+
+        public AddressType AddressType { get; set; }
+
         [MinLength(2)]
         [MaxLength(20)]
         public string Street { get; set; }

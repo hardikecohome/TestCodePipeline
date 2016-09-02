@@ -20,7 +20,7 @@ namespace DealnetPortal.Domain
         public string LastName { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
-        [Required]
+        //[Required]
         public Contract Contract { get; set; }
     }
 }
