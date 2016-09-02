@@ -21,13 +21,13 @@
     text-align: center;
     color: #525251;
     margin-right: 25px;
-    margin-bottom: 
+    margin-bottom:;
 }
 
-.dealnet-chart-switch-button:hover {
-    border: solid 1px #f0f0f0;
-    border-radius: 4px;
-}
+    .dealnet-chart-switch-button:hover {
+        border: solid 1px #f0f0f0;
+        border-radius: 4px;
+    }
 
 .dealnet-chart-switch-button-selected {
     border-radius: 4px;
@@ -36,10 +36,98 @@
     font-weight: bold;
     line-height: 40px;
 }
+
 .dealnet-home-page .row {
     margin-top: 21px;
 }
 
-.dealnet-home-page .row {
-    margin-top: 21px;
+.dataTable {
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    color: #525251;
+}
+
+    .dataTable th {
+        background-color: #f8f8f8;
+    }
+
+    .dataTable td {
+        background-color: transparent !important;
+        border: 1px solid #ededed;
+        font-family: Lato;
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        color: #525251;
+    }
+
+    .dataTable tr {
+        background-color: transparent !important;
+    }
+
+    .dataTable td.child {
+        background-color: #f8f8f8 !important;
+        padding-left: 8px !important;
+    }
+
+        .dataTable td.child li {
+            border: none !important;
+        }
+
+.paginate_button.active a{
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 4px !important;
+    border: solid 1px #dcdcdc !important;
+    background: none !important;
+    font-family: Lato;
+    line-height: 14px;
+    vertical-align: middle;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #525251;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+
+.paginate_button.previous,.paginate_button.next a {
+    font-weight: bold;
+}
+
+.dataTables_info {
+    display: none;
+}
+
+.paginate_button.active,.paginate_button.next,.paginate_button.previous {
+    border: none !important;
+    background: none !important;
+}
+
+.paginate_button.active,.paginate_button.next a,.paginate_button.previous a {
+    border: none !important;
+    background: none !important;
+}
+
+.paginate_button.active:hover,.paginate_button.next:hover,.paginate_button.previous:hover {
+    border: none !important;
+    background: none !important;
+    
+}
+
+.paginate_button.active:hover a{
+    color: #525251 !important;
+}
+
+
+.paginate_button.next:hover a,.paginate_button.previous:hover a {
+    border: none !important;
+    background: none !important;
 }
