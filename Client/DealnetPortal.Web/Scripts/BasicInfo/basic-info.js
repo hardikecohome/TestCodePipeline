@@ -6,10 +6,22 @@
         }
     });
 });
-$("#birth-date").datepicker({ dateFormat: 'mm/dd/yy' });
-$("#additional-birth-date-1").datepicker({ dateFormat: 'mm/dd/yy' });
-$("#additional-birth-date-2").datepicker({ dateFormat: 'mm/dd/yy' });
-$("#additional-birth-date-3").datepicker({ dateFormat: 'mm/dd/yy' });
+$("#birth-date").datepicker({
+    dateFormat: 'mm/dd/yy', changeMonth: true,
+    changeYear: true
+});
+$("#additional-birth-date-1").datepicker({
+    dateFormat: 'mm/dd/yy', changeMonth: true,
+    changeYear: true
+});
+$("#additional-birth-date-2").datepicker({
+    dateFormat: 'mm/dd/yy', changeMonth: true,
+    changeYear: true
+});
+$("#additional-birth-date-3").datepicker({
+    dateFormat: 'mm/dd/yy', changeMonth: true,
+    changeYear: true
+});
 var aditional1Section = $("#additional1-section");
 var aditional2Section = $("#additional2-section");
 var aditional3Section = $("#additional3-section");
