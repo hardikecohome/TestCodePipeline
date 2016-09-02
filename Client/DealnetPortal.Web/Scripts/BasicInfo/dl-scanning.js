@@ -116,7 +116,7 @@ function submitUpload() {
                         document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
                         document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(parseInt(json.DateOfBirth.substr(6)));
-                        document.getElementById(modal.getAttribute('data-bdToFill')).value = date;
+                        $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
                         $('#camera-modal').modal('hide');
                     }
                 },
