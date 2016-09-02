@@ -487,6 +487,7 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\home-page.js" />
     <Content Include="Scripts\BasicInfo\dl-scanning.js" />
