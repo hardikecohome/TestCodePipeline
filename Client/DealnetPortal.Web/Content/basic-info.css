@@ -33,6 +33,7 @@
     color: #38aaee;
     margin-top: 26px;
     cursor: pointer;
+    width: 200px;
 }
 
     #add-additional-applicant:hover {
