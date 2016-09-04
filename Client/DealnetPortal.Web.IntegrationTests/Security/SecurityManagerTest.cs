@@ -1,4 +1,4 @@
-﻿using DealnetPortal.Api.Models.Enumeration;
+﻿using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.Common.Security;

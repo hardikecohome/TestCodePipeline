@@ -4,10 +4,10 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Domain.Enums;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

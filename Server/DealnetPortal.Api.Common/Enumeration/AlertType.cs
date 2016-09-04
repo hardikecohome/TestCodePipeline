@@ -1,4 +1,4 @@
-﻿namespace DealnetPortal.Api.Models.Enumeration
+﻿namespace DealnetPortal.Api.Common.Enumeration
 {
     /// <summary>
     /// Type of alert - information / warning / error

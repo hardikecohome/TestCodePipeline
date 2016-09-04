@@ -82,6 +82,10 @@
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">
+      <Project>{23FA957A-A9DE-4929-9FFD-603BAE271FBA}</Project>
+      <Name>DealnetPortal.Api.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Api.Models\DealnetPortal.Api.Models.csproj">
       <Project>{68167614-D9F6-48BC-AF28-1519BA5C67FD}</Project>
       <Name>DealnetPortal.Api.Models</Name>

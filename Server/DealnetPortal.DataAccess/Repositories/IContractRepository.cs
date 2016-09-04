@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Domain;
 
 namespace DealnetPortal.DataAccess.Repositories
@@ -70,7 +70,7 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="contractId">Contract Id</param>
         /// <param name="newState">A new state of contract</param>
         /// <returns>Updated contract record</returns>
-        Contract UpdateContractState(int contractId, Domain.Enums.ContractState newState);
+        Contract UpdateContractState(int contractId, ContractState newState);
 
         /// <summary>
         /// Get contract

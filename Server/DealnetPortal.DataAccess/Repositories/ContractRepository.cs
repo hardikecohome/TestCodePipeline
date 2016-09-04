@@ -4,8 +4,8 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Policy;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain;
-using DealnetPortal.Domain.Enums;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Repositories
@@ -186,7 +186,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 curAddress.Unit = addr.Unit;
                 curAddress.Contract = contract;
             });
-                       
+
+            contract.LastUpdateTime = DateTime.Now;
+
             return contract;
         }
 
@@ -203,7 +205,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 ho.Contract = contract;
                 _dbContext.Customers.AddOrUpdate(ho);
             });
-                              
+
+            contract.LastUpdateTime = DateTime.Now;
+
             return contract;
         }        
     }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
-using DealnetPortal.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DealnetPortal.Api.Tests
@@ -67,7 +67,7 @@ namespace DealnetPortal.Api.Tests
             var contractDTO = new ContractDTO()
             {
                 Id = 1,
-                ContractState = Models.Enumeration.ContractState.Started,
+                ContractState = ContractState.Started,
                 Addresses = new List<ContractAddressDTO>()
                 { 
                     new ContractAddressDTO()

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace DealnetPortal.Domain.Enums
+namespace DealnetPortal.Api.Common.Enumeration
 {
     /// <summary>
     /// A current state of contract
