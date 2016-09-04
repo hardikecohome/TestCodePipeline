@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Api.Models.Scanning;
 using Inlite.ClearImageNet;
 

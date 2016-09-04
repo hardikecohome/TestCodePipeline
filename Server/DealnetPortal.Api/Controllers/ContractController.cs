@@ -68,7 +68,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("UpdateContractClientData")]
         [HttpPut]
-        public IHttpActionResult UpdateContractClientData(int contractId, ContractAddressDTO contractAddress, IList<CustomerDTO> customers)
+        public IHttpActionResult UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers)
         {
             throw new NotImplementedException();
         }

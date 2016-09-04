@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO.MemoryMappedFiles;
 using AutoMapper;
 using DealnetPortal.Api.Models.Contract;
@@ -32,6 +33,36 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to create a new contract", ex);
                 throw;
             }
+        }
+
+        public IList<ContractDTO> GetContracts(string contractOwnerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ContractDTO GetContract(int contractId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool InitiateCreditCheck(int contractId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetCreditCheckResult(int contractId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SubmitContract(int contractId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

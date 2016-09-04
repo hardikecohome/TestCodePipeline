@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;

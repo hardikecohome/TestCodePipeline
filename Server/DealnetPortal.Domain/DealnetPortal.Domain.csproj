@@ -51,13 +51,16 @@
     <Compile Include="Contract.cs" />
     <Compile Include="ContractAddress.cs" />
     <Compile Include="ContractData.cs" />
-    <Compile Include="Enums\AddressType.cs" />
-    <Compile Include="Enums\ContractState.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="LoggedInUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">
+      <Project>{23FA957A-A9DE-4929-9FFD-603BAE271FBA}</Project>
+      <Name>DealnetPortal.Api.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

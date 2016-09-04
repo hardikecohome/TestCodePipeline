@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DealnetPortal.Domain.Enums;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Models.Enumeration;
+using DealnetPortal.Api.Common.Enumeration;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;

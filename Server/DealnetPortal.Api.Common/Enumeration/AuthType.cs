@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Api.Models.Enumeration
+﻿namespace DealnetPortal.Api.Common.Enumeration
 {
     /// <summary>
     /// For flexible client/service authentification configuration
