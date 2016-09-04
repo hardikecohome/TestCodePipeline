@@ -15,14 +15,13 @@ namespace DealnetPortal.Api.Models.Contract
         }
         public int Id { get; set; }
 
-        public ContractState ContractState { get; set; }
-
-        public ContractAddressDTO ContractAddress { get; set; }
+        public ContractState ContractState { get; set; }       
 
         public DateTime CreationTime { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
 
+        public List<ContractAddressDTO> Addresses { get; set; }
         public List<CustomerDTO> Customers { get; set; }
     }
 }

@@ -55,8 +55,21 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Result of update</returns>
         bool UpdateContractData(ContractData contractData);
 
+        /// <summary>
+        /// Update contract customers data
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <param name="addresses">Updated addresses list, or null</param>
+        /// <param name="customers">Updated cutomers list, or null</param>
+        /// <returns>Updated contract record</returns>
         Contract UpdateContractClientData(int contractId, IList<ContractAddress> addresses, IList<Customer> customers);
 
+        /// <summary>
+        /// Update contract state
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <param name="newState">A new state of contract</param>
+        /// <returns>Updated contract record</returns>
         Contract UpdateContractState(int contractId, Domain.Enums.ContractState newState);
 
         /// <summary>

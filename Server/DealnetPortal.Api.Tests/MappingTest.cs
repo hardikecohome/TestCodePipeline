@@ -38,10 +38,13 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = ContractState.Started,
-                ContractAddress = new ContractAddress()
-                {
-                    City = "Paris",
-                    Id = 1,
+                Addresses = new List<ContractAddress>()
+                { 
+                    new ContractAddress()
+                    {
+                        City = "Paris",
+                        Id = 1,
+                    }
                 },
                 Customers = new List<Customer>()
                 {
@@ -65,9 +68,12 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = Models.Enumeration.ContractState.Started,
-                ContractAddress = new ContractAddressDTO()
-                {
-                    City = "Paris"
+                Addresses = new List<ContractAddressDTO>()
+                { 
+                    new ContractAddressDTO()
+                    {
+                        City = "Paris"
+                    }
                 },
                 Customers = new List<CustomerDTO>()
                 {

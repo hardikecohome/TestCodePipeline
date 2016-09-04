@@ -92,18 +92,16 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Street = "Street",
                 Unit = "1"
             };
-            contract.ContractAddress = address;
+            contract.Addresses.Add(address);
             _contractRepository.UpdateContract(contract);
             _unitOfWork.Save();
             contract = _contractRepository.GetContract(contract.Id);
-            Assert.IsNotNull(contract.ContractAddress);
-            contract.ContractAddress = null;
+            Assert.IsNotNull(contract.Addresses);
+            contract.Addresses = null;
             _contractRepository.UpdateContract(contract);
             _unitOfWork.Save();
             contract = _contractRepository.GetContract(contract.Id);
-            Assert.IsNull(contract.ContractAddress);
-            contract = _contractRepository.GetContract(contract.Id);
-            Assert.IsNull(contract.ContractAddress);
+            Assert.IsNull(contract.Addresses);
 
             contract.Customers = new List<Customer>()
             {
@@ -144,15 +142,29 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Street = "Street",
                 Unit = "1"
             };
-            ContractData contractData = new ContractData()
-            {
-                Id = contract.Id,
-                ContractAddress = address
-            };
-            _contractRepository.UpdateContractClientData(contract.Id, address, null);
-            //_contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address}, null);
             _unitOfWork.Save();
-            contractData.ContractAddress = null;
+            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            Assert.AreEqual(contract.Addresses.Count, 1);
+
+            var address2 = new ContractAddress()
+            {
+                City = "London",
+                PostalCode = "348042",
+                Street = "Street",
+                Unit = "2",
+                AddressType = AddressType.MailAddress
+            };
+            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address, address2 }, null);
+            _unitOfWork.Save();
+            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            Assert.AreEqual(contract.Addresses.Count, 2);
+            address2.City = "Paris";
+            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address2 }, null);
+            _unitOfWork.Save();
+            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            Assert.AreEqual(contract.Addresses.Count, 1);
+
             var customers = new List<Customer>()
             {
                 new Customer()
@@ -168,8 +180,6 @@ namespace DealnetPortal.Api.Tests.Repositories
                     DateOfBirth = DateTime.Today
                 }
             };
-            contractData.Customers = customers;
-            //_contractRepository.UpdateContractData(contractData);
             _contractRepository.UpdateContractClientData(contract.Id, null, customers);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
@@ -184,7 +194,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 LastName = "Lst3",
                 DateOfBirth = DateTime.Today
             });            
-            contractData.Customers = owners.ToList();
+            //contractData.Customers = owners.ToList();
             //_contractRepository.UpdateContractData(contractData);
             _contractRepository.UpdateContractClientData(contract.Id, null, owners.ToList());
             _unitOfWork.Save();
