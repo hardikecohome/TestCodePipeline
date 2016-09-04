@@ -11,7 +11,7 @@ namespace DealnetPortal.Domain
 {
     public class ContractAddress
     {        
-        [ForeignKey("Contract")]
+        //[ForeignKey("Contract")]
         public int Id { get; set; }
 
         public AddressType AddressType { get; set; }
@@ -25,6 +25,9 @@ namespace DealnetPortal.Domain
         public string City { get; set; }
         public string Province { get; set; }
         public string PostalCode { get; set; }
+
+        public int ContractId { get; set; }
+        [ForeignKey("ContractId")]
         [Required]
         public Contract Contract { get; set; }
     }

@@ -46,6 +46,7 @@
     <Compile Include="Contract\ContractAddressDTO.cs" />
     <Compile Include="Contract\ContractDTO.cs" />
     <Compile Include="Contract\CustomerDTO.cs" />
+    <Compile Include="Enumeration\AddressType.cs" />
     <Compile Include="Enumeration\AlertType.cs" />
     <Compile Include="Enumeration\AuthType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />

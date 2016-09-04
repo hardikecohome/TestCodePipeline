@@ -25,22 +25,21 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractAddress, ContractAddressDTO>();
             mapperConfig.CreateMap<Customer, CustomerDTO>();
             mapperConfig.CreateMap<Contract, ContractDTO>()
-                .ForMember(x => x.ContractAddress, o => o.MapFrom(src => src.ContractAddress))
+                .ForMember(x => x.Addresses, o => o.MapFrom(src => src.Addresses))
                 .ForMember(x => x.Customers, o => o.MapFrom(src => src.Customers));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
         {
             mapperConfig.CreateMap<ContractAddressDTO, ContractAddress>()
-                .ForMember(x => x.Id, o => o.Ignore())
                 .ForMember(x => x.Contract, o => o.Ignore());
             mapperConfig.CreateMap<CustomerDTO, Customer>()
                 .ForMember(d => d.Contract, s => s.Ignore());
             mapperConfig.CreateMap<ContractDTO, ContractData>()
-                .ForMember(x => x.ContractAddress, o => o.MapFrom(src => src.ContractAddress))
+                .ForMember(x => x.Addresses, o => o.MapFrom(src => src.Addresses))
                 .ForMember(x => x.Customers, o => o.MapFrom(src => src.Customers));
             mapperConfig.CreateMap<ContractDTO, Contract>()
-                .ForMember(x => x.ContractAddress, o => o.MapFrom(src => src.ContractAddress))
+                .ForMember(x => x.Addresses, o => o.MapFrom(src => src.Addresses))
                 .ForMember(x => x.Customers, o => o.MapFrom(src => src.Customers))
                 .ForMember(d => d.Dealer, s => s.Ignore());
         }

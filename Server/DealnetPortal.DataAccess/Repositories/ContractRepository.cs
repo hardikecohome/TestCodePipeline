@@ -75,6 +75,9 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = _dbContext.Contracts.FirstOrDefault(c => c.Dealer.Id == contractOwnerId && c.Id == contractId);
             if (contract != null)
             {
+                //remove clients for contract?
+                _dbContext.Customers.RemoveRange(contract.Customers.ToList());
+
                 _dbContext.Contracts.Remove(contract);
                 deleted = true;
             }
@@ -129,12 +132,12 @@ namespace DealnetPortal.DataAccess.Repositories
             return updated;
         }
 
-        public Contract UpdateContractClientData(int contractId, ContractAddress contractAddress, IList<Customer> customers)
+        public Contract UpdateContractClientData(int contractId, IList<ContractAddress> addresses, IList<Customer> customers)
         {
             var contract = GetContract(contractId);
-            if (contractAddress != null)
+            if (addresses != null)
             {
-                AddOrUpdateContractAddress(contract, contractAddress);
+                AddOrUpdateContractAddresses(contract, addresses);
                 contract.ContractState = ContractState.CustomerInfoInputted;
             }
             if (customers != null)
@@ -161,27 +164,30 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private Contract AddOrUpdateContractAddresses(Contract contract, IList<ContractAddress> contractAddresses)
         {
-            //ContractAddress address;
-            //if (contract.Addresses != null)
-            //{
+            var existingEntities =
+                contract.Addresses.Where(
+                    a => contractAddresses.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
+            var entriesForDelete = contract.Addresses.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
-            //    address = contractAddress;
-            //    _dbContext.Entry(address).State = EntityState.Modified;                        
-            //}
-            //else
-            //{
-            //    address = new ContractAddress()
-            //    {
-            //        Contract = contract
-            //    };
-            //}
-            //address.City = contractAddress.City;
-            //address.PostalCode = contractAddress.PostalCode;
-            //address.Street = contractAddress.Street;
-            //address.Province = contractAddress.Province;
-            //address.Unit = contractAddress.Unit;
-            //contract.ContractAddress = address;
-            //return contract;
+            contractAddresses.ForEach(addr =>
+            {                
+                var curAddress =
+                    contract.Addresses.FirstOrDefault(ca => ca.Id == addr.Id || ca.AddressType == addr.AddressType);
+                if (curAddress == null)
+                {
+                    curAddress = new ContractAddress();
+                    contract.Addresses.Add(curAddress);
+                }
+                curAddress.City = addr.City;
+                curAddress.PostalCode = addr.PostalCode;
+                curAddress.Street = addr.Street;
+                curAddress.Province = addr.Province;
+                curAddress.Unit = addr.Unit;
+                curAddress.Contract = contract;
+            });
+                       
+            return contract;
         }
 
         private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<Customer> customers)
