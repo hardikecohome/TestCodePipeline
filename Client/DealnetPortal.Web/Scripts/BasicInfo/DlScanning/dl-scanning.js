@@ -67,11 +67,11 @@ $('#camera-modal').on('hidden.bs.modal', function () {
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 window.URL = window.URL || window.webkitURL;
 
-function uploadCaptured() {
+function uploadCaptured(uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
     $.ajax({
         type: "POST",
-        url: document.getElementById('upload-capture').getAttribute("data-uploadUrl"),
+        url: uploadUrl,
         data: {
             imgBase64: dataUrl
         },
@@ -93,8 +93,8 @@ function uploadCaptured() {
     });
 }
 
-function submitUpload() {
-    var files = document.getElementById('upload-file').files;
+function submitUpload(sender, uploadUrl) {
+    var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
             var data = new FormData();
@@ -104,7 +104,7 @@ function submitUpload() {
 
             $.ajax({
                 type: "POST",
-                url: document.getElementById('upload-file').getAttribute("data-uploadUrl"),
+                url: uploadUrl,
                 contentType: false,
                 processData: false,
                 data: data,
