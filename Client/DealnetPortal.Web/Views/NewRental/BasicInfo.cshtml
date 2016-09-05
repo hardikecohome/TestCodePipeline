@@ -374,13 +374,22 @@
             </div>
         </div>
 
-        <div class="row" id="saveproceed-button">
-            <div class="col-xs-12 col-md-3 col-lg-3">
-                <button class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
-                    <p class="dealnet-green-button-text">Save and Proceed</p>
-                </button>
-            </div>
+    <div class="row" id="saveproceed-button">
+        <div class="col-xs-12 col-md-3 col-lg-3">
+            <button class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
+                <p class="dealnet-green-button-text">Save and Proceed</p>
+            </button>
         </div>
+    </div>
+
+    if (Request.Browser.IsMobileDevice)
+    {
+        <p>Browser is mobile</p>
+    }
+    else
+    {
+        <p>Browser is NOT mobile</p>
+    }
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
