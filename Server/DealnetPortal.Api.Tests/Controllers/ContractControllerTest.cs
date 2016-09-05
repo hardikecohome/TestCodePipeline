@@ -31,7 +31,6 @@ namespace DealnetPortal.Api.Tests.Controllers
             _loggingServiceMock = new Mock<ILoggingService>();
 
             _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object);
-            //var controller = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object);
             _contractController.Request = new HttpRequestMessage();
             _contractController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }
