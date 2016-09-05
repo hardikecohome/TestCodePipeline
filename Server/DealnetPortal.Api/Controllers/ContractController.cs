@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
@@ -25,8 +27,9 @@ namespace DealnetPortal.Api.Controllers
         // GET: api/Contract
         [HttpGet]
         public IHttpActionResult GetContract()
-        {            
-            throw new NotImplementedException();
+        {
+            var contracts = ContractService.GetContracts(LoggedInUser.UserId);
+            return Ok(contracts);
         }
 
         //Get: api/Contract/{contractId}
@@ -34,7 +37,12 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetContract(int contractId)
         {
-            throw new NotImplementedException();
+            var contract = ContractService.GetContract(contractId);
+            if (contract != null)
+            {
+                return Ok(contract);
+            }
+            return NotFound();
         }
 
         [Route("CreateContract")]
@@ -55,36 +63,60 @@ namespace DealnetPortal.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ErrorConstants.ContractCreateFailed);
+                return InternalServerError(ex);
             }
         }
 
-        [Route("UpdateContract")]
-        [HttpPut]
-        public IHttpActionResult UpdateContract(ContractDTO contractData)
-        {
-            throw new NotImplementedException();
-        }
+        //[Route("UpdateContract")]
+        //[HttpPut]
+        //public IHttpActionResult UpdateContract(ContractDTO contractData)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         [Route("UpdateContractClientData")]
         [HttpPut]
         public IHttpActionResult UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var alerts = ContractService.UpdateContractClientData(contractId, addresses, customers);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         [Route("InitiateCreditCheck")]
         [HttpPut]
         public IHttpActionResult InitiateCreditCheck(int contractId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var alerts = ContractService.InitiateCreditCheck(contractId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         [Route("GetCreditCheckResult")]
         [HttpGet]
         public IHttpActionResult GetCreditCheckResult(int contractId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = ContractService.GetCreditCheckResult(contractId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
     }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using DealnetPortal.Api.Integration;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Scanning;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DealnetPortal.Api.Tests.Managers
+namespace DealnetPortal.Api.Tests.Services
 {
     [TestClass]
     public class ImageScanManagerTest

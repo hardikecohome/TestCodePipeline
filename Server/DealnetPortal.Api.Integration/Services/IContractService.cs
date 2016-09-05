@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -14,12 +16,12 @@ namespace DealnetPortal.Api.Integration.Services
 
         ContractDTO GetContract(int contractId);
 
-        bool UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers);
+        IList<Alert> UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers);
 
-        bool InitiateCreditCheck(int contractId);
+        IList<Alert> InitiateCreditCheck(int contractId);
 
-        bool GetCreditCheckResult(int contractId);
+        Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId);
 
-        bool SubmitContract(int contractId);
+        IList<Alert> SubmitContract(int contractId);
     }
 }
