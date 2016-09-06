@@ -72,5 +72,26 @@ namespace DealnetPortal.Web.Common.Api
         /// <param name="requestUri">Uri of resource</param>
         /// <returns>Model or resource from the Get operation against the uri.</returns>
         T Get<T>(string requestUri);
+
+        /// <summary>
+        /// Perform a put operation against a uri.
+        /// </summary>
+        /// <typeparam name="T">Type of the content or model.</typeparam>
+        /// <param name="requestUri">Uri of resource</param>
+        /// <param name="content">Individual or list of resources to post.</param>
+        /// <param name="cancellationToken">Allows clients to cancel a request.</param>
+        /// <returns>Model or resource from the Put operation against the uri.</returns>
+        Task<T> PutAsync<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken());
+
+        /// <summary>
+        /// Perform a put operation against a uri.
+        /// </summary>
+        /// <typeparam name="T1">Type of the request</typeparam>
+        /// <typeparam name="T2">Type of the response</typeparam>
+        /// <param name="requestUri">Uri of resource</param>
+        /// <param name="content">Individual or list of resources to post.</param>
+        /// <param name="cancellationToken">Allows clients to cancel a request.</param>
+        /// <returns>Model or resource from the Post operation against the uri.</returns>
+        Task<T2> PutAsync<T1, T2>(string requestUri, T1 content, CancellationToken cancellationToken = new CancellationToken());
     }
 }
