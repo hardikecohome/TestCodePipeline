@@ -75,6 +75,7 @@
     <Compile Include="Security\SecurityManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAgents\ScanProcessingServiceAgentTest.cs" />
+    <Compile Include="ServiceAgents\ContractServiceAgentTest.cs" />
     <Compile Include="ServiceAgents\UserManagementServiceAgentTest.cs" />
   </ItemGroup>
   <ItemGroup>

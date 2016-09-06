@@ -31,14 +31,22 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {            
                 var newContract = _contractRepository.CreateContract(contractOwnerId);
-                _unitOfWork.Save();
-                var contractDTO = Mapper.Map<ContractDTO>(newContract);
-                _loggingService.LogInfo($"A new contract [{newContract.Id}] created by user [{contractOwnerId}]");
-                return contractDTO;
+                if (newContract != null)
+                {
+                    _unitOfWork.Save();
+                    var contractDTO = Mapper.Map<ContractDTO>(newContract);
+                    _loggingService.LogInfo($"A new contract [{newContract.Id}] created by user [{contractOwnerId}]");
+                    return contractDTO;
+                }
+                else
+                {
+                    _loggingService.LogError($"Failed to create a new contract for a user [{contractOwnerId}]");
+                    return null;
+                }
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Failed to create a new contract", ex);
+                _loggingService.LogError($"Failed to create a new contract for a user [{contractOwnerId}]", ex);
                 throw;
             }
         }

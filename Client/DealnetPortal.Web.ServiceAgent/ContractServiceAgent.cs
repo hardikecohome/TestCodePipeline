@@ -23,22 +23,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContract()
         {
-            var alerts = new List<Alert>();
-            try
-            {            
-                var contract = await Client.PutAsync<string, ContractDTO>($"{_fullUri}/CreateContract","");
-                return new Tuple<ContractDTO, IList<Alert>>(contract, alerts);
-            }
-            catch (Exception ex)
-            {
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.ContractCreateFailed,
-                    Message = ex.Message
-                });
-            }
-            return new Tuple<ContractDTO, IList<Alert>>(null, alerts);
+            return await Client.PutAsync<string, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContract", "");
         }
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> GetContract(int contractId)

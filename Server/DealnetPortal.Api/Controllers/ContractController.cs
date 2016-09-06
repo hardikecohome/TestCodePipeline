@@ -8,12 +8,14 @@ using System.Web.Http.Results;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
+using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
+    [RoutePrefix("api/Contract")]
     public class ContractController : BaseApiController
     {
         private IContractService ContractService { get; set; }
@@ -49,22 +51,31 @@ namespace DealnetPortal.Api.Controllers
         [HttpPut]
         public IHttpActionResult CreateContract()
         {
+            var alerts = new List<Alert>();
             try
             {
                 var contract = ContractService.CreateContract(LoggedInUser?.UserId);
-                if (contract != null)
+                if (contract == null)                
                 {
-                    return Ok(contract);
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractCreateFailed,
+                        Message = $"Failed to create contract for a user [{LoggedInUser?.UserId}]"
+                    });
                 }
-                else
-                {
-                    return BadRequest(ErrorConstants.ContractCreateFailed);
-                }
+                return Ok(new Tuple<ContractDTO, IList<Alert>>(contract, alerts));
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.ContractCreateFailed,
+                    Message = ex.ToString()
+                });
             }
+            return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }
 
         //[Route("UpdateContract")]

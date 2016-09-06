@@ -76,7 +76,13 @@ namespace DealnetPortal.Api.Tests.Controllers
                     s.UpdateContractClientData(It.IsAny<int>(), It.IsAny<IList<ContractAddressDTO>>(),
                         It.IsAny<IList<CustomerDTO>>()))
                 .Returns(new List<Alert>() {new Alert()});
-            var responseRes = _contractController.UpdateContractClientData(1, new List<ContractAddressDTO>(), new List<CustomerDTO>());
+            ContractDTO contract = new ContractDTO()
+            {
+                Id = 1,
+                Addresses = new List<ContractAddressDTO>(),
+                Customers = new List<CustomerDTO>()
+            };
+            var responseRes = _contractController.UpdateContractClientData(contract);
             var response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();
             Assert.IsTrue(response.IsSuccessStatusCode);
             IList<Alert> alerts;
