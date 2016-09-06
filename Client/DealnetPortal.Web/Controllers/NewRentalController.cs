@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Ajax.Utilities;
@@ -27,12 +28,14 @@ namespace DealnetPortal.Web.Controllers
 
         public ActionResult BasicInfo()
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             return View();
         }
 
         [HttpPost]
         public ActionResult BasicInfo(BasicInfoViewModel basicInfo)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
                 return View();

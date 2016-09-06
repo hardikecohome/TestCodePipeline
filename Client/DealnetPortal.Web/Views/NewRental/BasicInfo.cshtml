@@ -390,6 +390,14 @@
     {
         <p>Browser is NOT mobile</p>
     }
+    if (ViewBag.IsMobileRequest)
+    {
+        <p>Alternative - Browser is mobile</p>
+    }
+    else
+    {
+        <p>Alternative - Browser is NOT mobile</p>
+    }
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
