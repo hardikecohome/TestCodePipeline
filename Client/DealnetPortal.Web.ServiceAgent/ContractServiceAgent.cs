@@ -26,7 +26,7 @@ namespace DealnetPortal.Web.ServiceAgent
             var alerts = new List<Alert>();
             try
             {            
-                var contract = await Client.GetAsync<ContractDTO>($"{_fullUri}/CreateContract");
+                var contract = await Client.PutAsync<string, ContractDTO>($"{_fullUri}/CreateContract","");
                 return new Tuple<ContractDTO, IList<Alert>>(contract, alerts);
             }
             catch (Exception ex)
@@ -41,29 +41,44 @@ namespace DealnetPortal.Web.ServiceAgent
             return new Tuple<ContractDTO, IList<Alert>>(null, alerts);
         }
 
-        public Task<Tuple<ContractDTO, IList<Alert>>> GetContract(int contractId)
+        public async Task<Tuple<ContractDTO, IList<Alert>>> GetContract(int contractId)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+            try
+            {
+                var contract = await Client.GetAsync<ContractDTO>($"{_fullUri}/{contractId}");
+                return new Tuple<ContractDTO, IList<Alert>>(contract, alerts);
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = $"Can't get contract with id {contractId}",
+                    Message = ex.Message
+                });
+            }
+            return new Tuple<ContractDTO, IList<Alert>>(null, alerts);
         }
 
-        public Task<IList<ContractDTO>> GetContracts()
+        public async Task<IList<ContractDTO>> GetContracts()
         {
-            throw new NotImplementedException();
+            return await Client.GetAsync<IList<ContractDTO>>(_fullUri);
         }
 
-        public Task<IList<Alert>> UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers)
+        public async Task<IList<Alert>> UpdateContractClientData(ContractDTO contract)
         {
-            throw new NotImplementedException();
+            return await Client.PutAsync<ContractDTO, IList<Alert>>($"{_fullUri}/UpdateContractClientData", contract);
         }
 
-        public Task<IList<Alert>> InitiateCreditCheck(int contractId)
+        public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
         {
-            throw new NotImplementedException();
+            return await Client.PutAsync<string, IList<Alert>>($"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "");
         }
 
-        public Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId)
+        public async Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId)
         {
-            throw new NotImplementedException();
+            return await Client.GetAsync<Tuple<CreditCheckDTO, IList<Alert>>>($"{_fullUri}/GetCreditCheckResult?contractId={contractId}");
         }
     }
 }

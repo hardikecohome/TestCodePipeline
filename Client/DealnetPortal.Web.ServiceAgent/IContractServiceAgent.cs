@@ -35,12 +35,9 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="contractId"></param>
-        /// <param name="addresses"></param>
-        /// <param name="customers"></param>
+        /// <param name="contract"></param>
         /// <returns></returns>
-        Task<IList<Alert>> UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses,
-            IList<CustomerDTO> customers);
+        Task<IList<Alert>> UpdateContractClientData(ContractDTO contract);
 
         /// <summary>
         /// Initiate credit check for contract

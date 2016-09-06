@@ -76,11 +76,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("UpdateContractClientData")]
         [HttpPut]
-        public IHttpActionResult UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers)
+        public IHttpActionResult UpdateContractClientData(ContractDTO contract)
         {
             try
             {
-                var alerts = ContractService.UpdateContractClientData(contractId, addresses, customers);
+                var alerts = ContractService.UpdateContractData(contract);
                 return Ok(alerts);
             }
             catch (Exception ex)

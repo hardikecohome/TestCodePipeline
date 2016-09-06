@@ -98,6 +98,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public IList<Alert> UpdateContractData(ContractDTO contract)
+        {
+            return UpdateContractClientData(contract.Id, contract.Addresses, contract.Customers);
+        }
+
         public IList<Alert> InitiateCreditCheck(int contractId)
         {
             try
