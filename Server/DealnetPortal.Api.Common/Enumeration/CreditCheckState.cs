@@ -4,6 +4,7 @@
     {
         Initiated = 0,
         Approved = 1,
-        Declined = 2
+        Declined = 2,
+        MoreInfoRequired = 3
     }
 }
