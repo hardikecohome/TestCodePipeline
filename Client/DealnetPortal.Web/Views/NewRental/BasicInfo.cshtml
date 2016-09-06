@@ -42,7 +42,7 @@
 {
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 
-    if (!Request.Browser.IsMobileDevice)
+    if (!ViewBag.IsMobileRequest)
     {
         <div class="row scanlicense-button">
             <div class="col-xs-12 col-md-3 col-lg-3">
@@ -68,7 +68,7 @@
         </div>
     }
 
-    if (!Request.Browser.IsMobileDevice)
+    if (!ViewBag.IsMobileRequest)
     {
         <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date">
             <div class="modal-dialog">
@@ -137,7 +137,7 @@
     <div id="additional1-section">
         <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional1-remove">x</div></div>
 
-        @if (!Request.Browser.IsMobileDevice)
+        @if (!ViewBag.IsMobileRequest)
         {
             <div class="row scanlicense-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
@@ -185,7 +185,7 @@
     <div id="additional2-section">
         <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional2-remove">x</div></div>
 
-        @if (!Request.Browser.IsMobileDevice)
+        @if (!ViewBag.IsMobileRequest)
         {
             <div class="row scanlicense-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
@@ -233,7 +233,7 @@
     <div id="additional3-section">
         <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional3-remove">x</div></div>
 
-        @if (!Request.Browser.IsMobileDevice)
+        @if (!ViewBag.IsMobileRequest)
         {
             <div class="row scanlicense-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
@@ -381,27 +381,10 @@
             </button>
         </div>
     </div>
-
-    if (Request.Browser.IsMobileDevice)
-    {
-        <p>Browser is mobile</p>
-    }
-    else
-    {
-        <p>Browser is NOT mobile</p>
-    }
-    if (ViewBag.IsMobileRequest)
-    {
-        <p>Alternative - Browser is mobile</p>
-    }
-    else
-    {
-        <p>Alternative - Browser is NOT mobile</p>
-    }
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
-@(!Request.Browser.IsMobileDevice ? Scripts.Render("~/bundles/basic-info") : Scripts.Render("~/bundles/basic-info-mobile"))
+@(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/basic-info") : Scripts.Render("~/bundles/basic-info-mobile"))
 
 @section scripts
 {
