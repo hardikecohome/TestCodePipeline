@@ -62,7 +62,7 @@
                     <p class="dealnet-green-button-text">
                         <img src="~/content/images/icon-scan-licen.png">Scan Licence
                     </p>
-                    <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload('@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date')"/>
+                    <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date')"/>
                 </div>
             </div>
         </div>
