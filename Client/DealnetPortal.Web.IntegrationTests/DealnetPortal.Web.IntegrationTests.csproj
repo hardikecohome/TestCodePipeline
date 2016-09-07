@@ -39,6 +39,9 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DealnetPortal.Api.Common">
+      <HintPath>..\..\lib\DealnetPortal.Api.Common.dll</HintPath>
+    </Reference>
     <Reference Include="DealnetPortal.Api.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
@@ -72,6 +75,7 @@
     <Compile Include="Security\SecurityManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAgents\ScanProcessingServiceAgentTest.cs" />
+    <Compile Include="ServiceAgents\ContractServiceAgentTest.cs" />
     <Compile Include="ServiceAgents\UserManagementServiceAgentTest.cs" />
   </ItemGroup>
   <ItemGroup>

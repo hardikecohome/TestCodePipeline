@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
+    <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -410,6 +411,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
+    <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning-mobile.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
@@ -514,7 +516,7 @@
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\home-page.js" />
-    <Content Include="Scripts\BasicInfo\dl-scanning.js" />
+    <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

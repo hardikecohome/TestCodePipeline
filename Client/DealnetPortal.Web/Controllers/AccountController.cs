@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
@@ -22,12 +23,19 @@ namespace DealnetPortal.Web.Controllers
         private readonly ISecurityManager _securityManager;
         private readonly IUserManagementServiceAgent _userManagementServiceAgent;
         private readonly ILoggingService _loggingService;
+        private AuthType _authType;
+
         public AccountController(ISecurityManager securityManager, IUserManagementServiceAgent userManagementServiceAgent,
             ILoggingService loggingService)
         {
             _securityManager = securityManager;
             _userManagementServiceAgent = userManagementServiceAgent;
             _loggingService = loggingService;
+
+            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
+            {
+                _authType = AuthType.AuthProvider;
+            }
         }
         
         // GET: /Account/Login
@@ -75,6 +83,7 @@ namespace DealnetPortal.Web.Controllers
         // GET: /Account/Register
         public ActionResult Register()
         {
+            ViewBag.RegisterWithPassword = _authType == AuthType.AuthProviderOneStepRegister;
             return View();
         }
 
@@ -91,9 +100,17 @@ namespace DealnetPortal.Web.Controllers
             if (result.Any(item => item.Type == AlertType.Error))
             {
                 AddAlertsToModelErrors(result);
+                ViewBag.RegisterWithPassword = _authType == AuthType.AuthProviderOneStepRegister;
                 return View(model);
             }
-            return RedirectToAction("ConfirmSuccessfullRegistration");
+            if (_authType != AuthType.AuthProviderOneStepRegister)
+            {
+                return RedirectToAction("ConfirmSuccessfullRegistration");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // GET: /Account/ConfirmSuccessfullRegistration

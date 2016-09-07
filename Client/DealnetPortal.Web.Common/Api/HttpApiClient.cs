@@ -118,6 +118,55 @@ namespace DealnetPortal.Web.Common.Api
                 return default(T);
         }
 
+        /// <summary>
+        /// See <see cref="PA.Tos.Common.Api.IHttpApiClient"/>
+        /// </summary>
+        /// <remarks>This operation will retry.</remarks>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUri"></param>
+        /// <param name="content"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<T> PutAsync<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var response = await Client.PutAsJsonAsync(requestUri, content, cancellationToken);
+                return await response.Content.ReadAsAsync<T>(cancellationToken);
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// See <see cref="PA.Tos.Common.Api.IHttpApiClient"/>
+        /// </summary>
+        /// <remarks>This operation will retry</remarks>
+        /// <typeparam name="T1">Type of the request</typeparam>
+        /// <typeparam name="T2">Type of the response</typeparam>
+        /// <param name="requestUri"></param>
+        /// <param name="content"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<T2> PutAsync<T1, T2>(string requestUri, T1 content, CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var response = await Client.PutAsJsonAsync(requestUri, content, cancellationToken);
+
+                if (response?.Content == null)
+                    return default(T2);
+
+                return await response.Content.ReadAsAsync<T2>(cancellationToken);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw;
+            }
+        }
+
 
     }
 }

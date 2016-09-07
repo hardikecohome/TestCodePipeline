@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using DealnetPortal.Api.Models.Scanning;
 
-namespace DealnetPortal.Api.Integration
+namespace DealnetPortal.Api.Integration.Utility
 {
     class DriverLicenseParser
     {        

@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using DealnetPortal.Api.Common.Enumeration;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using DealnetPortal.Api.Models;
+using DealnetPortal.Domain;
+using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
+        private AuthType _authType;
 
         public ApplicationOAuthProvider(string publicClientId)
         {
@@ -26,6 +28,11 @@ namespace DealnetPortal.Api.Providers
             }
 
             _publicClientId = publicClientId;
+
+            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
+            {
+                _authType = AuthType.AuthProvider;
+            }
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
@@ -40,7 +47,7 @@ namespace DealnetPortal.Api.Providers
                 return;
             }
 
-            if (!user.EmailConfirmed)
+            if (_authType != AuthType.AuthProviderOneStepRegister && !user.EmailConfirmed)
             {
                 context.SetError(ErrorConstants.ResetPasswordRequired, "Your on-time password is correct, now please change the password");
                 return;
@@ -50,7 +57,7 @@ namespace DealnetPortal.Api.Providers
             //context.OwinContext.Response.Headers.Append("user", "userHeader");
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-               OAuthDefaults.AuthenticationType);
+               OAuthDefaults.AuthenticationType);                        
 
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);

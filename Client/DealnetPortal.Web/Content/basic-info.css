@@ -188,10 +188,6 @@
 .file-upload {
     position: relative;
     overflow: hidden;
-    line-height: 22px;
-    width: 235px;
-    height: 39px;
-    display: inline-block;
 }
 
 .file-upload input.upload {
@@ -205,6 +201,11 @@
     opacity: 0;
     filter: alpha(opacity=0);
     height: 50px;
+}
+
+#upload-file-button {
+    width: 235px;
+    line-height: 22px;
 }
 
 /*.pac-item > span:last-child {

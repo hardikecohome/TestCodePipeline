@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration;
+using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Utilities;
 
@@ -34,8 +35,8 @@ namespace DealnetPortal.Api.Controllers
 
             var result = await Task.Run(() =>
             {
-                ImageScanManager scanManager = new ImageScanManager();
-                var res = scanManager.ReadDriverLicense(scanningRequest);
+                ImageScanService scanService = new ImageScanService();
+                var res = scanService.ReadDriverLicense(scanningRequest);
                 return res;
             });
            

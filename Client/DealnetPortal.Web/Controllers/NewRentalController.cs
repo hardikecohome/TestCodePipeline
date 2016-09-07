@@ -6,9 +6,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Enumeration;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Ajax.Utilities;
@@ -16,6 +17,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
+    //[Authorize]
     public class NewRentalController : Controller
     {
         private readonly IScanProcessingServiceAgent _serviceAgent;
@@ -29,12 +31,14 @@ namespace DealnetPortal.Web.Controllers
 
         public ActionResult BasicInfo()
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             return View();
         }
 
         [HttpPost]
         public ActionResult BasicInfo(BasicInfoViewModel basicInfo)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
                 return View();
