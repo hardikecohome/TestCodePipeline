@@ -30,7 +30,7 @@
                     }
                 },
                 error: function (xhr, status, p3) {
-                    alert(xhr.responseText);
+                    alert(p3);
                 }
             });
             sender.val("");

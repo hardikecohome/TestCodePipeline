@@ -128,7 +128,7 @@ function submitUpload(sender, uploadUrl) {
                     }
                 },
                 error: function(xhr, status, p3) {
-                    alert(xhr.responseText);
+                    alert(p3);
                 }
             });
             $("#upload-file").val("");
