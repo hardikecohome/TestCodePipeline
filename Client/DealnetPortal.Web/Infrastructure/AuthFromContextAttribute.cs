@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
+using System.Web.Routing;
 using DealnetPortal.Web.Common.Security;
 
 namespace DealnetPortal.Web.Infrastructure
@@ -17,6 +18,13 @@ namespace DealnetPortal.Web.Infrastructure
             _securityManager.SetUserFromContext();
         }
 
-        public void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext) { }
+        public void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext)
+        {
+            if (filterContext.HttpContext.User == null || !filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                filterContext.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary(new { controller = "Account", action = "Login" }));
+            }            
+        }
     }
 }
