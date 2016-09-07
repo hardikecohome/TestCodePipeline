@@ -68,24 +68,28 @@ $("#owner-scan-button").click(function () {
     modal.setAttribute('data-fnToFill', 'first-name');
     modal.setAttribute('data-lnToFill', 'last-name');
     modal.setAttribute('data-bdToFill', 'birth-date');
+    modal.setAttribute('data-fillAddress', "true");
 });
 $("#additional1-scan-button").click(function () {
     var modal = document.getElementById('camera-modal');
     modal.setAttribute('data-fnToFill', 'additional-first-name-1');
     modal.setAttribute('data-lnToFill', 'additional-last-name-1');
     modal.setAttribute('data-bdToFill', 'additional-birth-date-1');
+    modal.setAttribute('data-fillAddress', "false");
 });
 $("#additional2-scan-button").click(function () {
     var modal = document.getElementById('camera-modal');
     modal.setAttribute('data-fnToFill', 'additional-first-name-2');
     modal.setAttribute('data-lnToFill', 'additional-last-name-2');
     modal.setAttribute('data-bdToFill', 'additional-birth-date-2');
+    modal.setAttribute('data-fillAddress', "false");
 });
 $("#additional3-scan-button").click(function () {
     var modal = document.getElementById('camera-modal');
     modal.setAttribute('data-fnToFill', 'additional-first-name-3');
     modal.setAttribute('data-lnToFill', 'additional-last-name-3');
     modal.setAttribute('data-bdToFill', 'additional-birth-date-3');
+    modal.setAttribute('data-fillAddress', "false");
 });
 $("#add-additional-applicant").click(function() {
     if (!aditional1Section.is(':visible')) {

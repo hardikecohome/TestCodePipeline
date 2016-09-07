@@ -1,4 +1,4 @@
-﻿function submitUpload(sender, uploadUrl, fnToFill, lnToFill, bdToFill) {
+﻿function submitUpload(sender, uploadUrl, fnToFill, lnToFill, bdToFill, fillAddress) {
     var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
@@ -21,6 +21,12 @@
                         document.getElementById(lnToFill).value = json.LastName;
                         var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         $("#" + bdToFill).datepicker("setDate", date);
+                        if (fillAddress) {
+                            document.getElementById('street').value = json.Street;
+                            document.getElementById('locality').value = json.City;
+                            document.getElementById('administrative_area_level_1').value = json.State;
+                            document.getElementById('postal_code').value = json.PostalCode;
+                        }
                     }
                 },
                 error: function (xhr, status, p3) {

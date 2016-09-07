@@ -117,6 +117,13 @@ function submitUpload(sender, uploadUrl) {
                         document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
+                        var fillAddress = modal.getAttribute('data-fillAddress');
+                        if (fillAddress == "true") {
+                            document.getElementById('street').value = json.Street;
+                            document.getElementById('locality').value = json.City;
+                            document.getElementById('administrative_area_level_1').value = json.State;
+                            document.getElementById('postal_code').value = json.PostalCode;
+                        }
                         $('#camera-modal').modal('hide');
                     }
                 },
