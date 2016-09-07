@@ -26,8 +26,8 @@ namespace DealnetPortal.Domain
 
         public DateTime? LastUpdateTime { get; set; }
 
-        public virtual ICollection<ContractAddress> Addresses { get; set; }
+        public ICollection<ContractAddress> Addresses { get; set; }
 
-        public virtual ICollection<Customer> Customers { get; set; }
+        public ICollection<Customer> Customers { get; set; }
     }
 }

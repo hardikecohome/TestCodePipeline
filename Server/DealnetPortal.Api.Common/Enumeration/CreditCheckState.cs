@@ -2,9 +2,10 @@
 {
     public enum CreditCheckState
     {
-        Initiated = 0,
-        Approved = 1,
-        Declined = 2,
-        MoreInfoRequired = 3
+        NotInitiated = 0,
+        Initiated = 1,
+        Approved = 2,
+        Declined = 3,
+        MoreInfoRequired = 4
     }
 }

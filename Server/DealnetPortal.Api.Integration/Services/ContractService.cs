@@ -160,7 +160,10 @@ namespace DealnetPortal.Api.Integration.Services
 
             TimeSpan creditCheckPause = TimeSpan.FromMinutes(2);
 
-            var creditCheck = new CreditCheckDTO();
+            var creditCheck = new CreditCheckDTO()
+            {
+                CreditCheckState = CreditCheckState.NotInitiated
+            };
             var alerts = new List<Alert>();            
             var contract = _contractRepository.GetContract(contractId);
             if (contract != null)
