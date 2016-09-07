@@ -305,6 +305,7 @@
             <div class="col-md-2 col-lg-2">
                 Unit #
                 @Html.TextBoxFor(m => m.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
+                @Html.ValidationMessageFor(m => m.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4 col-lg-4">
                 City
@@ -346,6 +347,7 @@
                 <div class="col-md-2 col-lg-2">
                     Unit #
                     @Html.TextBoxFor(m => m.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
+                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-4 col-lg-4">
                     City
