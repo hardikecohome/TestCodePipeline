@@ -1,0 +1,31 @@
+﻿.dealnet-field-caption {
+    display: inline-block;
+    text-align: left;
+
+
+}
+.dealnet-field-holder {
+    display: inline-block;
+    text-align: right;
+    margin-left: auto;
+    margin-right: 0;
+
+
+}
+.dealnet-button {
+    margin-top: 50px;
+}
+
+.modal-footer {
+    text-align: center;
+}
+
+.dealnet-disabled-input{
+    border: none;
+    background: none;
+    text-align: right;
+    font-family: Lato;
+    font-weight: bold;
+    font-size: 14px;
+
+}

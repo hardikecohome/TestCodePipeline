@@ -25,6 +25,8 @@ namespace DealnetPortal.Web.Controllers
             _serviceAgent = serviceAgent;
         }
 
+        
+
         public ActionResult BasicInfo()
         {
             return View();
@@ -37,7 +39,13 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View();
             }
-            return View();
+            return this.View("CreditCheckConfirmation", basicInfo);
+        }
+
+        [HttpPost]
+        public ActionResult CreditCheckConfirmation(BasicInfoViewModel basicInfo)
+        {
+            return this.View(basicInfo);
         }
 
         [HttpPost]
