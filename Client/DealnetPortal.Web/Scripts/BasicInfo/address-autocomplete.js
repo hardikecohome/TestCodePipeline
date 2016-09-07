@@ -90,6 +90,18 @@ function initGoogleServices() {
                     }
                     continue;
                 }
+                if (addressType == 'locality') {
+                    document.getElementById('locality').value = val;
+                    continue;
+                }
+                if (addressType == 'administrative_area_level_1') {
+                    document.getElementById('administrative_area_level_1').value = val;
+                    continue;
+                }
+                if (addressType == 'postal_code') {
+                    document.getElementById('postal_code').value = val;
+                    continue;
+                }
             }
         }
         if (street) {
@@ -119,6 +131,18 @@ function initGoogleServices() {
                     } else {
                         street += " " + val;
                     }
+                    continue;
+                }
+                if (addressType == 'locality') {
+                    document.getElementById('mailing_locality').value = val;
+                    continue;
+                }
+                if (addressType == 'administrative_area_level_1') {
+                    document.getElementById('mailing_administrative_area_level_1').value = val;
+                    continue;
+                }
+                if (addressType == 'postal_code') {
+                    document.getElementById('mailing_postal_code').value = val;
                     continue;
                 }
             }
