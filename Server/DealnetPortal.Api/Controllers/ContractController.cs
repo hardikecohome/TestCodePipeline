@@ -15,6 +15,7 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Contract")]
     public class ContractController : BaseApiController
     {

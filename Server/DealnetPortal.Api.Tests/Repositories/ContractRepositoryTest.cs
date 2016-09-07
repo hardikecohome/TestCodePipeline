@@ -78,6 +78,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.IsTrue(isDeleted);
         }
 
+        [Ignore]
         [TestMethod]
         public void TestUpdateContract()
         {
