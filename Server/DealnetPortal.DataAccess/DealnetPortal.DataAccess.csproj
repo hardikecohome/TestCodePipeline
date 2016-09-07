@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="DatabaseFactory.cs" />
+    <Compile Include="DropCreateDbWithSeedTestData.cs" />
     <Compile Include="IDatabaseFactory.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
