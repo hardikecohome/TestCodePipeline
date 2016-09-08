@@ -62,7 +62,7 @@ function showChart() {
 };
 
 function showTable() {
-    $.when($.ajax('/client/reports/WorkItems', { mode: 'GET' }))
+    $.when($.ajax('/home/GetWorkItems', { mode: 'GET' }))
     .done(function (data) {
         $('#work-items-table')
             .DataTable({
@@ -73,13 +73,18 @@ function showTable() {
                 },
                 data: data,
                 columns: [
-                    { title: "Contract #" },
-                    { title: "Customer" },
-                    { title: "Status" },
-                    { title: "Action req." },
-                    { title: "Email" },
-                    { title: "Phone" },
-                    { title: "Date" }
+                    { "data" : "Id" },
+                    { "data": "CustomerName" },
+                    { "data": "Status" },
+                    { "data": "Action" },
+                    { "data": "Email" },
+                    { "data": "Phone" },
+                    { "data": "Date" },
+                    {// this is Actions Column 
+                        "render": function (sdata, type, row) {
+                            return '<a href=/NewRental/Edit?id="' + row.Id + '">Edit</a>';
+                        }
+                    }
                 ]
             });
         $('.paginate_button.previous a').text('<');
