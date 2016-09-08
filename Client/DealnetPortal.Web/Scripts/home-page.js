@@ -16,7 +16,7 @@ $(document)
 
 
 function showChart() {
-    $.when($.ajax('/client/home/GetDealFlowOverview',
+    $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
                     data: {
@@ -62,7 +62,7 @@ function showChart() {
 };
 
 function showTable() {
-    $.when($.ajax('/client/home/GetWorkItems', { mode: 'GET' }))
+    $.when($.ajax(itemsUrl, { mode: 'GET' }))
     .done(function (data) {
         $('#work-items-table')
             .DataTable({
@@ -82,7 +82,7 @@ function showTable() {
                     { "data": "Date" },
                     {// this is Actions Column 
                         "render": function (sdata, type, row) {
-                            return '<a href=/client/NewRental/Edit?id="' + row.Id + '">Edit</a>';
+                            return '<a href=' + editItemUrl + '?id="' + row.Id + '">Edit</a>';
                         }
                     }
                 ]
