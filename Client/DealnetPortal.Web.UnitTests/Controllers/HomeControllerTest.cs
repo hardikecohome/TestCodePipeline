@@ -6,17 +6,27 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DealnetPortal.Web;
 using DealnetPortal.Web.Controllers;
+using DealnetPortal.Web.ServiceAgent;
+using Moq;
 
 namespace DealnetPortal.Web.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
     {
+        private Mock<IContractServiceAgent> _contractServiceAgentMock;
+
+        [TestInitialize]
+        public void Intialize()
+        {
+            _contractServiceAgentMock = new Mock<IContractServiceAgent>();
+        }
+
         [TestMethod]
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -29,7 +39,7 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object);
 
             // Act
             ViewResult result = controller.About() as ViewResult;
@@ -42,7 +52,7 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void Contact()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object);
 
             // Act
             ViewResult result = controller.Contact() as ViewResult;

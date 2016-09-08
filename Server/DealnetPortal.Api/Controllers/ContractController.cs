@@ -131,7 +131,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetContractsSummary")]
+        [Route("{summaryType}/ContractsSummary")]
         [HttpGet]
         public IHttpActionResult GetContractsSummary(string summaryType)
         {

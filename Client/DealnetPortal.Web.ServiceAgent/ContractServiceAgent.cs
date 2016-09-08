@@ -65,5 +65,19 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             return await Client.GetAsync<Tuple<CreditCheckDTO, IList<Alert>>>($"{_fullUri}/GetCreditCheckResult?contractId={contractId}");
         }
+
+        public async Task<IList<FlowingSummaryItemDTO>> GetContractsSummary(string summaryType)
+        {
+            try
+            {            
+                IList<FlowingSummaryItemDTO> result =  await Client.GetAsync<IList<FlowingSummaryItemDTO>>($"{_fullUri}/{summaryType}/ContractsSummary");
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

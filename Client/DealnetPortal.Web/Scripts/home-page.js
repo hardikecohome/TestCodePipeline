@@ -16,7 +16,7 @@ $(document)
 
 
 function showChart() {
-    $.when($.ajax('/client/reports/DealFlowOverview',
+    $.when($.ajax('/home/GetDealFlowOverview',
                 {
                     mode: 'GET',
                     data: {
