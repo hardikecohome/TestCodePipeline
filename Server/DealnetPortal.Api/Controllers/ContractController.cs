@@ -56,7 +56,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var contract = ContractService.CreateContract(LoggedInUser?.UserId);
-                if (contract == null)                
+                if (contract == null)
                 {
                     alerts.Add(new Alert()
                     {
@@ -131,5 +131,15 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetContractsSummary")]
+        [HttpGet]
+        public IHttpActionResult GetContractsSummary(string summaryType)
+        {
+            FlowingSummaryType type;
+            Enum.TryParse(summaryType, out type);
+
+            var result = ContractService.GetDealsFlowingSummary(LoggedInUser?.UserId, type);
+            return Ok(result);
+        }
     }
 }
