@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.MemoryMappedFiles;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -238,6 +240,60 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<Alert> SubmitContract(int contractId)
         {
             throw new NotImplementedException();
+        }
+
+        public IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId,
+            FlowingSummaryType summaryType)
+        {
+            // Stub for a future deals summary requests
+
+            IList<FlowingSummaryItemDTO> summary = new List<FlowingSummaryItemDTO>();
+            var rand = new Random();
+            switch (summaryType)
+            {
+                case FlowingSummaryType.Month:
+                    {
+                        for (int i = 1; i < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+                        {
+                            summary.Add(new FlowingSummaryItemDTO()
+                            {
+                                ItemLabel = i.ToString(),
+                                ItemData = new List<int>() { rand.Next(1, 100) }
+                            });                            
+                        }
+                        break;
+                    }
+                case FlowingSummaryType.Week:
+                    {
+                        foreach (var day in DateTimeFormatInfo.CurrentInfo.DayNames)
+                        {
+                            summary.Add(new FlowingSummaryItemDTO()
+                            {
+                                ItemLabel = day,
+                                ItemData = new List<int>() { rand.Next(1, 100) }
+                            });
+                        }
+                        break;
+                    }
+                case FlowingSummaryType.Year:
+                    {
+                        foreach (var month in DateTimeFormatInfo.CurrentInfo.MonthNames)
+                        {
+                            if (string.IsNullOrEmpty(month))
+                            {
+                                continue;
+                            }
+                            summary.Add(new FlowingSummaryItemDTO()
+                            {
+                                ItemLabel = month,
+                                ItemData = new List<int>() { rand.Next(1, 100) }
+                            });
+                        }
+                        break;
+                    }
+            }
+
+            return summary;
         }
     }
 }

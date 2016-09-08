@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 
@@ -25,5 +26,7 @@ namespace DealnetPortal.Api.Integration.Services
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId);
 
         IList<Alert> SubmitContract(int contractId);
+
+        IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
     }
 }
