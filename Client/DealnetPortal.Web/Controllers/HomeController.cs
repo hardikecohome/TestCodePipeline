@@ -41,9 +41,9 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetDealFlowOverview(FlowingSummaryType type)
+        public async Task<ActionResult> GetDealFlowOverview(FlowingSummaryType type)
         {
-            var summary = _contractServiceAgent.GetContractsSummary(type.ToString()).GetAwaiter().GetResult();
+            var summary = await _contractServiceAgent.GetContractsSummary(type.ToString());
             var labels = summary.Select(s => s.ItemLabel).ToList();
             var data = summary.Select(s => s.ItemData).ToList();
             List<object> datasets = new List<object>();
