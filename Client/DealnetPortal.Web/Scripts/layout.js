@@ -1,5 +1,9 @@
 ﻿$(document)
     .ready(function () {
+        //$(window)
+        //    .resize(function() {
+        //        $('#display').text($(window).width());
+        //    });
 
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
             .parents('.dealnet-sidebar-item')

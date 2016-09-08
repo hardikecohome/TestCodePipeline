@@ -1,11 +1,11 @@
-@media (max-width: 768px) {
+@media (max-width: 769px) {
     .navbar-fixed-side {
         margin-left: -15px;
         margin-right: -15px;
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
     .navbar-fixed-side {
         position: fixed;
         margin: 0 -15px;

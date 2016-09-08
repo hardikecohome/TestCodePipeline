@@ -38,6 +38,12 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        public ActionResult Edit(string id)
+        {
+            //ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            return RedirectToAction("BasicInfo");
+        }
+
         [HttpPost]
         public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {

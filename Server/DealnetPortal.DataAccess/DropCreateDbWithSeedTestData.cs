@@ -20,8 +20,8 @@ namespace DealnetPortal.DataAccess
         {
             var user = new ApplicationUser()
             {
-                Email = "user@user.ru",
-                UserName = "user@user.ru",
+                Email = "user@user.com",
+                UserName = "user@user.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,

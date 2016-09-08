@@ -1,7 +1,6 @@
 ﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
 
 ﻿@Styles.Render("~/Content/basic-info.css")
-﻿@Styles.Render("~/Content/credit-check.css")
 @Scripts.Render("~/Scripts/credit-check.js")
 
 <div id="label-steps">
@@ -43,7 +42,7 @@
 
 
     <div class="row">
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
             <div class="dealnet-credit-check-section">
                 <div class="dealnet-large-header dealnet-field-caption dealnet-section-title">Home Owner Information</div>
                 <div class="dealnet-field-holder"> <a href="#" onclick="editData(this)">Edit</a></div>
@@ -87,7 +86,7 @@
         </div>
         @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Length > 0)
         {
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 <div class="dealnet-credit-check-section">
                     <div class="dealnet-large-header dealnet-field-caption dealnet-section-title">Additional Applicant #1</div>
                     <div class="dealnet-field-holder"> <a href="#" onclick="editData(this)">Edit</a></div>
@@ -139,7 +138,7 @@
     if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Length > 1)
     {
         <div class="row">
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
 
                 <div class="dealnet-credit-check-section">
                     <div class="dealnet-large-header dealnet-field-caption dealnet-section-title">Additional Applicant #2</div>
@@ -185,7 +184,7 @@
 
 
             </div>
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Length > 2)
                 {
                     <div class="dealnet-credit-check-section">
@@ -239,7 +238,7 @@
     }
 
     <div class="row">
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
 
             <div class="dealnet-credit-check-section">
                 <div class="dealnet-large-header dealnet-field-caption dealnet-section-title">Address Information</div>
@@ -299,7 +298,7 @@
         </div>
     </div>
 
-    <div class="col-md-6 col-lg-6">
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
         @if (Model.MailingAddressInformation != null)
         {
 
@@ -384,7 +383,7 @@
                         <button type="button" class="btn dealnet-button dealnet-green-button" onclick="saveChanges()">Save changes</button>
                     </div>
                     <div>
-                        <a href="#" data-dismiss="modal">Cancel</a>
+                        <a href="#" onclick="cancelChanges()">Cancel</a>
                     </div>
                 </div>
             </div><!-- /.modal-content -->

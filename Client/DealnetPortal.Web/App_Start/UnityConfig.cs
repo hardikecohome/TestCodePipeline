@@ -42,9 +42,10 @@ namespace DealnetPortal.Web.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<IHttpApiClient, HttpApiClient>(new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
+            container.RegisterType<IHttpApiClient, HttpApiClient>(new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
+            container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
             container.RegisterType<ISecurityManager, SecurityManager>();
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();

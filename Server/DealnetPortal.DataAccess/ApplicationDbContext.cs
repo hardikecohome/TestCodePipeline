@@ -16,9 +16,12 @@ namespace DealnetPortal.DataAccess
             return new ApplicationDbContext();
         }
 
-        public DbSet<Contract> Contracts { get; set; }
+        /// <summary>
+        /// temporary added virtual
+        /// </summary>
+        public virtual DbSet<Contract> Contracts { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

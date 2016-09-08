@@ -48,7 +48,16 @@ namespace DealnetPortal.Web.ServiceAgent
 
         public async Task<IList<ContractDTO>> GetContracts()
         {
+            try
+            {
+            
             return await Client.GetAsync<IList<ContractDTO>>(_fullUri);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task<IList<Alert>> UpdateContractClientData(ContractDTO contract)
@@ -64,6 +73,20 @@ namespace DealnetPortal.Web.ServiceAgent
         public async Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId)
         {
             return await Client.GetAsync<Tuple<CreditCheckDTO, IList<Alert>>>($"{_fullUri}/GetCreditCheckResult?contractId={contractId}");
+        }
+
+        public async Task<IList<FlowingSummaryItemDTO>> GetContractsSummary(string summaryType)
+        {
+            try
+            {            
+                IList<FlowingSummaryItemDTO> result =  await Client.GetAsync<IList<FlowingSummaryItemDTO>>($"{_fullUri}/{summaryType}/ContractsSummary");
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }
