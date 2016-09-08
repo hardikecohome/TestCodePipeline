@@ -49,7 +49,7 @@ namespace DealnetPortal.Web
                       "~/Content/datatables/css/jquery.dataTables.css",
                 "~/Content/datatables/css/dataTables.bootstrap.css",
                 "~/Content/datatables/css/responsive.bootstrap.css",
-                      "~/Content/home-page.css"
+                      "~/Content/home-page.css", "~/Content/credit-check.css"
                       ));
         }
     }

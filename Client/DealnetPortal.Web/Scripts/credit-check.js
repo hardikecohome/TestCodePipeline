@@ -51,6 +51,10 @@ function editData(elem) {
     section.find('input[type="text"]').removeClass('dealnet-disabled-input');
     section.find('a').hide();
     section.find('.dealnet-agrees').hide();
+    section.find('input[type="text"]').each(function(index, elem) {
+        $(elem).attr('default-value', $(elem).val());
+    });
+   
     $('.dealnet-credit-check-section a').hide();
     $('#editor-modal').modal();
 };
@@ -61,4 +65,12 @@ function saveChanges() {
     if ($('#credit-check-form').valid()) {
         $('#editor-modal').modal('hide');
     };
+};
+
+
+function cancelChanges() {
+    $('.modal-body input[type="text"]').each(function (index, elem) {
+        $(elem).val($(elem).attr('default-value'));
+    });
+    $('#editor-modal').modal('hide');
 };
