@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
@@ -18,14 +19,15 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
     public class NewRentalController : Controller
     {
-        private readonly IScanProcessingServiceAgent _serviceAgent;
+        private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
+        private readonly IContractServiceAgent _contractServiceAgent;
 
-        public NewRentalController(IScanProcessingServiceAgent serviceAgent)
+        public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent)
         {
-            _serviceAgent = serviceAgent;
+            _scanProcessingServiceAgent = scanProcessingServiceAgent;
+            _contractServiceAgent = contractServiceAgent;
         }
 
         
@@ -37,20 +39,41 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult BasicInfo(BasicInfoViewModel basicInfo)
+        public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            return this.View("CreditCheckConfirmation", basicInfo);
+            var contractResult = await _contractServiceAgent.CreateContract();
+            var contract = contractResult.Item1;
+            contract.Customers = new List<CustomerDTO>();
+            contract.Customers.Add(basicInfo.HomeOwner.ToCustomerDto());
+            contract.Customers.AddRange(basicInfo.AdditionalApplicants.Select(app => app.ToCustomerDto()));
+            contract.Addresses.Add(basicInfo.AddressInformation.ToContractAddressDto(AddressType.MainAddress));
+            if (basicInfo.MailingAddressInformation != null)
+            {
+                contract.Addresses.Add(basicInfo.MailingAddressInformation.ToContractAddressDto(AddressType.MailAddress));
+            }
+            await _contractServiceAgent.UpdateContractClientData(contract);
+            return View("CreditCheckConfirmation", contract.Id);
         }
 
         [HttpPost]
-        public ActionResult CreditCheckConfirmation(BasicInfoViewModel basicInfo)
+        public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
-            return this.View(basicInfo);
+            var basicInfo = new BasicInfoViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            basicInfo.HomeOwner = contractResult.Item1.Customers.First().ToApplicantPersonalInfo();
+            basicInfo.AdditionalApplicants = contractResult.Item1.Customers.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToArray();
+            basicInfo.AddressInformation = contractResult.Item1.Addresses.First(a => a.AddressType == AddressType.MainAddress).ToContractAddressDto();
+            var mailingAddress = contractResult.Item1.Addresses.FirstOrDefault(a => a.AddressType == AddressType.MailAddress);
+            if (mailingAddress != null)
+            {
+                basicInfo.MailingAddressInformation = mailingAddress.ToContractAddressDto();
+            }
+            return View(basicInfo);
         }
 
         [HttpPost]
@@ -67,7 +90,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 ImageForReadRaw = bytes
             };
-            var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
+            var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }       
 
@@ -82,7 +105,7 @@ namespace DealnetPortal.Web.Controllers
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
             ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
-            var result = await _serviceAgent.ScanDriverLicense(scanningRequest);
+            var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
 

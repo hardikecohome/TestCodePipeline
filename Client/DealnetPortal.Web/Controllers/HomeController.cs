@@ -6,8 +6,7 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
-{    
-    [AuthFromContext]
+{
     public class HomeController : Controller
     {
         public ActionResult Index()
