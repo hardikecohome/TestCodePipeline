@@ -9,6 +9,16 @@
     text-align: right;
     margin-left: auto;
     margin-right: 0;
+    float: right;
+    clear: right;
+
+
+}
+
+.dealnet-field-holder a{
+    font-family: Lato;
+    font-weight: normal;
+    font-size: 14px;
 
 
 }
@@ -27,5 +37,22 @@
     font-family: Lato;
     font-weight: bold;
     font-size: 14px;
-
 }
+
+.dealnet-credit-check-section {
+    width: 100%;
+    padding-right: 100px;
+    margin-top: 50px;
+}
+
+.dealnet-credit-check-section>div {
+    margin-top: 20px;
+}
+
+.row .dealnet-credit-check-section:nth-child(odd) {
+    border-right: 1px solid black;
+}
+
+
+
+
