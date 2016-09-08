@@ -8,20 +8,54 @@
 });
 $("#birth-date").datepicker({
     dateFormat: 'mm/dd/yy', changeMonth: true,
-    changeYear: true
+    changeYear: true,
+    yearRange: '1900:2016',
+    minDate: Date.parse("1900-01-01"),
+    maxDate: new Date()
 });
 $("#additional-birth-date-1").datepicker({
     dateFormat: 'mm/dd/yy', changeMonth: true,
-    changeYear: true
+    changeYear: true,
+    yearRange: '1900:2016',
+    minDate: Date.parse("1900-01-01"),
+    maxDate: new Date()
 });
 $("#additional-birth-date-2").datepicker({
     dateFormat: 'mm/dd/yy', changeMonth: true,
-    changeYear: true
+    changeYear: true,
+    yearRange: '1900:2016',
+    minDate: Date.parse("1900-01-01"),
+    maxDate: new Date()
 });
 $("#additional-birth-date-3").datepicker({
     dateFormat: 'mm/dd/yy', changeMonth: true,
-    changeYear: true
+    changeYear: true,
+    yearRange: '1900:2016',
+    minDate: Date.parse("1900-01-01"),
+    maxDate: new Date()
 });
+
+$(function () {
+    $.validator.addMethod(
+        "date",
+        function (value, element) {
+            console.log(value);
+            var minDate = Date.parse("1900-01-01");
+            var maxDate = new Date();
+            var valueEntered = Date.parseExact(value, "M/d/yyyy");
+            console.log(valueEntered);
+            if (!valueEntered) {
+                return false;
+            }
+            if (valueEntered < minDate || valueEntered > maxDate) {
+                return false;
+            }
+            return true;
+        },
+        "Please enter a valid date!"
+    );
+});
+
 var aditional1Section = $("#additional1-section");
 var aditional2Section = $("#additional2-section");
 var aditional3Section = $("#additional3-section");
