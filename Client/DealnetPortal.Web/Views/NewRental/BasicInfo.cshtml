@@ -129,7 +129,7 @@
         </div>
         <div class="col-md-4 col-lg-4">
             Date of Birth
-            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy" })
+            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
             @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -176,7 +176,7 @@
             </div>
             <div class="col-md-4 col-lg-4">
                 Date of Birth
-                @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled" })
+                @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -224,7 +224,7 @@
             </div>
             <div class="col-md-4 col-lg-4">
                 Date of Birth
-                @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled" })
+                @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -272,7 +272,7 @@
             </div>
             <div class="col-md-4 col-lg-4">
                 Date of Birth
-                @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled" })
+                @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new { @class = "text-danger" })
             </div>
         </div>

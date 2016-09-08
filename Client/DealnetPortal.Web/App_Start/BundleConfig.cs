@@ -33,11 +33,11 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
                      "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include(
-                "~/Scripts/jquery-ui-1.12.0.js"));
+                "~/Scripts/jquery-ui-1.12.0.js").Include("~/Scripts/datejs.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").IncludeDirectory(
                      "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include(
-                "~/Scripts/jquery-ui-1.12.0.js"));
+                "~/Scripts/jquery-ui-1.12.0.js").Include("~/Scripts/datejs.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
 

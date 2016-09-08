@@ -426,6 +426,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
