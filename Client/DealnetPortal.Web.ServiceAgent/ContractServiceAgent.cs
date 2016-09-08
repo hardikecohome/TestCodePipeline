@@ -48,7 +48,16 @@ namespace DealnetPortal.Web.ServiceAgent
 
         public async Task<IList<ContractDTO>> GetContracts()
         {
+            try
+            {
+            
             return await Client.GetAsync<IList<ContractDTO>>(_fullUri);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task<IList<Alert>> UpdateContractClientData(ContractDTO contract)
