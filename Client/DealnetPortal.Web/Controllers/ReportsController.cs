@@ -25,61 +25,61 @@ namespace DealnetPortal.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
+        //[HttpGet]
 
-        public ActionResult DealFlowOverview(DealFlowType type)
-        {
-            var rand = new Random();
-            var labels = new List<string>();
-            var datasets = new List<object>();
-            var data = new List<int>();
-            switch (type)
-            {
-                case DealFlowType.Month:
-                    {
-                        for (int i = 1; i < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
-                        {
-                            data.Add(rand.Next(1, 100));
-                            labels.Add(i.ToString());
-                        }
-                        datasets.Add(new {data });
-                        break;
-                    }
-                case DealFlowType.Week:
-                    {
-                        foreach (var day in DateTimeFormatInfo.CurrentInfo.DayNames)
-                        {
-                            data.Add(rand.Next(1, 100));
-                            labels.Add(day);
-                        }
-                        datasets.Add(new {data });
-                        break;
-                    }
-                case DealFlowType.Year:
-                    {
-                        foreach (var month in DateTimeFormatInfo.CurrentInfo.MonthNames)
-                        {
-                            if (string.IsNullOrEmpty(month))
-                            {
-                                continue;
-                            }
-                            data.Add(rand.Next(1, 100));
-                            labels.Add(month);
-                        }
-                        datasets.Add(new {data });
-                        break;
-                    }
-            }
+        //public ActionResult DealFlowOverview(DealFlowType type)
+        //{
+        //    var rand = new Random();
+        //    var labels = new List<string>();
+        //    var datasets = new List<object>();
+        //    var data = new List<int>();
+        //    switch (type)
+        //    {
+        //        case DealFlowType.Month:
+        //            {
+        //                for (int i = 1; i < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+        //                {
+        //                    data.Add(rand.Next(1, 100));
+        //                    labels.Add(i.ToString());
+        //                }
+        //                datasets.Add(new {data });
+        //                break;
+        //            }
+        //        case DealFlowType.Week:
+        //            {
+        //                foreach (var day in DateTimeFormatInfo.CurrentInfo.DayNames)
+        //                {
+        //                    data.Add(rand.Next(1, 100));
+        //                    labels.Add(day);
+        //                }
+        //                datasets.Add(new {data });
+        //                break;
+        //            }
+        //        case DealFlowType.Year:
+        //            {
+        //                foreach (var month in DateTimeFormatInfo.CurrentInfo.MonthNames)
+        //                {
+        //                    if (string.IsNullOrEmpty(month))
+        //                    {
+        //                        continue;
+        //                    }
+        //                    data.Add(rand.Next(1, 100));
+        //                    labels.Add(month);
+        //                }
+        //                datasets.Add(new {data });
+        //                break;
+        //            }
+        //    }
 
-            return this.Json(new { labels, datasets }, JsonRequestBehavior.AllowGet);
-        }
+        //    return this.Json(new { labels, datasets }, JsonRequestBehavior.AllowGet);
+        //}
 
 
-        public enum DealFlowType
-        {
-            Week,
-            Month,
-            Year
-        }
+        //public enum DealFlowType
+        //{
+        //    Week,
+        //    Month,
+        //    Year
+        //}
     }
 }

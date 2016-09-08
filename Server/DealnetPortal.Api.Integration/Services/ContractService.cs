@@ -258,7 +258,7 @@ namespace DealnetPortal.Api.Integration.Services
                             summary.Add(new FlowingSummaryItemDTO()
                             {
                                 ItemLabel = i.ToString(),
-                                ItemData = new List<int>() { rand.Next(1, 100) }
+                                ItemData = rand.Next(1, 100)
                             });                            
                         }
                         break;
@@ -270,7 +270,7 @@ namespace DealnetPortal.Api.Integration.Services
                             summary.Add(new FlowingSummaryItemDTO()
                             {
                                 ItemLabel = day,
-                                ItemData = new List<int>() { rand.Next(1, 100) }
+                                ItemData = rand.Next(1, 100)
                             });
                         }
                         break;
@@ -286,7 +286,7 @@ namespace DealnetPortal.Api.Integration.Services
                             summary.Add(new FlowingSummaryItemDTO()
                             {
                                 ItemLabel = month,
-                                ItemData = new List<int>() { rand.Next(1, 100) }
+                                ItemData = rand.Next(1, 100) 
                             });
                         }
                         break;
