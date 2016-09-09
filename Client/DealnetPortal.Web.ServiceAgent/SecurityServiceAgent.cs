@@ -124,5 +124,15 @@ namespace DealnetPortal.Web.ServiceAgent
             Client.Client.DefaultRequestHeaders.Authorization =
                new AuthenticationHeaderValue("Bearer", ((UserIdentity)principal?.Identity)?.Token ?? string.Empty);
         }
+
+        public bool IsAutorizated()
+        {
+            var auth = Client.Client?.DefaultRequestHeaders?.Authorization;
+            if (auth != null && auth.Scheme == "Bearer" && !string.IsNullOrEmpty(auth.Parameter))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

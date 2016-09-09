@@ -25,5 +25,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="principal"></param>
         void SetAuthorizationHeader(IPrincipal principal);
+
+        bool IsAutorizated();
     }
 }

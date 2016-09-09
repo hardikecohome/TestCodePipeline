@@ -32,7 +32,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public void TestCreateContractForNotAutorizedUser()
         {
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
             var result = contractServiceAgent.CreateContract().GetAwaiter().GetResult();
 
             Assert.IsNotNull(result);
@@ -48,7 +48,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
             var result = await contractServiceAgent.CreateContract();
 
             Assert.IsNotNull(result);
@@ -65,7 +65,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
@@ -89,7 +89,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
@@ -122,7 +122,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
@@ -140,7 +140,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);

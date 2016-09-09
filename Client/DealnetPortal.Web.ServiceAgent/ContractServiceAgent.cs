@@ -15,10 +15,12 @@ namespace DealnetPortal.Web.ServiceAgent
     public class ContractServiceAgent : ApiBase, IContractServiceAgent
     {
         private const string ContractApi = "Contract";
+        private ILoggingService _loggingService;
 
-        public ContractServiceAgent(IHttpApiClient client)
+        public ContractServiceAgent(IHttpApiClient client, ILoggingService loggingService)
             : base(client, ContractApi)
-        {            
+        {
+            _loggingService = loggingService;
         }
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContract()
@@ -42,34 +44,82 @@ namespace DealnetPortal.Web.ServiceAgent
                     Header = $"Can't get contract with id {contractId}",
                     Message = ex.Message
                 });
+                _loggingService.LogError($"Can't get contract with id {contractId}", ex);
             }
             return new Tuple<ContractDTO, IList<Alert>>(null, alerts);
         }
 
         public async Task<IList<ContractDTO>> GetContracts()
         {
-            return await Client.GetAsync<IList<ContractDTO>>(_fullUri);
+            try
+            {            
+                return await Client.GetAsync<IList<ContractDTO>>(_fullUri);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts for an user", ex);
+                throw;
+            }
         }
 
         public async Task<IList<Alert>> UpdateContractClientData(ContractDTO contract)
         {
-            return await Client.PutAsync<ContractDTO, IList<Alert>>($"{_fullUri}/UpdateContractClientData", contract);
+            try
+            {
+                return
+                    await Client.PutAsync<ContractDTO, IList<Alert>>($"{_fullUri}/UpdateContractClientData", contract);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Can't update client data for contract {contract.Id}", ex);
+                throw;
+            }
         }
 
         public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
         {
-            return await Client.PutAsync<string, IList<Alert>>($"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "");
+            try
+            {
+                return
+                    await
+                        Client.PutAsync<string, IList<Alert>>(
+                            $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Can't initiate credit check for contract {contractId}", ex);
+                throw;
+            }
         }
 
         public async Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId)
         {
-            return await Client.GetAsync<Tuple<CreditCheckDTO, IList<Alert>>>($"{_fullUri}/GetCreditCheckResult?contractId={contractId}");
+            try
+            {
+                return
+                    await
+                        Client.GetAsync<Tuple<CreditCheckDTO, IList<Alert>>>(
+                            $"{_fullUri}/GetCreditCheckResult?contractId={contractId}");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Can't get credit check result for contract {contractId}", ex);
+                throw;
+            }
         }
 
         public async Task<IList<FlowingSummaryItemDTO>> GetContractsSummary(string summaryType)
         {
-            IList<FlowingSummaryItemDTO> result = await Client.GetAsync<IList<FlowingSummaryItemDTO>>($"{_fullUri}/{summaryType}/ContractsSummary");
-            return result;
+            try
+            {            
+                IList<FlowingSummaryItemDTO> result = await Client.GetAsync<IList<FlowingSummaryItemDTO>>($"{_fullUri}/{summaryType}/ContractsSummary");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get credit contracts summary", ex);
+                throw;
+            }
         }
     }
 }
