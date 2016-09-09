@@ -27,6 +27,7 @@ namespace DealnetPortal.Web.ServiceAgent
         public SecurityServiceAgent(IHttpApiClient client, ILoggingService loggingService)
             : base(client, string.Empty)
         {
+            _loggingService = loggingService;
             var baseUri = Client.Client.BaseAddress;
             try
             {
