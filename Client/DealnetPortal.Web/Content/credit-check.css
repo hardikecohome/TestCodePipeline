@@ -33,6 +33,7 @@
 
 .modal-dialog {
     width: 100% !important;
+    margin-top: 65px !important;
 }
 
 .dealnet-disabled-input{
