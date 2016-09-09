@@ -1,8 +1,9 @@
 ﻿.dealnet-field-caption {
     display: inline-block;
     text-align: left;
-
-
+    font-family: Lato;
+    font-weight: normal;
+    font-size: 14px;
 }
 .dealnet-field-holder {
     display: inline-block;
@@ -30,6 +31,10 @@
     text-align: center;
 }
 
+.modal-dialog {
+    width: 100% !important;
+}
+
 .dealnet-disabled-input{
     border: none;
     background: none;
@@ -37,6 +42,53 @@
     font-family: Lato;
     font-weight: bold;
     font-size: 14px;
+}
+
+.dealnet-modal-section{
+    border: none !important;
+    margin-top: 10px !important;
+    padding-right: 10px !important;
+}
+
+.dealnet-modal-section>div {
+    text-align: left !important;
+}
+
+.dealnet-modal-section .dealnet-field-caption {
+    display: block !important;
+}
+
+@media(max-width: 480px) {
+    .dealnet-credit-check-section {
+        padding-right: 0 !important;
+        border: none !important;
+        
+
+    }
+    
+}
+
+.modal-footer .dealnet-button {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.modal-body {
+    padding-top: 0px;
+}
+
+.dealnet-modal-section input{
+    display: block !important;
+    width: 100% !important;
+}
+
+.dealnet-modal-section .dealnet-field-holder {
+    float: none !important;
+    width: 100% !important;
+}
+
+.dealnet-modal-section>div:first-child {
+    display: none !important;
 }
 
 .dealnet-credit-check-section {

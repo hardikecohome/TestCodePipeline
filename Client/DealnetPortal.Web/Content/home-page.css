@@ -11,6 +11,11 @@
     vertical-align: middle;
 }
 
+.dealnet-page-button.new-rental {
+
+        margin-bottom: 20px;
+    }
+
 @media(max-width: 480px) {
     .dealnet-page-button.new-rental {
         height: 50px;
