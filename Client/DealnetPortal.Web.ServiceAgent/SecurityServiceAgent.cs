@@ -27,6 +27,7 @@ namespace DealnetPortal.Web.ServiceAgent
         public SecurityServiceAgent(IHttpApiClient client, ILoggingService loggingService)
             : base(client, string.Empty)
         {
+            _loggingService = loggingService;
             var baseUri = Client.Client.BaseAddress;
             try
             {
@@ -123,6 +124,16 @@ namespace DealnetPortal.Web.ServiceAgent
             //Set Authorization header
             Client.Client.DefaultRequestHeaders.Authorization =
                new AuthenticationHeaderValue("Bearer", ((UserIdentity)principal?.Identity)?.Token ?? string.Empty);
+        }
+
+        public bool IsAutorizated()
+        {
+            var auth = Client.Client?.DefaultRequestHeaders?.Authorization;
+            if (auth != null && auth.Scheme == "Bearer" && !string.IsNullOrEmpty(auth.Parameter))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

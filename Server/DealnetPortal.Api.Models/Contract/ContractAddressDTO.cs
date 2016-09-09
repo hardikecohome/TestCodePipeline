@@ -15,9 +15,8 @@ namespace DealnetPortal.Api.Models.Contract
         public AddressType AddressType { get; set; }
 
         [MinLength(2)]
-        [MaxLength(20)]
+        [MaxLength(100)]
         public string Street { get; set; }
-        [MinLength(1)]
         [MaxLength(10)]
         public string Unit { get; set; }
         public string City { get; set; }

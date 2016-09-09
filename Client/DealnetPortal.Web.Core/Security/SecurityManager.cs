@@ -110,6 +110,10 @@ namespace DealnetPortal.Web.Core.Security
             if (user != null)
             {
                 SetUser(user);
+                if (!_securityService.IsAutorizated())
+                {
+                    _securityService.SetAuthorizationHeader(user);
+                }
             }
         }
 

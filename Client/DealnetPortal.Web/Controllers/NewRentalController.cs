@@ -34,6 +34,15 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> BasicInfo(int? contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
+            if (contractId == null)
+            {
+                var contract = await _contractServiceAgent.CreateContract();
+                if (contract?.Item1 != null)
+                {
+                    contractId = contract.Item1.Id;
+                }
+            }
             if (contractId != null)
             {
                 return View(await GetBasicInfoAsync(contractId.Value));
@@ -52,8 +61,11 @@ namespace DealnetPortal.Web.Controllers
             var contractResult = basicInfo.ContractId == null ? 
                 await _contractServiceAgent.CreateContract() : 
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
-            await UpdateContractAsync(contractResult.Item1, basicInfo);
-            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult.Item1.Id });
+            if (contractResult?.Item1 != null)
+            {
+                await UpdateContractAsync(contractResult.Item1, basicInfo);
+            }
+            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
         }
 
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
