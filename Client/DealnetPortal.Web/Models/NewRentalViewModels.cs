@@ -22,7 +22,7 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime BirthDate { get; set; }
         public bool AgrreesToSendPersonalInfo { get; set; }
     }
@@ -60,5 +60,6 @@ namespace DealnetPortal.Web.Models
         public ApplicantPersonalInfo[] AdditionalApplicants { get; set; }
         public AddressInformation AddressInformation { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
+        public int? ContractId { get; set; }
     }
 }

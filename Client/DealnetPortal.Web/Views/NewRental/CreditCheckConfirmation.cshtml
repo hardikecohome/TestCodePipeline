@@ -14,7 +14,7 @@
     <div id="steps-line"></div>
     <div class="row" id="steps">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <a href="@Url.Action("BasicInfo")">
+            <a href="@Url.Action("BasicInfo", new { contractId = Model.ContractId })">
                 <div class="dealnet-empty-circle">1</div>
             </a>
         </div>

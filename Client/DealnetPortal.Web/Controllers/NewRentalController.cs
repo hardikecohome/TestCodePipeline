@@ -30,18 +30,14 @@ namespace DealnetPortal.Web.Controllers
             _contractServiceAgent = contractServiceAgent;
         }
 
-        
-
-        public ActionResult BasicInfo()
+        public async Task<ActionResult> BasicInfo(int? contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (contractId != null)
+            {
+                return View(await GetBasicInfoAsync(contractId.Value));
+            }
             return View();
-        }
-
-        public ActionResult Edit(string id)
-        {
-            //ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-            return RedirectToAction("BasicInfo");
         }
 
         [HttpPost]
@@ -52,34 +48,16 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View();
             }
-            var contractResult = await _contractServiceAgent.CreateContract();
-            var contract = contractResult.Item1;
-            contract.Customers = new List<CustomerDTO>();
-            contract.Customers.Add(basicInfo.HomeOwner.ToCustomerDto());
-            contract.Customers.AddRange(basicInfo.AdditionalApplicants.Select(app => app.ToCustomerDto()));
-            contract.Addresses.Add(basicInfo.AddressInformation.ToContractAddressDto(AddressType.MainAddress));
-            if (basicInfo.MailingAddressInformation != null)
-            {
-                contract.Addresses.Add(basicInfo.MailingAddressInformation.ToContractAddressDto(AddressType.MailAddress));
-            }
-            await _contractServiceAgent.UpdateContractClientData(contract);
-            return View("CreditCheckConfirmation", contract.Id);
+            var contractResult = basicInfo.ContractId == null ? 
+                await _contractServiceAgent.CreateContract() : 
+                await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
+            await UpdateContractAsync(contractResult.Item1, basicInfo);
+            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult.Item1.Id });
         }
 
-        [HttpPost]
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
-            var basicInfo = new BasicInfoViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            basicInfo.HomeOwner = contractResult.Item1.Customers.First().ToApplicantPersonalInfo();
-            basicInfo.AdditionalApplicants = contractResult.Item1.Customers.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToArray();
-            basicInfo.AddressInformation = contractResult.Item1.Addresses.First(a => a.AddressType == AddressType.MainAddress).ToContractAddressDto();
-            var mailingAddress = contractResult.Item1.Addresses.FirstOrDefault(a => a.AddressType == AddressType.MailAddress);
-            if (mailingAddress != null)
-            {
-                basicInfo.MailingAddressInformation = mailingAddress.ToContractAddressDto();
-            }
-            return View(basicInfo);
+            return View(await GetBasicInfoAsync(contractId));
         }
 
         [HttpPost]
@@ -113,6 +91,45 @@ namespace DealnetPortal.Web.Controllers
             ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
+        }
+
+        private async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
+        {
+            var basicInfo = new BasicInfoViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
+            {
+                return basicInfo;
+            }
+            basicInfo.ContractId = contractId;
+            basicInfo.HomeOwner = contractResult.Item1.Customers.First().ToApplicantPersonalInfo();
+            if (contractResult.Item1.Customers.Count() > 1)
+            {
+                basicInfo.AdditionalApplicants = contractResult.Item1.Customers.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToArray();
+            }
+            basicInfo.AddressInformation = contractResult.Item1.Addresses.First(a => a.AddressType == AddressType.MainAddress).ToContractAddressDto();
+            var mailingAddress = contractResult.Item1.Addresses.FirstOrDefault(a => a.AddressType == AddressType.MailAddress);
+            if (mailingAddress != null)
+            {
+                basicInfo.MailingAddressInformation = mailingAddress.ToContractAddressDto();
+            }
+            return basicInfo;
+        }
+
+        private async Task UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
+        {
+            contract.Customers = new List<CustomerDTO>();
+            contract.Customers.Add(basicInfo.HomeOwner.ToCustomerDto());
+            if (basicInfo.AdditionalApplicants != null)
+            {
+                contract.Customers.AddRange(basicInfo.AdditionalApplicants.Select(app => app.ToCustomerDto()));
+            }
+            contract.Addresses.Add(basicInfo.AddressInformation.ToContractAddressDto(AddressType.MainAddress));
+            if (basicInfo.MailingAddressInformation != null)
+            {
+                contract.Addresses.Add(basicInfo.MailingAddressInformation.ToContractAddressDto(AddressType.MailAddress));
+            }
+            await _contractServiceAgent.UpdateContractClientData(contract);
         }
 
         private JsonResult GetErrorJson()
