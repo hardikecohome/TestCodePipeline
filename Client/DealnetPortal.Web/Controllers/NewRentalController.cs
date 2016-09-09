@@ -19,6 +19,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
+    [AuthFromContext]
     public class NewRentalController : Controller
     {
         private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
@@ -102,13 +103,13 @@ namespace DealnetPortal.Web.Controllers
                 return basicInfo;
             }
             basicInfo.ContractId = contractId;
-            basicInfo.HomeOwner = contractResult.Item1.Customers.First().ToApplicantPersonalInfo();
-            if (contractResult.Item1.Customers.Count() > 1)
+            basicInfo.HomeOwner = contractResult.Item1.Customers?.FirstOrDefault()?.ToApplicantPersonalInfo();
+            if (contractResult.Item1.Customers?.Count() > 1)
             {
-                basicInfo.AdditionalApplicants = contractResult.Item1.Customers.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToArray();
+                basicInfo.AdditionalApplicants = contractResult.Item1.Customers?.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToArray();
             }
-            basicInfo.AddressInformation = contractResult.Item1.Addresses.First(a => a.AddressType == AddressType.MainAddress).ToContractAddressDto();
-            var mailingAddress = contractResult.Item1.Addresses.FirstOrDefault(a => a.AddressType == AddressType.MailAddress);
+            basicInfo.AddressInformation = contractResult.Item1.Addresses?.FirstOrDefault(a => a.AddressType == AddressType.MainAddress)?.ToContractAddressDto();
+            var mailingAddress = contractResult.Item1.Addresses?.FirstOrDefault(a => a.AddressType == AddressType.MailAddress);
             if (mailingAddress != null)
             {
                 basicInfo.MailingAddressInformation = mailingAddress.ToContractAddressDto();
