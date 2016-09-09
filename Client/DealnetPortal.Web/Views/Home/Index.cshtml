@@ -3,41 +3,20 @@
 }
 
 <div class="dealnet-home-page">
-    <div class="row hidden-xs">
-        <div class="col-md-4 col-lg-4 col-xs-12 col-sm-4">
-            <div class="dealnet-page-button" style="height: 89px; width: 320px;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <div class="dealnet-page-button new-rental">
                 <span class="dealnet-button-image dealnet-image-newrental-btn"></span> @Html.ActionLink("New rental", "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })
             </div>
         </div>
-        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-6">
-            <div class="dealnet-page-button" style="height: 89px; width: 320px;">
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+            <div class="dealnet-page-button">
                 <span class="dealnet-button-image dealnet-image-mydeals-btn" ></span>  @Html.ActionLink("My deals", "MyDeals", "Stub", null, new { @class = "dealnet-link" })
             </div>
         </div>
-        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-6">
-            <div class="dealnet-page-button" style="height: 89px; width: 320px;">
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+            <div class="dealnet-page-button">
                 <span class="dealnet-button-image dealnet-image-reports-btn"></span>  @Html.ActionLink("Reports", "Reports", "Stub", null, new { @class = "dealnet-link" })
-            </div>
-        </div>
-    </div>
-    <div class="show-xs-block hidden-sm hidden-lg hidden-md">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="dealnet-page-button" style="height: 49px; width: 360px; line-height: 49px;">
-                    <span class="dealnet-button-image dealnet-image-newrental-btn"></span> @Html.ActionLink("New rental", "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="dealnet-page-button" style="height: 89px; width: 170px;">
-                    <span class="dealnet-button-image dealnet-image-mydeals-btn"></span>  @Html.ActionLink("My deals", "MyDeals", "Stub", null, new { @class = "dealnet-link" })
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="dealnet-page-button" style="height: 89px; width: 170px;">
-                    <span class="dealnet-button-image dealnet-image-reports-btn"></span>  @Html.ActionLink("Reports", "Reports", "Stub", null, new { @class = "dealnet-link" })
-                </div>
             </div>
         </div>
     </div>
