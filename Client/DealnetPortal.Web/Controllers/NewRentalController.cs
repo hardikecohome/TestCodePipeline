@@ -118,7 +118,7 @@ namespace DealnetPortal.Web.Controllers
             basicInfo.HomeOwner = contractResult.Item1.Customers?.FirstOrDefault()?.ToApplicantPersonalInfo();
             if (contractResult.Item1.Customers?.Count() > 1)
             {
-                basicInfo.AdditionalApplicants = contractResult.Item1.Customers?.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToArray();
+                basicInfo.AdditionalApplicants = contractResult.Item1.Customers?.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToList();
             }
             basicInfo.AddressInformation = contractResult.Item1.Addresses?.FirstOrDefault(a => a.AddressType == AddressType.MainAddress)?.ToContractAddressDto();
             var mailingAddress = contractResult.Item1.Addresses?.FirstOrDefault(a => a.AddressType == AddressType.MailAddress);

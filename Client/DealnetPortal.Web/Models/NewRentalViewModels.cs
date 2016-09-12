@@ -57,7 +57,7 @@ namespace DealnetPortal.Web.Models
     public class BasicInfoViewModel
     {
         public ApplicantPersonalInfo HomeOwner { get; set; }
-        public ApplicantPersonalInfo[] AdditionalApplicants { get; set; }
+        public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public AddressInformation AddressInformation { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
         public int? ContractId { get; set; }
