@@ -173,12 +173,13 @@ namespace DealnetPortal.DataAccess.Repositories
             contractAddresses.ForEach(addr =>
             {                
                 var curAddress =
-                    contract.Addresses.FirstOrDefault(ca => ca.Id == addr.Id || ca.AddressType == addr.AddressType);
+                    contract.Addresses.FirstOrDefault(ca => ca.AddressType == addr.AddressType);
                 if (curAddress == null)
                 {
                     curAddress = new ContractAddress();
                     contract.Addresses.Add(curAddress);
                 }
+                curAddress.AddressType = addr.AddressType;
                 curAddress.City = addr.City;
                 curAddress.PostalCode = addr.PostalCode;
                 curAddress.Street = addr.Street;
