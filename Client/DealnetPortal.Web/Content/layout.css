@@ -1,5 +1,5 @@
 ﻿.body {
-    font-family: Lato;
+    font-family: Lato !important;
     font-size: 14px;
     font-weight: 700;
 }
@@ -7,6 +7,7 @@
 .navbar {
     background-color: #4c423e;
 }
+
 
 .dealnet-body {
     padding-right: 15px;
@@ -64,6 +65,8 @@ a.dealnet-link {
 .dealnet-login-buttons {
     display: inline-block;
 }
+
+
 
     .dealnet-login-buttons .dropdown-toggle {
         line-height: 50px;
