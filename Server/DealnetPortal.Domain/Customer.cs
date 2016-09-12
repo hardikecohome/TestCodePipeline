@@ -24,6 +24,6 @@ namespace DealnetPortal.Domain
         // 1 customer for 1 contract ? 
         public Contract Contract { get; set; }
 
-        public ICollection<Location> Locations { get; set; }
+        //public ICollection<Location> Locations { get; set; }
     }
 }

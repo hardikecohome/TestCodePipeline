@@ -55,16 +55,16 @@ namespace DealnetPortal.DataAccess.Repositories
         public Contract GetContract(int contractId)
         {
             return _dbContext.Contracts
-                .Include(c => c.Customers)
-                .Include(c => c.Addresses)
+                .Include(c => c.Locations)
+                .Include(c => c.ContractCustomers)
                 .FirstOrDefault(c => c.Id == contractId);
         }
 
         public Contract GetContractAsUntracked(int contractId)
         {
             return _dbContext.Contracts
-                .Include(c => c.Customers)
-                .Include(c => c.Addresses)
+                .Include(c => c.ContractCustomers)
+                .Include(c => c.Locations)
                 .AsNoTracking().
                 FirstOrDefault(c => c.Id == contractId);
         }
@@ -76,7 +76,7 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contract != null)
             {
                 //remove clients for contract?
-                _dbContext.Customers.RemoveRange(contract.Customers.ToList());
+                //_dbContext.Customers.RemoveRange(contract.Customers.ToList());
 
                 _dbContext.Contracts.Remove(contract);
                 deleted = true;
@@ -90,8 +90,8 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = _dbContext.Contracts.FirstOrDefault(c => c.Dealer.Id == contractOwnerId && c.Id == contractId);
             if (contract != null)
             {
-                contract.Addresses.ForEach(a => _dbContext.Entry(a).State = EntityState.Deleted);
-                contract.Customers.ForEach(ho => _dbContext.Entry(ho).State = EntityState.Deleted);
+                contract.Locations.ForEach(a => _dbContext.Entry(a).State = EntityState.Deleted);
+                //contract.Customers.ForEach(ho => _dbContext.Entry(ho).State = EntityState.Deleted);
                 cleaned = true;
             }
             return cleaned;
@@ -122,7 +122,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     }
                     if (contractData.Customers != null)
                     {
-                        AddOrUpdateContractHomeOwners(contract, contractData.Customers);
+                        //AddOrUpdateContractHomeOwners(contract, contractData.Customers);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                         updated = true;
@@ -132,12 +132,12 @@ namespace DealnetPortal.DataAccess.Repositories
             return updated;
         }
 
-        public Contract UpdateContractClientData(int contractId, IList<Location> addresses, IList<Customer> customers)
+        public Contract UpdateContractClientData(int contractId, IList<Location> locations, IList<ContractCustomer> customers)
         {
             var contract = GetContract(contractId);
-            if (addresses != null)
+            if (locations != null)
             {
-                AddOrUpdateContractAddresses(contract, addresses);
+                AddOrUpdateContractAddresses(contract, locations);
                 contract.ContractState = ContractState.CustomerInfoInputted;
             }
             if (customers != null)
@@ -156,28 +156,28 @@ namespace DealnetPortal.DataAccess.Repositories
                 Id = contractId
             };
             var contract = GetContractAsUntracked(contractId);
-            contractData.Addresses = contract.Addresses.ToList();
-            contractData.Customers = contract.Customers.ToList();       
+            contractData.Addresses = contract.Locations.ToList();
+            //contractData.Customers = contract.Customers.ToList();       
 
             return contractData;
         }
 
-        private Contract AddOrUpdateContractAddresses(Contract contract, IList<Location> contractAddresses)
+        private Contract AddOrUpdateContractAddresses(Contract contract, IList<Location> locations)
         {
             var existingEntities =
-                contract.Addresses.Where(
-                    a => contractAddresses.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
-            var entriesForDelete = contract.Addresses.Except(existingEntities).ToList();
+                contract.Locations.Where(
+                    a => locations.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
+            var entriesForDelete = contract.Locations.Except(existingEntities).ToList();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
-            contractAddresses.ForEach(addr =>
+            locations.ForEach(addr =>
             {                
                 var curAddress =
-                    contract.Addresses.FirstOrDefault(ca => ca.AddressType == addr.AddressType);
+                    contract.Locations.FirstOrDefault(ca => ca.AddressType == addr.AddressType);
                 if (curAddress == null)
                 {
                     curAddress = new Location();
-                    contract.Addresses.Add(curAddress);
+                    contract.Locations.Add(curAddress);
                 }
                 curAddress.AddressType = addr.AddressType;
                 curAddress.City = addr.City;
@@ -193,7 +193,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<Customer> customers)
+        private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<ContractCustomer> contractCustomers)
         {
             var existingEntities =
                 contract.Customers.Where(

@@ -62,7 +62,7 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="addresses">Updated addresses list, or null</param>
         /// <param name="customers">Updated cutomers list, or null</param>
         /// <returns>Updated contract record</returns>
-        Contract UpdateContractClientData(int contractId, IList<Location> addresses, IList<Customer> customers);
+        Contract UpdateContractClientData(int contractId, IList<Location> addresses, IList<ContractCustomer> customers);
 
         /// <summary>
         /// Update contract state
