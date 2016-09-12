@@ -1,10 +1,5 @@
 ﻿$(document)
     .ready(function () {
-        //$(window)
-        //    .resize(function() {
-        //        $('#display').text($(window).width());
-        //    });
-
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
             .parents('.dealnet-sidebar-item')
             .addClass('dealnet-sidebar-item-selected');
@@ -18,3 +13,16 @@
         });
 
     });
+
+function showLoader() {
+    $.loader({
+        className: 'dealnet-image-loader',
+        content: '',
+        width: 100,
+        height: 100
+    });
+}
+
+function hideLoader() {
+    $.loader('close');
+}

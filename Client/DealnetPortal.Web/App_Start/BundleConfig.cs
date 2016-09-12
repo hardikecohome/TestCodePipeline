@@ -26,14 +26,15 @@ namespace DealnetPortal.Web
                      "~/Scripts/chart.js",
                      "~/Scripts/DataTables/jquery.dataTables.js",
                      "~/Scripts/datatables/dataTables.bootstrap.js",
-                     "~/Scripts/datatables/dataTables.responsive.js")
+                     "~/Scripts/datatables/dataTables.responsive.js",
+                     "~/Scripts/jquery.loader.js")
                      );
             bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
                      "~/Scripts/layout.js", "~/Scripts/home-page.js", "~/Scripts/jquery-ui-1.12.0.js"));
-                           bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
-                     "~/Scripts/BasicInfo", "*.js").Include(
-                "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include(
-                "~/Scripts/jquery-ui-1.12.0.js").Include("~/Scripts/datejs.js"));
+            bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
+      "~/Scripts/BasicInfo", "*.js").Include(
+ "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include(
+ "~/Scripts/jquery-ui-1.12.0.js").Include("~/Scripts/datejs.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").IncludeDirectory(
                      "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include(
@@ -44,6 +45,7 @@ namespace DealnetPortal.Web
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/layout.css",
+                      "~/Content/jquery.loader.css",
                       "~/Content/theme.css",
                       "~/Content/Navbar-fixed-side.css",
                       "~/Content/datatables/css/jquery.dataTables.css",

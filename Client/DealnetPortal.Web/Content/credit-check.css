@@ -23,15 +23,15 @@
 
 
 }
-.dealnet-button {
+#credit-check-form .dealnet-button {
     margin-top: 50px;
 }
 
-.modal-footer {
+#editor-modal .modal-footer {
     text-align: center;
 }
 
-.modal-dialog {
+#editor-modal .modal-dialog {
     width: 100% !important;
     margin-top: 65px !important;
 }
@@ -69,12 +69,12 @@
     
 }
 
-.modal-footer .dealnet-button {
+#editor-modal .modal-footer .dealnet-button {
     margin-top: 10px !important;
     margin-bottom: 10px !important;
 }
 
-.modal-body {
+#editor-modal .modal-body {
     padding-top: 0px;
 }
 

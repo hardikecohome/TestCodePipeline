@@ -4,29 +4,27 @@
     font-weight: 700;
 }
 
-.navbar {
-    background-color: #4c423e;
-}
+.navbar { background-color: #4c423e; }
 
 
 .dealnet-body {
-    padding-right: 15px;
     margin-top: 65px;
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 .dealnet-caption {
+    color: #1f1f1f;
     font-family: Lato;
     font-size: 20px;
-    font-weight: bold;
-    font-style: normal;
     font-stretch: normal;
-    color: #1f1f1f;
+    font-style: normal;
+    font-weight: bold;
 }
 
 .dealnet-home-page > .row {
-    margin-top: 15px;
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .navbar-header {
@@ -37,16 +35,16 @@
     vertical-align: middle;
 }
 
-    .navbar-header > div {
-        float: left;
-        height: 50px;
-        width: 33.3%;
-    }
+.navbar-header > div {
+    float: left;
+    height: 50px;
+    width: 33.3%;
+}
 
-    .navbar-header button {
-        border: none;
-        margin-left: -15px;
-    }
+.navbar-header button {
+    border: none;
+    margin-left: -15px;
+}
 
 .dealnet-login-buttons-holder {
     height: 50px;
@@ -62,20 +60,16 @@ a.dealnet-link {
 }
 
 
-.dealnet-login-buttons {
-    display: inline-block;
+.dealnet-login-buttons { display: inline-block; }
+
+
+
+.dealnet-login-buttons .dropdown-toggle {
+    line-height: 50px;
+    vertical-align: middle;
 }
 
-
-
-    .dealnet-login-buttons .dropdown-toggle {
-        line-height: 50px;
-        vertical-align: middle;
-    }
-
-    .dealnet-login-buttons .dropdown-menu {
-        background-color: #3e281d;
-    }
+.dealnet-login-buttons .dropdown-menu { background-color: #3e281d; }
 
 
 a.dealnet-link:hover {
@@ -91,9 +85,7 @@ a.dealnet-link:hover {
 
 
 
-.navbar-brand {
-    float: none;
-}
+.navbar-brand { float: none; }
 
 .navbar-center {
     height: 100%;
@@ -150,8 +142,8 @@ a.dealnet-link:hover {
     background-color: #3e281d;
     height: 50px;
     line-height: 50px;
-    text-align: right;
     position: fixed;
+    text-align: right;
     width: 84%;
     z-index: 1000;
 }
@@ -186,11 +178,11 @@ a.dealnet-link:hover {
     background-position: center;
     background-repeat: no-repeat;
     display: inline-block;
-    width: 30px;
     height: 30px;
-    vertical-align: middle;
     line-height: 90px;
     margin-right: 20px;
+    vertical-align: middle;
+    width: 30px;
 }
 
 .dealnet-sidebar-item-selected {
@@ -198,36 +190,37 @@ a.dealnet-link:hover {
     box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.12);
 }
 
-.dealnet-image-homepage {
-    background-image: url('images/home-page.png');
+.dealnet-image-homepage { background-image: url('images/home-page.png'); }
+
+.dealnet-image-newrental { background-image: url('images/new-rental.png'); }
+
+.dealnet-image-checkcredit { background-image: url('images/icon-check-credit.png'); }
+
+.dealnet-image-mydeals { background-image: url('images/icon-my-deals.png'); }
+
+.dealnet-image-reports { background-image: url('images/icon-reports.png'); }
+
+.dealnet-image-reports-btn { background-image: url('images/icon-reports-btn.png'); }
+
+.dealnet-image-mydeals-btn { background-image: url('images/icon-mydeals-btn.png'); }
+
+.dealnet-image-newrental-btn { background-image: url('images/new-rental-btn.png'); }
+
+#jquery-loader {
+    height: 100px;
+    width: 100px;
 }
 
-.dealnet-image-newrental {
-    background-image: url('images/new-rental.png');
-}
-
-.dealnet-image-checkcredit {
-    background-image: url('images/icon-check-credit.png');
-}
-
-.dealnet-image-mydeals {
-    background-image: url('images/icon-my-deals.png');
-}
-
-.dealnet-image-reports {
-    background-image: url('images/icon-reports.png');
-}
-
-.dealnet-image-reports-btn {
-    background-image: url('images/icon-reports-btn.png');
-}
-
-.dealnet-image-mydeals-btn {
-    background-image: url('images/icon-mydeals-btn.png');
-}
-
-.dealnet-image-newrental-btn {
-    background-image: url('images/new-rental-btn.png');
+#jquery-loader.dealnet-image-loader {
+    background-color: transparent;
+    background-image: url('images/loader.gif');
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: none;
+    height: 100px;
+    padding-top: 35px;
+    text-align: center;
+    width: 100px;
 }
 
 .dealnet-image-ecologo {
