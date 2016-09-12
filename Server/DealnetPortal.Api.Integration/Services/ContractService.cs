@@ -71,11 +71,11 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                IList<ContractAddress> addressesForUpdate = null;
+                IList<Location> addressesForUpdate = null;
                 IList<Customer> customersForUpdate = null;
                 if (addresses != null)
                 {
-                    addressesForUpdate = Mapper.Map<IList<ContractAddress>>(addresses);
+                    addressesForUpdate = Mapper.Map<IList<Location>>(addresses);
                 }
                 if (customers != null)
                 {

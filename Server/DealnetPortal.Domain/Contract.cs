@@ -12,8 +12,8 @@ namespace DealnetPortal.Domain
     {
         public Contract()
         {
-            Customers = new List<Customer>();
-            Addresses = new List<ContractAddress>();
+            ContractCustomers = new List<ContractCustomer>();
+            //Addresses = new List<Location>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
@@ -26,8 +26,8 @@ namespace DealnetPortal.Domain
 
         public DateTime? LastUpdateTime { get; set; }
 
-        public ICollection<ContractAddress> Addresses { get; set; }
+        //public ICollection<Location> Addresses { get; set; }
 
-        public ICollection<Customer> Customers { get; set; }
+        public ICollection<ContractCustomer> ContractCustomers { get; set; }
     }
 }

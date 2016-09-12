@@ -132,7 +132,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return updated;
         }
 
-        public Contract UpdateContractClientData(int contractId, IList<ContractAddress> addresses, IList<Customer> customers)
+        public Contract UpdateContractClientData(int contractId, IList<Location> addresses, IList<Customer> customers)
         {
             var contract = GetContract(contractId);
             if (addresses != null)
@@ -162,7 +162,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return contractData;
         }
 
-        private Contract AddOrUpdateContractAddresses(Contract contract, IList<ContractAddress> contractAddresses)
+        private Contract AddOrUpdateContractAddresses(Contract contract, IList<Location> contractAddresses)
         {
             var existingEntities =
                 contract.Addresses.Where(
@@ -176,14 +176,14 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.Addresses.FirstOrDefault(ca => ca.AddressType == addr.AddressType);
                 if (curAddress == null)
                 {
-                    curAddress = new ContractAddress();
+                    curAddress = new Location();
                     contract.Addresses.Add(curAddress);
                 }
                 curAddress.AddressType = addr.AddressType;
                 curAddress.City = addr.City;
                 curAddress.PostalCode = addr.PostalCode;
                 curAddress.Street = addr.Street;
-                curAddress.Province = addr.Province;
+                curAddress.State = addr.State;
                 curAddress.Unit = addr.Unit;
                 curAddress.Contract = contract;
             });

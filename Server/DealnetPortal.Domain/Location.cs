@@ -9,7 +9,7 @@ using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
 {
-    public class ContractAddress
+    public class Location
     {        
         //[ForeignKey("Contract")]
         public int Id { get; set; }
@@ -21,13 +21,21 @@ namespace DealnetPortal.Domain
         public string Street { get; set; }
         [MaxLength(10)]
         public string Unit { get; set; }
+        [MaxLength(50)]
         public string City { get; set; }
-        public string Province { get; set; }
+        [MaxLength(10)]
+        public string State { get; set; }
+        [MaxLength(50)]
         public string PostalCode { get; set; }
 
         public int ContractId { get; set; }
         [ForeignKey("ContractId")]
         [Required]
         public Contract Contract { get; set; }
+
+        public int CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
+        [Required]
+        public Customer Customer { get; set; }
     }
 }

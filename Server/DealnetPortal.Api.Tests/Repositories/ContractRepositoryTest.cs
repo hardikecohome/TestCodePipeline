@@ -86,7 +86,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             Assert.IsNotNull(contract);
                         
-            var address = new ContractAddress()
+            var address = new Location()
             {
                 City = "London",
                 PostalCode = "348042",
@@ -136,19 +136,19 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             Assert.IsNotNull(contract);
 
-            var address = new ContractAddress()
+            var address = new Location()
             {
                 City = "London",
                 PostalCode = "348042",
                 Street = "Street",
                 Unit = "1"
             };
-            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address}, null);
+            _contractRepository.UpdateContractClientData(contract.Id, new List<Location>() { address}, null);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
             Assert.AreEqual(contract.Addresses.Count, 1);
 
-            var address2 = new ContractAddress()
+            var address2 = new Location()
             {
                 City = "London",
                 PostalCode = "348042",
@@ -156,12 +156,12 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Unit = "2",
                 AddressType = AddressType.MailAddress
             };
-            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address, address2 }, null);
+            _contractRepository.UpdateContractClientData(contract.Id, new List<Location>() { address, address2 }, null);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
             Assert.AreEqual(contract.Addresses.Count, 2);
             address2.City = "Paris";
-            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address2 }, null);
+            _contractRepository.UpdateContractClientData(contract.Id, new List<Location>() { address2 }, null);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
             Assert.AreEqual(contract.Addresses.Count, 1);

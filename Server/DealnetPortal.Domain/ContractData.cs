@@ -6,6 +6,6 @@ namespace DealnetPortal.Domain
     {
         public int Id { get; set; }
         public IList<Customer> Customers { get; set; }
-        public IList<ContractAddress> Addresses { get; set; }        
+        public IList<Location> Addresses { get; set; }        
     }
 }

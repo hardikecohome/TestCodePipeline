@@ -31,6 +31,6 @@ namespace DealnetPortal.DataAccess
             base.OnModelCreating(modelBuilder);
         }
 
-        //public DbSet<ContractAddress> ContractAddresses { get; set; }
+        //public DbSet<Location> ContractAddresses { get; set; }
     }
 }

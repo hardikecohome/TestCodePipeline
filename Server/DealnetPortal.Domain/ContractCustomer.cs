@@ -8,22 +8,20 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Domain
 {
-    public class Customer
+    public class ContractCustomer
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public int ContractId { get; set; }
+        [ForeignKey("ContractId")]
         [Required]
-        [MaxLength(100)]
-        public string FirstName { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string LastName { get; set; }
-        [Required]
-        public DateTime DateOfBirth { get; set; }
-        //[Required]
-        // 1 customer for 1 contract ? 
         public Contract Contract { get; set; }
+        
+        public int CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
+        [Required]
+        public Customer Customer { get; set; }
 
-        public ICollection<Location> Locations { get; set; }
+        public int CustomerOrder { get; set; }
     }
 }

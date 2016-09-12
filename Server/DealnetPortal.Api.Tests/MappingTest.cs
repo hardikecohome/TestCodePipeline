@@ -38,9 +38,9 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = ContractState.Started,
-                Addresses = new List<ContractAddress>()
+                Addresses = new List<Location>()
                 { 
-                    new ContractAddress()
+                    new Location()
                     {
                         City = "Paris",
                         Id = 1,
