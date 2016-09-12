@@ -16,11 +16,11 @@
 
 function showLoader() {
     $.loader({
-        className: 'dealnet-image-loader',
+        className: 'loader',
         content: '',
-        width: 100,
+        width: 101,
         height: 100
-    });
+});
 }
 
 function hideLoader() {

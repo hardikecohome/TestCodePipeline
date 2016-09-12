@@ -206,22 +206,7 @@ a.dealnet-link:hover {
 
 .dealnet-image-newrental-btn { background-image: url('images/new-rental-btn.png'); }
 
-#jquery-loader {
-    height: 100px;
-    width: 100px;
-}
 
-#jquery-loader.dealnet-image-loader {
-    background-color: transparent;
-    background-image: url('images/loader.gif');
-    background-position: center center;
-    background-repeat: no-repeat;
-    border: none;
-    height: 100px;
-    padding-top: 35px;
-    text-align: center;
-    width: 100px;
-}
 
 .dealnet-image-ecologo {
     background-image: url('images/logo-eco-home.png');

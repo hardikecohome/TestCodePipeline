@@ -400,6 +400,9 @@
     <Content Include="Content\images\scan-license%403x.png" />
     <Content Include="Content\images\scan-license.png" />
     <Content Include="Content\images\scan-license.svg" />
+    <Content Include="Content\images\spinner%402x.png" />
+    <Content Include="Content\images\spinner%403x.png" />
+    <Content Include="Content\images\spinner.png" />
     <Content Include="Content\images\upload%402x.png" />
     <Content Include="Content\images\upload%403x.png" />
     <Content Include="Content\images\upload.png" />

@@ -1,27 +1,20 @@
-@CHARSET "UTF-8";
+#jquery-loader-background{background-color: #f3f3f3}
 #jquery-loader{
-	border:2px black solid;
-	padding-top:35px;
-	background-color: white;
-	text-align: center;
-}
-#jquery-loader-background{background-color: silver}
-#jquery-loader.blue-with-image{
-	border:2px #008587 solid;
-	padding-top:35px;
-	background-color: white;
-	text-align: center;
-	background-image: url(images/ajax-loader.gif);
-	background-position: center center;
-	background-repeat: no-repeat;
-}
-#jquery-loader.blue-with-image-2{
 	border:none;
-	padding-top:35px;
+    padding-top: 25px;
 	background-color: transparent;
 	text-align: center;
-	background-image: url(images/ajax-loader.gif);
-	background-position: center center;
-	background-repeat: no-repeat;
+     width: 101px;
+    height: 100px;
+    -webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+    background-image: url('images/spinner.png');
+    background-repeat: no-repeat;
+    background-position: center;
 
 }
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
