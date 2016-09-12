@@ -23,6 +23,11 @@
 
 
 }
+
+.bold {
+    font-weight: bold;
+    font-size: 17px;
+}
 #credit-check-form .dealnet-button {
     margin-top: 50px;
 }
@@ -97,6 +102,11 @@
     padding-right: 100px;
     margin-top: 50px;
 }
+
+dealnet-credit-check-section .dealnet-field-caption:first-child {
+    font-weight: bold;
+}
+
 
 .dealnet-credit-check-section>div {
     margin-top: 20px;
