@@ -69,13 +69,15 @@ window.URL = window.URL || window.webkitURL;
 
 function uploadCaptured(uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
+    showLoader();
     $.ajax({
         type: "POST",
         url: uploadUrl,
         data: {
             imgBase64: dataUrl
         },
-        success: function(json) {
+        success: function (json) {
+            hideLoader();
             if (json.isError) {
                 alert("Can't recognize driver license");
             } else {
@@ -87,13 +89,15 @@ function uploadCaptured(uploadUrl) {
                 $('#camera-modal').modal('hide');
             }
         },
-    error: function(xhr, status, p3) {
+        error: function (xhr, status, p3) {
+            hideLoader();
         alert(xhr.responseText);
     }
     });
 }
 
 function submitUpload(sender, uploadUrl) {
+    
     var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
@@ -101,14 +105,15 @@ function submitUpload(sender, uploadUrl) {
             for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
             }
-
+            showLoader();
             $.ajax({
                 type: "POST",
                 url: uploadUrl,
                 contentType: false,
                 processData: false,
                 data: data,
-                success: function(json) {
+                success: function (json) {
+                    hideLoader();
                     if (json.isError) {
                         alert("Can't recognize driver license");
                     } else {
@@ -127,7 +132,8 @@ function submitUpload(sender, uploadUrl) {
                         $('#camera-modal').modal('hide');
                     }
                 },
-                error: function(xhr, status, p3) {
+                error: function (xhr, status, p3) {
+                    hideLoader();
                     alert(p3);
                 }
             });

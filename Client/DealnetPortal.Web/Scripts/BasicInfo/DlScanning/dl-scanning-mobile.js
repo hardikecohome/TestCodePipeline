@@ -1,4 +1,5 @@
 ﻿function submitUpload(sender, uploadUrl, fnToFill, lnToFill, bdToFill, fillAddress) {
+    
     var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
@@ -6,7 +7,7 @@
             for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
             }
-
+            showLoader();
             $.ajax({
                 type: "POST",
                 url: uploadUrl,
@@ -14,6 +15,7 @@
                 processData: false,
                 data: data,
                 success: function (json) {
+                    hideLoader();
                     if (json.isError) {
                         alert("Can't recognize driver license");
                     } else {
@@ -30,6 +32,7 @@
                     }
                 },
                 error: function (xhr, status, p3) {
+                    hideLoader();
                     alert(p3);
                 }
             });
