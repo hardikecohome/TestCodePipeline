@@ -1,5 +1,6 @@
 using Microsoft.Practices.Unity;
 using System.Web.Http;
+using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.DataAccess;
@@ -36,6 +37,10 @@ namespace DealnetPortal.Api
             container.RegisterType<IContractService, ContractService>();
 
             container.RegisterType<AccountController>(new InjectionConstructor());
+
+            container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
+            container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
+            container.RegisterType<IAspireService, AspireService>();
         }
     }
 }

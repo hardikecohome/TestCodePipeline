@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Utilities;
-using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
