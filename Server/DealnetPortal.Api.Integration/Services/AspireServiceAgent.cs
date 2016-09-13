@@ -21,13 +21,12 @@ namespace DealnetPortal.Api.Integration.Services
             _fullUri = AspireApiClient.Client.BaseAddress.ToString();
         }
 
-        public async Task<HttpResponseMessage> DealUploadSubmission(DealUploadRequest dealUploadRequest)
+        public async Task<DealUploadResponce> DealUploadSubmission(DealUploadRequest dealUploadRequest)
         {
             CancellationToken cancellationToken = new CancellationToken();
 
             //api/dealuploader/DealUploadSubmission.aspx
-            //return await AspireApiClient.PostAsync(string.Format("{0}/dealuploader/DealUploadSubmission.aspx", _fullUri), dealUploadRequest, cancellationToken);
-            throw new NotImplementedException();
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponce>($"{_fullUri}/dealuploader/DealUploadSubmission.aspx", dealUploadRequest, cancellationToken);
         }
     }
 }

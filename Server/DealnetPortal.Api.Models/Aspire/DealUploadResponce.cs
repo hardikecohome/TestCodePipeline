@@ -7,12 +7,9 @@ using System.Xml.Serialization;
 
 namespace DealnetPortal.Api.Models.Aspire
 {
-    /// <summary>
-    /// Request for DealUploadSubmission Aspire API method
-    /// </summary>
     [Serializable]
-    [XmlRoot(ElementName = "LeaseXML")]
-    public class DealUploadRequest
+    [XmlRoot(ElementName = "LeaseDecisionXML")]
+    public class DealUploadResponce
     {
         [XmlAttribute("version")]
         public string Version { get; set; }

@@ -18,6 +18,6 @@ namespace DealnetPortal.Api.Integration.Services
         /// </summary>
         /// <param name="dealUploadRequest"></param>
         /// <returns></returns>
-        Task<HttpResponseMessage> DealUploadSubmission(DealUploadRequest dealUploadRequest);
+        Task<DealUploadResponce> DealUploadSubmission(DealUploadRequest dealUploadRequest);
     }
 }

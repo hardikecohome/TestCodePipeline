@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
+using DealnetPortal.Api.Common.Helpers;
 
 namespace DealnetPortal.Api.Common.ApiClient
 {
@@ -79,6 +84,24 @@ namespace DealnetPortal.Api.Common.ApiClient
             CancellationToken cancellationToken = new CancellationToken())
         {
             return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
+        }
+
+        public async Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var response = await Client.PostAsXmlWithSerializerAsync(requestUri, content, cancellationToken);
+
+                if (response?.Content == null)
+                    return default(T2);
+                return new XmlSerializerHelper().DeserializeFromString<T2>(await response.Content.ReadAsStringAsync());
+                //return await response.Content.ReadAsAsync<T2>(new [] { new XmlMediaTypeFormatter { UseXmlSerializer = true }}, cancellationToken);
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
         }
 
         /// <summary>

@@ -58,6 +58,9 @@ namespace DealnetPortal.Api.Common.ApiClient
         Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content,
             CancellationToken cancellationToken = new CancellationToken());
 
+        Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken());
+
         /// <summary>
         /// Perform a get operation against a uri.
         /// </summary>
