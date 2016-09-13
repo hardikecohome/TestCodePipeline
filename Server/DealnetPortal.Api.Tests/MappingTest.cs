@@ -38,7 +38,7 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = ContractState.Started,
-                Addresses = new List<Location>()
+                Locations = new List<Location>()
                 { 
                     new Location()
                     {
@@ -46,14 +46,19 @@ namespace DealnetPortal.Api.Tests
                         Id = 1,
                     }
                 },
-                Customers = new List<Customer>()
+                ContractCustomers = new List<ContractCustomer>()
                 {
-                    new Customer()
+                    new ContractCustomer()
                     {
-                        FirstName = "FstName",
-                        LastName = "LstName",
-                        DateOfBirth = DateTime.Today,
-                        Id = 1
+                        Id = 1,
+                        CustomerOrder = 1,
+                        Customer = new Customer()
+                        {
+                            FirstName = "FstName",
+                            LastName = "LstName",
+                            DateOfBirth = DateTime.Today,
+                            Id = 1
+                        }
                     }
                 }
             };
@@ -68,7 +73,7 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = ContractState.Started,
-                Addresses = new List<LocationDTO>()
+                Locations = new List<LocationDTO>()
                 { 
                     new LocationDTO()
                     {
@@ -82,7 +87,8 @@ namespace DealnetPortal.Api.Tests
                         FirstName = "FstName",
                         LastName = "LstName",
                         DateOfBirth = DateTime.Today,
-                        Id = 1
+                        Id = 1,
+                        CustomerOrder = 1
                     }
                 }
             };

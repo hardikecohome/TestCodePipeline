@@ -40,12 +40,11 @@ namespace DealnetPortal.Api.App_Start
         {
             mapperConfig.CreateMap<LocationDTO, Location>()
                 .ForMember(x => x.Contract, o => o.Ignore());
-            mapperConfig.CreateMap<CustomerDTO, Customer>()
-                .ForMember(d => d.Contract, s => s.Ignore());
+            mapperConfig.CreateMap<CustomerDTO, Customer>();
             mapperConfig.CreateMap<CustomerDTO, ContractCustomer>()
                 .ForMember(d => d.Id, s => s.Ignore())
                 .ForMember(d => d.Customer, s => s.MapFrom(src => src))
-                .ForMember(d => d.Contract, s => s.Ignore());
+                .ForMember(d => d.CustomerId, s => s.MapFrom(src => src.Id));
 
             mapperConfig.CreateMap<ContractDTO, ContractData>()
                 .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))

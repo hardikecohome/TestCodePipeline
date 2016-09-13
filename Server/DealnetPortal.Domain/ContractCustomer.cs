@@ -12,10 +12,6 @@ namespace DealnetPortal.Domain
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int ContractId { get; set; }
-        [ForeignKey("ContractId")]
-        [Required]
-        public Contract Contract { get; set; }
         
         public int CustomerId { get; set; }
         [ForeignKey("CustomerId")]

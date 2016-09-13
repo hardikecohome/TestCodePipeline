@@ -11,7 +11,6 @@ namespace DealnetPortal.Domain
 {
     public class Location
     {        
-        //[ForeignKey("Contract")]
         public int Id { get; set; }
 
         public AddressType AddressType { get; set; }
@@ -33,9 +32,5 @@ namespace DealnetPortal.Domain
         [Required]
         public Contract Contract { get; set; }
 
-        public int CustomerId { get; set; }
-        [ForeignKey("CustomerId")]
-        [Required]
-        public Customer Customer { get; set; }
     }
 }

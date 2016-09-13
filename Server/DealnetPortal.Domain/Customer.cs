@@ -22,8 +22,8 @@ namespace DealnetPortal.Domain
         public DateTime DateOfBirth { get; set; }
         //[Required]
         // 1 customer for 1 contract ? 
-        public Contract Contract { get; set; }
-
+        //public Contract Contract { get; set; }
+        // Is locations related to a customer or to a contract
         //public ICollection<Location> Locations { get; set; }
     }
 }

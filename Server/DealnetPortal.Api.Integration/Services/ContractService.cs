@@ -66,20 +66,20 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<ContractDTO>(contract);
         }
 
-        public IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> addresses, IList<CustomerDTO> customers)
+        public IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> locations, IList<CustomerDTO> customers)
         {
             try
             {
                 var alerts = new List<Alert>();
                 IList<Location> addressesForUpdate = null;
-                IList<Customer> customersForUpdate = null;
-                if (addresses != null)
+                IList<ContractCustomer> customersForUpdate = null;
+                if (locations != null)
                 {
-                    addressesForUpdate = Mapper.Map<IList<Location>>(addresses);
+                    addressesForUpdate = Mapper.Map<IList<Location>>(locations);
                 }
                 if (customers != null)
                 {
-                    customersForUpdate = Mapper.Map<IList<Customer>>(customers);
+                    customersForUpdate = Mapper.Map<IList<ContractCustomer>>(customers);
                 }
 
                 var updatedContract = _contractRepository.UpdateContractClientData(contractId, addressesForUpdate, customersForUpdate);                
@@ -110,7 +110,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Alert> UpdateContractData(ContractDTO contract)
         {
-            return UpdateContractClientData(contract.Id, contract.Addresses, contract.Customers);
+            return UpdateContractClientData(contract.Id, contract.Locations, contract.Customers);
         }
 
         public IList<Alert> InitiateCreditCheck(int contractId)
