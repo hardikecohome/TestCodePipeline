@@ -8,6 +8,8 @@ using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
+    using Api.Models.Contract.EquipmentInformation;
+
     /// <summary>
     /// Service agent for communicate with server-side service and controller for processing contracts (deals)
     /// </summary>
@@ -38,6 +40,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="contract"></param>
         /// <returns></returns>
         Task<IList<Alert>> UpdateContractClientData(ContractDTO contract);
+
+        Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
 
         /// <summary>
         /// Initiate credit check for contract

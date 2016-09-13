@@ -15,6 +15,8 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {
+    using Models.Contract.EquipmentInformation;
+
     public class ContractService : IContractService
     {
         private readonly IContractRepository _contractRepository;
@@ -106,6 +108,12 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Failed to update a contract [{contractId}]", ex);
                 throw;
             }
+        }
+
+        public IList<Alert> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo)
+        {
+            //TODO: Implement equipment info update
+            throw new NotImplementedException();
         }
 
         public IList<Alert> UpdateContractData(ContractDTO contract)

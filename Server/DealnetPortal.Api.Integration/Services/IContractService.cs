@@ -6,6 +6,8 @@ using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Integration.Services
 {
+    using Models.Contract.EquipmentInformation;
+
     /// <summary>
     /// Helper service for work with contracts that integrate DB and 3rd party services requests
     /// </summary>
@@ -19,6 +21,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers);
 
+        IList<Alert> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
         IList<Alert> UpdateContractData(ContractDTO contract);
 
         IList<Alert> InitiateCreditCheck(int contractId);

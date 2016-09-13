@@ -19,6 +19,8 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
+    using Models.EquipmentInformation;
+
     [AuthFromContext]
     public class NewRentalController : Controller
     {
@@ -48,6 +50,21 @@ namespace DealnetPortal.Web.Controllers
                 return View(await GetBasicInfoAsync(contractId.Value));
             }
             return View();
+        }
+
+        public async Task<ActionResult> EquipmentInformation()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                return this.View();
+            }
+            return this.View();
         }
 
         [HttpPost]

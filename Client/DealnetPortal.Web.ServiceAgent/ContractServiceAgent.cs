@@ -12,6 +12,8 @@ using DealnetPortal.Web.Common.Api;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
+    using Api.Models.Contract.EquipmentInformation;
+
     public class ContractServiceAgent : ApiBase, IContractServiceAgent
     {
         private const string ContractApi = "Contract";
@@ -71,7 +73,21 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Can't update client data for contract {contract.Id}", ex);
+                this._loggingService.LogError($"Can't update client data for contract {contract.Id}", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo)
+        {
+            try
+            {
+                return
+                    await this.Client.PutAsync<EquipmentInformationDTO, IList<Alert>>($"{_fullUri}/UpdateEquipmentInformation", equipmentInfo);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError($"Can't update data for equipment info {equipmentInfo.Id}", ex);
                 throw;
             }
         }

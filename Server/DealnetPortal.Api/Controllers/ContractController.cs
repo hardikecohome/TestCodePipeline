@@ -15,6 +15,8 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
+    using Models.Contract.EquipmentInformation;
+
     [Authorize]
     [RoutePrefix("api/Contract")]
     public class ContractController : BaseApiController
@@ -86,6 +88,10 @@ namespace DealnetPortal.Api.Controllers
         //    throw new NotImplementedException();
         //}
 
+
+
+
+
         [Route("UpdateContractClientData")]
         [HttpPut]
         public IHttpActionResult UpdateContractClientData(ContractDTO contract)
@@ -93,6 +99,21 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var alerts = ContractService.UpdateContractData(contract);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("UpdateEquipmentInfo")]
+        [HttpPut]
+        public IHttpActionResult UpdateEquipmentInfo(EquipmentInformationDTO equipmentInfo)
+        {
+            try
+            {
+                var alerts = ContractService.UpdateEquipmentInformation(equipmentInfo);
                 return Ok(alerts);
             }
             catch (Exception ex)
