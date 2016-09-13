@@ -34,7 +34,7 @@ $("#additional-birth-date-3").datepicker({
     minDate: Date.parse("1900-01-01"),
     maxDate: new Date()
 });
-
+//
 $(function () {
     $.validator.addMethod(
         "date",
@@ -55,14 +55,26 @@ $(function () {
         "Please enter a valid date!"
     );
 });
-
+//
+var addAdditionalButton = $("#add-additional-applicant");
 var aditional1Section = $("#additional1-section");
 var aditional2Section = $("#additional2-section");
 var aditional3Section = $("#additional3-section");
-aditional1Section.hide();
-aditional2Section.hide();
-aditional3Section.hide();
-var addAdditionalButton = $("#add-additional-applicant");
+if (aditional1Section.attr('data-initialized') == "true") {
+    showAditional1Section();
+} else {
+    hideAditional1Section();
+}
+if (aditional2Section.attr('data-initialized') == "true") {
+    showAditional2Section();
+} else {
+    hideAditional2Section();
+}
+if (aditional3Section.attr('data-initialized') == "true") {
+    showAditional3Section();
+} else {
+    hideAditional3Section();
+}
 //
 var mailingAddress = $("#mailing-adress");
 mailingAddress.hide();
@@ -127,50 +139,68 @@ $("#additional3-scan-button").click(function () {
 });
 $("#add-additional-applicant").click(function() {
     if (!aditional1Section.is(':visible')) {
-        aditional1Section.show();
-        $("#additional-first-name-1").prop("disabled", false);
-        $("#additional-last-name-1").prop("disabled", false);
-        $("#additional-birth-date-1").prop("disabled", false);
-        if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
-            addAdditionalButton.hide();
-        }
+        showAditional1Section();
     } else if (!aditional2Section.is(':visible')) {
-        aditional2Section.show();
-        $("#additional-first-name-2").prop("disabled", false);
-        $("#additional-last-name-2").prop("disabled", false);
-        $("#additional-birth-date-2").prop("disabled", false);
-        if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
-            addAdditionalButton.hide();
-        }
+        showAditional2Section();
     } else if (!aditional3Section.is(':visible')) {
-        aditional3Section.show();
-        $("#additional-first-name-3").prop("disabled", false);
-        $("#additional-last-name-3").prop("disabled", false);
-        $("#additional-birth-date-3").prop("disabled", false);
-        addAdditionalButton.hide();
+        showAditional3Section();
     }
 });
+function showAditional1Section() {
+    aditional1Section.show();
+    $("#additional-first-name-1").prop("disabled", false);
+    $("#additional-last-name-1").prop("disabled", false);
+    $("#additional-birth-date-1").prop("disabled", false);
+    if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
+        addAdditionalButton.hide();
+    }
+}
+function showAditional2Section() {
+    aditional2Section.show();
+    $("#additional-first-name-2").prop("disabled", false);
+    $("#additional-last-name-2").prop("disabled", false);
+    $("#additional-birth-date-2").prop("disabled", false);
+    if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
+        addAdditionalButton.hide();
+    }
+}
+function showAditional3Section() {
+    aditional3Section.show();
+    $("#additional-first-name-3").prop("disabled", false);
+    $("#additional-last-name-3").prop("disabled", false);
+    $("#additional-birth-date-3").prop("disabled", false);
+    addAdditionalButton.hide();
+}
 $("#additional1-remove").click(function () {
+    hideAditional1Section();
+});
+$("#additional2-remove").click(function () {
+    hideAditional2Section();
+});
+$("#additional3-remove").click(function () {
+    hideAditional3Section();
+});
+function hideAditional1Section() {
     aditional1Section.hide();
     //Needed for validation
     $("#additional-first-name-1").prop("disabled", true);
     $("#additional-last-name-1").prop("disabled", true);
     $("#additional-birth-date-1").prop("disabled", true);
     addAdditionalButton.show();
-});
-$("#additional2-remove").click(function () {
+}
+function hideAditional2Section() {
     aditional2Section.hide();
     //Needed for validation
     $("#additional-first-name-2").prop("disabled", true);
     $("#additional-last-name-2").prop("disabled", true);
     $("#additional-birth-date-2").prop("disabled", true);
     addAdditionalButton.show();
-});
-$("#additional3-remove").click(function () {
+}
+function hideAditional3Section() {
     aditional3Section.hide();
     //Needed for validation
     $("#additional-first-name-3").prop("disabled", true);
     $("#additional-last-name-3").prop("disabled", true);
     $("#additional-birth-date-3").prop("disabled", true);
     addAdditionalButton.show();
-});
+}

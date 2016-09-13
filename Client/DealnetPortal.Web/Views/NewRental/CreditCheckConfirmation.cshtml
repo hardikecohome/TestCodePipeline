@@ -86,7 +86,7 @@
 
 
         </div>
-        @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Length > 0)
+        @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
         {
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 <div class="dealnet-credit-check-section">
@@ -139,7 +139,7 @@
         }
 
     </div>
-    if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Length > 1)
+    if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 1)
     {
         <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
@@ -191,7 +191,7 @@
 
             </div>
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Length > 2)
+                @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 2)
                 {
                     <div class="dealnet-credit-check-section">
                         <div>
