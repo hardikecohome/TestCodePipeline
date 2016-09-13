@@ -8,7 +8,7 @@ using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract
 {
-    public class ContractAddressDTO
+    public class LocationDTO
     {
         public int Id { get; set; }
 

@@ -21,7 +21,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public DateTime? LastUpdateTime { get; set; }
 
-        public List<ContractAddressDTO> Addresses { get; set; }
+        public List<LocationDTO> Locations { get; set; }
         public List<CustomerDTO> Customers { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace DealnetPortal.Domain
         public Contract()
         {
             ContractCustomers = new List<ContractCustomer>();
-            //Addresses = new List<Location>();
+            //Locations = new List<Location>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        

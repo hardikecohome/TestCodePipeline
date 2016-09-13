@@ -17,7 +17,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         ContractDTO GetContract(int contractId);
 
-        IList<Alert> UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers);
+        IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> addresses, IList<CustomerDTO> customers);
 
         IList<Alert> UpdateContractData(ContractDTO contract);
 

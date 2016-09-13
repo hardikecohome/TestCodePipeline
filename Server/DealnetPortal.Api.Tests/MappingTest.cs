@@ -68,9 +68,9 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = ContractState.Started,
-                Addresses = new List<ContractAddressDTO>()
+                Addresses = new List<LocationDTO>()
                 { 
-                    new ContractAddressDTO()
+                    new LocationDTO()
                     {
                         City = "Paris"
                     }
