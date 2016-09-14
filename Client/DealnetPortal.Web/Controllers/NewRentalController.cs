@@ -63,7 +63,11 @@ namespace DealnetPortal.Web.Controllers
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
             if (contractResult?.Item1 != null)
             {
-                await UpdateContractAsync(contractResult.Item1, basicInfo);
+                var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
+                if (updateResult.Any(r => r.Type == AlertType.Error))
+                {
+                    return View();
+                }
             }
             return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
         }
@@ -71,6 +75,19 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
             return View(await GetBasicInfoAsync(contractId));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateBasicInfo(BasicInfoViewModel basicInfo)
+        {
+            if (!ModelState.IsValid || basicInfo.ContractId == null)
+            {
+                return GetErrorJson();
+            }
+            var contractResult = await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
+            if (contractResult?.Item1 == null) return GetErrorJson();
+            var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
+            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
         [HttpPost]
@@ -129,7 +146,7 @@ namespace DealnetPortal.Web.Controllers
             return basicInfo;
         }
 
-        private async Task UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
+        private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
         {
             contract.Customers = new List<CustomerDTO>();
             contract.Customers.Add(basicInfo.HomeOwner.ToCustomerDto());
@@ -142,7 +159,12 @@ namespace DealnetPortal.Web.Controllers
             {
                 contract.Addresses.Add(basicInfo.MailingAddressInformation.ToContractAddressDto(AddressType.MailAddress));
             }
-            await _contractServiceAgent.UpdateContractClientData(contract);
+            return await _contractServiceAgent.UpdateContractClientData(contract);
+        }
+
+        private JsonResult GetSuccessJson()
+        {
+            return Json(new { isSuccess = true });
         }
 
         private JsonResult GetErrorJson()
