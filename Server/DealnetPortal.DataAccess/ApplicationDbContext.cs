@@ -23,11 +23,15 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Customer> Customers { get; set; }
 
+        public virtual DbSet<Location> Locations { get; set; }
+
+        public virtual DbSet<Phone> Phones { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
             //modelBuilder.Entity<Contract>()
-            //    .HasMany<Customer>(c => c.Customers).WithRequired(ho => ho.Contract).WillCascadeOnDelete(true);
+            //    .HasMany<Customer>(c => c.AdditionalApplicants).WithRequired(ho => ho.Contract).WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
 

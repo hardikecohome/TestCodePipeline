@@ -24,35 +24,37 @@ namespace DealnetPortal.Api.App_Start
         private static void MapDomainsToModels(IMapperConfigurationExpression mapperConfig)
         {
             mapperConfig.CreateMap<Location, LocationDTO>();
+            mapperConfig.CreateMap<Phone, PhoneDTO>();
             mapperConfig.CreateMap<Customer, CustomerDTO>()
-                .ForMember(x => x.CustomerOrder, o => o.Ignore());
-            mapperConfig.CreateMap<ContractCustomer, CustomerDTO>()
-                .ForMember(x => x.Id, o => o.MapFrom(src => src.CustomerId))
-                .ForMember(x => x.FirstName, o => o.MapFrom(src => src.Customer.FirstName))
-                .ForMember(x => x.LastName, o => o.MapFrom(src => src.Customer.LastName))
-                .ForMember(x => x.DateOfBirth, o => o.MapFrom(src => src.Customer.DateOfBirth));
-            mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))
-                .ForMember(x => x.Customers, o => o.MapFrom(src => src.ContractCustomers));
+                .ForMember(x => x.Phones, o => o.MapFrom(src => src.Phones));
+            //mapperConfig.CreateMap<ContractCustomer, CustomerDTO>()
+            //    .ForMember(x => x.Id, o => o.MapFrom(src => src.CustomerId))
+            //    .ForMember(x => x.FirstName, o => o.MapFrom(src => src.Customer.FirstName))
+            //    .ForMember(x => x.LastName, o => o.MapFrom(src => src.Customer.LastName))
+            //    .ForMember(x => x.DateOfBirth, o => o.MapFrom(src => src.Customer.DateOfBirth));
+            mapperConfig.CreateMap<Contract, ContractDTO>()
+                .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
+                .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
         {
-            mapperConfig.CreateMap<LocationDTO, Location>()
-                .ForMember(x => x.Contract, o => o.Ignore());
-            mapperConfig.CreateMap<CustomerDTO, Customer>();
-            mapperConfig.CreateMap<CustomerDTO, ContractCustomer>()
-                .ForMember(d => d.Id, s => s.Ignore())
-                .ForMember(d => d.Customer, s => s.MapFrom(src => src))
-                .ForMember(d => d.CustomerId, s => s.MapFrom(src => src.Id));
+            mapperConfig.CreateMap<LocationDTO, Location>();
+            mapperConfig.CreateMap<PhoneDTO, Phone>();
+            mapperConfig.CreateMap<CustomerDTO, Customer>()
+                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))
+                .ForMember(x => x.Phones, o => o.MapFrom(src => src.Phones));
+            //mapperConfig.CreateMap<CustomerDTO, ContractCustomer>()
+            //    .ForMember(d => d.Id, s => s.Ignore())
+            //    .ForMember(d => d.Customer, s => s.MapFrom(src => src))
+            //    .ForMember(d => d.CustomerId, s => s.MapFrom(src => src.Id));
 
-            mapperConfig.CreateMap<ContractDTO, ContractData>()
-                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))
-                .ForMember(x => x.Customers, o => o.MapFrom(src => src.Customers));
-            mapperConfig.CreateMap<ContractDTO, Contract>()
-                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))
-                .ForMember(x => x.ContractCustomers, o => o.MapFrom(src => src.Customers))
-                .ForMember(d => d.Dealer, s => s.Ignore());
+            mapperConfig.CreateMap<ContractDataDTO, ContractData>();                
+            //mapperConfig.CreateMap<ContractDTO, Contract>()
+            //    .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))
+            //    .ForMember(x => x.ContractCustomers, o => o.MapFrom(src => src.Customers))
+            //    .ForMember(d => d.Dealer, s => s.Ignore());
         }
 
     }

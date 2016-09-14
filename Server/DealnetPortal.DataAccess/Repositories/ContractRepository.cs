@@ -45,7 +45,7 @@ namespace DealnetPortal.DataAccess.Repositories
         }
 
         public Contract UpdateContractState(int contractId, ContractState newState)
-        {            
+        {
             var contract = GetContract(contractId);
             contract.ContractState = newState;
             contract.LastUpdateTime = DateTime.Now;
@@ -55,16 +55,20 @@ namespace DealnetPortal.DataAccess.Repositories
         public Contract GetContract(int contractId)
         {
             return _dbContext.Contracts
-                .Include(c => c.Locations)
-                .Include(c => c.ContractCustomers.Select(cc => cc.Customer))
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.PrimaryCustomer.Phones)
+                .Include(c => c.SecondaryCustomers)
                 .FirstOrDefault(c => c.Id == contractId);
         }
 
         public Contract GetContractAsUntracked(int contractId)
         {
             return _dbContext.Contracts
-                .Include(c => c.ContractCustomers.Select(cc => cc.Customer))
-                .Include(c => c.Locations)
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.PrimaryCustomer.Phones)
+                .Include(c => c.SecondaryCustomers)
                 .AsNoTracking().
                 FirstOrDefault(c => c.Id == contractId);
         }
@@ -76,7 +80,7 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contract != null)
             {
                 //remove clients for contract?
-                contract.ContractCustomers.Clear();
+                contract.SecondaryCustomers.Clear();
                 _dbContext.Contracts.Remove(contract);
                 deleted = true;
             }
@@ -89,9 +93,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = _dbContext.Contracts.FirstOrDefault(c => c.Dealer.Id == contractOwnerId && c.Id == contractId);
             if (contract != null)
             {
-                contract.Locations.ForEach(a => _dbContext.Entry(a).State = EntityState.Deleted);
-                contract.ContractCustomers.Clear();
-                //contract.Customers.ForEach(ho => _dbContext.Entry(ho).State = EntityState.Deleted);
+                contract.SecondaryCustomers.Clear();
                 cleaned = true;
             }
             return cleaned;
@@ -107,47 +109,64 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool UpdateContractData(ContractData contractData)
         {
-            bool updated = false;            
+            bool updated = false;
             if (contractData != null)
             {
                 var contract = GetContract(contractData.Id);
                 if (contract != null)
                 {
-                    if (contractData.Locations != null)
+                    if (contractData.PrimaryCustomer != null)
                     {
-                        AddOrUpdateContractAddresses(contract, contractData.Locations);
+                        var homeOwner = AddOrUpdateCustomer(contractData.PrimaryCustomer);
+                        if (homeOwner != null)
+                        {
+                            contract.PrimaryCustomer = homeOwner;
+                            contract.ContractState = ContractState.CustomerInfoInputted;
+                            contract.LastUpdateTime = DateTime.Now;
+                            updated = true;
+                        }
+                    }
+
+                    if (contractData.SecondaryCustomers != null)
+                    {
+                        AddOrUpdateAdditionalApplicants(contract, contract.SecondaryCustomers.ToList());
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                         updated = true;
                     }
-                    if (contractData.Customers != null)
+
+                    if (contractData.Locations != null && contract.PrimaryCustomer != null)
                     {
-                        AddOrUpdateContractHomeOwners(contract, contractData.Customers);
+                        AddOrUpdateCustomerLocations(contract.PrimaryCustomer, contractData.Locations);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                         updated = true;
+                    }
+
+                    if (contractData.Phones != null)
+                    {                        
                     }
                 }
             }
             return updated;
         }
 
-        public Contract UpdateContractClientData(int contractId, IList<Location> locations, IList<ContractCustomer> customers)
-        {
-            var contract = GetContract(contractId);
-            if (locations != null)
-            {
-                AddOrUpdateContractAddresses(contract, locations);
-                contract.ContractState = ContractState.CustomerInfoInputted;
-            }
-            if (customers != null)
-            {
-                AddOrUpdateContractHomeOwners(contract, customers);
-                contract.ContractState = ContractState.CustomerInfoInputted;
-            }
+        //public Contract UpdateContractClientData(int contractId, IList<Location> locations, IList<ContractCustomer> customers)
+        //{
+        //    var contract = GetContract(contractId);
+        //    if (locations != null)
+        //    {
+        //        AddOrUpdateContractAddresses(contract, locations);
+        //        contract.ContractState = ContractState.CustomerInfoInputted;
+        //    }
+        //    if (customers != null)
+        //    {
+        //        AddOrUpdateContractHomeOwners(contract, customers);
+        //        contract.ContractState = ContractState.CustomerInfoInputted;
+        //    }
 
-            return contract;
-        }        
+        //    return contract;
+        //}        
 
         public ContractData GetContractData(int contractId)
         {
@@ -156,28 +175,29 @@ namespace DealnetPortal.DataAccess.Repositories
                 Id = contractId
             };
             var contract = GetContractAsUntracked(contractId);
-            contractData.Locations = contract.Locations.ToList();
-            contractData.Customers = contract.ContractCustomers.ToList();       
+            contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
+            contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
 
             return contractData;
-        }
+        }        
 
-        private Contract AddOrUpdateContractAddresses(Contract contract, IList<Location> locations)
+        private Customer AddOrUpdateCustomerLocations(Customer customer, IList<Location> locations)
         {
+            //??
             var existingEntities =
-                contract.Locations.Where(
+                customer.Locations.Where(
                     a => locations.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
-            var entriesForDelete = contract.Locations.Except(existingEntities).ToList();
+            var entriesForDelete = customer.Locations.Except(existingEntities).ToList();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
             locations.ForEach(addr =>
-            {                
+            {
                 var curAddress =
-                    contract.Locations.FirstOrDefault(ca => ca.AddressType == addr.AddressType);
+                    customer.Locations.FirstOrDefault(ca => ca.AddressType == addr.AddressType);
                 if (curAddress == null)
                 {
                     curAddress = new Location();
-                    contract.Locations.Add(curAddress);
+                    customer.Locations.Add(curAddress);
                 }
                 curAddress.AddressType = addr.AddressType;
                 curAddress.City = addr.City;
@@ -185,39 +205,72 @@ namespace DealnetPortal.DataAccess.Repositories
                 curAddress.Street = addr.Street;
                 curAddress.State = addr.State;
                 curAddress.Unit = addr.Unit;
-                curAddress.Contract = contract;
+                curAddress.Customer = customer;
             });
 
-            contract.LastUpdateTime = DateTime.Now;
-
-            return contract;
+            return customer;
         }
 
-        private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<ContractCustomer> contractCustomers)
-        {            
-            contract.ContractCustomers.Clear();
+        //private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<ContractCustomer> contractCustomers)
+        //{
+        //    contract.ContractCustomers.Clear();
 
-            contractCustomers.ForEach(cc =>
+        //    contractCustomers.ForEach(cc =>
+        //    {
+        //        // update customer - extract ?
+        //        var customer = _dbContext.Customers.FirstOrDefault(c => c.Id == cc.Customer.Id);
+        //        if (customer != null)
+        //        {
+        //            customer.DateOfBirth = cc.Customer.DateOfBirth;
+        //            customer.FirstName = cc.Customer.FirstName;
+        //            customer.LastName = cc.Customer.LastName;
+        //            cc.Customer = customer;
+        //        }
+        //        else
+        //        {
+        //            _dbContext.Customers.Add(cc.Customer);
+        //        }
+        //        contract.ContractCustomers.Add(cc);
+        //    });
+
+        //    contract.LastUpdateTime = DateTime.Now;
+
+        //    return contract;
+        //}
+                
+        private Customer AddOrUpdateCustomer(Customer customer)
+        {
+            var dbCustomer = _dbContext.Customers.Find(customer.Id);
+            if (dbCustomer == null)
             {
-                // update customer - extract ?
-                var customer = _dbContext.Customers.FirstOrDefault(c => c.Id == cc.Customer.Id);
-                if (customer != null)
-                {
-                    customer.DateOfBirth = cc.Customer.DateOfBirth;
-                    customer.FirstName = cc.Customer.FirstName;
-                    customer.LastName = cc.Customer.LastName;
-                    cc.Customer = customer;
-                }
-                else
-                {
-                    _dbContext.Customers.Add(cc.Customer);                    
-                }
-                contract.ContractCustomers.Add(cc);
+                dbCustomer = _dbContext.Customers.Add(customer);
+            }
+            else
+            {
+                dbCustomer.FirstName = customer.FirstName;
+                dbCustomer.LastName = customer.LastName;
+                dbCustomer.DateOfBirth = customer.DateOfBirth;
+            }
+            return dbCustomer;
+        }
+
+        private bool AddOrUpdateAdditionalApplicants(Contract contract, IList<Customer> customers)
+        {
+            var existingEntities =
+                contract.SecondaryCustomers.Where(
+                    ho => customers.Any(cho => cho.Id == ho.Id)).ToList();
+
+            var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities);
+            _dbContext.Customers.RemoveRange(entriesForDelete);
+            customers.ForEach(ho =>
+            {
+                _dbContext.Customers.AddOrUpdate(ho);
+                contract.SecondaryCustomers.Add(ho);
             });
 
             contract.LastUpdateTime = DateTime.Now;
 
-            return contract;
-        }        
+            return true;
+        }
     }
 }

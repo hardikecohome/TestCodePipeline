@@ -12,7 +12,7 @@ namespace DealnetPortal.Domain
     {
         public Contract()
         {
-            ContractCustomers = new List<ContractCustomer>();
+            SecondaryCustomers = new List<Customer>();
             //Locations = new List<Location>();
         }
 
@@ -26,8 +26,10 @@ namespace DealnetPortal.Domain
 
         public DateTime? LastUpdateTime { get; set; }
 
-        public ICollection<Location> Locations { get; set; }
+        public int? PrimaryCustomerId { get; set; }
+        [ForeignKey("PrimaryCustomerId")]
+        public Customer PrimaryCustomer { get; set; }
 
-        public ICollection<ContractCustomer> ContractCustomers { get; set; }
+        public ICollection<Customer> SecondaryCustomers { get; set; }
     }
 }

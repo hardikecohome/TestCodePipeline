@@ -54,6 +54,7 @@
     <Compile Include="ContractData.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="LoggedInUser.cs" />
+    <Compile Include="Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

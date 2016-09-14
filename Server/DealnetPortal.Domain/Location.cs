@@ -10,7 +10,8 @@ using DealnetPortal.Api.Common.Enumeration;
 namespace DealnetPortal.Domain
 {
     public class Location
-    {        
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public AddressType AddressType { get; set; }
@@ -27,10 +28,12 @@ namespace DealnetPortal.Domain
         [MaxLength(50)]
         public string PostalCode { get; set; }
 
-        public int ContractId { get; set; }
-        [ForeignKey("ContractId")]
-        [Required]
-        public Contract Contract { get; set; }
+        //public int ContractId { get; set; }
+        //[ForeignKey("ContractId")]
+        //[Required]
+        //public Contract Contract { get; set; }
+
+        public Customer Customer { get; set; }
 
     }
 }

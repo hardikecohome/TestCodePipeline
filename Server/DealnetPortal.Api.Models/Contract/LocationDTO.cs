@@ -23,6 +23,6 @@ namespace DealnetPortal.Api.Models.Contract
         public string State { get; set; }
         public string PostalCode { get; set; }
 
-        public int ContractId { get; set; }
+        public int CustomerId { get; set; }
     }
 }

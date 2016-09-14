@@ -66,7 +66,7 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<ContractDTO>(contract);
         }
 
-        public IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> locations, IList<CustomerDTO> customers)
+        public IList<Alert> UpdateContractClientData(int contractId, int clientId, IList<LocationDTO> locations, IList<CustomerDTO> customers)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public IList<Alert> UpdateContractData(ContractDTO contract)
+        public IList<Alert> UpdateContractData(ContractDataDTO contract)
         {
             return UpdateContractClientData(contract.Id, contract.Locations, contract.Customers);
         }

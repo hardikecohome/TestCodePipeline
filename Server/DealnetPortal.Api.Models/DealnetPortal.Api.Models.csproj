@@ -43,11 +43,13 @@
   <ItemGroup>
     <Compile Include="AccountBindingModels.cs" />
     <Compile Include="Alert.cs" />
+    <Compile Include="Contract\ContractDataDTO.cs" />
     <Compile Include="Contract\LocationDTO.cs" />
     <Compile Include="Contract\ContractDTO.cs" />
     <Compile Include="Contract\CreditCheckDTO.cs" />
     <Compile Include="Contract\CustomerDTO.cs" />
     <Compile Include="Contract\FlowingSummaryItemDTO.cs" />
+    <Compile Include="Contract\PhoneDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />
