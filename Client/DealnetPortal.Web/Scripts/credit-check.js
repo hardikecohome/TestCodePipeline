@@ -2,39 +2,72 @@
 
 
 $(document)
-    .ready(function () {
+    .ready(function() {
         $('#editor-modal')
             .on('hidden.bs.modal',
-                function () {
+                function() {
                     $('.modal-body .dealnet-credit-check-section').
                         detach().appendTo(oldParent);
                     $('.dealnet-credit-check-section input').removeClass('form-control dealnet-input');
                     $('.dealnet-credit-check-section').removeClass('dealnet-modal-section');
                     $('.dealnet-section-title').show();
                     $('.dealnet-credit-check-section a').show();
-                    $('input[type="text"]').attr('disabled','disabled');
+                    $('input[type="text"]').attr('disabled', 'disabled');
                     $('input[type="text"]').addClass('dealnet-disabled-input');
                     $('.dealnet-agrees').show();
                 });
         $('input[type="text"]').attr('disabled', 'disabled');
         $('input[type="text"]').addClass('dealnet-disabled-input');
-        
+
         $("#birth-date").datepicker({
-            dateFormat: 'mm/dd/yy', changeMonth: true,
-            changeYear: true
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1900:2016',
+            minDate: Date.parse("1900-01-01"),
+            maxDate: new Date()
         });
         $("#additional-birth-date-1").datepicker({
-            dateFormat: 'mm/dd/yy', changeMonth: true,
-            changeYear: true
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1900:2016',
+            minDate: Date.parse("1900-01-01"),
+            maxDate: new Date()
         });
         $("#additional-birth-date-2").datepicker({
-            dateFormat: 'mm/dd/yy', changeMonth: true,
-            changeYear: true
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1900:2016',
+            minDate: Date.parse("1900-01-01"),
+            maxDate: new Date()
         });
         $("#additional-birth-date-3").datepicker({
-            dateFormat: 'mm/dd/yy', changeMonth: true,
-            changeYear: true
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1900:2016',
+            minDate: Date.parse("1900-01-01"),
+            maxDate: new Date()
         });
+        //
+        $.validator.addMethod(
+            "date",
+            function(value, element) {
+                var minDate = Date.parse("1900-01-01");
+                var maxDate = new Date();
+                var valueEntered = Date.parseExact(value, "M/d/yyyy");
+                if (!valueEntered) {
+                    return false;
+                }
+                if (valueEntered < minDate || valueEntered > maxDate) {
+                    return false;
+                }
+                return true;
+            },
+            "Please enter a valid date!"
+        );
     });
 
 

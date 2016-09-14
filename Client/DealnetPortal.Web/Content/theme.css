@@ -283,4 +283,8 @@
     margin-top: 4px;
 }
 
+.input-validation-error {
+     border: solid 1px #f38787
+} 
+
 
