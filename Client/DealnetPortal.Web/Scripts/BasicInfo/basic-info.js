@@ -39,11 +39,9 @@ $(function () {
     $.validator.addMethod(
         "date",
         function (value, element) {
-            console.log(value);
             var minDate = Date.parse("1900-01-01");
             var maxDate = new Date();
             var valueEntered = Date.parseExact(value, "M/d/yyyy");
-            console.log(valueEntered);
             if (!valueEntered) {
                 return false;
             }
