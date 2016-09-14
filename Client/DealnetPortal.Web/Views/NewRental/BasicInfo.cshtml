@@ -347,7 +347,7 @@
         </div>
 
         <p id="mailing-adress-different">
-            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" />Mailing address is different
+            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model.MailingAddressInformation != null) { <text>checked</text> }/>Mailing address is different
         </p>
 
         <div id="mailing-adress">

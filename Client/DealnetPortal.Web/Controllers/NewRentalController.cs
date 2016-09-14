@@ -159,6 +159,10 @@ namespace DealnetPortal.Web.Controllers
             {
                 contract.Addresses.Add(basicInfo.MailingAddressInformation.ToContractAddressDto(AddressType.MailAddress));
             }
+            else
+            {
+                contract.Addresses.RemoveAll(a => a.AddressType == AddressType.MailAddress);
+            }
             return await _contractServiceAgent.UpdateContractClientData(contract);
         }
 
