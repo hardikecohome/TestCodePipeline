@@ -87,19 +87,19 @@ namespace DealnetPortal.Api.Tests.Controllers
         {            
             _contractServiceMock.Setup(
                 s =>
-                    s.UpdateContractData(It.IsAny<ContractDTO>()))
+                    s.UpdateContractData(It.IsAny<ContractDataDTO>()))
                 .Returns(new List<Alert>() { new Alert() });
 
-            ContractDTO contract = new ContractDTO()
+            ContractDataDTO contract = new ContractDataDTO()
             {
                 Id = 1,
-                //Locations = new List<LocationDTO>(),
-                //Customers = new List<CustomerDTO>()
+                Locations = new List<LocationDTO>(),
+                SecondaryCustomers = new List<CustomerDTO>()
             };
-            var responseRes = _contractController.UpdateContractClientData(contract);
+            var responseRes = _contractController.UpdateContractData(contract);
             var response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();
             Assert.IsTrue(response.IsSuccessStatusCode);
-            IList<Alert> alerts;
+            IList<Alert> alerts = null;
             Assert.IsTrue(response.TryGetContentValue(out alerts));
             Assert.IsNotNull(alerts);
             Assert.AreEqual(alerts.Count, 1);

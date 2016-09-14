@@ -107,9 +107,8 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        public bool UpdateContractData(ContractData contractData)
+        public Contract UpdateContractData(ContractData contractData)
         {
-            bool updated = false;
             if (contractData != null)
             {
                 var contract = GetContract(contractData.Id);
@@ -123,16 +122,14 @@ namespace DealnetPortal.DataAccess.Repositories
                             contract.PrimaryCustomer = homeOwner;
                             contract.ContractState = ContractState.CustomerInfoInputted;
                             contract.LastUpdateTime = DateTime.Now;
-                            updated = true;
                         }
                     }
 
                     if (contractData.SecondaryCustomers != null)
                     {
-                        AddOrUpdateAdditionalApplicants(contract, contract.SecondaryCustomers.ToList());
+                        AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
-                        updated = true;
                     }
 
                     if (contractData.Locations != null && contract.PrimaryCustomer != null)
@@ -140,15 +137,16 @@ namespace DealnetPortal.DataAccess.Repositories
                         AddOrUpdateCustomerLocations(contract.PrimaryCustomer, contractData.Locations);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
-                        updated = true;
                     }
 
                     if (contractData.Phones != null)
                     {                        
                     }
+
+                    return contract;
                 }
             }
-            return updated;
+            return null;
         }
 
         //public Contract UpdateContractClientData(int contractId, IList<Location> locations, IList<ContractCustomer> customers)
@@ -209,39 +207,12 @@ namespace DealnetPortal.DataAccess.Repositories
             });
 
             return customer;
-        }
-
-        //private Contract AddOrUpdateContractHomeOwners(Contract contract, IList<ContractCustomer> contractCustomers)
-        //{
-        //    contract.ContractCustomers.Clear();
-
-        //    contractCustomers.ForEach(cc =>
-        //    {
-        //        // update customer - extract ?
-        //        var customer = _dbContext.Customers.FirstOrDefault(c => c.Id == cc.Customer.Id);
-        //        if (customer != null)
-        //        {
-        //            customer.DateOfBirth = cc.Customer.DateOfBirth;
-        //            customer.FirstName = cc.Customer.FirstName;
-        //            customer.LastName = cc.Customer.LastName;
-        //            cc.Customer = customer;
-        //        }
-        //        else
-        //        {
-        //            _dbContext.Customers.Add(cc.Customer);
-        //        }
-        //        contract.ContractCustomers.Add(cc);
-        //    });
-
-        //    contract.LastUpdateTime = DateTime.Now;
-
-        //    return contract;
-        //}
+        }        
                 
         private Customer AddOrUpdateCustomer(Customer customer)
         {
             var dbCustomer = _dbContext.Customers.Find(customer.Id);
-            if (dbCustomer == null)
+            if (dbCustomer == null || customer.Id == 0)
             {
                 dbCustomer = _dbContext.Customers.Add(customer);
             }
@@ -260,12 +231,15 @@ namespace DealnetPortal.DataAccess.Repositories
                 contract.SecondaryCustomers.Where(
                     ho => customers.Any(cho => cho.Id == ho.Id)).ToList();
 
-            var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities);
-            _dbContext.Customers.RemoveRange(entriesForDelete);
+            var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
             customers.ForEach(ho =>
             {
-                _dbContext.Customers.AddOrUpdate(ho);
-                contract.SecondaryCustomers.Add(ho);
+                var customer = AddOrUpdateCustomer(ho);
+                if (existingEntities.Find(e => e.Id == customer.Id) == null)
+                {
+                    contract.SecondaryCustomers.Add(ho);
+                }
             });
 
             contract.LastUpdateTime = DateTime.Now;

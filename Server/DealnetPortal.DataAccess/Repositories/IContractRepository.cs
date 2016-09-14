@@ -53,7 +53,7 @@ namespace DealnetPortal.DataAccess.Repositories
         /// </summary>
         /// <param name="contractData">Structure with data related to contract</param>
         /// <returns>Result of update</returns>
-        bool UpdateContractData(ContractData contractData);
+        Contract UpdateContractData(ContractData contractData);
 
         /// <summary>
         /// Update contract customers data

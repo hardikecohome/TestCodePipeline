@@ -106,7 +106,8 @@ namespace DealnetPortal.Api.Tests.Repositories
             contractData.PrimaryCustomer = new Customer()
             {
                 FirstName = "FstName",
-                LastName = "LstName"
+                LastName = "LstName",
+                DateOfBirth = DateTime.Today
             };
             contractData.Locations = new List<Location> {address};
 
@@ -135,7 +136,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 1);
+            Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 2);
 
             var customers = new List<Customer>()
             {
