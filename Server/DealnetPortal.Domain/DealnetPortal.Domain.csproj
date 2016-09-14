@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Contract.cs" />
-    <Compile Include="ContractCustomer.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="ContractData.cs" />
     <Compile Include="Customer.cs" />

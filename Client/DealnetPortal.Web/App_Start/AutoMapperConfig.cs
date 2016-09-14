@@ -31,7 +31,7 @@ namespace DealnetPortal.Web.App_Start
                 cfg.CreateMap<ContractDTO, DealItemOverviewViewModel>()
                     .ForMember(d => d.CustomerName, s => s.ResolveUsing(src =>
                     {
-                        var customer = src.Customers?.FirstOrDefault();
+                        var customer = src.PrimaryCustomer;
                         if (customer != null)
                         {
                             return $"{customer.LastName} {customer.FirstName}";
@@ -44,6 +44,26 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(d => d.Phone, s => s.Ignore())
                     .ForMember(d => d.Date, s => s.ResolveUsing(src => 
                         (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToShortDateString()));
+
+                cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
+                    .ForMember(x => x.AgrreesToSendPersonalInfo, d => d.Ignore());
+                cfg.CreateMap<LocationDTO, AddressInformation>()
+                    .ForMember(x => x.InstallationAddress, d => d.MapFrom(src => src.Street))
+                    .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
+                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
+
+                cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
+                    .ForMember(x => x.Locations, d => d.Ignore())
+                    .ForMember(x => x.Phones, d => d.Ignore())
+                    .ForMember(x => x.Id, d => d.Ignore());
+
+                cfg.CreateMap<AddressInformation, LocationDTO>()
+                    .ForMember(x => x.Street, d => d.MapFrom(src => src.InstallationAddress))
+                    .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
+                    .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
+                    .ForMember(x => x.AddressType, d => d.Ignore())
+                    .ForMember(x => x.Id, d => d.Ignore())
+                    .ForMember(x => x.CustomerId, d => d.Ignore());
 
             });
 
