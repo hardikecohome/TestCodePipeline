@@ -22,7 +22,6 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> addresses, IList<CustomerDTO> customers);
 
         IList<Alert> UpdateContractData(ContractDataDTO contract);
- IList<Alert> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
         
         IList<Alert> InitiateCreditCheck(int contractId);
 

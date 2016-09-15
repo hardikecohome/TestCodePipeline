@@ -6,6 +6,8 @@ using DealnetPortal.Domain;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
+    using System.Security.Cryptography.X509Certificates;
+
     /// <summary>
     /// An interface for Contracts repository in DB
     /// </summary>
@@ -17,6 +19,11 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="contractOwnerId">user Id</param>
         /// <returns>Contract</returns>
         Contract CreateContract(string contractOwnerId);
+
+
+
+
+
 
         /// <summary>
         /// Get user contracts list

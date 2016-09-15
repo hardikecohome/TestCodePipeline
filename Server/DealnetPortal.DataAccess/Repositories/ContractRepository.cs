@@ -140,13 +140,38 @@ namespace DealnetPortal.DataAccess.Repositories
                     }
 
                     if (contractData.Phones != null)
-                    {                        
+                    {
+                    }
+
+                    
+
+                    if (contractData.Equipment != null)
+                    {
+                        contractData.Equipment.ContractId = contract.Id;
+                        this.AddOrUpdateEquipment(contractData.Equipment);
+                        contract.LastUpdateTime = DateTime.Now;
                     }
 
                     return contract;
                 }
             }
             return null;
+        }
+
+        private bool AddOrUpdateEquipment(EquipmentInfo contractDataEquipment)
+        {
+            this._dbContext.EquipmentInfo.AddOrUpdate(e=>e.ContractId,contractDataEquipment);
+            foreach (var newEquipment in contractDataEquipment.NewEquipment)
+            {
+                newEquipment.EquipmentInfoId = contractDataEquipment.Id;
+                this._dbContext.NewEquipment.AddOrUpdate(newEquipment);
+            }
+            foreach (var existingEquipment in contractDataEquipment.ExistingEquipment)
+            {
+                existingEquipment.EquipmentInfoId = contractDataEquipment.Id;
+                this._dbContext.ExistingEquipment.AddOrUpdate(existingEquipment);
+            }
+            return true;
         }
 
         //public Contract UpdateContractClientData(int contractId, IList<Location> locations, IList<ContractCustomer> customers)
@@ -177,7 +202,7 @@ namespace DealnetPortal.DataAccess.Repositories
             contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
 
             return contractData;
-        }        
+        }
 
         private Customer AddOrUpdateCustomerLocations(Customer customer, IList<Location> locations)
         {
@@ -207,8 +232,8 @@ namespace DealnetPortal.DataAccess.Repositories
             });
 
             return customer;
-        }        
-                
+        }
+
         private Customer AddOrUpdateCustomer(Customer customer)
         {
             var dbCustomer = _dbContext.Customers.Find(customer.Id);

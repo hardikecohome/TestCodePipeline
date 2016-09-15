@@ -49,10 +49,13 @@
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Contract.cs" />
+    <Compile Include="EquipmentInfo.cs" />
+    <Compile Include="ExistingEquipment.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="ContractData.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="LoggedInUser.cs" />
+    <Compile Include="NewEquipment.cs" />
     <Compile Include="Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

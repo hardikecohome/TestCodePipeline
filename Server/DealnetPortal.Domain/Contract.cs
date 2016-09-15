@@ -31,5 +31,7 @@ namespace DealnetPortal.Domain
         public Customer PrimaryCustomer { get; set; }
 
         public ICollection<Customer> SecondaryCustomers { get; set; }
+
+
     }
 }

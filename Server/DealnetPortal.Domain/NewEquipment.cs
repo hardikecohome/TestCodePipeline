@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
+﻿namespace DealnetPortal.Domain
 {
-    public class NewEquipmentInformationDTO
+    using System;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    public class NewEquipment
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Quantity { get; set; }
 
@@ -21,5 +19,10 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public DateTime EstimatedInstallationDate { get; set; }
         
         public double TotalMonthlyPayment { get; set; }
+
+        public int? EquipmentInfoId { get; set; }
+
+        [ForeignKey("EquipmentInfoId")]
+        public EquipmentInfo EquipmentInfo { get; set; }
     }
 }

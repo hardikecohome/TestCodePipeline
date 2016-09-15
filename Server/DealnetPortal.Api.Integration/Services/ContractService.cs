@@ -104,12 +104,7 @@ namespace DealnetPortal.Api.Integration.Services
                 throw;
             }
         }
-
- public IList<Alert> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo)
-        {
-            //TODO: Implement equipment info update
-            throw new NotImplementedException();
-        }       
+ 
 
         public IList<Alert> InitiateCreditCheck(int contractId)
         {

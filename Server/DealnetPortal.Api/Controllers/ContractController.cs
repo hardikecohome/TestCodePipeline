@@ -103,21 +103,6 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("UpdateEquipmentInfo")]
-        [HttpPut]
-        public IHttpActionResult UpdateEquipmentInfo(EquipmentInformationDTO equipmentInfo)
-        {
-            try
-            {
-                var alerts = ContractService.UpdateEquipmentInformation(equipmentInfo);
-                return Ok(alerts);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
         [Route("InitiateCreditCheck")]
         [HttpPut]
         public IHttpActionResult InitiateCreditCheck(int contractId)
