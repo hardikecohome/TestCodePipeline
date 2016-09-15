@@ -13,7 +13,7 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    <div>Email</div>
+                    @Html.LabelFor(m => m.Email, new { @class = "" })
                     <div>
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div>Password</div>
+                    @Html.LabelFor(m => m.Password, new { @class = "" })
                     <div>
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
