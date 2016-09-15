@@ -68,6 +68,11 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<ContractDTO>(contract);
         }
 
+        public IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> addresses, IList<CustomerDTO> customers)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<Alert> UpdateContractData(ContractDataDTO contract)
         {
             try
