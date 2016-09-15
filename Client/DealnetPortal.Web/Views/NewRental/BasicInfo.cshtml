@@ -4,7 +4,7 @@
 ﻿@Styles.Render("~/Content/basic-info.css")
 
 @{
-    if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count < 3)
+    if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count < 3)
     {
         for (var i = Model.AdditionalApplicants.Count; i < 3; i++)
         {
@@ -147,7 +147,7 @@
         </div>
     </div>
 
-    <div id="additional1-section"@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[0]?.FirstName != null) { <text>data-initialized="true"</text> }>
+    <div id="additional1-section"@if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[0]?.FirstName != null) { <text>data-initialized="true"</text> }>
         <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional1-remove">x</div></div>
 
         @if (!ViewBag.IsMobileRequest)
@@ -195,7 +195,7 @@
         </div>
     </div>
 
-    <div id="additional2-section"@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 1 && Model.AdditionalApplicants[1]?.FirstName != null) { <text>data-initialized="true"</text> }>
+    <div id="additional2-section"@if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 1 && Model.AdditionalApplicants[1]?.FirstName != null) { <text>data-initialized="true"</text> }>
         <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional2-remove">x</div></div>
 
         @if (!ViewBag.IsMobileRequest)
@@ -243,7 +243,7 @@
         </div>
     </div>
 
-    <div id="additional3-section"@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 2 && Model.AdditionalApplicants[2]?.FirstName != null) { <text>data-initialized="true"</text> }>
+    <div id="additional3-section"@if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 2 && Model.AdditionalApplicants[2]?.FirstName != null) { <text>data-initialized="true"</text> }>
         <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional3-remove">x</div></div>
 
         @if (!ViewBag.IsMobileRequest)
@@ -347,7 +347,7 @@
         </div>
 
         <p id="mailing-adress-different">
-            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model.MailingAddressInformation != null) { <text>checked</text> }/>Mailing address is different
+            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model?.MailingAddressInformation != null) { <text>checked</text> }/>Mailing address is different
         </p>
 
         <div id="mailing-adress">
