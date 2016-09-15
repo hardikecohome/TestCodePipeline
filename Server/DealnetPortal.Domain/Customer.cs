@@ -10,6 +10,12 @@ namespace DealnetPortal.Domain
 {
     public class Customer
     {
+        public Customer()
+        {
+            Locations = new List<Location>();
+            Phones = new List<Phone>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
@@ -21,6 +27,11 @@ namespace DealnetPortal.Domain
         [Required]
         public DateTime DateOfBirth { get; set; }
         //[Required]
-        public Contract Contract { get; set; }
+        // 1 customer for 1 contract ? 
+        //public Contract Contract { get; set; }
+        // Is locations related to a customer or to a contract
+        public ICollection<Location> Locations { get; set; }
+
+        public ICollection<Phone> Phones { get; set; }
     }
 }

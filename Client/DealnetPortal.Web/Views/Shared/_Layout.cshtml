@@ -4,13 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - DealNet</title>
-    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet"  type='text/css'>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/libs")
     @Scripts.Render("~/bundles/dealnet")
+    <link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -26,11 +28,11 @@
                                 <span class="icon-bar"></span>
                             </button>
                         </div>
-                        <div style="text-align: center">
+                        <div>
                             <div class="dealnet-image-ecologo">
                             </div>
                         </div>
-                        <div style="text-align: right;">
+                        <div>
                             <div class="hidden-md hidden-lg visible-xs-inline-block visible-sm-inline-block dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
                             </div>

@@ -39,11 +39,9 @@ $(function () {
     $.validator.addMethod(
         "date",
         function (value, element) {
-            console.log(value);
             var minDate = Date.parse("1900-01-01");
             var maxDate = new Date();
             var valueEntered = Date.parseExact(value, "M/d/yyyy");
-            console.log(valueEntered);
             if (!valueEntered) {
                 return false;
             }
@@ -77,24 +75,40 @@ if (aditional3Section.attr('data-initialized') == "true") {
 }
 //
 var mailingAddress = $("#mailing-adress");
-mailingAddress.hide();
-$("#mailing-adress-checkbox").click(function () {
+var mailingAddressCheckbox = $("#mailing-adress-checkbox");
+if (!mailingAddressCheckbox.is(":checked")) {
+    mailingAddress.hide();
+} else {
+    enableMailingAddress();
+}
+
+mailingAddressCheckbox.click(function () {
     if ($(this).is(":checked")) {
-        $("#mailing_street").prop("disabled", false);
-        $("#mailing_unit_number").prop("disabled", false);
-        $("#mailing_locality").prop("disabled", false);
-        $("#mailing_administrative_area_level_1").prop("disabled", false);
-        $("#mailing_postal_code").prop("disabled", false);
-        mailingAddress.show(300);
+        enableMailingAddress();
     } else {
-        mailingAddress.hide(200);
-        $("#mailing_street").prop("disabled", true);
-        $("#mailing_unit_number").prop("disabled", true);
-        $("#mailing_locality").prop("disabled", true);
-        $("#mailing_administrative_area_level_1").prop("disabled", true);
-        $("#mailing_postal_code").prop("disabled", true);
+        disableMailingAddress();
     }
 });
+
+function enableMailingAddress() {
+    $("#mailing_street").prop("disabled", false);
+    $("#mailing_unit_number").prop("disabled", false);
+    $("#mailing_locality").prop("disabled", false);
+    $("#mailing_administrative_area_level_1").prop("disabled", false);
+    $("#mailing_postal_code").prop("disabled", false);
+    mailingAddress.show(300);
+}
+
+function disableMailingAddress() {
+    mailingAddress.hide(200);
+    $("#mailing_street").prop("disabled", true);
+    $("#mailing_unit_number").prop("disabled", true);
+    $("#mailing_locality").prop("disabled", true);
+    $("#mailing_administrative_area_level_1").prop("disabled", true);
+    $("#mailing_postal_code").prop("disabled", true);
+}
+
+
 $("#clear-address").click(function () {
     document.getElementById('street').value = '';
     document.getElementById('unit_number').value = '';

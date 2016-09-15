@@ -68,31 +68,21 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<ContractDTO>(contract);
         }
 
-        public IList<Alert> UpdateContractClientData(int contractId, IList<ContractAddressDTO> addresses, IList<CustomerDTO> customers)
+        public IList<Alert> UpdateContractData(ContractDataDTO contract)
         {
             try
             {
-                var alerts = new List<Alert>();
-                IList<ContractAddress> addressesForUpdate = null;
-                IList<Customer> customersForUpdate = null;
-                if (addresses != null)
-                {
-                    addressesForUpdate = Mapper.Map<IList<ContractAddress>>(addresses);
-                }
-                if (customers != null)
-                {
-                    customersForUpdate = Mapper.Map<IList<Customer>>(customers);
-                }
-
-                var updatedContract = _contractRepository.UpdateContractClientData(contractId, addressesForUpdate, customersForUpdate);                
+                var alerts = new List<Alert>();               
+                var contractData = Mapper.Map<ContractData>(contract);
+                var updatedContract = _contractRepository.UpdateContractData(contractData);
                 if (updatedContract != null)
                 {
                     _unitOfWork.Save();
-                    _loggingService.LogInfo($"A contract [{contractId}] updated");
+                    _loggingService.LogInfo($"A contract [{contract.Id}] updated");
                 }
                 else
                 {
-                    var errorMsg = $"Cannot find a contract [{contractId}] for update";
+                    var errorMsg = $"Cannot find a contract [{contract.Id}] for update";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
@@ -105,21 +95,16 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Failed to update a contract [{contractId}]", ex);
+                _loggingService.LogError($"Failed to update a contract [{contract.Id}]", ex);
                 throw;
             }
         }
 
-        public IList<Alert> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo)
+ public IList<Alert> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo)
         {
             //TODO: Implement equipment info update
             throw new NotImplementedException();
-        }
-
-        public IList<Alert> UpdateContractData(ContractDTO contract)
-        {
-            return UpdateContractClientData(contract.Id, contract.Addresses, contract.Customers);
-        }
+        }       
 
         public IList<Alert> InitiateCreditCheck(int contractId)
         {

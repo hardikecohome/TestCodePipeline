@@ -1,7 +1,6 @@
 ﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
 
 ﻿@Styles.Render("~/Content/basic-info.css")
-@Scripts.Render("~/Scripts/credit-check.js")
 
 <div id="label-steps">
     <div class="dealnet-action-link">New Rental</div> >
@@ -9,6 +8,7 @@
 
 @using (Html.BeginForm("CreditCheckConfirmation", "NewRental", FormMethod.Post, new { id = "credit-check-form" }))
 {
+    @Html.HiddenFor(m => m.ContractId)
     <div class="dealnet-large-header" id="basic-info">Credit check confirmation</div>
 
     <div id="steps-line"></div>
@@ -73,7 +73,7 @@
                         Date of Birth
                     </div>
                     <div class="dealnet-field-holder">
-                        @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "birth-date" })
+                        @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "birth-date", data_val_date = "Date must be in range 1900 - Today" })
                         @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                             Date of Birth
                         </div>
                         <div class="dealnet-field-holder">
-                            @Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-1" })
+                            @Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-1", data_val_date = "Date must be in range 1900 - Today" })
                             @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
                         </div>
 
@@ -175,7 +175,7 @@
                             Date of Birth
                         </div>
                         <div class="dealnet-field-holder">
-                            @Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-2" })
+                            @Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-2", data_val_date = "Date must be in range 1900 - Today" })
                             @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
                         </div>
 
@@ -224,7 +224,7 @@
                                 Date of Birth
                             </div>
                             <div class="dealnet-field-holder">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-3" })
+                                @Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-3", data_val_date = "Date must be in range 1900 - Today" })
                                 @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
                             </div>
 
@@ -395,7 +395,7 @@
                         </div>
                         <div class="modal-footer">
                             <div>
-                                <button type="button" class="btn dealnet-button dealnet-green-button" onclick="saveChanges()">Save changes</button>
+                                <button type="button" class="btn dealnet-button dealnet-green-button" onclick="saveChanges('@Url.Action("UpdateBasicInfo", "NewRental")')">Save changes</button>
                             </div>
                             <div>
                                 <a href="#" onclick="cancelChanges()">Cancel</a>
@@ -419,4 +419,5 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/credit-check")
 }
