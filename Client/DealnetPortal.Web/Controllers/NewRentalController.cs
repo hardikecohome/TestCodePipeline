@@ -133,7 +133,7 @@ namespace DealnetPortal.Web.Controllers
             }
             basicInfo.ContractId = contractId;
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contractResult.Item1.PrimaryCustomer);
-            basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<ApplicantPersonalInfo[]>(contractResult.Item1.SecondaryCustomers);
+            basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contractResult.Item1.SecondaryCustomers);
 
             basicInfo.AddressInformation =
                 AutoMapper.Mapper.Map<AddressInformation>(
@@ -168,7 +168,7 @@ namespace DealnetPortal.Web.Controllers
                 address.AddressType = AddressType.MailAddress;
                 contractData.Locations.Add(address);
             }
-            await _contractServiceAgent.UpdateContractData(contractData);
+            return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
         private JsonResult GetSuccessJson()
