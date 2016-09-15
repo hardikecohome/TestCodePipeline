@@ -63,7 +63,11 @@ namespace DealnetPortal.Web.Controllers
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
             if (contractResult?.Item1 != null)
             {
-                await UpdateContractAsync(contractResult.Item1, basicInfo);
+                var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
+                if (updateResult.Any(r => r.Type == AlertType.Error))
+                {
+                    return View();
+                }
             }
             return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
         }
@@ -71,6 +75,19 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
             return View(await GetBasicInfoAsync(contractId));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateBasicInfo(BasicInfoViewModel basicInfo)
+        {
+            if (!ModelState.IsValid || basicInfo.ContractId == null)
+            {
+                return GetErrorJson();
+            }
+            var contractResult = await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
+            if (contractResult?.Item1 == null) return GetErrorJson();
+            var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
+            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
         [HttpPost]
@@ -115,34 +132,48 @@ namespace DealnetPortal.Web.Controllers
                 return basicInfo;
             }
             basicInfo.ContractId = contractId;
-            basicInfo.HomeOwner = contractResult.Item1.Customers?.FirstOrDefault()?.ToApplicantPersonalInfo();
-            if (contractResult.Item1.Customers?.Count() > 1)
-            {
-                basicInfo.AdditionalApplicants = contractResult.Item1.Customers?.Skip(1).Select(c => c.ToApplicantPersonalInfo()).ToList();
-            }
-            basicInfo.AddressInformation = contractResult.Item1.Addresses?.FirstOrDefault(a => a.AddressType == AddressType.MainAddress)?.ToContractAddressDto();
-            var mailingAddress = contractResult.Item1.Addresses?.FirstOrDefault(a => a.AddressType == AddressType.MailAddress);
-            if (mailingAddress != null)
-            {
-                basicInfo.MailingAddressInformation = mailingAddress.ToContractAddressDto();
-            }
+            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contractResult.Item1.PrimaryCustomer);
+            basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contractResult.Item1.SecondaryCustomers);
+
+            basicInfo.AddressInformation =
+                AutoMapper.Mapper.Map<AddressInformation>(
+                    contractResult.Item1.PrimaryCustomer?.Locations?.FirstOrDefault(
+                        l => l.AddressType == AddressType.MainAddress));
+            basicInfo.MailingAddressInformation =
+                AutoMapper.Mapper.Map<AddressInformation>(
+                    contractResult.Item1.PrimaryCustomer?.Locations?.FirstOrDefault(
+                        l => l.AddressType == AddressType.MailAddress));            
             return basicInfo;
         }
 
-        private async Task UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
+        private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
         {
-            contract.Customers = new List<CustomerDTO>();
-            contract.Customers.Add(basicInfo.HomeOwner.ToCustomerDto());
+            var contractData = new ContractDataDTO();
+            contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);            
             if (basicInfo.AdditionalApplicants != null)
             {
-                contract.Customers.AddRange(basicInfo.AdditionalApplicants.Select(app => app.ToCustomerDto()));
+                contractData.SecondaryCustomers = new List<CustomerDTO>();
+                basicInfo.AdditionalApplicants.ForEach(a =>
+                {
+                    contractData.SecondaryCustomers.Add(AutoMapper.Mapper.Map<CustomerDTO>(a));
+                });
             }
-            contract.Addresses.Add(basicInfo.AddressInformation.ToContractAddressDto(AddressType.MainAddress));
+            contractData.Locations = new List<LocationDTO>();
+            var address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.AddressInformation);
+            address.AddressType = AddressType.MainAddress;            
+            contractData.Locations.Add(address);
             if (basicInfo.MailingAddressInformation != null)
             {
-                contract.Addresses.Add(basicInfo.MailingAddressInformation.ToContractAddressDto(AddressType.MailAddress));
+                address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.MailingAddressInformation);
+                address.AddressType = AddressType.MailAddress;
+                contractData.Locations.Add(address);
             }
-            await _contractServiceAgent.UpdateContractClientData(contract);
+            return await _contractServiceAgent.UpdateContractData(contractData);
+        }
+
+        private JsonResult GetSuccessJson()
+        {
+            return Json(new { isSuccess = true });
         }
 
         private JsonResult GetErrorJson()

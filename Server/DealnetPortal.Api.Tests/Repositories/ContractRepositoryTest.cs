@@ -26,18 +26,23 @@ namespace DealnetPortal.Api.Tests.Repositories
         [ClassInitialize]
         public static void SetUp(TestContext context)
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", context.TestDeploymentDir);
+            AppDomain.CurrentDomain.SetData("DataDirectory",
+                Path.Combine(context.TestDeploymentDir, string.Empty));
         }
 
         [TestInitialize]
         public void Intialize()
-        {            
+        {
             Database.SetInitializer(
-                new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+                new DropCreateDatabaseAlways<ApplicationDbContext>());            
 
             _databaseFactory = new DatabaseFactory();
             _unitOfWork = new UnitOfWork(_databaseFactory);
             _contractRepository = new ContractRepository(_databaseFactory);
+
+            var context = _databaseFactory.Get();
+            context.Database.Initialize(true);
+
             _user = _databaseFactory.Get().Users.FirstOrDefault();
             if (_user == null)
             {
@@ -77,57 +82,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             Assert.IsTrue(isDeleted);
         }
-
-        [Ignore]
-        [TestMethod]
-        public void TestUpdateContract()
-        {
-            var contract = _contractRepository.CreateContract(_user.Id);
-            _unitOfWork.Save();
-            Assert.IsNotNull(contract);
-                        
-            var address = new ContractAddress()
-            {
-                City = "London",
-                PostalCode = "348042",
-                Street = "Street",
-                Unit = "1"
-            };
-            contract.Addresses.Add(address);
-            _contractRepository.UpdateContract(contract);
-            _unitOfWork.Save();
-            contract = _contractRepository.GetContract(contract.Id);
-            Assert.IsNotNull(contract.Addresses);
-            contract.Addresses = null;
-            _contractRepository.UpdateContract(contract);
-            _unitOfWork.Save();
-            contract = _contractRepository.GetContract(contract.Id);
-            Assert.IsNull(contract.Addresses);
-
-            contract.Customers = new List<Customer>()
-            {
-                new Customer()
-                {
-                    FirstName = "Fst1",
-                    LastName = "Lst1",
-                    DateOfBirth = DateTime.Today
-                },
-                new Customer()
-                {
-                    FirstName = "Fst2",
-                    LastName = "Lst2",
-                    DateOfBirth = DateTime.Today
-                }
-            };
-            _contractRepository.UpdateContract(contract);
-            _unitOfWork.Save();            
-            contract = _contractRepository.GetContract(contract.Id);
-            Assert.AreEqual(contract.Customers.Count, 2);
-
-            var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
-            _unitOfWork.Save();
-            Assert.IsTrue(isDeleted);
-        }
+        
 
         [TestMethod]
         public void TestUpdateContractData()
@@ -136,19 +91,32 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             Assert.IsNotNull(contract);
 
-            var address = new ContractAddress()
+            var contractData = new ContractData()
+            {
+                Id = contract.Id
+            };
+
+            var address = new Location()
             {
                 City = "London",
                 PostalCode = "348042",
                 Street = "Street",
                 Unit = "1"
             };
-            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address}, null);
+            contractData.PrimaryCustomer = new Customer()
+            {
+                FirstName = "FstName",
+                LastName = "LstName",
+                DateOfBirth = DateTime.Today
+            };
+            contractData.Locations = new List<Location> {address};
+
+            _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.Addresses.Count, 1);
+            Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 1);
 
-            var address2 = new ContractAddress()
+            var address2 = new Location()
             {
                 City = "London",
                 PostalCode = "348042",
@@ -156,15 +124,19 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Unit = "2",
                 AddressType = AddressType.MailAddress
             };
-            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address, address2 }, null);
+
+            contractData.PrimaryCustomer = null;
+            contractData.Locations = new List<Location>() {address, address2};
+
+            _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.Addresses.Count, 2);
+            Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 2);
             address2.City = "Paris";
-            _contractRepository.UpdateContractClientData(contract.Id, new List<ContractAddress>() { address2 }, null);
+            _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.Addresses.Count, 1);
+            Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 2);
 
             var customers = new List<Customer>()
             {
@@ -174,19 +146,22 @@ namespace DealnetPortal.Api.Tests.Repositories
                     LastName = "Lst1",
                     DateOfBirth = DateTime.Today
                 },
-                new Customer()
+                new Customer
                 {
                     FirstName = "Fst2",
                     LastName = "Lst2",
                     DateOfBirth = DateTime.Today
                 }
             };
-            _contractRepository.UpdateContractClientData(contract.Id, null, customers);
+            contractData.Locations = null;
+            contractData.PrimaryCustomer = null;
+            contractData.SecondaryCustomers = customers;
+            _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.Customers.Count, 2);
+            Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
 
-            var owners = contract.Customers;
+            var owners = contract.SecondaryCustomers;
             owners.Remove(owners.First());
             owners.Last().FirstName = "Name changed";
             owners.Add(new Customer()
@@ -194,14 +169,13 @@ namespace DealnetPortal.Api.Tests.Repositories
                 FirstName = "Fst3",
                 LastName = "Lst3",
                 DateOfBirth = DateTime.Today
-            });            
-            //contractData.Customers = owners.ToList();
-            //_contractRepository.UpdateContractData(contractData);
-            _contractRepository.UpdateContractClientData(contract.Id, null, owners.ToList());
+            });
+            contractData.SecondaryCustomers = owners.ToList();
+            _contractRepository.UpdateContractData(contractData);
             _unitOfWork.Save();
             contract = _contractRepository.GetContractAsUntracked(contract.Id);
-            Assert.AreEqual(contract.Customers.Count, 2);
-            Assert.AreEqual(contract.Customers.First().FirstName, "Name changed");
+            Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
+            Assert.AreEqual(contract.SecondaryCustomers.First().FirstName, "Name changed");
 
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();

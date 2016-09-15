@@ -86,13 +86,13 @@ namespace DealnetPortal.Api.Controllers
         //    throw new NotImplementedException();
         //}
 
-        [Route("UpdateContractClientData")]
+        [Route("UpdateContractData")]
         [HttpPut]
-        public IHttpActionResult UpdateContractClientData(ContractDTO contract)
+        public IHttpActionResult UpdateContractData(ContractDataDTO contractData)
         {
             try
             {
-                var alerts = ContractService.UpdateContractData(contract);
+                var alerts = ContractService.UpdateContractData(contractData);
                 return Ok(alerts);
             }
             catch (Exception ex)
