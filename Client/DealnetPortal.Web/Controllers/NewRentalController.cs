@@ -52,11 +52,6 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> EquipmentInformation()
-        {
-            return this.View();
-        }
-
         [HttpPost]
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
