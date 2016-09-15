@@ -12,8 +12,8 @@ namespace DealnetPortal.Domain
     {
         public Contract()
         {
-            Customers = new List<Customer>();
-            Addresses = new List<ContractAddress>();
+            SecondaryCustomers = new List<Customer>();
+            //Locations = new List<Location>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
@@ -26,8 +26,10 @@ namespace DealnetPortal.Domain
 
         public DateTime? LastUpdateTime { get; set; }
 
-        public ICollection<ContractAddress> Addresses { get; set; }
+        public int? PrimaryCustomerId { get; set; }
+        [ForeignKey("PrimaryCustomerId")]
+        public Customer PrimaryCustomer { get; set; }
 
-        public ICollection<Customer> Customers { get; set; }
+        public ICollection<Customer> SecondaryCustomers { get; set; }
     }
 }

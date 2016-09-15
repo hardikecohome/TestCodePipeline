@@ -62,16 +62,16 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> UpdateContractClientData(ContractDTO contract)
+        public async Task<IList<Alert>> UpdateContractData(ContractDataDTO contractData)
         {
             try
             {
                 return
-                    await Client.PutAsync<ContractDTO, IList<Alert>>($"{_fullUri}/UpdateContractClientData", contract);
+                    await Client.PutAsync<ContractDataDTO, IList<Alert>>($"{_fullUri}/UpdateContractData", contractData);
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Can't update client data for contract {contract.Id}", ex);
+                _loggingService.LogError($"Can't update client data for contract {contractData.Id}", ex);
                 throw;
             }
         }

@@ -38,27 +38,34 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = ContractState.Started,
-                Addresses = new List<ContractAddress>()
-                { 
-                    new ContractAddress()
-                    {
-                        City = "Paris",
-                        Id = 1,
+                PrimaryCustomer = new Customer()
+                {
+                    Id = 1,
+                    FirstName = "FstName",
+                    LastName = "LstName",
+                    Locations = new List<Location>()
+                    { 
+                        new Location()
+                        {
+                            City = "Paris",
+                            Id = 1
+                        }
                     }
                 },
-                Customers = new List<Customer>()
+                SecondaryCustomers = new List<Customer>()
                 {
                     new Customer()
                     {
-                        FirstName = "FstName",
-                        LastName = "LstName",
+                        Id = 2,
+                        FirstName = "FstName2",
+                        LastName = "LstName2",
                         DateOfBirth = DateTime.Today,
-                        Id = 1
                     }
                 }
             };
 
             var contractDTO = Mapper.Map<ContractDTO>(contract);
+            Assert.IsNotNull(contractDTO);
         }
 
         [TestMethod]
@@ -68,26 +75,34 @@ namespace DealnetPortal.Api.Tests
             {
                 Id = 1,
                 ContractState = ContractState.Started,
-                Addresses = new List<ContractAddressDTO>()
-                { 
-                    new ContractAddressDTO()
-                    {
-                        City = "Paris"
+                PrimaryCustomer = new CustomerDTO()
+                {
+                    FirstName = "FstName",
+                    LastName = "LstName",
+                    DateOfBirth = DateTime.Today,
+                    Id = 1,
+                    Locations = new List<LocationDTO>()
+                    { 
+                        new LocationDTO()
+                        {
+                            City = "Paris"
+                        }
                     }
                 },
-                Customers = new List<CustomerDTO>()
+                SecondaryCustomers = new List<CustomerDTO>()
                 {
                     new CustomerDTO()
                     {
-                        FirstName = "FstName",
-                        LastName = "LstName",
+                        FirstName = "FstName2",
+                        LastName = "LstName2",
                         DateOfBirth = DateTime.Today,
-                        Id = 1
+                        Id = 2,
                     }
                 }
             };
 
             var contract = Mapper.Map<Contract>(contractDTO);
+            Assert.IsNotNull(contract);
         }
     }
 }

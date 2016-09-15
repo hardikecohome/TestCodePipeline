@@ -15,6 +15,10 @@ namespace DealnetPortal.Api.Models.Contract
         [MaxLength(100)]
         public string LastName { get; set; }
         [Required]
-        public DateTime DateOfBirth { get; set; }        
+        public DateTime DateOfBirth { get; set; }      
+        
+        public List<LocationDTO> Locations { get; set; }
+
+        public List<PhoneDTO> Phones { get; set; }
     }
 }

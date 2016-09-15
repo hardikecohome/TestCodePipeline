@@ -11,7 +11,7 @@ namespace DealnetPortal.Api.Models.Contract
     {
         public ContractDTO()
         {
-            Customers = new List<CustomerDTO>();
+            SecondaryCustomers = new List<CustomerDTO>();
         }
         public int Id { get; set; }
 
@@ -21,7 +21,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public DateTime? LastUpdateTime { get; set; }
 
-        public List<ContractAddressDTO> Addresses { get; set; }
-        public List<CustomerDTO> Customers { get; set; }
+        public CustomerDTO PrimaryCustomer { get; set; }
+
+        public List<CustomerDTO> SecondaryCustomers { get; set; }
     }
 }

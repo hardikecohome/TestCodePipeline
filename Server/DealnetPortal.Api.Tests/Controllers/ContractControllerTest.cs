@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Hosting;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
@@ -48,44 +50,56 @@ namespace DealnetPortal.Api.Tests.Controllers
             var response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();
             Assert.IsNotNull(response);
             Assert.IsTrue(response.IsSuccessStatusCode);
-            ContractDTO contract;
-            Assert.IsTrue(response.TryGetContentValue(out contract));
-            Assert.IsNotNull(contract);
+            Tuple<ContractDTO, IList<Alert>> contractResult;
+            Assert.IsTrue(response.TryGetContentValue(out contractResult));
+            Assert.IsNotNull(contractResult);
+            Assert.IsNotNull(contractResult.Item1);
+            Assert.IsNotNull(contractResult.Item2);
+            Assert.AreEqual(contractResult.Item2.Count, 0);
 
             // test contract creation failed
             _contractServiceMock.Setup(s => s.CreateContract(It.IsAny<string>())).Returns((ContractDTO) null);
             responseRes = _contractController.CreateContract();
             response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();
             Assert.IsNotNull(response);
-            Assert.IsFalse(response.IsSuccessStatusCode);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
+            Assert.IsTrue(response.TryGetContentValue(out contractResult));
+            Assert.IsNotNull(contractResult);
+            Assert.IsNull(contractResult.Item1);
+            Assert.IsNotNull(contractResult.Item2);
+            Assert.AreEqual(contractResult.Item2.Count, 1);
+            Assert.AreEqual(contractResult.Item2.First().Type, AlertType.Error);
 
             // test contract creation exception
             _contractServiceMock.Setup(s => s.CreateContract(It.IsAny<string>())).Throws(new NotImplementedException());
             responseRes = _contractController.CreateContract();
             response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();
-            Assert.IsFalse(response.IsSuccessStatusCode);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.InternalServerError);
+            Assert.IsNotNull(response);
+            Assert.IsTrue(response.TryGetContentValue(out contractResult));
+            Assert.IsNotNull(contractResult);
+            Assert.IsNull(contractResult.Item1);
+            Assert.IsNotNull(contractResult.Item2);
+            Assert.AreEqual(contractResult.Item2.Count, 1);
+            Assert.AreEqual(contractResult.Item2.First().Type, AlertType.Error);
         }
 
         [TestMethod]
         public void TestUpdateContractClientData()
-        {
+        {            
             _contractServiceMock.Setup(
                 s =>
-                    s.UpdateContractClientData(It.IsAny<int>(), It.IsAny<IList<ContractAddressDTO>>(),
-                        It.IsAny<IList<CustomerDTO>>()))
-                .Returns(new List<Alert>() {new Alert()});
-            ContractDTO contract = new ContractDTO()
+                    s.UpdateContractData(It.IsAny<ContractDataDTO>()))
+                .Returns(new List<Alert>() { new Alert() });
+
+            ContractDataDTO contract = new ContractDataDTO()
             {
                 Id = 1,
-                Addresses = new List<ContractAddressDTO>(),
-                Customers = new List<CustomerDTO>()
+                Locations = new List<LocationDTO>(),
+                SecondaryCustomers = new List<CustomerDTO>()
             };
-            var responseRes = _contractController.UpdateContractClientData(contract);
+            var responseRes = _contractController.UpdateContractData(contract);
             var response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();
             Assert.IsTrue(response.IsSuccessStatusCode);
-            IList<Alert> alerts;
+            IList<Alert> alerts = null;
             Assert.IsTrue(response.TryGetContentValue(out alerts));
             Assert.IsNotNull(alerts);
             Assert.AreEqual(alerts.Count, 1);

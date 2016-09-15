@@ -94,16 +94,18 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
             var contract = contractResult.Item1;
-            contract.Customers = new List<CustomerDTO>()
-            {
-                new CustomerDTO()
-                {
-                    FirstName = "FirstName",
-                    LastName = "LastName",
-                    DateOfBirth = DateTime.Now
-                }
+            var contractData = new ContractDataDTO()
+            { 
+                Id = contract.Id,
+                PrimaryCustomer =
+                    new CustomerDTO()
+                    {
+                        FirstName = "FirstName",
+                        LastName = "LastName",
+                        DateOfBirth = DateTime.Now
+                    }
             };
-            var updateAlerts = await contractServiceAgent.UpdateContractClientData(contract);
+            var updateAlerts = await contractServiceAgent.UpdateContractData(contractData);
             Assert.IsNotNull(updateAlerts);
             Assert.IsTrue(updateAlerts.All(a => a.Type != AlertType.Error));
             var updatedContractResult = await contractServiceAgent.GetContract(contract.Id);
@@ -111,7 +113,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             Assert.IsNotNull(updatedContractResult.Item1);
             var updatedContract = updatedContractResult.Item1;
             Assert.AreEqual(updatedContract.ContractState, ContractState.CustomerInfoInputted);
-            Assert.IsTrue(updatedContract.Customers.Any());
+            Assert.IsNotNull(updatedContract.PrimaryCustomer);
         }
 
         [TestMethod]
