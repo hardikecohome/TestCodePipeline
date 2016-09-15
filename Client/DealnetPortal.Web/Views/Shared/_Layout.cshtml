@@ -38,7 +38,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="collapse navbar-collapse">
+                    <div class="collapse navbar-collapse" aria-expanded="false">
+                        <div class="dealnet-sidebar-header">
+                            <div class="dealnet-image-ecologo">
+                            </div>
+                            <button class="navbar-toggle pull-right" data-target=".navbar-collapse" data-toggle="collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            {
+                            @*@Html.AntiForgeryToken()*@
+                                <div class="dealnet-sidebar-user">
+                                    <span class="icon-circle-hold"><i class="glyphicon glyphicon-user"></i></span> @User.Identity.Name
+                                </div>
+
+                            }
+                        }
+
                         <ul class="nav navbar-nav">
                             <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
                                 <div class="dealnet-sidebar-item-inner dealnet-sidebar-image dealnet-image-homepage"></div>
@@ -57,6 +79,15 @@
                                 <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Reports", "Reports", "Stub", null, new { @class = "dealnet-link" })</div>
                             </li>
                         </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="dealnet-sidebar-logout">
+                                <div class="dealnet-sidebar-item">
+                                    @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </nav>
             </div>
@@ -76,6 +107,7 @@
 
         </div>
     </div>
+    <div class="overlay"></div>
     @RenderSection("Scripts", false)
 </body>
 </html>

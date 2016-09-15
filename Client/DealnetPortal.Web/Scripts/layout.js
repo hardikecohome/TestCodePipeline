@@ -12,6 +12,26 @@
             window.location.href = $(this).find('a').attr('href');
         });
 
+        var $body = $('body');
+        $('.navbar-toggle').click(function(){
+          var topOffset;
+          if($('.navbar-collapse').attr('aria-expanded') === 'false'){
+            topOffset = $(window).scrollTop();
+            $body.css('top', -topOffset);
+            $body.css('overflow', 'hidden');
+            $('.overlay').show();
+          }else{
+            $body.css('top', -topOffset);
+            $body.css('overflow', 'auto');
+            $('.overlay').hide();
+          }
+        });
+
+        $('.overlay').click(function(){
+          $('.navbar-toggle').click();
+          $body.css('overflow', 'auto');
+          $(this).hide();
+        })
     });
 
 function showLoader() {
