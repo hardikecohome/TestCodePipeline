@@ -288,4 +288,8 @@
     color: #de525e;
 }
 
+.input-validation-error {
+     border: solid 1px #f38787
+} 
+
 

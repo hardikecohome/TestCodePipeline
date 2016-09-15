@@ -40,7 +40,7 @@ namespace DealnetPortal.Web.Models
         public string UnitNumber { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘`-]+$", ErrorMessage = "City is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘`-]+$", ErrorMessage = "City is in incorrect format")]
         public string City { get; set; }
         [Required]
         [StringLength(30, MinimumLength = 2)]
