@@ -1,220 +1,155 @@
-﻿.body {
-    font-family: Lato !important;
-    font-size: 14px;
-    font-weight: 700;
+﻿/*
+@media (max-width: 769px) {
+    .navbar-fixed-side {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
 }
 
-.navbar { background-color: #4c423e; }
+@media (min-width: 769px) {
+    .navbar-fixed-side {
+        position: fixed;
+        margin: 0 -15px;
+        height: 100vh;
+        width: inherit;
+        overflow: auto;
+        border-top-width: 0;
+        border-bottom-width: 0;
+        border-radius: 0;
+    }
 
+    .navbar-fixed-side .container, .navbar-fixed-side .container-fluid {
+        width: auto;
+        padding-left: 0;
+        padding-right: 0;
+    }
 
-.dealnet-body {
-    margin-top: 65px;
-    padding-left: 15px;
-    padding-right: 15px;
+    .navbar-fixed-side .navbar-header {
+        float: none;
+    }
+
+    .navbar-fixed-side .navbar-brand {
+        height: auto;
+    }
+
+    .navbar-fixed-side > .container .navbar-brand, .navbar-fixed-side > .container-fluid .navbar-brand {
+        margin-left: 0;
+    }
+
+    .navbar-fixed-side .navbar-collapse {
+        width: 100%;
+        border-top: 1px solid #e7e7e7;
+    }
+
+    .navbar-fixed-side .navbar-nav {
+        float: none;
+        margin: 0 -15px;
+    }
+
+    .navbar-fixed-side .navbar-nav > li {
+        float: none;
+    }
+
+    .navbar-fixed-side .navbar-nav > li > a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .navbar-fixed-side .navbar-form {
+        margin: 0;
+        margin-left: -15px;
+        margin-right: -15px;
+        padding: 10px 15px;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .navbar-fixed-side .navbar-text {
+        float: none;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .navbar-fixed-side .navbar-left, .navbar-fixed-side .navbar-right {
+        float: none !important;
+    }
+
+    .navbar-fixed-side .navbar-nav .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        box-shadow: none;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .navbar-fixed-side .navbar-nav .dropdown-menu > li > a, .navbar-fixed-side .navbar-nav .dropdown-menu .dropdown-header {
+        padding: 5px 15px 5px 25px;
+    }
+
+    .navbar-fixed-side .navbar-nav .dropdown-menu > li > a {
+        line-height: 20px;
+        color: #777;
+    }
+
+    .navbar-fixed-side .navbar-nav .dropdown-menu > li > a:hover, .navbar-fixed-side .navbar-nav .dropdown-menu > li > a:focus {
+        background-image: none;
+    }
+
+    .navbar-fixed-side .navbar-nav .dropdown-menu > .active > a {
+        background-color: #e7e7e7;
+        color: #555;
+    }
+
+    .navbar-fixed-side .navbar-nav > li > a:hover, .navbar-fixed-side .navbar-nav > li > a:focus, .navbar-fixed-side .navbar-nav .dropdown-menu > li > a:hover, .navbar-fixed-side .navbar-nav .dropdown-menu > li > a:focus {
+        background-color: #f0f0f0;
+        color: #333;
+    }
+
+    .navbar-fixed-side .dropdown > .dropdown-toggle, .navbar-fixed-side .dropdown-menu > .dropdown-header {
+        background-color: transparent !important;
+        color: #9d9d9d !important;
+        cursor: default;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .navbar-fixed-side .dropdown-toggle .caret {
+        display: none;
+    }
+
+    .navbar-fixed-side .dropdown-menu {
+        display: block;
+    }
+
+    .navbar-fixed-side.navbar-inverse .navbar-collapse, .navbar-fixed-side.navbar-inverse .navbar-nav > li > a, .navbar-fixed-side.navbar-inverse .navbar-form, .navbar-fixed-side.navbar-inverse .navbar-nav .dropdown-menu {
+        border-color: #363636;
+    }
+
+    .navbar-fixed-side.navbar-inverse .divider {
+        background-color: #363636;
+    }
+
+    .navbar-fixed-side.navbar-inverse .navbar-nav .dropdown-menu > li > a {
+        color: #9d9d9d;
+    }
+
+    .navbar-fixed-side.navbar-inverse .navbar-nav .dropdown-menu > .active > a {
+        background-color: #090909;
+        color: #fff;
+    }
+
+    .navbar-fixed-side.navbar-inverse .navbar-nav > li:not(.active) > a:hover, .navbar-fixed-side.navbar-inverse .navbar-nav > li:not(.active) > a:focus, .navbar-fixed-side.navbar-inverse .navbar-nav .dropdown-menu > li:not(.active) > a:hover, .navbar-fixed-side.navbar-inverse .navbar-nav .dropdown-menu > li:not(.active) > a:focus {
+        background-color: #2f2f2f;
+        color: #fff;
+    }
+
+    .navbar-fixed-side.navbar-inverse .dropdown > .dropdown-toggle {
+        color: #777777 !important;
+    }
 }
-
-.dealnet-caption {
-    color: #1f1f1f;
-    font-family: Lato;
-    font-size: 20px;
-    font-stretch: normal;
-    font-style: normal;
-    font-weight: bold;
-}
-
-.dealnet-home-page > .row {
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.navbar-header {
-    background-color: #32201D;
-    height: 50px;
-    line-height: 50px;
-    position: relative;
-    vertical-align: middle;
-}
-
-.navbar-header > div {
-    float: left;
-    height: 50px;
-    width: 33.3%;
-}
-
-.navbar-header button {
-    border: none;
-    margin-left: -15px;
-}
-
-.dealnet-login-buttons-holder {
-    height: 50px;
-    padding-right: 5px;
-}
-
-
-a.dealnet-link {
-    color: #FFFFFF !important;
-    font-family: Lato !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-}
-
-
-.dealnet-login-buttons { display: inline-block; }
-
-
-
-.dealnet-login-buttons .dropdown-toggle {
-    line-height: 50px;
-    vertical-align: middle;
-}
-
-.dealnet-login-buttons .dropdown-menu { background-color: #3e281d; }
-
-
-a.dealnet-link:hover {
-    background-color: transparent !important;
-    color: #FFFFFF !important;
-    text-decoration: none !important;
-}
-
-.dealnet-button-holder {
-    margin-left: 0px;
-    margin-right: 0px;
-}
-
-
-
-.navbar-brand { float: none; }
-
-.navbar-center {
-    height: 100%;
-    left: 0;
-    margin: auto;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    width: 100%;
-}
-
-.dealnet-page-header-login {
-    color: #ffffff;
-    float: right;
-    font-family: Lato;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 50px;
-    padding-right: 15px;
-    vertical-align: middle;
-}
-
-.dealnet-page-sidebar {
-    background-color: #4c423e;
-    box-shadow: inset -1px 1px 5px 0 rgba(0, 0, 0, 0.31);
-    float: left;
-    min-height: 800px;
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-.dealnet-sidebar-holder {
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-.dealnet-page-content {
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-.dealnet-page-header-logo {
-    background-color: #32201D;
-    height: 50px;
-    line-height: 50px;
-    margin-right: 0px;
-    padding-bottom: 5px;
-    padding-left: 0px;
-    padding-top: 5px;
-    vertical-align: middle;
-}
-
-.dealnet-page-header {
-    background-color: #3e281d;
-    height: 50px;
-    line-height: 50px;
-    position: fixed;
-    text-align: right;
-    width: 84%;
-    z-index: 1000;
-}
-
-.dealnet-sidebar-item {
-    color: #ffffff;
-    cursor: pointer;
-    font-family: Lato;
-    font-size: 14px;
-    font-weight: 700;
-    height: 50px;
-    padding-left: 15px;
-    padding-top: 15px;
-}
-
-.dealnet-sidebar-item-inner {
-    display: inline-block;
-    height: 20px;
-    line-height: 23px;
-    margin-right: 15px;
-    object-fit: contain;
-    vertical-align: middle;
-}
-
-.dealnet-sidebar-image {
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 20px;
-}
-
-.dealnet-button-image {
-    background-position: center;
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 30px;
-    line-height: 90px;
-    margin-right: 20px;
-    vertical-align: middle;
-    width: 30px;
-}
-
-.dealnet-sidebar-item-selected {
-    background-color: #423832;
-    box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.12);
-}
-
-.dealnet-image-homepage { background-image: url('images/home-page.png'); }
-
-.dealnet-image-newrental { background-image: url('images/new-rental.png'); }
-
-.dealnet-image-checkcredit { background-image: url('images/icon-check-credit.png'); }
-
-.dealnet-image-mydeals { background-image: url('images/icon-my-deals.png'); }
-
-.dealnet-image-reports { background-image: url('images/icon-reports.png'); }
-
-.dealnet-image-reports-btn { background-image: url('images/icon-reports-btn.png'); }
-
-.dealnet-image-mydeals-btn { background-image: url('images/icon-mydeals-btn.png'); }
-
-.dealnet-image-newrental-btn { background-image: url('images/new-rental-btn.png'); }
-
-
-
-.dealnet-image-ecologo {
-    background-image: url('images/logo-eco-home.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 50px;
-    margin: 0 auto;
-    width: 140px;
-    z-index: -1;
-}
+*/

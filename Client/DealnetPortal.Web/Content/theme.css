@@ -121,8 +121,14 @@
   border-radius: 4px;
   border: solid 1px #dcdcdc;
     margin-top: 7px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
+
+/*
+.dealnet-input.input-validation-error{
+    background: rgba(240, 129, 138, 0.30);
+}
+*/
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     font-family: Lato;
@@ -275,12 +281,11 @@
 
 .text-danger {
     font-family: Lato;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
     color: #de525e;
-    margin-top: 4px;
 }
 
 
