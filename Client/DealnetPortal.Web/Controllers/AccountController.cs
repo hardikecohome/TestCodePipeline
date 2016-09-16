@@ -87,6 +87,12 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        // GET: /Account/Register
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
