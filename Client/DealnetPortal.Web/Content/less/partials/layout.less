@@ -28,6 +28,11 @@ body{
 **/
 .navbar {
   background-color: @navbar-bg;
+  border: 0;
+
+}
+body.no-authorized .navbar{
+  background-color: transparent;
 }
 
 .navbar-header {
@@ -221,6 +226,15 @@ body{
   z-index: -1;
   display: block;
 }
+
+@media (max-width: 767px) {
+  body.open-menu{
+    .dealnet-image-ecologo.main-logo{
+      display: none;
+    }
+  }
+}
+
 .dealnet-sidebar-header{
   .dealnet-image-ecologo{
     display: inline-block;

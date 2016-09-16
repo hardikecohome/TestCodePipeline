@@ -19,10 +19,12 @@
             topOffset = $(window).scrollTop();
             $body.css('top', -topOffset);
             $body.css('overflow', 'hidden');
+            $body.addClass('open-menu');
             $('.overlay').show();
           }else{
             $body.css('top', -topOffset);
             $body.css('overflow', 'auto');
+            $body.removeClass('open-menu');
             $('.overlay').hide();
           }
         });
@@ -30,6 +32,7 @@
         $('.overlay').click(function(){
           $('.navbar-toggle').click();
           $body.css('overflow', 'auto');
+          $body.removeClass('open-menu');
           $(this).hide();
         })
     });

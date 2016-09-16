@@ -3,10 +3,10 @@
     ViewBag.Title = "Log in";
 }
 
-<div class="row" style="">
+<div class="row">
     <div class="col-md-12">
         <div class="login-container">
-        <div class="dealnet-large-header" style="width: 100%; margin-bottom: 50px; text-align: center">Log In</div>
+        <div class="dealnet-large-header">Log In</div>
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
             {
@@ -27,24 +27,32 @@
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
-                <div>
-                    @Html.CheckBoxFor(m => m.RememberMe)
-                    <span>Remember me?</span>
-                </div>
-
-
-
-                <div class="row">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-8 col-xs-12 col-lg-12 col-md-12">
-                        <input type="submit" value="Log in" class="btn dealnet-button dealnet-green-button" style="margin-top: 20px; font-weight: bold; font-size: 14px; width: 100%" />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    <span>Remember me?</span>
+                                </label>
+                            </div>
+                            <div  class="pull-right">
+                                @Html.ActionLink("Forgot password", "ForgotPassword")
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-2"></div>
                 </div>
-
-                <div style="width: 100%; margin-top: 20px; text-align: center;">
-                    @Html.ActionLink("Forgot password", "ForgotPassword")
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8 col-xs-12 col-lg-12 col-md-12">
+                            <input type="submit" value="Log in" class="btn dealnet-button dealnet-green-button"/>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    @Html.ActionLink("Registration", "Register", "Account", null, new { @class = "" })
                 </div>
             }
         </section>
