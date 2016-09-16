@@ -149,6 +149,7 @@ namespace DealnetPortal.Web.Controllers
         private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
         {
             var contractData = new ContractDataDTO();
+            contractData.Id = basicInfo.ContractId ?? 0;
             contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);            
             if (basicInfo.AdditionalApplicants != null)
             {
