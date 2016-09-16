@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
+using DealnetPortal.Api.Common.Helpers;
 
-namespace DealnetPortal.Web.Common.Api
+namespace DealnetPortal.Api.Common.ApiClient
 {
     public class HttpApiClient : IHttpApiClient
     {
         public HttpApiClient(string baseAddress)
-        {            
+        {
             Client = new HttpClient(new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
@@ -33,19 +37,20 @@ namespace DealnetPortal.Web.Common.Api
         public HttpClient Client { get; private set; }
 
         /// <summary>
-		/// 
-		/// </summary>
-		/// <remarks>This operation will retry</remarks>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="requestUri"></param>
-		/// <param name="content"></param>
-		/// <param name="cancellationToken"></param>
-		/// <returns></returns>
-		public async Task<T> PostAsync<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken())
+        /// 
+        /// </summary>
+        /// <remarks>This operation will retry</remarks>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUri"></param>
+        /// <param name="content"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<T> PostAsync<T>(string requestUri, T content,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             try
             {
-                var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);             
+                var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
 
                 if (response?.Content == null)
                     return default(T);
@@ -57,7 +62,8 @@ namespace DealnetPortal.Web.Common.Api
             }
         }
 
-        public async Task<T2> PostAsync<T1, T2>(string requestUri, T1 content, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<T2> PostAsync<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             try
             {
@@ -74,22 +80,42 @@ namespace DealnetPortal.Web.Common.Api
             }
         }
 
-        public async Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
         }
 
-        /// <summary>
-		/// See <see cref="IHttpApiClient"/>
-		/// </summary>
-		/// <remarks>This operation will retry.</remarks>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="requestUri"></param>
-		/// <param name="cancellationToken"></param>
-		/// <returns></returns>
-		public async Task<T> GetAsync<T>(string requestUri, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken())
         {
-            HttpResponseMessage response = await Client.GetAsync(requestUri, cancellationToken);           
+            try
+            {
+                var response = await Client.PostAsXmlWithSerializerAsync(requestUri, content, cancellationToken);
+
+                if (response?.Content == null)
+                    return default(T2);
+                return new XmlSerializerHelper().DeserializeFromString<T2>(await response.Content.ReadAsStringAsync());
+                //return await response.Content.ReadAsAsync<T2>(new [] { new XmlMediaTypeFormatter { UseXmlSerializer = true }}, cancellationToken);
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// See <see cref="IHttpApiClient"/>
+        /// </summary>
+        /// <remarks>This operation will retry.</remarks>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUri"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<T> GetAsync<T>(string requestUri,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            HttpResponseMessage response = await Client.GetAsync(requestUri, cancellationToken);
 
             if (response == null || response.Content == null)
                 return default(T);
@@ -98,12 +124,12 @@ namespace DealnetPortal.Web.Common.Api
         }
 
         /// <summary>
-		/// Perform a get operation against a uri synchronously.
-		/// </summary>
-		/// <typeparam name="T">Type of the content or model.</typeparam>
-		/// <param name="requestUri">Uri of resource</param>
-		/// <returns>Model or resource from the Get operation against the uri.</returns>
-		public T Get<T>(string requestUri)
+        /// Perform a get operation against a uri synchronously.
+        /// </summary>
+        /// <typeparam name="T">Type of the content or model.</typeparam>
+        /// <param name="requestUri">Uri of resource</param>
+        /// <returns>Model or resource from the Get operation against the uri.</returns>
+        public T Get<T>(string requestUri)
         {
             var response = Client.GetAsync(requestUri).Result;
 
@@ -119,7 +145,7 @@ namespace DealnetPortal.Web.Common.Api
         }
 
         /// <summary>
-        /// See <see cref="PA.Tos.Common.Api.IHttpApiClient"/>
+        /// See <see cref="IHttpApiClient"/>
         /// </summary>
         /// <remarks>This operation will retry.</remarks>
         /// <typeparam name="T"></typeparam>
@@ -127,7 +153,8 @@ namespace DealnetPortal.Web.Common.Api
         /// <param name="content"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<T> PutAsync<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<T> PutAsync<T>(string requestUri, T content,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             try
             {
@@ -141,7 +168,7 @@ namespace DealnetPortal.Web.Common.Api
         }
 
         /// <summary>
-        /// See <see cref="PA.Tos.Common.Api.IHttpApiClient"/>
+        /// See <see cref="IHttpApiClient"/>
         /// </summary>
         /// <remarks>This operation will retry</remarks>
         /// <typeparam name="T1">Type of the request</typeparam>
@@ -150,7 +177,8 @@ namespace DealnetPortal.Web.Common.Api
         /// <param name="content"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<T2> PutAsync<T1, T2>(string requestUri, T1 content, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<T2> PutAsync<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken())
         {
             try
             {
@@ -166,7 +194,5 @@ namespace DealnetPortal.Web.Common.Api
                 throw;
             }
         }
-
-
     }
 }

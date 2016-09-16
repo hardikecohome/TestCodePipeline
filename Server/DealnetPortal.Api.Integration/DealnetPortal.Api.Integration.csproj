@@ -48,7 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\AspireService.cs" />
+    <Compile Include="Services\AspireServiceAgent.cs" />
     <Compile Include="Services\ContractService.cs" />
+    <Compile Include="Services\IAspireService.cs" />
+    <Compile Include="Services\IAspireServiceAgent.cs" />
     <Compile Include="Services\IContractService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

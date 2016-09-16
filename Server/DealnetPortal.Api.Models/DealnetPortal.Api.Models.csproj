@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="AccountBindingModels.cs" />
     <Compile Include="Alert.cs" />
+    <Compile Include="Aspire\DealUploadRequest.cs" />
+    <Compile Include="Aspire\DealUploadResponce.cs" />
+    <Compile Include="Aspire\Header.cs" />
+    <Compile Include="Aspire\Payload.cs" />    
     <Compile Include="Contract\ContractDataDTO.cs" />
     <Compile Include="Contract\LocationDTO.cs" />
     <Compile Include="Contract\ContractDTO.cs" />
