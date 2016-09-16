@@ -23,5 +23,7 @@
         [StringLength(500)]
         [Display(Name = "Contract Notes")]
         public string Notes { get; set; }
+
+        public int? ContractId { get; set; }
     }
 }

@@ -7,6 +7,8 @@ using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract
 {
+    using EquipmentInformation;
+
     public class ContractDTO
     {
         public ContractDTO()
@@ -24,5 +26,7 @@ namespace DealnetPortal.Api.Models.Contract
         public CustomerDTO PrimaryCustomer { get; set; }
 
         public List<CustomerDTO> SecondaryCustomers { get; set; }
+
+        public EquipmentInformationDTO Equipment { get; set; }
     }
 }

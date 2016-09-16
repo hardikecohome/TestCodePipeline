@@ -11,6 +11,9 @@ using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.App_Start
 {
+    using Api.Models.Contract.EquipmentInformation;
+    using Models.EquipmentInformation;
+
     public class AutoMapperConfig
     {
         public static void Configure()
@@ -66,7 +69,9 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.AddressType, d => d.Ignore())
                     .ForMember(x => x.Id, d => d.Ignore())
                     .ForMember(x => x.CustomerId, d => d.Ignore());
-
+                cfg.CreateMap<EquipmentInformationDTO, EquipmentInformationViewModel>();
+                cfg.CreateMap<NewEquipmentInformationDTO, NewEquipmentInformation>();
+                cfg.CreateMap<ExistingEquipmentInformationDTO, ExistingEquipmentInformation>();
             });
 
 

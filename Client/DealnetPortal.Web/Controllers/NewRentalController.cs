@@ -19,6 +19,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
+    using Api.Models.Contract.EquipmentInformation;
     using Models.EquipmentInformation;
 
     [AuthFromContext]
@@ -52,14 +53,27 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        
         [HttpPost]
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
-            if (ModelState.IsValid)
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (!ModelState.IsValid)
             {
-                return this.View();
+                return View();
             }
-            return this.View();
+            var contractResult = equipmentInfo.ContractId == null ?
+                await _contractServiceAgent.CreateContract() :
+                await _contractServiceAgent.GetContract(equipmentInfo.ContractId.Value);
+            if (contractResult?.Item1 != null)
+            {
+                var updateResult = await UpdateContractAsync(contractResult.Item1, equipmentInfo);
+                if (updateResult.Any(r => r.Type == AlertType.Error))
+                {
+                    return View();
+                }
+            }
+            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
         }
 
         [HttpPost]
@@ -87,6 +101,11 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
             return View(await GetBasicInfoAsync(contractId));
+        }
+
+        public async Task<ActionResult> EquipmentInformation(int contractId)
+        {
+            return View(await this.GetEquipmentInfoAsync(contractId));
         }
 
         [HttpPost]
@@ -158,6 +177,21 @@ namespace DealnetPortal.Web.Controllers
             return basicInfo;
         }
 
+        private async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
+        {
+            var equipmentInfo = new EquipmentInformationViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
+            {
+                return equipmentInfo;
+            }
+            equipmentInfo.ContractId = contractId;
+            equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+            equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contractResult.Item1.Equipment.NewEquipment);
+            equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
+            return equipmentInfo;
+        }
+
         private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
         {
             var contractData = new ContractDataDTO();
@@ -183,6 +217,25 @@ namespace DealnetPortal.Web.Controllers
             }
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
+
+        private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, EquipmentInformationViewModel equipmnetInfo)
+        {
+            var contractData = new ContractDataDTO
+            {
+                Id = equipmnetInfo.ContractId ?? 0,
+                Equipment = AutoMapper.Mapper.Map<EquipmentInformationDTO>(equipmnetInfo)
+            };
+            foreach (var newEquipment in equipmnetInfo.NewEquipment)
+            {
+                contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentInformationDTO>(newEquipment));
+            }
+            foreach (var existingEquipment in equipmnetInfo.NewEquipment)
+            {
+                contractData.Equipment.ExistingEquipment.Add(AutoMapper.Mapper.Map<ExistingEquipmentInformationDTO>(existingEquipment));
+            }
+            return await this._contractServiceAgent.UpdateContractData(contractData);
+        }
+
 
         private JsonResult GetSuccessJson()
         {
