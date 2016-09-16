@@ -82,12 +82,12 @@ function showTable() {
                     { "data": "Date" },
                     {// this is Actions Column 
                         "render": function (sdata, type, row) {
-                            return '<a href=' + editItemUrl + '/' + row.Id + '>Edit</a>';
+                            return '<a href=' + editItemUrl + '/' + row.Id + ' class="edit-link" title="Edit">Edit</a>';
                         }
                     }
                 ]
             });
-        $('.paginate_button.previous a').text('<');
-        $('.paginate_button.next a').text('>');
+        $('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
+        $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');
     });
 };

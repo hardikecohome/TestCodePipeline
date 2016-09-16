@@ -238,6 +238,15 @@
 #step5 {
     float: right;
 }
+@media(max-width: 767px){
+    #step2 {
+        margin-left: -20px;
+    }
+
+    #step4 {
+        margin-right: -20px;
+    }
+}
 
 #steps-line {
     height: 1px;

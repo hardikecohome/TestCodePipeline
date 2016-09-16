@@ -1,0 +1,113 @@
+.pagination{
+  & > li{
+    padding: 0 !important;
+    &:hover,
+    &:focus,
+    &:active{
+      outline: none !important;
+      box-shadow: none !important;
+      border: 0 !important;
+    }
+    &.disabled{
+      & > a,
+      & > span{
+        color: #dcdcdc !important;
+        &:hover,
+        &:focus{
+          color: #dcdcdc !important;
+        }
+      }
+    }
+    & > a,
+    & > span{
+      color: #525251;
+      &:hover,
+      &:focus,
+      &:active{
+        color: #525251;
+        outline: none;
+        box-shadow: none;
+        border: 0;
+      }
+    }
+  }
+}
+
+.paginate_button{
+  background: none !important;
+  border: none !important;
+  &:hover,
+  &:focus,
+  &:active{
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  &.active a,
+  a,
+  span{
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 4px !important;
+    border: solid 1px #dcdcdc !important;
+    background: none !important;
+    font: bold 14px/14px @fontLato;
+    vertical-align: middle;
+    text-align: center;
+    color: #989897 !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    &:focus{
+      color: #525251 !important;
+    }
+  }
+  &.active a{
+    color: #525251 !important;
+    &:focus{
+      color: #525251 !important;
+    }
+  }
+  &:not(.active) a{
+    border: 0 !important;
+    line-height: 16px !important;
+    &:focus{
+      border: 0 !important;
+    }
+  }
+  &.previous a,
+  &.next a {
+    font-weight: bold;
+  }
+
+  &.active,
+  &.next,
+  &.previous {
+    border: none !important;
+    background: none !important;
+    &:hover{
+      border: none !important;
+      background: none !important;
+
+    }
+  }
+
+  &.active,&.next a,&.previous a {
+    border: none !important;
+    background: none !important;
+  }
+
+  &.active:hover a{
+    color: #525251 !important;
+  }
+
+  &.next:hover a,
+  &.previous:hover a {
+    border: none !important;
+    background: none !important;
+  }
+
+}
+
+
+
+
