@@ -9,7 +9,6 @@ namespace DealnetPortal.Domain
         public IList<Customer> SecondaryCustomers { get; set; }
         public IList<Location> Locations { get; set; }
         public IList<Phone> Phones { get; set; }
-
         public EquipmentInfo Equipment { get; set; }
     }
 }

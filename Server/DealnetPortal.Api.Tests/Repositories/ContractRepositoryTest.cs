@@ -184,9 +184,49 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
             Assert.AreEqual(contract.SecondaryCustomers.First().FirstName, "Name changed");
 
+
+            var equipmentInfo = new EquipmentInfo
+            {
+                Notes = "Equipment Notes",
+                RequestedTerm = "Requiested Term",
+                SalesRep = "Sales Rep",
+                NewEquipment = new List<NewEquipment>(),
+                ExistingEquipment = new List<ExistingEquipment>()
+            };
+            equipmentInfo.NewEquipment.Add(new NewEquipment
+            {
+                Cost = 50,
+                Description = "Description",
+                MonthlyCost = 100,
+                Quantity = 10,
+                TotalMonthlyPayment = 500
+            });
+
+            equipmentInfo.ExistingEquipment.Add(new ExistingEquipment
+            {
+                DealerIsReplacing = true,
+                EstimatedAge = "50",
+                IsRental = false,
+                Make = "Make",
+                Model = "Model",
+                Notes = "Existing Equipment notes",
+                RentalCompany = "Rental company",
+                SerialNumber = "Serial number",
+                GeneralCondition = "General condition"
+            });
+            contractData.Equipment = equipmentInfo;
+            this._contractRepository.UpdateContractData(contractData);
+            _unitOfWork.Save();
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id);
+            Assert.IsNotNull(contract.Equipment);
+            Assert.AreEqual(contract.Equipment.ExistingEquipment.Count, 1);
+            Assert.AreEqual(contract.Equipment.NewEquipment.Count, 1);
+
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();
             Assert.IsTrue(isDeleted);
+
+            
         }
     }
 }

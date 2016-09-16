@@ -18,7 +18,7 @@ namespace DealnetPortal.Web.App_Start
     {
         public static void Configure()
         {
-            MapModels();            
+            MapModels();
         }
 
         private static void MapModels()
@@ -45,7 +45,7 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(d => d.Action, s => s.Ignore())
                     .ForMember(d => d.Email, s => s.Ignore())
                     .ForMember(d => d.Phone, s => s.Ignore())
-                    .ForMember(d => d.Date, s => s.ResolveUsing(src => 
+                    .ForMember(d => d.Date, s => s.ResolveUsing(src =>
                         (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToShortDateString()));
 
                 cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
@@ -69,9 +69,9 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.AddressType, d => d.Ignore())
                     .ForMember(x => x.Id, d => d.Ignore())
                     .ForMember(x => x.CustomerId, d => d.Ignore());
-                cfg.CreateMap<EquipmentInformationDTO, EquipmentInformationViewModel>();
-                cfg.CreateMap<NewEquipmentInformationDTO, NewEquipmentInformation>();
-                cfg.CreateMap<ExistingEquipmentInformationDTO, ExistingEquipmentInformation>();
+                cfg.CreateMap<EquipmentInformationViewModel, EquipmentInformationDTO>();
+                cfg.CreateMap<NewEquipmentInformation, NewEquipmentInformationDTO>();
+                cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentInformationDTO>();
             });
 
 

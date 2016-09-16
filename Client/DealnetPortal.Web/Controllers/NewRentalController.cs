@@ -53,7 +53,7 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
@@ -84,8 +84,8 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View();
             }
-            var contractResult = basicInfo.ContractId == null ? 
-                await _contractServiceAgent.CreateContract() : 
+            var contractResult = basicInfo.ContractId == null ?
+                await _contractServiceAgent.CreateContract() :
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
             if (contractResult?.Item1 != null)
             {
@@ -103,9 +103,23 @@ namespace DealnetPortal.Web.Controllers
             return View(await GetBasicInfoAsync(contractId));
         }
 
-        public async Task<ActionResult> EquipmentInformation(int contractId)
+        public async Task<ActionResult> EquipmentInformation(int? contractId)
         {
-            return View(await this.GetEquipmentInfoAsync(contractId));
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
+            if (contractId == null)
+            {
+                var contract = await _contractServiceAgent.CreateContract();
+                if (contract?.Item1 != null)
+                {
+                    contractId = contract.Item1.Id;
+                }
+            }
+            if (contractId != null)
+            {
+                return View(await this.GetEquipmentInfoAsync(contractId.Value));
+            }
+            return View();
         }
 
         [HttpPost]
@@ -137,7 +151,7 @@ namespace DealnetPortal.Web.Controllers
             };
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
-        }       
+        }
 
         [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicensePhoto()
@@ -149,7 +163,7 @@ namespace DealnetPortal.Web.Controllers
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
+            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
@@ -173,7 +187,7 @@ namespace DealnetPortal.Web.Controllers
             basicInfo.MailingAddressInformation =
                 AutoMapper.Mapper.Map<AddressInformation>(
                     contractResult.Item1.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MailAddress));            
+                        l => l.AddressType == AddressType.MailAddress));
             return basicInfo;
         }
 
@@ -181,8 +195,9 @@ namespace DealnetPortal.Web.Controllers
         {
             var equipmentInfo = new EquipmentInformationViewModel();
             var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
+            if (contractResult.Item1 == null || contractResult.Item1.Equipment == null)
             {
+                equipmentInfo.ContractId = contractId;
                 return equipmentInfo;
             }
             equipmentInfo.ContractId = contractId;
@@ -196,7 +211,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var contractData = new ContractDataDTO();
             contractData.Id = basicInfo.ContractId ?? 0;
-            contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);            
+            contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
             if (basicInfo.AdditionalApplicants != null)
             {
                 contractData.SecondaryCustomers = new List<CustomerDTO>();
@@ -207,7 +222,7 @@ namespace DealnetPortal.Web.Controllers
             }
             contractData.Locations = new List<LocationDTO>();
             var address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.AddressInformation);
-            address.AddressType = AddressType.MainAddress;            
+            address.AddressType = AddressType.MainAddress;
             contractData.Locations.Add(address);
             if (basicInfo.MailingAddressInformation != null)
             {
@@ -225,13 +240,22 @@ namespace DealnetPortal.Web.Controllers
                 Id = equipmnetInfo.ContractId ?? 0,
                 Equipment = AutoMapper.Mapper.Map<EquipmentInformationDTO>(equipmnetInfo)
             };
-            foreach (var newEquipment in equipmnetInfo.NewEquipment)
+            if (equipmnetInfo.NewEquipment != null)
             {
-                contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentInformationDTO>(newEquipment));
+
+
+                foreach (var newEquipment in equipmnetInfo.NewEquipment)
+                {
+                    contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentInformationDTO>(newEquipment));
+                }
             }
-            foreach (var existingEquipment in equipmnetInfo.NewEquipment)
+            if (equipmnetInfo.ExistingEquipment != null)
             {
-                contractData.Equipment.ExistingEquipment.Add(AutoMapper.Mapper.Map<ExistingEquipmentInformationDTO>(existingEquipment));
+                foreach (var existingEquipment in equipmnetInfo.ExistingEquipment)
+                {
+                    contractData.Equipment.ExistingEquipment.Add(
+                        AutoMapper.Mapper.Map<ExistingEquipmentInformationDTO>(existingEquipment));
+                }
             }
             return await this._contractServiceAgent.UpdateContractData(contractData);
         }

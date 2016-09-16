@@ -69,6 +69,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.Phones)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c=>c.Equipment)
                 .AsNoTracking().
                 FirstOrDefault(c => c.Id == contractId);
         }
@@ -147,8 +148,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
                     if (contractData.Equipment != null)
                     {
-                        contractData.Equipment.ContractId = contract.Id;
                         this.AddOrUpdateEquipment(contractData.Equipment);
+                        contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
@@ -160,7 +161,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private bool AddOrUpdateEquipment(EquipmentInfo contractDataEquipment)
         {
-            this._dbContext.EquipmentInfo.AddOrUpdate(e=>e.ContractId,contractDataEquipment);
+            this._dbContext.EquipmentInfo.AddOrUpdate(contractDataEquipment);
             foreach (var newEquipment in contractDataEquipment.NewEquipment)
             {
                 newEquipment.EquipmentInfoId = contractDataEquipment.Id;

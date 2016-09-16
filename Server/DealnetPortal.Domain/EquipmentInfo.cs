@@ -22,11 +22,5 @@
         public string SalesRep { get; set; }
         
         public string Notes { get; set; }
-
-        public int? ContractId { get; set; }
-
-        [ForeignKey("ContractId")]
-        public Contract Contract { get; set; }
-
     }
 }
