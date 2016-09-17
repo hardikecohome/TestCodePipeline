@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DealnetPortal.Web.Common.Api
+namespace DealnetPortal.Api.Common.ApiClient
 {
     /// <summary>
     /// Client for interacting with REST or Http based services.
@@ -44,7 +44,8 @@ namespace DealnetPortal.Web.Common.Api
         /// <param name="content">Individual or list of resources to post.</param>
         /// <param name="cancellationToken">Allows clients to cancel a request.</param>
         /// <returns>Model or resource from the Post operation against the uri.</returns>
-        Task<T2> PostAsync<T1, T2>(string requestUri, T1 content, CancellationToken cancellationToken = new CancellationToken());
+        Task<T2> PostAsync<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken());
 
         /// <summary>
         /// Perform a post operation against a uri.
@@ -54,7 +55,11 @@ namespace DealnetPortal.Web.Common.Api
         /// <param name="content">array of resources to post.</param>
         /// <param name="cancellationToken">Allows clients to cancel a request.</param>
         /// <returns>The response and result from the api.</returns>
-        Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken());
+        Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content,
+            CancellationToken cancellationToken = new CancellationToken());
+
+        Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken());
 
         /// <summary>
         /// Perform a get operation against a uri.
@@ -92,6 +97,7 @@ namespace DealnetPortal.Web.Common.Api
         /// <param name="content">Individual or list of resources to post.</param>
         /// <param name="cancellationToken">Allows clients to cancel a request.</param>
         /// <returns>Model or resource from the Post operation against the uri.</returns>
-        Task<T2> PutAsync<T1, T2>(string requestUri, T1 content, CancellationToken cancellationToken = new CancellationToken());
+        Task<T2> PutAsync<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken());
     }
 }

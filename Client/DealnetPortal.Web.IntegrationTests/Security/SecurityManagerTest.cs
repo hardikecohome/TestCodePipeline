@@ -1,6 +1,6 @@
-﻿using DealnetPortal.Api.Common.Enumeration;
+﻿using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Utilities;
-using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.ServiceAgent;

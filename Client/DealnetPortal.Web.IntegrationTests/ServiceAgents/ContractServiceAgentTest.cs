@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Utilities;
-using DealnetPortal.Web.Common.Api;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
