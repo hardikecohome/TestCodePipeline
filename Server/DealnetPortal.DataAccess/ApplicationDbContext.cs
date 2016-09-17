@@ -27,6 +27,10 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Phone> Phones { get; set; }
 
+        public virtual DbSet<PaymentInfo> PaymentInfos { get; set; }
+
+        public virtual DbSet<ContactInfo> ContactInfos { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 

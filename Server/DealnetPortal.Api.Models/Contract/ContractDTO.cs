@@ -24,5 +24,9 @@ namespace DealnetPortal.Api.Models.Contract
         public CustomerDTO PrimaryCustomer { get; set; }
 
         public List<CustomerDTO> SecondaryCustomers { get; set; }
+
+        public ContactInfoDTO ContactInfo { get; set; }
+
+        public PaymentInfoDTO PaymentInfo { get; set; }
     }
 }

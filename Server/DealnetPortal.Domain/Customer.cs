@@ -13,7 +13,6 @@ namespace DealnetPortal.Domain
         public Customer()
         {
             Locations = new List<Location>();
-            Phones = new List<Phone>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -31,7 +30,5 @@ namespace DealnetPortal.Domain
         //public Contract Contract { get; set; }
         // Is locations related to a customer or to a contract
         public ICollection<Location> Locations { get; set; }
-
-        public ICollection<Phone> Phones { get; set; }
     }
 }

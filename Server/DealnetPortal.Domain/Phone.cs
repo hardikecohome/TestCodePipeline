@@ -16,6 +16,6 @@ namespace DealnetPortal.Domain
 
         public string PhoneNum { get; set; }
 
-        public Customer Customer { get; set; }
+        public PaymentInfo PaymentInfo { get; set; }
     }
 }

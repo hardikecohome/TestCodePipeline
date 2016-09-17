@@ -55,7 +55,6 @@ namespace DealnetPortal.Web.App_Start
 
                 cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
                     .ForMember(x => x.Locations, d => d.Ignore())
-                    .ForMember(x => x.Phones, d => d.Ignore())
                     .ForMember(x => x.Id, d => d.Ignore())
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
 
@@ -67,6 +66,10 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.Id, d => d.Ignore())
                     .ForMember(x => x.CustomerId, d => d.Ignore());
 
+                cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
+                cfg.CreateMap<ContactInfoViewModel, ContactInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
+                cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
+                cfg.CreateMap<ContactInfoDTO, ContactInfoViewModel>();
             });
 
 

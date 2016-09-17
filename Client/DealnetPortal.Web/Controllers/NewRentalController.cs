@@ -90,6 +90,26 @@ namespace DealnetPortal.Web.Controllers
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
+        public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
+        {
+            return View(await GetContactAndPaymentInfoAsync(contractId));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var updateResult = await UpdateContractAsync(contactAndPaymentInfo);
+            if (updateResult.Any(r => r.Type == AlertType.Error))
+            {
+                return View();
+            }
+            return View(new ContactAndPaymentInfoViewModel()); //TODO: Navigate to next step
+        }
+
         [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
         {
@@ -146,6 +166,40 @@ namespace DealnetPortal.Web.Controllers
             return basicInfo;
         }
 
+        private async Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId)
+        {
+            var contactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
+            {
+                return contactAndPaymentInfo;
+            }
+            contactAndPaymentInfo.ContractId = contractId;
+            contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(
+                    contractResult.Item1.PaymentInfo);
+            contactAndPaymentInfo.ContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
+                    contractResult.Item1.ContactInfo);
+            if (contractResult.Item1.ContactInfo?.Phones != null)
+            {
+                foreach (var phone in contractResult.Item1.ContactInfo.Phones)
+                {
+                    switch (phone.PhoneType)
+                    {
+                        case PhoneType.Home:
+                            contactAndPaymentInfo.ContactInfo.HomePhone = phone.PhoneNum;
+                            break;
+                        case PhoneType.Cell:
+                            contactAndPaymentInfo.ContactInfo.CellPhone = phone.PhoneNum;
+                            break;
+                        case PhoneType.Business:
+                            contactAndPaymentInfo.ContactInfo.BusinessPhone = phone.PhoneNum;
+                            break;
+                    }
+                }
+            }
+            return contactAndPaymentInfo;
+        }
+
         private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
         {
             var contractData = new ContractDataDTO();
@@ -168,6 +222,41 @@ namespace DealnetPortal.Web.Controllers
                 address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.MailingAddressInformation);
                 address.AddressType = AddressType.MailAddress;
                 contractData.Locations.Add(address);
+            }
+            return await _contractServiceAgent.UpdateContractData(contractData);
+        }
+
+        private async Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
+        {
+            var contractData = new ContractDataDTO();
+            contractData.Id = contactAndPaymentInfo.ContractId ?? 0;
+            if (contactAndPaymentInfo.ContactInfo != null)
+            {
+                var contactInfo = AutoMapper.Mapper.Map<ContactInfoDTO>(contactAndPaymentInfo.ContactInfo);
+                if (contactAndPaymentInfo.ContactInfo.HomePhone != null ||
+                    contactAndPaymentInfo.ContactInfo.CellPhone != null ||
+                    contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
+                {
+                    contactInfo.Phones = new List<PhoneDTO>();
+                }
+                if (contactAndPaymentInfo.ContactInfo.HomePhone != null)
+                {
+                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.HomePhone, PhoneType = PhoneType.Home });
+                }
+                if (contactAndPaymentInfo.ContactInfo.CellPhone != null)
+                {
+                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.CellPhone, PhoneType = PhoneType.Cell });
+                }
+                if (contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
+                {
+                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.BusinessPhone, PhoneType = PhoneType.Business });
+                }
+                contractData.ContactInfo = contactInfo;
+            }
+            if (contactAndPaymentInfo.PaymentInfo != null)
+            {
+                var paymentInfo = AutoMapper.Mapper.Map<PaymentInfoDTO>(contactAndPaymentInfo.PaymentInfo);
+                contractData.PaymentInfo = paymentInfo;
             }
             return await _contractServiceAgent.UpdateContractData(contractData);
         }

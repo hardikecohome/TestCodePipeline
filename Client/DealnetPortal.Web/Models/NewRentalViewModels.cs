@@ -23,7 +23,7 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public bool AgrreesToSendPersonalInfo { get; set; }
     }
 
@@ -60,6 +60,76 @@ namespace DealnetPortal.Web.Models
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public AddressInformation AddressInformation { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
+        public int? ContractId { get; set; }
+    }
+
+    public enum PaymentType
+    {
+        [Display(Name = "ENBRIDGE")]
+        Enbridge,
+        [Display(Name = "PAP")]
+        Pap
+    }
+
+    public enum WithdrawalDateType
+    {
+        [Display(Name = "1th")]
+        First,
+        [Display(Name = "15th")]
+        Fifteenth
+    }
+
+    public class PaymentInfoViewModel
+    {
+        [Display(Name = "Payment Type")]
+        public PaymentType PaymentType { get; set; }
+        [Display(Name = "Preffered Withdrawal Date")]
+        public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        [StringLength(20)]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Blank Number Distribution Account is in incorrect format")]
+        [Display(Name = "Blank Number")]
+        public string BlankNumber { get; set; }
+        [StringLength(20)]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Transit Number Distribution Account is in incorrect format")]
+        [Display(Name = "Transit Number")]
+        public string TransitNumber { get; set; }
+        [StringLength(20)]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Account Number Distribution Account is in incorrect format")]
+        [Display(Name = "Account Number")]
+        public string AccountNumber { get; set; }
+        [StringLength(20)]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Enbridge Gas Distribution Account is in incorrect format")]
+        [Display(Name = "Enbridge Gas Distribution Account")]
+        public string EnbridgeGasDistributionAccount { get; set; }
+    }
+
+    public class ContactInfoViewModel
+    {
+        [StringLength(50)]
+        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessage = "Home Phone is in incorrect format")]
+        [Display(Name = "Home Phone")]
+        public string HomePhone { get; set; }
+        [StringLength(50)]
+        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessage = "Cell Phone is in incorrect format")]
+        [Display(Name = "Cell Phone")]
+        public string CellPhone { get; set; }
+        [StringLength(50)]
+        [RegularExpression(@"^[EeTtX0-9x\.+()-]+$", ErrorMessage = "Business Phone is in incorrect format")]
+        [Display(Name = "Business Phone")]
+        public string BusinessPhone { get; set; }
+        [StringLength(256)]
+        [Display(Name = "Email Address")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string EmailAddress { get; set; }
+        //[RegularExpression(@"^[0-9\.,]+$", ErrorMessage = "House Size is in incorrect format")]
+        [Display(Name = "House Size (sq feet)")]
+        public double? HouseSize { get; set; }
+    }
+
+    public class ContactAndPaymentInfoViewModel
+    {
+        public ContactInfoViewModel ContactInfo { get; set; }
+        public PaymentInfoViewModel PaymentInfo { get; set; }
         public int? ContractId { get; set; }
     }
 }

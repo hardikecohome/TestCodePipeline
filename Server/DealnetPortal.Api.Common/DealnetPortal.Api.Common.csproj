@@ -47,7 +47,9 @@
     <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Enumeration\CreditCheckState.cs" />
     <Compile Include="Enumeration\FlowingSummaryType.cs" />
+    <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
+    <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

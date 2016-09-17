@@ -18,7 +18,5 @@ namespace DealnetPortal.Api.Models.Contract
         public DateTime DateOfBirth { get; set; }      
         
         public List<LocationDTO> Locations { get; set; }
-
-        public List<PhoneDTO> Phones { get; set; }
     }
 }

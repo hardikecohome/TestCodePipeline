@@ -48,11 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="ContactInfo.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="ContractData.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="LoggedInUser.cs" />
+    <Compile Include="PaymentInfo.cs" />
     <Compile Include="Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
