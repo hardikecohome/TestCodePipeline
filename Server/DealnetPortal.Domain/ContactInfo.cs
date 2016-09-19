@@ -15,7 +15,7 @@ namespace DealnetPortal.Domain
         }
 
         [ForeignKey("Contract")]
-        public int ContactInfoId { get; set; }
+        public int Id { get; set; }
         public virtual ICollection<Phone> Phones { get; set; }
         public string EmailAddress { get; set; }
         public double? HouseSize { get; set; }

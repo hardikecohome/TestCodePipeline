@@ -313,6 +313,41 @@ namespace DealnetPortal.Web.Controllers
             return await this._contractServiceAgent.UpdateContractData(contractData);
         }
 
+        private async Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
+        {
+            var contractData = new ContractDataDTO();
+            contractData.Id = contactAndPaymentInfo.ContractId ?? 0;
+            if (contactAndPaymentInfo.ContactInfo != null)
+            {
+                var contactInfo = AutoMapper.Mapper.Map<ContactInfoDTO>(contactAndPaymentInfo.ContactInfo);
+                if (contactAndPaymentInfo.ContactInfo.HomePhone != null ||
+                    contactAndPaymentInfo.ContactInfo.CellPhone != null ||
+                    contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
+                {
+                    contactInfo.Phones = new List<PhoneDTO>();
+                }
+                if (contactAndPaymentInfo.ContactInfo.HomePhone != null)
+                {
+                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.HomePhone, PhoneType = PhoneType.Home });
+                }
+                if (contactAndPaymentInfo.ContactInfo.CellPhone != null)
+                {
+                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.CellPhone, PhoneType = PhoneType.Cell });
+                }
+                if (contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
+                {
+                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.BusinessPhone, PhoneType = PhoneType.Business });
+                }
+                contractData.ContactInfo = contactInfo;
+            }
+            if (contactAndPaymentInfo.PaymentInfo != null)
+            {
+                var paymentInfo = AutoMapper.Mapper.Map<PaymentInfoDTO>(contactAndPaymentInfo.PaymentInfo);
+                contractData.PaymentInfo = paymentInfo;
+            }
+            return await _contractServiceAgent.UpdateContractData(contractData);
+        }
+
 
         private JsonResult GetSuccessJson()
         {

@@ -31,10 +31,10 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>();
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>();
-
-            mapperConfig.CreateMap<Customer, CustomerDTO>()
-                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))
+            mapperConfig.CreateMap<ContactInfo, ContactInfoDTO>()
                 .ForMember(x => x.Phones, o => o.MapFrom(src => src.Phones));
+            mapperConfig.CreateMap<Customer, CustomerDTO>()
+                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations));
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
@@ -49,7 +49,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Customer, s => s.Ignore());
             mapperConfig.CreateMap<PhoneDTO, Phone>()
                 .ForMember(x => x.PaymentInfo, s => s.Ignore());
-                .ForMember(x => x.Customer, s => s.Ignore());
 
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
                 .ForMember(d => d.Contract, x => x.Ignore());
@@ -61,13 +60,13 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());
 
             mapperConfig.CreateMap<CustomerDTO, Customer>()
-                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations))
-                .ForMember(x => x.Phones, o => o.MapFrom(src => src.Phones));
+                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations));
 
             mapperConfig.CreateMap<ContractDataDTO, ContractData>();
-                .ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations));
-            mapperConfig.CreateMap<PaymentInfoDTO, PaymentInfo>();
-            mapperConfig.CreateMap<ContactInfoDTO, ContactInfo>();
+            mapperConfig.CreateMap<PaymentInfoDTO, PaymentInfo>()
+                .ForMember(d => d.Contract, s => s.Ignore());
+            mapperConfig.CreateMap<ContactInfoDTO, ContactInfo>()
+                .ForMember(d => d.Contract, s => s.Ignore());
             mapperConfig.CreateMap<ContractDataDTO, ContractData>();                
             mapperConfig.CreateMap<ContractDTO, Contract>()
                 .ForMember(d => d.Dealer, s => s.Ignore())

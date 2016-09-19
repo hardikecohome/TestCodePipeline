@@ -11,7 +11,7 @@ namespace DealnetPortal.Domain
     public class PaymentInfo
     {
         [ForeignKey("Contract")]
-        public int PaymentInfoId { get; set; }
+        public int Id { get; set; }
         public PaymentType PaymentType { get; set; }
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
         public string BlankNumber { get; set; }

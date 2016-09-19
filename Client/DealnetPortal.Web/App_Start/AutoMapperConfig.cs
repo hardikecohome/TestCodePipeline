@@ -29,7 +29,6 @@ namespace DealnetPortal.Web.App_Start
         {
             cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
                     .ForMember(x => x.Locations, d => d.Ignore())
-                    .ForMember(x => x.Phones, d => d.Ignore())
                     .ForMember(x => x.Id, d => d.Ignore())
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
 
@@ -47,6 +46,24 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.Id, s => s.Ignore());
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>()
                 .ForMember(x => x.Id, s => s.Ignore());
+
+            cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
+                    .ForMember(x => x.Locations, d => d.Ignore())
+                    .ForMember(x => x.Id, d => d.Ignore())
+                    .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
+
+            cfg.CreateMap<AddressInformation, LocationDTO>()
+                .ForMember(x => x.Street, d => d.MapFrom(src => src.InstallationAddress))
+                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
+                .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
+                .ForMember(x => x.AddressType, d => d.Ignore())
+                .ForMember(x => x.Id, d => d.Ignore())
+                .ForMember(x => x.CustomerId, d => d.Ignore());
+
+            cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
+            cfg.CreateMap<ContactInfoViewModel, ContactInfoDTO>()
+                .ForMember(x => x.Id, d => d.Ignore())
+                .ForMember(x => x.Phones, d => d.Ignore());
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -80,32 +97,19 @@ namespace DealnetPortal.Web.App_Start
                 cfg.CreateMap<LocationDTO, AddressInformation>()
                     .ForMember(x => x.InstallationAddress, d => d.MapFrom(src => src.Street))
                     .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
-                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
-
-                cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
-                    .ForMember(x => x.Locations, d => d.Ignore())
-                    .ForMember(x => x.Id, d => d.Ignore())
-                    .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
-
-                cfg.CreateMap<AddressInformation, LocationDTO>()
-                    .ForMember(x => x.Street, d => d.MapFrom(src => src.InstallationAddress))
-                    .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
-                    .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
-                    .ForMember(x => x.AddressType, d => d.Ignore())
-                    .ForMember(x => x.Id, d => d.Ignore())
-                    .ForMember(x => x.CustomerId, d => d.Ignore());
+                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));                
 
                 cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
                 cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
                 cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>();
 
-                cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
-                    cfg.CreateMap<ContactInfoViewModel, ContactInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
-                    cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
-                    cfg.CreateMap<ContactInfoDTO, ContactInfoViewModel>();
-            });
-
-
+                cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
+                cfg.CreateMap<ContactInfoDTO, ContactInfoViewModel>()
+                    .ForMember(x => x.BusinessPhone, d => d.Ignore())
+                    .ForMember(x => x.HomePhone, d => d.Ignore())
+                    .ForMember(x => x.CellPhone, d => d.Ignore());
         }
+
+
     }
 }
