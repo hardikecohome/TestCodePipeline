@@ -52,6 +52,9 @@
     <Compile Include="Contract\ContractDTO.cs" />
     <Compile Include="Contract\CreditCheckDTO.cs" />
     <Compile Include="Contract\CustomerDTO.cs" />
+    <Compile Include="Contract\EquipmentInformation\EquipmentInfoDTO.cs" />
+    <Compile Include="Contract\EquipmentInformation\ExistingEquipmentDTO.cs" />
+    <Compile Include="Contract\EquipmentInformation\NewEquipmentDTO.cs" />
     <Compile Include="Contract\FlowingSummaryItemDTO.cs" />
     <Compile Include="Contract\PhoneDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

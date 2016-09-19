@@ -15,6 +15,8 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {
+    using Models.Contract.EquipmentInformation;
+
     public class ContractService : IContractService
     {
         private readonly IContractRepository _contractRepository;
@@ -66,6 +68,11 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<ContractDTO>(contract);
         }
 
+        public IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> addresses, IList<CustomerDTO> customers)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<Alert> UpdateContractData(ContractDataDTO contract)
         {
             try
@@ -97,6 +104,7 @@ namespace DealnetPortal.Api.Integration.Services
                 throw;
             }
         }
+ 
 
         public IList<Alert> InitiateCreditCheck(int contractId)
         {

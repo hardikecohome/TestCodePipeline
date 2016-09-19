@@ -59,6 +59,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.Phones)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
                 .FirstOrDefault(c => c.Id == contractId);
         }
 
@@ -69,6 +72,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.Phones)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
                 .AsNoTracking().
                 FirstOrDefault(c => c.Id == contractId);
         }
@@ -81,6 +87,16 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 //remove clients for contract?
                 contract.SecondaryCustomers.Clear();
+
+                if (contract.Equipment != null)
+                {
+                    var entriesForDelete = contract.Equipment.NewEquipment.ToList();
+                    entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
+
+                    var entriesForDeleteE = contract.Equipment.ExistingEquipment.ToList();
+                    entriesForDeleteE.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);                    
+                }                
+
                 _dbContext.Contracts.Remove(contract);
                 deleted = true;
             }
@@ -140,7 +156,14 @@ namespace DealnetPortal.DataAccess.Repositories
                     }
 
                     if (contractData.Phones != null)
-                    {                        
+                    {
+                    }
+
+                    if (contractData.Equipment != null)
+                    {
+                        this.AddOrUpdateEquipment(contract, contractData.Equipment);
+                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
                     }
 
                     return contract;
@@ -149,22 +172,75 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        //public Contract UpdateContractClientData(int contractId, IList<Location> locations, IList<ContractCustomer> customers)
-        //{
-        //    var contract = GetContract(contractId);
-        //    if (locations != null)
-        //    {
-        //        AddOrUpdateContractAddresses(contract, locations);
-        //        contract.ContractState = ContractState.CustomerInfoInputted;
-        //    }
-        //    if (customers != null)
-        //    {
-        //        AddOrUpdateContractHomeOwners(contract, customers);
-        //        contract.ContractState = ContractState.CustomerInfoInputted;
-        //    }
+        private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
+        {
+            var newEquipments = equipmentInfo.NewEquipment;
+            var existingEquipments = equipmentInfo.ExistingEquipment;
+            var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
+            if (dbEquipment == null || dbEquipment.Id == 0)
+            {
+                equipmentInfo.ExistingEquipment = new List<ExistingEquipment>();
+                equipmentInfo.NewEquipment = new List<NewEquipment>();
+                equipmentInfo.Contract = contract;
+                dbEquipment = _dbContext.EquipmentInfo.Add(equipmentInfo);
+            }
+            else
+            {
+                equipmentInfo.Contract = contract;
+                equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
+                equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
+                _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
+                dbEquipment = equipmentInfo;
+            }          
 
-        //    return contract;
-        //}        
+            if (newEquipments != null)
+            {
+                var existingEntities =
+                    dbEquipment.NewEquipment.Where(
+                    a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
+                var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
+                entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
+
+                newEquipments.ForEach(ne =>
+                {
+                    var curEquipment =
+                        dbEquipment.NewEquipment.FirstOrDefault(eq => eq.Id == ne.Id);
+                    if (curEquipment == null || ne.Id == 0)
+                    {
+                        dbEquipment.NewEquipment.Add(ne);
+                    }
+                    else
+                    {
+                        _dbContext.NewEquipment.AddOrUpdate(ne);
+                    }
+                });
+            }
+
+            if (existingEquipments != null)
+            {
+                var existingEntities =
+                    dbEquipment.ExistingEquipment.Where(
+                    a => existingEquipments.Any(ee => ee.Id == a.Id)).ToList();
+                var entriesForDelete = dbEquipment.ExistingEquipment.Except(existingEntities).ToList();
+                entriesForDelete.ForEach(e => _dbContext.ExistingEquipment.Remove(e));
+
+                existingEquipments.ForEach(ee =>
+                {                    
+                    var curEquipment =
+                        dbEquipment.ExistingEquipment.FirstOrDefault(ex => ex.Id == ee.Id);
+                    if (curEquipment == null || ee.Id == 0)
+                    {
+                        dbEquipment.ExistingEquipment.Add(ee);
+                    }
+                    else
+                    {
+                        _dbContext.ExistingEquipment.AddOrUpdate(ee);
+                    }
+                });
+            }            
+            
+            return dbEquipment;
+        }        
 
         public ContractData GetContractData(int contractId)
         {
@@ -175,9 +251,10 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = GetContractAsUntracked(contractId);
             contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
             contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
+            contractData.Equipment = contract.Equipment;
 
             return contractData;
-        }        
+        }
 
         private Customer AddOrUpdateCustomerLocations(Customer customer, IList<Location> locations)
         {
@@ -194,21 +271,19 @@ namespace DealnetPortal.DataAccess.Repositories
                     customer.Locations.FirstOrDefault(ca => ca.AddressType == addr.AddressType);
                 if (curAddress == null)
                 {
-                    curAddress = new Location();
-                    customer.Locations.Add(curAddress);
+                    addr.Customer = customer;
+                    customer.Locations.Add(addr);
                 }
-                curAddress.AddressType = addr.AddressType;
-                curAddress.City = addr.City;
-                curAddress.PostalCode = addr.PostalCode;
-                curAddress.Street = addr.Street;
-                curAddress.State = addr.State;
-                curAddress.Unit = addr.Unit;
-                curAddress.Customer = customer;
+                else
+                {
+                    addr.Customer = customer;
+                    _dbContext.Entry<Location>(addr).State = EntityState.Modified;                    
+                }               
             });
 
             return customer;
-        }        
-                
+        }
+
         private Customer AddOrUpdateCustomer(Customer customer)
         {
             var dbCustomer = _dbContext.Customers.Find(customer.Id);

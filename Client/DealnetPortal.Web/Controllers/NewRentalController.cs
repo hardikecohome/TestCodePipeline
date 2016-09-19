@@ -9,16 +9,18 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
-{
+{    
     [AuthFromContext]
     public class NewRentalController : Controller
     {
@@ -50,6 +52,29 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
+        {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var contractResult = equipmentInfo.ContractId == null ?
+                await _contractServiceAgent.CreateContract() :
+                await _contractServiceAgent.GetContract(equipmentInfo.ContractId.Value);
+            if (contractResult?.Item1 != null)
+            {
+                var updateResult = await UpdateContractAsync(contractResult.Item1, equipmentInfo);
+                if (updateResult.Any(r => r.Type == AlertType.Error))
+                {
+                    return View();
+                }
+            }
+            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
+        }
+
         [HttpPost]
         public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {
@@ -58,8 +83,8 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View();
             }
-            var contractResult = basicInfo.ContractId == null ? 
-                await _contractServiceAgent.CreateContract() : 
+            var contractResult = basicInfo.ContractId == null ?
+                await _contractServiceAgent.CreateContract() :
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
             if (contractResult?.Item1 != null)
             {
@@ -75,6 +100,25 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
             return View(await GetBasicInfoAsync(contractId));
+        }
+
+        public async Task<ActionResult> EquipmentInformation(int? contractId)
+        {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
+            //if (contractId == null)
+            //{
+            //    var contract = await _contractServiceAgent.CreateContract();
+            //    if (contract?.Item1 != null)
+            //    {
+            //        contractId = contract.Item1.Id;
+            //    }
+            //}
+            if (contractId != null)
+            {
+                return View(await this.GetEquipmentInfoAsync(contractId.Value));
+            }
+            return View();
         }
 
         [HttpPost]
@@ -106,7 +150,7 @@ namespace DealnetPortal.Web.Controllers
             };
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
-        }       
+        }
 
         [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicensePhoto()
@@ -118,7 +162,7 @@ namespace DealnetPortal.Web.Controllers
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
+            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
@@ -142,15 +186,31 @@ namespace DealnetPortal.Web.Controllers
             basicInfo.MailingAddressInformation =
                 AutoMapper.Mapper.Map<AddressInformation>(
                     contractResult.Item1.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MailAddress));            
+                        l => l.AddressType == AddressType.MailAddress));
             return basicInfo;
+        }
+
+        private async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
+        {
+            var equipmentInfo = new EquipmentInformationViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1?.Equipment == null)
+            {
+                equipmentInfo.ContractId = contractId;
+                return equipmentInfo;
+            }
+            equipmentInfo.ContractId = contractId;
+            equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+            equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contractResult.Item1.Equipment.NewEquipment);
+            equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
+            return equipmentInfo;
         }
 
         private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
         {
             var contractData = new ContractDataDTO();
             contractData.Id = basicInfo.ContractId ?? 0;
-            contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);            
+            contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
             if (basicInfo.AdditionalApplicants != null)
             {
                 contractData.SecondaryCustomers = new List<CustomerDTO>();
@@ -161,7 +221,7 @@ namespace DealnetPortal.Web.Controllers
             }
             contractData.Locations = new List<LocationDTO>();
             var address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.AddressInformation);
-            address.AddressType = AddressType.MainAddress;            
+            address.AddressType = AddressType.MainAddress;
             contractData.Locations.Add(address);
             if (basicInfo.MailingAddressInformation != null)
             {
@@ -171,6 +231,34 @@ namespace DealnetPortal.Web.Controllers
             }
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
+
+        private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, EquipmentInformationViewModel equipmnetInfo)
+        {
+            var contractData = new ContractDataDTO
+            {
+                Id = equipmnetInfo.ContractId ?? 0,
+                Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+            };
+            if (equipmnetInfo.NewEquipment != null)
+            {
+
+
+                foreach (var newEquipment in equipmnetInfo.NewEquipment)
+                {
+                    contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentDTO>(newEquipment));
+                }
+            }
+            if (equipmnetInfo.ExistingEquipment != null)
+            {
+                foreach (var existingEquipment in equipmnetInfo.ExistingEquipment)
+                {
+                    contractData.Equipment.ExistingEquipment.Add(
+                        AutoMapper.Mapper.Map<ExistingEquipmentDTO>(existingEquipment));
+                }
+            }
+            return await this._contractServiceAgent.UpdateContractData(contractData);
+        }
+
 
         private JsonResult GetSuccessJson()
         {

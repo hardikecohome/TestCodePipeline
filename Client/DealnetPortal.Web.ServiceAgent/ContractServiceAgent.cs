@@ -12,6 +12,8 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
+    using Api.Models.Contract.EquipmentInformation;
+
     public class ContractServiceAgent : ApiBase, IContractServiceAgent
     {
         private const string ContractApi = "Contract";
@@ -71,10 +73,24 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Can't update client data for contract {contractData.Id}", ex);
+                this._loggingService.LogError($"Can't update client data for contract {contractData.Id}", ex);
                 throw;
             }
         }
+
+        //public async Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInfoDTO equipmentInfo)
+        //{
+        //    try
+        //    {
+        //        return
+        //            await this.Client.PutAsync<EquipmentInfoDTO, IList<Alert>>($"{_fullUri}/UpdateEquipmentInformation", equipmentInfo);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this._loggingService.LogError($"Can't update data for equipment info {equipmentInfo.Id}", ex);
+        //        throw;
+        //    }
+        //}
 
         public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
         {

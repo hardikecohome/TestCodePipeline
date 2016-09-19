@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Contract
 {
+    using EquipmentInformation;
+
     public class ContractDataDTO
     {
         public int Id { get; set; }
@@ -13,5 +15,7 @@ namespace DealnetPortal.Api.Models.Contract
         public IList<CustomerDTO> SecondaryCustomers { get; set; }
         public IList<LocationDTO> Locations { get; set; }
         public IList<PhoneDTO> Phones { get; set; }
+
+        public EquipmentInfoDTO Equipment { get; set; }
     }
 }
