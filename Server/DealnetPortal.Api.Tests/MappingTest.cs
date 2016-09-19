@@ -28,7 +28,6 @@ namespace DealnetPortal.Api.Tests
             {
                 Assert.Fail(e.ToString());
             }
-
         }
 
         [TestMethod]

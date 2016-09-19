@@ -23,6 +23,7 @@ namespace DealnetPortal.Api.Tests.Repositories
         private ApplicationUser _user;
 
         public TestContext TestContext { get; set; }
+
         [ClassInitialize]
         public static void SetUp(TestContext context)
         {
@@ -34,7 +35,7 @@ namespace DealnetPortal.Api.Tests.Repositories
         public void Intialize()
         {
             Database.SetInitializer(
-                new DropCreateDatabaseAlways<ApplicationDbContext>());            
+                new DropCreateDatabaseAlways<ApplicationDbContext>());
 
             _databaseFactory = new DatabaseFactory();
             _unitOfWork = new UnitOfWork(_databaseFactory);
@@ -49,7 +50,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 _user = CreateTestUser();
                 _databaseFactory.Get().Users.Add(_user);
                 _unitOfWork.Save();
-            }            
+            }
         }
 
         private ApplicationUser CreateTestUser()
@@ -82,17 +83,9 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             Assert.IsTrue(isDeleted);
         }
-        
-
-
-
-
-
-
-
 
         [TestMethod]
-        public void TestUpdateContractData()
+        public void TestUpdateContractClientData()
         {
             var contract = _contractRepository.CreateContract(_user.Id);
             _unitOfWork.Save();
@@ -184,6 +177,24 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
             Assert.AreEqual(contract.SecondaryCustomers.First().FirstName, "Name changed");
 
+            
+
+            var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
+            _unitOfWork.Save();
+            Assert.IsTrue(isDeleted);
+        }
+
+        [TestMethod]
+        public void TestUpdateContractEquipmentData()
+        {
+            var contract = _contractRepository.CreateContract(_user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(contract);
+
+            var contractData = new ContractData()
+            {
+                Id = contract.Id
+            };
 
             var equipmentInfo = new EquipmentInfo
             {
@@ -219,14 +230,32 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             contract = this._contractRepository.GetContractAsUntracked(contract.Id);
             Assert.IsNotNull(contract.Equipment);
-            Assert.AreEqual(contract.Equipment.ExistingEquipment.Count, 1);
+            //Assert.AreEqual(contract.Equipment.ExistingEquipment.Count, 1);
             Assert.AreEqual(contract.Equipment.NewEquipment.Count, 1);
+
+            equipmentInfo = contract.Equipment;
+
+            equipmentInfo.ExistingEquipment = new List<ExistingEquipment>();
+            equipmentInfo.NewEquipment.First().Description = "updated value";
+            equipmentInfo.NewEquipment.Add(new NewEquipment
+            {
+                Cost = 50,
+                Description = "Description 2",
+                MonthlyCost = 150,
+                Quantity = 10,
+                TotalMonthlyPayment = 500
+            });
+            contractData.Equipment = equipmentInfo;
+            _contractRepository.UpdateContractData(contractData);
+            _unitOfWork.Save();
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id);
+            Assert.IsNotNull(contract.Equipment);
+            Assert.AreEqual(contract.Equipment.ExistingEquipment.Count, 0);
+            Assert.AreEqual(contract.Equipment.NewEquipment.Count, 2);
 
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();
             Assert.IsTrue(isDeleted);
-
-            
         }
     }
 }

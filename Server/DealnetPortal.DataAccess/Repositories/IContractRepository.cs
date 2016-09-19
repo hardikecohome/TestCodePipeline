@@ -20,11 +20,6 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Contract</returns>
         Contract CreateContract(string contractOwnerId);
 
-
-
-
-
-
         /// <summary>
         /// Get user contracts list
         /// </summary>

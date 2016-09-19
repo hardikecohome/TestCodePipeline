@@ -25,16 +25,11 @@ namespace DealnetPortal.Domain
         public DateTime CreationTime { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
-
-        public int? PrimaryCustomerId { get; set; }
-        [ForeignKey("PrimaryCustomerId")]
+        
         public Customer PrimaryCustomer { get; set; }
 
         public ICollection<Customer> SecondaryCustomers { get; set; }
-
-        public int? EquipmentInfoId { get; set; }
-
-        [ForeignKey("EquipmentInfoId")]
+        
         public EquipmentInfo Equipment { get; set; }
 
 

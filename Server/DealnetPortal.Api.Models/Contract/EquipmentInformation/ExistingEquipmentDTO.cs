@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 {
-    public class ExistingEquipmentInformationDTO
+    public class ExistingEquipmentDTO
     {
         public int Id { get; set; }
         public bool DealerIsReplacing { get; set; }
