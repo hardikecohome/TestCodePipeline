@@ -9,19 +9,18 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
-{
-    using Api.Models.Contract.EquipmentInformation;
-    using Models.EquipmentInformation;
-
+{    
     [AuthFromContext]
     public class NewRentalController : Controller
     {
@@ -107,14 +106,14 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            if (contractId == null)
-            {
-                var contract = await _contractServiceAgent.CreateContract();
-                if (contract?.Item1 != null)
-                {
-                    contractId = contract.Item1.Id;
-                }
-            }
+            //if (contractId == null)
+            //{
+            //    var contract = await _contractServiceAgent.CreateContract();
+            //    if (contract?.Item1 != null)
+            //    {
+            //        contractId = contract.Item1.Id;
+            //    }
+            //}
             if (contractId != null)
             {
                 return View(await this.GetEquipmentInfoAsync(contractId.Value));
@@ -195,7 +194,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var equipmentInfo = new EquipmentInformationViewModel();
             var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null || contractResult.Item1.Equipment == null)
+            if (contractResult.Item1?.Equipment == null)
             {
                 equipmentInfo.ContractId = contractId;
                 return equipmentInfo;
@@ -238,7 +237,7 @@ namespace DealnetPortal.Web.Controllers
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
-                Equipment = AutoMapper.Mapper.Map<EquipmentInformationDTO>(equipmnetInfo)
+                Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
             if (equipmnetInfo.NewEquipment != null)
             {
@@ -246,7 +245,7 @@ namespace DealnetPortal.Web.Controllers
 
                 foreach (var newEquipment in equipmnetInfo.NewEquipment)
                 {
-                    contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentInformationDTO>(newEquipment));
+                    contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentDTO>(newEquipment));
                 }
             }
             if (equipmnetInfo.ExistingEquipment != null)
@@ -254,7 +253,7 @@ namespace DealnetPortal.Web.Controllers
                 foreach (var existingEquipment in equipmnetInfo.ExistingEquipment)
                 {
                     contractData.Equipment.ExistingEquipment.Add(
-                        AutoMapper.Mapper.Map<ExistingEquipmentInformationDTO>(existingEquipment));
+                        AutoMapper.Mapper.Map<ExistingEquipmentDTO>(existingEquipment));
                 }
             }
             return await this._contractServiceAgent.UpdateContractData(contractData);

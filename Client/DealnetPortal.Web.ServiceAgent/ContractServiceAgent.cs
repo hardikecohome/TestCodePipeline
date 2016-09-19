@@ -78,19 +78,19 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo)
-        {
-            try
-            {
-                return
-                    await this.Client.PutAsync<EquipmentInformationDTO, IList<Alert>>($"{_fullUri}/UpdateEquipmentInformation", equipmentInfo);
-            }
-            catch (Exception ex)
-            {
-                this._loggingService.LogError($"Can't update data for equipment info {equipmentInfo.Id}", ex);
-                throw;
-            }
-        }
+        //public async Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInfoDTO equipmentInfo)
+        //{
+        //    try
+        //    {
+        //        return
+        //            await this.Client.PutAsync<EquipmentInfoDTO, IList<Alert>>($"{_fullUri}/UpdateEquipmentInformation", equipmentInfo);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this._loggingService.LogError($"Can't update data for equipment info {equipmentInfo.Id}", ex);
+        //        throw;
+        //    }
+        //}
 
         public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
         {

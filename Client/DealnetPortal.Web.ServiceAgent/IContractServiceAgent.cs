@@ -41,7 +41,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns></returns>
         Task<IList<Alert>> UpdateContractData(ContractDataDTO contractData);
 
-        Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
+        //Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
 
         /// <summary>
         /// Initiate credit check for contract

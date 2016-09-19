@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
-{
-    using System.ComponentModel.DataAnnotations;
-
+{    
     public class ExistingEquipmentInformation
     {
         [Required]
         [Display(Name= "Dealer Is Replacing?")]
-        public YesNo DealerIsReplacing  { get; set; }
+        public bool DealerIsReplacing  { get; set; }
 
         [Required]
         [Display(Name = "Is Rental?")]
-        public YesNo IsRental { get; set; }
+        public bool IsRental { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -44,9 +43,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public string GeneralCondition { get; set; }
 
         [StringLength(100)]
-        public string Notes { get; set; }
-
-        
-
+        public string Notes { get; set; }       
     }
 }
