@@ -3,6 +3,7 @@ using System.Web.Http;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Integration.Services;
+using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
@@ -39,8 +40,12 @@ namespace DealnetPortal.Api
             container.RegisterType<AccountController>(new InjectionConstructor());
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
+            container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["EcoreApiUrl"]));
+
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
+
+            container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));
         }
     }
 }
