@@ -1,0 +1,64 @@
+﻿@model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
+
+<h2>ContactAndPaymentInfo</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ContractId)
+
+    @Html.LabelFor(m => m.ContactInfo.HomePhone)
+    @Html.TextBoxFor(m => m.ContactInfo.HomePhone, new {@class = "form-control dealnet-input"})
+    @Html.ValidationMessageFor(m => m.ContactInfo.HomePhone, "", new {@class = "text-danger"})
+
+    @Html.LabelFor(m => m.ContactInfo.CellPhone)
+    @Html.TextBoxFor(m => m.ContactInfo.CellPhone, new {@class = "form-control dealnet-input"})
+    @Html.ValidationMessageFor(m => m.ContactInfo.CellPhone, "", new {@class = "text-danger"})
+
+    @Html.LabelFor(m => m.ContactInfo.BusinessPhone)
+    @Html.TextBoxFor(m => m.ContactInfo.BusinessPhone, new {@class = "form-control dealnet-input"})
+    @Html.ValidationMessageFor(m => m.ContactInfo.BusinessPhone, "", new {@class = "text-danger"})
+
+    @Html.LabelFor(m => m.ContactInfo.EmailAddress)
+    @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(m => m.ContactInfo.HouseSize)
+    @Html.TextBoxFor(m => m.ContactInfo.HouseSize, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.ContactInfo.HouseSize, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(m => m.PaymentInfo.PaymentType)
+    @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
+    @Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
+    @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
+    @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
+    @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
+    @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
+
+    <div class="row" id="saveproceed-button">
+        <div class="col-xs-12 col-md-3 col-lg-3">
+            <button class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
+                <p class="dealnet-green-button-text">Save and Proceed</p>
+            </button>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

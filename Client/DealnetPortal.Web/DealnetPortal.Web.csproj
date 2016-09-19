@@ -572,6 +572,7 @@
     <Content Include="Views\Stub\Reports.cshtml" />
     <Content Include="Views\NewRental\CreditCheckConfirmation.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
+    <Content Include="Views\NewRental\ContactAndPaymentInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

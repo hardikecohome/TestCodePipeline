@@ -46,7 +46,8 @@
     <Compile Include="Aspire\DealUploadRequest.cs" />
     <Compile Include="Aspire\DealUploadResponce.cs" />
     <Compile Include="Aspire\Header.cs" />
-    <Compile Include="Aspire\Payload.cs" />    
+    <Compile Include="Aspire\Payload.cs" />
+    <Compile Include="Contract\ContactInfoDTO.cs" />    
     <Compile Include="Contract\ContractDataDTO.cs" />
     <Compile Include="Contract\LocationDTO.cs" />
     <Compile Include="Contract\ContractDTO.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Contract\EquipmentInformation\ExistingEquipmentDTO.cs" />
     <Compile Include="Contract\EquipmentInformation\NewEquipmentDTO.cs" />
     <Compile Include="Contract\FlowingSummaryItemDTO.cs" />
+    <Compile Include="Contract\PaymentInfoDTO.cs" />
     <Compile Include="Contract\PhoneDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />

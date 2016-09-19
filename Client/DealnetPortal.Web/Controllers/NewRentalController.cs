@@ -134,6 +134,26 @@ namespace DealnetPortal.Web.Controllers
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
+        public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
+        {
+            return View(await GetContactAndPaymentInfoAsync(contractId));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var updateResult = await UpdateContractAsync(contactAndPaymentInfo);
+            if (updateResult.Any(r => r.Type == AlertType.Error))
+            {
+                return View();
+            }
+            return View(new ContactAndPaymentInfoViewModel()); //TODO: Navigate to next step
+        }
+
         [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
         {
@@ -188,6 +208,40 @@ namespace DealnetPortal.Web.Controllers
                     contractResult.Item1.PrimaryCustomer?.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MailAddress));
             return basicInfo;
+        }
+
+        private async Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId)
+        {
+            var contactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
+            {
+                return contactAndPaymentInfo;
+            }
+            contactAndPaymentInfo.ContractId = contractId;
+            contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(
+                    contractResult.Item1.PaymentInfo);
+            contactAndPaymentInfo.ContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
+                    contractResult.Item1.ContactInfo);
+            if (contractResult.Item1.ContactInfo?.Phones != null)
+            {
+                foreach (var phone in contractResult.Item1.ContactInfo.Phones)
+                {
+                    switch (phone.PhoneType)
+                    {
+                        case PhoneType.Home:
+                            contactAndPaymentInfo.ContactInfo.HomePhone = phone.PhoneNum;
+                            break;
+                        case PhoneType.Cell:
+                            contactAndPaymentInfo.ContactInfo.CellPhone = phone.PhoneNum;
+                            break;
+                        case PhoneType.Business:
+                            contactAndPaymentInfo.ContactInfo.BusinessPhone = phone.PhoneNum;
+                            break;
+                    }
+                }
+            }
+            return contactAndPaymentInfo;
         }
 
         private async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)

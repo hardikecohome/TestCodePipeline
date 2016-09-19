@@ -57,7 +57,6 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
-                .Include(c => c.PrimaryCustomer.Phones)
                 .Include(c => c.SecondaryCustomers)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
@@ -70,7 +69,6 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
-                .Include(c => c.PrimaryCustomer.Phones)
                 .Include(c => c.SecondaryCustomers)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
@@ -162,6 +160,13 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.Equipment != null)
                     {
                         this.AddOrUpdateEquipment(contract, contractData.Equipment);
+                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
+                    }
+
+                    if (contractData.PaymentInfo != null || contract.PaymentInfo != null)
+                    {
+                        AddOrUpdatePaymentInfo(contract, contractData.PaymentInfo);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
@@ -284,6 +289,37 @@ namespace DealnetPortal.DataAccess.Repositories
             return customer;
         }
 
+        private void AddOrUpdateContactInfo(Contract contract, ContactInfo newData)
+        {
+            if (contract.ContactInfo != null)
+            {
+                contract.ContactInfo.EmailAddress = newData.EmailAddress;
+                contract.ContactInfo.HouseSize = newData.HouseSize;
+                contract.ContactInfo.Phones = newData.Phones;
+            }
+            else
+            {
+                contract.ContactInfo = newData;
+            }
+        }
+
+        private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)
+        {
+            if (contract.PaymentInfo != null)
+            {
+                contract.PaymentInfo.PaymentType = newData.PaymentType;
+                contract.PaymentInfo.PrefferedWithdrawalDate = newData.PrefferedWithdrawalDate;
+                contract.PaymentInfo.AccountNumber = newData.AccountNumber;
+                contract.PaymentInfo.BlankNumber = newData.BlankNumber;
+                contract.PaymentInfo.TransitNumber = newData.TransitNumber;
+                contract.PaymentInfo.EnbridgeGasDistributionAccount = newData.EnbridgeGasDistributionAccount;
+            }
+            else
+            {
+                contract.PaymentInfo = newData;
+            }
+        }
+
         private Customer AddOrUpdateCustomer(Customer customer)
         {
             var dbCustomer = _dbContext.Customers.Find(customer.Id);
@@ -296,6 +332,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.FirstName = customer.FirstName;
                 dbCustomer.LastName = customer.LastName;
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
+            }
+            if (dbCustomer.Locations == null)
+            {
+                dbCustomer.Locations = new List<Location>();
             }
             return dbCustomer;
         }
