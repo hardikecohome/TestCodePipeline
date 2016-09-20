@@ -1,9 +1,5 @@
 .dataTable {
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: 900;
-  font-style: normal;
-  font-stretch: normal;
+  font: 900 14px @fontLato;
   color: #525251;
 
   tr {
@@ -14,16 +10,15 @@
     background-color: #f8f8f8;
     height: 29px;
     color: #525251;
+    &:last-child{
+      width: 50px !important;
+    }
   }
 
   td {
     background-color: transparent !important;
     border: 1px solid #ededed;
-    font-family: Lato;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
+    font: 14px @fontLato;
     color: #525251;
     &.child {
       background-color: #f8f8f8 !important;
@@ -32,6 +27,9 @@
         border: none !important;
       }
 
+    }
+    &:last-child{
+      width: 50px !important;
     }
   }
 }
