@@ -349,7 +349,10 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\home-page.css" />
+    <Content Include="Content\images\sprite\icon-edit.svg" />
+    <Content Include="Content\images\sprite\icon-eye.svg" />
+    <Content Include="Content\images\sprite\icon-search.svg" />
+    <Content Include="Content\images\sprite\sprite.svg" />
     <Content Include="Content\images\add-app%402x.png" />
     <Content Include="Content\images\add-app%403x.png" />
     <Content Include="Content\images\add-app-hover.svg" />
@@ -418,7 +421,6 @@
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="Content\jquery.loader.css" />
-    <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -432,6 +434,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\less\settings\theme.less" />
+    <Content Include="Content\less\components\forms.less" />
+    <Content Include="Content\less\components\pagination.less" />
+    <Content Include="Content\less\components\tables.less" />
+    <Content Include="Content\less\home-page.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -573,6 +580,7 @@
     <Content Include="Views\NewRental\CreditCheckConfirmation.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\NewRental\ContactAndPaymentInfo.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
