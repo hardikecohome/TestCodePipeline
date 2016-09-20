@@ -42,7 +42,18 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            var res = serviceAgent.CreateTransaction("test transaction").GetAwaiter().GetResult();
+            var res = serviceAgent.CreateTransaction("test transaction").GetAwaiter().GetResult();            
+            serviceAgent.Logout().GetAwaiter().GetResult();
+        }
+
+        [TestMethod]
+        public void TestCreateDocumentProfile()
+        {
+            IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
+            serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
+
+            long transId = 1617776;
+            var res = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
 
             serviceAgent.Logout().GetAwaiter().GetResult();
         }

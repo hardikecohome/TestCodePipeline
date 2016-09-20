@@ -13,7 +13,8 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
         Task<bool> Logout();
 
+        Task<Tuple<EOriginalTypes.transactionType, IList<Alert>>> CreateTransaction(string transactionName);
 
-        Task<bool> CreateTransaction(string transactionName);
+        Task<Tuple<EOriginalTypes.documentProfileType, IList<Alert>>> CreateDocumentProfile(long transactionSid, string dptName, string dpName = null);
     }
 }

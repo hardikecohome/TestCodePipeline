@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -49,12 +50,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
                 if (eResponse?.status != responseStatus.ok)
                 {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.EcoreConnectionFailed,
-                        Message = "Can't connect to eCore service"
-                    });
+                    alerts = GetAlertsFromResponse(eResponse);                    
                 }
                 else
                 {
@@ -83,7 +79,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
             return eResponse.status == responseStatus.ok;
         }
 
-        public async Task<bool> CreateTransaction(string transactionName)
+        public async Task<Tuple<EOriginalTypes.transactionType, IList<Alert>>> CreateTransaction(string transactionName)
         {
             IList<Alert> alerts = new List<Alert>();
             var data = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
@@ -95,7 +91,55 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
             var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
-            return eResponse.status == responseStatus.ok;
+            if (eResponse?.status == responseStatus.ok)
+            {
+                if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
+                {
+                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
+                    return new Tuple<transactionType, IList<Alert>>(transactionList?.transaction?.FirstOrDefault(), alerts);
+                }
+            }
+            else
+            {
+                alerts = GetAlertsFromResponse(eResponse);
+            }
+
+            return new Tuple<transactionType, IList<Alert>>(null, alerts);
+        }
+
+        public async Task<Tuple<documentProfileType, IList<Alert>>> CreateDocumentProfile(long transactionSid, string dptName, string dpName = null)
+        {
+            IList<Alert> alerts = new List<Alert>();
+            var values = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("transactionSid", transactionSid.ToString()),
+                new KeyValuePair<string, string>("dptName", dptName)
+            };            
+            if (!string.IsNullOrEmpty(dpName))
+            {
+                values.Add(new KeyValuePair<string, string>("dpName", dpName));
+            }
+            var data = new FormUrlEncodedContent(values);
+
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateDocumentProfile", data);
+
+            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+            if (eResponse?.status == responseStatus.ok)
+            {
+                if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
+                {
+                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
+                    var documentProfileList = transactionList?.transaction?.FirstOrDefault()?.documentProfileList;
+                    return new Tuple<documentProfileType, IList<Alert>>(documentProfileList?.FirstOrDefault(), alerts);
+                }
+            }
+            else
+            {
+                alerts = GetAlertsFromResponse(eResponse);
+            }
+
+            return new Tuple<documentProfileType, IList<Alert>>(null, alerts);
         }
 
 
