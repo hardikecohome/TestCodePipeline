@@ -22,9 +22,10 @@
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, new { @class = "" })
-                    <div>
+                    <div class="control-group control-group-pass">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        <svg aria-hidden="true" class="icon-svg icon-edit"><use xlink:href="#icon-eye"></use></svg>
                     </div>
                 </div>
                 <div class="form-group">

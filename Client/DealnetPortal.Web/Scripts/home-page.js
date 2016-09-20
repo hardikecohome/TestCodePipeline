@@ -82,7 +82,7 @@ function showTable() {
                     { "data": "Date" },
                     {// this is Actions Column 
                         "render": function (sdata, type, row) {
-                            return '<a href=' + editItemUrl + '/' + row.Id + ' class="edit-link" title="Edit">Edit</a>';
+                            return '<a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon-svg icon-edit"><use xlink:href="#icon-edit"></use></svg></a>';
                         }
                     }
                 ]
