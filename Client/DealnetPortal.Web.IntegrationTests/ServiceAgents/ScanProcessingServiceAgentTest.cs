@@ -53,5 +53,33 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
 
             var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
         }
+
+        [TestMethod]
+        [Ignore]
+        public void TestScanVoidCheque()
+        {
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
+            var authResult = securityServiceAgent.Authenicate(DefUserName, DefUserPassword).GetAwaiter().GetResult();
+            securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
+
+            IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+
+            var imgRaw = File.ReadAllBytes("Img//micr-b.jpg");
+            ScanningRequest scanningRequest = new ScanningRequest()
+            {
+                ImageForReadRaw = imgRaw
+            };
+
+            var result = serviceAgent.ScanVoidCheque(scanningRequest).GetAwaiter().GetResult();
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Item1);
+            Assert.IsTrue(result.Item1.AccountNumber == "111-25710");
+            Assert.IsTrue(result.Item1.BankNumber == "010" );
+            Assert.IsTrue(result.Item1.TransitNumber == "30081");
+
+            var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
+        }
     }
 }

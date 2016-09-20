@@ -12,5 +12,6 @@ namespace DealnetPortal.Web.ServiceAgent
     public interface IScanProcessingServiceAgent
     {
         Task<Tuple<DriverLicenseData, IList<Alert>>> ScanDriverLicense(ScanningRequest scanningRequest);
+        Task<Tuple<VoidChequeData, IList<Alert>>> ScanVoidCheque(ScanningRequest scanningRequest);
     }
 }

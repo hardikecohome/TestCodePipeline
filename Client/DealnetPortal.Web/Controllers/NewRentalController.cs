@@ -187,6 +187,39 @@ namespace DealnetPortal.Web.Controllers
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> RecognizeVoidCheque(string imgBase64)
+        {
+            if (imgBase64 == null)
+            {
+                return GetErrorJson();
+            }
+            imgBase64 = imgBase64.Replace("data:image/png;base64,", "");
+            imgBase64 = imgBase64.Replace(' ', '+');
+            var bytes = Convert.FromBase64String(imgBase64);
+            var scanningRequest = new ScanningRequest()
+            {
+                ImageForReadRaw = bytes
+            };
+            var result = await _scanProcessingServiceAgent.ScanVoidCheque(scanningRequest);
+            return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> RecognizeVoidChequePhoto()
+        {
+            if (Request.Files == null || Request.Files.Count <= 0)
+            {
+                return GetErrorJson();
+            }
+            var file = Request.Files[0];
+            byte[] data = new byte[file.ContentLength];
+            file.InputStream.Read(data, 0, file.ContentLength);
+            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
+            var result = await _scanProcessingServiceAgent.ScanVoidCheque(scanningRequest);
+            return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
+        }
+
         private async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
         {
             var basicInfo = new BasicInfoViewModel();
