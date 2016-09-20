@@ -8,3 +8,55 @@
     }
   }
 }
+
+.control-group{
+  position: relative;
+  &.control-group-pass{
+    .icon-svg{
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      display: inline-block;
+      pointer-events: none;
+    }
+  }
+}
+
+div.dataTables_wrapper div.dataTables_filter{
+  label{
+    position: relative;
+    text-align: right;
+
+    .icon-search{
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      display: inline-block;
+      padding: 5px;
+
+    }
+
+/*    @media (max-width: 677px) {
+      width: 280px;
+      input{
+        margin: 0;
+        transition: width 0.3s linear;
+        &:focus{
+          box-shadow: none;
+          outline: none;
+          border-color: #cccccc;
+        }
+        &:not(.active){
+          transition: width 0.3s linear, opacity 0.3s 0.1s linear;
+          width: 0px;
+          padding: 0;
+          opacity: 0;
+        }
+      }
+    }*/
+  }
+  input{
+    width: 280px;
+
+  }
+}

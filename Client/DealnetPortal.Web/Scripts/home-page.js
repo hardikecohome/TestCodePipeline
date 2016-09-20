@@ -72,22 +72,38 @@ function showTable() {
                     }
                 },
                 data: data,
-                columns: [
+                oLanguage: {
+                  "sSearch": '<span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                  "oPaginate": {
+                    "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
+                    "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
+                  }
+                },
+              columns: [
                     { "data" : "Id" },
                     { "data": "CustomerName" },
                     { "data": "Status" },
                     { "data": "Action" },
                     { "data": "Email" },
                     { "data": "Phone" },
-                    { "data": "Date" },
+                    { "data": "Date"},
                     {// this is Actions Column 
                         "render": function (sdata, type, row) {
-                            return '<a href=' + editItemUrl + '/' + row.Id + ' class="edit-link" title="Edit">Edit</a>';
+                            return '<a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon-svg icon-edit"><use xlink:href="#icon-edit"></use></svg></a>';
                         }
                     }
-                ]
+                ],
+
+              columnDefs: [
+                { responsivePriority: 8, targets: -1 },
+                { width: "40px", targets: -1 }
+              ]
             });
-        $('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
-        $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');
+        /*$('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
+        $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');*/
+
+        /*$('#work-items-table_filter .icon-search').on('click', function(){
+          $(this).siblings('input').toggleClass('active');
+        });*/
     });
 };

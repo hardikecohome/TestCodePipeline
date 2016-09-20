@@ -1,0 +1,246 @@
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+  position: relative;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.col-xs-5ths {
+  width: 20%;
+  float: left;
+}
+
+@media (min-width: 768px) {
+  .col-sm-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+.dealnet-green-button {
+  height: 39px;
+  width: 235px;
+  border-radius: 4px;
+  background-color: @success-color;
+  box-shadow: 0 1px 0 0 @success-shadow-color;
+}
+
+.dealnet-green-button:hover {
+  background-color: @success-btn-hover-color;
+}
+
+.dealnet-green-button:active {
+  background-color: @success-btn-hover-color;
+  box-shadow: none;
+}
+
+.dealnet-green-button-text {
+  font: 700 14px @fontLato;
+  color: @success-text-color;
+}
+
+.dealnet-action-link {
+  font: 400 12px @fontLato;
+  color: @info-link-color;
+  display: inline-block;
+}
+
+.dealnet-large-header {
+  font: 900 22px @fontLato;
+  color: @heading-text-color;
+}
+
+.dealnet-middle-header {
+  font: 700 20px @fontLato;
+  color: @heading-text-color;
+}
+
+.dealnet-middle-header-2 {
+  font: 700 18px @fontLato;
+  color: @heading-text-color2;
+}
+
+.dealnet-small-header {
+  width: 68px;
+  height: 17px;
+  font: 400 14px @fontLato;
+  color: @heading-text-color2;
+}
+
+.dealnet-button {
+  color: @success-text-color;
+  box-sizing: border-box;
+  display: inline-block;
+  background-repeat: no-repeat;
+  &:hover {
+    color: @success-text-color;
+  }
+}
+
+.dealnet-button > p {
+  margin-top: 3px;
+}
+
+.dealnet-button > p > img {
+  margin-right: 12px;
+  margin-top: -3px;
+}
+
+.dealnet-input {
+  height: 40px;
+  border-radius: 4px;
+  border: solid 1px @default-grey-color;
+  margin-top: 7px;
+  margin-bottom: 5px;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  font: 400 14px @fontLato;
+  color: @default-grey-color;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font: 400 14px @fontLato;
+  color: @default-grey-color;
+  opacity: 1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font: 400 14px @fontLato;
+  color: @default-grey-color;
+  opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font: 400 14px @fontLato;
+  color: @default-grey-color;
+}
+
+.dealnet-checkbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: solid 1px @default-grey-color;
+  background: transparent;
+}
+
+.dealnet-disabled-text {
+  font: 500 14px @fontLato;
+  color: @default-grey-color;
+}
+
+.dealnet-empty-circle {
+  height: 50px;
+  width: 50px;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: #fff;
+  color: @default-grey-color;
+  border: solid 1px @default-grey-color;
+  font: 700 20px @fontLato;
+  cursor: pointer;
+  &.active-circle{
+    border-color: @success-color;
+  }
+}
+
+.dealnet-green-circle {
+  height: 38px;
+  width: 38px;
+  margin: 0 auto;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: @success-color;
+  color: @success-text-color;
+  line-height: 36px;
+}
+
+.dealnet-gray-circle {
+  height: 16px;
+  width: 16px;
+  margin: 0 auto;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: @default-grey-color;
+  color: @success-text-color;
+  line-height: 14px;
+}
+
+#steps {
+  margin-top: 17px;
+  a{
+    &:hover{
+      text-decoration: none;
+    }
+  }
+}
+
+#step2 {
+  display: inline-block;
+  margin-left: -30px;
+}
+
+#step3 {
+  float: right;
+  margin-right: -40px;
+}
+
+#step4 {
+  float: right;
+  margin-right: -30px;
+}
+
+#step5 {
+  float: right;
+}
+@media(max-width: 767px){
+  #step2 {
+    margin-left: -20px;
+  }
+
+  #step4 {
+    margin-right: -20px;
+  }
+}
+
+#steps-line {
+  height: 1px;
+  background-color: #dcdcdc;
+  margin-top: 42px;
+  margin-bottom: -42px;
+}
+
+.text-danger {
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #de525e;
+}
+
+.input-validation-error {
+  border: solid 1px #f38787
+}
+
+
