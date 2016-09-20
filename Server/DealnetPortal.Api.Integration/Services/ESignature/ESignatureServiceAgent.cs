@@ -6,9 +6,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Utilities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services.ESignature
 {
@@ -36,19 +41,63 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 new KeyValuePair<string, string>("loginPassword", password)
             });
 
-            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogin", data);
-            ReadCookies(response);
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogin", data);            
             response.EnsureSuccessStatusCode();
+
+            if (response?.Content != null)
+            {
+                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                if (eResponse?.status != responseStatus.ok)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EcoreConnectionFailed,
+                        Message = "Can't connect to eCore service"
+                    });
+                }
+                else
+                {
+                    ReadCookies(response);
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.EcoreConnectionFailed,
+                    Message = "Can't connect to eCore service"
+                });
+            }            
 
             return alerts;
         }
 
         public async Task<bool> Logout()
         {
-            var response = await Client.Client.PostAsync(_fullUri + "/eoLogout", null);
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogout", null);
             response.EnsureSuccessStatusCode();
-            return response.IsSuccessStatusCode;
+            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+            return eResponse.status == responseStatus.ok;
         }
+
+        public async Task<bool> CreateTransaction(string transactionName)
+        {
+            IList<Alert> alerts = new List<Alert>();
+            var data = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("transactionName", transactionName),                
+            });            
+
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateTransaction", data);
+
+            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+            return eResponse.status == responseStatus.ok;
+        }
+
 
         protected CookieContainer ReadCookies(HttpResponseMessage response)
         {
@@ -69,7 +118,24 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                     Client.Cookies.SetCookies(new Uri(_fullUri), cookie);
                 }
             }
-            return Client.Cookies;
+            return null;
+            //return Client.Cookies;
+        }
+
+        private IList<Alert> GetAlertsFromResponse(EOriginalTypes.response response)
+        {
+            var alerts = new List<Alert>();
+
+            response?.errorList?.ForEach(e =>
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Message = e.ItemsElementName.Contains(ItemsChoiceType16.message) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.message)] : string.Empty,
+                    Header = e.ItemsElementName.Contains(ItemsChoiceType16.minorCode) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.minorCode)] : string.Empty,                    
+                })
+                );
+
+            return alerts;
         }
     }
 }

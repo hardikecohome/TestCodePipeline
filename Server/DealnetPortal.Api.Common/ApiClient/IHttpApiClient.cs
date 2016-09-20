@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -24,6 +25,13 @@ namespace DealnetPortal.Api.Common.ApiClient
         /// Base HttpClient 
         /// </summary>
         HttpClient Client { get; }
+
+        /// <summary>
+        /// Http client handler
+        /// </summary>
+        HttpClientHandler Handler { get; }
+
+        CookieContainer Cookies { get; }
 
         /// <summary>
         /// Perform a post operation against a uri.

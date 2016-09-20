@@ -12,5 +12,8 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
         Task<IList<Alert>> Login(string userName, string organisation, string password);
 
         Task<bool> Logout();
+
+
+        Task<bool> CreateTransaction(string transactionName);
     }
 }

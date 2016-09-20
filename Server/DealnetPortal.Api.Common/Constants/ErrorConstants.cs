@@ -11,5 +11,7 @@
         public const string ContractUpdateFailed = "contract_update_failed";
         public const string CreditCheckFailed = "credit_check_failed";
 
+        public const string EcoreConnectionFailed = "ecore_connection_failed";
+
     }
 }

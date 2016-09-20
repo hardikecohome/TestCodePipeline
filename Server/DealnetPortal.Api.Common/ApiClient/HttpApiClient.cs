@@ -18,10 +18,16 @@ namespace DealnetPortal.Api.Common.ApiClient
     {
         public HttpApiClient(string baseAddress)
         {
-            Client = new HttpClient(new HttpClientHandler
+            Cookies = new CookieContainer();
+            Handler = new HttpClientHandler()
             {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            })
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
+                UseCookies = true,
+                //UseDefaultCredentials = true,
+                CookieContainer = Cookies
+            };
+
+            Client = new HttpClient(Handler)
             {
                 BaseAddress = new Uri(baseAddress),
                 Timeout = Timeout.InfiniteTimeSpan
@@ -35,6 +41,10 @@ namespace DealnetPortal.Api.Common.ApiClient
         }
 
         public HttpClient Client { get; private set; }
+
+        public HttpClientHandler Handler { get; private set; }
+
+        public CookieContainer Cookies { get; private set; }
 
         /// <summary>
         /// 
@@ -95,7 +105,7 @@ namespace DealnetPortal.Api.Common.ApiClient
 
                 if (response?.Content == null)
                     return default(T2);
-                return new XmlSerializerHelper().DeserializeFromString<T2>(await response.Content.ReadAsStringAsync());
+                return XmlSerializerHelper.DeserializeFromString<T2>(await response.Content.ReadAsStringAsync());
                 //return await response.Content.ReadAsAsync<T2>(new [] { new XmlMediaTypeFormatter { UseXmlSerializer = true }}, cancellationToken);
             }
             catch (HttpRequestException)
