@@ -265,9 +265,9 @@ namespace DealnetPortal.Web.Controllers
             var contractData = new ContractDataDTO();
             contractData.Id = basicInfo.ContractId ?? 0;
             contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
+            contractData.SecondaryCustomers = new List<CustomerDTO>();
             if (basicInfo.AdditionalApplicants != null)
             {
-                contractData.SecondaryCustomers = new List<CustomerDTO>();
                 basicInfo.AdditionalApplicants.ForEach(a =>
                 {
                     contractData.SecondaryCustomers.Add(AutoMapper.Mapper.Map<CustomerDTO>(a));
@@ -328,17 +328,33 @@ namespace DealnetPortal.Web.Controllers
                 }
                 if (contactAndPaymentInfo.ContactInfo.HomePhone != null)
                 {
-                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.HomePhone, PhoneType = PhoneType.Home });
+                    contactInfo.Phones.Add(new PhoneDTO
+                    {
+                        PhoneNum = contactAndPaymentInfo.ContactInfo.HomePhone,
+                        PhoneType = PhoneType.Home
+                    });
                 }
                 if (contactAndPaymentInfo.ContactInfo.CellPhone != null)
                 {
-                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.CellPhone, PhoneType = PhoneType.Cell });
+                    contactInfo.Phones.Add(new PhoneDTO
+                    {
+                        PhoneNum = contactAndPaymentInfo.ContactInfo.CellPhone,
+                        PhoneType = PhoneType.Cell
+                    });
                 }
                 if (contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
                 {
-                    contactInfo.Phones.Add(new PhoneDTO { PhoneNum = contactAndPaymentInfo.ContactInfo.BusinessPhone, PhoneType = PhoneType.Business });
+                    contactInfo.Phones.Add(new PhoneDTO
+                    {
+                        PhoneNum = contactAndPaymentInfo.ContactInfo.BusinessPhone,
+                        PhoneType = PhoneType.Business
+                    });
                 }
                 contractData.ContactInfo = contactInfo;
+            }
+            else
+            {
+                contractData.ContactInfo = new ContactInfoDTO();
             }
             if (contactAndPaymentInfo.PaymentInfo != null)
             {

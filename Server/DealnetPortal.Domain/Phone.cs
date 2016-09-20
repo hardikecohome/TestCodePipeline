@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,9 @@ namespace DealnetPortal.Domain
         public int Id { get; set; }
         public PhoneType PhoneType { get; set; }
 
+        [MaxLength(50)]
         public string PhoneNum { get; set; }
 
-        public PaymentInfo PaymentInfo { get; set; }
+        public ContactInfo ContactInfo { get; set; }
     }
 }

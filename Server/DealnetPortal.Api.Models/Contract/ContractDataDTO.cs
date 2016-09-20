@@ -16,7 +16,6 @@ namespace DealnetPortal.Api.Models.Contract
         public IList<LocationDTO> Locations { get; set; }
         public ContactInfoDTO ContactInfo { get; set; }
         public PaymentInfoDTO PaymentInfo { get; set; }
-        public IList<PhoneDTO> Phones { get; set; }
 
         public EquipmentInfoDTO Equipment { get; set; }
     }

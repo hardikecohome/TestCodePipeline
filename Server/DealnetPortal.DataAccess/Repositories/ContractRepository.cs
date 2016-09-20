@@ -153,10 +153,6 @@ namespace DealnetPortal.DataAccess.Repositories
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
-                    if (contractData.Phones != null)
-                    {
-                    }
-
                     if (contractData.Equipment != null)
                     {
                         this.AddOrUpdateEquipment(contract, contractData.Equipment);
@@ -164,14 +160,14 @@ namespace DealnetPortal.DataAccess.Repositories
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
-                    if (contractData.ContactInfo != null || contract.ContactInfo != null)
+                    if (contractData.ContactInfo != null)
                     {
                         AddOrUpdateContactInfo(contract, contractData.ContactInfo);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
-                    if (contractData.PaymentInfo != null || contract.PaymentInfo != null)
+                    if (contractData.PaymentInfo != null)
                     {
                         AddOrUpdatePaymentInfo(contract, contractData.PaymentInfo);
                         contract.ContractState = ContractState.CustomerInfoInputted;

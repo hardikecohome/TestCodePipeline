@@ -48,7 +48,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<LocationDTO, Location>()
                 .ForMember(x => x.Customer, s => s.Ignore());
             mapperConfig.CreateMap<PhoneDTO, Phone>()
-                .ForMember(x => x.PaymentInfo, s => s.Ignore());
+                .ForMember(x => x.ContactInfo, s => s.Ignore());
 
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
                 .ForMember(d => d.Contract, x => x.Ignore());
