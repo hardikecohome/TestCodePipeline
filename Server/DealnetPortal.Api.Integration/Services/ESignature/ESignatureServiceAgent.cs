@@ -9,6 +9,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml;
+using System.Xml.Serialization;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -184,6 +186,89 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
             return new Tuple<documentVersionType, IList<Alert>>(null, alerts);
         }
 
+        public async Task<Tuple<documentVersionType, IList<Alert>>> InsertFormFields(long dpSid, EOriginalTypes.TextData[] textData,
+            EOriginalTypes.SigBlock[] signBlocks)
+        {
+            try
+            {            
+                IList<Alert> alerts = new List<Alert>();
+
+                var transformationInstructions = new List<TransformationInstructions>();
+                //if (textData != null)
+                //{
+                //    transformationInstructions.Add(new AddTextData()
+                //    {
+                //        textDataList = textData
+                //    });
+                //}
+                if (signBlocks != null)
+                {
+                    transformationInstructions.Add(new AddSigBlocks()
+                    {
+                        name = "Signatures",
+                        sigBlockList = signBlocks
+                    });
+                }
+
+                var ts = new transformationInstructionSet()
+                {                    
+                    transformationInstructions = transformationInstructions.ToArray()
+                };
+
+                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), new Type[]
+                {
+                    typeof(AddTextData), typeof(AddSigBlocks)
+                });
+                MemoryStream ms = new MemoryStream();
+                x.Serialize(ms, ts);
+
+                XmlWriter xmlWriter = new XmlTextWriter("test.xml", Encoding.UTF8);
+                x.Serialize(xmlWriter, ts);
+                xmlWriter.Flush();
+
+                //XmlReader xmlReader = new XmlTextReader(new FileStream("test2.xml",FileMode.Open));                
+                //var test = File.ReadAllBytes("test2.xml");
+
+                ms.Position = 0;
+                var fileContent = new ByteArrayContent(ms.GetBuffer());
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "formFieldsXML",
+                        FileName = "formFieldsXML"
+                    };
+
+                var content = new MultipartFormDataContent();
+                content.Add(new StringContent(dpSid.ToString()), "dpSid");          
+                content.Add(fileContent, "formFieldsXML");
+
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoInsertFormFields", content);
+
+                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+                if (eResponse?.status == responseStatus.ok)
+                {
+                    if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
+                    {
+                        var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
+                        var documentProfileList = transactionList?.transaction?.FirstOrDefault()?.documentProfileList;
+                        var documentVersion = documentProfileList?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
+                        return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
+                    }
+                }
+                else
+                {
+                    alerts = GetAlertsFromResponse(eResponse);
+                }
+
+                return new Tuple<documentVersionType, IList<Alert>>(null, alerts);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
 
         protected CookieContainer ReadCookies(HttpResponseMessage response)
         {

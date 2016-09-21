@@ -57,7 +57,8 @@
     <Compile Include="Services\AspireServiceAgent.cs" />
     <Compile Include="Services\ContractService.cs" />
     <Compile Include="Services\ESignature\ECoreTypes.cs" />
-    <Compile Include="Services\ESignature\eOriginalTypes.cs" />
+    <Compile Include="Services\ESignature\EOriginalTypes\ResponseTypes.cs" />
+    <Compile Include="Services\ESignature\EOriginalTypes\TransformationTypes.cs" />
     <Compile Include="Services\ESignature\ESignatureServiceAgent.cs" />
     <Compile Include="Services\ESignature\IESignatureServiceAgent.cs" />
     <Compile Include="Services\IAspireService.cs" />
