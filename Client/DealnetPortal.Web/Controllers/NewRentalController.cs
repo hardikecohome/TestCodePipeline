@@ -52,29 +52,6 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
-        {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-            var contractResult = equipmentInfo.ContractId == null ?
-                await _contractServiceAgent.CreateContract() :
-                await _contractServiceAgent.GetContract(equipmentInfo.ContractId.Value);
-            if (contractResult?.Item1 != null)
-            {
-                var updateResult = await UpdateContractAsync(contractResult.Item1, equipmentInfo);
-                if (updateResult.Any(r => r.Type == AlertType.Error))
-                {
-                    return View();
-                }
-            }
-            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
-        }
-
         [HttpPost]
         public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {
@@ -102,36 +79,24 @@ namespace DealnetPortal.Web.Controllers
             return View(await GetBasicInfoAsync(contractId));
         }
 
-        public async Task<ActionResult> EquipmentInformation(int? contractId)
+        public async Task<ActionResult> EquipmentInformation(int contractId)
         {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-
-            //if (contractId == null)
-            //{
-            //    var contract = await _contractServiceAgent.CreateContract();
-            //    if (contract?.Item1 != null)
-            //    {
-            //        contractId = contract.Item1.Id;
-            //    }
-            //}
-            if (contractId != null)
-            {
-                return View(await this.GetEquipmentInfoAsync(contractId.Value));
-            }
-            return View();
+            return View(await GetEquipmentInfoAsync(contractId));
         }
 
         [HttpPost]
-        public async Task<JsonResult> UpdateBasicInfo(BasicInfoViewModel basicInfo)
+        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
-            if (!ModelState.IsValid || basicInfo.ContractId == null)
+            if (!ModelState.IsValid)
             {
-                return GetErrorJson();
+                return View();
             }
-            var contractResult = await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
-            if (contractResult?.Item1 == null) return GetErrorJson();
-            var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
-            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+            var updateResult = await UpdateContractAsync(equipmentInfo);
+            if (updateResult.Any(r => r.Type == AlertType.Error))
+            {
+                return View();
+            }
+            return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
         }
 
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
@@ -152,6 +117,19 @@ namespace DealnetPortal.Web.Controllers
                 return View();
             }
             return View(new ContactAndPaymentInfoViewModel()); //TODO: Navigate to next step
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateBasicInfo(BasicInfoViewModel basicInfo)
+        {
+            if (!ModelState.IsValid || basicInfo.ContractId == null)
+            {
+                return GetErrorJson();
+            }
+            var contractResult = await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
+            if (contractResult?.Item1 == null) return GetErrorJson();
+            var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
+            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
         [HttpPost]
@@ -281,15 +259,14 @@ namespace DealnetPortal.Web.Controllers
         {
             var equipmentInfo = new EquipmentInformationViewModel();
             var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1?.Equipment == null)
+            if (contractResult.Item1 == null)
             {
-                equipmentInfo.ContractId = contractId;
                 return equipmentInfo;
             }
             equipmentInfo.ContractId = contractId;
             equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-            equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contractResult.Item1.Equipment.NewEquipment);
-            equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
+            equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contractResult.Item1.Equipment?.NewEquipment);
+            equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment?.ExistingEquipment);
             return equipmentInfo;
         }
 
@@ -319,7 +296,7 @@ namespace DealnetPortal.Web.Controllers
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
-        private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, EquipmentInformationViewModel equipmnetInfo)
+        private async Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo)
         {
             var contractData = new ContractDataDTO
             {
@@ -328,8 +305,6 @@ namespace DealnetPortal.Web.Controllers
             };
             if (equipmnetInfo.NewEquipment != null)
             {
-
-
                 foreach (var newEquipment in equipmnetInfo.NewEquipment)
                 {
                     contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentDTO>(newEquipment));

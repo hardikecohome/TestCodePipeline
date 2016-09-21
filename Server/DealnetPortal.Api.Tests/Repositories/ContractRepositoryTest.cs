@@ -111,9 +111,9 @@ namespace DealnetPortal.Api.Tests.Repositories
             };
             contractData.Locations = new List<Location> {address};
 
-            _contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
-            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            contract = _contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 1);
 
             var address2 = new Location()
@@ -128,14 +128,14 @@ namespace DealnetPortal.Api.Tests.Repositories
             contractData.PrimaryCustomer = null;
             contractData.Locations = new List<Location>() {address, address2};
 
-            _contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
-            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            contract = _contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 2);
             address2.City = "Paris";
-            _contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
-            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            contract = _contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.AreEqual(contract.PrimaryCustomer.Locations.Count, 2);
 
             var customers = new List<Customer>()
@@ -156,9 +156,9 @@ namespace DealnetPortal.Api.Tests.Repositories
             contractData.Locations = null;
             contractData.PrimaryCustomer = null;
             contractData.SecondaryCustomers = customers;
-            _contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
-            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            contract = _contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
 
             var owners = contract.SecondaryCustomers;
@@ -171,9 +171,9 @@ namespace DealnetPortal.Api.Tests.Repositories
                 DateOfBirth = DateTime.Today
             });
             contractData.SecondaryCustomers = owners.ToList();
-            _contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
-            contract = _contractRepository.GetContractAsUntracked(contract.Id);
+            contract = _contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
             Assert.AreEqual(contract.SecondaryCustomers.First().FirstName, "Name changed");
 
@@ -226,9 +226,9 @@ namespace DealnetPortal.Api.Tests.Repositories
                 GeneralCondition = "General condition"
             });
             contractData.Equipment = equipmentInfo;
-            this._contractRepository.UpdateContractData(contractData);
+            this._contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
-            contract = this._contractRepository.GetContractAsUntracked(contract.Id);
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.IsNotNull(contract.Equipment);
             //Assert.AreEqual(contract.Equipment.ExistingEquipment.Count, 1);
             Assert.AreEqual(contract.Equipment.NewEquipment.Count, 1);
@@ -246,9 +246,9 @@ namespace DealnetPortal.Api.Tests.Repositories
                 TotalMonthlyPayment = 500
             });
             contractData.Equipment = equipmentInfo;
-            _contractRepository.UpdateContractData(contractData);
+            _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
-            contract = this._contractRepository.GetContractAsUntracked(contract.Id);
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.IsNotNull(contract.Equipment);
             Assert.AreEqual(contract.Equipment.ExistingEquipment.Count, 0);
             Assert.AreEqual(contract.Equipment.NewEquipment.Count, 2);

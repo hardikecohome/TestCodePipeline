@@ -62,24 +62,24 @@ namespace DealnetPortal.Api.Integration.Services
             return contractsDTO;
         }
 
-        public ContractDTO GetContract(int contractId)
+        public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
-            var contract = _contractRepository.GetContract(contractId);
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             return Mapper.Map<ContractDTO>(contract);
         }
 
-        public IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> addresses, IList<CustomerDTO> customers)
+        public IList<Alert> UpdateContractClientData(int contractId, string contractOwnerId, IList<LocationDTO> addresses, IList<CustomerDTO> customers)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Alert> UpdateContractData(ContractDataDTO contract)
+        public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId)
         {
             try
             {
                 var alerts = new List<Alert>();               
                 var contractData = Mapper.Map<ContractData>(contract);
-                var updatedContract = _contractRepository.UpdateContractData(contractData);
+                var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
                 {
                     _unitOfWork.Save();
@@ -106,12 +106,12 @@ namespace DealnetPortal.Api.Integration.Services
         }
  
 
-        public IList<Alert> InitiateCreditCheck(int contractId)
+        public IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId)
         {
             try
             {
                 var alerts = new List<Alert>();
-                var contract = _contractRepository.GetContract(contractId);
+                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                 if (contract == null)
                 {
                     alerts.Add(new Alert()
@@ -125,7 +125,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (contract.ContractState > ContractState.Started)
                     {
-                        _contractRepository.UpdateContractState(contractId, ContractState.CreditCheckInitiated);
+                        _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditCheckInitiated);
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
                     }
@@ -149,7 +149,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId)
+        public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)
         {
             //stub for future Aspire request
 
@@ -160,7 +160,7 @@ namespace DealnetPortal.Api.Integration.Services
                 CreditCheckState = CreditCheckState.NotInitiated
             };
             var alerts = new List<Alert>();            
-            var contract = _contractRepository.GetContract(contractId);
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             if (contract != null)
             {
                 creditCheck.ContractId = contractId;                
@@ -188,7 +188,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     else
                     {
-                        _contractRepository.UpdateContractState(contractId, ContractState.CreditContirmed);
+                        _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
                         _unitOfWork.Save();
                         creditCheck.CreditCheckState = CreditCheckState.Approved;
                         creditCheck.CreditAmount = 10000;
@@ -230,7 +230,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
         }
 
-        public IList<Alert> SubmitContract(int contractId)
+        public IList<Alert> SubmitContract(int contractId, string contractOwnerId)
         {
             throw new NotImplementedException();
         }

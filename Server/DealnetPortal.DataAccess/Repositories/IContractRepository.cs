@@ -48,14 +48,14 @@ namespace DealnetPortal.DataAccess.Repositories
         /// </summary>
         /// <param name="contract">Contract</param>
         /// <returns>Contract</returns>
-        Contract UpdateContract(Contract contract);
+        Contract UpdateContract(Contract contract, string contractOwnerId);
 
         /// <summary>
         /// Update contract data
         /// </summary>
         /// <param name="contractData">Structure with data related to contract</param>
         /// <returns>Result of update</returns>
-        Contract UpdateContractData(ContractData contractData);
+        Contract UpdateContractData(ContractData contractData, string contractOwnerId);
 
         /// <summary>
         /// Update contract customers data
@@ -72,20 +72,20 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="contractId">Contract Id</param>
         /// <param name="newState">A new state of contract</param>
         /// <returns>Updated contract record</returns>
-        Contract UpdateContractState(int contractId, ContractState newState);
+        Contract UpdateContractState(int contractId, string contractOwnerId, ContractState newState);
 
         /// <summary>
         /// Get contract
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns>Contract</returns>
-        Contract GetContract(int contractId);
+        Contract GetContract(int contractId, string contractOwnerId);
 
         /// <summary>
         /// Get contract as untracked from DB
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns>Contract</returns>
-        Contract GetContractAsUntracked(int contractId);
+        Contract GetContractAsUntracked(int contractId, string contractOwnerId);
     }
 }

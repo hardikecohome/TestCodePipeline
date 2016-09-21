@@ -44,15 +44,18 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
-        public Contract UpdateContractState(int contractId, ContractState newState)
+        public Contract UpdateContractState(int contractId, string contractOwnerId, ContractState newState)
         {
-            var contract = GetContract(contractId);
-            contract.ContractState = newState;
-            contract.LastUpdateTime = DateTime.Now;
+            var contract = GetContract(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                contract.ContractState = newState;
+                contract.LastUpdateTime = DateTime.Now;
+            }
             return contract;
         }
 
-        public Contract GetContract(int contractId)
+        public Contract GetContract(int contractId, string contractOwnerId)
         {
             return _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
@@ -61,10 +64,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
-                .FirstOrDefault(c => c.Id == contractId);
+                .FirstOrDefault(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
-        public Contract GetContractAsUntracked(int contractId)
+        public Contract GetContractAsUntracked(int contractId, string contractOwnerId)
         {
             return _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
@@ -74,7 +77,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .AsNoTracking().
-                FirstOrDefault(c => c.Id == contractId);
+                FirstOrDefault(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
         public bool DeleteContract(string contractOwnerId, int contractId)
@@ -113,7 +116,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return cleaned;
         }
 
-        public Contract UpdateContract(Contract contract)
+        public Contract UpdateContract(Contract contract, string contractOwnerId)
         {
             contract.ContractState = ContractState.CustomerInfoInputted;
             _dbContext.Entry(contract).State = EntityState.Modified;
@@ -121,11 +124,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        public Contract UpdateContractData(ContractData contractData)
+        public Contract UpdateContractData(ContractData contractData, string contractOwnerId)
         {
             if (contractData != null)
             {
-                var contract = GetContract(contractData.Id);
+                var contract = GetContract(contractData.Id, contractOwnerId);
                 if (contract != null)
                 {
                     if (contractData.PrimaryCustomer != null)
@@ -250,17 +253,19 @@ namespace DealnetPortal.DataAccess.Repositories
             return dbEquipment;
         }        
 
-        public ContractData GetContractData(int contractId)
+        public ContractData GetContractData(int contractId, string contractOwnerId)
         {
             ContractData contractData = new ContractData()
             {
                 Id = contractId
             };
-            var contract = GetContractAsUntracked(contractId);
-            contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
-            contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
-            contractData.Equipment = contract.Equipment;
-
+            var contract = GetContractAsUntracked(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
+                contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
+                contractData.Equipment = contract.Equipment;
+            }
             return contractData;
         }
 
