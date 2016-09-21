@@ -16,5 +16,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
         Task<Tuple<EOriginalTypes.transactionType, IList<Alert>>> CreateTransaction(string transactionName);
 
         Task<Tuple<EOriginalTypes.documentProfileType, IList<Alert>>> CreateDocumentProfile(long transactionSid, string dptName, string dpName = null);
+
+        Task<Tuple<EOriginalTypes.documentVersionType, IList<Alert>>> UploadDocument(long dpSid, byte[] pdfDocumentData, string documentFileName);
     }
 }

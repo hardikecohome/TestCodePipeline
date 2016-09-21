@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.Utilities;
@@ -54,6 +55,21 @@ namespace DealnetPortal.Api.Tests.ESignature
 
             long transId = 1617776;
             var res = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
+
+            serviceAgent.Logout().GetAwaiter().GetResult();
+        }
+
+        [TestMethod]
+        public void TestUploadDocument()
+        {
+            IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
+            serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
+
+            long transId = 1617776;
+            long dpSid = 1619725;
+
+            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2.pdf");                
+            var res = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf");
 
             serviceAgent.Logout().GetAwaiter().GetResult();
         }

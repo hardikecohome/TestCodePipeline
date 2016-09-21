@@ -143,6 +143,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Files\EcoHome %28ON%29 2.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

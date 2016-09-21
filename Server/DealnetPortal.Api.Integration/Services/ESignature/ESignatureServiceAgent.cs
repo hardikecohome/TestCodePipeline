@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -140,6 +143,45 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
             }
 
             return new Tuple<documentProfileType, IList<Alert>>(null, alerts);
+        }
+
+        public async Task<Tuple<documentVersionType, IList<Alert>>> UploadDocument(long dpSid, byte[] pdfDocumentData, string documentFileName)
+        {
+            IList<Alert> alerts = new List<Alert>();
+            var fileContent = new ByteArrayContent(pdfDocumentData);
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "srcFile",
+                        FileName = documentFileName
+                    };
+
+            var content = new MultipartFormDataContent();
+            content.Add(new StringContent(dpSid.ToString()), "dpSid");
+            content.Add(new StringContent(documentFileName), "documentFileName");
+            content.Add(new StringContent("application/pdf"), "mimeType");
+            content.Add(fileContent, "srcFile");
+
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoUploadDocument", content);
+
+            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+            if (eResponse?.status == responseStatus.ok)
+            {
+                if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
+                {
+                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
+                    var documentProfileList = transactionList?.transaction?.FirstOrDefault()?.documentProfileList;
+                    var documentVersion = documentProfileList?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
+                    return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
+                }
+            }
+            else
+            {
+                alerts = GetAlertsFromResponse(eResponse);
+            }
+
+            return new Tuple<documentVersionType, IList<Alert>>(null, alerts);
         }
 
 
