@@ -16,17 +16,20 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
+    [RoutePrefix("api/ScanProcessing")]
     public class ScanProcessingController : ApiController
     {
-        private ILoggingService _loggingService;
+        private readonly ILoggingService _loggingService;
 
         public ScanProcessingController(ILoggingService loggingService)
         {
             _loggingService = loggingService;
         }
-       
-        public async Task<IHttpActionResult> PostScanProcessing(ScanningRequest scanningRequest)
+
+        [Route("PostLicenseScanProcessing")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostLicenseScanProcessing(ScanningRequest scanningRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -59,5 +62,39 @@ namespace DealnetPortal.Api.Controllers
             return Ok(result);
         }
 
+        [Route("PostChequeScanProcessing")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostChequeScanProcessing(ScanningRequest scanningRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await Task.Run(() =>
+            {
+                ImageScanService scanService = new ImageScanService();
+                var res = scanService.ReadVoidCheque(scanningRequest);
+                return res;
+            });
+
+            _loggingService.LogInfo("Recieved request for scan void cheque");
+
+            if (result != null && result.Item2.All(al => al.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo("Void cheque scanned successfully");
+                //return Ok(result.Item1);
+            }
+            else
+            {
+                var errorMsg = string.Format("Failed to scan void cheque: {0}",
+                    result?.Item2.Aggregate(string.Empty, (current, alert) =>
+                        current + $"{alert.Header}: {alert.Message};"));
+                _loggingService.LogError(errorMsg);
+                ModelState.AddModelError(ErrorConstants.ScanFailed, errorMsg);
+                //return BadRequest();
+            }
+            return Ok(result);
+        }
     }
 }
