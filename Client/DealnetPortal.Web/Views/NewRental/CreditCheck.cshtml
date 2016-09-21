@@ -1,0 +1,17 @@
+﻿@model int
+<p>
+    We are checking the information.
+</p>
+<p>
+    Usually it takes about two minutes.
+</p>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";
+            });
+    </script>
+}

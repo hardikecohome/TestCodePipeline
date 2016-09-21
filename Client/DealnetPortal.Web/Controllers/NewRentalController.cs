@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -77,6 +78,37 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
             return View(await GetBasicInfoAsync(contractId));
+        }
+
+        [HttpPost]
+        public ActionResult CreditCheckConfirmation(BasicInfoViewModel basicInfo)
+        {
+            return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
+        }
+
+        public ActionResult CreditCheck(int contractId)
+        {
+            return View(contractId);
+        }
+
+        public async Task<ActionResult> CheckCreditStatus(int contractId)
+        {
+            //TODO: Initiate real credit status check
+            Thread.Sleep(3000);
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
+            {
+                return View("~/Views/Shared/Error.cshtml");
+            }
+            if (contractResult.Item1.SecondaryCustomers != null && contractResult.Item1.SecondaryCustomers.Any())
+            {
+                TempData["MaxCreditAmount"] = 100500;
+                return RedirectToAction("EquipmentInformation", new {contractId});
+            }
+            else
+            {
+                return View("CreditRejected", contractId);
+            }
         }
 
         public async Task<ActionResult> EquipmentInformation(int contractId)
@@ -265,8 +297,10 @@ namespace DealnetPortal.Web.Controllers
             }
             equipmentInfo.ContractId = contractId;
             equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-            equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contractResult.Item1.Equipment?.NewEquipment);
-            equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment?.ExistingEquipment);
+            if (equipmentInfo != null) { 
+                equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contractResult.Item1.Equipment?.NewEquipment);
+                equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment?.ExistingEquipment);
+            }
             return equipmentInfo;
         }
 
