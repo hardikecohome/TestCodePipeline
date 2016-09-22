@@ -439,6 +439,8 @@
     <Content Include="Content\less\home-page.less" />
     <Content Include="Content\less\basic-info.less" />
     <Content Include="Content\less\credit-check.less" />
+    <Content Include="Content\less\components\buttons.less" />
+    <Content Include="Content\less\components\datapicker.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
