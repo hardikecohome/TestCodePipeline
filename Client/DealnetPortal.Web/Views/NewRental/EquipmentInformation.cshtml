@@ -5,56 +5,71 @@
     ViewBag.Title = "EquipmentInformation";
 }
 
-<h2>EquipmentInformation</h2>
+<h2>Equipment Information</h2>
 
 Consumer is authorized to a maximum amount of $@TempData["MaxCreditAmount"]
 
 @using (Html.BeginForm())
 {
     @*Html.AntiForgeryToken()*@
+
     @Html.HiddenFor(model => model.ContractId)
+
+    <h4>New Equipment Information</h4>
+
+    @Html.LabelFor(m => m.NewEquipment[0].Quantity)
+    @Html.TextBoxFor(m => m.NewEquipment[0].Quantity, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.NewEquipment[0].Quantity, "", new { @class = "text-danger" })
 
     @Html.LabelFor(m => m.NewEquipment[0].Type)
     @Html.DropDownListFor(m => m.NewEquipment[0].Type, 
     ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Name, Text = x.Name }), 
     new { @class = "form-control" })
 
-    <div class="form-horizontal">
-        <h4>EquipmentInformationViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.RequestedTerm, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestedTerm, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RequestedTerm, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.LabelFor(m => m.NewEquipment[0].Description)
+    @Html.TextBoxFor(m => m.NewEquipment[0].Description, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SalesRep, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SalesRep, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SalesRep, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.LabelFor(m => m.NewEquipment[0].Cost)
+    @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
+    @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+    @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate)
+    @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedInstallationDate, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(m => m.NewEquipment[0].TotalMonthlyPayment)
+    @Html.TextBoxFor(m => m.NewEquipment[0].TotalMonthlyPayment, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.NewEquipment[0].TotalMonthlyPayment, "", new { @class = "text-danger" })
+
+    <h4>Term amd Rep</h4>
+
+    @Html.LabelFor(m => m.RequestedTerm)
+    @Html.TextBoxFor(m => m.RequestedTerm, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.RequestedTerm, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(m => m.SalesRep)
+    @Html.TextBoxFor(m => m.SalesRep, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.SalesRep, "", new { @class = "text-danger" })
+
+    <h4>Additional Contract Information</h4>
+
+    @Html.LabelFor(m => m.Notes)
+    @Html.TextBoxFor(m => m.Notes, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.Notes, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save and Proceed" class="btn btn-default" />
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
