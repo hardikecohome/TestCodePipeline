@@ -14,6 +14,7 @@ namespace DealnetPortal.DataAccess
         protected override void Seed(ApplicationDbContext context)
         {
             SetTestUsers(context);
+            SetTestEquipmentTypes(context);
         }
 
         private void SetTestUsers(ApplicationDbContext context)
@@ -33,6 +34,36 @@ namespace DealnetPortal.DataAccess
             context.Users.Add(user);            
         }
 
-       
+        private void SetTestEquipmentTypes(ApplicationDbContext context)
+        {
+            var equipmentTypes = new[]
+            {
+                new EquipmentType {Name = "Air Conditioner"},
+                new EquipmentType {Name = "Boiler"},
+                new EquipmentType {Name = "Doors"},
+                new EquipmentType {Name = "Fireplace"},
+                new EquipmentType {Name = "Furnace"},
+                new EquipmentType {Name = "HWT"},
+                new EquipmentType {Name = "Plumbing"},
+                new EquipmentType {Name = "Roofing"},
+                new EquipmentType {Name = "Siding"},
+                new EquipmentType {Name = "Tankless Water Heater"},
+                new EquipmentType {Name = "Windows"},
+                new EquipmentType {Name = "Sunrooms"},
+                new EquipmentType {Name = "Air Handler"},
+                new EquipmentType {Name = "Flooring"},
+                new EquipmentType {Name = "Porch Enclosure"},
+                new EquipmentType {Name = "Water Treatment System"},
+                new EquipmentType {Name = "Heat Pump"},
+                new EquipmentType {Name = "HRV"},
+                new EquipmentType {Name = "Bathroom"},
+                new EquipmentType {Name = "Kitchen"},
+                new EquipmentType {Name = "Hepa System"},
+                new EquipmentType {Name = "Unknown"},
+                new EquipmentType {Name = "Security System"},
+                new EquipmentType {Name = "Basement Repair"}
+            };
+            context.EquipmentTypes.AddRange(equipmentTypes);
+        }
     }
 }

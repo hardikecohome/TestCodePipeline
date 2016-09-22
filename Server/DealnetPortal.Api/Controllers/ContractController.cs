@@ -143,5 +143,20 @@ namespace DealnetPortal.Api.Controllers
             var result = ContractService.GetDealsFlowingSummary(LoggedInUser?.UserId, type);
             return Ok(result);
         }
+
+        [Route("GetEquipmentTypes")]
+        [HttpGet]
+        public IHttpActionResult GetEquipmentTypes()
+        {
+            try
+            {
+                var result = ContractService.GetEquipmentTypes();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

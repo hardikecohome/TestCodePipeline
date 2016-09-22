@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
+﻿@using DealnetPortal.Api.Models.Contract
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
     ViewBag.Title = "EquipmentInformation";
@@ -11,7 +12,13 @@ Consumer is authorized to a maximum amount of $@TempData["MaxCreditAmount"]
 @using (Html.BeginForm())
 {
     @*Html.AntiForgeryToken()*@
-    
+    @Html.HiddenFor(model => model.ContractId)
+
+    @Html.LabelFor(m => m.NewEquipment[0].Type)
+    @Html.DropDownListFor(m => m.NewEquipment[0].Type, 
+    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Name, Text = x.Name }), 
+    new { @class = "form-control" })
+
     <div class="form-horizontal">
         <h4>EquipmentInformationViewModel</h4>
         <hr />
@@ -37,14 +44,6 @@ Consumer is authorized to a maximum amount of $@TempData["MaxCreditAmount"]
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContractId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractId, "", new { @class = "text-danger" })
             </div>
         </div>
 

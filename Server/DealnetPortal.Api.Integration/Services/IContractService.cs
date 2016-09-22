@@ -30,5 +30,7 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> SubmitContract(int contractId, string contractOwnerId);
 
         IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
+
+        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();
     }
 }
