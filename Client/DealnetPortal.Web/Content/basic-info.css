@@ -26,6 +26,17 @@
     margin-top: 16px;
 }
 
+.scanlicense-notify{
+    color: #989897;
+    margin-left: 20px;
+}
+@media ( max-width: 1023px ){
+    .scanlicense-notify {
+        display: block;
+        margin: 10px 0 0;
+    }
+}
+
 #add-additional-applicant {
     font-family: Lato;
     font-size: 14px;
@@ -79,10 +90,11 @@
 }
 
 .clear-address {
-    vertical-align: central;
+    vertical-align: middle;
     margin-top: 28px;
     cursor: pointer;
     display: inline-block;
+    line-height: 38px !important;
 }
 
 .clear-address:hover {
@@ -142,10 +154,6 @@
     text-align: center;
 }
 
-.big-green-button {
-    width: 312px;
-    height: 49px;
-}
 
 #capture-buttons input {
   font-family: Lato;
@@ -205,7 +213,6 @@
 
 #upload-file-button {
     width: 235px;
-    line-height: 22px;
 }
 
 /*.pac-item > span:last-child {
@@ -218,4 +225,7 @@
 
 .pac-item {
     padding-left: 12px;
+}
+.additional-remove{
+    font-size: 14px;
 }

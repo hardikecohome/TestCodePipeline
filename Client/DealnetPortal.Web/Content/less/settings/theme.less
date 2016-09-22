@@ -34,27 +34,6 @@
   }
 }
 
-.dealnet-green-button {
-  height: 39px;
-  width: 235px;
-  border-radius: 4px;
-  background-color: @success-color;
-  box-shadow: 0 1px 0 0 @success-shadow-color;
-}
-
-.dealnet-green-button:hover {
-  background-color: @success-btn-hover-color;
-}
-
-.dealnet-green-button:active {
-  background-color: @success-btn-hover-color;
-  box-shadow: none;
-}
-
-.dealnet-green-button-text {
-  font: 700 14px @fontLato;
-  color: @success-text-color;
-}
 
 .dealnet-action-link {
   font: 400 12px @fontLato;
@@ -92,100 +71,38 @@
   &:hover {
     color: @success-text-color;
   }
-}
 
-.dealnet-button > p {
-  margin-top: 3px;
-}
-
-.dealnet-button > p > img {
-  margin-right: 12px;
-  margin-top: -3px;
-}
-
-.dealnet-input {
-  height: 40px;
-  border-radius: 4px;
-  border: solid 1px @default-grey-color;
-  margin-top: 7px;
-  margin-bottom: 5px;
-}
-
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-  font: 400 14px @fontLato;
-  color: @default-grey-color;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  font: 400 14px @fontLato;
-  color: @default-grey-color;
-  opacity: 1;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-  font: 400 14px @fontLato;
-  color: @default-grey-color;
-  opacity: 1;
-}
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  font: 400 14px @fontLato;
-  color: @default-grey-color;
-}
-
-.dealnet-checkbox {
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
-  border: solid 1px @default-grey-color;
-  background: transparent;
-}
-
-.dealnet-disabled-text {
-  font: 500 14px @fontLato;
-  color: @default-grey-color;
-}
-
-.dealnet-empty-circle {
-  height: 50px;
-  width: 50px;
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 50%;
-  background: #fff;
-  color: @default-grey-color;
-  border: solid 1px @default-grey-color;
-  font: 700 20px @fontLato;
-  cursor: pointer;
-  &.active-circle{
-    border-color: @success-color;
+  & > p {
+    margin-top: 3px;
+    & > img {
+      margin-right: 12px;
+      margin-top: -3px;
+    }
   }
 }
-
-.dealnet-green-circle {
-  height: 38px;
-  width: 38px;
-  margin: 0 auto;
+.step-item{
+  height: 50px;
+  width: 50px;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
   border-radius: 50%;
-  background: @success-color;
-  color: @success-text-color;
-  line-height: 36px;
-}
+  font: 700 20px/40px @fontLato;
+  border: 4px solid @white-color;
+  box-shadow: 0 0 0 1px @default-grey-color;
+  color: @default-grey-color;
+  background: @white-color;
+  text-decoration: none;
+  &:focus{
+    outline: none;
 
-.dealnet-gray-circle {
-  height: 16px;
-  width: 16px;
-  margin: 0 auto;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 50%;
-  background: @default-grey-color;
-  color: @success-text-color;
-  line-height: 14px;
+  }
+  &.step-active{
+    box-shadow: 0 0 0 1px @success-color;
+    background: @success-color;
+    color: @success-text-color;
+  }
 }
-
 #steps {
   margin-top: 17px;
   a{
@@ -213,6 +130,7 @@
 #step5 {
   float: right;
 }
+
 @media(max-width: 767px){
   #step2 {
     margin-left: -20px;
@@ -230,17 +148,5 @@
   margin-bottom: -42px;
 }
 
-.text-danger {
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  color: #de525e;
-}
-
-.input-validation-error {
-  border: solid 1px #f38787
-}
 
 

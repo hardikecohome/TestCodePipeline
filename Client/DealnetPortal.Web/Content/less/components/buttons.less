@@ -1,0 +1,50 @@
+.dealnet-success-button,
+.dealnet-green-button{
+  height: 39px;
+  width: 235px;
+  border-radius: 4px;
+  background-color: @success-color;
+  box-shadow: 0 1px 0 0 @success-shadow-color;
+  vertical-align: middle;
+  line-height: 24px;
+  font-weight: 600;
+
+  &.big-green-button,
+  &.big-button{
+    width: 312px;
+    height: 49px;
+  }
+
+  &:active {
+    background-color: @success-btn-active-color;
+    outline: none;
+    box-shadow: none;
+    &:focus{
+      outline: none;
+      box-shadow: none;
+    }
+  }
+  &:focus{
+    outline: none;
+    color: @success-text-color;
+    background-color: @success-color;
+  }
+  &:hover {
+    background-color: @success-btn-hover-color;
+    box-shadow: 0 1px 0 0 @success-shadow-color;
+  }
+  .icon, span{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .icon + span{
+    margin-left: 10px;
+  }
+
+}
+
+
+.dealnet-green-button-text {
+  font: 700 14px @fontLato;
+  color: @success-text-color;
+}

@@ -1,5 +1,6 @@
 ﻿$(document)
     .ready(function () {
+        svg4everybody();
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
             .parents('.dealnet-sidebar-item')
             .addClass('dealnet-sidebar-item-selected');

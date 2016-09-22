@@ -1,6 +1,7 @@
 .dataTable {
   font: 900 14px @fontLato;
   color: #525251;
+  table-layout: fixed;
 
   tr {
     background-color: transparent !important;
@@ -10,8 +11,12 @@
     background-color: #f8f8f8;
     height: 29px;
     color: #525251;
-    &:last-child{
+    width: 50px !important;
+    &:first-child{
       width: 50px !important;
+    }
+    &:last-child{
+      width: 30px !important;
     }
   }
 
