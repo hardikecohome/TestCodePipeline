@@ -194,21 +194,24 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 IList<Alert> alerts = new List<Alert>();
 
                 var transformationInstructions = new List<TransformationInstructions>();
-                //if (textData != null)
-                //{
-                //    transformationInstructions.Add(new AddTextData()
-                //    {
-                //        textDataList = textData
-                //    });
-                //}
+
+                if (textData != null)
+                {
+                    transformationInstructions.Add(new AddTextData()
+                    {
+                        name = "addTextData",
+                        textDataList = textData
+                    });
+                }
+
                 if (signBlocks != null)
                 {
                     transformationInstructions.Add(new AddSigBlocks()
                     {
-                        name = "Signatures",
+                        name = "addSigBlocks",
                         sigBlockList = signBlocks
                     });
-                }
+                }                
 
                 var ts = new transformationInstructionSet()
                 {                    
@@ -227,7 +230,10 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 xmlWriter.Flush();
 
                 //XmlReader xmlReader = new XmlTextReader(new FileStream("test2.xml",FileMode.Open));                
-                //var test = File.ReadAllBytes("test2.xml");
+                var test = File.ReadAllText("test2.xml");
+                //var set = XmlSerializerHelper.DeserializeFromString<transformationInstructionSet>(test);
+                TextReader reader = new StringReader(test);
+                var set = x.Deserialize(reader);
 
                 ms.Position = 0;
                 var fileContent = new ByteArrayContent(ms.GetBuffer());

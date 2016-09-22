@@ -55,7 +55,8 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            long transId = 1617776;
+            //long transId = 1617776;
+            long transId = 1617917;
             var res = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
 
             serviceAgent.Logout().GetAwaiter().GetResult();
@@ -68,10 +69,11 @@ namespace DealnetPortal.Api.Tests.ESignature
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
             long transId = 1617776;
-            long dpSid = 1619725;
+            //long dpSid = 1619725;
+            long dpSid = 1622672;
 
             var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2.pdf");
-            var res = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf");
+            var res = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
 
             serviceAgent.Logout().GetAwaiter().GetResult();
         }
@@ -83,7 +85,8 @@ namespace DealnetPortal.Api.Tests.ESignature
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
             long transId = 1617776;
-            long dpSid = 1619725;
+            //long dpSid = 1619725;
+            long dpSid = 1622672;
 
             var textData = new List<TextData>()
             {
