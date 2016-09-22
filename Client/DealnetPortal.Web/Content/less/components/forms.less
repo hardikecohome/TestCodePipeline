@@ -1,3 +1,28 @@
+input[type="text"],
+input[type="email"],
+input[type="tel"]{
+  box-shadow: none;
+}
+input[type="checkbox"]+span{
+  margin-left: 5px;
+}
+.form-container{
+  @media (max-width: 991px) {
+    max-width: 528px;
+    margin: 0 auto;
+    .dealnet-success-button{
+      width: 100%;
+      display: block;
+      max-width: 355px;
+      margin: 0 auto;
+      height: 49px;
+      line-height: 36px;
+    }
+    .scanlicense-notify{
+      text-align: center;
+    }
+  }
+}
 .validation-summary-errors{
   ul{
     padding: 0;
@@ -8,7 +33,41 @@
     }
   }
 }
+.form-group{
+  label{
+    font: 14px @fontLato;
+  }
+}
 
+.form-control{
+  &.input-validation-error{
+    border-color: @danger-color;
+  }
+  &:focus{
+    box-shadow: none;
+  }
+}
+
+.text-danger {
+  font: 11px @fontLato;
+  color: @danger-color;
+}
+
+.input-validation-error {
+  border: solid 1px @danger-color;
+}
+
+.clear-address,
+.align-middle{
+  vertical-align: middle;
+  & > *{
+    vertical-align: middle;
+  }
+
+}
+.clear-address{
+  line-height: 38px !important;
+}
 .control-group{
   position: relative;
   &.control-group-pass{
@@ -20,6 +79,31 @@
       pointer-events: none;
     }
   }
+  &.date-group{
+    .icon-calendar{
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      display: inline-block;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .clear-input{
+    display: none;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+
+  input:not(:placeholder-shown) ~ .clear-input{
+    display: block;
+  }
 }
 
 div.dataTables_wrapper div.dataTables_filter{
@@ -29,7 +113,7 @@ div.dataTables_wrapper div.dataTables_filter{
 
     .icon-search{
       position: absolute;
-      right: 0px;
+      right: 4px;
       top: 0px;
       display: inline-block;
       padding: 5px;
@@ -57,6 +141,48 @@ div.dataTables_wrapper div.dataTables_filter{
   }
   input{
     width: 280px;
-
+    padding-right: 30px;
   }
+}
+
+.dealnet-input {
+  height: 40px;
+  border-radius: 4px;
+  border: solid 1px @default-grey-color;
+  margin-top: 7px;
+  margin-bottom: 5px;
+  font: 500 14px/26px @fontLato;
+  color: @form-text-color;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+  opacity: 1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+  opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+}
+
+.dealnet-checkbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: solid 1px @default-grey-color;
+  background: transparent;
+}
+
+.dealnet-disabled-text {
+  font: 500 14px @fontLato;
+  color: @default-grey-color;
 }
