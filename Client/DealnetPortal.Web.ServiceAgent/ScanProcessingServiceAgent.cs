@@ -33,9 +33,19 @@ namespace DealnetPortal.Web.ServiceAgent
             MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
             MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
 
-            var result = await Client.Client.PostAsync<ScanningRequest>(_fullUri, scanningRequest, bsonFormatter);
+            var result = await Client.Client.PostAsync<ScanningRequest>($"{_fullUri}/PostLicenseScanProcessing", scanningRequest, bsonFormatter);
 
             return await result.Content.ReadAsAsync<Tuple<DriverLicenseData, IList<Alert>>>(formatters);
+        }
+
+        public async Task<Tuple<VoidChequeData, IList<Alert>>> ScanVoidCheque(ScanningRequest scanningRequest)
+        {
+            MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
+            MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
+
+            var result = await Client.Client.PostAsync<ScanningRequest>($"{_fullUri}/PostChequeScanProcessing", scanningRequest, bsonFormatter);
+
+            return await result.Content.ReadAsAsync<Tuple<VoidChequeData, IList<Alert>>>(formatters);
         }
     }
 }

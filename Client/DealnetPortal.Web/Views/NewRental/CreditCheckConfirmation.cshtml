@@ -87,7 +87,7 @@
 
         </div>
     </div>    
-        @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
+        if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
         {
         <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
@@ -315,7 +315,7 @@
     </div>
 
 
-        @if (Model.MailingAddressInformation != null)
+        if (Model.MailingAddressInformation != null)
         {
         <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
