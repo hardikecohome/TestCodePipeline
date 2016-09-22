@@ -198,7 +198,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\basic-info.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -439,6 +438,7 @@
     <Content Include="Content\less\components\pagination.less" />
     <Content Include="Content\less\components\tables.less" />
     <Content Include="Content\less\home-page.less" />
+    <Content Include="Content\less\basic-info.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
