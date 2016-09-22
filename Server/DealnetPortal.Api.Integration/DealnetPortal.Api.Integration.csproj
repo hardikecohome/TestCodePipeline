@@ -37,6 +37,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClearImageNet.70.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.ClearImage">
+      <HintPath>..\..\lib\Interop.ClearImage.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -81,15 +85,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="ClearImage">
-      <Guid>{F2BCF178-0B27-11D4-B5F5-9CC767000000}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="ClearMicr">
       <Guid>{7A919D83-EDAE-4CAC-8A8C-F72BF1120A99}</Guid>
       <VersionMajor>16</VersionMajor>

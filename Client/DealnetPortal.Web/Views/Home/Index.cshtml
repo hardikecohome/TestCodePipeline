@@ -5,19 +5,19 @@
 <div class="dealnet-home-page">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <div class="dealnet-page-button new-rental">
-                <span class="dealnet-button-image dealnet-image-newrental-btn"></span> @Html.ActionLink("New rental", "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })
-            </div>
+            <a class="dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
+                <span class="dealnet-button-image dealnet-image-newrental-btn"></span><span>New rental</span>
+            </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-            <div class="dealnet-page-button">
-                <span class="dealnet-button-image dealnet-image-mydeals-btn" ></span>  @Html.ActionLink("My deals", "MyDeals", "Stub", null, new { @class = "dealnet-link" })
-            </div>
+            <a class="dealnet-page-button" href="@Url.Action("MyDeals", "Stub")">
+                <span class="dealnet-button-image dealnet-image-mydeals-btn" ></span><span>My deals</span>
+            </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-            <div class="dealnet-page-button">
-                <span class="dealnet-button-image dealnet-image-reports-btn"></span>  @Html.ActionLink("Reports", "Reports", "Stub", null, new { @class = "dealnet-link" })
-            </div>
+            <a class="dealnet-page-button" href="@Url.Action("Reports", "Stub")">
+                <svg aria-hidden="true" class="icon-svg icon-reports-big"><use xlink:href="#icon-reports-big"></use></svg><span>Reports</span>
+            </a>
         </div>
     </div>
     <div class="row">
@@ -32,8 +32,8 @@
                 <thead>
                     <tr>
                         <th class="all">Contract</th>
-                        <th class="all">Customer</th>
-                        <th class="min-phone-l">Status</th>
+                        <th class="min-phone-l">Customer</th>
+                        <th class="min-tablet">Status</th>
                         <th class="min-tablet">Action Req.</th>
                         <th class="min-desktop">Email</th>
                         <th class="min-desktop">Phone</th>
