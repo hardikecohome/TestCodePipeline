@@ -98,9 +98,18 @@
 
   }
   &.step-active{
+    .dealnet-success-button;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
     box-shadow: 0 0 0 1px @success-color;
     background: @success-color;
     color: @success-text-color;
+    line-height: 40px;
+    &:hover,
+    &:active{
+      box-shadow: 0 0 0 1px @success-color;
+    }
   }
 }
 #steps {

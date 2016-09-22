@@ -201,7 +201,7 @@
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-birth-date-1">Date of Birth</label>  
-                    <div class="control-group">               
+                    <div class="control-group date-group">               
                         @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
                          <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
@@ -263,7 +263,7 @@
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-birth-date-2">Date of Birth</label>
-                    <div class="control-group">
+                    <div class="control-group date-group">
                         @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
                          <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
@@ -325,7 +325,7 @@
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-birth-date-3">Date of Birth</label>
-                    <div class="control-group">                
+                    <div class="control-group date-group">                
                         @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new { @class = "text-danger" })
                          <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
