@@ -204,42 +204,45 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
                 // Do in 2 calls ???
 
-                if (signBlocks != null)
-                {
-                    transformationInstructions.Add(new AddSigBlocks()
-                    {
-                        name = "addSigBlocks",
-                        sigBlockList = signBlocks
-                    });
-                }
+                var exportTypes = new List<Type>();
 
-                if (textFields != null)
-                {
-                    transformationInstructions.Add(new AddTextFields()
-                    {
-                        name = "addTextFields",
-                        textFieldList = textFields
-                    });
-                }
+                //if (signBlocks?.Any() ?? false)
+                //{
+                //    transformationInstructions.Add(new AddSigBlocks()
+                //    {
+                //        name = "addSigBlocks",
+                //        sigBlockList = signBlocks
+                //    });
+                //    exportTypes.Add(typeof(AddSigBlocks));
+                //}
 
-                if (textData != null)
+                //if (textFields?.Any() ?? false)
+                //{
+                //    transformationInstructions.Add(new AddTextFields()
+                //    {
+                //        name = "addTextFields",
+                //        textFieldList = textFields
+                //    });
+                //    exportTypes.Add(typeof(AddTextFields));
+                //    exportTypes.Add(typeof(textField));
+                //}
+
+                if (textData?.Any() ?? false)
                 {
                     transformationInstructions.Add(new AddTextData()
                     {
                         name = "addTextData",
                         textDataList = textData
                     });
-                }                
+                    exportTypes.Add(typeof(AddTextData));
+                }
 
                 var ts = new transformationInstructionSet()
                 {                    
                     transformationInstructions = transformationInstructions.ToArray()
                 };                
 
-                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), new Type[]
-                {
-                    typeof(AddTextData), typeof(AddSigBlocks)
-                });
+                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), exportTypes.ToArray());
                 MemoryStream ms = new MemoryStream();
                 x.Serialize(ms, ts);
                 

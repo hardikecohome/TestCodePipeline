@@ -1301,11 +1301,11 @@ namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Trans
         [XmlAttribute("schemaLocation", Namespace = XmlSchema.InstanceNamespace)]
         public string xsiSchemaLocation = "http://www.eoriginal.com/TransformationInstructionsSet http://schemas.eoriginal.com/releases/8.5/transform/transformation-instruction-set.xsd";
 
-        [XmlAttribute("tsv", Namespace = "http://www.eoriginal.com/TransformationInstructionsSet")]
-        public string tsv = "http://www.eoriginal.com/TypeSettingValues";
+        //[XmlAttribute("tsv", Namespace = "http://www.eoriginal.com/TransformationInstructionsSet")]
+        //public string tsv = "http://www.eoriginal.com/TypeSettingValues";
 
-        [XmlAttribute("empty", Namespace = "http://www.eoriginal.com/TransformationInstructionsSet")]
-        public string empty = "http://www.eoriginal.com/EmptyInstructions";
+        //[XmlAttribute("empty", Namespace = "http://www.eoriginal.com/TransformationInstructionsSet")]
+        //public string empty = "http://www.eoriginal.com/EmptyInstructions";
 
         private TransformationInstructions[] transformationInstructionsField;
 
