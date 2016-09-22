@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb;
+using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Models;
 
 namespace DealnetPortal.Api.Integration.Services.ESignature
@@ -19,6 +21,12 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
         Task<Tuple<EOriginalTypes.documentVersionType, IList<Alert>>> UploadDocument(long dpSid, byte[] pdfDocumentData, string documentFileName);
 
-        Task<Tuple<EOriginalTypes.documentVersionType, IList<Alert>>> InsertFormFields(long dpSid, EOriginalTypes.TextData[] textData, EOriginalTypes.SigBlock[] sigBlocks);
+        Task<Tuple<EOriginalTypes.documentVersionType, IList<Alert>>> InsertFormFields(long dpSid, textField[] textFields, TextData[] textData, SigBlock[] sigBlocks);
+
+        Task<IList<Alert>> ConfigureSortOrder(long transactionSid, long[] dpSids);
+
+        Task<IList<Alert>> ConfigureRoles(long transactionSid, eoConfigureRolesRole[] roles);
+
+        Task<IList<Alert>> ConfigureInvitation(long transactionSid, string roleName, string senderFirstName, string senderLastName, string senderEmail);
     }
 }

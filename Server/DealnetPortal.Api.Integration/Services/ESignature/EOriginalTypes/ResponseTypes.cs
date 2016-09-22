@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 using System.Xml.Serialization;
+using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation;
 
 
 namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes
@@ -2023,32 +2024,32 @@ namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes
         }
     }
 
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(WatermarkInstructions))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.eoriginal.com/TransformationInstructionsSet")]
-    public abstract partial class TransformationInstructions
-    {
+    ///// <remarks/>
+    //[System.Xml.Serialization.XmlIncludeAttribute(typeof(WatermarkInstructions))]
+    //[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    //[System.SerializableAttribute()]
+    //[System.Diagnostics.DebuggerStepThroughAttribute()]
+    //[System.ComponentModel.DesignerCategoryAttribute("code")]
+    //[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.eoriginal.com/TransformationInstructionsSet")]
+    //public abstract partial class TransformationInstructions
+    //{
 
-        private string nameField;
+    //    private string nameField;
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "ID")]
-        public string name
-        {
-            get
-            {
-                return this.nameField;
-            }
-            set
-            {
-                this.nameField = value;
-            }
-        }
-    }
+    //    /// <remarks/>
+    //    [System.Xml.Serialization.XmlAttributeAttribute(DataType = "ID")]
+    //    public string name
+    //    {
+    //        get
+    //        {
+    //            return this.nameField;
+    //        }
+    //        set
+    //        {
+    //            this.nameField = value;
+    //        }
+    //    }
+    //}
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]

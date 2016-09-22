@@ -10,16 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes;
+using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb;
+using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
+using DocumentType = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb.DocumentType;
+using textField = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation.textField;
 
 namespace DealnetPortal.Api.Integration.Services.ESignature
 {
@@ -28,12 +33,14 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
         private IHttpApiClient Client { get; set; }
         private ILoggingService LoggingService { get; set; }
         private readonly string _fullUri;
+        private readonly string _setupUri;
         public ESignatureServiceAgent(IHttpApiClient ecoreClient, ILoggingService loggingService)
         {
             Client = ecoreClient;
             LoggingService = loggingService;
             //AspireApiClient = aspireClient;
             _fullUri = string.Format("{0}/{1}", Client.Client.BaseAddress, "ecore");
+            _setupUri = string.Format("{0}/{1}", Client.Client.BaseAddress, "ssweb/setup");
         }
 
 
@@ -186,8 +193,8 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
             return new Tuple<documentVersionType, IList<Alert>>(null, alerts);
         }
 
-        public async Task<Tuple<documentVersionType, IList<Alert>>> InsertFormFields(long dpSid, EOriginalTypes.TextData[] textData,
-            EOriginalTypes.SigBlock[] signBlocks)
+        public async Task<Tuple<documentVersionType, IList<Alert>>> InsertFormFields(long dpSid, textField[] textFields, TextData[] textData,
+            SigBlock[] signBlocks)
         {
             try
             {            
@@ -195,14 +202,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
                 var transformationInstructions = new List<TransformationInstructions>();
 
-                if (textData != null)
-                {
-                    transformationInstructions.Add(new AddTextData()
-                    {
-                        name = "addTextData",
-                        textDataList = textData
-                    });
-                }
+                // Do in 2 calls ???
 
                 if (signBlocks != null)
                 {
@@ -211,12 +211,30 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                         name = "addSigBlocks",
                         sigBlockList = signBlocks
                     });
+                }
+
+                if (textFields != null)
+                {
+                    transformationInstructions.Add(new AddTextFields()
+                    {
+                        name = "addTextFields",
+                        textFieldList = textFields
+                    });
+                }
+
+                if (textData != null)
+                {
+                    transformationInstructions.Add(new AddTextData()
+                    {
+                        name = "addTextData",
+                        textDataList = textData
+                    });
                 }                
 
                 var ts = new transformationInstructionSet()
                 {                    
                     transformationInstructions = transformationInstructions.ToArray()
-                };
+                };                
 
                 XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), new Type[]
                 {
@@ -224,16 +242,16 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 });
                 MemoryStream ms = new MemoryStream();
                 x.Serialize(ms, ts);
-
+                
                 XmlWriter xmlWriter = new XmlTextWriter("test.xml", Encoding.UTF8);
                 x.Serialize(xmlWriter, ts);
                 xmlWriter.Flush();
 
                 //XmlReader xmlReader = new XmlTextReader(new FileStream("test2.xml",FileMode.Open));                
-                var test = File.ReadAllText("test2.xml");
-                //var set = XmlSerializerHelper.DeserializeFromString<transformationInstructionSet>(test);
-                TextReader reader = new StringReader(test);
-                var set = x.Deserialize(reader);
+                //var test = File.ReadAllText("test2.xml");
+                ////var set = XmlSerializerHelper.DeserializeFromString<transformationInstructionSet>(test);
+                //TextReader reader = new StringReader(test);
+                //var set = x.Deserialize(reader);
 
                 ms.Position = 0;
                 var fileContent = new ByteArrayContent(ms.GetBuffer());
@@ -272,6 +290,169 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
             catch (Exception ex)
             {
 
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> ConfigureSortOrder(long transactionSid, long[] dpSids)
+        {
+            try
+            {            
+                IList<Alert> alerts = new List<Alert>();
+
+                var sortOrder = new eoConfigureSortOrder()
+                {
+                    transactionSid = transactionSid.ToString(),                
+                };
+                if (dpSids?.Any() ?? false)
+                {
+                    List<ESignature.EOriginalTypes.SsWeb.DocumentType> docs = new List<DocumentType>();
+                    dpSids.ForEach(dsid =>
+                        docs.Add(new DocumentType()
+                                {
+                                    Value = dsid.ToString()
+                                }));
+                    sortOrder.documentList = docs.ToArray();
+                }
+
+                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(sortOrder.GetType());
+                MemoryStream ms = new MemoryStream();
+                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);                
+                x.Serialize(writer, sortOrder);
+                writer.Flush();
+                ms.Position = 0;
+
+                //var fileContent = new ByteArrayContent(fileBytes);
+                var fileContent = new ByteArrayContent(ms.ToArray());
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "instructionsXML",
+                        FileName = "instructionsXML"
+                    };
+
+                var content = new MultipartFormDataContent();
+                content.Add(fileContent, "instructionsXML");
+
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureSortOrder", content);
+
+                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+                if (eResponse?.status != responseStatus.ok)
+                {
+                    alerts = GetAlertsFromResponse(eResponse);
+                }
+
+                return alerts;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> ConfigureRoles(long transactionSid, eoConfigureRolesRole[] roles)
+        {
+            try
+            {
+                IList<Alert> alerts = new List<Alert>();
+
+                var configRoles = new eoConfigureRoles()
+                {
+                    transactionSid = transactionSid.ToString(),
+                    rolesList = roles
+                };
+
+                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(configRoles.GetType());
+                MemoryStream ms = new MemoryStream();
+                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+                x.Serialize(writer, configRoles);
+                writer.Flush();
+                ms.Position = 0;
+
+                //var fileContent = new ByteArrayContent(fileBytes);
+                var fileContent = new ByteArrayContent(ms.ToArray());
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "instructionsXML",
+                        FileName = "instructionsXML"
+                    };
+
+                var content = new MultipartFormDataContent();
+                content.Add(fileContent, "instructionsXML");
+
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureRoles", content);
+
+                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+                if (eResponse?.status != responseStatus.ok)
+                {
+                    alerts = GetAlertsFromResponse(eResponse);
+                }
+                return alerts;
+            }
+            catch (Exception ex)
+            {                
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> ConfigureInvitation(long transactionSid, string roleName, string senderFirstName, string senderLastName, string senderEmail)
+        {
+            try
+            {
+                IList<Alert> alerts = new List<Alert>();
+
+                var configInvitation = new eoConfigureInvitation()
+                {                    
+                    transactionSid = transactionSid.ToString(),
+                    ItemsElementName = new ItemsChoiceTypeInvitation[] { ItemsChoiceTypeInvitation.role},
+                    Items = new string[] { roleName},
+                    sender = new eoConfigureInvitationSender()
+                    {
+                        firstName = senderFirstName,
+                        lastName = senderLastName,
+                        email = senderEmail
+                    }
+                };
+
+                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(configInvitation.GetType());
+                MemoryStream ms = new MemoryStream();
+                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+                x.Serialize(writer, configInvitation);
+                writer.Flush();
+                ms.Position = 0;
+
+                XmlWriter xmlWriter = new XmlTextWriter("testInvitation.xml", Encoding.UTF8);
+                x.Serialize(xmlWriter, configInvitation);
+                xmlWriter.Flush();
+
+                //var fileContent = new ByteArrayContent(fileBytes);
+                var fileContent = new ByteArrayContent(ms.ToArray());
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "instructionsXML",
+                        FileName = "instructionsXML"
+                    };
+
+                var content = new MultipartFormDataContent();
+                content.Add(fileContent, "instructionsXML");
+
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureInvitation", content);
+
+                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+                if (eResponse?.status != responseStatus.ok)
+                {
+                    alerts = GetAlertsFromResponse(eResponse);
+                }
+                return alerts;
+            }
+            catch (Exception ex)
+            {
                 throw;
             }
         }
