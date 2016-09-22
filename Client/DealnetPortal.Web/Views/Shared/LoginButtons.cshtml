@@ -6,7 +6,7 @@
 {
 <div class="dropdown dealnet-login-buttons">
     <a href="#" class="dropdown-toggle dealnet-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="icon-circle-hold"><i class="glyphicon glyphicon-user"></i></span>
+        <span class="icon-circle-hold"><svg aria-hidden="true" class="icon-svg icon-user"><use xlink:href="#icon-user"></use></svg></span>
         @if (User.Identity.IsAuthenticated)
         {
             @User.Identity.Name

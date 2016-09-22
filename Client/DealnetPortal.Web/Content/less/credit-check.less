@@ -1,0 +1,127 @@
+.dealnet-field-holder {
+  display: inline-block;
+  text-align: right;
+  margin-left: auto;
+  margin-right: 0;
+  float: right;
+  clear: right;
+   a{
+    font: 14px @fontLato;
+  }
+  .icon-calendar{
+    display: none !important;
+  }
+}
+.modal-body{
+  .dealnet-field-holder {
+    .icon-calendar{
+      display: block !important;
+    }
+  }
+}
+
+.dealnet-section-title {
+  margin: 0 0 20px;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 22px;
+}
+.dealnet-section-edit-link{
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 22px;
+}
+#credit-check-form .dealnet-button {
+  margin-top: 10px;
+}
+
+#editor-modal .modal-footer {
+  text-align: center;
+}
+
+#editor-modal .modal-dialog {
+  width: 100% !important;
+  margin-top: 65px !important;
+}
+
+.dealnet-disabled-input{
+  border: none;
+  background: none;
+  text-align: right;
+  font: bold 14px @fontLato;
+  color: @heading-text-color2;
+  max-width: 100%;
+}
+
+.dealnet-modal-section{
+  border: none !important;
+  margin-top: 10px !important;
+  padding-right: 10px !important;
+  & > div {
+    text-align: left !important;
+  }
+}
+
+
+
+
+@media(max-width: 480px) {
+  .dealnet-credit-check-section {
+    padding-right: 0 !important;
+    border: none !important;
+  }
+}
+
+#editor-modal .modal-footer .dealnet-button {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+#editor-modal .modal-body {
+  padding-top: 0px;
+}
+
+.dealnet-modal-section input{
+  display: block !important;
+  width: 100% !important;
+}
+
+.dealnet-modal-section .dealnet-field-holder {
+  float: none !important;
+  width: 100% !important;
+}
+
+.dealnet-modal-section>div:first-child {
+  display: none !important;
+}
+
+.dealnet-credit-check-section {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.credit-check-info-hold{
+  & > div[class^="col-"]{
+    &:nth-child(odd) {
+      @media (min-width: 992px) {
+        clear: left;
+        padding-right: 0;
+        .dealnet-credit-check-section{
+          border-right: 1px solid black;
+          padding-right: 15%;
+        }
+      }
+   }
+    &:nth-child(even) {
+      @media (min-width: 992px) {
+        padding-left: 0;
+        .dealnet-credit-check-section{
+          padding-left: 10%;
+        }
+      }
+   }
+  }
+}
+
+
+

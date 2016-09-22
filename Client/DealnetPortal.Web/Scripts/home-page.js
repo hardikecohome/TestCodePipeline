@@ -68,7 +68,7 @@ function showTable() {
             .DataTable({
                 responsive: {
                     details: {
-                        display: $.fn.dataTable.Responsive.display.childRowImmediate
+                        display: $.fn.dataTable.Responsive.display.childRow
                     }
                 },
                 data: data,
@@ -79,26 +79,34 @@ function showTable() {
                     "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
                   }
                 },
-              columns: [
-                    { "data" : "Id" },
-                    { "data": "CustomerName" },
-                    { "data": "Status" },
-                    { "data": "Action" },
-                    { "data": "Email" },
-                    { "data": "Phone" },
-                    { "data": "Date"},
-                    {// this is Actions Column 
-                        "render": function (sdata, type, row) {
-                            return '<a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon-svg icon-edit"><use xlink:href="#icon-edit"></use></svg></a>';
-                        }
-                    }
-                ],
+                columns: [
+                      { "data" : "Id" },
+                      { "data": "CustomerName" },
+                      { "data": "Status" },
+                      { "data": "Action" },
+                      { "data": "Email" },
+                      { "data": "Phone" },
+                      { "data": "Date"},
+                      {// this is Actions Column
+                          "render": function (sdata, type, row) {
+                              return '<a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon-svg icon-edit"><use xlink:href="#icon-edit"></use></svg></a>';
+                          }
+                      }
+                  ],
 
-              columnDefs: [
-                { responsivePriority: 8, targets: -1 },
-                { width: "40px", targets: -1 }
-              ]
+                columnDefs: [
+                  { responsivePriority: 8, targets: -1 },
+                  { width: "40px", targets: -1 }
+                ],
+                dom:
+                "<'row'<'col-xs-6''<'#table-title.dealnet-caption'>'><'col-xs-6'f>>" +
+                "<'row'<'col-sm-12'l>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12'p>>" +
+                "<'row'<'col-sm-12'i>>",
+                renderer: 'bootstrap'
             });
+        $('#table-title').text('My Work Items');
         /*$('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
         $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');*/
 

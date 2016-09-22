@@ -347,7 +347,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
-                    <!-- <svg aria-hidden="true" class="icon icon-svg icon-get-location"><use xlink:href="#icon-get-location"></use></svg> -->
+                    <!--<svg aria-hidden="true" class="icon-svg icon-get-location"><use xlink:href="#icon-get-location"></use></svg>-->
                     <img src="/Client/content/images/get-location.png" class="icon">
                     <span>Get My Location</span>
                 </div>
@@ -415,8 +415,10 @@
         </div>
 
         <div id="mailing-adress-different" class="form-group">
-            <label for="mailing-adress-checkbox" class="align-middle">
-                <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model?.MailingAddressInformation != null) { <text>checked</text> }/><span>Mailing address is different</span>
+            <label for="mailing-adress-checkbox" class="align-middle custom-checkbox">
+                <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model?.MailingAddressInformation != null) { <text>checked</text> }/>
+                <span class="checkbox-icon"><svg aria-hidden="true" class="icon-svg icon-checked"><use xlink:href="#icon-checked"></use></svg></span>
+                <span>Mailing address is different</span>
             </label>
         </div>
 

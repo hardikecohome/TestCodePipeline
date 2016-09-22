@@ -2,6 +2,9 @@
   font: 900 14px @fontLato;
   color: #525251;
   table-layout: fixed;
+  &.no-footer{
+    border-bottom: 0 !important;
+  }
 
   tr {
     background-color: transparent !important;
@@ -12,6 +15,8 @@
     height: 29px;
     color: #525251;
     width: 50px !important;
+    border-bottom: 0 !important;
+    font-weight: 900 !important;
     &:first-child{
       width: 50px !important;
     }
@@ -23,8 +28,12 @@
   td {
     background-color: transparent !important;
     border: 1px solid #ededed;
+    border-top: 0 !important;
     font: 14px @fontLato;
     color: #525251;
+    word-wrap: break-word;
+    white-space: normal;
+    height: 23px;
     &.child {
       background-color: #f8f8f8 !important;
       padding-left: 8px !important;
@@ -50,7 +59,28 @@ table.dataTable thead .sorting{
   }
 }
 
-
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before{
+  content: '';
+  display: none;
+}
+table.dataTable.dtr-inline.collapsed > tbody > tr:not(.child) > td:first-child:after,
+table.dataTable.dtr-inline.collapsed > tbody > tr:not(.child) > th:first-child:after{
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: @default-dark-grey-color transparent transparent transparent;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent:not(.child) > td:first-child:after,
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent:not(.child) > th:first-child:after{
+  border-width: 0 5px 5px 5px;
+  border-color: transparent transparent @default-dark-grey-color transparent;
+}
 
 
 
