@@ -158,7 +158,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
                     if (contractData.Equipment != null)
                     {
-                        this.AddOrUpdateEquipment(contract, contractData.Equipment);
+                        AddOrUpdateEquipment(contract, contractData.Equipment);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
@@ -181,6 +181,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
             return null;
+        }
+
+        public IList<EquipmentType> GetEquipmentTypes()
+        {
+            return _dbContext.EquipmentTypes.ToList();
         }
 
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)

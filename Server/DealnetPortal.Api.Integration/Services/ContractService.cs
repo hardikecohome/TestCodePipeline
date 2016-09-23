@@ -288,5 +288,33 @@ namespace DealnetPortal.Api.Integration.Services
 
             return summary;
         }
+
+        public Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var equipmentTypes = _contractRepository.GetEquipmentTypes();
+                var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
+                if (equipmentTypes == null)
+                {
+                    var errorMsg = "Cannot retrieve Equipment Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+                return new Tuple<IList<EquipmentTypeDTO>, IList<Alert>>(equipmentTypeDtos, alerts);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to retrieve Equipment Types", ex);
+                throw;
+            }
+            
+        }
     }
 }
