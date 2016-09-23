@@ -53,6 +53,7 @@
     <Compile Include="ApiClient\IHttpApiClient.cs" />
     <Compile Include="Constants\ErrorConstants.cs" />
     <Compile Include="Enumeration\AddressType.cs" />
+    <Compile Include="Enumeration\AgreementType.cs" />
     <Compile Include="Enumeration\AlertType.cs" />
     <Compile Include="Enumeration\AuthType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
