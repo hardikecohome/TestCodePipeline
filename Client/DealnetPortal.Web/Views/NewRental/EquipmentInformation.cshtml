@@ -9,67 +9,144 @@
 
 Consumer is authorized to a maximum amount of $@TempData["MaxCreditAmount"]
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form" }))
 {
     @*Html.AntiForgeryToken()*@
-
     @Html.HiddenFor(model => model.ContractId)
 
-    <h4>New Equipment Information</h4>
+    @Html.LabelFor(m => m.AgreementType)
+    @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control" })
 
-    @Html.LabelFor(m => m.NewEquipment[0].Quantity)
-    @Html.TextBoxFor(m => m.NewEquipment[0].Quantity, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.NewEquipment[0].Quantity, "", new { @class = "text-danger" })
+    <div id="new-equipments">
+        <h4>New Equipment Information</h4>
+        <div id="new-equipment-base">
+            <div class="dealnet-middle-header owner-info-label">№1
+                <div id="new-equipment-remove-0" class="additional-remove" onclick="removeNewEquipment('#new-equipment-0')"><i class="glyphicon glyphicon-remove"></i>
+                </div>
+            </div>
 
-    @Html.LabelFor(m => m.NewEquipment[0].Type)
-    @Html.DropDownListFor(m => m.NewEquipment[0].Type, 
-    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Name, Text = x.Name }), 
-    new { @class = "form-control" })
+            @Html.LabelFor(m => m.NewEquipment[0].Quantity)
+            @Html.TextBoxFor(m => m.NewEquipment[0].Quantity, new {@class = "form-control dealnet-input"})
+            @Html.ValidationMessageFor(m => m.NewEquipment[0].Quantity, "", new {@class = "text-danger"})
 
-    @Html.LabelFor(m => m.NewEquipment[0].Description)
-    @Html.TextBoxFor(m => m.NewEquipment[0].Description, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.NewEquipment[0].Type)
+            @Html.DropDownListFor(m => m.NewEquipment[0].Type,
+                ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Description, Text = x.Description}),
+                new {@class = "form-control"})
 
-    @Html.LabelFor(m => m.NewEquipment[0].Cost)
-    @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.NewEquipment[0].Description)
+            @Html.TextBoxFor(m => m.NewEquipment[0].Description, new {@class = "form-control dealnet-input"})
+            @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new {@class = "text-danger"})
 
-    @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
-    @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.NewEquipment[0].Cost)
+            @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new {@class = "form-control dealnet-input"})
+            @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new {@class = "text-danger"})
 
-    @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate)
-    @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedInstallationDate, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
+            @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new {@class = "form-control dealnet-input"})
+            @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new {@class = "text-danger"})
 
-    @Html.LabelFor(m => m.NewEquipment[0].TotalMonthlyPayment)
-    @Html.TextBoxFor(m => m.NewEquipment[0].TotalMonthlyPayment, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.NewEquipment[0].TotalMonthlyPayment, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate)
+            @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "estimated-installation-date-0", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today"})
+            @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedInstallationDate, "", new {@class = "text-danger"})
+
+
+        </div>
+    </div>
+
+    <div onclick="addNewEquipment()">Add additional equipment</div>
+
+    @Html.LabelFor(m => m.TotalMonthlyPayment)
+    @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input" })
+    @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
 
     <h4>Term amd Rep</h4>
 
     @Html.LabelFor(m => m.RequestedTerm)
-    @Html.TextBoxFor(m => m.RequestedTerm, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.RequestedTerm, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input"})
+    @Html.ValidationMessageFor(m => m.RequestedTerm, "", new {@class = "text-danger"})
 
     @Html.LabelFor(m => m.SalesRep)
-    @Html.TextBoxFor(m => m.SalesRep, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.SalesRep, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(m => m.SalesRep, new {@class = "form-control dealnet-input"})
+    @Html.ValidationMessageFor(m => m.SalesRep, "", new {@class = "text-danger"})
 
     <h4>Additional Contract Information</h4>
 
     @Html.LabelFor(m => m.Notes)
-    @Html.TextBoxFor(m => m.Notes, new { @class = "form-control dealnet-input" })
-    @Html.ValidationMessageFor(m => m.Notes, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(m => m.Notes, new {@class = "form-control dealnet-input"})
+    @Html.ValidationMessageFor(m => m.Notes, "", new {@class = "text-danger"})
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save and Proceed" class="btn btn-default" />
+            <input type="submit" value="Save and Proceed" class="btn btn-default"/>
         </div>
     </div>
 }
 
+<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                sessionStorage.newEquipmets = 0;
+                sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
+                $("#new-equipment-remove-0").hide();
+                assignDatepicker("#estimated-installation-date-0");
+                $.validator.addMethod(
+                    "date",
+                    function(value, element) {
+                        var minDate = Date.parse("1900-01-01");
+                        var valueEntered = Date.parseExact(value, "M/d/yyyy");
+                        if (!valueEntered) {
+                            return false;
+                        }
+                        if (valueEntered < minDate) {
+                            return false;
+                        }
+                        return true;
+                    },
+                    "Please enter a valid date!"
+                );
+            });
+
+        function addNewEquipment() {
+            sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) + 1;
+            //console.log("NewEquipment_" + sessionStorage.newEquipmets);
+            var newDiv = document.createElement('div');
+            newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
+                .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).replace("estimated-installation-date-0", "estimated-installation-date-" + sessionStorage.newEquipmets)
+                .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
+                .replace("№1", "№" + (Number(sessionStorage.newEquipmets) + 1));
+            //console.log(newDiv.innerHTML);
+            newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
+            document.getElementById('new-equipments').appendChild(newDiv);
+            assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
+            resetFormValidator("#equipment-form");
+        }
+
+        function removeNewEquipment(divId) {
+            $(divId).remove();
+        }
+
+        function resetFormValidator(formId) {
+            $(formId).removeData('validator');
+            $(formId).removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(formId);
+        }
+
+        function assignDatepicker(inputId) {
+            $(inputId).datepicker({
+                dateFormat: 'mm/dd/yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1900:2116',
+                minDate: Date.parse("1900-01-01"),
+                maxDate: new Date()
+            });
+        }
+    </script>
 }
