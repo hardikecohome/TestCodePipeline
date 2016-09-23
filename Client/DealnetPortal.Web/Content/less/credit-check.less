@@ -107,7 +107,16 @@
         clear: left;
         padding-right: 0;
         .dealnet-credit-check-section{
-          border-right: 1px solid black;
+          position: relative;
+          &:before{
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 1px;
+            background: #000;
+          }
           padding-right: 15%;
         }
       }
@@ -117,6 +126,16 @@
         padding-left: 0;
         .dealnet-credit-check-section{
           padding-left: 10%;
+          position: relative;
+          &:before{
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 0;
+            height: 100%;
+            width: 1px;
+            background: #000;
+          }
         }
       }
    }
