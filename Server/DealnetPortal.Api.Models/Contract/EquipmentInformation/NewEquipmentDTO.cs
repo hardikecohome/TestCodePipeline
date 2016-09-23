@@ -19,7 +19,5 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public decimal MonthlyCost { get; set; }
 
         public DateTime EstimatedInstallationDate { get; set; }
-        
-        public decimal TotalMonthlyPayment { get; set; }
     }
 }

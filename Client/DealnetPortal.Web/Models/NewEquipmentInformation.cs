@@ -35,8 +35,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime EstimatedInstallationDate{ get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
-        [Display(Name= "Total Monthly Payment")]
-        public double TotalMonthlyPayment { get; set; }
+        
     }
 }

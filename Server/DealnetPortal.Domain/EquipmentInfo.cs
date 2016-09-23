@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
 {
@@ -17,9 +18,11 @@ namespace DealnetPortal.Domain
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [ForeignKey("Contract")]
         public int Id { get; set; }
+        public AgreementType AgreementType { get; set; }
         public ICollection<NewEquipment> NewEquipment { get; set; }
         public ICollection<ExistingEquipment> ExistingEquipment { get; set; }
-        
+        public decimal TotalMonthlyPayment { get; set; }
+
         public string RequestedTerm { get; set; }
         
         public string SalesRep { get; set; }
