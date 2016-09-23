@@ -35,10 +35,21 @@
 }
 
 
-.dealnet-action-link {
-  font: 400 12px @fontLato;
+.dealnet-action-link,
+.dealnet-info-link{
+  font: 400 14px @fontLato;
   color: @info-link-color;
   display: inline-block;
+  cursor: pointer;
+  &:hover{
+    color: @info-link-hover-color;
+    .icon-svg{
+      opacity: 1;
+    }
+  }
+}
+.dealnet-action-link{
+  font-size: 12px;
 }
 
 .dealnet-large-header {

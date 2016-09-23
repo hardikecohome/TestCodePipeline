@@ -52,9 +52,7 @@ $(function () {
         },
         "Please enter a valid date!"
     );
-    $('.control-group .clear-input').on('click', function(){
-        $(this).siblings('input').val('');
-    })
+
 });
 //
 var addAdditionalButton = $("#add-additional-applicant");

@@ -14,7 +14,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
     }
     public class EquipmentInformationViewModel
     {
-        [Display(Name = "Agreement Type")]
+        [Display(Name = "Type of agreement")]
         public AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }

@@ -35,6 +35,25 @@
           $body.removeClass('open-menu');
           $(this).hide();
         })
+
+      $('.control-group .clear-input').each(function(){
+        if($(this).siblings('input').val() === ""){
+          $(this).hide();
+        }else{
+          $(this).show();
+        }
+      });
+      $('.control-group input').on('keyup', function(){
+        if($(this).val().length !== 0){
+          $(this).siblings('.clear-input').show();
+        }else{
+          $(this).siblings('.clear-input').hide();
+        }
+      });
+      $('.control-group .clear-input').on('click', function(){
+        $(this).siblings('input').val('');
+        $(this).hide();
+      })
     });
 
 function showLoader() {
