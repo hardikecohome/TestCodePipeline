@@ -87,5 +87,11 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="contractId">Contract Id</param>
         /// <returns>Contract</returns>
         Contract GetContractAsUntracked(int contractId, string contractOwnerId);
+
+        /// <summary>
+        /// Get Equipment Types list
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        IList<EquipmentType> GetEquipmentTypes();
     }
 }

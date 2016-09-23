@@ -58,5 +58,11 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId);
 
         Task<IList<FlowingSummaryItemDTO>> GetContractsSummary(string summaryType);
+
+        /// <summary>
+        /// Get Equipment Types list
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes();
     }
 }

@@ -28,5 +28,24 @@ namespace DealnetPortal.Api.Tests.Services
             Assert.IsTrue(result.Item1.FirstName.Contains("First"));
             Assert.IsTrue(result.Item1.LastName.Contains("Last"));
         }
+
+        [TestMethod]
+        public void TestCanadaDriverLicense()
+        {
+            var imgRaw = File.ReadAllBytes("Img//ML_DriverLicence.jpg");
+            ScanningRequest scanningRequest = new ScanningRequest()
+            {
+                ImageForReadRaw = imgRaw
+            };
+
+            var imageManager = new ImageScanService();
+            var result = imageManager.ReadDriverLicense(scanningRequest);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Item1);
+            Assert.IsNotNull(result.Item2);
+            Assert.IsFalse(result.Item2.Any());
+            Assert.IsTrue(result.Item1.FirstName.Contains("First"));
+            Assert.IsTrue(result.Item1.LastName.Contains("Last"));
+        }
     }
 }

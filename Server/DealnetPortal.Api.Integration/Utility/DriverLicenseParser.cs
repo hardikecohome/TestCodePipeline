@@ -31,6 +31,7 @@ namespace DealnetPortal.Api.Integration.Utility
                 DriverLicense.Suffix = elems.FirstOrDefault(x => x.Name == "suffix")?.Value;
                 DriverLicense.Sex = elems.FirstOrDefault(x => x.Name == "sex")?.Value;
                 DriverLicense.Street = elems.FirstOrDefault(x => x.Name == "street")?.Value;
+                DriverLicense.State = elems.FirstOrDefault(x => x.Name == "state")?.Value;
                 DriverLicense.City = elems.FirstOrDefault(x => x.Name == "city")?.Value;
                 DriverLicense.Country = elems.FirstOrDefault(x => x.Name == "country")?.Value;
                 DriverLicense.PostalCode = elems.FirstOrDefault(x => x.Name == "postal")?.Value;

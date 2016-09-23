@@ -17,8 +17,6 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
-using Microsoft.Ajax.Utilities;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {    
@@ -69,7 +67,7 @@ namespace DealnetPortal.Web.Controllers
                 var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
                 if (updateResult.Any(r => r.Type == AlertType.Error))
                 {
-                    return View();
+                    return View("~/Views/Shared/Error.cshtml");
                 }
             }
             return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
@@ -113,6 +111,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
+            ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
             return View(await GetEquipmentInfoAsync(contractId));
         }
 
@@ -126,7 +125,7 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await UpdateContractAsync(equipmentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return View();
+                return View("~/Views/Shared/Error.cshtml");
             }
             return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
         }
@@ -146,7 +145,7 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await UpdateContractAsync(contactAndPaymentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return View();
+                return View("~/Views/Shared/Error.cshtml");
             }
             return View(new ContactAndPaymentInfoViewModel()); //TODO: Navigate to next step
         }
@@ -352,7 +351,7 @@ namespace DealnetPortal.Web.Controllers
                         AutoMapper.Mapper.Map<ExistingEquipmentDTO>(existingEquipment));
                 }
             }
-            return await this._contractServiceAgent.UpdateContractData(contractData);
+            return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
         private async Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo)

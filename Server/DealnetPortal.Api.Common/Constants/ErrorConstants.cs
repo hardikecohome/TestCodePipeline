@@ -10,6 +10,6 @@
         public const string ContractCreateFailed = "contract_create_failed";
         public const string ContractUpdateFailed = "contract_update_failed";
         public const string CreditCheckFailed = "credit_check_failed";
-
+        public const string EquipmentTypesRetrievalFailed = "equipment_types_retrieval_failed";
     }
 }
