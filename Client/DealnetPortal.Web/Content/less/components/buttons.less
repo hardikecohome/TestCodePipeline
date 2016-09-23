@@ -49,3 +49,18 @@
   font: 700 14px @fontLato;
   color: @success-text-color;
 }
+
+.button-container {
+  &.bttns-center{
+    text-align: center;
+    .btn{
+      display: inline-block;
+      @media (max-width: 767px) {
+        display: block;
+        width: 100%;
+        height: 49px;
+        line-height: 36px;
+      }
+    }
+  }
+}

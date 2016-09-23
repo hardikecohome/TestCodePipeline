@@ -73,7 +73,7 @@ function showTable() {
                 },
                 data: data,
                 oLanguage: {
-                  "sSearch": '<span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                  "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
                   "oPaginate": {
                     "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                     "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
@@ -99,14 +99,14 @@ function showTable() {
                   { width: "40px", targets: -1 }
                 ],
                 dom:
-                "<'row'<'col-xs-6''<'#table-title.dealnet-caption'>'><'col-xs-6'f>>" +
-                "<'row'<'col-sm-12'l>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12'p>>" +
-                "<'row'<'col-sm-12'i>>",
+                "<'row'<'col-md-6''<'#table-title.dealnet-caption'>'><'col-md-6'f>>" +
+                "<'row'<'col-md-12'l>>" +
+                "<'row'<'col-md-12'tr>>" +
+                "<'row'<'col-md-12'p>>" +
+                "<'row'<'col-md-12'i>>",
                 renderer: 'bootstrap'
             });
-        $('#table-title').text('My Work Items');
+        $('#table-title').html('My Work Items <span class="icon-search hidden"><i class="glyphicon glyphicon-search"></i></span>');
         /*$('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
         $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');*/
 

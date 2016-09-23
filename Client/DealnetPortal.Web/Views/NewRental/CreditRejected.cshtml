@@ -1,7 +1,47 @@
 ﻿@model int
 
-<p>Rejected</p>
+<div id="label-steps">
+    <div class="dealnet-action-link">New Rental</div> >
+</div>
+<div class="dealnet-large-header">Equipment Information</div>
+<div id="steps-line"></div>
+<div class="row" id="steps">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="step-item">1</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step2" class="step-item">2</div>
 
-<button class="btn dealnet-button dealnet-green-button">
-    @Html.ActionLink("Add Additional Aplicant", "BasicInfo", new { contractId = Model })
-</button>
+        <div id="step3" class="step-item step-active">3</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step4" class="step-item">4</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step5" class="step-item">5</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-3"></div>
+    <div class="col-lg-6 col-md-8 col-sm-6">
+        <div class="rejected-info">
+            <div class="text-center">
+                <svg aria-hidden="true" class="icon-svg icon-reject"><use xlink:href="#icon-reject"></use></svg>
+            </div>    
+            <h3 class="text-center">Rejected</h3>
+            <p>(Reason: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua)</p>
+            <h3 class="text-center">Recommendations</h3>
+            <ol>
+                <li>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            </ol> 
+
+            <div class="button-container bttns-center">
+                @Html.ActionLink("Add Additional Aplicant", "BasicInfo", new { contractId = Model }, new {@class="btn dealnet-button dealnet-success-button"})            
+            </div>
+        </div>    
+    </div>
+    <div class="col-lg-3 col-md-2 col-sm-3"></div>
+</div>
