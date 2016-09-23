@@ -40,9 +40,11 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetContracts(string ownerUserId)
         {
-            var contracts = _dbContext.Contracts.
-                    Include(c => c.PrimaryCustomer).
-                    Where(c => c.Dealer.Id == ownerUserId).ToList();
+            var contracts = _dbContext.Contracts
+                    .Include(c => c.PrimaryCustomer)
+                    .Include(c => c.ContactInfo)
+                    .Include(c => c.ContactInfo.Phones)
+                    .Where(c => c.Dealer.Id == ownerUserId).ToList();
             return contracts;
         }
 
