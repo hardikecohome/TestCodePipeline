@@ -106,7 +106,10 @@ function showTable() {
                 "<'row'<'col-md-12'i>>",
                 renderer: 'bootstrap'
             });
-        $('#table-title').html('My Work Items <span class="icon-search hidden"><i class="glyphicon glyphicon-search"></i></span>');
+        $('#table-title').html('My Work Items <span class="icon-search-control hidden"><i class="glyphicon glyphicon-search"></i></span>');
+        $('#table-title .icon-search-control').on('click', function(){
+          $('#work-items-table_filter').slideToggle();
+        });
         /*$('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
         $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');*/
 
