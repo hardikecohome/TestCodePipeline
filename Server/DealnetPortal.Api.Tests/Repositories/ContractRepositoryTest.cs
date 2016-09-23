@@ -209,7 +209,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Cost = 50,
                 Description = "Description",
                 MonthlyCost = 100,
-                Quantity = 10,
+                Quantity = 10
             });
 
             equipmentInfo.ExistingEquipment.Add(new ExistingEquipment
@@ -241,7 +241,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Cost = 50,
                 Description = "Description 2",
                 MonthlyCost = 150,
-                Quantity = 10,
+                Quantity = 10
             });
             contractData.Equipment = equipmentInfo;
             _contractRepository.UpdateContractData(contractData, _user.Id);
