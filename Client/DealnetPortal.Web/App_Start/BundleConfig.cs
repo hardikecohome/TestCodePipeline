@@ -44,8 +44,6 @@ namespace DealnetPortal.Web
 
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/jquery.loader.css",
-                      "~/Content/theme.css",
                       "~/Content/datatables/css/jquery.dataTables.css",
                 "~/Content/datatables/css/dataTables.bootstrap.css",
                 "~/Content/datatables/css/responsive.bootstrap.css",
