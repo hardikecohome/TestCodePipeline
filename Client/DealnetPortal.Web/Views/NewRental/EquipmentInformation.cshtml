@@ -5,8 +5,37 @@
     ViewBag.Title = "EquipmentInformation";
 }
 
-<h2>Equipment Information</h2>
+<div id="label-steps">
+    <div class="dealnet-action-link">New Rental</div> >
+</div>
+<div class="dealnet-large-header">Equipment Information</div>
+<div id="steps-line"></div>
+<div class="row" id="steps">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="step-item">1</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step2" class="step-item">2</div>
 
+        <div id="step3" class="step-item step-active">3</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step4" class="step-item">4</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step5" class="step-item">5</div>
+    </div>
+</div>
+<div class="form-container equipment-form-container">
+<div class="row">
+    <div class="col-md-12">
+        <div class="align-middle equipment-proceed-success">    
+            <svg aria-hidden="true" class="icon-svg icon-success"><use xlink:href="#icon-success"></use></svg> 
+            <span>Credit Check Processed Successfully!</span>
+        </div>        
+    </div>
+</div>
+</div>
 Consumer is authorized to a maximum amount of $@TempData["MaxCreditAmount"]
 
 @using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form" }))
