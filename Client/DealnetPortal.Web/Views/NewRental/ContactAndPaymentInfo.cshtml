@@ -66,16 +66,43 @@
                 </div>
             </div>
 
-                @Html.LabelFor(m => m.ContactInfo.EmailAddress)
-                @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new { @class = "form-control dealnet-input" })
-                @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new { @class = "text-danger" })
+            <div class="row owner-info">
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="first-name">Email Address</label>
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address" })
+                            @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new { @class = "text-danger" })
+                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="first-name">House Size (sq feet)</label>
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.ContactInfo.HouseSize, new { @class = "form-control dealnet-input", id = "house-size", placeholder = "House Size" })
+                            @Html.ValidationMessageFor(m => m.ContactInfo.HouseSize, "", new { @class = "text-danger" })
+                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                @Html.LabelFor(m => m.ContactInfo.HouseSize)
-                @Html.TextBoxFor(m => m.ContactInfo.HouseSize, new { @class = "form-control dealnet-input" })
-                @Html.ValidationMessageFor(m => m.ContactInfo.HouseSize, "", new { @class = "text-danger" })
+            <div class="dealnet-middle-header owner-info-label">Contact Information</div>
 
-                @Html.LabelFor(m => m.PaymentInfo.PaymentType)
-                @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new { @class = "form-control" })
+            <div class="row owner-info">
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="first-name">Payment Type</label>
+                        <div class="control-group">
+                            @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new { @class = "form-control", id = "payment-type", placeholder = "Payment Type" })
+                            @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
                 @Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
                 @Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control" })
