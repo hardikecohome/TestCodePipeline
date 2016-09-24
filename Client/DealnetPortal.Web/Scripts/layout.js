@@ -1,5 +1,6 @@
 ﻿$(document)
     .ready(function () {
+        $("input, textarea").placeholder();
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
             .parents('.dealnet-sidebar-item')
             .addClass('dealnet-sidebar-item-selected');
@@ -53,7 +54,15 @@
       $('.control-group .clear-input').on('click', function(){
         $(this).siblings('input').val('');
         $(this).hide();
-      })
+      });
+
+      $('select').each(function(){
+        $('<option value="" selected>- not selected -</option>').prependTo($(this));
+      });
+
+      $('select').on('change', function() {
+        $(this).toggleClass("empty", $.inArray($(this).val(), ['', null]) >= 0);
+      }).trigger('change');
     });
 
 function showLoader() {

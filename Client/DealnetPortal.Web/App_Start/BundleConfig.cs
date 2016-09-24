@@ -27,6 +27,8 @@ namespace DealnetPortal.Web
                      "~/Scripts/DataTables/jquery.dataTables.js",
                      "~/Scripts/datatables/dataTables.bootstrap.js",
                      "~/Scripts/datatables/dataTables.responsive.js",
+                     "~/Scripts/jquery.placeholder.min.js",
+                     "~/Scripts/svgxuse.min.js",
                      "~/Scripts/jquery.loader.js")
                      );
             bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
