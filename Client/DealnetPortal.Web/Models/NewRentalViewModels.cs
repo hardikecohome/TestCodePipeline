@@ -24,7 +24,6 @@ namespace DealnetPortal.Web.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
-        public bool AgrreesToSendPersonalInfo { get; set; }
     }
 
     public class AddressInformation

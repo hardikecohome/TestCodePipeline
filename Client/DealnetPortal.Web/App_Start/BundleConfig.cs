@@ -38,7 +38,8 @@ namespace DealnetPortal.Web
                      "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include("~/Scripts/datejs.js"));
             bundles.Add(new ScriptBundle("~/bundles/credit-check").Include(
-                "~/Scripts/credit-check.js").Include("~/Scripts/datejs.js").Include("~/Scripts/jquery.form.js"));
+                "~/Scripts/credit-check.js").Include("~/Scripts/datejs.js").Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/general-address-autocomplete.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
 
