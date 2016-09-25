@@ -30,7 +30,7 @@
 <div class="row">
     <div class="col-md-12">
         <p class="align-middle equipment-proceed-success">    
-            <svg aria-hidden="true" class="icon-svg icon-success"><use xlink:href="#icon-success"></use></svg> 
+            <svg aria-hidden="true" class="icon icon-success"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-success"></use></svg>
             <span>Credit Check Processed Successfully!</span>
         </p>   
         <p>Consumer is authorized to a maximum amount of $@TempData["MaxCreditAmount"]</p>     
@@ -65,7 +65,7 @@
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.NewEquipment[0].Quantity, new {@class = "form-control dealnet-input", placeholder = "Qty"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Quantity, "", new {@class = "text-danger"})  
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>     
+                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.NewEquipment[0].Description, new {@class = "form-control dealnet-input", placeholder = "Description"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new {@class = "text-danger"})  
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>
                     </div>                  
                 </div>
@@ -97,7 +97,7 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new {@class = "form-control dealnet-input", placeholder = "Cost"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new {@class = "text-danger"})  
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>                        
                     </div>                 
                 </div>
@@ -108,7 +108,7 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new {@class = "form-control dealnet-input", placeholder = "Monthly Cost"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new {@class = "text-danger"})  
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>     
                     </div>                 
                 </div>
@@ -118,7 +118,7 @@
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "estimated-installation-date-0", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedInstallationDate, "", new {@class = "text-danger"})
-                             <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
+                             <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                         </div>  
                     </div>                  
                 </div>
@@ -128,7 +128,7 @@
     <div class="row">
         <div class="col-md-12">            
             <div class="align-middle dealnet-info-link add-equip-link" onclick="addNewEquipment()">
-                <svg aria-hidden="true" class="icon-svg icon-add-app"><use xlink:href="#icon-add-app"></use></svg>
+                <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
                 <span>Add additional equipment</span>
             </div>
         </div>
@@ -141,7 +141,7 @@
                     <div class="control-group-addon">$</div>                  
                     @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", placeholder = "Total Monthly Payment"})
                     @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
-                    <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                    <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                 </div>
             </div>
         </div>
@@ -157,7 +157,7 @@
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input", placeholder = "Requested Term"})
                     @Html.ValidationMessageFor(m => m.RequestedTerm, "", new {@class = "text-danger"})  
-                    <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                    <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                 </div>              
             </div>
         </div>
@@ -167,7 +167,7 @@
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.SalesRep, new {@class = "form-control dealnet-input", placeholder = "Sales Rep"})
                     @Html.ValidationMessageFor(m => m.SalesRep, "", new {@class = "text-danger"}) 
-                    <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                    <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                 </div>               
             </div>
         </div>
@@ -182,7 +182,7 @@
                 <div class="control-group">
                     @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", placeholder = "Contract Notes" })  
                     @Html.ValidationMessageFor(m => m.Notes, "", new {@class = "text-danger"}) 
-                    <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>           
+                    <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                 </div>                
             </div>
         </div>

@@ -38,13 +38,13 @@
         })
 
       $('.control-group .clear-input').each(function(){
-        if($(this).siblings('input').val() === ""){
+        if($(this).siblings('input, textarea').val() === ""){
           $(this).hide();
         }else{
           $(this).show();
         }
       });
-      $('.control-group input').on('keyup', function(){
+      $('.control-group input, .control-group textarea').on('keyup', function(){
         if($(this).val().length !== 0){
           $(this).siblings('.clear-input').show();
         }else{
@@ -52,7 +52,7 @@
         }
       });
       $('.control-group .clear-input').on('click', function(){
-        $(this).siblings('input').val('');
+        $(this).siblings('input, textarea').val('');
         $(this).hide();
       });
 

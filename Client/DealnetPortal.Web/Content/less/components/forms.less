@@ -54,7 +54,7 @@ html.ie9 select{
     opacity: 0;
     &:checked ~ .checkbox-icon{
       .icon-checked{
-        display: block;
+        opacity: 1;
       }
     }
   }
@@ -69,8 +69,9 @@ html.ie9 select{
     .icon-checked{
       width: 14px;
       height: 14px;
-      display: none;
+      display: block;
       position: absolute;
+      opacity: 0;
       top: 0;
       right: -3px;
     }
@@ -164,6 +165,7 @@ html.ie9 select{
       pointer-events: none;
       width: 20px;
       height: 20px;
+      color: #979797;
     }
 
   .clear-input{
@@ -174,6 +176,11 @@ html.ie9 select{
     cursor: pointer;
     width: 20px;
     height: 20px;
+    color: #dcdcdc;
+    &:hover,
+    &:focus{
+      color: #cacaca;
+    }
   }
 
   input:not(:placeholder-shown) ~ .clear-input{

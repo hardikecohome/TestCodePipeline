@@ -66,7 +66,7 @@
                             <div class="control-group date-group">
                                @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "birth-date", data_val_date = "Date must be in range 1900 - Today" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
-                                <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
+                                <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                             </div>
                         </div>                        
                     </div>
@@ -75,7 +75,7 @@
                 <div class="dealnet-agrees form-group">
                     <label class="align-middle custom-checkbox">
                         @Html.CheckBoxFor(m => Model.HomeOwner.AgrreesToSendPersonalInfo)
-                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon-svg icon-checked"><use xlink:href="#icon-checked"></use></svg></span>
+                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
                         <span>Agrees to send his/her personal data to credit check</span>
                     </label>
                 </div>
@@ -129,7 +129,7 @@
                     <div class="dealnet-agrees form-group">
                         <label class="align-middle custom-checkbox">
                             @Html.CheckBoxFor(m => Model.AdditionalApplicants[0].AgrreesToSendPersonalInfo)
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon-svg icon-checked"><use xlink:href="#icon-checked"></use></svg></span>
+                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
                             <span>Agrees to send his/her personal data to credit check</span>
                         </label>
                     </div>
@@ -185,7 +185,7 @@
                     <div class="dealnet-agrees form-group">
                         <label class="align-midle custom-checkbox">
                         @Html.CheckBoxFor(m => Model.AdditionalApplicants[1].AgrreesToSendPersonalInfo)
-                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon-svg icon-checked"><use xlink:href="#icon-checked"></use></svg></span>
+                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
                         <span>Agrees to send his/her personal data to credit check</span>
                         </label>
                     </div>
@@ -232,7 +232,7 @@
                                 <div class="control-group date-group">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-3", data_val_date = "Date must be in range 1900 - Today" })
                                     @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
-                                    <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
+                                    <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                                 </div>
                             </div>                            
                         </div>
@@ -241,7 +241,7 @@
                     <div class="dealnet-agrees form-group">
                         <label class="align-middle custom-checkbox">
                             @Html.CheckBoxFor(m => Model.AdditionalApplicants[2].AgrreesToSendPersonalInfo)
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon-svg icon-checked"><use xlink:href="#icon-checked"></use></svg></span>
+                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
                             <span>Agrees to send his/her personal data to credit check</span>
                         </label>
                     </div>
