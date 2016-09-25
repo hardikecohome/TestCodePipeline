@@ -43,7 +43,7 @@ namespace DealnetPortal.Api.Tests.ESignature
         }
 
         [TestMethod]
-        [Ignore]
+        //[Ignore]
         public void TestCreateTransaction()
         {
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
@@ -60,7 +60,10 @@ namespace DealnetPortal.Api.Tests.ESignature
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
             //long transId = 1617776;
-            long transId = 1617917;
+            //long transId = 1617917;
+            //long transId = 1617948;
+            long transId = 1626613;
+
             var res = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
 
             serviceAgent.Logout().GetAwaiter().GetResult();
@@ -72,11 +75,15 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            long transId = 1617776;
+            //long transId = 1617776;
             //long dpSid = 1619725;
-            long dpSid = 1622672;
+            //long dpSid = 1622672;
+            //long transId = 1617948;
+            //long dpSid = 1626610;
+            long transId = 1626613;
+            long dpSid = 1626614;
 
-            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2.pdf");
+            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2s.pdf");
             var res = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
 
             serviceAgent.Logout().GetAwaiter().GetResult();
@@ -88,9 +95,13 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            long transId = 1617776;
+            //long transId = 1617776;
             //long dpSid = 1619725;
-            long dpSid = 1622672;
+            //long dpSid = 1622672;
+            //long transId = 1617948;
+            //long dpSid = 1626610;
+            long transId = 1626613;
+            long dpSid = 1626614;
 
             var textData = new List<TextData>()
             {
@@ -101,7 +112,7 @@ namespace DealnetPortal.Api.Tests.ESignature
                 },
                 new TextData()
                 {
-                    Items = new string[] {"CustomerAddress"},
+                    Items = new string[] {"CustomerAddress1"},
                     text = "Customer Address"
                 }
             };
@@ -110,29 +121,43 @@ namespace DealnetPortal.Api.Tests.ESignature
             {
                 new SigBlock()
                 {
-                    signerName = "First Name",
+                    signerName = "Signature1",
                     name = "Signature1",
+
                     Item = "6",
                     lowerLeftX = "142",
                     lowerLeftY = "72",
                     upperRightX = "293",
-                    upperRightY = "104"
-                }
+                    upperRightY = "104",
+
+                },
+                ////new SigBlock()
+                ////{
+                //    signerName = "First Name",
+                //    name = "Signature3",
+
+                //    Item = "1",
+                //    lowerLeftX = "80",
+                //    lowerLeftY = "72",
+                //    upperRightX = "150",
+                //    upperRightY = "104"
+                //}
             };
 
             var textFields = new List<textField>()
             {
-                new textField
-                {
-                    name = "CustomerAddress",
-                    Item = "1",
-                    lowerLeftX = "100",
-                    lowerLeftY = "72",
-                    upperRightX = "250",
-                    upperRightY = "104",
-                    fontSize = "14",
-                    Item1 = textFieldFontTypeFont.Arial,                    
-                }
+                //new textField
+                //{
+                //    name = "CustomerAddress",
+                //    Item = "1",
+                //    lowerLeftX = "100",
+                //    lowerLeftY = "72",
+                //    upperRightX = "250",
+                //    upperRightY = "104",
+                //    fontSize = "14",
+                //    Item1 = textFieldFontTypeFont.Arial,
+                //    color  = "Black",
+                //}
             };
 
             var res = serviceAgent.InsertFormFields(dpSid, textFields.ToArray(), textData.ToArray(), signBlocks.ToArray()).GetAwaiter().GetResult();
@@ -146,9 +171,14 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            long transId = 1617776;
-            long dpSid = 1619725;
-
+            //long transId = 1617776;
+            //long dpSid = 1619725;
+            //long transId = 1617917;
+            //long dpSid = 1622672;
+            //long transId = 1617948;
+            //long dpSid = 1626610;
+            long transId = 1626613;
+            long dpSid = 1626614;
 
             var res = serviceAgent.ConfigureSortOrder(transId, new long[] {dpSid}).GetAwaiter().GetResult();
 
@@ -161,8 +191,14 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            long transId = 1617776;
-            long dpSid = 1619725;
+            //long transId = 1617776;
+            //long dpSid = 1619725;
+            //long transId = 1617917;
+            //long dpSid = 1622672;
+            //long transId = 1617948;
+            //long dpSid = 1626610;
+            long transId = 1626613;
+            long dpSid = 1626614;
 
             var roles = new eoConfigureRolesRole[]
             {
@@ -174,7 +210,11 @@ namespace DealnetPortal.Api.Tests.ESignature
                     lastName = "Name",
                     eMail = "mkhar@yandex.ru",                                        
                     ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
-                    Items = new string[] {"123"}
+                    Items = new string[] {"123"},
+                    //signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod()
+                    //{
+                    //    Value = signatureCaptureMethodType.DRAW
+                    //},
                 }
             };
 
@@ -189,22 +229,14 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            long transId = 1617776;
-            long dpSid = 1619725;
-
-            var roles = new eoConfigureRolesRole[]
-            {
-                new eoConfigureRolesRole()
-                {
-                    order = "1",
-                    name = "Signature1",
-                    firstName = "First",
-                    lastName = "Name",
-                    eMail = "mkhar@yandex.ru",
-                    ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
-                    Items = new string[] {"123"}
-                }
-            };
+            //long transId = 1617776;
+            //long dpSid = 1619725;
+            //long transId = 1617917;
+            //long dpSid = 1622672;
+            //long transId = 1617948;
+            //long dpSid = 1626610;
+            long transId = 1626613;
+            long dpSid = 1626614;
 
             var res = serviceAgent.ConfigureInvitation(transId, "Signature1", "First", "Name", "mkhar@yandex.ru").GetAwaiter().GetResult();
 

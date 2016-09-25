@@ -175,13 +175,13 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
             var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
+            //??
             if (eResponse?.status == responseStatus.ok)
             {
-                if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
+                if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentProfileList))
                 {
-                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
-                    var documentProfileList = transactionList?.transaction?.FirstOrDefault()?.documentProfileList;
-                    var documentVersion = documentProfileList?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
+                    var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as EOriginalTypes.documentProfileListType;
+                    var documentVersion = documentProfileList?.documentProfile?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
                     return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
                 }
             }
@@ -206,26 +206,26 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
                 var exportTypes = new List<Type>();
 
-                //if (signBlocks?.Any() ?? false)
-                //{
-                //    transformationInstructions.Add(new AddSigBlocks()
-                //    {
-                //        name = "addSigBlocks",
-                //        sigBlockList = signBlocks
-                //    });
-                //    exportTypes.Add(typeof(AddSigBlocks));
-                //}
+                if (signBlocks?.Any() ?? false)
+                {
+                    transformationInstructions.Add(new AddSigBlocks()
+                    {
+                        name = "addSigBlocks",
+                        sigBlockList = signBlocks
+                    });
+                    exportTypes.Add(typeof(AddSigBlocks));
+                }
 
-                //if (textFields?.Any() ?? false)
-                //{
-                //    transformationInstructions.Add(new AddTextFields()
-                //    {
-                //        name = "addTextFields",
-                //        textFieldList = textFields
-                //    });
-                //    exportTypes.Add(typeof(AddTextFields));
-                //    exportTypes.Add(typeof(textField));
-                //}
+                if (textFields?.Any() ?? false)
+                {
+                    transformationInstructions.Add(new AddTextFields()
+                    {
+                        name = "addTextFields",
+                        textFieldList = textFields
+                    });
+                    exportTypes.Add(typeof(AddTextFields));
+                    exportTypes.Add(typeof(textField));
+                }
 
                 if (textData?.Any() ?? false)
                 {
@@ -256,8 +256,11 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 //TextReader reader = new StringReader(test);
                 //var set = x.Deserialize(reader);
 
+                //var test = File.ReadAllBytes("testInsertFields.xml");
+
                 ms.Position = 0;
                 var fileContent = new ByteArrayContent(ms.GetBuffer());
+                //var fileContent = new ByteArrayContent(test);
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("form-data")
                     {
@@ -275,11 +278,10 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
                 if (eResponse?.status == responseStatus.ok)
                 {
-                    if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
+                    if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentProfileList))
                     {
-                        var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
-                        var documentProfileList = transactionList?.transaction?.FirstOrDefault()?.documentProfileList;
-                        var documentVersion = documentProfileList?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
+                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as EOriginalTypes.documentProfileListType;
+                        var documentVersion = documentProfileList?.documentProfile?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
                         return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
                     }
                 }
@@ -418,7 +420,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                         firstName = senderFirstName,
                         lastName = senderLastName,
                         email = senderEmail
-                    }
+                    },                    
                 };
 
                 XmlSerializer x = new System.Xml.Serialization.XmlSerializer(configInvitation.GetType());

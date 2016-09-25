@@ -18,9 +18,9 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
         Task<Tuple<EOriginalTypes.transactionType, IList<Alert>>> CreateTransaction(string transactionName);
 
         Task<Tuple<EOriginalTypes.documentProfileType, IList<Alert>>> CreateDocumentProfile(long transactionSid, string dptName, string dpName = null);
-
+        //TODO: check returned value
         Task<Tuple<EOriginalTypes.documentVersionType, IList<Alert>>> UploadDocument(long dpSid, byte[] pdfDocumentData, string documentFileName);
-
+        //TODO: check returned value
         Task<Tuple<EOriginalTypes.documentVersionType, IList<Alert>>> InsertFormFields(long dpSid, textField[] textFields, TextData[] textData, SigBlock[] sigBlocks);
 
         Task<IList<Alert>> ConfigureSortOrder(long transactionSid, long[] dpSids);

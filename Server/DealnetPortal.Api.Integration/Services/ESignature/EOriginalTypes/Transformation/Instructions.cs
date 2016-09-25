@@ -434,6 +434,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Trans
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AddSigBlocks))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AddTextFields))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AddTextData))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1275,7 +1276,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Trans
         private object[] textFieldListField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("TextFieldBase", IsNullable = false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("textField", IsNullable = false)]
         public object[] textFieldList
         {
             get
