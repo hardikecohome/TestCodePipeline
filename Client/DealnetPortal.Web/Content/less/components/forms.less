@@ -3,6 +3,12 @@ input[type="email"],
 input[type="tel"]{
   box-shadow: none;
 }
+::-ms-clear {
+  display: none;
+}
+::-ms-reveal {
+  display: none;
+}
 select.form-control{
   option {
     color: black;
@@ -106,8 +112,11 @@ html.ie9 select{
 }
 
 .text-danger {
+  display: block;
+  text-align: left;
   font: 11px @fontLato;
   color: @danger-color;
+  margin-top: 5px;
 }
 
 .input-validation-error {
@@ -157,9 +166,10 @@ html.ie9 select{
     }
   }
 
-    .icon-calendar{
+    .icon-calendar,
+    .icon-eye{
       position: absolute;
-      right: 12px;
+      right: 5px;
       top: 12px;
       display: inline-block;
       pointer-events: none;
@@ -167,6 +177,9 @@ html.ie9 select{
       height: 20px;
       color: #979797;
     }
+  .icon-eye{
+    right: 8px;
+  }
 
   .clear-input{
     display: none;
@@ -185,6 +198,14 @@ html.ie9 select{
 
   input:not(:placeholder-shown) ~ .clear-input{
     display: block;
+  }
+  input:read-only ~ .clear-input{
+    display: none !important
+  }
+  .modal-body{
+    input:not(:empty) ~ .clear-input{
+      display: block;
+    }
   }
 }
 

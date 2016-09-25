@@ -4,6 +4,9 @@
 $(document)
     .ready(function() {
         $('#editor-modal')
+            .on('show.bs.modal', function(){
+              toggleClearInputIcon($('.modal-body input, textarea'));
+            })
             .on('hidden.bs.modal',
                 function() {
                   oldParent.html($('.modal-body .dealnet-credit-check-section').

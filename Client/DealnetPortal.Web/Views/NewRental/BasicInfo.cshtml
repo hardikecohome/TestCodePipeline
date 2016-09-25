@@ -122,8 +122,7 @@
                 <label for="first-name">First Name</label>
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = "First Name" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })      
-                    <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
+                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -133,7 +132,6 @@
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
-                    <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                 </div>
             </div>
         </div>
@@ -143,7 +141,6 @@
                 <div class="control-group date-group">          
                     @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
-                    <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                 </div>
             </div>
         </div>
@@ -184,7 +181,6 @@
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.AdditionalApplicants[0].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-1", placeholder = "First Name", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div>    
             </div>
@@ -194,7 +190,6 @@
                     <div class="control-group">              
                         @Html.TextBoxFor(m => m.AdditionalApplicants[0].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-1", placeholder = "Last Name", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div> 
                 </div> 
             </div>
@@ -204,7 +199,6 @@
                     <div class="control-group date-group">               
                         @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
-                         <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                     </div>
                 </div> 
             </div>
@@ -246,7 +240,6 @@
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.AdditionalApplicants[1].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-2", placeholder = "First Name", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div>        
             </div>
@@ -256,7 +249,6 @@
                     <div class="control-group">                        
                         @Html.TextBoxFor(m => m.AdditionalApplicants[1].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-2", placeholder = "Last Name", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div>        
             </div>
@@ -266,7 +258,6 @@
                     <div class="control-group date-group">
                         @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
-                         <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                     </div>
                 </div>
             </div>
@@ -308,7 +299,6 @@
                     <div class="control-group">                
                         @Html.TextBoxFor(m => m.AdditionalApplicants[2].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-3", placeholder = "First Name", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div>        
             </div>
@@ -318,7 +308,6 @@
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.AdditionalApplicants[2].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-3", placeholder = "Last Name", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div>        
             </div>
@@ -328,7 +317,6 @@
                     <div class="control-group date-group">                
                         @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new { @class = "text-danger" })
-                         <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                     </div>
                 </div>        
             </div>
@@ -348,7 +336,6 @@
             <div class="col-md-12">
                 <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
                     <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-get-location"></use></svg>
-                    <!--<img src="~/Content/images/get-location.png" class="icon">-->
                     <span>Get My Location</span>
                 </div>
             </div>
@@ -361,7 +348,6 @@
                     <div class="control-group">                
                         @Html.TextBoxFor(m => m.AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
                         @Html.ValidationMessageFor(m => m.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div>        
             </div>
@@ -371,7 +357,6 @@
                     <div class="control-group">                 
                         @Html.TextBoxFor(m => m.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
                         @Html.ValidationMessageFor(m => m.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div>  
             </div>
@@ -381,7 +366,6 @@
                     <div class="control-group">                
                         @Html.TextBoxFor(m => m.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
                         @Html.ValidationMessageFor(m => m.AddressInformation.City, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div> 
             </div>
@@ -394,7 +378,6 @@
                     <div class="control-group">                 
                         @Html.TextBoxFor(m => m.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
                         @Html.ValidationMessageFor(m => m.AddressInformation.Province, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div> 
             </div>
@@ -404,7 +387,6 @@
                     <div class="control-group">                
                         @Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code", placeholder = "12345" })
                         @Html.ValidationMessageFor(m => m.AddressInformation.PostalCode, "", new { @class = "text-danger" })
-                        <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                     </div>
                 </div> 
             </div>
@@ -430,7 +412,6 @@
                         <div class="control-group"> 
                             @Html.TextBoxFor(m => m.MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
                             @Html.ValidationMessageFor(m => m.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>
                     </div> 
                 </div>
@@ -440,7 +421,6 @@
                         <div class="control-group">                    
                             @Html.TextBoxFor(m => m.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
                             @Html.ValidationMessageFor(m => m.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>
                     </div> 
                 </div>
@@ -450,7 +430,6 @@
                         <div class="control-group">                     
                             @Html.TextBoxFor(m => m.MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "mailing_locality", placeholder = "Ottawa", disabled = "disabled" })
                             @Html.ValidationMessageFor(m => m.MailingAddressInformation.City, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>
                     </div> 
                 </div>
@@ -463,7 +442,6 @@
                         <div class="control-group">                            
                             @Html.TextBoxFor(m => m.MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder = "Nepean", disabled = "disabled" })
                             @Html.ValidationMessageFor(m => m.MailingAddressInformation.Province, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>
                     </div>
                 </div>
@@ -473,7 +451,6 @@
                         <div class="control-group">                            
                             @Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled" })
                             @Html.ValidationMessageFor(m => m.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
                         </div>
                     </div>
                 </div>

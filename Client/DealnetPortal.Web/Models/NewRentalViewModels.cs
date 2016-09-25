@@ -34,7 +34,7 @@ namespace DealnetPortal.Web.Models
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.,‘`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
         public string InstallationAddress { get; set; }
-        [Display(Name = "Unit Number")]
+        [Display(Name = "Unit #")]
         [StringLength(10, MinimumLength = 1)]
         [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessage = "Unit Number is in incorrect format")]
         public string UnitNumber { get; set; }

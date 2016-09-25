@@ -35,10 +35,12 @@
                 <div class="form-group">
                     <div class="row">
                         @Html.LabelFor(m => Model.HomeOwner.FirstName, new { @class = "dealnet-field-caption col-xs-6" })
-                        <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.HomeOwner.FirstName)
-                            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
-                        </div>                        
+                        <div class="col-xs-6 dealnet-field-holder">
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.HomeOwner.FirstName)
+                                @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                       </div>
                     </div>
 
                 </div>
@@ -46,8 +48,10 @@
                     <div class="row">
                         @Html.LabelFor(m => Model.HomeOwner.LastName, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.HomeOwner.LastName)
-                            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.HomeOwner.LastName)
+                                @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
                 </div>
@@ -59,7 +63,6 @@
                             <div class="control-group date-group">
                                @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "birth-date", data_val_date = "Date must be in range 1900 - Today" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
-                                <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                             </div>
                         </div>                        
                     </div>
@@ -85,36 +88,36 @@
                     <h3 class="dealnet-section-title">Additional Applicant #1 <a href="#" onclick="editData(this)" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                First Name
-                            </div>
+                            @Html.LabelFor(m => Model.AdditionalApplicants[0].FirstName, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[0].FirstName)
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
+                                <div class="control-group date-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[0].FirstName)
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
+                                </div>
                             </div>                            
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                Last Name
-                            </div>
+                            @Html.LabelFor(m => Model.AdditionalApplicants[0].LastName, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[0].LastName)
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[0].LastName)
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
+                                </div>
                             </div>                            
                         </div>
-
                     </div>
+
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                Date of Birth
-                            </div>
+                            @Html.Label("additional-birth-date-1", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-1", data_val_date = "Date must be in range 1900 - Today" })
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
+                                <div class="control-group date-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-1", data_val_date = "Date must be in range 1900 - Today" })
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
+                                </div>
                             </div>                        
                         </div>
                     </div>
@@ -141,45 +144,45 @@
                     <h3 class="dealnet-section-title">Additional Applicant #2 <a href="#" onclick="editData(this)" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                First Name
-                            </div>
+                            @Html.LabelFor(m => Model.AdditionalApplicants[1].FirstName, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[1].FirstName)
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[1].FirstName)
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => Model.AdditionalApplicants[1].LastName, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[1].LastName)
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
+                                </div>
                             </div>                            
                         </div>
 
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                Last Name
-                            </div>
+                            @Html.Label("additional-birth-date-2", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[1].LastName)
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
-                            </div>                            
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                Date of Birth
-                            </div>
-                            <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-2", data_val_date = "Date must be in range 1900 - Today" })
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
+                                <div class="control-group date-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-2", data_val_date = "Date must be in range 1900 - Today" })
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
+                                </div>
                             </div>                            
                         </div>
                     </div>
 
                     <div class="dealnet-agrees form-group">
                         <label class="align-midle custom-checkbox">
-                        @Html.CheckBoxFor(m => Model.AdditionalApplicants[1].AgrreesToSendPersonalInfo)
-                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
-                        <span>Agrees to send his/her personal data to credit check</span>
+                            @Html.CheckBoxFor(m => Model.AdditionalApplicants[1].AgrreesToSendPersonalInfo)
+                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
+                            <span>Agrees to send his/her personal data to credit check</span>
                         </label>
                     </div>
                 </div>
@@ -193,39 +196,35 @@
                     <h3 class="dealnet-section-title">Additional Applicant #3 <a href="#" onclick="editData(this)" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                First Name
-                            </div>
+                            @Html.LabelFor(m => Model.AdditionalApplicants[2].FirstName, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[2].FirstName)
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[2].FirstName)
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
+                                </div>
                             </div>                            
                         </div>
 
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                Last Name
-                            </div>
+                            @Html.LabelFor(m => Model.AdditionalApplicants[2].LastName, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => Model.AdditionalApplicants[2].LastName)
-                                @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.AdditionalApplicants[2].LastName)
+                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
+                                </div>
                             </div>                            
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="row">
-                            <div class="dealnet-field-caption col-xs-6">
-                                Date of Birth
-                            </div>
+                            @Html.Label("additional-birth-date-3", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group date-group">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { id = "additional-birth-date-3", data_val_date = "Date must be in range 1900 - Today" })
                                     @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
-                                    <svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>
                                 </div>
                             </div>                            
                         </div>
@@ -252,58 +251,58 @@
                 <h3 class="dealnet-section-title">Address Information <a href="#" onclick="editData(this)" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            Installation Address
-                        </div>
+                        @Html.LabelFor(m => Model.AddressInformation.InstallationAddress, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.AddressInformation.InstallationAddress)
-                            @Html.ValidationMessageFor(m => Model.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.AddressInformation.InstallationAddress)
+                                @Html.ValidationMessageFor(m => Model.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            Unit #
-                        </div>
+                        @Html.LabelFor(m => Model.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.AddressInformation.UnitNumber)
-                            @Html.ValidationMessageFor(m => Model.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.AddressInformation.UnitNumber)
+                                @Html.ValidationMessageFor(m => Model.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            City
-                        </div>
+                        @Html.LabelFor(m => Model.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.AddressInformation.City)
-                            @Html.ValidationMessageFor(m => Model.AddressInformation.City, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.AddressInformation.City)
+                                @Html.ValidationMessageFor(m => Model.AddressInformation.City, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            Province
-                        </div>
+                        @Html.LabelFor(m => Model.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.AddressInformation.Province)
-                            @Html.ValidationMessageFor(m => Model.AddressInformation.Province, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.AddressInformation.Province)
+                                @Html.ValidationMessageFor(m => Model.AddressInformation.Province, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            Postal Code
-                        </div>
+                        @Html.LabelFor(m => Model.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.AddressInformation.PostalCode)
-                            @Html.ValidationMessageFor(m => Model.AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.AddressInformation.PostalCode)
+                                @Html.ValidationMessageFor(m => Model.AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
 
@@ -323,60 +322,62 @@
                 <h3 class="dealnet-section-title">Mailing Address <a href="#" onclick="editData(this)" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
+                        <label class="dealnet-field-caption col-xs-6" for="MailingAddressInformation_InstallationAddress">
                             Mailing Address
-                        </div>
+                        </label>
 
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.MailingAddressInformation.InstallationAddress)
-                            @Html.ValidationMessageFor(m => Model.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.MailingAddressInformation.InstallationAddress)
+                                @Html.ValidationMessageFor(m => Model.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            Unit #
-                        </div>
+                        @Html.LabelFor(m => Model.MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.MailingAddressInformation.UnitNumber)
-                            @Html.ValidationMessageFor(m => Model.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                        </div>                        
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            City
-                        </div>
-                        <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.MailingAddressInformation.City)
-                            @Html.ValidationMessageFor(m => Model.MailingAddressInformation.City, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.MailingAddressInformation.UnitNumber)
+                                @Html.ValidationMessageFor(m => Model.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
 
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            Province
-                        </div>
+                        @Html.LabelFor(m => Model.MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.MailingAddressInformation.Province)
-                            @Html.ValidationMessageFor(m => Model.MailingAddressInformation.Province, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.MailingAddressInformation.City)
+                                @Html.ValidationMessageFor(m => Model.MailingAddressInformation.City, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
 
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="dealnet-field-caption col-xs-6">
-                            Postal Code
-                        </div>
+                        @Html.LabelFor(m => Model.MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => Model.MailingAddressInformation.PostalCode)
-                            @Html.ValidationMessageFor(m => Model.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.MailingAddressInformation.Province)
+                                @Html.ValidationMessageFor(m => Model.MailingAddressInformation.Province, "", new { @class = "text-danger" })
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        @Html.LabelFor(m => Model.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                        <div class="dealnet-field-holder col-xs-6">
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => Model.MailingAddressInformation.PostalCode)
+                                @Html.ValidationMessageFor(m => Model.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
+                            </div>
                         </div>                        
                     </div>
                 </div>
@@ -410,7 +411,7 @@
                         </div>
                         <div class="modal-footer">
                             <div>
-                                <button type="button" class="btn dealnet-button dealnet-green-button" onclick="saveChanges('@Url.Action("UpdateBasicInfo", "NewRental")')">Save changes</button>
+                                <button type="button" class="btn dealnet-button dealnet-success-button" onclick="saveChanges('@Url.Action("UpdateBasicInfo", "NewRental")')">Save changes</button>
                             </div>
                             <div>
                                 <a href="#" onclick="cancelChanges()">Cancel</a>
