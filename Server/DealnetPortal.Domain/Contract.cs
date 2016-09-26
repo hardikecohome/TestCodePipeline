@@ -13,7 +13,7 @@ namespace DealnetPortal.Domain
         public Contract()
         {
             SecondaryCustomers = new List<Customer>();
-            //Locations = new List<Location>();
+            Details = new ContractDetails();            
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
@@ -36,6 +36,6 @@ namespace DealnetPortal.Domain
         
         public EquipmentInfo Equipment { get; set; }
 
-
+        public ContractDetails Details { get; set; }
     }
 }

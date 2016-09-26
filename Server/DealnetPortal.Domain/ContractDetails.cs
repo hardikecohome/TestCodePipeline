@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
+
+namespace DealnetPortal.Domain
+{
+    public class ContractDetails
+    {
+        public AgreementType? AgreementType { get; set; }
+
+        public double? HouseSize { get; set; }
+
+        public string TransactionId { get; set; }        
+    }
+}

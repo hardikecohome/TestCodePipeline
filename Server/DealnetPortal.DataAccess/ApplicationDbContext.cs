@@ -35,6 +35,8 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<ContactInfo> ContactInfos { get; set; }
 
+        public DbSet<AgreementTemplate> AgreementTemplates { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
