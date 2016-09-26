@@ -255,5 +255,40 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             Assert.IsTrue(isDeleted);
         }
+
+        [TestMethod]
+        public void TestAddApplicants()
+        {
+            var contract = _contractRepository.CreateContract(_user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(contract);
+
+            var contractData = new ContractData()
+            {
+                Id = contract.Id
+            };
+
+            contractData.SecondaryCustomers = new List<Customer>()
+            {
+                new Customer()
+                {
+                    FirstName = "Add 1 fst name",
+                    LastName = "Add 1 lst name",
+                    DateOfBirth = DateTime.Today
+                },
+                new Customer()
+                {
+                    FirstName = "Add 2 fst name",
+                    LastName = "Add 2 lst name",
+                    DateOfBirth = DateTime.Today
+                }
+            };
+
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+            Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
+        }
     }
 }
