@@ -156,6 +156,12 @@ namespace DealnetPortal.Web.Controllers
             return View(await GetSummaryAndConfirmationAsync(contractId));
         }
 
+        public ActionResult RentalAgreementSubmitSuccess()
+        {
+            ViewBag.HomeOwnerEmail = "dduck@email.com";
+            return View();
+        }
+
         [HttpPost]
         public async Task<JsonResult> UpdateBasicInfo(BasicInfoViewModel basicInfo)
         {

@@ -602,6 +602,7 @@
     <Content Include="Views\NewRental\CreditCheck.cshtml" />
     <Content Include="Views\NewRental\CreditRejected.cshtml" />
     <Content Include="Views\NewRental\SummaryAndConfirmation.cshtml" />
+    <Content Include="Views\NewRental\RentalAgreementSubmitSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
