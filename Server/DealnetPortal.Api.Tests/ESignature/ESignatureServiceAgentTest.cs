@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes;
@@ -11,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ItemsChoiceType = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb.ItemsChoiceType;
 using textField = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation.textField;
+//using TypeSetObscureFontTypeFont = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation.TypeSetObscureFontTypeFont;
 
 namespace DealnetPortal.Api.Tests.ESignature
 {
@@ -242,5 +244,134 @@ namespace DealnetPortal.Api.Tests.ESignature
 
             serviceAgent.Logout().GetAwaiter().GetResult();
         }
+
+        [TestMethod]
+        public void ComplexSigningTest()
+        {
+            IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
+            serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
+
+            var resTr = serviceAgent.CreateTransaction("test transaction").GetAwaiter().GetResult();
+            Assert.IsFalse(resTr.Item2.Any());
+            var transId = resTr.Item1.sid;
+
+            var resPr = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
+            Assert.IsFalse(resTr.Item2.Any());
+            var dpSid = resPr.Item1.sid;
+
+            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2s.pdf");
+            var resDv = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
+            Assert.IsFalse(resDv.Item2.Any());
+
+            //var transId = 1626629;
+            //var dpSid = 1626630;
+
+            var textData = new List<TextData>()
+            {
+                new TextData()
+                {
+                    Items = new string[] {"CustomerName1"},
+                    text = "First Name"
+                },
+                new TextData()
+                {
+                    Items = new string[] {"CustomerAddress1"},
+                    text = "Customer Address"
+                }
+            };
+
+            var signBlocks = new List<SigBlock>()
+            {
+                new SigBlock()
+                {
+                    signerName = "Signature1",
+                    name = "Signature1",
+
+                    Item = "1",
+                    lowerLeftX = "142",
+                    lowerLeftY = "72",
+                    upperRightX = "293",
+                    upperRightY = "104",
+
+                    customProperty = new CustomProperty[]
+                    {
+                        new CustomProperty()
+                        {
+                            name = "Role",
+                            Value = "Signature1"
+                        }
+                    }
+
+                },
+                ////new SigBlock()
+                ////{
+                //    signerName = "First Name",
+                //    name = "Signature3",
+
+                //    Item = "1",
+                //    lowerLeftX = "80",
+                //    lowerLeftY = "72",
+                //    upperRightX = "150",
+                //    upperRightY = "104"
+                //}
+            };
+
+            var textFields = new List<textField>()
+            {
+                new textField
+                {
+                    name = "CustomerAddress1",
+                    Item = "1",
+                    lowerLeftX = "100",
+                    lowerLeftY = "150",
+                    upperRightX = "250",
+                    upperRightY = "180",
+                    fontSize = "14",
+                    Item1 = textFieldFontTypeFont.Arial,
+                    color  = "Black",
+                }
+            };
+
+            resDv = serviceAgent.InsertFormFields(dpSid, null, null, signBlocks.ToArray()).GetAwaiter().GetResult();
+            Assert.IsFalse(resDv.Item2.Any());
+            //var resDv = serviceAgent.InsertFormFields(dpSid, textFields.ToArray(), null, null).GetAwaiter().GetResult();
+            //Assert.IsFalse(resDv.Item2.Any());
+            resDv = serviceAgent.InsertFormFields(dpSid, null, textData.ToArray(), null).GetAwaiter().GetResult();
+            Assert.IsFalse(resDv.Item2.Any());
+
+            var res = serviceAgent.ConfigureSortOrder(transId, new long[] { dpSid }).GetAwaiter().GetResult();
+            Assert.IsFalse(res.Any());
+
+            var roles = new eoConfigureRolesRole[]
+            {
+                new eoConfigureRolesRole()
+                {
+                    order = "1",
+                    name = "Signature1",
+                    firstName = "First",
+                    lastName = "Name",
+                    eMail = "mkhar@yandex.ru",
+                    ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
+                    Items = new string[] {"123"},
+                    required = true,
+                    signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod()
+                    {
+                        Value = signatureCaptureMethodType.TYPE
+                    },
+                }
+            };
+
+            res = serviceAgent.ConfigureRoles(transId, roles).GetAwaiter().GetResult();
+            Assert.IsFalse(res.Any());
+
+            res = serviceAgent.ConfigureInvitation(transId, "Signature1", "First", "Name", "mkhar@yandex.ru").GetAwaiter().GetResult();
+            Assert.IsFalse(res.Any());
+
+
+
+            serviceAgent.Logout().GetAwaiter().GetResult();
+
+        }
+
     }
 }

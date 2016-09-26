@@ -245,10 +245,10 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), exportTypes.ToArray());
                 MemoryStream ms = new MemoryStream();
                 x.Serialize(ms, ts);
-                
-                XmlWriter xmlWriter = new XmlTextWriter("test.xml", Encoding.UTF8);
-                x.Serialize(xmlWriter, ts);
-                xmlWriter.Flush();
+
+                //XmlWriter xmlWriter = new XmlTextWriter("test.xml", Encoding.UTF8);
+                //x.Serialize(xmlWriter, ts);
+                //xmlWriter.Flush();
 
                 //XmlReader xmlReader = new XmlTextReader(new FileStream("test2.xml",FileMode.Open));                
                 //var test = File.ReadAllText("test2.xml");

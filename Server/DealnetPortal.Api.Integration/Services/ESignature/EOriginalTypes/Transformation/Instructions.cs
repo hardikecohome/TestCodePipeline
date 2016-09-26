@@ -1276,7 +1276,8 @@ namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Trans
         private object[] textFieldListField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("textField", IsNullable = false)]
+        //[System.Xml.Serialization.XmlArrayItemAttribute("textField", IsNullable = false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("TextFieldBase", IsNullable = false)]
         public object[] textFieldList
         {
             get
