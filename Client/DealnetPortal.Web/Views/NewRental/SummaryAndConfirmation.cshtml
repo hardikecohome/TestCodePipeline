@@ -1,11 +1,67 @@
 ﻿@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
-<h2>Summary And Confirmation</h2>
+<div id="label-steps">
+    <div class="dealnet-action-link">New Rental</div> >
+</div>
+
+<div class="dealnet-large-header" id="basic-info">Summary And Confirmation</div>
+
+<div id="steps-line"></div>
+<div class="row" id="steps">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="step-item">1</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step2" class="step-item">2</div>
+
+        <div id="step3" class="step-item">3</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step4" class="step-item">4</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step5" class="step-item step-active">5</div>
+    </div>
+</div>
 
 <form id="basic-info-form">
 @Html.HiddenFor(m => m.BasicInfo.ContractId)
 <div class="form-container">
+    <div class="well rental-summary-emails">
+        <p class="summary-emails-header">
+            <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+        <p class="summary-emails-header2">This contract will be sent to the following emails</p>
+        <form action="">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="homeOwnerEmail">Home Owner Email</label>
+                        <div class="control-group">
+                            <input type="email" name="" id="homeOwnerEmail" class="dealnet-input form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="addApplicantEmail">Additional Applicant Email</label>
+                        <div class="control-group">
+                            <input type="email" name="" id="addApplicantEmail" class="dealnet-input form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group btn-container">
+                        <button class="btn dealnet-button dealnet-success-button">
+                            Send Emails
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 <div class="row credit-check-info-hold">
 <div class="col-md-6">
     <div class="dealnet-credit-check-section" id="home-owner-section">
