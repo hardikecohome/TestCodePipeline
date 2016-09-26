@@ -9,10 +9,10 @@
 //------------------------------------------------------------------------------
 
 using System.Xml.Serialization;
-using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 
 
-namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes
+namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]

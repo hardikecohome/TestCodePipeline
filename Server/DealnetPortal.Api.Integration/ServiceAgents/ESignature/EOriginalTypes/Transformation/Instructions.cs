@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation
+namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]

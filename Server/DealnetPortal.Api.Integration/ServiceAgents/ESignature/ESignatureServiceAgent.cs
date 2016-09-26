@@ -16,18 +16,18 @@ using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes;
-using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb;
-using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
-using DocumentType = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb.DocumentType;
-using textField = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation.textField;
+using DocumentType = DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb.DocumentType;
+using textField = DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation.textField;
 
-namespace DealnetPortal.Api.Integration.Services.ESignature
+namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 {
     public class ESignatureServiceAgent : IESignatureServiceAgent
     {
@@ -60,7 +60,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
             if (response?.Content != null)
             {
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
                 if (eResponse?.status != responseStatus.ok)
                 {
                     alerts = GetAlertsFromResponse(eResponse);                    
@@ -92,7 +92,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
             return eResponse.status == responseStatus.ok;
         }
 
-        public async Task<Tuple<EOriginalTypes.transactionType, IList<Alert>>> CreateTransaction(string transactionName)
+        public async Task<Tuple<transactionType, IList<Alert>>> CreateTransaction(string transactionName)
         {
             IList<Alert> alerts = new List<Alert>();
             var data = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
@@ -102,7 +102,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
             var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateTransaction", data);
 
-            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+            var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
             if (eResponse?.status == responseStatus.ok)
             {
@@ -535,7 +535,7 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
             //return Client.Cookies;
         }
 
-        private IList<Alert> GetAlertsFromResponse(EOriginalTypes.response response)
+        private IList<Alert> GetAlertsFromResponse(response response)
         {
             var alerts = new List<Alert>();
 

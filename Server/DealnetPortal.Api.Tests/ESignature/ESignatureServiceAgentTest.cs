@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Integration.Services.ESignature;
-using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes;
-using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb;
-using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ItemsChoiceType = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb.ItemsChoiceType;
-using textField = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation.textField;
+using ItemsChoiceType = DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb.ItemsChoiceType;
+using textField = DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation.textField;
 //using TypeSetObscureFontTypeFont = DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation.TypeSetObscureFontTypeFont;
 
 namespace DealnetPortal.Api.Tests.ESignature

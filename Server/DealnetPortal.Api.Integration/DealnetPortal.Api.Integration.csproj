@@ -53,19 +53,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServiceAgents\AspireServiceAgent.cs" />
+    <Compile Include="ServiceAgents\IAspireServiceAgent.cs" />
     <Compile Include="Services\AspireService.cs" />
-    <Compile Include="Services\AspireServiceAgent.cs" />
     <Compile Include="Services\ContractService.cs" />
-    <Compile Include="Services\ESignature\ECoreTypes.cs" />
-    <Compile Include="Services\ESignature\EOriginalTypes\ResponseTypes.cs" />
-    <Compile Include="Services\ESignature\EOriginalTypes\SsWeb\Invitation.cs" />
-    <Compile Include="Services\ESignature\EOriginalTypes\SsWeb\Roles.cs" />
-    <Compile Include="Services\ESignature\EOriginalTypes\SsWeb\SortOrder.cs" />
-    <Compile Include="Services\ESignature\EOriginalTypes\Transformation\Instructions.cs" />
-    <Compile Include="Services\ESignature\ESignatureServiceAgent.cs" />
-    <Compile Include="Services\ESignature\IESignatureServiceAgent.cs" />
+    <Compile Include="ServiceAgents\ESignature\ECoreTypes.cs" />
+    <Compile Include="ServiceAgents\ESignature\EOriginalTypes\ResponseTypes.cs" />
+    <Compile Include="ServiceAgents\ESignature\EOriginalTypes\SsWeb\Invitation.cs" />
+    <Compile Include="ServiceAgents\ESignature\EOriginalTypes\SsWeb\Roles.cs" />
+    <Compile Include="ServiceAgents\ESignature\EOriginalTypes\SsWeb\SortOrder.cs" />
+    <Compile Include="ServiceAgents\ESignature\EOriginalTypes\Transformation\Instructions.cs" />
+    <Compile Include="ServiceAgents\ESignature\ESignatureServiceAgent.cs" />
+    <Compile Include="ServiceAgents\ESignature\IESignatureServiceAgent.cs" />
     <Compile Include="Services\IAspireService.cs" />
-    <Compile Include="Services\IAspireServiceAgent.cs" />
     <Compile Include="Services\IContractService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
