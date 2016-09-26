@@ -19,6 +19,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation;
+using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Utilities;
@@ -202,8 +203,6 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
 
                 var transformationInstructions = new List<TransformationInstructions>();
 
-                // Do in 2 calls ???
-
                 var exportTypes = new List<Type>();
 
                 if (signBlocks?.Any() ?? false)
@@ -246,21 +245,8 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 MemoryStream ms = new MemoryStream();
                 x.Serialize(ms, ts);
 
-                //XmlWriter xmlWriter = new XmlTextWriter("test.xml", Encoding.UTF8);
-                //x.Serialize(xmlWriter, ts);
-                //xmlWriter.Flush();
-
-                //XmlReader xmlReader = new XmlTextReader(new FileStream("test2.xml",FileMode.Open));                
-                //var test = File.ReadAllText("test2.xml");
-                ////var set = XmlSerializerHelper.DeserializeFromString<transformationInstructionSet>(test);
-                //TextReader reader = new StringReader(test);
-                //var set = x.Deserialize(reader);
-
-                //var test = File.ReadAllBytes("testInsertFields.xml");
-
                 ms.Position = 0;
                 var fileContent = new ByteArrayContent(ms.GetBuffer());
-                //var fileContent = new ByteArrayContent(test);
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("form-data")
                     {
@@ -291,6 +277,70 @@ namespace DealnetPortal.Api.Integration.Services.ESignature
                 }
 
                 return new Tuple<documentVersionType, IList<Alert>>(null, alerts);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> MergeData(long dpSid, TextData[] textData)
+        {
+            try
+            {
+                IList<Alert> alerts = new List<Alert>();
+
+                var transformationInstructions = new List<TransformationInstructions>();
+
+                var exportTypes = new List<Type>();                
+
+                if (textData?.Any() ?? false)
+                {
+                    transformationInstructions.Add(new AddTextData()
+                    {
+                        name = "addTextData",
+                        textDataList = textData
+                    });
+                    exportTypes.Add(typeof(AddTextData));
+                }
+
+                var ts = new transformationInstructionSet()
+                {
+                    transformationInstructions = transformationInstructions.ToArray()
+                };
+
+                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), exportTypes.ToArray());
+                MemoryStream ms = new MemoryStream();
+                x.Serialize(ms, ts);
+
+                ms.Position = 0;
+                var fileContent = new ByteArrayContent(ms.GetBuffer());
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "formFieldDataXML",
+                        FileName = "formFieldDataXML"
+                    };
+
+                var content = new MultipartFormDataContent();
+                content.Add(new StringContent(dpSid.ToString()), "dpSid");
+                content.Add(fileContent, "formFieldDataXML");
+
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoMergeData", content);
+
+                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+                if (eResponse?.status == responseStatus.ok)
+                {
+                    return alerts;
+                }
+                else
+                {
+                    alerts = GetAlertsFromResponse(eResponse);
+                }
+
+                return alerts;
             }
             catch (Exception ex)
             {

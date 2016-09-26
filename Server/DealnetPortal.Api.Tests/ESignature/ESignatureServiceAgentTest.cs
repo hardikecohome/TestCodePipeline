@@ -251,20 +251,20 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            var resTr = serviceAgent.CreateTransaction("test transaction").GetAwaiter().GetResult();
-            Assert.IsFalse(resTr.Item2.Any());
-            var transId = resTr.Item1.sid;
+            //var resTr = serviceAgent.CreateTransaction("test transaction").GetAwaiter().GetResult();
+            //Assert.IsFalse(resTr.Item2.Any());
+            //var transId = resTr.Item1.sid;
 
-            var resPr = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
-            Assert.IsFalse(resTr.Item2.Any());
-            var dpSid = resPr.Item1.sid;
+            //var resPr = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
+            //Assert.IsFalse(resTr.Item2.Any());
+            //var dpSid = resPr.Item1.sid;
 
-            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2s.pdf");
-            var resDv = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
-            Assert.IsFalse(resDv.Item2.Any());
+            //var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2.pdf");
+            //var resDv = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
+            //Assert.IsFalse(resDv.Item2.Any());
 
-            //var transId = 1626629;
-            //var dpSid = 1626630;
+            var transId = 1627976;
+            var dpSid = 1627977;
 
             var textData = new List<TextData>()
             {
@@ -284,7 +284,7 @@ namespace DealnetPortal.Api.Tests.ESignature
             {
                 new SigBlock()
                 {
-                    signerName = "Signature1",
+                    signerName = "Customer",
                     name = "Signature1",
 
                     Item = "1",
@@ -293,15 +293,14 @@ namespace DealnetPortal.Api.Tests.ESignature
                     upperRightX = "293",
                     upperRightY = "104",
 
-                    customProperty = new CustomProperty[]
-                    {
-                        new CustomProperty()
-                        {
-                            name = "Role",
-                            Value = "Signature1"
-                        }
-                    }
-
+                    //customProperty = new CustomProperty[]
+                    //{
+                    //    new CustomProperty()
+                    //    {
+                    //        name = "Role",
+                    //        Value = "Signature1"
+                    //    }
+                    //}
                 },
                 ////new SigBlock()
                 ////{
@@ -320,24 +319,29 @@ namespace DealnetPortal.Api.Tests.ESignature
             {
                 new textField
                 {
-                    name = "CustomerAddress1",
+                    name = "CustomerAddress2",
                     Item = "1",
-                    lowerLeftX = "100",
-                    lowerLeftY = "150",
-                    upperRightX = "250",
-                    upperRightY = "180",
+                    lowerLeftX = "50",
+                    lowerLeftY = "50",
+                    upperRightX = "150",
+                    upperRightY = "100",
                     fontSize = "14",
-                    Item1 = textFieldFontTypeFont.Arial,
+                    Item1 = textFieldFontTypeFont.Courier,
                     color  = "Black",
                 }
             };
 
-            resDv = serviceAgent.InsertFormFields(dpSid, null, null, signBlocks.ToArray()).GetAwaiter().GetResult();
-            Assert.IsFalse(resDv.Item2.Any());
-            //var resDv = serviceAgent.InsertFormFields(dpSid, textFields.ToArray(), null, null).GetAwaiter().GetResult();
+            var mergeRes = serviceAgent.MergeData(dpSid, textData.ToArray()).GetAwaiter().GetResult();
+            Assert.IsFalse(mergeRes.Any());
+
+            //resDv = serviceAgent.InsertFormFields(dpSid, null, null, signBlocks.ToArray()).GetAwaiter().GetResult();
             //Assert.IsFalse(resDv.Item2.Any());
-            resDv = serviceAgent.InsertFormFields(dpSid, null, textData.ToArray(), null).GetAwaiter().GetResult();
-            Assert.IsFalse(resDv.Item2.Any());
+            //resDv = serviceAgent.InsertFormFields(dpSid, textFields.ToArray(), null, null).GetAwaiter().GetResult();
+            //Assert.IsFalse(resDv.Item2.Any());
+            //resDv = serviceAgent.InsertFormFields(dpSid, null, textData.ToArray(), null).GetAwaiter().GetResult();
+            //Assert.IsFalse(resDv.Item2.Any());
+
+            return;
 
             var res = serviceAgent.ConfigureSortOrder(transId, new long[] { dpSid }).GetAwaiter().GetResult();
             Assert.IsFalse(res.Any());
@@ -347,7 +351,7 @@ namespace DealnetPortal.Api.Tests.ESignature
                 new eoConfigureRolesRole()
                 {
                     order = "1",
-                    name = "Signature1",
+                    name = "Customer",
                     firstName = "First",
                     lastName = "Name",
                     eMail = "mkhar@yandex.ru",
@@ -364,7 +368,7 @@ namespace DealnetPortal.Api.Tests.ESignature
             res = serviceAgent.ConfigureRoles(transId, roles).GetAwaiter().GetResult();
             Assert.IsFalse(res.Any());
 
-            res = serviceAgent.ConfigureInvitation(transId, "Signature1", "First", "Name", "mkhar@yandex.ru").GetAwaiter().GetResult();
+            res = serviceAgent.ConfigureInvitation(transId, "Customer", "First", "Name", "mkhar@yandex.ru").GetAwaiter().GetResult();
             Assert.IsFalse(res.Any());
 
 

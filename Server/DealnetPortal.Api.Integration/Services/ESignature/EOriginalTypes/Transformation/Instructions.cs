@@ -8,14 +8,13 @@ using System.Xml.Serialization;
 
 namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Transformation
 {
-
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.eoriginal.com/AddTextFieldInstructions")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.eoriginal.com/AddTextFieldInstructions", IsNullable = false)]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.eoriginal.com/AddTextFieldInstructions")]
+    //[System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.eoriginal.com/AddTextFieldInstructions", IsNullable = false)]
     public partial class textField
     {
 
@@ -1276,8 +1275,8 @@ namespace DealnetPortal.Api.Integration.Services.ESignature.EOriginalTypes.Trans
         private object[] textFieldListField;
 
         /// <remarks/>
-        //[System.Xml.Serialization.XmlArrayItemAttribute("textField", IsNullable = false)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("TextFieldBase", IsNullable = false)]
+        //[System.Xml.Serialization.XmlArrayItemAttribute("TextFieldBase", IsNullable = false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("textField", IsNullable = true)]
         public object[] textFieldList
         {
             get
