@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Web.Models.EquipmentInformation;
 
 namespace DealnetPortal.Web.Models
 {
@@ -24,7 +25,6 @@ namespace DealnetPortal.Web.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
-        public bool AgrreesToSendPersonalInfo { get; set; }
     }
 
     public class AddressInformation
@@ -86,15 +86,15 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Preffered Withdrawal Date")]
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Blank Number Distribution Account is in incorrect format")]
-        [Display(Name = "Blank Number")]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Bank Number is in incorrect format")]
+        [Display(Name = "Bank Number")]
         public string BlankNumber { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Transit Number Distribution Account is in incorrect format")]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Transit Number is in incorrect format")]
         [Display(Name = "Transit Number")]
         public string TransitNumber { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Account Number Distribution Account is in incorrect format")]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Account Number is in incorrect format")]
         [Display(Name = "Account Number")]
         public string AccountNumber { get; set; }
         [StringLength(20)]
@@ -131,5 +131,12 @@ namespace DealnetPortal.Web.Models
         public ContactInfoViewModel ContactInfo { get; set; }
         public PaymentInfoViewModel PaymentInfo { get; set; }
         public int? ContractId { get; set; }
+    }
+
+    public class SummaryAndConfirmationViewModel
+    {
+        public BasicInfoViewModel BasicInfo { get; set; }
+        public EquipmentInformationViewModel EquipmentInfo { get; set; }
+        public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
     }
 }

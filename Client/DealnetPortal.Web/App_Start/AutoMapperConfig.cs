@@ -92,7 +92,6 @@ namespace DealnetPortal.Web.App_Start
                     (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToShortDateString()));
 
                 cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
-                    .ForMember(x => x.AgrreesToSendPersonalInfo, d => d.Ignore())
                     .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
                 cfg.CreateMap<LocationDTO, AddressInformation>()
                     .ForMember(x => x.InstallationAddress, d => d.MapFrom(src => src.Street))
