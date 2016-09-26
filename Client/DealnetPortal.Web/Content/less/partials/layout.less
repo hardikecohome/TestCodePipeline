@@ -1,6 +1,8 @@
 body{
+  -webkit-font-smoothing: antialiased;
   font-family: @fontLato;
   font-size: 14px;
+  color: @default-dark-grey-color;
   &.open-menu{
     .overlay{
       display: block;
@@ -174,6 +176,9 @@ body.no-authorized .navbar{
   height: 50px;
   padding-left: 15px;
   padding-top: 15px;
+  &:hover{
+    background: #423832;
+  }
 }
 
 .dealnet-sidebar-item-inner {

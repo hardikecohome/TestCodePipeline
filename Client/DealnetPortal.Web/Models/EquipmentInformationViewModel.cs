@@ -1,11 +1,28 @@
-﻿namespace DealnetPortal.Web.Models.EquipmentInformation
-{
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
+namespace DealnetPortal.Web.Models.EquipmentInformation
+{
+    public enum AgreementType
+    {
+        [Display(Name = "Loan Application")]
+        LoanApplication,
+        [Display(Name = " Rental Application (HWT)")]
+        RentalApplicationHwt,
+        [Display(Name = "Rental Application")]
+        RentalApplication
+    }
     public class EquipmentInformationViewModel
     {
+        [Display(Name = "Type of agreement")]
+        public AgreementType AgreementType { get; set; }
+
         public List<NewEquipmentInformation> NewEquipment { get; set; }
+
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
+        [Display(Name = "Total Monthly Payment")]
+        public double TotalMonthlyPayment { get; set; }
+
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
 
         [Required]

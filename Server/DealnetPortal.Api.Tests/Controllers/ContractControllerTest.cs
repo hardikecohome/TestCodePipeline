@@ -87,7 +87,7 @@ namespace DealnetPortal.Api.Tests.Controllers
         {            
             _contractServiceMock.Setup(
                 s =>
-                    s.UpdateContractData(It.IsAny<ContractDataDTO>()))
+                    s.UpdateContractData(It.IsAny<ContractDataDTO>(), It.IsAny<string>()))
                 .Returns(new List<Alert>() { new Alert() });
 
             ContractDataDTO contract = new ContractDataDTO()
@@ -110,7 +110,7 @@ namespace DealnetPortal.Api.Tests.Controllers
         {
             _contractServiceMock.Setup(
                 s =>
-                    s.GetCreditCheckResult(It.IsAny<int>())
+                    s.GetCreditCheckResult(It.IsAny<int>(), It.IsAny<string>())
                     ).Returns(new Tuple<CreditCheckDTO, IList<Alert>>(new CreditCheckDTO(), new List<Alert>() {new Alert()}));
             var responseRes = _contractController.GetCreditCheckResult(1);
             var response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();

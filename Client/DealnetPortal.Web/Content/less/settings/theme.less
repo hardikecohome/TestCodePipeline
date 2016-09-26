@@ -1,0 +1,180 @@
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+  position: relative;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.col-xs-5ths {
+  width: 20%;
+  float: left;
+}
+
+@media (min-width: 768px) {
+  .col-sm-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+
+.dealnet-action-link,
+.dealnet-info-link{
+  font: 400 14px @fontLato;
+  color: @info-link-color;
+  display: inline-block;
+  cursor: pointer;
+  &:hover{
+    color: @info-link-hover-color;
+    .icon-svg{
+      opacity: 1;
+    }
+  }
+}
+.dealnet-action-link{
+  font-size: 12px;
+}
+
+.dealnet-large-header {
+  font: 900 22px @fontLato;
+  color: @heading-text-color;
+}
+
+.dealnet-middle-header {
+  font: 700 20px @fontLato;
+  color: @heading-text-color;
+}
+
+.dealnet-middle-header-2 {
+  font: 700 18px @fontLato;
+  color: @heading-text-color2;
+}
+
+.dealnet-small-header {
+  width: 68px;
+  height: 17px;
+  font: 400 14px @fontLato;
+  color: @heading-text-color2;
+}
+
+.dealnet-button {
+  color: @success-text-color;
+  box-sizing: border-box;
+  display: inline-block;
+  background-repeat: no-repeat;
+  &:hover {
+    color: @success-text-color;
+  }
+
+  & > p {
+    margin-top: 3px;
+    & > img {
+      margin-right: 12px;
+      margin-top: -3px;
+    }
+  }
+}
+.step-item{
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  font: 700 20px/40px @fontLato;
+  border: 4px solid @white-color;
+  box-shadow: 0 0 0 1px @default-grey-color;
+  color: @default-grey-color;
+  background: @white-color;
+  text-decoration: none;
+  &:focus{
+    outline: none;
+
+  }
+  &:hover{
+    color: @default-grey-color;
+  }
+  &.step-active{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px @success-color;
+    background: @success-color;
+    color: @success-text-color;
+    line-height: 40px;
+  }
+}
+#steps {
+  margin: 17px -15px 30px;
+  a.step-item{
+    color: @default-grey-color;
+    &.step-active{
+      color: @success-text-color;
+    }
+    &:hover,
+    &:focus{
+      color: @default-grey-color;
+      text-decoration: none;
+    }
+  }
+}
+
+#step2 {
+  display: inline-block;
+  margin-left: -30px;
+}
+
+#step3 {
+  float: right;
+  margin-right: -40px;
+}
+
+#step4 {
+  float: right;
+  margin-right: -30px;
+}
+
+#step5 {
+  float: right;
+}
+
+@media(max-width: 767px){
+  #step2 {
+    margin-left: -20px;
+  }
+
+  #step4 {
+    margin-right: -20px;
+  }
+}
+
+#steps-line {
+  height: 1px;
+  background-color: #dcdcdc;
+  margin-top: 42px;
+  margin-bottom: -42px;
+}
+
+.pac-container {
+    z-index: 1051 !important;
+}
+
+
+

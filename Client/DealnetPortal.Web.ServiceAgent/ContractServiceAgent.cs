@@ -137,5 +137,19 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes()
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/GetEquipmentTypes");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Equipment Types", ex);
+                throw;
+            }
+        }
     }
 }

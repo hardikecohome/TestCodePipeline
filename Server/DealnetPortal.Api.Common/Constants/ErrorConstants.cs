@@ -13,5 +13,6 @@
 
         public const string EcoreConnectionFailed = "ecore_connection_failed";
 
+        public const string EquipmentTypesRetrievalFailed = "equipment_types_retrieval_failed";
     }
 }

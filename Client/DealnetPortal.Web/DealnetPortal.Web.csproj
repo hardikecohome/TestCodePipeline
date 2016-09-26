@@ -198,12 +198,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\basic-info.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\credit-check.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -349,7 +347,21 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\home-page.css" />
+    <Content Include="Content\images\sprite\delete-name.svg" />
+    <Content Include="Content\images\sprite\get-location.svg" />
+    <Content Include="Content\images\sprite\icon-add-app.svg" />
+    <Content Include="Content\images\sprite\icon-calendar.svg" />
+    <Content Include="Content\images\sprite\icon-edit.svg" />
+    <Content Include="Content\images\sprite\icon-email.svg" />
+    <Content Include="Content\images\sprite\icon-eye.svg" />
+    <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
+    <Content Include="Content\images\sprite\icon-rejected.svg" />
+    <Content Include="Content\images\sprite\icon-reports-btn.svg" />
+    <Content Include="Content\images\sprite\icon-scan-licen.svg" />
+    <Content Include="Content\images\sprite\icon-search.svg" />
+    <Content Include="Content\images\sprite\icon-user.svg" />
+    <Content Include="Content\images\sprite\new-rental.svg" />
+    <Content Include="Content\images\sprite\sprite.svg" />
     <Content Include="Content\images\add-app%402x.png" />
     <Content Include="Content\images\add-app%403x.png" />
     <Content Include="Content\images\add-app-hover.svg" />
@@ -406,10 +418,12 @@
     <Content Include="Content\images\spinner%402x.png" />
     <Content Include="Content\images\spinner%403x.png" />
     <Content Include="Content\images\spinner.png" />
+    <Content Include="Content\images\sprite\successfully-upload.svg" />
     <Content Include="Content\images\upload%402x.png" />
     <Content Include="Content\images\upload%403x.png" />
     <Content Include="Content\images\upload.png" />
     <Content Include="Content\images\upload.svg" />
+    <None Include="Content\less\components\loader.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Content\less\components\icons.less" />
     <Content Include="Content\less\partials\layout.less" />
@@ -417,8 +431,6 @@
     <Content Include="Content\less\partials\navbar-fixed-side.less" />
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
-    <Content Include="Content\jquery.loader.css" />
-    <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -432,12 +444,23 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\less\settings\theme.less" />
+    <Content Include="Content\less\components\forms.less" />
+    <Content Include="Content\less\components\pagination.less" />
+    <Content Include="Content\less\components\tables.less" />
+    <Content Include="Content\less\home-page.less" />
+    <Content Include="Content\less\basic-info.less" />
+    <Content Include="Content\less\credit-check.less" />
+    <Content Include="Content\less\components\buttons.less" />
+    <Content Include="Content\less\components\datapicker.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
+    <Content Include="Scripts\editable-in-modal.js" />
+    <Content Include="Scripts\general-address-autocomplete.js" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery.form.js" />
@@ -531,6 +554,7 @@
     <Content Include="Scripts\home-page.js" />
     <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning.js" />
     <Content Include="Scripts\jquery.loader.js" />
+    <Content Include="Scripts\jquery.placeholder.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -539,6 +563,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\svgxuse.min.js" />
+    <Content Include="Scripts\summary-and-confirmation.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -573,6 +599,10 @@
     <Content Include="Views\NewRental\CreditCheckConfirmation.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\NewRental\ContactAndPaymentInfo.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\NewRental\CreditCheck.cshtml" />
+    <Content Include="Views\NewRental\CreditRejected.cshtml" />
+    <Content Include="Views\NewRental\SummaryAndConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

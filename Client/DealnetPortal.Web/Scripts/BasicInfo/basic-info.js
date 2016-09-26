@@ -52,6 +52,7 @@ $(function () {
         },
         "Please enter a valid date!"
     );
+
 });
 //
 var addAdditionalButton = $("#add-additional-applicant");

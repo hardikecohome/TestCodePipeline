@@ -40,19 +40,24 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetContracts(string ownerUserId)
         {
-            var contracts = _dbContext.Contracts.Where(c => c.Dealer.Id == ownerUserId).ToList();
+            var contracts = _dbContext.Contracts
+                    .Include(c => c.PrimaryCustomer)
+                    .Where(c => c.Dealer.Id == ownerUserId).ToList();
             return contracts;
         }
 
-        public Contract UpdateContractState(int contractId, ContractState newState)
+        public Contract UpdateContractState(int contractId, string contractOwnerId, ContractState newState)
         {
-            var contract = GetContract(contractId);
-            contract.ContractState = newState;
-            contract.LastUpdateTime = DateTime.Now;
+            var contract = GetContract(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                contract.ContractState = newState;
+                contract.LastUpdateTime = DateTime.Now;
+            }
             return contract;
         }
 
-        public Contract GetContract(int contractId)
+        public Contract GetContract(int contractId, string contractOwnerId)
         {
             return _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
@@ -61,10 +66,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
-                .FirstOrDefault(c => c.Id == contractId);
+                .FirstOrDefault(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
-        public Contract GetContractAsUntracked(int contractId)
+        public Contract GetContractAsUntracked(int contractId, string contractOwnerId)
         {
             return _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
@@ -74,7 +79,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .AsNoTracking().
-                FirstOrDefault(c => c.Id == contractId);
+                FirstOrDefault(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
         public bool DeleteContract(string contractOwnerId, int contractId)
@@ -113,7 +118,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return cleaned;
         }
 
-        public Contract UpdateContract(Contract contract)
+        public Contract UpdateContract(Contract contract, string contractOwnerId)
         {
             contract.ContractState = ContractState.CustomerInfoInputted;
             _dbContext.Entry(contract).State = EntityState.Modified;
@@ -121,11 +126,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        public Contract UpdateContractData(ContractData contractData)
+        public Contract UpdateContractData(ContractData contractData, string contractOwnerId)
         {
             if (contractData != null)
             {
-                var contract = GetContract(contractData.Id);
+                var contract = GetContract(contractData.Id, contractOwnerId);
                 if (contract != null)
                 {
                     if (contractData.PrimaryCustomer != null)
@@ -153,25 +158,21 @@ namespace DealnetPortal.DataAccess.Repositories
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
-                    if (contractData.Phones != null)
-                    {
-                    }
-
                     if (contractData.Equipment != null)
                     {
-                        this.AddOrUpdateEquipment(contract, contractData.Equipment);
+                        AddOrUpdateEquipment(contract, contractData.Equipment);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
-                    if (contractData.ContactInfo != null || contract.ContactInfo != null)
+                    if (contractData.ContactInfo != null)
                     {
                         AddOrUpdateContactInfo(contract, contractData.ContactInfo);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
-                    if (contractData.PaymentInfo != null || contract.PaymentInfo != null)
+                    if (contractData.PaymentInfo != null)
                     {
                         AddOrUpdatePaymentInfo(contract, contractData.PaymentInfo);
                         contract.ContractState = ContractState.CustomerInfoInputted;
@@ -182,6 +183,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
             return null;
+        }
+
+        public IList<EquipmentType> GetEquipmentTypes()
+        {
+            return _dbContext.EquipmentTypes.ToList();
         }
 
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
@@ -254,17 +260,19 @@ namespace DealnetPortal.DataAccess.Repositories
             return dbEquipment;
         }        
 
-        public ContractData GetContractData(int contractId)
+        public ContractData GetContractData(int contractId, string contractOwnerId)
         {
             ContractData contractData = new ContractData()
             {
                 Id = contractId
             };
-            var contract = GetContractAsUntracked(contractId);
-            contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
-            contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
-            contractData.Equipment = contract.Equipment;
-
+            var contract = GetContractAsUntracked(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
+                contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
+                contractData.Equipment = contract.Equipment;
+            }
             return contractData;
         }
 
@@ -329,8 +337,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private Customer AddOrUpdateCustomer(Customer customer)
         {
-            var dbCustomer = _dbContext.Customers.Find(customer.Id);
-            if (dbCustomer == null || customer.Id == 0)
+            var dbCustomer = customer.Id == 0 ? null : _dbContext.Customers.Find(customer.Id);
+            if (dbCustomer == null)
             {
                 dbCustomer = _dbContext.Customers.Add(customer);
             }

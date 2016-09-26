@@ -53,6 +53,7 @@
     <Compile Include="Contract.cs" />
     <Compile Include="ContractDetails.cs" />
     <Compile Include="EquipmentInfo.cs" />
+    <Compile Include="EquipmentType.cs" />
     <Compile Include="ExistingEquipment.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="ContractData.cs" />

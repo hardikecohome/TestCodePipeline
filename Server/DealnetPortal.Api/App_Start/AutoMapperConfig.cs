@@ -41,6 +41,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))
                 .ForMember(x => x.ContactInfo, o => o.MapFrom(src => src.ContactInfo))
                 .ForMember(x => x.PaymentInfo, o => o.MapFrom(src => src.PaymentInfo));
+            mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>();
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
@@ -48,7 +49,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<LocationDTO, Location>()
                 .ForMember(x => x.Customer, s => s.Ignore());
             mapperConfig.CreateMap<PhoneDTO, Phone>()
-                .ForMember(x => x.PaymentInfo, s => s.Ignore());
+                .ForMember(x => x.ContactInfo, s => s.Ignore());
 
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
                 .ForMember(d => d.Contract, x => x.Ignore());

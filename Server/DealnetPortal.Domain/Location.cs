@@ -23,9 +23,9 @@ namespace DealnetPortal.Domain
         public string Unit { get; set; }
         [MaxLength(50)]
         public string City { get; set; }
-        [MaxLength(10)]
+        [MaxLength(30)]
         public string State { get; set; }
-        [MaxLength(50)]
+        [MaxLength(10)]
         public string PostalCode { get; set; }
 
         //public int ContractId { get; set; }

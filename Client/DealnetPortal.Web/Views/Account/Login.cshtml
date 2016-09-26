@@ -14,7 +14,7 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "" })
-                    <div>
+                    <div class="control-group">
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, new { @class = "" })
-                    <div>
+                    <div class="control-group control-group-pass">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
@@ -31,8 +31,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="pull-left">
-                                <label>
+                                <label class="align-middle custom-checkbox">
                                     @Html.CheckBoxFor(m => m.RememberMe)
+                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
                                     <span>Remember me?</span>
                                 </label>
                             </div>

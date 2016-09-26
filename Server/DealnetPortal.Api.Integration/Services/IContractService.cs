@@ -17,18 +17,20 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<ContractDTO> GetContracts(string contractOwnerId);
 
-        ContractDTO GetContract(int contractId);
+        ContractDTO GetContract(int contractId, string contractOwnerId);
 
-        IList<Alert> UpdateContractClientData(int contractId, IList<LocationDTO> addresses, IList<CustomerDTO> customers);
+        IList<Alert> UpdateContractClientData(int contractId, string contractOwnerId, IList<LocationDTO> addresses, IList<CustomerDTO> customers);
 
-        IList<Alert> UpdateContractData(ContractDataDTO contract);
+        IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId);
         
-        IList<Alert> InitiateCreditCheck(int contractId);
+        IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
 
-        Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId);
+        Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
 
-        IList<Alert> SubmitContract(int contractId);
+        IList<Alert> SubmitContract(int contractId, string contractOwnerId);
 
         IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
+
+        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();
     }
 }

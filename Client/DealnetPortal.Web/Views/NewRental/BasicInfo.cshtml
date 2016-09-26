@@ -14,7 +14,7 @@
 }
 
 <div id="label-steps">
-    <div class="dealnet-action-link">New Rental</div> >
+    <div class="dealnet-action-link">New Application</div> >
 </div>
 
 
@@ -23,58 +23,46 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a href="@Url.Action("BasicInfo")">
-            <div class="dealnet-empty-circle">
-                <div class="dealnet-green-circle">1</div>
-            </div>
-        </a>
+        <a href="@Url.Action("BasicInfo")" class="step-item step-active">1</a>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step2">
-            <div class="dealnet-empty-circle">2</div>
-        </div>
+        <div id="step2" class="step-item">2</div>
 
-        <div id="step3">
-            <div class="dealnet-empty-circle">3</div>
-        </div>
+        <div id="step3" class="step-item">3</div>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step4">
-            <div class="dealnet-empty-circle">4</div>
-        </div>
+        <div id="step4" class="step-item">4</div>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step5">
-            <div class="dealnet-empty-circle">5</div>
-        </div>
+        <div id="step5" class="step-item">5</div>
     </div>
 </div>
-
+<div class="form-container">
 @using (Html.BeginForm())
 {
+
     @Html.HiddenFor(m => m.ContractId)
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 
     if (!ViewBag.IsMobileRequest)
     {
         <div class="row scanlicense-button">
-            <div class="col-xs-12 col-md-3 col-lg-3">
-                <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
-                    <p class="dealnet-green-button-text">
-                        <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                    </p>
-                </div>
+            <div class="col-md-12">
+                <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                    <span>Scan Licence</span>
+                </button>
+                <span class="scanlicense-notify">Scan license and this info will be filled out automatically</span>
             </div>
         </div>
     }
     else
     {
         <div class="row scanlicense-button">
-            <div class="col-xs-12 col-md-3 col-lg-3">
-                <div class="file-upload btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="owner-scan-button">
-                    <p class="dealnet-green-button-text">
-                        <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                    </p>
+            <div class="col-md-12">
+                <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
+                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                    <span>Scan Licence</span>
                     <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', true)"/>
                 </div>
             </div>
@@ -102,9 +90,9 @@
                                     <canvas id="capture-canvas" class="capture-frame"></canvas>
                                     <canvas id="big-capture-canvas"></canvas>
                                     <div id="capture-buttons">
-                                        <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
                                         <div id="capture-buttons-2">
-                                            <input type="button" class="btn dealnet-button dealnet-green-button big-green-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
+                                            <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
                                             <div id="retake" onclick="retakePhoto()">Retake</div>
                                         </div>
                                     </div>
@@ -113,10 +101,9 @@
                             <div role="tabpanel" class="tab-pane fade" id="profile">
                                 <div id="upload-area">
                                     <div id="upload-buttons">
-                                        <div class="file-upload btn dealnet-button dealnet-green-button" id="upload-file-button">
-                                            <p class="dealnet-green-button-text">
-                                                <img src="~/content/images/upload.png">Upload Photo
-                                            </p>
+                                        <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                                            <span class="icon"><img src="~/content/images/upload.png"></span>
+                                            <span>Upload Photo</span>
                                             <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')"/>
                                         </div>
                                     </div>
@@ -131,34 +118,46 @@
 
     <div class="row owner-info">
         <div class="col-md-4 col-lg-4">
-            First Name
-            @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = "First Name" })
-            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = "First Name" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
         <div class="col-md-4 col-lg-4">
-            Last Name
-            @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name" })
-            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
         <div class="col-md-4 col-lg-4">
-            Date of Birth
-            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
-            @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="birth-date">Date of Birth</label>  
+                <div class="control-group date-group">          
+                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
 
     <div id="additional1-section"@if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[0]?.FirstName != null) { <text>data-initialized="true"</text> }>
-        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional1-remove">x</div></div>
+        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional1-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
 
         @if (!ViewBag.IsMobileRequest)
         {
             <div class="row scanlicense-button">
-                <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional1-scan-button" data-toggle="modal" data-target="#camera-modal">
-                        <p class="dealnet-green-button-text">
-                            <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                        </p>
-                    </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="additional1-scan-button" data-toggle="modal" data-target="#camera-modal">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                        <span>Scan Licence</span>
+                    </button>
+                    <span class="scanlicense-notify">Scan license and this info will be filled out automatically</span>
                 </div>
             </div>
         }
@@ -166,10 +165,9 @@
         {
             <div class="row scanlicense-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div class="file-upload btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
-                        <p class="dealnet-green-button-text">
-                            <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                        </p>
+                    <div class="file-upload btn dealnet-button dealnet-success-button col-xs-12 col-lg-12 col-md-12">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                        <span>Scan Licence</span>
                         <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-1', 'additional-last-name-1', 'additional-birth-date-1', false)" />
                     </div>
                 </div>
@@ -178,35 +176,47 @@
 
         <div class="row owner-info">
             <div class="col-md-4 col-lg-4">
-                First Name
-                @Html.TextBoxFor(m => m.AdditionalApplicants[0].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-1", placeholder = "First Name", disabled = "disabled" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-first-name-1">First Name</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-1", placeholder = "First Name", disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>    
             </div>
             <div class="col-md-4 col-lg-4">
-                Last Name
-                @Html.TextBoxFor(m => m.AdditionalApplicants[0].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-1", placeholder = "Last Name", disabled = "disabled" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-last-name-1">Last Name</label>  
+                    <div class="control-group">              
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-1", placeholder = "Last Name", disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
+                    </div> 
+                </div> 
             </div>
             <div class="col-md-4 col-lg-4">
-                Date of Birth
-                @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-birth-date-1">Date of Birth</label>  
+                    <div class="control-group date-group">               
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
 
     <div id="additional2-section"@if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 1 && Model.AdditionalApplicants[1]?.FirstName != null) { <text>data-initialized="true"</text> }>
-        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional2-remove">x</div></div>
+        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional2-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
 
         @if (!ViewBag.IsMobileRequest)
         {
             <div class="row scanlicense-button">
-                <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
-                        <p class="dealnet-green-button-text">
-                            <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                        </p>
-                    </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                        <span>Scan Licence</span>
+                    </button>
+                    <span class="scanlicense-notify">Scan license and this info will be filled out automatically</span>
                 </div>
             </div>
         }
@@ -215,9 +225,8 @@
             <div class="row scanlicense-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
                     <div class="file-upload btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
-                        <p class="dealnet-green-button-text">
-                            <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                        </p>
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                        <span>Scan Licence</span>
                         <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-2', 'additional-last-name-2', 'additional-birth-date-2', false)" />
                     </div>
                 </div>
@@ -226,35 +235,47 @@
 
         <div class="row owner-info">
             <div class="col-md-4 col-lg-4">
-                First Name
-                @Html.TextBoxFor(m => m.AdditionalApplicants[1].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-2", placeholder = "First Name", disabled = "disabled" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-first-name-2">First Name</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-2", placeholder = "First Name", disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>        
             </div>
             <div class="col-md-4 col-lg-4">
-                Last Name
-                @Html.TextBoxFor(m => m.AdditionalApplicants[1].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-2", placeholder = "Last Name", disabled = "disabled" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-last-name-2">Last Name</label>
+                    <div class="control-group">                        
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-2", placeholder = "Last Name", disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>        
             </div>
             <div class="col-md-4 col-lg-4">
-                Date of Birth
-                @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-birth-date-2">Date of Birth</label>
+                    <div class="control-group date-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="additional3-section"@if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 2 && Model.AdditionalApplicants[2]?.FirstName != null) { <text>data-initialized="true"</text> }>
-        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional3-remove">x</div></div>
+        <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional3-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
 
         @if (!ViewBag.IsMobileRequest)
         {
             <div class="row scanlicense-button">
-                <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div type="button" class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" id="additional3-scan-button" data-toggle="modal" data-target="#camera-modal">
-                        <p class="dealnet-green-button-text">
-                            <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                        </p>
-                    </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                        <span>Scan Licence</span>
+                    </button>
+                    <span class="scanlicense-notify">Scan license and this info will be filled out automatically</span>
                 </div>
             </div>
         }
@@ -263,9 +284,8 @@
             <div class="row scanlicense-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
                     <div class="file-upload btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
-                        <p class="dealnet-green-button-text">
-                            <img src="~/content/images/icon-scan-licen.png">Scan Licence
-                        </p>
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                        <span>Scan Licence</span>
                         <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-3', 'additional-last-name-3', 'additional-birth-date-3', false)" />
                     </div>
                 </div>
@@ -274,129 +294,182 @@
 
         <div class="row owner-info">
             <div class="col-md-4 col-lg-4">
-                First Name
-                @Html.TextBoxFor(m => m.AdditionalApplicants[2].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-3", placeholder = "First Name", disabled = "disabled" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-first-name-3">First Name</label>
+                    <div class="control-group">                
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-3", placeholder = "First Name", disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>        
             </div>
             <div class="col-md-4 col-lg-4">
-                Last Name
-                @Html.TextBoxFor(m => m.AdditionalApplicants[2].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-3", placeholder = "Last Name", disabled = "disabled" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-last-name-3">Last Name</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-3", placeholder = "Last Name", disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>        
             </div>
             <div class="col-md-4 col-lg-4">
-                Date of Birth
-                @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
-                @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="additional-birth-date-3">Date of Birth</label>
+                    <div class="control-group date-group">                
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>        
             </div>
         </div>
     </div>
 
     <div id="add-additional-applicant">
-            <div>
-                <img src="~/Content/images/add-app.png" />Add additional applicant
+            <div class="align-middle">
+                <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                <span>Add additional applicant</span>
             </div>
         </div>
 
         <p id="address-info-label" class="dealnet-middle-header">Address Information</p>
 
         <div class="row">
-            <div class="col-xs-12 col-md-3 col-lg-3">
-                <div class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12" onclick="autodetectAddress()">
-                    <p class="dealnet-green-button-text">
-                        <img src="~/content/images/get-location.png">Get My Location
-                    </p>
+            <div class="col-md-12">
+                <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
+                    <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-get-location"></use></svg>
+                    <span>Get My Location</span>
                 </div>
             </div>
         </div>
 
         <div class="row" id="address-info1">
             <div class="col-md-6 col-lg-6">
-                Installation Address
-                @Html.TextBoxFor(m => m.AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
-                @Html.ValidationMessageFor(m => m.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="street">Installation Address</label>
+                    <div class="control-group">                
+                        @Html.TextBoxFor(m => m.AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
+                        @Html.ValidationMessageFor(m => m.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>        
             </div>
             <div class="col-md-2 col-lg-2">
-                Unit #
-                @Html.TextBoxFor(m => m.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
-                @Html.ValidationMessageFor(m => m.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="unit_number">Unit #</label>
+                    <div class="control-group">                 
+                        @Html.TextBoxFor(m => m.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
+                        @Html.ValidationMessageFor(m => m.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>  
             </div>
             <div class="col-md-4 col-lg-4">
-                City
-                @Html.TextBoxFor(m => m.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
-                @Html.ValidationMessageFor(m => m.AddressInformation.City, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="locality">City</label>
+                    <div class="control-group">                
+                        @Html.TextBoxFor(m => m.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
+                        @Html.ValidationMessageFor(m => m.AddressInformation.City, "", new { @class = "text-danger" })
+                    </div>
+                </div> 
             </div>
         </div>
 
         <div class="row" id="address-info2">
             <div class="col-md-4 col-lg-4">
-                Province
-                @Html.TextBoxFor(m => m.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
-                @Html.ValidationMessageFor(m => m.AddressInformation.Province, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="administrative_area_level_1">Province</label>
+                    <div class="control-group">                 
+                        @Html.TextBoxFor(m => m.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
+                        @Html.ValidationMessageFor(m => m.AddressInformation.Province, "", new { @class = "text-danger" })
+                    </div>
+                </div> 
             </div>
             <div class="col-md-4 col-lg-4">
-                Postal Code
-                @Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code", placeholder = "12345" })
-                @Html.ValidationMessageFor(m => m.AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="postal_code">Postal Code</label>
+                    <div class="control-group">                
+                        @Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code", placeholder = "12345" })
+                        @Html.ValidationMessageFor(m => m.AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                    </div>
+                </div> 
             </div>
             <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
-                <p>
-                    <div class="dealnet-gray-circle">x</div>
-                    Clear Address
-                </p>
+                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg>
+                <span>Clear Address</span>                    
             </div>
         </div>
 
-        <p id="mailing-adress-different">
-            <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model?.MailingAddressInformation != null) { <text>checked</text> }/>Mailing address is different
-        </p>
+        <div id="mailing-adress-different" class="form-group">
+            <label for="mailing-adress-checkbox" class="align-middle custom-checkbox">
+                <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model?.MailingAddressInformation != null) { <text>checked</text> }/>
+                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
+                <span>Mailing address is different</span>
+            </label>
+        </div>
 
         <div id="mailing-adress">
             <div class="row" id="mailing-adress1">
                 <div class="col-md-6 col-lg-6">
-                    Mailing Address
-                    @Html.TextBoxFor(m => m.MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="mailing_street">Mailing Address</label>
+                        <div class="control-group"> 
+                            @Html.TextBoxFor(m => m.MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div> 
                 </div>
                 <div class="col-md-2 col-lg-2">
-                    Unit #
-                    @Html.TextBoxFor(m => m.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="mailing_unit_number">Unit #</label>
+                        <div class="control-group">                    
+                            @Html.TextBoxFor(m => m.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div> 
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    City
-                    @Html.TextBoxFor(m => m.MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "mailing_locality", placeholder = "Ottawa", disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.City, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="mailing_locality">City</label>
+                        <div class="control-group">                     
+                            @Html.TextBoxFor(m => m.MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "mailing_locality", placeholder = "Ottawa", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.MailingAddressInformation.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div> 
                 </div>
             </div>
 
             <div class="row" id="mailing-adress2">
                 <div class="col-md-4 col-lg-4">
-                    Province
-                    @Html.TextBoxFor(m => m.MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder = "Nepean", disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.Province, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="mailing_administrative_area_level_1">Province</label>
+                        <div class="control-group">                            
+                            @Html.TextBoxFor(m => m.MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder = "Nepean", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.MailingAddressInformation.Province, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    Postal Code
-                    @Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="mailing_postal_code">Postal Code</label>
+                        <div class="control-group">                            
+                            @Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-mailing-address">
-                    <p>
-                        <div class="dealnet-gray-circle">x</div>
-                        Clear Address
-                    </p>
+                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg>
+                    <span>Clear Address</span>    
                 </div>
             </div>
         </div>
 
     <div class="row" id="saveproceed-button">
         <div class="col-xs-12 col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-green-button col-xs-12 col-lg-12 col-md-12">
-                <p class="dealnet-green-button-text">Save and Proceed</p>
+            <button class="btn dealnet-button dealnet-success-button">
+                Save and Proceed
             </button>
         </div>
     </div>
 }
+</div>
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/basic-info") : Scripts.Render("~/bundles/basic-info-mobile"))

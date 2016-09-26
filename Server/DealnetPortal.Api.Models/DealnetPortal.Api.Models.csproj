@@ -47,8 +47,9 @@
     <Compile Include="Aspire\DealUploadResponce.cs" />
     <Compile Include="Aspire\Header.cs" />
     <Compile Include="Aspire\Payload.cs" />
-    <Compile Include="Contract\ContactInfoDTO.cs" />    
+    <Compile Include="Contract\ContactInfoDTO.cs" />
     <Compile Include="Contract\ContractDataDTO.cs" />
+    <Compile Include="Contract\EquipmentTypeDTO.cs" />
     <Compile Include="Contract\LocationDTO.cs" />
     <Compile Include="Contract\ContractDTO.cs" />
     <Compile Include="Contract\CreditCheckDTO.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />
+    <Compile Include="Scanning\VoidChequeData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">

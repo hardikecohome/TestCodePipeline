@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetContract(int contractId)
         {
-            var contract = ContractService.GetContract(contractId);
+            var contract = ContractService.GetContract(contractId, LoggedInUser?.UserId);
             if (contract != null)
             {
                 return Ok(contract);
@@ -94,7 +94,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.UpdateContractData(contractData);
+                var alerts = ContractService.UpdateContractData(contractData, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -109,7 +109,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.InitiateCreditCheck(contractId);
+                var alerts = ContractService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = ContractService.GetCreditCheckResult(contractId);
+                var result = ContractService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -142,6 +142,21 @@ namespace DealnetPortal.Api.Controllers
 
             var result = ContractService.GetDealsFlowingSummary(LoggedInUser?.UserId, type);
             return Ok(result);
+        }
+
+        [Route("GetEquipmentTypes")]
+        [HttpGet]
+        public IHttpActionResult GetEquipmentTypes()
+        {
+            try
+            {
+                var result = ContractService.GetEquipmentTypes();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }

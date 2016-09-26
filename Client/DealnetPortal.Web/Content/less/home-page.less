@@ -1,14 +1,29 @@
 ﻿.dealnet-page-button {
+    .dealnet-success-button;
+
+    display: block;
     border-radius: 4px;
     background-color: #61c53c;
     box-shadow: 0 1px 0 0 #42a01f;
-    line-height: 89px;
-    font-family: @fontLato;
-    font-size: 14px;
-    font-weight: bold;
+    font: bold 14px/89px @fontLato;
     color: #ffffff;
     text-align: center;
     vertical-align: middle;
+    width: 100%;
+    height: 89px;
+    text-decoration: none;
+    &:hover{
+        color: #fff;
+    }
+    .icon{
+        margin-right: 20px;
+        width: 30px;
+        height: 30px;
+        opacity: 0.5;
+        &+span{
+            margin-left: 0;
+        }
+    }
 }
 
 .dealnet-page-button.new-rental {
@@ -20,10 +35,11 @@
 }
 
 #work-items-table{
+    table-layout: auto;
     width: 100% !important;
-    td{
+    /*td{
         width: 200px !important;
-    }
+    }*/
 }
 
 @media(max-width: 677px) {

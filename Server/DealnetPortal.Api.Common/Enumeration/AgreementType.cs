@@ -10,10 +10,10 @@ namespace DealnetPortal.Api.Common.Enumeration
     public enum AgreementType
     {
         [Description("Loan Application")]
-        Loan = 0,
+        LoanApplication = 0,
         [Description("Rental Application (HWT)")]
-        RentalHWT = 1,
+        RentalApplicationHwt = 1,
         [Description("Rental Application")]
-        Rental = 2
+        RentalApplication = 2
     }
 }

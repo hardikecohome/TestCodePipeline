@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,13 @@ namespace DealnetPortal.Domain
         public int Id { get; set; }
         public PaymentType PaymentType { get; set; }
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        [MaxLength(20)]
         public string BlankNumber { get; set; }
+        [MaxLength(20)]
         public string TransitNumber { get; set; }
+        [MaxLength(20)]
         public string AccountNumber { get; set; }
+        [MaxLength(20)]
         public string EnbridgeGasDistributionAccount { get; set; }
 
         public virtual Contract Contract { get; set; }

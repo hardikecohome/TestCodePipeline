@@ -1,3 +1,93 @@
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"]{
+  box-shadow: none;
+}
+::-ms-clear {
+  display: none;
+}
+::-ms-reveal {
+  display: none;
+}
+select.form-control{
+  option {
+    color: black;
+    &:first-child {
+      color: grey;
+    }
+  }
+  &.empty {
+    color: grey;
+  }
+  /* Hidden placeholder */
+  option[disabled]:first-child {
+    display: none;
+  }
+}
+hr{
+  border-color: @default-grey-color;
+}
+
+html.ie9 select{
+  padding: 0;
+}
+
+.form-group{
+  label{
+    margin-bottom: 7px;
+  }
+}
+.form-container{
+  @media (max-width: 991px) {
+    max-width: 528px;
+    margin: 0 auto;
+    .dealnet-success-button{
+      width: 100%;
+      display: block;
+      max-width: 355px;
+      margin: 0 auto;
+      height: 49px;
+      line-height: 36px;
+    }
+    .scanlicense-notify{
+      text-align: center;
+    }
+  }
+}
+.custom-checkbox{
+  position: relative;
+  input[type="checkbox"]{
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    &:checked ~ .checkbox-icon{
+      .icon-checked{
+        opacity: 1;
+      }
+    }
+  }
+  .checkbox-icon{
+    position: relative;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    border: solid 1px @default-grey-color;
+    margin: 0 10px 0 0;
+    .icon-checked{
+      width: 14px;
+      height: 14px;
+      display: block;
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      right: -3px;
+    }
+  }
+
+}
 .validation-summary-errors{
   ul{
     padding: 0;
@@ -7,4 +97,243 @@
       margin: 0 0 10px;
     }
   }
+}
+
+  label,
+  .dealnet-field-caption{
+    font: 14px @fontLato;
+    color: @heading-text-color2;
+  }
+
+.form-control{
+  &.input-validation-error{
+    border-color: @danger-color;
+  }
+  &:focus{
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
+    border: solid 1px @default-grey-color;
+  }
+}
+
+.text-danger {
+  display: block;
+  text-align: left;
+  font: 11px @fontLato;
+  color: @danger-color;
+  margin-top: 5px;
+}
+
+.input-validation-error {
+  border: solid 1px @danger-color;
+}
+
+.clear-address,
+.align-middle{
+  vertical-align: middle;
+  & > *{
+    vertical-align: middle;
+  }
+
+}
+.clear-address{
+  line-height: 38px !important;
+}
+.control-group{
+  position: relative;
+  input.form-control{
+    padding-right: 28px;
+  }
+  &.has-addon-left{
+    input.form-control{
+      padding-left: 24px;
+    }
+    .control-group-addon{
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 40px;
+      line-height: 42px;
+      width: 24px;
+      padding: 0;
+      text-align: center;
+      background: transparent;
+      border: 0;
+    }
+  }
+  &.control-group-pass{
+    .icon-svg{
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      display: inline-block;
+      pointer-events: none;
+    }
+  }
+
+    .icon-calendar,
+    .icon-eye{
+      position: absolute;
+      right: 5px;
+      top: 12px;
+      display: inline-block;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+      color: #979797;
+    }
+  .icon-eye{
+    right: 8px;
+  }
+
+  .clear-input{
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    color: #dcdcdc;
+    &:hover,
+    &:focus{
+      color: #cacaca;
+    }
+  }
+
+  input:not(:placeholder-shown) ~ .clear-input{
+    display: block;
+  }
+  input:read-only ~ .clear-input{
+    display: none !important
+  }
+  .modal-body{
+    input:not(:empty) ~ .clear-input{
+      display: block;
+    }
+  }
+}
+
+#table-title{
+  .icon-search-control{
+    @media (max-width: 991px) {
+      display: block !important;
+    }
+    position: absolute;
+    right: 15px;
+    top: -4px;
+    padding: 5px;
+    color: @heading-text-color2;
+    font-size: 18px;
+  }
+}
+div.dataTables_wrapper div.dataTables_filter{
+
+  margin: 0;
+  @media (min-width: 992px) {
+    display: block !important;
+  }
+  @media (max-width: 991px) {
+    float: none;
+    text-align: left;
+    display: none;
+  }
+
+  label{
+    position: relative;
+    .label-caption{
+      display: block;
+      margin: 10px 0;
+      font-weight: bold;
+      font-size: 18px;
+      @media (min-width: 992px) {
+        display: none;
+      }
+    }
+
+    .icon-search{
+      position: absolute;
+      right: 4px;
+      top: 2px;
+      display: inline-block;
+      padding: 5px;
+      @media (max-width: 991px) {
+        display: none;
+      }
+
+    }
+
+/*    @media (max-width: 677px) {
+      width: 280px;
+      input{
+        margin: 0;
+        transition: width 0.3s linear;
+        &:focus{
+          box-shadow: none;
+          outline: none;
+          border-color: #cccccc;
+        }
+        &:not(.active){
+          transition: width 0.3s linear, opacity 0.3s 0.1s linear;
+          width: 0px;
+          padding: 0;
+          opacity: 0;
+        }
+      }
+    }*/
+  }
+  input{
+    width: 280px;
+    padding-right: 30px;
+    margin: 0;
+    max-width: 100%;
+  }
+}
+
+.dealnet-input,
+.form-control{
+  height: 40px;
+  border-radius: 4px;
+  border: solid 1px @default-grey-color;
+  margin-top: 0;
+  margin-bottom: 0;
+  font: 500 14px/26px @fontLato;
+  color: @form-text-color;
+}
+
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+  opacity: 1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+  opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+}
+.placeholder,
+.pac-placeholder{ /* Internet Explorer 9 */
+  font: 400 14px/26px @fontLato;
+  color: @default-grey-color;
+}
+
+.dealnet-checkbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: solid 1px @default-grey-color;
+  background: transparent;
+}
+
+.dealnet-disabled-text {
+  font: 500 14px @fontLato;
+  color: @default-grey-color;
 }

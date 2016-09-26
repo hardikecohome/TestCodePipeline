@@ -68,26 +68,53 @@ function showTable() {
             .DataTable({
                 responsive: {
                     details: {
-                        display: $.fn.dataTable.Responsive.display.childRowImmediate
+                        display: $.fn.dataTable.Responsive.display.childRow
                     }
                 },
                 data: data,
+                oLanguage: {
+                  "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                  "oPaginate": {
+                    "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
+                    "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
+                  }
+                },
                 columns: [
-                    { "data" : "Id" },
-                    { "data": "CustomerName" },
-                    { "data": "Status" },
-                    { "data": "Action" },
-                    { "data": "Email" },
-                    { "data": "Phone" },
-                    { "data": "Date" },
-                    {// this is Actions Column 
-                        "render": function (sdata, type, row) {
-                            return '<a href=' + editItemUrl + '/' + row.Id + ' class="edit-link" title="Edit">Edit</a>';
-                        }
-                    }
-                ]
+                      { "data" : "Id" },
+                      { "data": "CustomerName" },
+                      { "data": "Status" },
+                      { "data": "Action" },
+                      { "data": "Email" },
+                      { "data": "Phone" },
+                      { "data": "Date"},
+                      {// this is Actions Column
+                          "render": function (sdata, type, row) {
+                              return '<a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>';
+                          }
+                      }
+                  ],
+
+                columnDefs: [
+                  { responsivePriority: 8, targets: -1 },
+                  { width: "40px", targets: -1 }
+                ],
+                dom:
+                "<'row'<'col-md-6''<'#table-title.dealnet-caption'>'><'col-md-6'f>>" +
+                "<'row'<'col-md-12'l>>" +
+                "<'row'<'col-md-12'tr>>" +
+                "<'row'<'col-md-12'p>>" +
+                "<'row'<'col-md-12'i>>",
+                renderer: 'bootstrap'
             });
-        $('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
-        $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');
+        $('#table-title').html('My Work Items <span class="icon-search-control hidden"><i class="glyphicon glyphicon-search"></i></span>');
+        $('#table-title .icon-search-control').on('click', function(){
+          $('#work-items-table_filter').slideToggle();
+        });
+        /*$('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
+        $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');*/
+
+        /*$('#work-items-table_filter .icon-search').on('click', function(){
+          $(this).siblings('input').toggleClass('active');
+        });*/
     });
 };

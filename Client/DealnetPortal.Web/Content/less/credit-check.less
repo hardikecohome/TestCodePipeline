@@ -1,0 +1,341 @@
+.dealnet-field-holder {
+  display: inline-block;
+  text-align: right;
+  margin-left: auto;
+  margin-right: 0;
+  float: right;
+  clear: right;
+   a{
+    font: 14px @fontLato;
+  }
+  .icon-calendar{
+    display: none !important;
+  }
+}
+.modal-body{
+  .dealnet-field-holder {
+    .icon-calendar{
+      display: block !important;
+    }
+  }
+}
+
+.dealnet-section-title {
+  margin: 0 0 20px;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 22px;
+}
+.dealnet-section-edit-link{
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 22px;
+}
+#credit-check-form .dealnet-button {
+  margin-top: 10px;
+}
+
+.editor-modal .modal-footer {
+  text-align: center;
+}
+
+.editor-modal .modal-dialog {
+  width: 100% !important;
+  margin-top: 65px !important;
+}
+
+.dealnet-disabled-input{
+  border: none;
+  background: none;
+  text-align: right;
+  font: bold 14px @fontLato;
+  color: @heading-text-color2;
+  max-width: 100%;
+}
+
+.dealnet-modal-section{
+  border: none !important;
+  margin-top: 10px !important;
+  padding-right: 10px !important;
+  & > div {
+    text-align: left !important;
+  }
+}
+
+
+
+
+@media(max-width: 480px) {
+  .dealnet-credit-check-section {
+    padding-right: 0 !important;
+    border: none !important;
+  }
+}
+
+.editor-modal .modal-footer .dealnet-button {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.editor-modal .modal-body {
+  padding-top: 0px;
+}
+
+.dealnet-modal-section input{
+  display: block !important;
+  width: 100% !important;
+}
+
+.dealnet-modal-section .dealnet-field-holder {
+  float: none !important;
+  width: 100% !important;
+}
+
+.dealnet-modal-section>div:first-child {
+  display: none !important;
+}
+
+.dealnet-credit-check-section {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.credit-check-info-hold{
+  & > div[class^="col-"]{
+    &:nth-child(odd) {
+      @media (min-width: 992px) {
+        clear: left;
+        padding-right: 0;
+        .dealnet-credit-check-section{
+          padding-right: 15%;
+        }
+      }
+   }
+    &:nth-child(even) {
+      @media (min-width: 992px) {
+        padding-left: 0;
+        .dealnet-credit-check-section{
+          padding-left: 10%;
+          position: relative;
+          &:before{
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 40px;
+            bottom: 8px;
+            width: 1px;
+            background: #000;
+          }
+        }
+      }
+   }
+  }
+  &.cols-no-titles{
+    & > div[class^="col-"]{
+      &:nth-child(even) {
+        .dealnet-credit-check-section:before{
+          @media (min-width: 992px) {
+            top: 0;
+          }
+        }
+      }
+    }
+  }
+  &.equipment-info{
+    & > div[class^="col-"]{
+      .dealnet-credit-check-section{
+        @media (max-width: 992px) {
+          border-bottom: 1px solid #000 !important;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
+.new-rental-credit-check{
+  width: 528px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px;
+  @media (max-width: 767px) {
+    font-size: 16px;
+  }
+
+  .loader-container{
+    margin: 170px auto 70px;
+    @media (max-width: 767px) {
+      margin: 30px auto 20px;
+      .loader{
+        font-size: 17px;
+      }
+    }
+
+  }
+}
+
+.rejected-info{
+  margin-top: 50px;
+  font-size: 16px;
+  h3{
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  ol{
+    padding-left: 15px;
+    li{
+      margin-bottom: 20px;
+    }
+  }
+  .button-container{
+    margin-top: 30px;
+  }
+}
+
+.equipment-form-container{
+  margin-top: 30px;
+  .equipment-proceed-success{
+    font-weight: bold;
+    font-size: 16px;
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+  .owner-info-label{
+    margin: 15px 0 10px;
+  }
+  .add-equip-link{
+    margin: 25px 0;
+  }
+  @media (min-width: 992px) and (max-width: 1170px) {
+    .row{
+      margin: 0 -10px;
+      & > div[class^="col-"]{
+        padding: 0 10px;
+      }
+    }
+  }
+}
+
+
+.rental-summary-emails{
+  border-radius: 0;
+  box-shadow: none;
+  border-color: @default-grey-color;
+  .summary-emails-header{
+    position: relative;
+    font-size: 16px;
+    margin-bottom: 10px;
+    @media (max-width: 991px) {
+      padding-left: 44px;
+    }
+    .icon{
+      margin: 0 8px;
+      @media (max-width: 991px) {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+  .summary-emails-header2{
+    font-size: 16px;
+    @media (max-width: 991px) {
+      padding-left: 44px;
+    }
+  }
+  .btn-container{
+    .btn{
+      margin-top: 20px;
+      @media (min-width: 992px) {
+        margin-top: 25px;
+        float: right;
+        width: 85%;
+      }
+    }
+  }
+}
+.summary-info-hold{
+  #new-equipment-info-section{
+    .dealnet-disabled-input{
+      text-align: left;
+      font-weight: 400;
+      width: 100%;
+    }
+  }
+  .summary-payment-info{
+    .dealnet-field-caption{
+      font-size: 18px;
+      text-transform: uppercase;
+      font-weight: 900;
+      opacity: 0.85;
+      @media (min-width: 992px) {
+        margin: 10px 0;
+      }
+      @media (max-width: 767px) {
+        margin: 10px 0;
+      }
+    }
+    .dealnet-field-holder{
+      text-align: left;
+      font-weight: 700;
+      font-size: 18px;
+      color: @default-dark-grey-color;
+      @media (min-width: 768px) and (max-width: 991px) {
+        text-align: right;
+      }
+    }
+    .dealnet-disabled-input{
+      text-align: left;
+      font-size: 18px;
+      width: 85%;
+      float: none;
+      display: inline-block;
+      color: @default-dark-grey-color;
+      @media (min-width: 768px) and (max-width: 991px) {
+        text-align: right;
+      }
+    }
+    .summary-payment-info-item{
+      @media (max-width: 991px) {
+        margin: 5px 0 15px;
+      }
+    }
+  }
+
+  .summary-return-equipment{
+    .dealnet-section-title{
+      margin-top: 30px;
+    }
+    .dealnet-disabled-input{
+      width: 100%;
+      text-align: left;
+    }
+  }
+  .btn-container-proceed{
+    margin-top: 20px;
+  }
+  .btn-finish{
+    @media (min-width: 992px) {
+      float: left;
+      margin-right: 40px;
+    }
+  }
+  .print-link{
+    display: block;
+    text-align: center;
+    line-height: 39px;
+    padding: 10px;
+    color: @default-dark-grey-color;
+    &:hover, &:focus{
+      color: @default-dark-grey-color;
+    }
+    @media (min-width: 992px) {
+      display: inline-block;
+      text-align: left;
+      padding: 0;
+    }
+    display: none !important;
+  }
+}

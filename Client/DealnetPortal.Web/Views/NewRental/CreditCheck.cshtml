@@ -1,0 +1,42 @@
+﻿@model int
+
+<div id="label-steps">
+    <div class="dealnet-action-link">New Application</div> >
+</div>
+<div class="dealnet-large-header">Equipment Information</div>
+<div id="steps-line"></div>
+<div class="row" id="steps">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="step-item">1</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step2" class="step-item">2</div>
+
+        <div id="step3" class="step-item step-active">3</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step4" class="step-item">4</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step5" class="step-item">5</div>
+    </div>
+</div>
+<div class="new-rental-credit-check">
+    <div class="loader-container"><div class="loader">Loading...</div></div>
+    <p>
+        We are checking the information.
+    </p>
+    <p>
+        Usually it takes about two minutes.
+    </p>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";
+            });
+    </script>
+}

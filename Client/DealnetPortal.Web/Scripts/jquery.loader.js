@@ -44,9 +44,9 @@ var jQueryLoaderOptions = null;
 				return;
 			default:
 				var options = $.extend({
-					content:"Loading ...",
-					className:'loader',
-					id:'jquery-loader',
+					content: "Loading ...",
+					className: 'loader',
+					id: 'jquery-loader',
 					height:60,
 					width:200,
 					zIndex:30000,
@@ -87,7 +87,7 @@ var jQueryLoaderOptions = null;
 	};
 	$.fn.center = function () {
 		this.css("position","absolute");
-	    this.css("top", ( $(window).height() - this.outerHeight() ) / 2+$(window).scrollTop() + "px");
+	    this.css("top", ( $(window).height()/2 - this.outerHeight()/2 )+$(window).scrollTop() + "px");
 	    this.css("left", ( $(window).width() - this.outerWidth() ) / 2+$(window).scrollLeft() + "px");
 	    return this;
 	};
