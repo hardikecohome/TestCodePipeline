@@ -107,16 +107,6 @@
         clear: left;
         padding-right: 0;
         .dealnet-credit-check-section{
-          position: relative;
-          &:before{
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 1px;
-            background: #000;
-          }
           padding-right: 15%;
         }
       }
@@ -131,8 +121,9 @@
             content: '';
             position: absolute;
             left: -1px;
-            top: 0;
-            height: 100%;
+            top: 50%;
+            height: 150px;
+            margin-top: -75px;
             width: 1px;
             background: #000;
           }
@@ -202,6 +193,44 @@
       margin: 0 -10px;
       & > div[class^="col-"]{
         padding: 0 10px;
+      }
+    }
+  }
+}
+
+.rental-summary-emails{
+  border-radius: 0;
+  box-shadow: none;
+  border-color: @default-grey-color;
+  .summary-emails-header{
+    position: relative;
+    font-size: 16px;
+    margin-bottom: 10px;
+    @media (max-width: 991px) {
+      padding-left: 44px;
+    }
+    .icon{
+      margin: 0 8px;
+      @media (max-width: 991px) {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+  .summary-emails-header2{
+    font-size: 16px;
+    @media (max-width: 991px) {
+      padding-left: 44px;
+    }
+  }
+  .btn-container{
+    .btn{
+      margin-top: 20px;
+      @media (min-width: 992px) {
+        margin-top: 25px;
+        float: right;
+        width: 85%;
       }
     }
   }

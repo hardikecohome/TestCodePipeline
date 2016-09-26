@@ -122,9 +122,15 @@
   }
 }
 #steps {
-  margin-top: 17px;
-  a{
-    &:hover{
+  margin: 17px -15px 30px;
+  a.step-item{
+    color: @default-grey-color;
+    &.step-active{
+      color: @success-text-color;
+    }
+    &:hover,
+    &:focus{
+      color: @default-grey-color;
       text-decoration: none;
     }
   }
