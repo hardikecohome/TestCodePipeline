@@ -73,20 +73,20 @@ function addIconsToFields(fields){
   iconCalendar.appendTo(fieldDateParent);
   iconClearField.appendTo(fieldParent);
   iconPassField.appendTo(fieldPassParent);
+  setTimeout(function(){
+    fields.each(function(){
+      if($(this).val().length > 0){
+        $(this).siblings('.clear-input').show();
+      }else{
+        $(this).siblings('.clear-input').hide();
+      }
+    });
+  }, 100);
 }
 
 function toggleClearInputIcon(fields){
   var fields = fields || $('.control-group input, .control-group textarea');
-  var fieldParent = fields.parent('.control-group:not(.date-group)');
-  var fieldParent = fields.parent('.control-group:not(.date-group)');
-
-  fieldParent.find('.clear-input').each(function(){
-    if($(this).siblings('input, textarea').val() === ""){
-      $(this).hide();
-    }else{
-      $(this).show();
-    }
-  });
+  var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   fields.on('keyup', function(){
     if($(this).val().length !== 0){
       $(this).siblings('.clear-input').show();
