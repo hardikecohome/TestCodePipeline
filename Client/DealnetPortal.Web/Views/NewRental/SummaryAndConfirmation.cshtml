@@ -15,7 +15,7 @@
                 <div class="dealnet-field-caption col-xs-6">First Name</div>
 
                 <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                 </div>
             </div>
 
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
 
                 <div class="dealnet-field-holder col-xs-6">
                     <div class="control-group date-group">
-                        @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today"})
+                        @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = "" })
                         <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                             First Name
                         </div>
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                            @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                             Last Name
                         </div>
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                            @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                         </div>
                     </div>
 
@@ -86,7 +86,7 @@
                             Date of Birth
                         </div>
                         <div class="dealnet-field-holder col-xs-6">
-                            @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "additional" + i + 1 + "birth-date", data_val_date = "Date must be in range 1900 - Today"})
+                            @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today"})
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                     Installation Address
                 </div>
                 <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.InstallationAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.InstallationAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                 </div>
             </div>
         </div>
@@ -118,7 +118,7 @@
                     Unit #
                 </div>
                 <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.UnitNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.UnitNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
                     City
                 </div>
                 <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.City, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.City, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                 </div>
             </div>
         </div>
@@ -139,7 +139,7 @@
                     Province
                 </div>
                 <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.Province, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.Province, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
                     Postal Code
                 </div>
                 <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                 </div>
             </div>
 
@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.InstallationAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.InstallationAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -185,7 +185,7 @@
                         Unit #
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.UnitNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.UnitNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
 
@@ -196,7 +196,7 @@
                         City
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.City, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.City, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
 
@@ -207,7 +207,7 @@
                         Province
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.Province, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.Province, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
 
@@ -218,7 +218,7 @@
                         Postal Code
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -244,7 +244,7 @@
                         Home Phone
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.HomePhone, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.HomePhone, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -255,7 +255,7 @@
                         Cell Phone
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.CellPhone, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.CellPhone, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -266,7 +266,7 @@
                         Business Phone
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.BusinessPhone, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.BusinessPhone, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -276,7 +276,7 @@
                         Email Address
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -286,7 +286,7 @@
                         House Size
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.HouseSize, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.HouseSize, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
 
@@ -318,7 +318,7 @@
                                 Qty
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -329,7 +329,7 @@
                                 Type
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Type, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Type, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -340,7 +340,7 @@
                                 Description
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -350,7 +350,7 @@
                                 Cost
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -360,7 +360,7 @@
                                 Monthly Payment
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -370,7 +370,7 @@
                                 Estimated Installation Date
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -386,7 +386,7 @@
                 Monthly Payment
             </div>
             <div class="dealnet-field-holder col-xs-6">
-                @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
             </div>
         </div>
     </div>
@@ -406,7 +406,7 @@
                         Payment Type
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -417,7 +417,7 @@
                         Preferred Withdrawal Date
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -428,7 +428,7 @@
                         Account Number
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -438,7 +438,7 @@
                         Transit Number
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
             </div>
@@ -448,7 +448,7 @@
                         Bank Number
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
 
@@ -459,7 +459,7 @@
                         Enbridge Gas Distribution Account
                     </div>
                     <div class="dealnet-field-holder col-xs-6">
-                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>
 

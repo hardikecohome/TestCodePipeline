@@ -37,7 +37,7 @@
 						@Html.LabelFor(m => Model.HomeOwner.FirstName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.HomeOwner.FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.HomeOwner.FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id="" })
 							</div>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 						@Html.LabelFor(m => Model.HomeOwner.LastName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.HomeOwner.LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.HomeOwner.LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -59,7 +59,7 @@
 						@Html.Label("HomeOwner_BirthDate", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
-								@Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today" })
+								@Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = "" })
 							</div>
 						</div>
 					</div>
@@ -88,7 +88,7 @@
 						@Html.LabelFor(m => Model.AdditionalApplicants[0].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -99,7 +99,7 @@
 						@Html.LabelFor(m => Model.AdditionalApplicants[0].LastName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -110,7 +110,7 @@
 						@Html.Label("additional-birth-date-1", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "additional-birth-date-1", data_val_date = "Date must be in range 1900 - Today" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
 							</div>
 						</div>
 					</div>
@@ -137,7 +137,7 @@
 						@Html.LabelFor(m => Model.AdditionalApplicants[1].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[1].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[1].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -148,7 +148,7 @@
 						@Html.LabelFor(m => Model.AdditionalApplicants[1].LastName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[1].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[1].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -159,7 +159,7 @@
 						@Html.Label("additional-birth-date-2", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "additional-birth-date-2", data_val_date = "Date must be in range 1900 - Today" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
 							</div>
 						</div>
 					</div>
@@ -186,7 +186,7 @@
 						@Html.LabelFor(m => Model.AdditionalApplicants[2].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[2].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[2].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -197,7 +197,7 @@
 						@Html.LabelFor(m => Model.AdditionalApplicants[2].LastName, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[2].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[2].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -208,7 +208,7 @@
 						@Html.Label("additional-birth-date-3", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "additional-birth-date-3", data_val_date = "Date must be in range 1900 - Today" })
+								@Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
 							</div>
 						</div>
 					</div>
@@ -232,7 +232,7 @@
 						@Html.LabelFor(m => Model.AddressInformation.InstallationAddress, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -243,7 +243,7 @@
 						@Html.LabelFor(m => Model.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -254,7 +254,7 @@
 						@Html.LabelFor(m => Model.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -264,7 +264,7 @@
 						@Html.LabelFor(m => Model.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -274,7 +274,7 @@
 						@Html.LabelFor(m => Model.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -292,7 +292,7 @@
 						@Html.Label("MailingAddressInformation_InstallationAddress", "Mailing Address", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.MailingAddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.MailingAddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -302,7 +302,7 @@
 						@Html.LabelFor(m => Model.MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.MailingAddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.MailingAddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -313,7 +313,7 @@
 						@Html.LabelFor(m => Model.MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.MailingAddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.MailingAddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -324,7 +324,7 @@
 						@Html.LabelFor(m => Model.MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.MailingAddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.MailingAddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -335,7 +335,7 @@
 						@Html.LabelFor(m => Model.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+								@Html.TextBoxFor(m => Model.MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 							</div>
 						</div>
 					</div>
@@ -467,7 +467,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										@Html.Label("additional" + i + 1 + "birth-date", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
 										<div class="dealnet-field-holder col-xs-6">
 											<div class="control-group date-group">
-												@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional" + i + 1 + "birth-date", data_val_date = "Date must be in range 1900 - Today" })
+												@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional" + (i + 1) + "-birth-date", data_val_date = "Date must be in range 1900 - Today" })
 												@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new { @class = "text-danger" })
 											</div>
 										</div>
