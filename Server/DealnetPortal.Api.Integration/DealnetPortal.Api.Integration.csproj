@@ -69,6 +69,8 @@
     <Compile Include="Services\IContractService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ISignatureService.cs" />
+    <Compile Include="Services\SignatureService.cs" />
     <Compile Include="Utility\NoTypeAttributeXmlWriter.cs" />
     <Compile Include="Utility\DriverLicenseParser.cs" />
   </ItemGroup>
