@@ -64,7 +64,7 @@ namespace DealnetPortal.Web.Controllers
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
             if (contractResult?.Item1 != null)
             {
-                var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
+                var updateResult = await UpdateContractAsync(basicInfo);
                 if (updateResult.Any(r => r.Type == AlertType.Error))
                 {
                     return View("~/Views/Shared/Error.cshtml");
@@ -147,7 +147,13 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View("~/Views/Shared/Error.cshtml");
             }
-            return View(new ContactAndPaymentInfoViewModel()); //TODO: Navigate to next step
+            return RedirectToAction("SummaryAndConfirmation", new { contractId = contactAndPaymentInfo.ContractId });
+        }
+
+        public async Task<ActionResult> SummaryAndConfirmation(int contractId)
+        {
+            ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
+            return View(await GetSummaryAndConfirmationAsync(contractId));
         }
 
         [HttpPost]
@@ -157,9 +163,29 @@ namespace DealnetPortal.Web.Controllers
             {
                 return GetErrorJson();
             }
-            var contractResult = await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
-            if (contractResult?.Item1 == null) return GetErrorJson();
-            var updateResult = await UpdateContractAsync(contractResult.Item1, basicInfo);
+            var updateResult = await UpdateContractAsync(basicInfo);
+            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
+        {
+            if (!ModelState.IsValid || contactAndPaymentInfo.ContractId == null)
+            {
+                return GetErrorJson();
+            }
+            var updateResult = await UpdateContractAsync(contactAndPaymentInfo);
+            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateEquipmentInfo(EquipmentInformationViewModel equipmentInfo)
+        {
+            if (!ModelState.IsValid || equipmentInfo.ContractId == null)
+            {
+                return GetErrorJson();
+            }
+            var updateResult = await UpdateContractAsync(equipmentInfo);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
@@ -238,17 +264,7 @@ namespace DealnetPortal.Web.Controllers
                 return basicInfo;
             }
             basicInfo.ContractId = contractId;
-            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contractResult.Item1.PrimaryCustomer);
-            basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contractResult.Item1.SecondaryCustomers);
-
-            basicInfo.AddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contractResult.Item1.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MainAddress));
-            basicInfo.MailingAddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contractResult.Item1.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MailAddress));
+            MapBasicInfo(basicInfo, contractResult.Item1);
             return basicInfo;
         }
 
@@ -261,13 +277,78 @@ namespace DealnetPortal.Web.Controllers
                 return contactAndPaymentInfo;
             }
             contactAndPaymentInfo.ContractId = contractId;
-            contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(
-                    contractResult.Item1.PaymentInfo);
-            contactAndPaymentInfo.ContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
-                    contractResult.Item1.ContactInfo);
-            if (contractResult.Item1.ContactInfo?.Phones != null)
+            MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
+            return contactAndPaymentInfo;
+        }
+
+        private async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
+        {
+            var equipmentInfo = new EquipmentInformationViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
             {
-                foreach (var phone in contractResult.Item1.ContactInfo.Phones)
+                return equipmentInfo;
+            }
+            equipmentInfo.ContractId = contractId;
+            equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+            MapEquipmentInfo(equipmentInfo, contractResult.Item1);
+            return equipmentInfo;
+        }
+
+        private async Task<SummaryAndConfirmationViewModel> GetSummaryAndConfirmationAsync(int contractId)
+        {
+            var summaryAndConfirmation = new SummaryAndConfirmationViewModel();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
+            {
+                return summaryAndConfirmation;
+            }
+            summaryAndConfirmation.BasicInfo = new BasicInfoViewModel();
+            summaryAndConfirmation.BasicInfo.ContractId = contractId;
+            MapBasicInfo(summaryAndConfirmation.BasicInfo, contractResult.Item1);
+            summaryAndConfirmation.EquipmentInfo = new EquipmentInformationViewModel();
+            summaryAndConfirmation.EquipmentInfo.ContractId = contractId;
+            summaryAndConfirmation.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+            MapEquipmentInfo(summaryAndConfirmation.EquipmentInfo, contractResult.Item1);
+            summaryAndConfirmation.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
+            summaryAndConfirmation.ContactAndPaymentInfo.ContractId = contractId;
+            MapContactAndPaymentInfo(summaryAndConfirmation.ContactAndPaymentInfo, contractResult.Item1);
+            return summaryAndConfirmation;
+        }
+
+        private void MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
+        {
+            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
+            basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
+
+            basicInfo.AddressInformation =
+                AutoMapper.Mapper.Map<AddressInformation>(
+                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
+                        l => l.AddressType == AddressType.MainAddress));
+            basicInfo.MailingAddressInformation =
+                AutoMapper.Mapper.Map<AddressInformation>(
+                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
+                        l => l.AddressType == AddressType.MailAddress));
+        }
+
+        private void MapEquipmentInfo(EquipmentInformationViewModel equipmentInfo, ContractDTO contract)
+        {
+            if (equipmentInfo != null)
+            {
+                equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contract.Equipment?.NewEquipment);
+                equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment?.ExistingEquipment);
+            }
+        }
+
+        private void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
+        {
+            contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(
+                    contract.PaymentInfo);
+            contactAndPaymentInfo.ContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
+                    contract.ContactInfo);
+            if (contract.ContactInfo?.Phones != null)
+            {
+                foreach (var phone in contract.ContactInfo.Phones)
                 {
                     switch (phone.PhoneType)
                     {
@@ -283,27 +364,9 @@ namespace DealnetPortal.Web.Controllers
                     }
                 }
             }
-            return contactAndPaymentInfo;
         }
 
-        private async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
-        {
-            var equipmentInfo = new EquipmentInformationViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
-            {
-                return equipmentInfo;
-            }
-            equipmentInfo.ContractId = contractId;
-            equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-            if (equipmentInfo != null) { 
-                equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contractResult.Item1.Equipment?.NewEquipment);
-                equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment?.ExistingEquipment);
-            }
-            return equipmentInfo;
-        }
-
-        private async Task<IList<Alert>> UpdateContractAsync(ContractDTO contract, BasicInfoViewModel basicInfo)
+        private async Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo)
         {
             var contractData = new ContractDataDTO();
             contractData.Id = basicInfo.ContractId ?? 0;
