@@ -15,13 +15,15 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IESignatureServiceAgent _signatureServiceAgent;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
+        private readonly IFileRepository _fileRepository;        
 
         public SignatureService(IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
-            ILoggingService loggingService)
+                                IFileRepository fileRepository, ILoggingService loggingService)
         {
             _signatureServiceAgent = signatureServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
+            _fileRepository = fileRepository;
         }
 
         public IList<Alert> ProcessContract(int contractId, string ownerUserId)

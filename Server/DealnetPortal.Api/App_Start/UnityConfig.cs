@@ -35,8 +35,9 @@ namespace DealnetPortal.Api
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
 
             container.RegisterType<IContractRepository, ContractRepository>();
+            container.RegisterType<IFileRepository, FileRepository>();
 
-            container.RegisterType<IContractService, ContractService>();
+            container.RegisterType<IContractService, ContractService>();            
 
             container.RegisterType<AccountController>(new InjectionConstructor());
 
