@@ -337,8 +337,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private Customer AddOrUpdateCustomer(Customer customer)
         {
-            var dbCustomer = _dbContext.Customers.Find(customer.Id);
-            if (dbCustomer == null || customer.Id == 0)
+            var dbCustomer = customer.Id == 0 ? null : _dbContext.Customers.Find(customer.Id);
+            if (dbCustomer == null)
             {
                 dbCustomer = _dbContext.Customers.Add(customer);
             }
