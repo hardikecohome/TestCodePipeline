@@ -268,6 +268,12 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Id = contract.Id
             };
 
+            contractData.PrimaryCustomer = new Customer()
+            {
+                FirstName = "First name",
+                LastName = "Last name",
+                DateOfBirth = DateTime.Today
+            };
             contractData.SecondaryCustomers = new List<Customer>()
             {
                 new Customer()
