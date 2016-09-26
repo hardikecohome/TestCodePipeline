@@ -121,15 +121,35 @@
             content: '';
             position: absolute;
             left: -1px;
-            top: 50%;
-            height: 150px;
-            margin-top: -75px;
+            top: 40px;
+            bottom: 8px;
             width: 1px;
             background: #000;
           }
         }
       }
    }
+  }
+  &.cols-no-titles{
+    & > div[class^="col-"]{
+      &:nth-child(even) {
+        .dealnet-credit-check-section:before{
+          @media (min-width: 992px) {
+            top: 0;
+          }
+        }
+      }
+    }
+  }
+  &.equipment-info{
+    & > div[class^="col-"]{
+      .dealnet-credit-check-section{
+        @media (max-width: 992px) {
+          border-bottom: 1px solid #000 !important;
+          margin-bottom: 20px;
+        }
+      }
+    }
   }
 }
 
@@ -234,5 +254,88 @@
         width: 85%;
       }
     }
+  }
+}
+.summary-info-hold{
+  #new-equipment-info-section{
+    .dealnet-disabled-input{
+      text-align: left;
+      font-weight: 400;
+      width: 100%;
+    }
+  }
+  .summary-payment-info{
+    .dealnet-field-caption{
+      font-size: 18px;
+      text-transform: uppercase;
+      font-weight: 900;
+      opacity: 0.85;
+      @media (min-width: 992px) {
+        margin: 10px 0;
+      }
+      @media (max-width: 767px) {
+        margin: 10px 0;
+      }
+    }
+    .dealnet-field-holder{
+      text-align: left;
+      font-weight: 700;
+      font-size: 18px;
+      color: @default-dark-grey-color;
+      @media (min-width: 768px) and (max-width: 991px) {
+        text-align: right;
+      }
+    }
+    .dealnet-disabled-input{
+      text-align: left;
+      font-size: 18px;
+      width: 85%;
+      float: none;
+      display: inline-block;
+      color: @default-dark-grey-color;
+      @media (min-width: 768px) and (max-width: 991px) {
+        text-align: right;
+      }
+    }
+    .summary-payment-info-item{
+      @media (max-width: 991px) {
+        margin: 5px 0 15px;
+      }
+    }
+  }
+
+  .summary-return-equipment{
+    .dealnet-section-title{
+      margin-top: 30px;
+    }
+    .dealnet-disabled-input{
+      width: 100%;
+      text-align: left;
+    }
+  }
+  .btn-container-proceed{
+    margin-top: 20px;
+  }
+  .btn-finish{
+    @media (min-width: 992px) {
+      float: left;
+      margin-right: 40px;
+    }
+  }
+  .print-link{
+    display: block;
+    text-align: center;
+    line-height: 39px;
+    padding: 10px;
+    color: @default-dark-grey-color;
+    &:hover, &:focus{
+      color: @default-dark-grey-color;
+    }
+    @media (min-width: 992px) {
+      display: inline-block;
+      text-align: left;
+      padding: 0;
+    }
+    display: none !important;
   }
 }

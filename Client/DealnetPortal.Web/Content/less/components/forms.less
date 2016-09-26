@@ -1,6 +1,7 @@
 input[type="text"],
 input[type="email"],
-input[type="tel"]{
+input[type="tel"],
+input[type="password"]{
   box-shadow: none;
 }
 ::-ms-clear {
@@ -23,6 +24,9 @@ select.form-control{
   option[disabled]:first-child {
     display: none;
   }
+}
+hr{
+  border-color: @default-grey-color;
 }
 
 html.ie9 select{
