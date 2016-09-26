@@ -38,7 +38,6 @@
 
                             <div class="dealnet-field-holder col-xs-6">
                                 @Html.TextBoxFor(m => Model.HomeOwner.FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -51,7 +50,6 @@
 
                             <div class="dealnet-field-holder col-xs-6">
                                 @Html.TextBoxFor(m => Model.HomeOwner.LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -65,7 +63,6 @@
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group date-group">
                                     @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today" })
-                                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
                                     <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
                                 </div>
                             </div>
@@ -97,7 +94,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[0].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -109,7 +105,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[0].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -121,7 +116,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "additional-birth-date-1", data_val_date = "Date must be in range 1900 - Today" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -153,7 +147,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[1].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -165,7 +158,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[1].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -177,7 +169,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "additional-birth-date-2", data_val_date = "Date must be in range 1900 - Today" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -206,7 +197,6 @@
                                 <div class="dealnet-field-holder col-xs-6">
 
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[2].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -218,7 +208,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.AdditionalApplicants[2].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -231,7 +220,6 @@
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group date-group">
                                         @Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "additional-birth-date-3", data_val_date = "Date must be in range 1900 - Today" })
-                                        @Html.ValidationMessageFor(m => Model.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
                                         <svg aria-hidden="true" class="icon-svg icon-calendar"><use xlink:href="#icon-calendar"></use></svg>
                                     </div>
                                 </div>
@@ -264,7 +252,6 @@
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
                                 @Html.TextBoxFor(m => Model.AddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                @Html.ValidationMessageFor(m => Model.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -276,7 +263,6 @@
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
                                 @Html.TextBoxFor(m => Model.AddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                @Html.ValidationMessageFor(m => Model.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -288,7 +274,6 @@
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
                                 @Html.TextBoxFor(m => Model.AddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                @Html.ValidationMessageFor(m => Model.AddressInformation.City, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -299,7 +284,6 @@
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
                                 @Html.TextBoxFor(m => Model.AddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                @Html.ValidationMessageFor(m => Model.AddressInformation.Province, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -310,7 +294,6 @@
                             </div>
                             <div class="dealnet-field-holder col-xs-6">
                                 @Html.TextBoxFor(m => Model.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                @Html.ValidationMessageFor(m => Model.AddressInformation.PostalCode, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -336,7 +319,6 @@
 
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.MailingAddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -347,7 +329,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.MailingAddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -359,7 +340,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.MailingAddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.MailingAddressInformation.City, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -371,7 +351,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.MailingAddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.MailingAddressInformation.Province, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -383,7 +362,6 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-6">
                                     @Html.TextBoxFor(m => Model.MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                    @Html.ValidationMessageFor(m => Model.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -460,7 +438,7 @@
                     </div>
                     <div class="modal-footer">
                         <div>
-                            <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#home-owner-section-modal'), $('#home-owner-section'), '@Url.Action("UpdateBasicInfo", "NewRental")')) { $('#home-owner-modal').modal('hide'); }">Save changes</button>
+                            <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#home-owner-section-modal'), $('#home-owner-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#home-owner-modal').modal('hide'); }">Save changes</button>
                         </div>
                         <div>
                             <a href="#" data-dismiss="modal">Cancel</a>
@@ -535,7 +513,7 @@
                             </div>
                             <div class="modal-footer">
                                 <div>
-                                    <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#additional@(i+1)-section-modal'), $('#additional@(i+1)-section'), '@Url.Action("UpdateBasicInfo", "NewRental")')) { $('#additional@(i+1)-modal').modal('hide'); }">Save changes</button>
+                                    <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#additional@(i+1)-section-modal'), $('#additional@(i+1)-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#additional@(i+1)-modal').modal('hide'); }">Save changes</button>
                                 </div>
                                 <div>
                                     <a href="#" data-dismiss="modal">Cancel</a>
@@ -627,7 +605,7 @@
                     </div>
                     <div class="modal-footer">
                         <div>
-                            <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")')) { $('#address-modal').modal('hide'); }">Save changes</button>
+                            <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
                         </div>
                         <div>
                             <a href="#" data-dismiss="modal">Cancel</a>
@@ -719,7 +697,7 @@
                         </div>
                         <div class="modal-footer">
                             <div>
-                                <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")')) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
+                                <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
                             </div>
                             <div>
                                 <a href="#" data-dismiss="modal">Cancel</a>
