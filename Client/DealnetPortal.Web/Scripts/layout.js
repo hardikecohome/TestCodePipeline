@@ -15,33 +15,38 @@
             window.location.href = $(this).find('a').attr('href');
         });
 
-        var $body = $('body');
-        $('.navbar-toggle').click(function(){
-          var topOffset;
-          if($('.navbar-collapse').attr('aria-expanded') === 'false'){
-            topOffset = $(window).scrollTop();
-            $body.css('top', -topOffset);
-            $body.css('overflow', 'hidden');
-            $body.addClass('open-menu');
-            $('.overlay').show();
-          }else{
-            $body.css('top', -topOffset);
-            $body.css('overflow', 'auto');
-            $body.removeClass('open-menu');
-            $('.overlay').hide();
-          }
-        });
+      $(document).on('show.bs.modal', function () {
+        saveScrollPosition();
+        console.log('open');
+      }).on('hidden.bs.modal', function () {
+        if($('.modal:visible').length == 0) {
+          resetScrollPosition();
+        }
+      });
 
-        $('.overlay').click(function(){
-          $('.navbar-toggle').click();
-          $body.css('overflow', 'auto');
-          $body.removeClass('open-menu');
-          $(this).hide();
-        });
+      $('.navbar-toggle').click(function(){
+        if($('.navbar-collapse').attr('aria-expanded') === 'false'){
+          saveScrollPosition();
+          $('body').addClass('open-menu');
+          $('.overlay').show();
+        }else{
+          $('body').removeClass('open-menu');
+          resetScrollPosition();
+          $('.overlay').hide();
+        }
+      });
+      $('.overlay').click(function(){
+        resetScrollPosition();
+        $(this).hide();
+      });
 
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();
+
+      if($('.summary-info-hold #basic-info-form .credit-check-info-hold .col-md-6').length % 2 !== 0){
+        $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
+      }
     });
 
 function showLoader() {
@@ -50,7 +55,23 @@ function showLoader() {
         content: '',
         width: 101,
         height: 100
-});
+  });
+}
+
+function saveScrollPosition(){
+  var $body = $('body');
+  //if open one modal right after other one
+  var topOffset = $(window).scrollTop();
+  $body.css('top', -topOffset);
+  console.log('asd');
+}
+
+function resetScrollPosition(){
+  var $body = $('body');
+  var bodyOffset = Math.abs(parseInt($body.css('top')));
+  $body.css('top', 'auto');
+  $('html, body').scrollTop(bodyOffset);
+  console.log('bbbb');
 }
 
 function hideLoader() {
