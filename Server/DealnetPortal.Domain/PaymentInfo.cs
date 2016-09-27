@@ -23,6 +23,8 @@ namespace DealnetPortal.Domain
         public string AccountNumber { get; set; }
         [MaxLength(20)]
         public string EnbridgeGasDistributionAccount { get; set; }
+        [MaxLength(7)]
+        public string MeterNumber { get; set; }
 
         public virtual Contract Contract { get; set; }
     }
