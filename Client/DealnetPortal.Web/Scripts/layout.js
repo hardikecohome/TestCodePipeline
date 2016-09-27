@@ -93,10 +93,11 @@ function fixMetaViewportIos(){
 }
 
 function customizeSelect(){
-  $('select').each(function(){
-    $(this).wrap('<div class="custom-select">').after('<span class="caret">');
-   /* $('<option value="">- not selected -</option>').prependTo($(this));*/
-  });
+  setTimeout(function(){
+    $('select').each(function(){
+      $(this).wrap('<div class="custom-select">').after('<span class="caret">');
+    });
+  }, 300);
   $('select').on('change', function() {
     $(this).toggleClass("empty", $.inArray($(this).val(), ['', null]) >= 0);
   }).trigger('change');
