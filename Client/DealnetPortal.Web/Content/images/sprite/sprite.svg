@@ -47,6 +47,9 @@
         <symbol id="icon-email" viewBox="0 0 24 24">
             <path fill="currentColor" fill-rule="evenodd" d="M22 9.83v7.164C22 18.102 21.102 19 20.01 19H3.99C2.89 19 2 18.103 2 16.994v-7.16l9.953 4.178L22 9.83zM0 4.994C0 3.894.897 3 2.005 3h19.99C23.102 3 24 3.893 24 4.995v14.01C24 20.107 23.103 21 21.995 21H2.005C.898 21 0 20.107 0 19.005V4.995zm2 4L.774 7.154l11.953 5.015-1.543-.004L23.23 7.15 22 8.996v-4C22 5.003 2.005 5 2.005 5 2 5 2 8.996 2 8.996z"/>
         </symbol>
+        <symbol id="icon-printer" viewBox="0 0 24 24">
+            <path fill="currentColor" fill-rule="evenodd" d="M.02 8.004c-.002-1.105.894-2 1.996-2H5.04l-.015 2.98h9.987L14.997 6h2.988c1.105 0 2.004.89 2.01 2.005l.017 4.02c.005 1.108-.88 2.007-1.985 2.007h-2.98l-.02-3.042H5.024l.032 3.026H2.032c-1.104 0-2.002-.888-2.004-2L.02 8.003zM6 1h8v7H6V1zm0 11h1v7H6v-7zm1 0h7v1H7v-1zm6 1h1v6h-1v-6zm-6 2h6v1H7v-1zm0 3h6v1H7v-1z"/>
+        </symbol>
         <symbol id="icon-search" viewBox="0 0 15 15"><defs><path id="a" d="M14.32 12.906l4.75 4.75-1.413 1.415-4.75-4.75C11.55 15.374 9.847 16 8 16c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8c0 1.85-.627 3.55-1.68 4.906z"/><mask id="b" width="19.071" height="19.071" x="0" y="0" fill="#fff"><use xlink:href="#a"/></mask></defs><use fill="none" fill-rule="evenodd" stroke="#989897" stroke-width="4" mask="url(#b)" xlink:href="#a"/></symbol>
     </defs>
 </svg>
