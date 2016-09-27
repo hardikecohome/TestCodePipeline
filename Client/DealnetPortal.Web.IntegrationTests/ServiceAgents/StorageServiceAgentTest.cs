@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,7 +31,16 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         {
             IStorageServiceAgent serviceAgent = new StorageServiceAgent(_client, _loggingService.Object);
 
-
+            var pdfData = File.ReadAllBytes("SeedData//EcoHome (ON) loan agreement.pdf");
+            var aggreement = new AgreementTemplateDTO()
+            {
+                AgreementType = AgreementType.LoanApplication,
+                State = "ON",                
+                AgreementFormRaw = pdfData
+            };
+            var res = serviceAgent.UploadAgreementTemplate(aggreement).GetAwaiter().GetResult();
+            Assert.IsNotNull(res);
+            Assert.IsNotNull(res.Item1);
         }
     }
 }

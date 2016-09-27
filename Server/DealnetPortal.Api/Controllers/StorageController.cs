@@ -48,6 +48,7 @@ namespace DealnetPortal.Api.Controllers
                     }
 
                     var addedEquipment = _fileRepository.AddOrUpdateAgreementTemplate(newAgreement);
+                    _unitOfWork.Save();
                     return addedEquipment;
                 });
                 var resDto = Mapper.Map<AgreementTemplateDTO>(result);                

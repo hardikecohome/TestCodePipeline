@@ -16,7 +16,7 @@ namespace DealnetPortal.Web.ServiceAgent
 {
     public class StorageServiceAgent : ApiBase, IStorageServiceAgent
     {
-        private const string StorageApi = "Contract";
+        private const string StorageApi = "Storage";
         private ILoggingService _loggingService;
 
         public StorageServiceAgent(IHttpApiClient client, ILoggingService loggingService) 
