@@ -22,5 +22,9 @@ namespace DealnetPortal.Domain
         public string State { get; set; }
 
         public byte[] AgreementForm { get; set; }
+        
+        //public int? EquipmentTypeId { get; set; }
+        //[ForeignKey("EquipmentTypeId")]
+        public virtual List<EquipmentType> EquipmentType { get; set; }
     }
 }
