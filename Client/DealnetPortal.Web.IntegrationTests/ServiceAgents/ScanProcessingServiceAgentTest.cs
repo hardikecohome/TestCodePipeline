@@ -15,7 +15,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
     {
         private Mock<ILoggingService> _loggingService;
         private IHttpApiClient _client;
-        private const string DefUserName = "user@ya.ru";
+        private const string DefUserName = "user@user.com";
         private const string DefUserPassword = "123_Qwe";
 
         [TestInitialize]

@@ -66,12 +66,14 @@
     <Compile Include="ApiBase.cs" />
     <Compile Include="ContractServiceAgent.cs" />
     <Compile Include="IContractServiceAgent.cs" />
+    <Compile Include="IStorageServiceAgent.cs" />
     <Compile Include="ScanProcessingServiceAgent.cs" />
     <Compile Include="IScanProcessingServiceAgent.cs" />
     <Compile Include="IUserManagementServiceAgent.cs" />
     <Compile Include="SecurityServiceAgent.cs" />
     <Compile Include="ISecurityServiceAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StorageServiceAgent.cs" />
     <Compile Include="UserManagementServiceAgent.cs" />
   </ItemGroup>
   <ItemGroup>

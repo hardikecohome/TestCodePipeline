@@ -144,6 +144,7 @@ namespace DealnetPortal.Api.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [Route("GetEquipmentTypes")]
         [HttpGet]
         public IHttpActionResult GetEquipmentTypes()

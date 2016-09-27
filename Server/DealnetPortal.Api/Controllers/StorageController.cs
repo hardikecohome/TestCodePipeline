@@ -14,7 +14,7 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("api/Storage")]
     public class StorageController : BaseApiController
     {
@@ -29,17 +29,29 @@ namespace DealnetPortal.Api.Controllers
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
         }
-
+        
         [Route("UploadAgreementTemplate")]
         [HttpPost]
         public async Task<IHttpActionResult> PostUploadAgreementTemplate(AgreementTemplateDTO newAgreementTemplate)
         {
             try
-            {            
-                var newAgreement = Mapper.Map<AgreementTemplate>(newAgreementTemplate);
-                var equipments = newAgreementTemplate.EquipmentTypes;
+            {
+                var result = await Task.Run(() =>
+                {
+                    var newAgreement = Mapper.Map<AgreementTemplate>(newAgreementTemplate);
+                    var addEquipments = newAgreementTemplate.EquipmentTypes;
+                    if (addEquipments?.Any() ?? false)
+                    {
+                        var dbEquipments = _contractRepository.GetEquipmentTypes();
+                        var eqToAdd = dbEquipments.Where(eq => addEquipments.Any(a => a == eq.Type)).ToList();
+                        newAgreement.EquipmentTypes = eqToAdd;
+                    }
 
-                return Ok();
+                    var addedEquipment = _fileRepository.AddOrUpdateAgreementTemplate(newAgreement);
+                    return addedEquipment;
+                });
+                var resDto = Mapper.Map<AgreementTemplateDTO>(result);                
+                return Ok(resDto);
             }
             catch (Exception ex)
             {
