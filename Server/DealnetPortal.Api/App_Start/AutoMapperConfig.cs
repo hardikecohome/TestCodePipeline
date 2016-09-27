@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using AutoMapper;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.App_Start
@@ -72,7 +73,12 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDTO, Contract>()
                 .ForMember(d => d.Dealer, s => s.Ignore())
                 .ForMember(d => d.PaymentInfo, s => s.Ignore())
-                .ForMember(d => d.ContactInfo, s => s.Ignore());
+                .ForMember(d => d.ContactInfo, s => s.Ignore())
+                .ForMember(d => d.Details, s => s.Ignore());
+
+            mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
+                .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))
+                .ForMember(d => d.EquipmentTypes, s => s.Ignore());
         }
     }
 }

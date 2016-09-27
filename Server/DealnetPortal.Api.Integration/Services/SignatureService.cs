@@ -17,10 +17,10 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
 
-        private List<string> _fieldNames = new List<string>()
-        {
-            "First Name", "Last Name"
-        }
+        //private List<string> _fieldNames = new List<string>()
+        //{
+        //    "First Name", "Last Name"
+        //}
 
         public SignatureService(IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
                                 IFileRepository fileRepository, ILoggingService loggingService)

@@ -5,9 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
@@ -18,18 +20,31 @@ namespace DealnetPortal.Api.Controllers
     {
         private readonly IFileRepository _fileRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IContractRepository _contractRepository;
 
-        public StorageController(ILoggingService loggingService, IFileRepository fileRepository, IUnitOfWork unitOfWork) : base(loggingService)
+        public StorageController(ILoggingService loggingService, 
+            IContractRepository contractRepository, IFileRepository fileRepository, IUnitOfWork unitOfWork) : base(loggingService)
         {
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
+            _contractRepository = contractRepository;
         }
 
         [Route("UploadAgreementTemplate")]
         [HttpPost]
         public async Task<IHttpActionResult> PostUploadAgreementTemplate(AgreementTemplateDTO newAgreementTemplate)
         {
-            throw new NotImplementedException();
+            try
+            {            
+                var newAgreement = Mapper.Map<AgreementTemplate>(newAgreementTemplate);
+                var equipments = newAgreementTemplate.EquipmentTypes;
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         //// GET: api/Storage
