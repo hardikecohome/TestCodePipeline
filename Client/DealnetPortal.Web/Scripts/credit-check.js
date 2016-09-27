@@ -28,7 +28,6 @@ function assignDatepicker(input) {
     input.datepicker({
         beforeShow: function (i) { if ($(i).attr('readonly')) { return false; } },
         dateFormat: 'mm/dd/yy',
-        changeMonth: true,
         changeYear: true,
         yearRange: '1900:2016',
         minDate: Date.parse("1900-01-01"),

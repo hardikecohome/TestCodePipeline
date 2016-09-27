@@ -7,28 +7,28 @@
     });
 });
 $("#birth-date").datepicker({
-    dateFormat: 'mm/dd/yy', changeMonth: true,
+    dateFormat: 'mm/dd/yy',
     changeYear: true,
     yearRange: '1900:2016',
     minDate: Date.parse("1900-01-01"),
-    maxDate: new Date()
+    maxDate: new Date(),
 });
 $("#additional-birth-date-1").datepicker({
-    dateFormat: 'mm/dd/yy', changeMonth: true,
+    dateFormat: 'mm/dd/yy',
     changeYear: true,
     yearRange: '1900:2016',
     minDate: Date.parse("1900-01-01"),
     maxDate: new Date()
 });
 $("#additional-birth-date-2").datepicker({
-    dateFormat: 'mm/dd/yy', changeMonth: true,
+    dateFormat: 'mm/dd/yy',
     changeYear: true,
     yearRange: '1900:2016',
     minDate: Date.parse("1900-01-01"),
     maxDate: new Date()
 });
 $("#additional-birth-date-3").datepicker({
-    dateFormat: 'mm/dd/yy', changeMonth: true,
+    dateFormat: 'mm/dd/yy',
     changeYear: true,
     yearRange: '1900:2016',
     minDate: Date.parse("1900-01-01"),

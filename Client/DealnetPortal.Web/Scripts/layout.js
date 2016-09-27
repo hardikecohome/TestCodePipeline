@@ -95,12 +95,11 @@ function fixMetaViewportIos(){
 function customizeSelect(){
   setTimeout(function(){
     $('select').each(function(){
-      $(this).wrap('<div class="custom-select">').after('<span class="caret">');
+      if(!$(this).parents(".ui-datepicker").length){
+        $(this).wrap('<div class="custom-select">').after('<span class="caret">');
+      }
     });
-  }, 300);
-  $('select').on('change', function() {
-    $(this).toggleClass("empty", $.inArray($(this).val(), ['', null]) >= 0);
-  }).trigger('change');
+  }, 1000);
 }
 
 function addIconsToFields(fields){
