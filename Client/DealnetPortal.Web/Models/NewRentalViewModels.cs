@@ -101,6 +101,10 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Enbridge Gas Distribution Account is in incorrect format")]
         [Display(Name = "Enbridge Gas Distribution Account")]
         public string EnbridgeGasDistributionAccount { get; set; }
+        [StringLength(7)]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Meter # is in incorrect format")]
+        [Display(Name = "Meter #")]
+        public string MeterNumber { get; set; }
     }
 
     public class ContactInfoViewModel

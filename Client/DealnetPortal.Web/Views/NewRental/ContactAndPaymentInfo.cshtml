@@ -101,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-lg-6">
+                <div class="col-md-12 col-lg-6 pap-payment">
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
                         <div class="control-group">
@@ -129,34 +129,36 @@
 
             <!-- Case for 4_step_pap_payment_d -->
 
-            <div class="row">
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number" })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
+            <div class="pap-payment">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number" })
+                                @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", id = "transit-number" })
+                                @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", id = "transit-number" })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">                
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", id = "account-number" })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", id = "account-number" })
+                                @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,22 +166,24 @@
 
             <!-- Case for 4_step_enbridge_payment_d -->
 
-            <div class="row">
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "form-control dealnet-input", id = "enbridge-gas-distribution-account", placeholder = "# (12 digits)" })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
+            <div class="enbridge-payment">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "form-control dealnet-input", id = "enbridge-gas-distribution-account", placeholder = "# (12 digits)" })
+                                @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "form-control dealnet-input", id = "enbridge-gas-distribution-account", placeholder = "# (12 digits)" })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
+                    <div class="col-md-12 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PaymentInfo.MeterNumber)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new { @class = "form-control dealnet-input", id = "meter-number", placeholder = "# (7 digits)" })
+                                @Html.ValidationMessageFor(m => m.PaymentInfo.MeterNumber, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -198,5 +202,49 @@
         @section scripts
         {
             @Scripts.Render("~/bundles/jqueryval")
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#home-phone").rules("add", "required");
+                    $("#cell-phone").rules("add", "required");
+                    $("#bank-number").rules("add", "required");
+                    $("#transit-number").rules("add", "required");
+                    $("#account-number").rules("add", "required");
+                    $("#enbridge-gas-distribution-account").rules("add", "required");
+                    $("#meter-number").rules("add", "required");
+                    //
+                    setValidationRelation($("#home-phone"), $("#cell-phone"));
+                    setValidationRelation($("#cell-phone"), $("#home-phone"));
+                    setValidationRelation($("#enbridge-gas-distribution-account"), $("#meter-number"));
+                    setValidationRelation($("#meter-number"), $("#enbridge-gas-distribution-account"));
+                    var initPaymentType = $("#payment-type").find(":selected").val();
+                    managePaymentElements(initPaymentType);
+                    $("#payment-type").change(function () {
+                        managePaymentElements($(this).find(":selected").val());
+                    });
+                });
+                function managePaymentElements(paymentType) {
+                    switch (paymentType) {
+                        case '0':
+                            $(".pap-payment").hide();
+                            $(".enbridge-payment").show();
+                            break;
+                        case '1':
+                            $(".enbridge-payment").hide();
+                            $(".pap-payment").show();
+                            break;
+                    }
+                }
+                function setValidationRelation(elem1, elem2) {
+                    elem1.change(function () {
+                        if ($(this).val()) {
+                            elem2.rules("remove", "required");
+                            elem2.removeClass('input-validation-error');
+                            elem2.next('.text-danger').empty();
+                        } else {
+                            elem2.rules("add", "required");
+                        }
+                    });
+                }
+            </script>
         }
 

@@ -40,9 +40,9 @@
       addIconsToFields();
       toggleClearInputIcon();
 
-      $('select').each(function(){
-        $('<option value="" selected>- not selected -</option>').prependTo($(this));
-      });
+      //$('select').each(function(){
+      //  $('<option value="" selected>- not selected -</option>').prependTo($(this));
+      //});
 
       $('select').on('change', function() {
         $(this).toggleClass("empty", $.inArray($(this).val(), ['', null]) >= 0);
