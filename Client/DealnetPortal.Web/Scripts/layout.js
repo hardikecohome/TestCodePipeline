@@ -1,6 +1,6 @@
 ﻿$(document)
     .ready(function () {
-        //fixMetaViewportIos();
+        fixMetaViewportIos();
 
         $("input, textarea").placeholder();
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
