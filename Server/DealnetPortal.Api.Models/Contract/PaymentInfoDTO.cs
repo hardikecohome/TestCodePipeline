@@ -16,5 +16,6 @@ namespace DealnetPortal.Api.Models.Contract
         public string TransitNumber { get; set; }
         public string AccountNumber { get; set; }
         public string EnbridgeGasDistributionAccount { get; set; }
+        public string MeterNumber { get; set; }
     }
 }
