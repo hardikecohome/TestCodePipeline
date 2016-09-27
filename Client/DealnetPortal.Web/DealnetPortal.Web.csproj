@@ -462,6 +462,7 @@
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
     <Content Include="Scripts\editable-in-modal.js" />
+    <Content Include="Scripts\equipment-information.js" />
     <Content Include="Scripts\general-address-autocomplete.js" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />

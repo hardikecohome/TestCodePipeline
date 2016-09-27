@@ -28,6 +28,7 @@
 
     @using (Html.BeginForm())
     {
+            @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContractId)
         <h3 class="dealnet-middle-header">Contact Information</h3>
 
