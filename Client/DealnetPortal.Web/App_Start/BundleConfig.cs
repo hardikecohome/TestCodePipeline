@@ -35,7 +35,8 @@ namespace DealnetPortal.Web
                      "~/Scripts/layout.js", "~/Scripts/home-page.js", "~/Scripts/jquery-ui-1.12.0.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
       "~/Scripts/BasicInfo", "*.js").Include(
- "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include("~/Scripts/datejs.js"));
+ "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include("~/Scripts/datejs.js")
+ .Include("~/Scripts/camera-capturing.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").IncludeDirectory(
                      "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include("~/Scripts/datejs.js"));

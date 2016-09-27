@@ -132,6 +132,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             return View(await GetContactAndPaymentInfoAsync(contractId));
         }
 

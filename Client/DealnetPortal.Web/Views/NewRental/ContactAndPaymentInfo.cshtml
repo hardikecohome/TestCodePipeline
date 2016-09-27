@@ -1,7 +1,5 @@
 ﻿@model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
-﻿@Styles.Render("~/Content/basic-info.css")
-
 <div id="label-steps">
     <div class="dealnet-action-link">New Application</div> >
 </div>
@@ -26,180 +24,227 @@
         <div id="step5" class="step-item">5</div>
     </div>
 </div>
-<div class="form-container">      
+<div class="form-container">
 
-        @using (Html.BeginForm())
-        {
-            @Html.HiddenFor(m => m.ContractId)
-            <h3 class="dealnet-middle-header">Contact Information</h3>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.ContractId)
+        <h3 class="dealnet-middle-header">Contact Information</h3>
 
-            <div class="row">
-                <div class="col-md-12 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.ContactInfo.HomePhone)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.ContactInfo.HomePhone, new { @class = "form-control dealnet-input", id = "home-phone", placeholder = "Home Phone" })
-                            @Html.ValidationMessageFor(m => m.ContactInfo.HomePhone, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.ContactInfo.CellPhone)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.ContactInfo.CellPhone, new { @class = "form-control dealnet-input", id = "cell-phone", placeholder = "Cell Phone" })
-                            @Html.ValidationMessageFor(m => m.ContactInfo.CellPhone, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.ContactInfo.BusinessPhone)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.ContactInfo.BusinessPhone, new { @class = "form-control dealnet-input", id = "business-phone", placeholder = "Business Phone" })
-                            @Html.ValidationMessageFor(m => m.ContactInfo.BusinessPhone, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
-                        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.HomePhone)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ContactInfo.HomePhone, new {@class = "form-control dealnet-input", id = "home-phone", placeholder = "Home Phone"})
+                        @Html.ValidationMessageFor(m => m.ContactInfo.HomePhone, "", new {@class = "text-danger"})
+                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.ContactInfo.EmailAddress)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address" })
-                            @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.ContactInfo.HouseSize)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.ContactInfo.HouseSize, new { @class = "form-control dealnet-input", id = "house-size", placeholder = "House Size" })
-                            @Html.ValidationMessageFor(m => m.ContactInfo.HouseSize, "", new { @class = "text-danger" })
-                            <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
-                        </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.CellPhone)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ContactInfo.CellPhone, new {@class = "form-control dealnet-input", id = "cell-phone", placeholder = "Cell Phone"})
+                        @Html.ValidationMessageFor(m => m.ContactInfo.CellPhone, "", new {@class = "text-danger"})
+                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>
                 </div>
             </div>
-
-            <h3 class="dealnet-middle-header">Payment Information</h3>
-
-            <div class="row">
-                <div class="col-md-12 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.PaymentType)
-                        <div class="control-group">
-                            @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new { @class = "form-control", id = "payment-type" })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.PaymentType, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-6 pap-payment">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
-                        <div class="control-group">
-                            @Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control", id = "preferred-withdrawal-date" })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.PrefferedWithdrawalDate, "", new { @class = "text-danger" })
-                        </div>
+            <div class="col-md-12 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.BusinessPhone)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ContactInfo.BusinessPhone, new {@class = "form-control dealnet-input", id = "business-phone", placeholder = "Business Phone"})
+                        @Html.ValidationMessageFor(m => m.ContactInfo.BusinessPhone, "", new {@class = "text-danger"})
+                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div class="form-group">
-                        <label for="photo">Photo of Void Cheque</label>
-                        <div class="control-group">
-                            <div class="file-upload btn dealnet-button dealnet-success-button">
-                                <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
-                                <span>Add Photo</span>
-                                <input type="file" accept="image/*" class="upload" onchange="" id="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Case for 4_step_pap_payment_d -->
-
-            <div class="pap-payment">
-                <div class="row">
-                    <div class="col-md-12 col-lg-6">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number" })
-                                @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-6">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", id = "transit-number" })
-                                @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 col-lg-6">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", id = "account-number" })
-                                @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Case for 4_step_enbridge_payment_d -->
-
-            <div class="enbridge-payment">
-                <div class="row">
-                    <div class="col-md-12 col-lg-6">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "form-control dealnet-input", id = "enbridge-gas-distribution-account", placeholder = "# (12 digits)" })
-                                @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-6">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.PaymentInfo.MeterNumber)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new { @class = "form-control dealnet-input", id = "meter-number", placeholder = "# (7 digits)" })
-                                @Html.ValidationMessageFor(m => m.PaymentInfo.MeterNumber, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" id="saveproceed-button">
-                <div class="col-xs-12 col-md-3 col-lg-3">
-                    <button class="btn dealnet-button dealnet-success-button">
-                        Save and Proceed
-                    </button>
-                </div>
-            </div>
-            }
         </div>
 
-        @section scripts
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.EmailAddress)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address"})
+                        @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new {@class = "text-danger"})
+                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.HouseSize)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ContactInfo.HouseSize, new {@class = "form-control dealnet-input", id = "house-size", placeholder = "House Size"})
+                        @Html.ValidationMessageFor(m => m.ContactInfo.HouseSize, "", new {@class = "text-danger"})
+                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="dealnet-middle-header">Payment Information</h3>
+
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PaymentInfo.PaymentType)
+                    <div class="control-group">
+                        @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new {@class = "form-control", id = "payment-type"})
+                        @Html.ValidationMessageFor(m => m.PaymentInfo.PaymentType, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-6 pap-payment">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
+                    <div class="control-group">
+                        @Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new {@class = "form-control", id = "preferred-withdrawal-date"})
+                        @Html.ValidationMessageFor(m => m.PaymentInfo.PrefferedWithdrawalDate, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label for="photo">Photo of Void Cheque</label>
+                    <div class="control-group">
+                        <div class="file-upload btn dealnet-button dealnet-success-button" @if (!ViewBag.IsMobileRequest){ <text>data-toggle="modal" data-target="#camera-modal"</text> } >
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                            <span>Add Photo</span>
+                            @if (!ViewBag.IsMobileRequest)
+                            {
+                                <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeVoidChequePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', true)" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pap-payment">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new {@class = "form-control dealnet-input", id = "bank-number"})
+                            @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new {@class = "form-control dealnet-input", id = "transit-number"})
+                            @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new {@class = "form-control dealnet-input", id = "account-number"})
+                            @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="enbridge-payment">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "form-control dealnet-input", id = "enbridge-gas-distribution-account", placeholder = "# (12 digits)"})
+                            @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PaymentInfo.MeterNumber)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new {@class = "form-control dealnet-input", id = "meter-number", placeholder = "# (7 digits)"})
+                            @Html.ValidationMessageFor(m => m.PaymentInfo.MeterNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="saveproceed-button">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <button class="btn dealnet-button dealnet-success-button">
+                    Save and Proceed
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!ViewBag.IsMobileRequest)
+{
+    <div class="modal fade" id="camera-modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="dealnet-middle-header">Scan Void Cheque</div>
+                    <div class="dealnet-middle-header-2" id="you-want">How do you want to do this?</div>
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Use Camera</a></li>
+                        <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Upload</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div id="capture-area">
+                                <video autoplay class="capture-frame" id="video"></video>
+                                <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                <canvas id="big-capture-canvas"></canvas>
+                                <div id="capture-buttons">
+                                    <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
+                                    <div id="capture-buttons-2">
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeVoidCheque", "NewRental")')"/>
+                                        <div id="retake" onclick="retakePhoto()">Retake</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            <div id="upload-area">
+                                <div id="upload-buttons">
+                                    <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                                        <span class="icon"><img src="~/content/images/upload.png"></span>
+                                        <span>Upload Photo</span>
+                                        <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeVoidChequePhoto", "NewRental")')"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
         {
             @Scripts.Render("~/bundles/jqueryval")
             <script type="text/javascript">
