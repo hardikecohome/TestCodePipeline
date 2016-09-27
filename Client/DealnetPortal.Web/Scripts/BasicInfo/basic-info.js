@@ -111,18 +111,18 @@ function disableMailingAddress() {
 
 
 $("#clear-address").click(function () {
-    document.getElementById('street').value = '';
-    document.getElementById('unit_number').value = '';
-    document.getElementById('locality').value = '';
-    document.getElementById('administrative_area_level_1').value = '';
-    document.getElementById('postal_code').value = '';
+    $('#street, #unit_number, #locality, #administrative_area_level_1, #postal_code').each(function(){
+        if($(this).not('.placeholder')){
+            $(this).val("");
+        }
+    });
 }); 
 $("#clear-mailing-address").click(function () {
-    document.getElementById('mailing_street').value = '';
-    document.getElementById('mailing_unit_number').value = '';
-    document.getElementById('mailing_locality').value = '';
-    document.getElementById('mailing_administrative_area_level_1').value = '';
-    document.getElementById('mailing_postal_code').value = '';
+    $('#mailing_street, #mailing_unit_number, #mailing_locality, #mailing_administrative_area_level_1, #mailing_postal_code').each(function(){
+        if($(this).not('.placeholder')){
+            $(this).val("");
+        }
+    });
 });
 $("#owner-scan-button").click(function () {
     var modal = document.getElementById('camera-modal');

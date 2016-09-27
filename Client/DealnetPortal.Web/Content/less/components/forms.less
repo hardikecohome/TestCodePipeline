@@ -6,6 +6,7 @@ input[type="password"],
 select{
   -webkit-appearance: none;
   -moz-appearance: none;
+  -ms-appearance: none;
   -o-appearance: none;
   appearance: none;
   box-shadow: none !important;
@@ -17,6 +18,9 @@ select{
 ::-ms-reveal {
   display: none;
 }
+.custom-select select::-ms-expand {
+  display: none;
+}
 .custom-select{
   position: relative;
   .caret{
@@ -24,8 +28,10 @@ select{
     right: 6px;
     top: 50%;
     margin-top: -3px;
+    pointer-events: none;
   }
 }
+
 select.form-control{
   option {
     color: black;
@@ -35,8 +41,15 @@ hr{
   border-color: @default-grey-color;
 }
 
-html.ie9 select{
-  padding: 0;
+html.ie9{
+  select{
+    padding: 0;
+  }
+  .custom-select{
+    .caret{
+      display: none;
+    }
+  }
 }
 
 .form-group{
