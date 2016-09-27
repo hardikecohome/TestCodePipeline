@@ -2,18 +2,28 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="search"],
-input[type="password"]{
+input[type="password"],
+select{
   -webkit-appearance: none;
   -moz-appearance: none;
   -o-appearance: none;
   appearance: none;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 ::-ms-clear {
   display: none;
 }
 ::-ms-reveal {
   display: none;
+}
+.custom-select{
+  position: relative;
+  .caret{
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    margin-top: -3px;
+  }
 }
 select.form-control{
   option {
@@ -112,12 +122,18 @@ html.ie9 select{
 
 .form-control{
   &.input-validation-error{
-    border-color: @danger-color;
+    border-color: @danger-color !important;
   }
   &:focus{
-    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px @default-grey-color;
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2) !important;
+    border: solid 1px @default-grey-color !important;
   }
+  &.input-sm {
+    height: 30px;
+    padding: 0 10px;
+    line-height: 30px;
+  }
+
 }
 
 .text-danger {
@@ -261,30 +277,12 @@ div.dataTables_wrapper div.dataTables_filter{
       top: 2px;
       display: inline-block;
       padding: 5px;
+      font-size: 16px;
       @media (max-width: 991px) {
         display: none;
       }
 
     }
-
-/*    @media (max-width: 677px) {
-      width: 280px;
-      input{
-        margin: 0;
-        transition: width 0.3s linear;
-        &:focus{
-          box-shadow: none;
-          outline: none;
-          border-color: #cccccc;
-        }
-        &:not(.active){
-          transition: width 0.3s linear, opacity 0.3s 0.1s linear;
-          width: 0px;
-          padding: 0;
-          opacity: 0;
-        }
-      }
-    }*/
   }
   input{
     width: 280px;
