@@ -1,5 +1,7 @@
 ﻿$(document)
     .ready(function () {
+        //fixMetaViewportIos();
+
         $("input, textarea").placeholder();
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
             .parents('.dealnet-sidebar-item')
@@ -39,14 +41,7 @@
 
       addIconsToFields();
       toggleClearInputIcon();
-
-      $('select').each(function(){
-        $('<option value="" selected>- not selected -</option>').prependTo($(this));
-      });
-
-      $('select').on('change', function() {
-        $(this).toggleClass("empty", $.inArray($(this).val(), ['', null]) >= 0);
-      }).trigger('change');
+      customizeSelect();
     });
 
 function showLoader() {
@@ -60,6 +55,27 @@ function showLoader() {
 
 function hideLoader() {
     $.loader('close');
+}
+
+function fixMetaViewportIos(){
+  if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+    document.querySelector('meta[name=viewport]')
+      .setAttribute(
+        'content',
+        'initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001, user-scalable=no'
+      );
+  }
+}
+
+function customizeSelect(){
+  $('select').each(function(){
+    $(this).wrap('<div class="custom-select">').after('<span class="caret">');
+    $('<option value="">- not selected -</option>').prependTo($(this));
+  });
+  console.log($('select').val())
+  $('select').on('change', function() {
+    $(this).toggleClass("empty", $.inArray($(this).val(), ['', null]) >= 0);
+  }).trigger('change');
 }
 
 function addIconsToFields(fields){
