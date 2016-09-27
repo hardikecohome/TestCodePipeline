@@ -64,6 +64,7 @@
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />
     <Compile Include="Scanning\VoidChequeData.cs" />
+    <Compile Include="Storage\AgreementTemplateDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">

@@ -18,13 +18,12 @@ namespace DealnetPortal.Domain
 
         public AgreementType AgreementType { get; set; }
 
-        [MaxLength(10)]
         public string State { get; set; }
 
         public byte[] AgreementForm { get; set; }
         
         //public int? EquipmentTypeId { get; set; }
         //[ForeignKey("EquipmentTypeId")]
-        public virtual List<EquipmentType> EquipmentType { get; set; }
+        public virtual List<EquipmentType> EquipmentTypes { get; set; }
     }
 }
