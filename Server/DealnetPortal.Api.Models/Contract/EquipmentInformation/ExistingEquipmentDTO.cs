@@ -9,14 +9,13 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
     public class ExistingEquipmentDTO
     {
         public int Id { get; set; }
-        public bool DealerIsReplacing { get; set; }
         public bool IsRental { get; set; }
 
         
         public string RentalCompany { get; set; }
 
        
-        public string EstimatedAge { get; set; }
+        public double EstimatedAge { get; set; }
 
        
         public string Make { get; set; }
