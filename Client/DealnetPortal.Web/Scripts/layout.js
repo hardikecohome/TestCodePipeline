@@ -35,7 +35,13 @@
           $('.overlay').hide();
         }
       });
+
       $('.overlay').click(function(){
+        /*$('body').removeClass('open-menu');
+        resetScrollPosition();
+        $('.overlay').hide();*/
+        $('.navbar-toggle').trigger('click');
+        $('body').removeClass('open-menu');
         resetScrollPosition();
         $(this).hide();
       });
@@ -63,7 +69,6 @@ function saveScrollPosition(){
   //if open one modal right after other one
   var topOffset = $(window).scrollTop();
   $body.css('top', -topOffset);
-  console.log('asd');
 }
 
 function resetScrollPosition(){
@@ -71,7 +76,6 @@ function resetScrollPosition(){
   var bodyOffset = Math.abs(parseInt($body.css('top')));
   $body.css('top', 'auto');
   $('html, body').scrollTop(bodyOffset);
-  console.log('bbbb');
 }
 
 function hideLoader() {
@@ -91,9 +95,8 @@ function fixMetaViewportIos(){
 function customizeSelect(){
   $('select').each(function(){
     $(this).wrap('<div class="custom-select">').after('<span class="caret">');
-    $('<option value="">- not selected -</option>').prependTo($(this));
+   /* $('<option value="">- not selected -</option>').prependTo($(this));*/
   });
-  console.log($('select').val())
   $('select').on('change', function() {
     $(this).toggleClass("empty", $.inArray($(this).val(), ['', null]) >= 0);
   }).trigger('change');
