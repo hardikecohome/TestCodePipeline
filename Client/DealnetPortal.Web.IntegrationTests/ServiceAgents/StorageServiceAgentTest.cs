@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Enumeration;
@@ -35,7 +36,27 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             var aggreement = new AgreementTemplateDTO()
             {
                 AgreementType = AgreementType.LoanApplication,
-                State = "ON",                
+                State = "ON",
+                TemplateName = "EcoHome ON rental",
+                AgreementFormRaw = pdfData
+            };
+            var res = serviceAgent.UploadAgreementTemplate(aggreement).GetAwaiter().GetResult();
+            Assert.IsNotNull(res);
+            Assert.IsNotNull(res.Item1);
+        }
+
+        [TestMethod]
+        public void TestUploadAgreementTemplate2()
+        {
+            IStorageServiceAgent serviceAgent = new StorageServiceAgent(_client, _loggingService.Object);
+
+            var pdfData = File.ReadAllBytes("SeedData//EcoHome (ON) rental HVAC Other Equipment.pdf");
+            var aggreement = new AgreementTemplateDTO()
+            {
+                AgreementType = AgreementType.RentalApplication,
+                State = "ON",
+                TemplateName = "EcoHome ON rental",
+                EquipmentTypes = new List<string>() { "ECO5", "ECO1", "ECO2", "ECO44"},
                 AgreementFormRaw = pdfData
             };
             var res = serviceAgent.UploadAgreementTemplate(aggreement).GetAwaiter().GetResult();

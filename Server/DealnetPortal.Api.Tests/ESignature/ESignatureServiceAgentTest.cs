@@ -251,20 +251,20 @@ namespace DealnetPortal.Api.Tests.ESignature
             IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
             serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
 
-            //var resTr = serviceAgent.CreateTransaction("test transaction").GetAwaiter().GetResult();
-            //Assert.IsFalse(resTr.Item2.Any());
-            //var transId = resTr.Item1.sid;
+            var resTr = serviceAgent.CreateTransaction("test transaction").GetAwaiter().GetResult();
+            Assert.IsFalse(resTr.Item2.Any());
+            var transId = resTr.Item1.sid;
 
-            //var resPr = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
-            //Assert.IsFalse(resTr.Item2.Any());
-            //var dpSid = resPr.Item1.sid;
+            var resPr = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
+            Assert.IsFalse(resTr.Item2.Any());
+            var dpSid = resPr.Item1.sid;
 
-            //var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2.pdf");
-            //var resDv = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
-            //Assert.IsFalse(resDv.Item2.Any());
+            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2.pdf");
+            var resDv = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
+            Assert.IsFalse(resDv.Item2.Any());
 
-            var transId = 1627976;
-            var dpSid = 1627977;
+            //var transId = 1627976;
+            //var dpSid = 1627977;
 
             var textData = new List<TextData>()
             {
@@ -329,19 +329,19 @@ namespace DealnetPortal.Api.Tests.ESignature
                     Item1 = textFieldFontTypeFont.Courier,
                     color  = "Black",
                 }
-            };
+            };            
 
-            var mergeRes = serviceAgent.MergeData(dpSid, textData.ToArray()).GetAwaiter().GetResult();
-            Assert.IsFalse(mergeRes.Any());
-
-            //resDv = serviceAgent.InsertFormFields(dpSid, null, null, signBlocks.ToArray()).GetAwaiter().GetResult();
-            //Assert.IsFalse(resDv.Item2.Any());
+            resDv = serviceAgent.InsertFormFields(dpSid, null, null, signBlocks.ToArray()).GetAwaiter().GetResult();
+            Assert.IsFalse(resDv.Item2.Any());
             //resDv = serviceAgent.InsertFormFields(dpSid, textFields.ToArray(), null, null).GetAwaiter().GetResult();
             //Assert.IsFalse(resDv.Item2.Any());
             //resDv = serviceAgent.InsertFormFields(dpSid, null, textData.ToArray(), null).GetAwaiter().GetResult();
             //Assert.IsFalse(resDv.Item2.Any());
 
-            return;
+            var mergeRes = serviceAgent.MergeData(dpSid, textData.ToArray()).GetAwaiter().GetResult();
+            Assert.IsFalse(mergeRes.Any());
+
+            //return;
 
             var res = serviceAgent.ConfigureSortOrder(transId, new long[] { dpSid }).GetAwaiter().GetResult();
             Assert.IsFalse(res.Any());

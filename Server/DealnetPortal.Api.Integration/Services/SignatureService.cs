@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Models;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -35,8 +38,38 @@ namespace DealnetPortal.Api.Integration.Services
         {
             IList<Alert> alerts = new List<Alert>();
 
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
+                var fields = PrepareFormFields(contract);
+                _loggingService.LogInfo($"{fields.Count} fields collected");
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
 
             return alerts;
         }
+
+        private Dictionary<string, string> PrepareFormFields(Contract contract)
+        {
+            var fields = new Dictionary<string, string>();
+
+            //contract.
+
+            return fields;
+        }
+
+        //private void Fill
     }
 }
