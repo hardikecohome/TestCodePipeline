@@ -209,6 +209,121 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         }
     }
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1064.2")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.eoriginal.com/EditFormFieldInstructions")]
+    public partial class FormField
+    {
+
+        private object _item;
+
+        private string _newName;
+
+        private float _lowerLeftX;
+
+        private float _lowerLeftY;
+
+        private float _upperRightX;
+
+        private float _upperRightY;
+
+        private List<CustomProperty> _customProperty;
+
+        public FormField()
+        {
+            this._customProperty = new List<CustomProperty>();
+        }
+
+        [System.Xml.Serialization.XmlElementAttribute("customPropertyFilter", typeof(CustomProperty))]
+        [System.Xml.Serialization.XmlElementAttribute("name", typeof(string))]
+        public object Item
+        {
+            get
+            {
+                return this._item;
+            }
+            set
+            {
+                this._item = value;
+            }
+        }
+
+        public string newName
+        {
+            get
+            {
+                return this._newName;
+            }
+            set
+            {
+                this._newName = value;
+            }
+        }
+
+        public float lowerLeftX
+        {
+            get
+            {
+                return this._lowerLeftX;
+            }
+            set
+            {
+                this._lowerLeftX = value;
+            }
+        }
+
+        public float lowerLeftY
+        {
+            get
+            {
+                return this._lowerLeftY;
+            }
+            set
+            {
+                this._lowerLeftY = value;
+            }
+        }
+
+        public float upperRightX
+        {
+            get
+            {
+                return this._upperRightX;
+            }
+            set
+            {
+                this._upperRightX = value;
+            }
+        }
+
+        public float upperRightY
+        {
+            get
+            {
+                return this._upperRightY;
+            }
+            set
+            {
+                this._upperRightY = value;
+            }
+        }
+
+        [System.Xml.Serialization.XmlElementAttribute("customProperty")]
+        public List<CustomProperty> customProperty
+        {
+            get
+            {
+                return this._customProperty;
+            }
+            set
+            {
+                this._customProperty = value;
+            }
+        }
+    }
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
@@ -434,6 +549,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AddSigBlocks))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AddTextFields))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AddTextData))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FormFields))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1348,6 +1464,35 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
             set
             {
                 this.textDataListField = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1064.2")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.eoriginal.com/EditFormFieldInstructions")]
+    public partial class FormFields : TransformationInstructions
+    {
+
+        private List<FormField> _formFieldList;
+
+        public FormFields()
+        {
+            this._formFieldList = new List<FormField>();
+        }
+
+        [System.Xml.Serialization.XmlArrayItemAttribute("formField", IsNullable = false)]
+        public List<FormField> formFieldList
+        {
+            get
+            {
+                return this._formFieldList;
+            }
+            set
+            {
+                this._formFieldList = value;
             }
         }
     }
