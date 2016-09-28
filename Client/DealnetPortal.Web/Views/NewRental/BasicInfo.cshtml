@@ -1,8 +1,6 @@
 ﻿@using DealnetPortal.Web.Models
 @model DealnetPortal.Web.Models.BasicInfoViewModel
 
-﻿@Styles.Render("~/Content/basic-info.css")
-
 @{
     if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count < 3)
     {
@@ -40,7 +38,7 @@
 <div class="form-container">
 @using (Html.BeginForm())
 {
-
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 

@@ -40,7 +40,7 @@
 
 @using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form" }))
 {
-    @*Html.AntiForgeryToken()*@
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
     <div class="form-group">
         <div class="row">
@@ -55,7 +55,7 @@
         <h3 class="dealnet-middle-header">New Equipment Information</h3>
         <div id="new-equipment-base">
             <div class="dealnet-middle-header owner-info-label">№1
-                <div id="new-equipment-remove-0" class="additional-remove" onclick="removeNewEquipment('#new-equipment-0')"><i class="glyphicon glyphicon-remove"></i>
+                <div id="new-equipment-remove-0" class="additional-remove" onclick="$('#new-equipment-0').remove();"><i class="glyphicon glyphicon-remove"></i>
                 </div>
             </div>
             <div class="row">
@@ -68,24 +68,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-8 col-md-4 col-lg-34"> 
-                    <div class="form-group"> 
+                <div class="col-xs-8 col-md-4 col-lg-34">
+                    <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].Type)
                         @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                        ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Description, Text = x.Description}),
-                        new {@class = "form-control"})
+                            ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Description, Text = x.Description}),
+                            new {@class = "form-control"})
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-6">
-                    <div class="form-group"> 
+                    <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].Description)
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.NewEquipment[0].Description, new {@class = "form-control dealnet-input", placeholder = "Description"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new {@class = "text-danger"})
                         </div>
-                    </div>                  
+                    </div>
                 </div>
-            </div>  
+            </div>
 
             <div class="row">
                 <div class="col-md-4">
@@ -95,8 +95,8 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new {@class = "form-control dealnet-input", placeholder = "Cost"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new {@class = "text-danger"})
-                        </div>                        
-                    </div>                 
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
@@ -105,20 +105,94 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new {@class = "form-control dealnet-input", placeholder = "Monthly Cost"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new {@class = "text-danger"})
-                        </div>     
-                    </div>                 
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate, new { @for = "estimated-installation-date-0" })
+                        @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate, new {@for = "estimated-installation-date-0"})
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "estimated-installation-date-0", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today"})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedInstallationDate, "", new {@class = "text-danger"})
-                        </div>  
-                    </div>                  
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        @if (Model.NewEquipment != null && Model.NewEquipment.Count > 1)
+        {
+            for (var i = 1; i < Model.NewEquipment.Count; i++)
+            {
+                <div>
+                    <div class="dealnet-middle-header owner-info-label">
+                        №@(i+1)
+                        <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove();">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Quantity)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Quantity, new { @class = "form-control dealnet-input", placeholder = "Qty" })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Quantity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-8 col-md-4 col-lg-34">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Type)
+                                @Html.DropDownListFor(m => m.NewEquipment[i].Type,
+                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Description, Text = x.Description }),
+                        new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Description)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = "Description" })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Cost)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input", placeholder = "Cost" })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input", placeholder = "Monthly Cost" })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new { @for = "estimated-installation-date-" + i})
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "estimated-installation-date-" + i, placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedInstallationDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
     </div>
     <div class="row">
         <div class="col-md-12">            
@@ -164,7 +238,212 @@
             </div>
         </div>
     </div>
+    
+    <div id="existing-equipments">
+        <h3 class="dealnet-middle-header">Existing Equipment Information</h3>
+        <div id="existing-equipment-base">
+            <div class="dealnet-middle-header owner-info-label">
+                №1
+                <div id="existing-equipment-remove-0" class="additional-remove" onclick="$('#existing-equipment-0').remove();">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].IsRental)
+                        <div class="control-group">
+                            @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
+                                new[]
+                                {
+                                    new {Value = "true", Text = "Yes"},
+                                    new {Value = "false", Text = "No"},
+                                },
+                                "Value", "Text", Model))
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-8 col-md-4 col-lg-34">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].RentalCompany)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].RentalCompany, new {@class = "form-control dealnet-input", placeholder = "Rental Company"})
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].RentalCompany, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].EstimatedAge)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].EstimatedAge, new {@class = "form-control dealnet-input", placeholder = "Years"})
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].EstimatedAge, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].Make)
+                        <div class="control-group has-addon-left">
+                            <div class="control-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].Make, new {@class = "form-control dealnet-input", placeholder = "Make"})
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Make, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].Model)
+                        <div class="control-group has-addon-left">
+                            <div class="control-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].Model, new {@class = "form-control dealnet-input", placeholder = "Model"})
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Model, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].SerialNumber)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].SerialNumber, new {@class = "form-control dealnet-input", placeholder = "Serial Number"})
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].SerialNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].GeneralCondition)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].GeneralCondition, new {@class = "form-control dealnet-input", placeholder = "General Condition"})
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].GeneralCondition, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ExistingEquipment[0].Notes)
+                            <div class="control-group">
+                                @Html.TextAreaFor(m => m.ExistingEquipment[0].Notes, new {@class = "form-control", placeholder = "Notes"})
+                                @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Notes, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model.ExistingEquipment != null && Model.ExistingEquipment.Count > 1)
+        {
+            for (var i = 1; i < Model.ExistingEquipment.Count; i++)
+            {
+                <div>
+                    <div class="dealnet-middle-header owner-info-label">
+                        №@(i+1)
+                        <div id="existing-equipment-remove-@(i)" class="additional-remove" onclick="$('#existing-equipment-@(i)').remove();">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ExistingEquipment[i].IsRental)
+                                <div class="control-group">
+                                    @Html.DropDownListFor(m => m.ExistingEquipment[i].IsRental, new SelectList(
+                                new[]
+                                {
+                                    new {Value = "true", Text = "Yes"},
+                                    new {Value = "false", Text = "No"},
+                                },
+                                "Value", "Text", Model))
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-8 col-md-4 col-lg-34">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ExistingEquipment[i].RentalCompany)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].RentalCompany, new { @class = "form-control dealnet-input", placeholder = "Rental Company" })
+                                    @Html.ValidationMessageFor(m => m.ExistingEquipment[i].RentalCompany, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ExistingEquipment[i].EstimatedAge)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].EstimatedAge, new { @class = "form-control dealnet-input", placeholder = "Years" })
+                                    @Html.ValidationMessageFor(m => m.ExistingEquipment[i].EstimatedAge, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ExistingEquipment[i].Make)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].Make, new { @class = "form-control dealnet-input", placeholder = "Make" })
+                                    @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Make, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ExistingEquipment[i].Model)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].Model, new { @class = "form-control dealnet-input", placeholder = "Model" })
+                                    @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Model, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ExistingEquipment[i].SerialNumber)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].SerialNumber, new { @class = "form-control dealnet-input", placeholder = "Serial Number" })
+                                    @Html.ValidationMessageFor(m => m.ExistingEquipment[i].SerialNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ExistingEquipment[i].GeneralCondition)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].GeneralCondition, new { @class = "form-control dealnet-input", placeholder = "General Condition" })
+                                    @Html.ValidationMessageFor(m => m.ExistingEquipment[i].GeneralCondition, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ExistingEquipment[i].Notes)
+                                    <div class="control-group">
+                                        @Html.TextAreaFor(m => m.ExistingEquipment[i].Notes, new { @class = "form-control", placeholder = "Notes" })
+                                        @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Notes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="align-middle dealnet-info-link add-equip-link" onclick="addExistingEquipment()">
+                <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                <span>Add additional equipment</span>
+            </div>
+        </div>
+    </div>
 
     <h3 class="dealnet-middle-header">Additional Contract Information</h3>
     <div class="row">
@@ -197,67 +476,17 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
 
-    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/bundles/equipment-information")
 
     <script type="text/javascript">
         $(document)
-            .ready(function() {
-                sessionStorage.newEquipmets = 0;
-                sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
-                $("#new-equipment-remove-0").hide();
-                $("#new-equipment-base .dealnet-middle-header").hide();
-                assignDatepicker("#estimated-installation-date-0");
-                $.validator.addMethod(
-                    "date",
-                    function(value, element) {
-                        var minDate = Date.parse("1900-01-01");
-                        var valueEntered = Date.parseExact(value, "M/d/yyyy");
-                        if (!valueEntered) {
-                            return false;
-                        }
-                        if (valueEntered < minDate) {
-                            return false;
-                        }
-                        return true;
-                    },
-                    "Please enter a valid date!"
-                );
+            .ready(function () {
+                sessionStorage.newEquipmets = @(Model.NewEquipment == null || !Model.NewEquipment.Any() ? 0 : Model.NewEquipment.Count -1);
+                sessionStorage.existingEquipmets = @(Model.ExistingEquipment == null || !Model.ExistingEquipment.Any() ? 0 : Model.ExistingEquipment.Count -1);
+                @if (Model.ExistingEquipment == null || !Model.ExistingEquipment.Any())
+                {
+                    <text>$("#existing-equipment-base").remove();</text>
+                }
             });
-
-        function addNewEquipment() {
-            sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) + 1;
-            //console.log("NewEquipment_" + sessionStorage.newEquipmets);
-            var newDiv = document.createElement('div');
-            newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
-                .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).replace("estimated-installation-date-0", "estimated-installation-date-" + sessionStorage.newEquipmets)
-                .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
-                .replace("№1", "№" + (Number(sessionStorage.newEquipmets) + 1));
-            //console.log(newDiv.innerHTML);
-            newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
-            document.getElementById('new-equipments').appendChild(newDiv);
-            assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
-            resetFormValidator("#equipment-form");
-        }
-
-        function removeNewEquipment(divId) {
-            $(divId).remove();
-        }
-
-        function resetFormValidator(formId) {
-            $(formId).removeData('validator');
-            $(formId).removeData('unobtrusiveValidation');
-            $.validator.unobtrusive.parse(formId);
-        }
-
-        function assignDatepicker(inputId) {
-            $(inputId).datepicker({
-                dateFormat: 'mm/dd/yy',
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '1900:2116',
-                minDate: Date.parse("1900-01-01"),
-                maxDate: new Date()
-            });
-        }
     </script>
 }
