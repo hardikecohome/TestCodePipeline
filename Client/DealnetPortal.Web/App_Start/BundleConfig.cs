@@ -35,7 +35,8 @@ namespace DealnetPortal.Web
                      "~/Scripts/layout.js", "~/Scripts/home-page.js", "~/Scripts/jquery-ui-1.12.0.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
                 "~/Scripts/BasicInfo", "*.js").Include(
-                "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include("~/Scripts/datejs.js"));
+                "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/camera-capturing.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").IncludeDirectory(
                      "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include("~/Scripts/datejs.js"));
@@ -45,6 +46,9 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/editable-in-modal.js"));
             bundles.Add(new ScriptBundle("~/bundles/equipment-information").Include(
                 "~/Scripts/equipment-information.js").Include("~/Scripts/datejs.js"));
+            bundles.Add(new ScriptBundle("~/bundles/contact-and-payment").Include(
+                "~/Scripts/contact-and-payment.js").Include("~/Scripts/camera-capturing.js")
+                .Include("~/Scripts/vc-scanning.js"));
             bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation").Include(
                 "~/Scripts/summary-and-confirmation.js").Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")

@@ -1,5 +1,6 @@
-﻿$(document).ready(function () {
-    $(window).keydown(function (event) {
+﻿var addAdditionalButton, aditional1Section, aditional2Section, aditional3Section, mailingAddress, mailingAddressCheckbox;
+$(document).ready(function () {
+    $(window).keydown(function(event) {
         if (event.keyCode == 13) {
             event.preventDefault();
             return false;
@@ -38,7 +39,7 @@ $("#additional-birth-date-3").datepicker({
 $(function () {
     $.validator.addMethod(
         "date",
-        function (value, element) {
+        function(value, element) {
             var minDate = Date.parse("1900-01-01");
             var maxDate = new Date();
             var valueEntered = Date.parseExact(value, "M/d/yyyy");
@@ -218,4 +219,54 @@ function hideAditional3Section() {
     $("#additional-last-name-3").prop("disabled", true);
     $("#additional-birth-date-3").prop("disabled", true);
     addAdditionalButton.show();
+}
+function enableMailingAddress() {
+    $("#mailing_street").prop("disabled", false);
+    $("#mailing_unit_number").prop("disabled", false);
+    $("#mailing_locality").prop("disabled", false);
+    $("#mailing_administrative_area_level_1").prop("disabled", false);
+    $("#mailing_postal_code").prop("disabled", false);
+    mailingAddress.show(300);
+}
+function disableMailingAddress() {
+    mailingAddress.hide(200);
+    $("#mailing_street").prop("disabled", true);
+    $("#mailing_unit_number").prop("disabled", true);
+    $("#mailing_locality").prop("disabled", true);
+    $("#mailing_administrative_area_level_1").prop("disabled", true);
+    $("#mailing_postal_code").prop("disabled", true);
+}
+function showAditional1Section() {
+    aditional1Section.show();
+    $("#additional-first-name-1").prop("disabled", false);
+    $("#additional-last-name-1").prop("disabled", false);
+    $("#additional-birth-date-1").prop("disabled", false);
+    if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
+        addAdditionalButton.hide();
+    }
+}
+function showAditional2Section() {
+    aditional2Section.show();
+    $("#additional-first-name-2").prop("disabled", false);
+    $("#additional-last-name-2").prop("disabled", false);
+    $("#additional-birth-date-2").prop("disabled", false);
+    if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
+        addAdditionalButton.hide();
+    }
+}
+function showAditional3Section() {
+    aditional3Section.show();
+    $("#additional-first-name-3").prop("disabled", false);
+    $("#additional-last-name-3").prop("disabled", false);
+    $("#additional-birth-date-3").prop("disabled", false);
+    addAdditionalButton.hide();
+}
+function assignDatepicker(input) {
+    input.datepicker({
+        dateFormat: 'mm/dd/yy', changeMonth: true,
+        changeYear: true,
+        yearRange: '1900:2016',
+        minDate: Date.parse("1900-01-01"),
+        maxDate: new Date()
+    });
 }
