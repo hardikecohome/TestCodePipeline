@@ -1,6 +1,4 @@
-﻿
-
-function uploadCaptured(uploadUrl) {
+﻿function uploadCaptured(uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
     showLoader();
     $.ajax({

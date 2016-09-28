@@ -119,9 +119,9 @@
                         <div class="file-upload btn dealnet-button dealnet-success-button" @if (!ViewBag.IsMobileRequest){ <text>data-toggle="modal" data-target="#camera-modal"</text> } >
                             <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
                             <span>Add Photo</span>
-                            @if (!ViewBag.IsMobileRequest)
+                            @if (ViewBag.IsMobileRequest)
                             {
-                                <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeVoidChequePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', true)" />
+                            <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeVoidChequePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', true)" />
                             }
                         </div>
                     </div>
@@ -246,51 +246,8 @@
 }
 
 @section scripts
-        {
-            @Scripts.Render("~/bundles/jqueryval")
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $("#home-phone").rules("add", "required");
-                    $("#cell-phone").rules("add", "required");
-                    $("#bank-number").rules("add", "required");
-                    $("#transit-number").rules("add", "required");
-                    $("#account-number").rules("add", "required");
-                    $("#enbridge-gas-distribution-account").rules("add", "required");
-                    $("#meter-number").rules("add", "required");
-                    //
-                    setValidationRelation($("#home-phone"), $("#cell-phone"));
-                    setValidationRelation($("#cell-phone"), $("#home-phone"));
-                    setValidationRelation($("#enbridge-gas-distribution-account"), $("#meter-number"));
-                    setValidationRelation($("#meter-number"), $("#enbridge-gas-distribution-account"));
-                    var initPaymentType = $("#payment-type").find(":selected").val();
-                    managePaymentElements(initPaymentType);
-                    $("#payment-type").change(function () {
-                        managePaymentElements($(this).find(":selected").val());
-                    });
-                });
-                function managePaymentElements(paymentType) {
-                    switch (paymentType) {
-                        case '0':
-                            $(".pap-payment").hide();
-                            $(".enbridge-payment").show();
-                            break;
-                        case '1':
-                            $(".enbridge-payment").hide();
-                            $(".pap-payment").show();
-                            break;
-                    }
-                }
-                function setValidationRelation(elem1, elem2) {
-                    elem1.change(function () {
-                        if ($(this).val()) {
-                            elem2.rules("remove", "required");
-                            elem2.removeClass('input-validation-error');
-                            elem2.next('.text-danger').empty();
-                        } else {
-                            elem2.rules("add", "required");
-                        }
-                    });
-                }
-            </script>
-        }
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/contact-and-payment")
+}
 
