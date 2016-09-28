@@ -6,6 +6,7 @@
 
 @using (Html.BeginForm("CreditCheckConfirmation", "NewRental", FormMethod.Post, new { id = "credit-check-form" }))
 {
+    @Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.ContractId)
 <div class="dealnet-large-header" id="basic-info">Credit check confirmation</div>
 

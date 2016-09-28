@@ -458,9 +458,12 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\camera-capturing.js" />
+    <Content Include="Scripts\contact-and-payment.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
     <Content Include="Scripts\editable-in-modal.js" />
+    <Content Include="Scripts\equipment-information.js" />
     <Content Include="Scripts\general-address-autocomplete.js" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
@@ -566,6 +569,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\svgxuse.min.js" />
     <Content Include="Scripts\summary-and-confirmation.js" />
+    <Content Include="Scripts\vc-scanning.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
