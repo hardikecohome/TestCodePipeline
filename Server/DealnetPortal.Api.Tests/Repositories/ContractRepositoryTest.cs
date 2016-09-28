@@ -214,8 +214,8 @@ namespace DealnetPortal.Api.Tests.Repositories
 
             equipmentInfo.ExistingEquipment.Add(new ExistingEquipment
             {
-                DealerIsReplacing = true,
-                EstimatedAge = "50",
+                //DealerIsReplacing = true,
+                EstimatedAge = 50,
                 IsRental = false,
                 Make = "Make",
                 Model = "Model",
