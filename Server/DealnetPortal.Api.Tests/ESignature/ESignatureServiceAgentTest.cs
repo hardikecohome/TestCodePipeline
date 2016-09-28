@@ -259,7 +259,7 @@ namespace DealnetPortal.Api.Tests.ESignature
             Assert.IsFalse(resTr.Item2.Any());
             var dpSid = resPr.Item1.sid;
 
-            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2.pdf");
+            var pdfRaw = File.ReadAllBytes("Files/EcoHome (ON) 2s.pdf");
             var resDv = serviceAgent.UploadDocument(dpSid, pdfRaw, "EcoHome.pdf").GetAwaiter().GetResult();
             Assert.IsFalse(resDv.Item2.Any());
 
@@ -358,10 +358,59 @@ namespace DealnetPortal.Api.Tests.ESignature
                     Item1 = textFieldFontTypeFont.Courier,
                     color  = "Black",
                 }
-            };            
+            };
 
-            resDv = serviceAgent.InsertFormFields(dpSid, null, null, signBlocks.ToArray()).GetAwaiter().GetResult();
+            var formFields = new List<FormField>()
+            {
+                new FormField()
+                {
+                    Item = "Signature1",
+                    customProperty = new List<CustomProperty>()
+                    {
+                        new CustomProperty()
+                        {
+                            name = "role",
+                            Value = "Customer"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "label",
+                            Value = "Signature1"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "type",
+                            Value = "signature"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "required",
+                            Value = "true"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "initialValueType",
+                            Value = "fullName"
+                        },
+                        //new CustomProperty()
+                        //{
+                        //    name = "protectedField",
+                        //    Value = "false"
+                        //},
+                        new CustomProperty()
+                        {
+                            name = "displayOrder",
+                            Value = "1"
+                        }
+                    }
+                }
+            };
+
+            resDv = serviceAgent.EditFormFields(dpSid, formFields.ToArray()).GetAwaiter().GetResult();
             Assert.IsFalse(resDv.Item2.Any());
+
+            //resDv = serviceAgent.InsertFormFields(dpSid, null, null, signBlocks.ToArray()).GetAwaiter().GetResult();
+            //Assert.IsFalse(resDv.Item2.Any());
             //resDv = serviceAgent.InsertFormFields(dpSid, textFields.ToArray(), null, null).GetAwaiter().GetResult();
             //Assert.IsFalse(resDv.Item2.Any());
             //resDv = serviceAgent.InsertFormFields(dpSid, null, textData.ToArray(), null).GetAwaiter().GetResult();

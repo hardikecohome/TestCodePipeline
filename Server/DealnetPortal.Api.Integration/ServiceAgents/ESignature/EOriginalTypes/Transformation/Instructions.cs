@@ -221,13 +221,20 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
 
         private string _newName;
 
-        private float _lowerLeftX;
+        //private float _lowerLeftX;
 
-        private float _lowerLeftY;
+        //private float _lowerLeftY;
 
-        private float _upperRightX;
+        //private float _upperRightX;
 
-        private float _upperRightY;
+        //private float _upperRightY;
+        private string lowerLeftXField;
+
+        private string lowerLeftYField;
+
+        private string upperRightXField;
+
+        private string upperRightYField;
 
         private List<CustomProperty> _customProperty;
 
@@ -262,51 +269,106 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
             }
         }
 
-        public float lowerLeftX
+        //public float lowerLeftX
+        //{
+        //    get
+        //    {
+        //        return this._lowerLeftX;
+        //    }
+        //    set
+        //    {
+        //        this._lowerLeftX = value;
+        //    }
+        //}
+
+        //public float lowerLeftY
+        //{
+        //    get
+        //    {
+        //        return this._lowerLeftY;
+        //    }
+        //    set
+        //    {
+        //        this._lowerLeftY = value;
+        //    }
+        //}
+
+        //public float upperRightX
+        //{
+        //    get
+        //    {
+        //        return this._upperRightX;
+        //    }
+        //    set
+        //    {
+        //        this._upperRightX = value;
+        //    }
+        //}
+
+        //public float upperRightY
+        //{
+        //    get
+        //    {
+        //        return this._upperRightY;
+        //    }
+        //    set
+        //    {
+        //        this._upperRightY = value;
+        //    }
+        //}
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "integer")]
+        public string lowerLeftX
         {
             get
             {
-                return this._lowerLeftX;
+                return this.lowerLeftXField;
             }
             set
             {
-                this._lowerLeftX = value;
+                this.lowerLeftXField = value;
             }
         }
 
-        public float lowerLeftY
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "integer")]
+        public string lowerLeftY
         {
             get
             {
-                return this._lowerLeftY;
+                return this.lowerLeftYField;
             }
             set
             {
-                this._lowerLeftY = value;
+                this.lowerLeftYField = value;
             }
         }
 
-        public float upperRightX
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "integer")]
+        public string upperRightX
         {
             get
             {
-                return this._upperRightX;
+                return this.upperRightXField;
             }
             set
             {
-                this._upperRightX = value;
+                this.upperRightXField = value;
             }
         }
 
-        public float upperRightY
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "integer")]
+        public string upperRightY
         {
             get
             {
-                return this._upperRightY;
+                return this.upperRightYField;
             }
             set
             {
-                this._upperRightY = value;
+                this.upperRightYField = value;
             }
         }
 
