@@ -255,7 +255,7 @@ namespace DealnetPortal.Api.Tests.ESignature
             Assert.IsFalse(resTr.Item2.Any());
             var transId = resTr.Item1.sid;
 
-            var resPr = serviceAgent.CreateDocumentProfile(transId, "Sample", null).GetAwaiter().GetResult();
+            var resPr = serviceAgent.CreateDocumentProfile(transId, "Agreement", null).GetAwaiter().GetResult();
             Assert.IsFalse(resTr.Item2.Any());
             var dpSid = resPr.Item1.sid;
 
@@ -285,22 +285,51 @@ namespace DealnetPortal.Api.Tests.ESignature
                 new SigBlock()
                 {
                     signerName = "Customer",
-                    name = "Signature1",
+                    name = "signature1475065229464",
 
                     Item = "1",
-                    lowerLeftX = "142",
-                    lowerLeftY = "72",
-                    upperRightX = "293",
-                    upperRightY = "104",
-
-                    //customProperty = new CustomProperty[]
-                    //{
-                    //    new CustomProperty()
-                    //    {
-                    //        name = "Role",
-                    //        Value = "Signature1"
-                    //    }
-                    //}
+                    lowerLeftX = "167",
+                    lowerLeftY = "23",
+                    upperRightX = "241",
+                    upperRightY = "45",                    
+                    customProperty = new CustomProperty[]
+                    {
+                        new CustomProperty()
+                        {
+                            name = "role",
+                            Value = "Customer"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "label",
+                            Value = "Signature1"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "type",
+                            Value = "signature"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "required",
+                            Value = "true"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "initialValueType",
+                            Value = "fullName"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "protectedField",
+                            Value = "false"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "displayOrder",
+                            Value = "1"
+                        }
+                    }
                 },
                 ////new SigBlock()
                 ////{

@@ -209,7 +209,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 {
                     transformationInstructions.Add(new AddSigBlocks()
                     {
-                        name = "addSigBlocks",
+                        name = "addSigBlock",
                         sigBlockList = signBlocks
                     });
                     exportTypes.Add(typeof(AddSigBlocks));
@@ -219,7 +219,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 {
                     transformationInstructions.Add(new AddTextFields()
                     {
-                        name = "addTextFields",
+                        name = "addTextField",
                         textFieldList = textFields
                     });
                     exportTypes.Add(typeof(AddTextFields));
@@ -241,12 +241,20 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                     transformationInstructions = transformationInstructions.ToArray()
                 };                
 
-                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), exportTypes.ToArray());
+                var x = new XmlSerializer(ts.GetType(), exportTypes.ToArray());
+                var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize};
                 MemoryStream ms = new MemoryStream();
-                x.Serialize(ms, ts);
+                var writer = XmlWriter.Create(ms, settings);
+                x.Serialize(writer, ts);
+
+                var xmlWriter = XmlWriter.Create("testForm.xml", settings);
+                x.Serialize(xmlWriter, ts);
+                xmlWriter.Flush();
 
                 ms.Position = 0;
+
                 var fileContent = new ByteArrayContent(ms.GetBuffer());
+
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("form-data")
                     {
