@@ -18,9 +18,9 @@ select{
 ::-ms-reveal {
   display: none;
 }
-.custom-select select::-ms-expand {
+/*select::-ms-expand {
   display: none;
-}
+}*/
 .custom-select{
   position: relative;
   .caret{
@@ -42,13 +42,9 @@ hr{
 }
 
 html.ie9{
-  select{
+  select,
+  select.input-sm.form-control{
     padding: 0;
-  }
-  .custom-select{
-    .caret{
-      display: none;
-    }
   }
 }
 
@@ -228,6 +224,7 @@ html.ie9{
   input:not(:placeholder-shown) ~ .clear-input{
     display: block;
   }
+  .dealnet-disabled-input ~ .clear-input,
   input:read-only ~ .clear-input{
     display: none !important
   }
@@ -251,6 +248,10 @@ html.ie9{
     font-size: 18px;
   }
 }
+/*div[class^="col-"]{
+  float: none;
+}*/
+
 div.dataTables_wrapper div.dataTables_filter{
 
   margin: 0;
@@ -265,6 +266,9 @@ div.dataTables_wrapper div.dataTables_filter{
 
   label{
     position: relative;
+    display: block;
+    float: none;
+    width: 100%;
     .label-caption{
       display: block;
       margin: 10px 0;
