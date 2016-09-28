@@ -49,6 +49,8 @@ function addExistingEquipment() {
     document.getElementById('existing-equipments').appendChild(newDiv);
     resetFormValidator("#equipment-form");
     sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) + 1;
+
+    customizeSelect();
 }
 
 function resetFormValidator(formId) {
