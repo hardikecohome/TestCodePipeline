@@ -194,7 +194,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var newEquipments = equipmentInfo.NewEquipment;
             var existingEquipments = equipmentInfo.ExistingEquipment;
-            var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
+            var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);//(contract.Id);
             if (dbEquipment == null || dbEquipment.Id == 0)
             {
                 equipmentInfo.ExistingEquipment = new List<ExistingEquipment>();

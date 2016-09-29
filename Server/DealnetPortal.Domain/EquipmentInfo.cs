@@ -8,13 +8,6 @@ namespace DealnetPortal.Domain
 
     public class EquipmentInfo
     {
-
-        public EquipmentInfo()
-        {
-            this.NewEquipment = new List<NewEquipment>();
-            this.ExistingEquipment = new List<ExistingEquipment>();
-        }
-
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [ForeignKey("Contract")]
         public int Id { get; set; }
