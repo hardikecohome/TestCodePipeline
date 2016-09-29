@@ -294,9 +294,28 @@ div.dataTables_wrapper div.dataTables_filter{
   }
   input{
     width: 280px;
-    padding-right: 30px;
     margin: 0;
     max-width: 100%;
+    @media (min-width: 992px) {
+      padding-right: 30px;
+    }
+  }
+}
+div.dataTables_wrapper div.dataTables_length {
+  label{
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+  }
+  @textWidth: 105px;
+  .custom-select{
+    width: 120px;
+    @media (max-width: 767px) {
+      width: calc(~"100% - 105px");
+    }
+    select{
+      width: 100%;
+    }
   }
 }
 
