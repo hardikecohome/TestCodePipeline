@@ -18,13 +18,14 @@ namespace DealnetPortal.Api.Tests.Services
         private IContractRepository _contractRepository;
         private IUnitOfWork _unitOfWork;
         private ILoggingService _loggingService;
+        private ISignatureService _signatureService;
 
         [TestInitialize]
         public void Intialize()
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
-            _contractService = new ContractService(_contractRepository, _unitOfWork, _loggingService);
+            _contractService = new ContractService(_contractRepository, _unitOfWork, _signatureService, _loggingService);
         }
 
         private void SetupMocks()
@@ -32,6 +33,7 @@ namespace DealnetPortal.Api.Tests.Services
             Mock<IContractRepository> contractRepositoryMock = new Mock<IContractRepository>();
             Mock<IUnitOfWork> unitOfWorkMock = new Mock<IUnitOfWork>();
             Mock<ILoggingService> loggingServiceMock = new Mock<ILoggingService>();
+            Mock<ISignatureService> signatureServiceMock = new Mock<ISignatureService>();
 
             contractRepositoryMock.Setup(s => s.CreateContract(It.IsAny<string>())).Returns(
                 new Contract()
@@ -54,6 +56,7 @@ namespace DealnetPortal.Api.Tests.Services
             _contractRepository = contractRepositoryMock.Object;
             _unitOfWork = unitOfWorkMock.Object;
             _loggingService = loggingServiceMock.Object;
+            _signatureService = signatureServiceMock.Object;
         }
 
         [TestMethod]

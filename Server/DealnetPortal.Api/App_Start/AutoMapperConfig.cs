@@ -45,11 +45,11 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>();
 
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
-                .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
-                .ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src =>
-                {
-                    return src.EquipmentTypes?.Select(eq => eq.Type).ToList();
-                }));
+                .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm));
+                //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src =>
+                //{
+                //    return src.EquipmentTypes?.Select(eq => eq.Type).ToList();
+                //}));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
@@ -84,8 +84,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Details, s => s.Ignore());
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
-                .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))
-                .ForMember(d => d.EquipmentTypes, s => s.Ignore());
+                .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw));
+                //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
         }
     }
 }

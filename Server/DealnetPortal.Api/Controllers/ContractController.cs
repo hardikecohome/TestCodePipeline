@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
 
@@ -110,6 +111,21 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var alerts = ContractService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("InitiateDigitalSignature")]
+        [HttpPut]
+        public IHttpActionResult InitiateDigitalSignature(SignatureUsersDTO users)
+        {
+            try
+            {
+                var alerts = ContractService.InitiateDigitalSignature(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
                 return Ok(alerts);
             }
             catch (Exception ex)

@@ -8,6 +8,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Web.ServiceAgent
@@ -104,6 +105,20 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError($"Can't initiate credit check for contract {contractId}", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
+        {
+            try
+            {
+                return
+                    await Client.PutAsync<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/InitiateDigitalSignature", signatureUsers);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError($"Can't initiate digital signature for contract {signatureUsers.ContractId}", ex);
                 throw;
             }
         }

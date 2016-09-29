@@ -12,11 +12,13 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {    
@@ -162,9 +164,27 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public void SendContractEmails(SendEmailsViewModel emails)
+        public async void SendContractEmails(SendEmailsViewModel emails)
         {
-            //Send contract to emails
+            SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
+            signatureUsers.ContractId = emails.ContractId;
+            signatureUsers.Users = new List<SignatureUser>();
+            signatureUsers.Users.Add(new SignatureUser()
+            {
+                EmailAddress = emails.HomeOwnerEmail,
+                Role = SignatureRole.HomeOwner
+            });
+
+            emails.AdditionalApplicantsEmails?.ForEach(us =>
+            {
+                signatureUsers.Users.Add(new SignatureUser()
+                {
+                    EmailAddress = us.Email,
+                    Role = SignatureRole.AdditionalApplicant
+                });
+            });
+
+            await _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
         }
 
         public ActionResult RentalAgreementSubmitSuccess()

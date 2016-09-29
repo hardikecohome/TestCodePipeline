@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO.MemoryMappedFiles;
+using System.Linq;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -22,12 +24,15 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISignatureService _signatureService;
 
-        public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
+        public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, 
+            ISignatureService signatureService, ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _signatureService = signatureService;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -145,6 +150,28 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to initiate a credit check for contract [{contractId}]", ex);
+                throw;
+            }
+        }
+
+        public IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers)
+        {
+            try
+            {
+                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+                var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
+                if (homeOwner != null)
+                {
+                    homeOwner.FirstName = contract?.PrimaryCustomer?.FirstName;
+                    homeOwner.LastName = contract?.PrimaryCustomer?.LastName;
+                }
+
+                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, signatureUsers);
+                return alerts;
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Failed to initiate a digital signature for contract [{contractId}]", ex);
                 throw;
             }
         }

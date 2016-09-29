@@ -39,17 +39,17 @@ namespace DealnetPortal.Api.Controllers
                 var result = await Task.Run(() =>
                 {
                     var newAgreement = Mapper.Map<AgreementTemplate>(newAgreementTemplate);
-                    var addEquipments = newAgreementTemplate.EquipmentTypes;
-                    if (addEquipments?.Any() ?? false)
-                    {
-                        var dbEquipments = _contractRepository.GetEquipmentTypes();
-                        var eqToAdd = dbEquipments.Where(eq => addEquipments.Any(a => a == eq.Type)).ToList();
-                        newAgreement.EquipmentTypes = eqToAdd;
-                    }
+                    //var addEquipments = newAgreementTemplate.EquipmentTypes;
+                    //if (addEquipments?.Any() ?? false)
+                    //{
+                    //    var dbEquipments = _contractRepository.GetEquipmentTypes();
+                    //    var eqToAdd = dbEquipments.Where(eq => addEquipments.Any(a => a == eq.Type)).ToList();
+                    //    newAgreement.EquipmentTypes = eqToAdd;
+                    //}
 
-                    var addedEquipment = _fileRepository.AddOrUpdateAgreementTemplate(newAgreement);
+                    var addedAgreement = _fileRepository.AddOrUpdateAgreementTemplate(newAgreement);
                     _unitOfWork.Save();
-                    return addedEquipment;
+                    return addedAgreement;
                 });
                 var resDto = Mapper.Map<AgreementTemplateDTO>(result);                
                 return Ok(resDto);

@@ -7,6 +7,7 @@ using DealnetPortal.Api.Models.Contract;
 namespace DealnetPortal.Api.Integration.Services
 {
     using Models.Contract.EquipmentInformation;
+    using Models.Signature;
 
     /// <summary>
     /// Helper service for work with contracts that integrate DB and 3rd party services requests
@@ -24,6 +25,8 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId);
         
         IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
+
+        IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);
 
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
 

@@ -37,7 +37,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             {
                 AgreementType = AgreementType.LoanApplication,
                 State = "ON",
-                TemplateName = "EcoHome ON rental",
+                TemplateName = "EcoHome ON loan",
                 AgreementFormRaw = pdfData
             };
             var res = serviceAgent.UploadAgreementTemplate(aggreement).GetAwaiter().GetResult();
@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
                 AgreementType = AgreementType.RentalApplication,
                 State = "ON",
                 TemplateName = "EcoHome ON rental",
-                EquipmentTypes = new List<string>() { "ECO5", "ECO1", "ECO2", "ECO44"},
+                //EquipmentTypes = new List<string>() { "ECO5", "ECO1", "ECO2", "ECO44"},
                 AgreementFormRaw = pdfData
             };
             var res = serviceAgent.UploadAgreementTemplate(aggreement).GetAwaiter().GetResult();

@@ -20,6 +20,6 @@ namespace DealnetPortal.Api.Models.Storage
 
         public byte[] AgreementFormRaw { get; set; }
 
-        public virtual List<string> EquipmentTypes { get; set; }
+        //public virtual List<string> EquipmentTypes { get; set; }
     }
 }

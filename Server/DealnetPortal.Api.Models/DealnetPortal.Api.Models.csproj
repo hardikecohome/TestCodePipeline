@@ -65,6 +65,7 @@
     <Compile Include="Scanning\ScanningRequest.cs" />
     <Compile Include="Scanning\VoidChequeData.cs" />
     <Compile Include="Signature\SignatureUser.cs" />
+    <Compile Include="Signature\SignatureUsersDTO.cs" />
     <Compile Include="Storage\AgreementTemplateDTO.cs" />
   </ItemGroup>
   <ItemGroup>

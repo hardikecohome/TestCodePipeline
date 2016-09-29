@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Signature;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -49,6 +50,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="contractId">Contract Id</param>
         /// <returns>List of alerts (warnings, errors)</returns>
         Task<IList<Alert>> InitiateCreditCheck(int contractId);
+
+        Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
 
         /// <summary>
         /// Get credit check results for contract

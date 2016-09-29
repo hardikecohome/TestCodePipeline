@@ -24,6 +24,6 @@ namespace DealnetPortal.Domain
         
         //public int? EquipmentTypeId { get; set; }
         //[ForeignKey("EquipmentTypeId")]
-        public virtual List<EquipmentType> EquipmentTypes { get; set; }
+        //public virtual List<EquipmentType> EquipmentTypes { get; set; }
     }
 }
