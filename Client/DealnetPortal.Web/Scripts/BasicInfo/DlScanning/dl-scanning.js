@@ -51,7 +51,8 @@ function submitUpload(sender, uploadUrl) {
                         var modal = document.getElementById('camera-modal');
                         document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
                         document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
-                        var date = new Date(parseInt(json.DateOfBirth.substr(6)));
+                        var date = new Date(json.DateOfBirthStr);
+                        //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
                         var fillAddress = modal.getAttribute('data-fillAddress');
                         if (fillAddress == "true") {

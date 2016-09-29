@@ -38,6 +38,8 @@ namespace DealnetPortal.Api.Integration.Utility
                 DateTime date;
                 DateTime.TryParse(elems.FirstOrDefault(x => x.Name == "dob")?.Value, out date);
                 DriverLicense.DateOfBirth = date;
+                DriverLicense.DateOfBirthStr = elems.FirstOrDefault(x => x.Name == "dob")?.Value;
+
                 DateTime.TryParse(elems.FirstOrDefault(x => x.Name == "issued")?.Value, out date);
                 DriverLicense.Issued = date;
                 DateTime.TryParse(elems.FirstOrDefault(x => x.Name == "expires")?.Value, out date);

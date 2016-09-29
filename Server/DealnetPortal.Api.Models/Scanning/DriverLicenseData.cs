@@ -23,6 +23,7 @@ namespace DealnetPortal.Api.Models.Scanning
         public string PostalCode { get; set; }
         public string Country { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string DateOfBirthStr { get; set; }
         public DateTime Issued { get; set; }
         public DateTime Expires { get; set; }
     }
