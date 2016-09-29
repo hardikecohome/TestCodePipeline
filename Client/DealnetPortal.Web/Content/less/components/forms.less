@@ -1,36 +1,101 @@
 input[type="text"],
 input[type="email"],
 input[type="tel"],
-input[type="password"]{
-  box-shadow: none;
+input[type="search"],
+input[type="password"],
+select{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  box-shadow: none !important;
 }
+
 ::-ms-clear {
-  display: none;
+    display: none;
+    width: 0; 
+    height: 0; 
 }
 ::-ms-reveal {
-  display: none;
+    display: none;
+    width: 0; 
+    height: 0;
 }
+input[type=search]::-ms-clear{
+    display: none; 
+    width: 0; 
+    height: 0; 
+}
+input[type=password]::-ms-reveal{
+    display: none; 
+    width: 0; 
+    height: 0; 
+}
+input[type=text]::-ms-clear {  
+    display: none; 
+    width: 0; 
+    height: 0; 
+}
+input[type=text]::-ms-reveal {  
+    display: none; 
+    width: 0; 
+    height: 0; 
+}
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+input[type="text"]::-webkit-search-decoration,
+input[type="text"]::-webkit-search-cancel-button,
+input[type="text"]::-webkit-search-results-button,
+input[type="text"]::-webkit-search-results-decoration { display: none; }
+input[type="password"]::-webkit-search-decoration,
+input[type="password"]::-webkit-search-cancel-button,
+input[type="password"]::-webkit-search-results-button,
+input[type="password"]::-webkit-search-results-decoration { display: none; }
+/*select::-ms-expand {
+  display: none;
+}*/
+.custom-select{
+  position: relative;
+  .caret{
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    margin-top: -3px;
+    pointer-events: none;
+  }
+}
+.custom-select-disabled{
+  position: relative;
+  select{
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .caret{
+    display: none;
+  }
+}
+
 select.form-control{
   option {
     color: black;
-    &:first-child {
-      color: grey;
-    }
-  }
-  &.empty {
-    color: grey;
-  }
-  /* Hidden placeholder */
-  option[disabled]:first-child {
-    display: none;
   }
 }
 hr{
   border-color: @default-grey-color;
 }
 
-html.ie9 select{
-  padding: 0;
+html.ie9{
+  select,
+  select.input-sm.form-control{
+    padding: 0;
+  }
 }
 
 .form-group{
@@ -50,7 +115,7 @@ html.ie9 select{
       height: 49px;
       line-height: 36px;
     }
-    .scanlicense-notify{
+    .scanlicence-notify{
       text-align: center;
     }
   }
@@ -107,12 +172,18 @@ html.ie9 select{
 
 .form-control{
   &.input-validation-error{
-    border-color: @danger-color;
+    border-color: @danger-color !important;
   }
   &:focus{
-    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px @default-grey-color;
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2) !important;
+    border: solid 1px @default-grey-color !important;
   }
+  &.input-sm {
+    height: 30px;
+    padding: 0 10px;
+    line-height: 30px;
+  }
+
 }
 
 .text-danger {
@@ -203,6 +274,7 @@ html.ie9 select{
   input:not(:placeholder-shown) ~ .clear-input{
     display: block;
   }
+  .dealnet-disabled-input ~ .clear-input,
   input:read-only ~ .clear-input{
     display: none !important
   }
@@ -226,6 +298,10 @@ html.ie9 select{
     font-size: 18px;
   }
 }
+/*div[class^="col-"]{
+  float: none;
+}*/
+
 div.dataTables_wrapper div.dataTables_filter{
 
   margin: 0;
@@ -240,6 +316,9 @@ div.dataTables_wrapper div.dataTables_filter{
 
   label{
     position: relative;
+    display: block;
+    float: none;
+    width: 100%;
     .label-caption{
       display: block;
       margin: 10px 0;
@@ -256,36 +335,37 @@ div.dataTables_wrapper div.dataTables_filter{
       top: 2px;
       display: inline-block;
       padding: 5px;
+      font-size: 16px;
       @media (max-width: 991px) {
         display: none;
       }
 
     }
-
-/*    @media (max-width: 677px) {
-      width: 280px;
-      input{
-        margin: 0;
-        transition: width 0.3s linear;
-        &:focus{
-          box-shadow: none;
-          outline: none;
-          border-color: #cccccc;
-        }
-        &:not(.active){
-          transition: width 0.3s linear, opacity 0.3s 0.1s linear;
-          width: 0px;
-          padding: 0;
-          opacity: 0;
-        }
-      }
-    }*/
   }
   input{
     width: 280px;
-    padding-right: 30px;
     margin: 0;
     max-width: 100%;
+    @media (min-width: 992px) {
+      padding-right: 30px;
+    }
+  }
+}
+div.dataTables_wrapper div.dataTables_length {
+  label{
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+  }
+  @textWidth: 105px;
+  .custom-select{
+    width: 120px;
+    @media (max-width: 767px) {
+      width: calc(~"100% - 105px");
+    }
+    select{
+      width: 100%;
+    }
   }
 }
 

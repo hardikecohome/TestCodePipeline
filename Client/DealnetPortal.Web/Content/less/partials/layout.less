@@ -1,12 +1,23 @@
+html{
+  -webkit-text-size-adjust: none
+}
 body{
   -webkit-font-smoothing: antialiased;
   font-family: @fontLato;
   font-size: 14px;
   color: @default-dark-grey-color;
+
   &.open-menu{
     .overlay{
       display: block;
     }
+  }
+  &.modal-open,
+  &.open-menu {
+    padding-right: 0 !important;
+    position: fixed !important;
+    overflow: hidden !important;
+    width: 100%;
   }
 }
 .overlay{
@@ -228,6 +239,7 @@ body.no-authorized .navbar{
   width: 140px;
   z-index: -1;
   display: block;
+  visibility: hidden;
 }
 
 @media (max-width: 767px) {

@@ -8,11 +8,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 {    
     public class ExistingEquipmentInformation
     {
-        [Required]
-        [Display(Name= "Dealer Is Replacing?")]
-        public bool DealerIsReplacing  { get; set; }
-
-        [Required]
         [Display(Name = "Is Rental?")]
         public bool IsRental { get; set; }
 
@@ -21,10 +16,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(Name = "Rental Company")]
         public string RentalCompany { get; set; }
 
-        [Required]
-        [StringLength(50)]
         [Display(Name = "Estimated Age")]
-        public string EstimatedAge { get; set; }
+        public double EstimatedAge { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -34,15 +27,17 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [StringLength(50)]
         public string Model { get; set; }
 
+        [Required]
         [StringLength(50)]
         [Display(Name = "Serial Number")]
         public string SerialNumber { get; set; }
 
+        [Required]
         [StringLength(50)]
         [Display(Name = "General Condition")]
         public string GeneralCondition { get; set; }
 
-        [StringLength(100)]
+        [StringLength(500)]
         public string Notes { get; set; }       
     }
 }

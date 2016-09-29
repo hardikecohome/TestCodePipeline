@@ -52,6 +52,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
@@ -79,6 +80,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreditCheckConfirmation(BasicInfoViewModel basicInfo)
         {
             return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
@@ -116,6 +118,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
             if (!ModelState.IsValid)
@@ -132,10 +135,12 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             return View(await GetContactAndPaymentInfoAsync(contractId));
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
             if (!ModelState.IsValid)
@@ -157,6 +162,19 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        public void SendContractEmails(SendEmailsViewModel emails)
+        {
+            //Send contract to emails
+        }
+
+        public ActionResult RentalAgreementSubmitSuccess()
+        {
+            ViewBag.HomeOwnerEmail = "dduck@email.com";
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateBasicInfo(BasicInfoViewModel basicInfo)
         {
             if (!ModelState.IsValid || basicInfo.ContractId == null)
@@ -168,6 +186,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
             if (!ModelState.IsValid || contactAndPaymentInfo.ContractId == null)
@@ -179,6 +198,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateEquipmentInfo(EquipmentInformationViewModel equipmentInfo)
         {
             if (!ModelState.IsValid || equipmentInfo.ContractId == null)
@@ -290,7 +310,10 @@ namespace DealnetPortal.Web.Controllers
                 return equipmentInfo;
             }
             equipmentInfo.ContractId = contractId;
-            equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+            if (contractResult.Item1.Equipment != null)
+            {
+                equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+            }
             MapEquipmentInfo(equipmentInfo, contractResult.Item1);
             return equipmentInfo;
         }

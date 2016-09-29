@@ -194,6 +194,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewEquipmentInformation.cs" />
     <Compile Include="Models\NewRentalViewModels.cs" />
+    <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\YesNo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -355,6 +356,7 @@
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
+    <Content Include="Content\images\sprite\icon-print.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
@@ -449,17 +451,20 @@
     <Content Include="Content\less\components\pagination.less" />
     <Content Include="Content\less\components\tables.less" />
     <Content Include="Content\less\home-page.less" />
-    <Content Include="Content\less\basic-info.less" />
     <Content Include="Content\less\credit-check.less" />
     <Content Include="Content\less\components\buttons.less" />
     <Content Include="Content\less\components\datapicker.less" />
+    <Content Include="Content\less\rental-agreement-submit-success.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\camera-capturing.js" />
+    <Content Include="Scripts\contact-and-payment.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
     <Content Include="Scripts\editable-in-modal.js" />
+    <Content Include="Scripts\equipment-information.js" />
     <Content Include="Scripts\general-address-autocomplete.js" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
@@ -565,6 +570,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\svgxuse.min.js" />
     <Content Include="Scripts\summary-and-confirmation.js" />
+    <Content Include="Scripts\vc-scanning.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -603,6 +609,7 @@
     <Content Include="Views\NewRental\CreditCheck.cshtml" />
     <Content Include="Views\NewRental\CreditRejected.cshtml" />
     <Content Include="Views\NewRental\SummaryAndConfirmation.cshtml" />
+    <Content Include="Views\NewRental\RentalAgreementSubmitSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
