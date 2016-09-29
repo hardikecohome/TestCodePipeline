@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Signature;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -17,7 +18,10 @@ namespace DealnetPortal.Api.Integration.Services
         /// </summary>
         /// <param name="contractId"></param>
         /// <param name="ownerUserId"></param>
+        /// <param name="signatureUsers"></param>
         /// <returns></returns>
-        IList<Alert> ProcessContract(int contractId, string ownerUserId);
+        IList<Alert> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
+
+        //GetContractAgreement
     }
 }

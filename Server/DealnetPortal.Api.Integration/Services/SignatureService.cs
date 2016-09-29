@@ -8,6 +8,8 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
@@ -20,22 +22,31 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        //private List<string> _fieldNames = new List<string>()
-        //{
-        //    "First Name", "Last Name"
-        //}
+        private readonly string _eCoreLogin;
+        private readonly string _eCorePassword;
+        private readonly string _eCoreOrganisation;
+        private readonly string _eCoreSignatureRole;
+        private readonly string _eCoreAgreementTemplate;
 
         public SignatureService(IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
-            IFileRepository fileRepository, ILoggingService loggingService)
+            IFileRepository fileRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
         {
             _signatureServiceAgent = signatureServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _fileRepository = fileRepository;
+            _unitOfWork = unitOfWork;
+
+            _eCoreLogin = System.Configuration.ConfigurationManager.AppSettings["eCoreUser"];
+            _eCorePassword = System.Configuration.ConfigurationManager.AppSettings["eCorePassword"];
+            _eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings["eCoreOrganization"];
+            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
+            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
         }
 
-        public IList<Alert> ProcessContract(int contractId, string ownerUserId)
+        public IList<Alert> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
         {
             IList<Alert> alerts = new List<Alert>();
 
@@ -47,7 +58,11 @@ namespace DealnetPortal.Api.Integration.Services
                 var fields = PrepareFormFields(contract);
                 _loggingService.LogInfo($"{fields.Count} fields collected");
 
-
+                //CreateTransaction
+                //CreateAgreementProfile
+                //InsertAgreementFields
+                //InsertSignatureFields
+                //SendInvitations
             }
             else
             {
@@ -74,6 +89,26 @@ namespace DealnetPortal.Api.Integration.Services
             FillPaymentFieilds(fields, contract);
 
             return fields;
+        }
+
+        private Tuple<int, IList<Alert>> CreateTransaction(Contract contract)
+        {
+            int transId = 0;
+            List<Alert> alerts = new List<Alert>();
+            var res = _signatureServiceAgent.Login(_eCoreLogin, _eCoreOrganisation, _eCorePassword).GetAwaiter().GetResult();
+            alerts.AddRange(res);
+            if (res.All(a => a.Type != AlertType.Error))
+            {
+                var transactionName = contract.PrimaryCustomer?.FirstName + contract.PrimaryCustomer?.LastName;
+
+                var transRes = _signatureServiceAgent.CreateTransaction(transactionName).GetAwaiter().GetResult();
+            }
+            else
+            {
+                _loggingService.LogError("Can't login to eCore signature service with provided credentials");
+            }
+
+            return null;
         }
 
         private void FillHomeOwnerFieilds(Dictionary<string, string> formFields, Contract contract)
@@ -165,35 +200,98 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields[PdfFormFields.EquipmentCost] = fstEq.Cost.ToString(CultureInfo.CurrentCulture);
                 formFields[PdfFormFields.MonthlyPayment] = fstEq.MonthlyCost.ToString(CultureInfo.CurrentCulture);
 
+                var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)
                 {
                     switch (eq.Type)
                     {
-                //        new EquipmentType { Description = "Air Conditioner", Type = "ECO1" },
-                //new EquipmentType { Description = "Boiler", Type = "ECO2" },
-                //new EquipmentType { Description = "Doors", Type = "ECO3" },
-                //new EquipmentType { Description = "Fireplace", Type = "ECO4" },
-                //new EquipmentType { Description = "Furnace", Type = "ECO5" },
-                //new EquipmentType { Description = "HWT", Type = "ECO6" },
-                //new EquipmentType { Description = "Plumbing", Type = "ECO7" },
-                //new EquipmentType { Description = "Roofing", Type = "ECO9" },
-                //new EquipmentType { Description = "Siding", Type = "ECO10" },
-                //new EquipmentType { Description = "Tankless Water Heater", Type = "ECO11" },
-                //new EquipmentType { Description = "Windows", Type = "ECO13" },
-                //new EquipmentType { Description = "Sunrooms", Type = "ECO38" },
-                //new EquipmentType { Description = "Air Handler", Type = "ECO40" },
-                //new EquipmentType { Description = "Flooring", Type = "ECO42" },
-                //new EquipmentType { Description = "Porch Enclosure", Type = "ECO43" },
-                //new EquipmentType { Description = "Water Treatment System", Type = "ECO44" },
-                //new EquipmentType { Description = "Heat Pump", Type = "ECO45" },
-                //new EquipmentType { Description = "HRV", Type = "ECO46" },
-                //new EquipmentType { Description = "Bathroom", Type = "ECO47" },
-                //new EquipmentType { Description = "Kitchen", Type = "ECO48" },
-                //new EquipmentType { Description = "Hepa System", Type = "ECO49" },
-                //new EquipmentType { Description = "Unknown", Type = "ECO50" },
-                //new EquipmentType { Description = "Security System", Type = "ECO52" },
-                //new EquipmentType { Description = "Basement Repair", Type = "ECO55" }
+                        case "ECO1": // Air Conditioner
+                            formFields[PdfFormFields.IsAirConditioner] = "true";
+                            formFields[PdfFormFields.AirConditionerDetails] = eq.Description;
+                            formFields[PdfFormFields.AirConditionerMonthlyRental] = eq.MonthlyCost.ToString(CultureInfo.CurrentCulture);
+                            break;
+                        case "ECO2": // Boiler
+                            formFields[PdfFormFields.IsBoiler] = "true";
+                            formFields[PdfFormFields.BoilerDetails] = eq.Description;
+                            formFields[PdfFormFields.BoilerMonthlyRental] = eq.MonthlyCost.ToString(CultureInfo.CurrentCulture);
+                            break;
+                        case "ECO3": // Doors
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO4": // Fireplace
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO5": // Furnace
+                            formFields[PdfFormFields.IsFurnace] = "true";
+                            formFields[PdfFormFields.FurnaceDetails] = eq.Description;
+                            formFields[PdfFormFields.FurnaceMonthlyRental] = eq.MonthlyCost.ToString(CultureInfo.CurrentCulture);
+                            break;
+                        case "ECO6": // HWT
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO7": // Plumbing
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO9": // Roofing
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO10": // Siding
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO11": // Tankless Water Heater
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO13": // Windows
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO38": // Sunrooms
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO40": // Air Handler
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO42": // Flooring
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO43": // Porch Enclosure
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO44": // Water Treatment System
+                            formFields[PdfFormFields.IsWaterFiltration] = "true";
+                            formFields[PdfFormFields.WaterFiltrationDetails] = eq.Description;
+                            formFields[PdfFormFields.WaterFiltrationMonthlyRental] = eq.MonthlyCost.ToString(CultureInfo.CurrentCulture);
+                            break;
+                        case "ECO45": // Heat Pump
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO46": // HRV
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO47": // Bathroom
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO48": // Kitchen
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO49": // Hepa System
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO50": // Unknown
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO52": // Security System
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO55": // Basement Repair
+                            othersEq.Add(eq);
+                            break;
                     }
+                }
+                if (othersEq.Any())
+                {
+                    formFields[PdfFormFields.IsOther1] = "true";
+                    formFields[PdfFormFields.OtherDetails1] = othersEq.First().Description;
+                    formFields[PdfFormFields.OtherMonthlyRental1] = othersEq.First().MonthlyCost.ToString(CultureInfo.CurrentCulture);
                 }
 
             }
@@ -201,34 +299,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 formFields[PdfFormFields.TotalPayment] =
                     contract.Equipment.TotalMonthlyPayment.ToString(CultureInfo.CurrentCulture);
-            }
-
-            //Equipment Fields
-            //public static string IsFurnace = "Is Furnace";
-            //public static string IsAirConditioner = "Is Air Conditioner";
-            //public static string IsBoiler = "Is Boiler";
-            //public static string IsWaterFiltration = "Is Water Filtration";
-            //public static string IsOther1 = "Is Other1";
-            //public static string IsOther2 = "Is Other2";
-            //public static string FurnaceDetails = "FurnaceDetails";
-            //public static string AirConditionerDetails = "AirConditionerDetails";
-            //public static string BoilerDetails = "BoilerDetails";
-            //public static string WaterFiltrationDetails = "BoilerDetails";
-            //public static string OtherDetails1 = "OtherDetails1";
-            //public static string OtherDetails2 = "OtherDetails2";
-            //public static string FurnaceMonthlyRental = "FurnaceMonthlyRental";
-            //public static string AirConditionerMonthlyRental = "AirConditionerMonthlyRental";
-            //public static string BoilerMonthlyRental = "BoilerMonthlyRental";
-            //public static string WaterFiltrationMonthlyRental = "BoilerMonthlyRental";
-            //public static string OtherMonthlyRental1 = "OtherMonthlyRental1";
-            //public static string OtherMonthlyRental2 = "OtherMonthlyRental2";
-
-            //public static string MonthlyPayment = "Monthly Payment";
-            //public static string TotalPayment = "Total Payment";
-
-            //public static string EquipmentQuantity = "Equipment Quantity";
-            //public static string EquipmentDescription = "Equipment Description";
-            //public static string EquipmentCost = "Equipment Cost";
+                formFields[PdfFormFields.TotalMonthlyPayment] =
+                    contract.Equipment.TotalMonthlyPayment.ToString(CultureInfo.CurrentCulture);
+            }            
         }
 
         private void FillPaymentFieilds(Dictionary<string, string> formFields, Contract contract)

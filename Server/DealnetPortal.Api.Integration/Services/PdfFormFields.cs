@@ -47,6 +47,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public static string MonthlyPayment = "Monthly Payment";
         public static string TotalPayment = "Total Payment";
+        public static string TotalMonthlyPayment = "Total Monthly Payment";
 
         public static string EquipmentQuantity = "Equipment Quantity";
         public static string EquipmentDescription = "Equipment Description";

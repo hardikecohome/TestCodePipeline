@@ -61,6 +61,7 @@
     <Compile Include="Enumeration\FlowingSummaryType.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
+    <Compile Include="Enumeration\SignatureRole.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Helpers\XmlSerializerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
