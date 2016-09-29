@@ -161,6 +161,12 @@ namespace DealnetPortal.Web.Controllers
             return View(await GetSummaryAndConfirmationAsync(contractId));
         }
 
+        [HttpPost]
+        public void SendContractEmails(SendEmailsViewModel emails)
+        {
+            //Send contract to emails
+        }
+
         public ActionResult RentalAgreementSubmitSuccess()
         {
             ViewBag.HomeOwnerEmail = "dduck@email.com";

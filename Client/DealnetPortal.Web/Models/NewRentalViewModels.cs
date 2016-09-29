@@ -142,5 +142,6 @@ namespace DealnetPortal.Web.Models
         public BasicInfoViewModel BasicInfo { get; set; }
         public EquipmentInformationViewModel EquipmentInfo { get; set; }
         public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
+        public SendEmailsViewModel SendEmails { get; set; }
     }
 }
