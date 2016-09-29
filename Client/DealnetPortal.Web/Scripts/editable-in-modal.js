@@ -1,19 +1,42 @@
-﻿function copyFormData(form1, form2, validate) {
+﻿$(document)
+  .ready(function () {
+     $('.dealnet-disabled-input').each(function(){
+         $(this).attr('type', 'hidden');
+         var inpValue = $(this).val();
+         $(this).after($('<div/>',{
+                            class: "dealnet-disabled-input dealnet-disabled-input-value",
+                            text: inpValue
+                            }));
+     });
+  });
+
+function copyFormData(form1, form2, validate) {
     if (validate) {
         form1.validate();
         if (!form1.valid()) {
             return false;
         };
     }
+
     $(':input[name]', form2).val(function () {
         return $(':input[name=\'' + this.name + '\']', form1).val();
     });
+
     $('.text-danger span', form2).remove();
     $(':input[name]', form2).removeClass('input-validation-error');
+
+    setTimeout(function(){
+        $('input', form2).each(function(){
+            var text  = $(this).val();
+            $(this).siblings('.dealnet-disabled-input-value').text(text);
+        })
+    }, 300);
+
     return true;
 }
 
 function saveChanges(form1, form2, url, mainform) {
+
     if (copyFormData(form1, form2, true)) {
         submitChanges(url, mainform);
         return true;

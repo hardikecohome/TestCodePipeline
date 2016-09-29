@@ -40,6 +40,20 @@ input[type=password]::-ms-reveal{
     pointer-events: none;
   }
 }
+.custom-select-disabled{
+  position: relative;
+  select{
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .caret{
+    display: none;
+  }
+}
 
 select.form-control{
   option {
