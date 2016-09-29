@@ -164,7 +164,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async void SendContractEmails([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
+        public void SendContractEmails([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
         {
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
             signatureUsers.ContractId = emails.ContractId;
@@ -184,7 +184,7 @@ namespace DealnetPortal.Web.Controllers
                 });
             });
 
-            await _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
+            _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
         }
 
         public ActionResult RentalAgreementSubmitSuccess()

@@ -9,7 +9,7 @@ namespace DealnetPortal.Web.Models
 {
     public class AdiitionalApplicantEmail
     {
-        [Required]
+        //[Required]
         [Display(Name = "Adiitional Applicant Email")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
