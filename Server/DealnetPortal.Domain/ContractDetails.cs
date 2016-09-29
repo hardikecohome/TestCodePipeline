@@ -13,6 +13,10 @@ namespace DealnetPortal.Domain
 
         public double? HouseSize { get; set; }
 
-        public string TransactionId { get; set; }        
+        public string TransactionId { get; set; }
+
+        public string SignatureTransactionId { get; set; }
+
+        public string SignatureDocumentId { get; set; }
     }
 }
