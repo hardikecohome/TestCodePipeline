@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -29,6 +32,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly string _eCoreOrganisation;
         private readonly string _eCoreSignatureRole;
         private readonly string _eCoreAgreementTemplate;
+        private readonly string _eCoreCustomerSecurityCode;
 
         public SignatureService(IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
             IFileRepository fileRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
@@ -44,11 +48,12 @@ namespace DealnetPortal.Api.Integration.Services
             _eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings["eCoreOrganization"];
             _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
             _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
+            _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
         }
 
         public IList<Alert> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
         {
-            IList<Alert> alerts = new List<Alert>();
+            List<Alert> alerts = new List<Alert>();
 
             // Get contract
             var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
@@ -57,12 +62,72 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
                 var fields = PrepareFormFields(contract);
                 _loggingService.LogInfo($"{fields.Count} fields collected");
+                
+                var trRes = CreateTransaction(contract);
+                if (trRes.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(trRes.Item2);
+                }
+                if (trRes.Item2?.Any(a => a.Type != AlertType.Error) ?? false)
+                {
+                    LogAlerts(alerts);
+                    return alerts;
+                }
+                var transId = trRes.Item1;
+                _loggingService.LogInfo($"eSignature transaction [{transId}] was created successefully");
 
-                //CreateTransaction
-                //CreateAgreementProfile
-                //InsertAgreementFields
-                //InsertSignatureFields
-                //SendInvitations
+                var docRes = CreateAgreementProfile(contract, transId);
+                if (docRes.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(docRes.Item2);
+                }
+                if (docRes.Item2?.Any(a => a.Type != AlertType.Error) ?? false)
+                {
+                    LogAlerts(alerts);
+                    return alerts;
+                }
+                var docId = docRes.Item1;
+                _loggingService.LogInfo($"eSignature document profile [{docId}] was created and uploaded successefully");
+
+                var insertRes = InsertAgreementFields(docId, fields);
+                if (insertRes?.Any() ?? false)
+                {
+                    alerts.AddRange(insertRes);
+                }
+                if (insertRes?.Any(a => a.Type != AlertType.Error) ?? false)
+                {
+                    LogAlerts(alerts);
+                    return alerts;
+                }
+                _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
+
+                // We follow to signatures only if signatureUsers was setted
+                if (signatureUsers?.Any() ?? false)
+                {
+                    insertRes = InsertSignatureFields(docId, signatureUsers);
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type != AlertType.Error) ?? false)
+                    {
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
+                    _loggingService.LogInfo($"Signature fields inserted into agreement document form {docId} successefully");
+
+                    insertRes = SendInvitations(transId, docId, signatureUsers);
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type != AlertType.Error) ?? false)
+                    {
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
+                    _loggingService.LogInfo($"Invitations for agreement document form {docId} sent successefully");
+                }               
             }
             else
             {
@@ -79,6 +144,25 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        private void LogAlerts(IList<Alert> alerts)
+        {
+            alerts.ForEach(a =>
+            {
+                switch (a.Type)
+                {
+                    case AlertType.Error:
+                        _loggingService.LogError(a.Message);
+                        break;
+                    case AlertType.Warning:
+                        _loggingService.LogWarning(a.Message);
+                        break;
+                    case AlertType.Information:
+                        _loggingService.LogInfo(a.Message);
+                        break;
+                }
+            });
+        }
+
         private Dictionary<string, string> PrepareFormFields(Contract contract)
         {
             var fields = new Dictionary<string, string>();
@@ -91,9 +175,9 @@ namespace DealnetPortal.Api.Integration.Services
             return fields;
         }
 
-        private Tuple<int, IList<Alert>> CreateTransaction(Contract contract)
+        private Tuple<long, IList<Alert>> CreateTransaction(Contract contract)
         {
-            int transId = 0;
+            long transId = 0;
             List<Alert> alerts = new List<Alert>();
             var res = _signatureServiceAgent.Login(_eCoreLogin, _eCoreOrganisation, _eCorePassword).GetAwaiter().GetResult();
             alerts.AddRange(res);
@@ -102,13 +186,233 @@ namespace DealnetPortal.Api.Integration.Services
                 var transactionName = contract.PrimaryCustomer?.FirstName + contract.PrimaryCustomer?.LastName;
 
                 var transRes = _signatureServiceAgent.CreateTransaction(transactionName).GetAwaiter().GetResult();
+                alerts.AddRange(transRes.Item2);
+                if (transRes.Item2.All(a => a.Type != AlertType.Error))
+                {
+                    transId = transRes.Item1.sid;                    
+                    //TODO: store transId to DB
+                }
+                else
+                {
+                    _loggingService.LogError("Can't create eCore transaction");
+                }
             }
             else
             {
                 _loggingService.LogError("Can't login to eCore signature service with provided credentials");
+            }            
+            return new Tuple<long, IList<Alert>>(transId, alerts);
+        }
+
+        private Tuple<long, IList<Alert>> CreateAgreementProfile(Contract contract, long transId)        
+        {
+            long dpId = 0;
+            List<Alert> alerts = new List<Alert>();
+            var agreementType = contract.Equipment.AgreementType;
+            var province =
+                contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
+            // get agreement template
+            var agreementTemplate = _fileRepository.FindAgreementTemplate(at => 
+                at.AgreementType == contract.Equipment.AgreementType && (string.IsNullOrEmpty(province) || at.State == province));
+            if (agreementTemplate == null && agreementType == AgreementType.RentalApplicationHwt)
+            {
+                _fileRepository.FindAgreementTemplate(at =>
+                    at.AgreementType == AgreementType.RentalApplication && (string.IsNullOrEmpty(province) || at.State == province));
+            }
+            if (agreementTemplate == null)
+            {
+                _fileRepository.FindAgreementTemplate(at => at.AgreementType == contract.Equipment.AgreementType);
+            }
+            if (agreementTemplate == null)
+            {
+                _fileRepository.FindAgreementTemplate(at => at.State == province);
             }
 
-            return null;
+            if (agreementTemplate?.AgreementForm != null)
+            {
+                var resPr = _signatureServiceAgent.CreateDocumentProfile(transId, _eCoreAgreementTemplate, null).GetAwaiter().GetResult();
+                if (resPr.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(resPr.Item2);
+                }
+                if (resPr.Item2?.All(a => a.Type != AlertType.Error) ?? true)
+                {
+                    dpId = resPr.Item1.sid;
+                    //TODO: store dpId to DB
+
+                    var resDv = _signatureServiceAgent.UploadDocument(dpId, agreementTemplate.AgreementForm, agreementTemplate.TemplateName).GetAwaiter().GetResult();
+                    if (resDv.Item2?.Any() ?? false)
+                    {
+                        alerts.AddRange(resDv.Item2);
+                    }
+                    if (resDv.Item2?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        _loggingService.LogError("Can't upload agreement template to eCore service");
+                    }
+                }
+                else
+                {
+                    _loggingService.LogError("Can't create eCore document profile");
+                }                
+            }
+            else
+            {
+                var errorMsg =
+                    $"Can't find agreement template for contract with province = {province} and type = {agreementType}";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Can't find agreement template",
+                    Message = errorMsg
+                });
+            }
+
+            return new Tuple<long, IList<Alert>>(dpId, alerts);
+        }
+
+        private IList<Alert> InsertAgreementFields(long docId, Dictionary<string, string> formFields)
+        {
+            var alerts = new List<Alert>();
+
+            var textData = new List<TextData>();
+            formFields.ForEach(field =>
+            {
+                textData.Add(new TextData()
+                {
+                    Items = new string[] { field.Key },
+                    text = field.Value
+                });
+            });
+
+            var mergeRes = _signatureServiceAgent.MergeData(docId, textData.ToArray()).GetAwaiter().GetResult();
+            if (mergeRes?.Any() ?? false)
+            {
+                alerts.AddRange(mergeRes);
+            }
+            if (mergeRes?.Any(a => a.Type == AlertType.Error) ?? false)
+            {
+                _loggingService.LogError("Can't merge fields with agreement document template in eCore service");
+            }
+
+            return alerts;
+        }
+
+        private IList<Alert> InsertSignatureFields(long docId, SignatureUser[] signatureUsers)
+        {
+            var alerts = new List<Alert>();
+
+            // for now we accept only 1st customer
+
+            var formFields = new List<FormField>()
+            {
+                new FormField()
+                {
+                    Item = "Signature1",
+                    customProperty = new List<CustomProperty>()
+                    {
+                        new CustomProperty()
+                        {
+                            name = "role",
+                            Value = _eCoreSignatureRole
+                        },
+                        new CustomProperty()
+                        {
+                            name = "label",
+                            Value = "Signature1"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "type",
+                            Value = "signature"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "required",
+                            Value = "true"
+                        },
+                        new CustomProperty()
+                        {
+                            name = "initialValueType",
+                            Value = "fullName"
+                        },
+                        //new CustomProperty()
+                        //{
+                        //    name = "protectedField",
+                        //    Value = "false"
+                        //},
+                        new CustomProperty()
+                        {
+                            name = "displayOrder",
+                            Value = "1"
+                        }
+                    }
+                }
+            };
+
+            var resDv = _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
+            if (resDv?.Item2?.Any() ?? false)
+            {
+                alerts.AddRange(resDv.Item2);
+            }
+            if (resDv?.Item2?.Any(a => a.Type == AlertType.Error) ?? false)
+            {
+                _loggingService.LogError("Can't edit signature fields in agreement document template in eCore service");
+            }
+
+            return alerts;
+        }
+
+        private IList<Alert> SendInvitations(long transId, long docId, SignatureUser[] signatureUsers)
+        {
+            var alerts = new List<Alert>();
+
+            var res = _signatureServiceAgent.ConfigureSortOrder(transId, new long[] { docId }).GetAwaiter().GetResult();
+            if (res?.Any() ?? false)
+            {
+                alerts.AddRange(res);
+            }
+            if (res?.All(a => a.Type != AlertType.Error) ?? true)
+            {
+                var roles = new eoConfigureRolesRole[]
+                {
+                    new eoConfigureRolesRole()
+                    {
+                        order = "1",
+                        name = _eCoreSignatureRole,
+                        firstName = signatureUsers.First().FirstName,
+                        lastName = signatureUsers.First().LastName,
+                        eMail = signatureUsers.First().EmailAddress,
+                        ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
+                        Items = new string[] {_eCoreCustomerSecurityCode},
+                        required = true,
+                        signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod()
+                        {
+                            Value = signatureCaptureMethodType.TYPE
+                        },
+                    }
+                };
+
+                res = _signatureServiceAgent.ConfigureRoles(transId, roles).GetAwaiter().GetResult();
+                if (res?.Any() ?? false)
+                {
+                    alerts.AddRange(res);
+                }
+                if (res?.All(a => a.Type != AlertType.Error) ?? true)
+                {
+                    res = _signatureServiceAgent.ConfigureInvitation(transId, _eCoreSignatureRole, signatureUsers.First().FirstName, signatureUsers.First().LastName, signatureUsers.First().EmailAddress).GetAwaiter().GetResult();
+                    if (res?.Any() ?? false)
+                    {
+                        alerts.AddRange(res);
+                    }
+                }                
+            }
+
+            if (alerts.Any(a => a.Type == AlertType.Error))
+            {
+                _loggingService.LogError("Can't send invitations to users");
+            }
+
+            return alerts;
         }
 
         private void FillHomeOwnerFieilds(Dictionary<string, string> formFields, Contract contract)
