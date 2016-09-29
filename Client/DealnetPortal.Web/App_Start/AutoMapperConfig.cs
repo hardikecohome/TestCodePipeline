@@ -20,6 +20,7 @@ namespace DealnetPortal.Web.App_Start
         {
             Mapper.Initialize(cfg =>
             {
+                cfg.AllowNullCollections = true;
                 MapModelsToVMs(cfg);
                 MapVMsToModels(cfg);
             });
