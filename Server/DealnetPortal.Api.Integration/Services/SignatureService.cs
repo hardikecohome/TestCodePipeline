@@ -65,11 +65,23 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var fields = new Dictionary<string, string>();
 
-            //contract.
+            FillHomeOwnerFieilds(fields, contract);
 
             return fields;
         }
 
-        //private void Fill
+        private void FillHomeOwnerFieilds(Dictionary<string, string> formFields, Contract contract)
+        {
+            if (contract.PrimaryCustomer != null)
+            {
+                formFields[PdfFormFields.FirstName] = contract.PrimaryCustomer.FirstName;
+                formFields[PdfFormFields.LastName] = contract.PrimaryCustomer.LastName;
+                formFields[PdfFormFields.DateOfBirth] = contract.PrimaryCustomer.DateOfBirth.ToShortDateString();
+                if (contract.PrimaryCustomer.Locations?.Any() ?? false)
+                {
+                    
+                }
+            }
+        }
     }
 }
