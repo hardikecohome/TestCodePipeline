@@ -9,6 +9,7 @@ namespace DealnetPortal.Web.Models
 {
     public class AdiitionalApplicantEmail
     {
+        [Required]
         [Display(Name = "Adiitional Applicant Email")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
@@ -18,6 +19,7 @@ namespace DealnetPortal.Web.Models
     {
         public int ContractId { get; set; }
 
+        [Required]
         [Display(Name = "Home Owner Email")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string HomeOwnerEmail { get; set; }

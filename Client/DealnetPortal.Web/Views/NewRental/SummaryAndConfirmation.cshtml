@@ -25,40 +25,48 @@
     </div>
 </div>
 <div class="form-container summary-info-hold">
-	<form class="clearfix">
-	    <div class="well rental-summary-emails">
-	        <p class="summary-emails-header">
-	            <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-	            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-	        </p>
-	        <p class="summary-emails-header2">This contract will be sent to the following emails</p>
+    <form id="send-mails-form" class="clearfix">
+        <div class="well rental-summary-emails">
+            <p class="summary-emails-header">
+                <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+            <p class="summary-emails-header2">This contract will be sent to the following emails</p>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="homeOwnerEmail">Home Owner Email</label>
                         <div class="control-group">
-                            <input type="email" name="" id="homeOwnerEmail" class="dealnet-input form-control">
+                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new { id = "homeOwnerEmail", @class = "dealnet-input form-control" })
+                            @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="addApplicantEmail">Additional Applicant Email</label>
-                        <div class="control-group">
-                            <input type="email" name="" id="addApplicantEmail" class="dealnet-input form-control">
+                @if (Model?.BasicInfo?.AdditionalApplicants != null)
+                {
+                    for (var i = 0; i < Model.BasicInfo.AdditionalApplicants.Count; i++)
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="addApplicantEmail@(i)">Additional Applicant Email</label>
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new { id = "addApplicantEmail" + i, @class = "dealnet-input form-control" })
+                                    @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    }
+                }
                 <div class="col-md-4">
                     <div class="form-group btn-container">
-                        <button class="btn dealnet-button dealnet-success-button">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'));">
                             Send Emails
                         </button>
                     </div>
                 </div>
             </div>
-	    </div>
-	</form>
+        </div>
+    </form>
 	<div class="clearfix">
 	<div class="row">
 	<form id="basic-info-form">

@@ -164,7 +164,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async void SendContractEmails(SendEmailsViewModel emails)
+        public async void SendContractEmails([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
         {
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
             signatureUsers.ContractId = emails.ContractId;
@@ -442,21 +442,6 @@ namespace DealnetPortal.Web.Controllers
                 Id = equipmnetInfo.ContractId ?? 0,
                 Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
-            if (equipmnetInfo.NewEquipment != null)
-            {
-                foreach (var newEquipment in equipmnetInfo.NewEquipment)
-                {
-                    contractData.Equipment.NewEquipment.Add(AutoMapper.Mapper.Map<NewEquipmentDTO>(newEquipment));
-                }
-            }
-            if (equipmnetInfo.ExistingEquipment != null)
-            {
-                foreach (var existingEquipment in equipmnetInfo.ExistingEquipment)
-                {
-                    contractData.Equipment.ExistingEquipment.Add(
-                        AutoMapper.Mapper.Map<ExistingEquipmentDTO>(existingEquipment));
-                }
-            }
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
