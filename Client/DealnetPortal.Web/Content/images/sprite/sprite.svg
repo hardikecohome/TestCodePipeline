@@ -38,7 +38,7 @@
         <symbol id="icon-checked" viewBox="0 0 30 30">
             <path fill="currentColor" fill-rule="evenodd" d="M8.485 15.385L2.828 9.728 0 12.556l8.485 8.486 1.59-1.59L24.043 5.484l-2.83-2.828-12.727 12.73z"/>
         </symbol>
-        <symbol id="icon-success" viewBox="0 0 30 30">
+        <symbol id="icon-success" viewBox="0 0 24 18">
             <path fill="currentColor" fill-rule="evenodd" d="M8.485 15.385L2.828 9.728 0 12.556l8.485 8.486 1.59-1.59L24.043 5.484l-2.83-2.828-12.727 12.73z"/>
         </symbol>
         <symbol id="icon-reject" viewBox="0 0 40 40">

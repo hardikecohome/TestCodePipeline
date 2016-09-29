@@ -518,6 +518,7 @@
                 </h3>
                 @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
                 {
+	            <div class="summury-return-quip-item">
                     <div class="form-group">
                         <div class="row">
                             <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
@@ -606,6 +607,7 @@
                             </div>
                         </div>
                     </div>
+		        </div>
                 }
             </div>
         </form>
@@ -1123,7 +1125,8 @@
                                                                 new {Value = "true", Text = "Yes", Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
                                                                 new {Value = "false", Text = "No", Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
                                                             },
-                                                            "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental))
+                                                            "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental),
+	                                                        new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>

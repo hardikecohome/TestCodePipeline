@@ -2,7 +2,7 @@
   .ready(function () {
      $('.dealnet-disabled-input').each(function(){
          $(this).attr('type', 'hidden');
-         var inpValue = $(this).val();
+         var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).val();
          $(this).after($('<div/>',{
                             class: "dealnet-disabled-input dealnet-disabled-input-value",
                             text: inpValue
@@ -26,10 +26,10 @@ function copyFormData(form1, form2, validate) {
     $(':input[name]', form2).removeClass('input-validation-error');
 
     setTimeout(function(){
-        $('input', form2).each(function(){
-            var text  = $(this).val();
-            $(this).siblings('.dealnet-disabled-input-value').text(text);
-        })
+        $('input, select', form2).each(function(){
+            var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).val();
+            $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').text(inpValue);
+        });
     }, 300);
 
     return true;

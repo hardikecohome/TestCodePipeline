@@ -1,8 +1,13 @@
-﻿<div class="login-container">
+﻿<div class="register-success-container login-container">
 	<div class="text-center">
-		<p class="align-middle registration-success-header">
+		<div class="align-middle registration-success-header">
 			<svg aria-hidden="true" class="icon icon-success"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-success"></use></svg>
-			<span>You has been successfully registered, please check your email for one-time password.</span>
-		</p>
+			<div>
+				Great work!<br> You has been successfully registered, <br class="br-t-min" /> please check your email for one-time password.
+			</div>
+
+			@Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn dealnet-button dealnet-success-button" })
+
+		</div>
 	</div>
 </div>

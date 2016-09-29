@@ -21,7 +21,6 @@
 
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
-        console.log('open');
       }).on('hidden.bs.modal', function () {
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
@@ -41,9 +40,6 @@
       });
 
       $('.overlay').click(function(){
-        /*$('body').removeClass('open-menu');
-        resetScrollPosition();
-        $('.overlay').hide();*/
         $('.navbar-toggle').trigger('click');
         $('body').removeClass('open-menu');
         resetScrollPosition();
@@ -101,9 +97,11 @@ function customizeSelect(){
     $('select').each(function(){
       var selectClasses = $(this).hasClass("dealnet-disabled-input") ? "custom-select-disabled" : "custom-select";
       if(!$(this).parents(".ui-datepicker").length){
-        $(this).wrap('<div class='+selectClasses+'>');
-        if(detectIE() === false){
-          $(this).after('<span class="caret">');
+        if(!$(this).parents(".custom-select").length || !$(this).parents(".custom-select-disabled").length){
+          $(this).wrap('<div class='+selectClasses+'>');
+          if(detectIE() === false){
+            $(this).after('<span class="caret">');
+          }
         }
       }
     });
