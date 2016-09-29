@@ -356,6 +356,8 @@ namespace DealnetPortal.Web.Controllers
             summaryAndConfirmation.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summaryAndConfirmation.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summaryAndConfirmation.ContactAndPaymentInfo, contractResult.Item1);
+            summaryAndConfirmation.SendEmails = new SendEmailsViewModel();
+            summaryAndConfirmation.SendEmails.ContractId = contractId;
             return summaryAndConfirmation;
         }
 
