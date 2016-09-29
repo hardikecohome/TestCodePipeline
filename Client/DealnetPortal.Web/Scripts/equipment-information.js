@@ -62,7 +62,6 @@ function resetFormValidator(formId) {
 function assignDatepicker(inputId) {
     $(inputId).datepicker({
         dateFormat: 'mm/dd/yy',
-        changeMonth: true,
         changeYear: true,
         yearRange: '1900:2116',
         minDate: Date.parse("1900-01-01"),
