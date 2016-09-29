@@ -31,6 +31,7 @@
                 (check3 == null || check3.checked) &&
                 (check4 == null || check4.checked))) {
                 event.preventDefault();
+                $("#proceed-error-message").show();
             }
         });
     });
