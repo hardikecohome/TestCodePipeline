@@ -26,6 +26,7 @@
 </div>
 <div class="form-container summary-info-hold">
     <form id="send-mails-form" class="clearfix">
+        @Html.HiddenFor(m => m.SendEmails.ContractId)
         <div class="well rental-summary-emails">
             <p class="summary-emails-header">
                 <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
