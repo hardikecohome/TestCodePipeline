@@ -46,11 +46,11 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/editable-in-modal.js"));
             bundles.Add(new ScriptBundle("~/bundles/equipment-information").Include(
                 "~/Scripts/equipment-information.js").Include("~/Scripts/datejs.js"));
-            bundles.Add(new ScriptBundle("~/bundles/contact-and-payment").Include(
-                "~/Scripts/contact-and-payment.js").Include("~/Scripts/camera-capturing.js")
+            bundles.Add(new ScriptBundle("~/bundles/contact-and-payment").Include("~/Scripts/custom-validation.js")
+                .Include("~/Scripts/contact-and-payment.js").Include("~/Scripts/camera-capturing.js")
                 .Include("~/Scripts/vc-scanning.js"));
-            bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation").Include(
-                "~/Scripts/summary-and-confirmation.js").Include("~/Scripts/jquery.form.js")
+            bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation").Include("~/Scripts/custom-validation.js")
+                .Include("~/Scripts/summary-and-confirmation.js").Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js"));
 

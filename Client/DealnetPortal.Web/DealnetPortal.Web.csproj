@@ -462,6 +462,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\camera-capturing.js" />
     <Content Include="Scripts\contact-and-payment.js" />
+    <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
     <Content Include="Scripts\editable-in-modal.js" />
