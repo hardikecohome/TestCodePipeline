@@ -222,15 +222,15 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (agreementTemplate == null)
             {
-                _fileRepository.FindAgreementTemplate(at => at.AgreementType == contract.Equipment.AgreementType);
+                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementType == contract.Equipment.AgreementType);
             }
             if (agreementTemplate == null)
             {
-                _fileRepository.FindAgreementTemplate(at => at.State == province);
+                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.State == province);
             }
             if (agreementTemplate == null)
             {
-                _fileRepository.FindAgreementTemplate(at => at.AgreementForm != null);
+                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementForm != null);
             }
 
             if (agreementTemplate?.AgreementForm != null)
