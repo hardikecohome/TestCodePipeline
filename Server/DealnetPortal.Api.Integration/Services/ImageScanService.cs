@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using ClearMicr;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
@@ -140,6 +141,62 @@ namespace DealnetPortal.Api.Integration.Services
             else
             {
                 alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Data for recognize is empty" });
+            }
+            return new Tuple<VoidChequeData, IList<Alert>>(chequeData, alerts);
+        }
+
+        public Tuple<VoidChequeData, IList<Alert>> ExtractCheck(ScanningRequest scanningRequest)
+        {
+            List<Alert> alerts = new List<Alert>();
+            VoidChequeData chequeData = new VoidChequeData();
+
+            IntPtr hBitmap = IntPtr.Zero;
+            try
+            {
+
+                // Open Image
+                ClearMicr.CcMicrReader micrReader = new ClearMicr.CcMicrReader();
+                ClearMicr.EMicrReaderFlags flags = 0;
+                
+                Bitmap bmp;
+                var ms = new MemoryStream(scanningRequest.ImageForReadRaw);
+                bmp = new Bitmap(ms);
+                hBitmap = bmp.GetHbitmap();
+
+                micrReader.Image.OpenFromBitmap(hBitmap.ToInt32());
+                micrReader.Flags = flags;
+                // Do actual reading      
+                ClearImage.CiImage oImage;
+                oImage = micrReader.ExtractCheck();
+                //if (oImage == null) return "";
+                //oImage.SaveAs(sOut, ClearImage.EFileFormat.ciTIFF);
+                String s = "";
+                for (int i = 1; i <= micrReader.MicrCount; i++)
+                {
+                    ClearMicr.CcMicrInfo Info = micrReader.MicrLine[i].Document;
+                    //    s = String.Format("Extracted Document \r\n at {0}:{1}-{2}:{3}  Skew: {4:F}deg   Rotation: {5}",
+                    //        Info.Left, Info.Top, Info.Right, Info.Bottom, Info.Skew, rotText[(int) Info.Conf]);
+                    //    s += Environment.NewLine + Environment.NewLine;
+                    //    s += AddMICR(MicrReader.get_MicrLine(i), i);
+                    //}
+                    //if ((s == ""))
+                    //{
+                    //    s = "<NO MICR>";
+                    //}
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = ex.ToString() });
+                //throw;
+            }
+            finally
+            {
+                if (hBitmap != IntPtr.Zero)
+                {
+                    DeleteObject(hBitmap);
+                }
             }
             return new Tuple<VoidChequeData, IList<Alert>>(chequeData, alerts);
         }
