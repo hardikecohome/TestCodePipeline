@@ -52,6 +52,8 @@ function submitUpload(sender, uploadUrl) {
                         document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
                         document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(json.DateOfBirthStr);
+                        date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+                        //date = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
                         //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
                         var fillAddress = modal.getAttribute('data-fillAddress');

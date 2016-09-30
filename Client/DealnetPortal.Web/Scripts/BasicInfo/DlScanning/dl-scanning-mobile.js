@@ -23,6 +23,7 @@
                         document.getElementById(lnToFill).value = json.LastName;
                         //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         var date = new Date(json.DateOfBirthStr);
+                        date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
                         $("#" + bdToFill).datepicker("setDate", date);
                         if (fillAddress) {
                             document.getElementById('street').value = json.Street;
