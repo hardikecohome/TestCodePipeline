@@ -25,8 +25,10 @@
     </div>
 </div>
 <div class="form-container summary-info-hold">
-    <form id="send-mails-form" class="clearfix">
+    @using (Html.BeginForm("RentalAgreementSubmitSuccess", "NewRental", FormMethod.Post, new {id = "send-mails-form", @class = "clearfix"}))
+    {
         @Html.HiddenFor(m => m.SendEmails.ContractId)
+        @Html.AntiForgeryToken()
         <div class="well rental-summary-emails">
             <p class="summary-emails-header">
                 <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
@@ -38,8 +40,8 @@
                     <div class="form-group">
                         <label for="homeOwnerEmail">Home Owner Email</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new { id = "homeOwnerEmail", @class = "dealnet-input form-control", type = "email" })
-                            @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new {id = "homeOwnerEmail", @class = "dealnet-input form-control", type = "email"})
+                            @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new {@class = "text-danger"})
                         </div>
                     </div>
                 </div>
@@ -51,8 +53,8 @@
                             <div class="form-group">
                                 <label for="addApplicantEmail@(i)">Additional Applicant Email</label>
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new { id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email" })
-                                    @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
+                                    @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
                                 </div>
                             </div>
                         </div>
@@ -67,7 +69,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    }
 	<div class="clearfix">
 	<div class="row">
 	<form id="basic-info-form">
@@ -625,7 +627,7 @@
                 <a href="" class="print-link">
                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-printer"></use></svg>Print the contract
                 </a>
-                <button class="btn dealnet-button dealnet-success-button btn-finish">Finish</button>
+                <button class="btn dealnet-button dealnet-success-button btn-finish" onclick="$('#send-mails-form').submit()">Finish</button>
             </div>
 </div>
 

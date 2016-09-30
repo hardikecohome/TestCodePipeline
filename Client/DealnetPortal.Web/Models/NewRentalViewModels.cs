@@ -73,7 +73,7 @@ namespace DealnetPortal.Web.Models
 
     public enum WithdrawalDateType
     {
-        [Display(Name = "1th")]
+        [Display(Name = "1st")]
         First,
         [Display(Name = "15th")]
         Fifteenth

@@ -164,6 +164,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public void SendContractEmails([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
         {
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
@@ -187,9 +188,11 @@ namespace DealnetPortal.Web.Controllers
             _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
         }
 
-        public ActionResult RentalAgreementSubmitSuccess()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RentalAgreementSubmitSuccess([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
         {
-            ViewBag.HomeOwnerEmail = "dduck@email.com";
+            ViewBag.HomeOwnerEmail = emails.HomeOwnerEmail;
             return View();
         }
 
