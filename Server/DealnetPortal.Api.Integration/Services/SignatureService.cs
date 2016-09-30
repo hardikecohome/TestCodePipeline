@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
@@ -94,7 +95,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(insertRes);
                 }
-                if (insertRes?.Any(a => a.Type != AlertType.Error) ?? false)
+                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
                 {
                     LogAlerts(alerts);
                     return alerts;
@@ -109,7 +110,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         alerts.AddRange(insertRes);
                     }
-                    if (insertRes?.Any(a => a.Type != AlertType.Error) ?? false)
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
                     {
                         LogAlerts(alerts);
                         return alerts;
@@ -121,7 +122,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         alerts.AddRange(insertRes);
                     }
-                    if (insertRes?.Any(a => a.Type != AlertType.Error) ?? false)
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
                     {
                         LogAlerts(alerts);
                         return alerts;

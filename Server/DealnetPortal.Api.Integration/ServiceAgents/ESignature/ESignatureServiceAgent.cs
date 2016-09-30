@@ -55,7 +55,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 new KeyValuePair<string, string>("loginPassword", password)
             });
 
-            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogin", data);            
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogin", data).ConfigureAwait(false);            
             response.EnsureSuccessStatusCode();
 
             if (response?.Content != null)
@@ -85,7 +85,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
         public async Task<bool> Logout()
         {
-            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogout", null);
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogout", null).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -100,7 +100,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 new KeyValuePair<string, string>("transactionName", transactionName),                
             });            
 
-            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateTransaction", data);
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateTransaction", data).ConfigureAwait(false);
 
             var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
@@ -134,7 +134,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             var data = new FormUrlEncodedContent(values);
 
-            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateDocumentProfile", data);
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateDocumentProfile", data).ConfigureAwait(false);
 
             var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -172,7 +172,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             content.Add(new StringContent("application/pdf"), "mimeType");
             content.Add(fileContent, "srcFile");
 
-            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoUploadDocument", content);
+            var response = await Client.Client.PostAsync(_fullUri + "/?action=eoUploadDocument", content).ConfigureAwait(false);
 
             var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -266,7 +266,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 content.Add(new StringContent(dpSid.ToString()), "dpSid");          
                 content.Add(fileContent, "formFieldsXML");
 
-                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoInsertFormFields", content);
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoInsertFormFields", content).ConfigureAwait(false);
 
                 var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -340,7 +340,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 content.Add(new StringContent(dpSid.ToString()), "dpSid");
                 content.Add(fileContent, "instructionsXML");
 
-                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoEditFormFieldProperties", content);
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoEditFormFieldProperties", content).ConfigureAwait(false);
 
                 var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -392,9 +392,19 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                     transformationInstructions = transformationInstructions.ToArray()
                 };
 
-                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), exportTypes.ToArray());
+                //XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), exportTypes.ToArray());
+                //MemoryStream ms = new MemoryStream();
+                //x.Serialize(ms, ts);
+
+                var x = new XmlSerializer(ts.GetType(), exportTypes.ToArray());
+                var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
                 MemoryStream ms = new MemoryStream();
-                x.Serialize(ms, ts);
+                var writer = XmlWriter.Create(ms, settings);
+                x.Serialize(writer, ts);
+
+                XmlTextWriter fileWriter = new XmlTextWriter("d://testMerge.xml", Encoding.UTF8);
+                x.Serialize(fileWriter, ts);
+                fileWriter.Flush();
 
                 ms.Position = 0;
                 var fileContent = new ByteArrayContent(ms.GetBuffer());
@@ -409,7 +419,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 content.Add(new StringContent(dpSid.ToString()), "dpSid");
                 content.Add(fileContent, "formFieldDataXML");
 
-                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoMergeData", content);
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoMergeData", content).ConfigureAwait(false);
 
                 var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -471,7 +481,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var content = new MultipartFormDataContent();
                 content.Add(fileContent, "instructionsXML");
 
-                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureSortOrder", content);
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureSortOrder", content).ConfigureAwait(false);
 
                 var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -520,7 +530,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var content = new MultipartFormDataContent();
                 content.Add(fileContent, "instructionsXML");
 
-                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureRoles", content);
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureRoles", content).ConfigureAwait(false);
 
                 var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
@@ -578,7 +588,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var content = new MultipartFormDataContent();
                 content.Add(fileContent, "instructionsXML");
 
-                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureInvitation", content);
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureInvitation", content).ConfigureAwait(false);
 
                 var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
 
