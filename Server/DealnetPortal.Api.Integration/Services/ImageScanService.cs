@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using ClearMicr;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
@@ -95,10 +96,16 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     Bitmap bmp;
-                    using (var ms = new MemoryStream(scanningRequest.ImageForReadRaw))
-                    {
-                        bmp = new Bitmap(ms);
-                    }
+
+                    ImageEditor repair = new ImageEditor();
+                    MemoryStream ms = new MemoryStream(scanningRequest.ImageForReadRaw);
+                    repair.Image.Open(ms, 0);
+                    repair.AutoDeskew();
+                    repair.AutoRotate();
+                    repair.CleanNoise(3);
+                    
+                    bmp = repair.Bitmap;
+
                     hBitmap = bmp.GetHbitmap();
                     ClearMicr.CcMicrReader reader = new ClearMicr.CcMicrReader();
                     reader.Flags = ClearMicr.EMicrReaderFlags.emrfExtendedMicrSearch;
@@ -140,6 +147,65 @@ namespace DealnetPortal.Api.Integration.Services
             else
             {
                 alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Data for recognize is empty" });
+            }
+            return new Tuple<VoidChequeData, IList<Alert>>(chequeData, alerts);
+        }
+
+        public Tuple<VoidChequeData, IList<Alert>> ExtractCheck(ScanningRequest scanningRequest)
+        {
+            List<Alert> alerts = new List<Alert>();
+            VoidChequeData chequeData = new VoidChequeData();
+
+            IntPtr hBitmap = IntPtr.Zero;
+            try
+            {
+                // Open Image
+                ClearMicr.CcMicrReader micrReader = new ClearMicr.CcMicrReader();
+                ClearMicr.EMicrReaderFlags flags = 0;
+                
+                Bitmap bmp;
+                var ms = new MemoryStream(scanningRequest.ImageForReadRaw);
+                bmp = new Bitmap(ms);
+                hBitmap = bmp.GetHbitmap();
+
+                // don't recognize OpenFromBitmap ??
+                micrReader.Image.OpenFromBitmap(hBitmap.ToInt32());
+                micrReader.Flags = ClearMicr.EMicrReaderFlags.emrfNoExtractDeskew;
+                // Do actual reading      
+                ClearImage.CiImage oImage;
+                oImage = micrReader.ExtractCheck();
+
+                if (oImage != null && micrReader.MicrCount > 0)
+                {
+                    try
+                    {
+                        chequeData.AccountNumber = micrReader.MicrLine[1].Account.TextANSI;
+                        var routingNumbers = (micrReader.MicrLine[1].Routing.TextANSI +
+                                              micrReader.MicrLine[1].RoutingChecksum.TextANSI).Split('-');
+
+                        chequeData.TransitNumber = routingNumbers[0];
+                        chequeData.BankNumber = routingNumbers.Length > 1 ? routingNumbers[1] : null;
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't obtain recognized data", Message = ex.ToString() });
+                    }
+                }
+                else
+                {
+                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Image wasn't recognized" });
+                }               
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = ex.ToString() });
+            }
+            finally
+            {
+                if (hBitmap != IntPtr.Zero)
+                {
+                    DeleteObject(hBitmap);
+                }
             }
             return new Tuple<VoidChequeData, IList<Alert>>(chequeData, alerts);
         }
