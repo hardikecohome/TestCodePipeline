@@ -334,7 +334,6 @@ namespace DealnetPortal.Web.Controllers
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
             }
-            MapEquipmentInfo(equipmentInfo, contractResult.Item1);
             return equipmentInfo;
         }
 
@@ -352,7 +351,6 @@ namespace DealnetPortal.Web.Controllers
             summaryAndConfirmation.EquipmentInfo = new EquipmentInformationViewModel();
             summaryAndConfirmation.EquipmentInfo.ContractId = contractId;
             summaryAndConfirmation.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-            MapEquipmentInfo(summaryAndConfirmation.EquipmentInfo, contractResult.Item1);
             summaryAndConfirmation.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summaryAndConfirmation.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summaryAndConfirmation.ContactAndPaymentInfo, contractResult.Item1);
@@ -374,15 +372,6 @@ namespace DealnetPortal.Web.Controllers
                 AutoMapper.Mapper.Map<AddressInformation>(
                     contract.PrimaryCustomer?.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MailAddress));
-        }
-
-        private void MapEquipmentInfo(EquipmentInformationViewModel equipmentInfo, ContractDTO contract)
-        {
-            if (equipmentInfo != null)
-            {
-                equipmentInfo.NewEquipment = AutoMapper.Mapper.Map<List<NewEquipmentInformation>>(contract.Equipment?.NewEquipment);
-                equipmentInfo.ExistingEquipment = AutoMapper.Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment?.ExistingEquipment);
-            }
         }
 
         private void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
