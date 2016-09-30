@@ -321,9 +321,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var writer = XmlWriter.Create(ms, settings);
                 x.Serialize(writer, ts);
 
-                var xmlWriter = XmlWriter.Create("testEdit.xml", settings);
-                x.Serialize(xmlWriter, ts);
-                xmlWriter.Flush();
+                //var xmlWriter = XmlWriter.Create("testEdit.xml", settings);
+                //x.Serialize(xmlWriter, ts);
+                //xmlWriter.Flush();
 
                 ms.Position = 0;
 
@@ -402,9 +402,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var writer = XmlWriter.Create(ms, settings);
                 x.Serialize(writer, ts);
 
-                XmlTextWriter fileWriter = new XmlTextWriter("d://testMerge.xml", Encoding.UTF8);
-                x.Serialize(fileWriter, ts);
-                fileWriter.Flush();
+                //XmlTextWriter fileWriter = new XmlTextWriter("d://testMerge.xml", Encoding.UTF8);
+                //x.Serialize(fileWriter, ts);
+                //fileWriter.Flush();
 
                 ms.Position = 0;
                 var fileContent = new ByteArrayContent(ms.GetBuffer());
@@ -572,9 +572,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 writer.Flush();
                 ms.Position = 0;
 
-                XmlWriter xmlWriter = new XmlTextWriter("testInvitation.xml", Encoding.UTF8);
-                x.Serialize(xmlWriter, configInvitation);
-                xmlWriter.Flush();
+                //XmlWriter xmlWriter = new XmlTextWriter("testInvitation.xml", Encoding.UTF8);
+                //x.Serialize(xmlWriter, configInvitation);
+                //xmlWriter.Flush();
 
                 //var fileContent = new ByteArrayContent(fileBytes);
                 var fileContent = new ByteArrayContent(ms.ToArray());
