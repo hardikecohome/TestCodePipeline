@@ -85,14 +85,17 @@ namespace DealnetPortal.Web.Models
         public PaymentType PaymentType { get; set; }
         [Display(Name = "Preffered Withdrawal Date")]
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        [Required]
         [StringLength(20)]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Bank Number is in incorrect format")]
         [Display(Name = "Bank Number")]
         public string BlankNumber { get; set; }
+        [Required]
         [StringLength(20)]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Transit Number is in incorrect format")]
         [Display(Name = "Transit Number")]
         public string TransitNumber { get; set; }
+        [Required]
         [StringLength(20)]
         [RegularExpression(@"^[0-9- ]+$", ErrorMessage = "Account Number is in incorrect format")]
         [Display(Name = "Account Number")]
