@@ -102,9 +102,9 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View("~/Views/Shared/Error.cshtml");
             }
-            if (contractResult.Item1.SecondaryCustomers != null && contractResult.Item1.SecondaryCustomers.Any())
+            if (true)
             {
-                TempData["MaxCreditAmount"] = 100500;
+                TempData["MaxCreditAmount"] = 15000;
                 return RedirectToAction("EquipmentInformation", new {contractId});
             }
             else
