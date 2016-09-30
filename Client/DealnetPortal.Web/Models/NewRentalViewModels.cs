@@ -94,7 +94,7 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Transit Number")]
         public string TransitNumber { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Account Number is in incorrect format")]
+        [RegularExpression(@"^[0-9- ]+$", ErrorMessage = "Account Number is in incorrect format")]
         [Display(Name = "Account Number")]
         public string AccountNumber { get; set; }
         [StringLength(20)]
