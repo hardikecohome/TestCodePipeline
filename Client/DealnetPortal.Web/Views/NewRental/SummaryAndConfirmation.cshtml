@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="homeOwnerEmail">Home Owner Email</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new { id = "homeOwnerEmail", @class = "dealnet-input form-control" })
+                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new { id = "homeOwnerEmail", @class = "dealnet-input form-control", type = "email" })
                             @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <label for="addApplicantEmail@(i)">Additional Applicant Email</label>
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new { id = "addApplicantEmail" + i, @class = "dealnet-input form-control" })
+                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new { id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email" })
                                     @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -315,7 +315,7 @@
 	                <div class="row">
 	                    @Html.LabelFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new {@class = "dealnet-field-caption col-xs-6"})
 	                    <div class="dealnet-field-holder col-xs-6">
-	                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", type = "email"})
 	                    </div>
 	                </div>
 	            </div>
@@ -865,7 +865,7 @@
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new { @class = "dealnet-field-caption col-xs-6"})
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "administrative_area_level_1"})
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", type = "email"})
                                             @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.ContactInfo.EmailAddress, "", new {@class = "text-danger"})
                                             </div>
                                         </div>

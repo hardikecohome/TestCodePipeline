@@ -70,7 +70,7 @@
                 <div class="form-group">
                     @Html.Label("email-address", "Email Address")
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address"})
+                        @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address", type = "email"})
                         @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new {@class = "text-danger"})
                         <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>

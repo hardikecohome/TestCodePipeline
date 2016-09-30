@@ -14,7 +14,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new {@class = ""})
                     <div>
-                        @Html.TextBoxFor(m => m.Email, new {@class = "form-control dealnet-input"})
+                        @Html.TextBoxFor(m => m.Email, new {@class = "form-control dealnet-input", type = "email"})
                     </div>
                 </div>
                 if (ViewBag.RegisterWithPassword)
