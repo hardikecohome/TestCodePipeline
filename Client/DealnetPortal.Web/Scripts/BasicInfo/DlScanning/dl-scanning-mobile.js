@@ -21,7 +21,8 @@
                     } else {
                         document.getElementById(fnToFill).value = json.FirstName;
                         document.getElementById(lnToFill).value = json.LastName;
-                        var date = new Date(parseInt(json.DateOfBirth.substr(6)));
+                        //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
+                        var date = new Date(json.DateOfBirthStr);
                         $("#" + bdToFill).datepicker("setDate", date);
                         if (fillAddress) {
                             document.getElementById('street').value = json.Street;
