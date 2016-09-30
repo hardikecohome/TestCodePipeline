@@ -96,10 +96,16 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     Bitmap bmp;
-                    using (var ms = new MemoryStream(scanningRequest.ImageForReadRaw))
-                    {
-                        bmp = new Bitmap(ms);
-                    }
+
+                    ImageEditor repair = new ImageEditor();
+                    MemoryStream ms = new MemoryStream(scanningRequest.ImageForReadRaw);
+                    repair.Image.Open(ms, 0);
+                    repair.AutoDeskew();
+                    repair.AutoRotate();
+                    repair.CleanNoise(3);
+                    
+                    bmp = repair.Bitmap;
+
                     hBitmap = bmp.GetHbitmap();
                     ClearMicr.CcMicrReader reader = new ClearMicr.CcMicrReader();
                     reader.Flags = ClearMicr.EMicrReaderFlags.emrfExtendedMicrSearch;
@@ -153,7 +159,6 @@ namespace DealnetPortal.Api.Integration.Services
             IntPtr hBitmap = IntPtr.Zero;
             try
             {
-
                 // Open Image
                 ClearMicr.CcMicrReader micrReader = new ClearMicr.CcMicrReader();
                 ClearMicr.EMicrReaderFlags flags = 0;
@@ -163,33 +168,37 @@ namespace DealnetPortal.Api.Integration.Services
                 bmp = new Bitmap(ms);
                 hBitmap = bmp.GetHbitmap();
 
+                // don't recognize OpenFromBitmap ??
                 micrReader.Image.OpenFromBitmap(hBitmap.ToInt32());
-                micrReader.Flags = flags;
+                micrReader.Flags = ClearMicr.EMicrReaderFlags.emrfNoExtractDeskew;
                 // Do actual reading      
                 ClearImage.CiImage oImage;
                 oImage = micrReader.ExtractCheck();
-                //if (oImage == null) return "";
-                //oImage.SaveAs(sOut, ClearImage.EFileFormat.ciTIFF);
-                String s = "";
-                for (int i = 1; i <= micrReader.MicrCount; i++)
+
+                if (oImage != null && micrReader.MicrCount > 0)
                 {
-                    ClearMicr.CcMicrInfo Info = micrReader.MicrLine[i].Document;
-                    //    s = String.Format("Extracted Document \r\n at {0}:{1}-{2}:{3}  Skew: {4:F}deg   Rotation: {5}",
-                    //        Info.Left, Info.Top, Info.Right, Info.Bottom, Info.Skew, rotText[(int) Info.Conf]);
-                    //    s += Environment.NewLine + Environment.NewLine;
-                    //    s += AddMICR(MicrReader.get_MicrLine(i), i);
-                    //}
-                    //if ((s == ""))
-                    //{
-                    //    s = "<NO MICR>";
-                    //}
+                    try
+                    {
+                        chequeData.AccountNumber = micrReader.MicrLine[1].Account.TextANSI;
+                        var routingNumbers = (micrReader.MicrLine[1].Routing.TextANSI +
+                                              micrReader.MicrLine[1].RoutingChecksum.TextANSI).Split('-');
+
+                        chequeData.TransitNumber = routingNumbers[0];
+                        chequeData.BankNumber = routingNumbers.Length > 1 ? routingNumbers[1] : null;
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't obtain recognized data", Message = ex.ToString() });
+                    }
                 }
-                return null;
+                else
+                {
+                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Image wasn't recognized" });
+                }               
             }
             catch (Exception ex)
             {
                 alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = ex.ToString() });
-                //throw;
             }
             finally
             {

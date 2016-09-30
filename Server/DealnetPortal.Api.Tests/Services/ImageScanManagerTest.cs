@@ -47,5 +47,31 @@ namespace DealnetPortal.Api.Tests.Services
             Assert.IsTrue(result.Item1.FirstName.Contains("First"));
             Assert.IsTrue(result.Item1.LastName.Contains("Last"));
         }
+
+        [TestMethod]
+        public void TestScanVoidCheque()
+        {
+            var imgRaw = File.ReadAllBytes("Img//cheque.jpg");
+            ScanningRequest scanningRequest = new ScanningRequest()
+            {
+                ImageForReadRaw = imgRaw
+            };
+            var imageManager = new ImageScanService();
+            var result = imageManager.ReadVoidCheque(scanningRequest);
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestExtractCheck()
+        {
+            var imgRaw = File.ReadAllBytes("Img//cheque.jpg");
+            ScanningRequest scanningRequest = new ScanningRequest()
+            {
+                ImageForReadRaw = imgRaw
+            };
+            var imageManager = new ImageScanService();
+            var result = imageManager.ExtractCheck(scanningRequest);
+            Assert.IsNotNull(result);
+        }
     }
 }
