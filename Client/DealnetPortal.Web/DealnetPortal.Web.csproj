@@ -354,6 +354,7 @@
     <Content Include="Content\images\sprite\icon-calendar.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
+    <Content Include="Content\images\sprite\icon-error.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />

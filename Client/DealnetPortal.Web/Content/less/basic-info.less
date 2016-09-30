@@ -13,10 +13,17 @@
 
 .owner-info-label {
   margin-top: 27px;
-  & > div {
+  position: relative;
+  .additional-remove {
     display: inline-block;
     margin-left: 38px;
     cursor: pointer;
+    @media (max-width: 767px) {
+      margin-left: 0;
+      position: absolute;
+      right:  0;
+      top:  5px;
+    }
   }
 }
 
