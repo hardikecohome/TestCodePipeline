@@ -228,6 +228,10 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _fileRepository.FindAgreementTemplate(at => at.State == province);
             }
+            if (agreementTemplate == null)
+            {
+                _fileRepository.FindAgreementTemplate(at => at.AgreementForm != null);
+            }
 
             if (agreementTemplate?.AgreementForm != null)
             {
