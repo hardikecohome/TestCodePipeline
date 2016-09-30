@@ -63,8 +63,7 @@ function assignDatepicker(inputId) {
     $(inputId).datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
-        yearRange: '1900:2116',
-        minDate: Date.parse("1900-01-01"),
-        maxDate: new Date()
+        yearRange: '1900:2200',
+        minDate: Date.parse("1900-01-01")
     });
 }
