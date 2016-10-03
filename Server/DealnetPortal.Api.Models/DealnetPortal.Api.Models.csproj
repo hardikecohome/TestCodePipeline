@@ -60,6 +60,7 @@
     <Compile Include="Contract\FlowingSummaryItemDTO.cs" />
     <Compile Include="Contract\PaymentInfoDTO.cs" />
     <Compile Include="Contract\PhoneDTO.cs" />
+    <Compile Include="Contract\ProvinceTaxRateDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />

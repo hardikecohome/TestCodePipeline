@@ -378,13 +378,15 @@
 
 	                    <div class="form-group">
 	                        <div class="row">
-		                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
+	                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+	                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <div class="form-group">
+                        @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Cost)
+                        @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost)
+	                    @*<div class="form-group">
 	                        <div class="row">
 		                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
@@ -399,7 +401,7 @@
 	                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 	                            </div>
 	                        </div>
-	                    </div>
+	                    </div>*@
 	                    <div class="form-group">
 	                        <div class="row">
 		                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
@@ -432,7 +434,7 @@
 					        SALES TAX
 				        </div>
 				        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-					        $11.05
+					        $@(Math.Round(Model.EquipmentInfo.TotalMonthlyPayment * Model.ProvinceTaxRate / 100, 2))
 				        </div>
 			        </div>
 		        </div>
@@ -441,9 +443,9 @@
 				        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
 					        TOTAL MONTHLY PAYMENT (TAX INCL.)
 				        </div>
-				        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-					         $96.03 <!--@Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })-->
-				        </div>
+			            <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                            $@(Math.Round(Model.EquipmentInfo.TotalMonthlyPayment + Model.EquipmentInfo.TotalMonthlyPayment * Model.ProvinceTaxRate / 100, 2))
+			            </div>
 				    </div>
 		        </div>
 	        </div>
@@ -503,14 +505,22 @@
 						</div>
 
 					</div>
-					<div class="form-group">
-						<div class="row">
-                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6"})
-							<div class="dealnet-field-holder col-xs-6">
-							    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
-	                        </div>
-	                    </div>
-	                </div>
+				    <div class="form-group">
+				        <div class="row">
+				            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "dealnet-field-caption col-xs-6"})
+				            <div class="dealnet-field-holder col-xs-6">
+				                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+				            </div>
+				        </div>
+				    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                            </div>
+                        </div>
+                    </div>
 	            </div>
 	        </div>
 	    </div>
@@ -832,7 +842,7 @@
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.ContactInfo.HomePhone, new { @class = "dealnet-field-caption col-xs-6"})
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.HomePhone, new {@class = "form-control dealnet-input", id = "street"})
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.HomePhone, new {@class = "form-control dealnet-input", id = "home-phone" })
                                             @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.ContactInfo.HomePhone, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
@@ -844,7 +854,7 @@
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.ContactInfo.CellPhone, new { @class = "dealnet-field-caption col-xs-6"})
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.CellPhone, new {@class = "form-control dealnet-input"})
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.ContactInfo.CellPhone, new {@class = "form-control dealnet-input", id = "cell-phone" })
                                             @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.ContactInfo.CellPhone, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
@@ -955,7 +965,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    @*<div class="form-group">
                                         <div class="row">
                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
@@ -976,7 +986,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="form-group">
                                         <div class="row">
                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-6"})
@@ -1082,8 +1092,20 @@
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "dealnet-field-caption col-xs-6"})
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "form-control dealnet-input", id = "postal_code"})
+                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "form-control dealnet-input", id = "enbridge-gas-distribution-account"})
                                                 @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "form-control dealnet-input", id = "meter-number" })
+                                                @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>

@@ -15,6 +15,7 @@ namespace DealnetPortal.DataAccess
         {
             SetTestUsers(context);
             SetTestEquipmentTypes(context);
+            SetTestProvnceTaxRates(context);
         }
 
         private void SetTestUsers(ApplicationDbContext context)
@@ -64,6 +65,28 @@ namespace DealnetPortal.DataAccess
                 new EquipmentType {Description = "Basement Repair", Type = "ECO55"}
             };
             context.EquipmentTypes.AddRange(equipmentTypes);
+        }
+
+        private void SetTestProvnceTaxRates(ApplicationDbContext context)
+        {
+            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+            var taxRates = new[]
+            {
+                new ProvinceTaxRate {ProvinceAbbreviation = "AB", Rate = 5},
+                new ProvinceTaxRate {ProvinceAbbreviation = "BC", Rate = 12},
+                new ProvinceTaxRate {ProvinceAbbreviation = "MB", Rate = 13},
+                new ProvinceTaxRate {ProvinceAbbreviation = "NB", Rate = 15},
+                new ProvinceTaxRate {ProvinceAbbreviation = "NL", Rate = 15},
+                new ProvinceTaxRate {ProvinceAbbreviation = "NT", Rate = 5},
+                new ProvinceTaxRate {ProvinceAbbreviation = "NS", Rate = 15},
+                new ProvinceTaxRate {ProvinceAbbreviation = "NU", Rate = 5},
+                new ProvinceTaxRate {ProvinceAbbreviation = "ON", Rate = 13},
+                new ProvinceTaxRate {ProvinceAbbreviation = "PE", Rate = 14},
+                new ProvinceTaxRate {ProvinceAbbreviation = "QC", Rate = 14.975},
+                new ProvinceTaxRate {ProvinceAbbreviation = "SK", Rate = 10},
+                new ProvinceTaxRate {ProvinceAbbreviation = "YT", Rate = 5}
+            };
+            context.ProvinceTaxRates.AddRange(taxRates);
         }
     }
 }

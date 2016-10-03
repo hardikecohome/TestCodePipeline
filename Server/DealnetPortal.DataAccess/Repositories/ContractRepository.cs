@@ -190,6 +190,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.EquipmentTypes.ToList();
         }
 
+        public ProvinceTaxRate GetProvinceTaxRate(string province)
+        {
+            return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.ProvinceAbbreviation == province);
+        }
+
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
         {
             var newEquipments = equipmentInfo.NewEquipment;

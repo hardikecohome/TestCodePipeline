@@ -35,5 +35,7 @@ namespace DealnetPortal.Api.Integration.Services
         IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
 
         Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();
+
+        Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province);
     }
 }

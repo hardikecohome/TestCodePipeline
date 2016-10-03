@@ -143,5 +143,6 @@ namespace DealnetPortal.Web.Models
         public EquipmentInformationViewModel EquipmentInfo { get; set; }
         public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
         public SendEmailsViewModel SendEmails { get; set; }
+        public double ProvinceTaxRate { get; set; }
     }
 }
