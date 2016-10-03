@@ -3,7 +3,7 @@
       if(detectIE()){
         $('body').addClass('ie');
       }
-        fixMetaViewportIos();
+       // fixMetaViewportIos();
 
         $("input, textarea").placeholder();
 

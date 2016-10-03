@@ -303,25 +303,22 @@ html.ie9{
   }
 }
 
-#table-title{
-  .icon-search-control{
-    @media (max-width: 991px) {
-      display: block !important;
-    }
-    position: absolute;
-    right: 15px;
-    top: -4px;
-    padding: 5px;
-    color: @heading-text-color2;
-    font-size: 18px;
-  }
-}
+
 /*div[class^="col-"]{
   float: none;
 }*/
+div.dataTables_wrapper{
+  .label-caption{
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 18px;
+    color: @heading-text-color;
+  }
 
+}
 div.dataTables_wrapper div.dataTables_filter{
-
+  width: 100%;
   margin: 0;
   @media (min-width: 992px) {
     display: block !important;
@@ -331,22 +328,19 @@ div.dataTables_wrapper div.dataTables_filter{
     text-align: left;
     display: none;
   }
-
+  .form-control{
+    width: 100%;
+  }
   label{
     position: relative;
     display: block;
     float: none;
     width: 100%;
     .label-caption{
-      display: block;
-      margin: 10px 0;
-      font-weight: bold;
-      font-size: 18px;
       @media (min-width: 992px) {
         display: none;
       }
     }
-
     .icon-search{
       position: absolute;
       right: 4px;
@@ -354,6 +348,7 @@ div.dataTables_wrapper div.dataTables_filter{
       display: inline-block;
       padding: 5px;
       font-size: 16px;
+      color: @heading-text-color;
       @media (max-width: 991px) {
         display: none;
       }
@@ -370,6 +365,9 @@ div.dataTables_wrapper div.dataTables_filter{
   }
 }
 div.dataTables_wrapper div.dataTables_length {
+  @media (max-width: 767px) {
+    width: 100%;
+  }
   label{
     @media (max-width: 767px) {
       width: 100%;
@@ -434,4 +432,67 @@ div.dataTables_wrapper div.dataTables_length {
 .dealnet-disabled-text {
   font: 500 14px @fontLato;
   color: @default-grey-color;
+}
+
+
+.form-inline .reset-form-inline{
+  .form-group{
+    display: block;
+  }
+  .form-control{
+    display: block;
+    width: 100%;
+  }
+  .btn{
+    @media (min-width: 768px){
+      margin-top: 25px;
+    }
+  }
+}
+.expanded-filter-template{
+  .form-group{
+    margin-bottom: 10px;
+  }
+}
+
+.filter-controls{
+  position: absolute;
+  right: 10px;
+  top: 0;
+  @media (max-width: 991px) {
+    display: block !important;
+  }
+  .icon-search-control{
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px;
+    color: @heading-text-color;
+    font-size: 18px;
+    height: 32px;
+  }
+  .icon-filter-control{
+    display: inline-block;
+    height: 32px;
+    padding: 0 5px;
+    margin-right: 20px;
+    vertical-align: middle;
+    .icon-filter{
+      color: @heading-text-color;
+    }
+  }
+  .icon-filter-control,
+  .icon-search-control{
+    border: 1px solid transparent;
+    &.active{
+      border: 1px solid #000;
+    }
+  }
+}
+#expand-table-filter{
+  @media (max-width: 991px) {
+    display: none;
+  }
+  @media (min-width: 992px) {
+    display: block !important;
+  }
 }

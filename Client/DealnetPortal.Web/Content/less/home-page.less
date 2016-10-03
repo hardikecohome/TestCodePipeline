@@ -35,8 +35,8 @@
 }
 
 #work-items-table{
-    table-layout: auto;
-    width: 100% !important;
+    //table-layout: auto;
+    //width: 100% !important;
     /*td{
         width: 200px !important;
     }*/
@@ -90,17 +90,32 @@
 }
 
 .dealnet-home-page .row {
-    margin-top: 21px;
+   /* margin-top: 21px;*/
 }
 
-div.dataTables_wrapper div.dataTables_length select{
-    margin: 0 10px;
-}
-
-div.dataTables_wrapper div.dataTables_length .custom-select{
-    margin: 0 10px;
-    display: inline-block;
-    select{
-        margin: 0;
+.expand-filter-template{
+    display: none;
+    .form-group{
+        margin-bottom: 10px;
     }
 }
+div.dataTables_wrapper{
+    div.dataTables_length{
+        margin: 10px 0;
+        .custom-select{
+            margin: 0 10px;
+            display: inline-block;
+            select{
+                margin: 0;
+            }
+        }
+    }
+
+    #expand-table-filter {
+        .expand-filter-template{
+            display: block;
+        }
+    }
+}
+
+

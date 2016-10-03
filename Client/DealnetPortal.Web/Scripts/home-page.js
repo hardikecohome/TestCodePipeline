@@ -99,22 +99,17 @@ function showTable() {
                   { width: "40px", targets: -1 }
                 ],
                 dom:
-                "<'row'<'col-md-6''<'#table-title.dealnet-caption'>'><'col-md-6'f>>" +
+                "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                 "<'row'<'col-md-12'l>>" +
                 "<'row'<'col-md-12'tr>>" +
                 "<'row'<'col-md-12'p>>" +
                 "<'row'<'col-md-12'i>>",
                 renderer: 'bootstrap'
             });
-        $('#table-title').html('My Work Items <span class="icon-search-control hidden"><i class="glyphicon glyphicon-search"></i></span>');
+        var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
+        $('#table-title').html('My Work Items  <div class="filter-controls hidden">'+ iconSearch +'</div></div>');
         $('#table-title .icon-search-control').on('click', function(){
           $('#work-items-table_filter').slideToggle();
         });
-        /*$('.paginate_button.previous a').html('<i class="glyphicon glyphicon-menu-left"></i>');
-        $('.paginate_button.next a').html('<i class="glyphicon glyphicon-menu-right"></i>');*/
-
-        /*$('#work-items-table_filter .icon-search').on('click', function(){
-          $(this).siblings('input').toggleClass('active');
-        });*/
     });
 };
