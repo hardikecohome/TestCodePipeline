@@ -176,16 +176,17 @@ namespace DealnetPortal.Api.Integration.Services
                     int i = 0;
                     contract?.SecondaryCustomers?.ForEach(cc =>
                     {
-                        if (i < coCustomers.Count)
+                        if (i < coCustomers.Count && !string.IsNullOrEmpty(coCustomers[i].EmailAddress))
                         {
                             coCustomers[i].FirstName = cc.FirstName;
                             coCustomers[i].LastName = cc.LastName;
+                            usersForProcessing.Add(coCustomers[i]);
                             i++;
                         }                        
                     });
                 }
 
-                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, signatureUsers);
+                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray());
                 return alerts;
             }
             catch (Exception ex)
