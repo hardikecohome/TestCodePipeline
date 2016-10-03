@@ -124,6 +124,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
+            ViewBag.IsAllInfoCompleted = false;
             if (!ModelState.IsValid)
             {
                 return View();
@@ -339,6 +340,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
             }
+            ViewBag.IsAllInfoCompleted = contractResult.Item1.ContactInfo != null && contractResult.Item1.PaymentInfo != null;
             return equipmentInfo;
         }
 
