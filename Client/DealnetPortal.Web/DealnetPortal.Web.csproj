@@ -178,6 +178,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\StubController.cs" />
@@ -612,6 +613,8 @@
     <Content Include="Views\NewRental\CreditRejected.cshtml" />
     <Content Include="Views\NewRental\SummaryAndConfirmation.cshtml" />
     <Content Include="Views\NewRental\RentalAgreementSubmitSuccess.cshtml" />
+    <Content Include="Views\MyDeals\Index.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -619,7 +622,6 @@
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\Rentals\" />
-    <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

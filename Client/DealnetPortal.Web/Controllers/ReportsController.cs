@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Globalization;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
 {
-    using System.Globalization;
-    using System.Threading.Tasks;
-    using System.Web.Mvc;
-
+    [AuthFromContext]
     public class ReportsController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult WorkItems()
         {
