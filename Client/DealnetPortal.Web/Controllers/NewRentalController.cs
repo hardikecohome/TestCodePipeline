@@ -195,7 +195,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult RentalAgreementSubmitSuccess([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
         {
             ViewBag.HomeOwnerEmail = emails.HomeOwnerEmail;
-            return View();
+            return View(emails);
         }
 
         [HttpPost]
@@ -363,6 +363,7 @@ namespace DealnetPortal.Web.Controllers
             var rate = (await _contractServiceAgent.GetProvinceTaxRate(summaryAndConfirmation.BasicInfo.AddressInformation.Province.ToProvinceAbbreviation())).Item1;
             if (rate != null) { summaryAndConfirmation.ProvinceTaxRate = rate.Rate; }
             summaryAndConfirmation.SendEmails.ContractId = contractId;
+            summaryAndConfirmation.SendEmails.HomeOwnerFullName = summaryAndConfirmation.BasicInfo.HomeOwner.FirstName + " " + summaryAndConfirmation.BasicInfo.HomeOwner.LastName;
             return summaryAndConfirmation;
         }
 

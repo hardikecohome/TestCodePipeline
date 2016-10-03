@@ -20,6 +20,9 @@ namespace DealnetPortal.Web.Models
         public int ContractId { get; set; }
 
         [Required]
+        public string HomeOwnerFullName { get; set; }
+
+        [Required]
         [Display(Name = "Home Owner Email")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string HomeOwnerEmail { get; set; }

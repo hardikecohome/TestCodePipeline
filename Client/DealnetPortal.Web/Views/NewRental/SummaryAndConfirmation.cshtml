@@ -28,6 +28,7 @@
     @using (Html.BeginForm("RentalAgreementSubmitSuccess", "NewRental", FormMethod.Post, new {id = "send-mails-form", @class = "clearfix"}))
     {
         @Html.HiddenFor(m => m.SendEmails.ContractId)
+        @Html.HiddenFor(m => m.SendEmails.HomeOwnerFullName)
         @Html.AntiForgeryToken()
         <div class="well rental-summary-emails">
             <p class="summary-emails-header">
