@@ -7,6 +7,7 @@ using System.Linq;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
@@ -14,6 +15,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -158,12 +160,29 @@ namespace DealnetPortal.Api.Integration.Services
         {
             try
             {
+                List<SignatureUser> usersForProcessing = new List<SignatureUser>();
                 var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                 var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
                 if (homeOwner != null)
                 {
                     homeOwner.FirstName = contract?.PrimaryCustomer?.FirstName;
                     homeOwner.LastName = contract?.PrimaryCustomer?.LastName;
+                    usersForProcessing.Add(homeOwner);
+                }
+
+                var coCustomers = signatureUsers.Where(u => u.Role == SignatureRole.AdditionalApplicant).ToList();
+                if (coCustomers.Any())
+                {
+                    int i = 0;
+                    contract?.SecondaryCustomers?.ForEach(cc =>
+                    {
+                        if (i < coCustomers.Count)
+                        {
+                            coCustomers[i].FirstName = cc.FirstName;
+                            coCustomers[i].LastName = cc.LastName;
+                            i++;
+                        }                        
+                    });
                 }
 
                 var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, signatureUsers);

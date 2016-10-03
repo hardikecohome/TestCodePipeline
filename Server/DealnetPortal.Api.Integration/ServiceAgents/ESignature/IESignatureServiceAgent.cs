@@ -27,6 +27,8 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
         Task<Tuple<documentVersionType, IList<Alert>>> EditFormFields(long dpSid, FormField[] formFields);
 
+        Task<Tuple<documentVersionType, IList<Alert>>> RemoveFormFields(long dpSid, FormField[] formFields);
+
         Task<IList<Alert>> MergeData(long dpSid, TextData[] textData);
 
         Task<IList<Alert>> ConfigureSortOrder(long transactionSid, long[] dpSids);

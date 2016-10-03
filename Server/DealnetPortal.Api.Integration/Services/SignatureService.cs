@@ -35,6 +35,9 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly string _eCoreAgreementTemplate;
         private readonly string _eCoreCustomerSecurityCode;
 
+        private List<string> _signatureFields = new List<string>() {"Signature1", "Signature2"};//, "Sinature3"};
+        private List<string> _signatureRoles = new List<string>();
+
         public SignatureService(IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
             IFileRepository fileRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
         {
@@ -50,6 +53,10 @@ namespace DealnetPortal.Api.Integration.Services
             _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
             _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
             _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
+
+            _signatureRoles.Add(_eCoreSignatureRole);
+            _signatureRoles.Add($"{_eCoreSignatureRole}2");
+            //_signatureRoles.Add($"{_eCoreSignatureRole}3");
         }
 
         public IList<Alert> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
@@ -97,10 +104,20 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
                 {
-                    LogAlerts(alerts);
-                    return alerts;
+                    _loggingService.LogWarning($"Fields merged with agreement document {docId} with errors");
+                    //LogAlerts(alerts);
+                    //return alerts;
                 }
-                _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
+                else
+                {
+                    _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
+                }                
+
+                var removeRes = RemoveExtraSignatures(docId, signatureUsers);
+                if (removeRes?.Any() ?? false)
+                {
+                    alerts.AddRange(removeRes);
+                }
 
                 // We follow to signatures only if signatureUsers was setted
                 if (signatureUsers?.Any() ?? false)
@@ -112,10 +129,15 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
                     {
-                        LogAlerts(alerts);
-                        return alerts;
+                        _loggingService.LogWarning($"Signature fields inserted into agreement document form {docId} with errors");
+                        //LogAlerts(alerts);
+                        //return alerts;
                     }
-                    _loggingService.LogInfo($"Signature fields inserted into agreement document form {docId} successefully");
+                    else
+                    {
+                        _loggingService.LogInfo(
+                            $"Signature fields inserted into agreement document form {docId} successefully");
+                    }
 
                     insertRes = SendInvitations(transId, docId, signatureUsers);
                     if (insertRes?.Any() ?? false)
@@ -141,7 +163,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError(errorMsg);
             }
-
+            LogAlerts(alerts);
             return alerts;
         }
 
@@ -175,6 +197,16 @@ namespace DealnetPortal.Api.Integration.Services
 
             return fields;
         }
+
+        //private IList<Alert> LoginToService()
+        //{
+            
+        //}
+
+        //private IList<Alert> LogoutFromService()
+        //{
+
+        //}
 
         private Tuple<long, IList<Alert>> CreateTransaction(Contract contract)
         {
@@ -302,64 +334,102 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        private IList<Alert> RemoveExtraSignatures(long docId, SignatureUser[] signatureUsers)
+        {
+            var alerts = new List<Alert>();
+
+            //document can have more signature fields then signature users
+            var signToRemove = (signatureUsers == null || !signatureUsers.Any())
+                ? _signatureFields.Count
+                : _signatureFields.Count - signatureUsers.Length;
+
+            if (signToRemove > 0)
+            {
+                _loggingService.LogInfo($"{signToRemove} signature fields will be removed");
+
+                var formFields = new List<FormField>();
+
+                for (var i = (_signatureFields.Count - signToRemove); i < _signatureFields.Count; i++)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        Item = _signatureFields[i]
+                    });
+                }
+
+                var removeRes = _signatureServiceAgent.RemoveFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
+                if (removeRes?.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(removeRes.Item2);
+                }                
+            }                                             
+
+            return alerts;
+        }
+
         private IList<Alert> InsertSignatureFields(long docId, SignatureUser[] signatureUsers)
         {
             var alerts = new List<Alert>();
 
             // for now we accept only 1st customer
 
-            var formFields = new List<FormField>()
+            var formFields = new List<FormField>();
+            // lets insert one by one
+            for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
             {
-                new FormField()
-                {
-                    Item = "Signature1",
-                    customProperty = new List<CustomProperty>()
+                formFields = new List<FormField>()
+                { 
+                    new FormField()
                     {
-                        new CustomProperty()
+                        Item = _signatureFields[i],//"Signature1",
+                        customProperty = new List<CustomProperty>()
                         {
-                            name = "role",
-                            Value = _eCoreSignatureRole
-                        },
-                        new CustomProperty()
-                        {
-                            name = "label",
-                            Value = "Signature1"
-                        },
-                        new CustomProperty()
-                        {
-                            name = "type",
-                            Value = "signature"
-                        },
-                        new CustomProperty()
-                        {
-                            name = "required",
-                            Value = "true"
-                        },
-                        new CustomProperty()
-                        {
-                            name = "initialValueType",
-                            Value = "fullName"
-                        },
-                        //new CustomProperty()
-                        //{
-                        //    name = "protectedField",
-                        //    Value = "false"
-                        //},
-                        new CustomProperty()
-                        {
-                            name = "displayOrder",
-                            Value = "1"
+                            new CustomProperty()
+                            {
+                                name = "role",
+                                Value = _signatureRoles[i]//_eCoreSignatureRole
+                            },
+                            new CustomProperty()
+                            {
+                                name = "label",
+                                Value = _signatureFields[i]
+                            },
+                            new CustomProperty()
+                            {
+                                name = "type",
+                                Value = "signature"
+                            },
+                            new CustomProperty()
+                            {
+                                name = "required",
+                                Value = "true"
+                            },
+                            new CustomProperty()
+                            {
+                                name = "initialValueType",
+                                Value = "fullName"
+                            },
+                            //new CustomProperty()
+                            //{
+                            //    name = "protectedField",
+                            //    Value = "false"
+                            //},
+                            new CustomProperty()
+                            {
+                                name = "displayOrder",
+                                Value = (i+1).ToString()//"1"
+                            }                    
                         }
                     }
+                };
+                var resDv = _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
+                if (resDv?.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(resDv.Item2);
                 }
-            };
-
-            var resDv = _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
-            if (resDv?.Item2?.Any() ?? false)
-            {
-                alerts.AddRange(resDv.Item2);
-            }
-            if (resDv?.Item2?.Any(a => a.Type == AlertType.Error) ?? false)
+            }            
+            
+            if (alerts.Any(a => a.Type == AlertType.Error))
             {
                 _loggingService.LogError("Can't edit signature fields in agreement document template in eCore service");
             }
@@ -378,36 +448,48 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (res?.All(a => a.Type != AlertType.Error) ?? true)
             {
-                var roles = new eoConfigureRolesRole[]
+                var roles = new List<eoConfigureRolesRole>();
+                for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
                 {
-                    new eoConfigureRolesRole()
-                    {
-                        order = "1",
-                        name = _eCoreSignatureRole,
-                        firstName = signatureUsers.First().FirstName,
-                        lastName = signatureUsers.First().LastName,
-                        eMail = signatureUsers.First().EmailAddress,
-                        ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
-                        Items = new string[] {_eCoreCustomerSecurityCode},
-                        required = true,
-                        signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod()
+                    roles.Add(
+                        new eoConfigureRolesRole()
                         {
-                            Value = signatureCaptureMethodType.TYPE
-                        },
-                    }
+                            order = (i+1).ToString(),//"1",
+                            name = _signatureRoles[i],//_eCoreSignatureRole,
+                            firstName = signatureUsers[i].FirstName ?? "Fst",
+                            lastName = signatureUsers[i].LastName ?? "name",
+                            eMail = signatureUsers[i].EmailAddress,
+                            ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
+                            Items = new string[] {_eCoreCustomerSecurityCode},
+                            required = true,
+                            signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod()
+                            {
+                                Value = signatureCaptureMethodType.TYPE
+                            },
+                        });
                 };
 
-                res = _signatureServiceAgent.ConfigureRoles(transId, roles).GetAwaiter().GetResult();
+                res = _signatureServiceAgent.ConfigureRoles(transId, roles.ToArray()).GetAwaiter().GetResult();
                 if (res?.Any() ?? false)
                 {
                     alerts.AddRange(res);
                 }
                 if (res?.All(a => a.Type != AlertType.Error) ?? true)
                 {
-                    res = _signatureServiceAgent.ConfigureInvitation(transId, _eCoreSignatureRole, signatureUsers.First().FirstName, signatureUsers.First().LastName, signatureUsers.First().EmailAddress).GetAwaiter().GetResult();
-                    if (res?.Any() ?? false)
+                    //res =
+                    //        _signatureServiceAgent.ConfigureInvitation(transId, _eCoreSignatureRole,
+                    //            signatureUsers.First().FirstName, signatureUsers.First().LastName,
+                    //            signatureUsers.First().EmailAddress).GetAwaiter().GetResult();
+                    for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
                     {
-                        alerts.AddRange(res);
+                        res =
+                            _signatureServiceAgent.ConfigureInvitation(transId, _signatureRoles[i],
+                                signatureUsers[i].FirstName ?? "fst", signatureUsers[i].LastName ?? "name",
+                                signatureUsers[i].EmailAddress).GetAwaiter().GetResult();
+                        if (res?.Any() ?? false)
+                        {
+                            alerts.AddRange(res);
+                        }
                     }
                 }                
             }

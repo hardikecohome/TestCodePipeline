@@ -367,6 +367,76 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
         }
 
+        public async Task<Tuple<documentVersionType, IList<Alert>>> RemoveFormFields(long dpSid, FormField[] formFields)
+        {
+            try
+            {
+                IList<Alert> alerts = new List<Alert>();
+
+                var transformationInstructions = new List<TransformationInstructions>();
+
+                var exportTypes = new List<Type>();
+                exportTypes.Add(typeof(FormFields));
+
+                transformationInstructions.Add(new FormFields()
+                {
+                    name = "removeFormField",
+                    formFieldList = formFields.ToList()
+                });
+
+                var ts = new transformationInstructionSet()
+                {
+                    transformationInstructions = transformationInstructions.ToArray()
+                };
+
+                var x = new XmlSerializer(ts.GetType(), exportTypes.ToArray());
+                var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
+                MemoryStream ms = new MemoryStream();
+                var writer = XmlWriter.Create(ms, settings);
+                x.Serialize(writer, ts);
+
+                ms.Position = 0;
+
+                var fileContent = new ByteArrayContent(ms.GetBuffer());
+
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "blockListXMLFile",
+                        FileName = "blockListXMLFile"
+                    };
+
+                var content = new MultipartFormDataContent();
+                content.Add(new StringContent(dpSid.ToString()), "dpSid");
+                content.Add(fileContent, "blockListXMLFile");
+
+                var response = await Client.Client.PostAsync(_fullUri + "/?action=eoRemoveFormFields", content).ConfigureAwait(false);
+
+                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+
+                if (eResponse?.status == responseStatus.ok)
+                {
+                    if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentProfileList))
+                    {
+                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as EOriginalTypes.documentProfileListType;
+                        var documentVersion = documentProfileList?.documentProfile?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
+                        return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
+                    }
+                }
+                else
+                {
+                    alerts = GetAlertsFromResponse(eResponse);
+                }
+
+                return new Tuple<documentVersionType, IList<Alert>>(null, alerts);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<IList<Alert>> MergeData(long dpSid, TextData[] textData)
         {
             try
@@ -460,11 +530,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                                     Value = dsid.ToString()
                                 }));
                     sortOrder.documentList = docs.ToArray();
-                }
+                }                
 
                 XmlSerializer x = new System.Xml.Serialization.XmlSerializer(sortOrder.GetType());
+                var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
                 MemoryStream ms = new MemoryStream();
-                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);                
+                var writer = XmlWriter.Create(ms, settings);
+                //XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);                
                 x.Serialize(writer, sortOrder);
                 writer.Flush();
                 ms.Position = 0;
@@ -512,8 +584,10 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 };
 
                 XmlSerializer x = new System.Xml.Serialization.XmlSerializer(configRoles.GetType());
+                var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
                 MemoryStream ms = new MemoryStream();
-                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+                var writer = XmlWriter.Create(ms, settings);
+                //XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
                 x.Serialize(writer, configRoles);
                 writer.Flush();
                 ms.Position = 0;
@@ -566,8 +640,11 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 };
 
                 XmlSerializer x = new System.Xml.Serialization.XmlSerializer(configInvitation.GetType());
+                var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
                 MemoryStream ms = new MemoryStream();
-                XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
+                var writer = XmlWriter.Create(ms, settings);
+                //MemoryStream ms = new MemoryStream();
+                //XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
                 x.Serialize(writer, configInvitation);
                 writer.Flush();
                 ms.Position = 0;
