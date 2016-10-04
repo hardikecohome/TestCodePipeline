@@ -18,5 +18,7 @@ namespace DealnetPortal.Domain
         public string SignatureTransactionId { get; set; }
 
         public string SignatureDocumentId { get; set; }
+
+        public SignatureStatus? SignatureStatus { get; set; }
     }
 }

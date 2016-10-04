@@ -455,5 +455,31 @@ namespace DealnetPortal.Api.Tests.ESignature
 
         }
 
+        [TestMethod]
+        public void TestGetDocumentCopy()
+        {
+            IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
+            serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
+
+            long docId = 1675070;
+            var doc = serviceAgent.GetCopy(docId).GetAwaiter().GetResult();
+            Assert.IsNotNull(doc);
+
+            serviceAgent.Logout().GetAwaiter().GetResult();
+        }
+
+        [TestMethod]
+        public void TestCheckSignatureStatus()
+        {
+            IESignatureServiceAgent serviceAgent = new ESignatureServiceAgent(_client, _loggingServiceMock.Object);
+            serviceAgent.Login(DefUserName, DefUserOrganisation, DefUserPassword).Wait();
+
+            long transId = 1675024;//1675069;
+            var state = serviceAgent.SearchSignatureResults(transId).GetAwaiter().GetResult();
+            Assert.IsNotNull(state);
+
+            serviceAgent.Logout().GetAwaiter().GetResult();
+        }
+
     }
 }

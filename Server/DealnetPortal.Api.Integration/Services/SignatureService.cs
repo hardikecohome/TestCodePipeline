@@ -70,7 +70,13 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
                 var fields = PrepareFormFields(contract);
                 _loggingService.LogInfo($"{fields.Count} fields collected");
-                
+
+                var logRes = LoginToService();
+                if (logRes.Any(a => a.Type == AlertType.Error))
+                {
+                    LogAlerts(alerts);
+                    return alerts;
+                }
                 var trRes = CreateTransaction(contract);
                 if (trRes.Item2?.Any() ?? false)
                 {
@@ -96,6 +102,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 var docId = docRes.Item1;
                 _loggingService.LogInfo($"eSignature document profile [{docId}] was created and uploaded successefully");
+                UpdateContractDetails(contractId, ownerUserId, transId.ToString(), docId.ToString(), SignatureStatus.ProfileCreated);
 
                 var insertRes = InsertAgreementFields(docId, fields);
                 if (insertRes?.Any() ?? false)
@@ -111,6 +118,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
+                    UpdateContractDetails(contractId, ownerUserId, null, null, SignatureStatus.FieldsMerged);
                 }                
 
                 var removeRes = RemoveExtraSignatures(docId, signatureUsers);
@@ -150,6 +158,7 @@ namespace DealnetPortal.Api.Integration.Services
                         return alerts;
                     }
                     _loggingService.LogInfo($"Invitations for agreement document form {docId} sent successefully");
+                    UpdateContractDetails(contractId, ownerUserId, null, null, SignatureStatus.InvitationsSent);
                 }               
             }
             else
@@ -165,6 +174,119 @@ namespace DealnetPortal.Api.Integration.Services
             }
             LogAlerts(alerts);
             return alerts;
+        }
+
+        public IList<Alert> GetContractAgreement(int contractId, string ownerUserId)
+        {
+            List<Alert> alerts = new List<Alert>();
+
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                if (!string.IsNullOrEmpty(contract.Details.SignatureDocumentId) ||
+                    !contract.Details.SignatureStatus.HasValue)
+                {
+                    var logRes = LoginToService();
+                    if (logRes.Any(a => a.Type == AlertType.Error))
+                    {
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
+                    long docId = 0;
+                    long.TryParse(contract.Details.SignatureDocumentId, out docId);
+                    var getRes = _signatureServiceAgent.GetCopy(docId).GetAwaiter().GetResult();
+                    if (getRes?.Item2?.Any() ?? false)
+                    {
+                        alerts.AddRange(getRes.Item2);
+                    }
+                    //TODO: add return of document
+
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Message = $"Digital signature for contract with id {contractId} doesn't complete",
+                        Header = "Can't get contract agreement"
+                    });
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Message = $"Can't get contract with id {contractId}",
+                    Header = "Can't get contract"
+                });
+            }
+
+            return alerts;
+            throw new NotImplementedException();
+        }
+
+        public IList<Alert> GetSignatureResults(int contractId, string ownerUserId)
+        {
+            throw new NotImplementedException();
+            //List<Alert> alerts = new List<Alert>();
+            //var logRes = LoginToService();
+            //if (logRes.Any(a => a.Type == AlertType.Error))
+            //{
+            //    LogAlerts(alerts);
+            //    return alerts;
+            //}
+
+            //return alerts;
+        }
+
+        public SignatureStatus GetSignatureStatus(int contractId, string ownerUserId)
+        {
+            SignatureStatus status = SignatureStatus.NotInitiated;            
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                status = contract.Details.SignatureStatus ?? SignatureStatus.NotInitiated;
+            }
+            return status;
+        }
+
+        private void UpdateContractDetails(int contractId, string ownerUserId, string transactionId, string dpId, SignatureStatus? status)
+        {
+            try
+            {            
+                var contract = _contractRepository.GetContract(contractId, ownerUserId);
+                if (contract != null)
+                {
+                    bool updated = false;
+                    if (!string.IsNullOrEmpty(transactionId))
+                    {
+                        contract.Details.SignatureTransactionId = transactionId;
+                        updated = true;
+                    }
+
+                    if (!string.IsNullOrEmpty(dpId))
+                    {
+                        contract.Details.SignatureDocumentId = dpId;
+                        updated = true;
+                    }
+
+                    if (status.HasValue)
+                    {
+                        contract.Details.SignatureStatus = status.Value;
+                        updated = true;
+                    }
+
+                    if (updated)
+                    {
+                        _unitOfWork.Save();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Error on update contract details", ex);
+            }
         }
 
         private void LogAlerts(IList<Alert> alerts)
@@ -198,42 +320,40 @@ namespace DealnetPortal.Api.Integration.Services
             return fields;
         }
 
-        //private IList<Alert> LoginToService()
-        //{
-            
-        //}
+        private IList<Alert> LoginToService()
+        {
+            List<Alert> alerts = new List<Alert>();
+            var res = _signatureServiceAgent.Login(_eCoreLogin, _eCoreOrganisation, _eCorePassword).GetAwaiter().GetResult();
+            alerts.AddRange(res);
+            if (alerts.Any(a => a.Type == AlertType.Error))
+            {
+                _loggingService.LogError("Can't login to eCore signature service with provided credentials");
+            }
+            return alerts;
+        }
 
-        //private IList<Alert> LogoutFromService()
-        //{
-
-        //}
+        private bool LogoutFromService()
+        {
+            return _signatureServiceAgent.Logout().GetAwaiter().GetResult();
+        }
 
         private Tuple<long, IList<Alert>> CreateTransaction(Contract contract)
         {
             long transId = 0;
             List<Alert> alerts = new List<Alert>();
-            var res = _signatureServiceAgent.Login(_eCoreLogin, _eCoreOrganisation, _eCorePassword).GetAwaiter().GetResult();
-            alerts.AddRange(res);
-            if (res.All(a => a.Type != AlertType.Error))
-            {
-                var transactionName = contract.PrimaryCustomer?.FirstName + contract.PrimaryCustomer?.LastName;
+            var transactionName = contract.PrimaryCustomer?.FirstName + contract.PrimaryCustomer?.LastName;
 
-                var transRes = _signatureServiceAgent.CreateTransaction(transactionName).GetAwaiter().GetResult();
-                alerts.AddRange(transRes.Item2);
-                if (transRes.Item2.All(a => a.Type != AlertType.Error))
-                {
-                    transId = transRes.Item1.sid;                    
-                    //TODO: store transId to DB
-                }
-                else
-                {
-                    _loggingService.LogError("Can't create eCore transaction");
-                }
+            var transRes = _signatureServiceAgent.CreateTransaction(transactionName).GetAwaiter().GetResult();
+            alerts.AddRange(transRes.Item2);
+            if (transRes.Item2.All(a => a.Type != AlertType.Error))
+            {
+                transId = transRes.Item1.sid;
             }
             else
             {
-                _loggingService.LogError("Can't login to eCore signature service with provided credentials");
-            }            
+                _loggingService.LogError("Can't create eCore transaction");
+            }
+
             return new Tuple<long, IList<Alert>>(transId, alerts);
         }
 
@@ -275,7 +395,6 @@ namespace DealnetPortal.Api.Integration.Services
                 if (resPr.Item2?.All(a => a.Type != AlertType.Error) ?? true)
                 {
                     dpId = resPr.Item1.sid;
-                    //TODO: store dpId to DB
 
                     var resDv = _signatureServiceAgent.UploadDocument(dpId, agreementTemplate.AgreementForm, agreementTemplate.TemplateName).GetAwaiter().GetResult();
                     if (resDv.Item2?.Any() ?? false)

@@ -36,5 +36,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
         Task<IList<Alert>> ConfigureRoles(long transactionSid, eoConfigureRolesRole[] roles);
 
         Task<IList<Alert>> ConfigureInvitation(long transactionSid, string roleName, string senderFirstName, string senderLastName, string senderEmail);
+
+        Task<Tuple<documentType, IList<Alert>>> GetCopy(long dpSid);
+
+        Task<Tuple<signatureResultListTypeTransaction, IList<Alert>>> SearchSignatureResults(long transactionSid);
     }
 }
