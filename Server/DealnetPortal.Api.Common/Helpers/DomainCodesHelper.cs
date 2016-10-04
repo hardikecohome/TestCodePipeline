@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DealnetPortal.Web.Common.Helpers
+namespace DealnetPortal.Api.Common.Helpers
 {
-    public static class AdministrativeAreasHelper
+    public static class DomainCodesHelper
     {
-        public static string ToProvinceAbbreviation(this string name)
+        public static string ToProvinceCode(this string name)
         {
-            if (name == null)
+            if (string.IsNullOrEmpty(name))
             {
-                return null;
+                return name;
             }
             switch (name.ToUpper())
             {
@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.Common.Helpers
                 case "YUKON":
                     return "YT";
                 default:
-                    return null;
+                    return name.ToUpper(); // in a case when code passed as parameter
             }
         }
     }

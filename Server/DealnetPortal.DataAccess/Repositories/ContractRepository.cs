@@ -192,7 +192,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public ProvinceTaxRate GetProvinceTaxRate(string province)
         {
-            return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.ProvinceAbbreviation == province);
+            return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.Province == province);
         }
 
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)

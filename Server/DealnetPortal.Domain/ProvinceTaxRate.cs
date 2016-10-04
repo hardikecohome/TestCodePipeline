@@ -11,7 +11,7 @@ namespace DealnetPortal.Domain
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string ProvinceAbbreviation { get; set; }
+        public string Province { get; set; }
         public double Rate { get; set; }
     }
 }

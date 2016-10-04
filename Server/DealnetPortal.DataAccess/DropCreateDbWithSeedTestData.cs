@@ -72,19 +72,19 @@ namespace DealnetPortal.DataAccess
             //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
             var taxRates = new[]
             {
-                new ProvinceTaxRate {ProvinceAbbreviation = "AB", Rate = 5},
-                new ProvinceTaxRate {ProvinceAbbreviation = "BC", Rate = 12},
-                new ProvinceTaxRate {ProvinceAbbreviation = "MB", Rate = 13},
-                new ProvinceTaxRate {ProvinceAbbreviation = "NB", Rate = 15},
-                new ProvinceTaxRate {ProvinceAbbreviation = "NL", Rate = 15},
-                new ProvinceTaxRate {ProvinceAbbreviation = "NT", Rate = 5},
-                new ProvinceTaxRate {ProvinceAbbreviation = "NS", Rate = 15},
-                new ProvinceTaxRate {ProvinceAbbreviation = "NU", Rate = 5},
-                new ProvinceTaxRate {ProvinceAbbreviation = "ON", Rate = 13},
-                new ProvinceTaxRate {ProvinceAbbreviation = "PE", Rate = 14},
-                new ProvinceTaxRate {ProvinceAbbreviation = "QC", Rate = 14.975},
-                new ProvinceTaxRate {ProvinceAbbreviation = "SK", Rate = 10},
-                new ProvinceTaxRate {ProvinceAbbreviation = "YT", Rate = 5}
+                new ProvinceTaxRate {Province = "AB", Rate = 5},
+                new ProvinceTaxRate {Province = "BC", Rate = 12},
+                new ProvinceTaxRate {Province = "MB", Rate = 13},
+                new ProvinceTaxRate {Province = "NB", Rate = 15},
+                new ProvinceTaxRate {Province = "NL", Rate = 15},
+                new ProvinceTaxRate {Province = "NT", Rate = 5},
+                new ProvinceTaxRate {Province = "NS", Rate = 15},
+                new ProvinceTaxRate {Province = "NU", Rate = 5},
+                new ProvinceTaxRate {Province = "ON", Rate = 13},
+                new ProvinceTaxRate {Province = "PE", Rate = 14},
+                new ProvinceTaxRate {Province = "QC", Rate = 14.975},
+                new ProvinceTaxRate {Province = "SK", Rate = 10},
+                new ProvinceTaxRate {Province = "YT", Rate = 5}
             };
             context.ProvinceTaxRates.AddRange(taxRates);
         }
