@@ -95,19 +95,29 @@
   margin-top: 16px;
 }
 
-.clear-address {
+.clear-address,
+.clear-data-link{
   vertical-align: middle;
   cursor: pointer;
   display: inline-block;
   line-height: 38px !important;
+  color: #dcdcdc;
+  text-decoration: none;
+  &:hover {
+    color: #cacaca;
+    text-decoration: none;
+  }
   @media (min-width: 1024px) {
     margin-top: 28px;
   }
+  & > *{
+    vertical-align: middle;
+  }
+  .icon+span{
+    margin-left: 10px;
+  }
 }
 
-.clear-address:hover {
-  color: #cacaca;
-}
 
 .clear-address > div {
   margin-top: -4px;
