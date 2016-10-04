@@ -1,3 +1,20 @@
+#work-items-table_wrapper{
+  .table-footer{
+    text-align: right;
+    font-weight: 700;
+    padding: 10px 0;
+    div[class^="col"]{
+      &:first-child{
+        @media (max-width: 767px) {
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+#work-items-table{
+ table-layout: auto;
+}
 .dataTable {
   font: 900 14px @fontLato;
   color: #525251;
@@ -43,12 +60,70 @@
       width: 50px !important;
     }
   }
+  th, td{
+    &:not(.checkbox-cell),
+    &:not(.id-cell),
+    &:not(.controls-cell){
+      @media (max-width: 768px) {
+        width: 40% !important;
+      }
+    }
+    &.controls-cell{
+      padding: 0 !important;
+      text-align: center;
+      white-space: nowrap;
+      @media (min-width: 768px) {
+
+      }
+
+      .contract-controls{
+        .icon-link{
+          display: inline-block;
+          padding: 5px;
+          margin: 0 5px;
+          @media (max-width: 768px) {
+            padding: 2px;
+            margin: 0 2px;
+          }
+        }
+      }
+    }
+    &.checkbox-cell{
+      width: 22px !important;
+      padding: 0;
+      text-align: center;
+      .custom-checkbox{
+        display: block;
+        padding: 10px;
+        width: 38px !important;
+        margin: 0;
+        @media (max-width: 767px) {
+          width: 28px !important;
+          padding: 5px !important;
+        }
+        &:focus{
+          outline: none;
+        }
+      }
+      .checkbox-icon{
+        margin: 0;
+      }
+    }
+    &.id-cell{
+      white-space: nowrap;
+      width: 55px !important;
+      @media (max-width: 767px) {
+        padding-left: 10px;
+        padding-right: 16px !important;
+      }
+    }
+  }
 }
 
-#work-items-table_wrapper th {
+#work-items-table_wrapper.home-page-table th {
 
   width: 30px !important;
-  &:first-child{
+  &:not(.checkbox-cell):first-child{
     width: 50px !important;
   }
   &:last-child{
@@ -67,26 +142,34 @@ table.dataTable thead .sorting{
     content: '';
   }
 }
-
-table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before,
-table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before{
-  content: '';
+table.dataTable.dtr-column > tbody > tr > td.control:before, table.dataTable.dtr-column > tbody > tr > th.control:before{
   display: none;
 }
-table.dataTable.dtr-inline.collapsed > tbody > tr:not(.child) > td:first-child:after,
-table.dataTable.dtr-inline.collapsed > tbody > tr:not(.child) > th:first-child:after{
-  content: '';
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-  border-color: @default-dark-grey-color transparent transparent transparent;
-  margin-left: 10px;
-  vertical-align: middle;
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child,
+table.dataTable.dtr-column.collapsed > tbody > tr > td.control,
+table.dataTable.dtr-column.collapsed > tbody > tr > th.control{
+  &:before{
+    content: '';
+    display: none;
+  }
+  &:after{
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    border-color: @default-dark-grey-color transparent transparent transparent;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
 }
+
 table.dataTable.dtr-inline.collapsed > tbody > tr.parent:not(.child) > td:first-child:after,
-table.dataTable.dtr-inline.collapsed > tbody > tr.parent:not(.child) > th:first-child:after{
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent:not(.child) > th:first-child:after,
+table.dataTable.dtr-column.collapsed > tbody > tr.parent:not(.child) > td.control:after,
+table.dataTable.dtr-column.collapsed > tbody > tr.parent:not(.child) > th.control:after{
   border-width: 0 5px 5px 5px;
   border-color: transparent transparent @default-dark-grey-color transparent;
 }
