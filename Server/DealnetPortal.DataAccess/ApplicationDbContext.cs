@@ -39,6 +39,8 @@ namespace DealnetPortal.DataAccess
 
         public DbSet<AgreementTemplate> AgreementTemplates { get; set; }
 
+        public virtual DbSet<ProvinceTaxRate> ProvinceTaxRates { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 

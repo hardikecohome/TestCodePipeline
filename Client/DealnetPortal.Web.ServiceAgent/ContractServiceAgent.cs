@@ -166,5 +166,19 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province)
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<ProvinceTaxRateDTO, IList<Alert>>>(
+                            $"{_fullUri}/{province}/ProvinceTaxRate");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Province Tax Rate", ex);
+                throw;
+            }
+        }
     }
 }

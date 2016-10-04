@@ -53,6 +53,20 @@ function addExistingEquipment() {
     customizeSelect();
 }
 
+function recalculateTotalMonthlyPayment() {
+    var sum = 0;
+    $(".monthly-cost").each(function() {
+        var numberValue = Number(this.value);
+        var parent = $(this).parents(".new-equipment");
+        var quantity = parent.find(".new-equipment-quantity");
+        var quantityNumber = Number(quantity.val());
+        if (!isNaN(numberValue) && !isNaN(quantityNumber)) {
+            sum += quantityNumber * numberValue;
+        }
+    });
+    $("#total-monthly-payment").val(sum);
+}
+
 function resetFormValidator(formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');

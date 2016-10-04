@@ -17,7 +17,7 @@
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize driver license");
+                        alert("Can't recognize driver licence");
                     } else {
                         document.getElementById(fnToFill).value = json.FirstName;
                         document.getElementById(lnToFill).value = json.LastName;

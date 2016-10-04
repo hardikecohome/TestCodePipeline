@@ -19,7 +19,12 @@ function copyFormData(form1, form2, validate) {
     }
 
     $(':input[name]', form2).val(function () {
-        return $(':input[name=\'' + this.name + '\']', form1).val();
+        var sourceInput = $(':input[name=\'' + this.name + '\']', form1);
+        if (!sourceInput.length) {
+            console.log(this.value);
+            return this.value;
+        }
+        return sourceInput.val();
     });
 
     $('.text-danger span', form2).remove();

@@ -363,5 +363,33 @@ namespace DealnetPortal.Api.Integration.Services
             }
             
         }
+
+        public Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var provinceTaxRate = _contractRepository.GetProvinceTaxRate(province);
+                var provinceTaxRateDto = Mapper.Map<ProvinceTaxRateDTO>(provinceTaxRate);
+                if (provinceTaxRate == null)
+                {
+                    var errorMsg = "Cannot retrieve Province Tax Rate";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+                return new Tuple<ProvinceTaxRateDTO, IList<Alert>>(provinceTaxRateDto, alerts);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
+                throw;
+            }
+
+        }
     }
 }

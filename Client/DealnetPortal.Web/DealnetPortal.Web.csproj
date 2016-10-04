@@ -349,6 +349,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\sprite\delete-name.svg" />
     <Content Include="Content\images\sprite\get-location.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
@@ -357,12 +358,15 @@
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-error.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
+    <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
+    <Content Include="Content\images\sprite\icon-successfully.svg" />
+    <Content Include="Content\images\sprite\icon-successfully1.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />
@@ -427,6 +431,10 @@
     <Content Include="Content\images\upload%403x.png" />
     <Content Include="Content\images\upload.png" />
     <Content Include="Content\images\upload.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Content\less\components\loader.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Content\less\components\icons.less" />
@@ -436,7 +444,6 @@
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
@@ -444,10 +451,6 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\settings\theme.less" />
     <Content Include="Content\less\components\forms.less" />
     <Content Include="Content\less\components\pagination.less" />
@@ -569,6 +572,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\navigation-with-warning.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\svgxuse.min.js" />

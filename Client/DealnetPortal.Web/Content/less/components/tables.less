@@ -17,15 +17,9 @@
     background-color: #f8f8f8;
     height: 29px;
     color: #525251;
-    width: 50px !important;
     border-bottom: 0 !important;
     font-weight: 900 !important;
-    &:first-child{
-      width: 50px !important;
-    }
-    &:last-child{
-      width: 30px !important;
-    }
+
   }
 
   td {
@@ -51,11 +45,23 @@
   }
 }
 
+#work-items-table_wrapper th {
+
+  width: 30px !important;
+  &:first-child{
+    width: 50px !important;
+  }
+  &:last-child{
+    width: 30px !important;
+  }
+}
+
 .dataTables_info {
   display: none;
 }
 
 table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
 table.dataTable thead .sorting{
   &:after{
     content: '';
