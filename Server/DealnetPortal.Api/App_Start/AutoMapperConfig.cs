@@ -43,6 +43,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.ContactInfo, o => o.MapFrom(src => src.ContactInfo))
                 .ForMember(x => x.PaymentInfo, o => o.MapFrom(src => src.PaymentInfo));
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>();
+            mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>();
 
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
                 .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm));

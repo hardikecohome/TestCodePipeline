@@ -175,5 +175,21 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [AllowAnonymous]
+        [Route("{province}/ProvinceTaxRate")]
+        [HttpGet]
+        public IHttpActionResult GetProvinceTaxRate(string province)
+        {
+            try
+            {
+                var result = ContractService.GetProvinceTaxRate(province);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

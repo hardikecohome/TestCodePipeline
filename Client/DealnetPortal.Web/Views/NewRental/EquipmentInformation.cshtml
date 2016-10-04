@@ -15,18 +15,32 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div class="step-item">1</div>
+        <a href="@Url.Action("BasicInfo", new { contractId = Model.ContractId })" class="step-item" onclick="$(this).click(navigateWithWarning(event));">1</a>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step2" class="step-item">2</div>
+        <a href="@Url.Action("CreditCheckConfirmation", new { contractId = Model.ContractId })" id="step2" class="step-item" onclick="$(this).click(navigateWithWarning(event));">2</a>
 
         <div id="step3" class="step-item step-active">3</div>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step4" class="step-item">4</div>
+        @if (ViewBag.IsAllInfoCompleted)
+        {
+            <a href="@Url.Action("ContactAndPaymentInfo", new {contractId = Model.ContractId})" id="step4" class="step-item">4</a>
+        }
+        else
+        {
+            <div id="step4" class="step-item">4</div>
+        }
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step5" class="step-item">5</div>
+        @if (ViewBag.IsAllInfoCompleted)
+        {
+            <a href="@Url.Action("SummaryAndConfirmation", new {contractId = Model.ContractId})" id="step5" class="step-item">5</a>
+        }
+        else
+        {
+            <div id="step5" class="step-item">5</div>
+        }
     </div>
 </div>
 <div class="form-container equipment-form-container">
@@ -56,9 +70,9 @@
 
     <div id="new-equipments">
         <h3 class="dealnet-middle-header">New Equipment Information</h3>
-        <div id="new-equipment-base">
+        <div id="new-equipment-base" class="new-equipment">
             <div class="dealnet-middle-header owner-info-label">№1
-                <div id="new-equipment-remove-0" class="additional-remove" onclick="$('#new-equipment-0').remove();"><i class="glyphicon glyphicon-remove"></i>
+                <div id="new-equipment-remove-0" class="additional-remove" onclick="$('#new-equipment-0').remove(); recalculateTotalMonthlyPayment();"><i class="glyphicon glyphicon-remove"></i>
                 </div>
             </div>
             <div class="row">
@@ -66,7 +80,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].Quantity)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.NewEquipment[0].Quantity, new {@class = "form-control dealnet-input", placeholder = "Qty"})
+                            @Html.TextBoxFor(m => m.NewEquipment[0].Quantity, new {@class = "form-control dealnet-input new-equipment-quantity", placeholder = "Qty", onchange = "recalculateTotalMonthlyPayment();" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Quantity, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -106,7 +120,7 @@
                         @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
-                            @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new {@class = "form-control dealnet-input", placeholder = "Monthly Cost"})
+                            @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new {@class = "form-control dealnet-input monthly-cost", placeholder = "Monthly Cost", onchange = "recalculateTotalMonthlyPayment();" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -126,7 +140,7 @@
         {
             for (var i = 1; i < Model.NewEquipment.Count; i++)
             {
-                <div id="new-equipment-@(i)">
+                <div id="new-equipment-@(i)" class="new-equipment">
                     <div class="dealnet-middle-header owner-info-label">
                         №@(i+1)
                         <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove();">
@@ -138,7 +152,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Quantity)
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].Quantity, new { @class = "form-control dealnet-input", placeholder = "Qty" })
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Quantity, new { @class = "form-control dealnet-input new-equipment-quantity", placeholder = "Qty", onchange = "recalculateTotalMonthlyPayment();" })
                                     @Html.ValidationMessageFor(m => m.NewEquipment[i].Quantity, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -178,7 +192,7 @@
                                 @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input", placeholder = "Monthly Cost" })
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", placeholder = "Monthly Cost", onchange = "recalculateTotalMonthlyPayment();" })
                                     @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -199,7 +213,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">            
-            <div class="align-middle dealnet-info-link add-equip-link" onclick="addNewEquipment()">
+            <div class="align-middle dealnet-info-link add-equip-link" onclick="addNewEquipment(); recalculateTotalMonthlyPayment();">
                 <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
                 <span>Add additional equipment</span>
             </div>
@@ -211,7 +225,7 @@
                 @Html.LabelFor(m => m.TotalMonthlyPayment)
                 <div class="control-group has-addon-left">
                     <div class="control-group-addon">$</div>                  
-                    @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", placeholder = "Total Monthly Payment"})
+                    @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id="total-monthly-payment", placeholder = "Total Monthly Payment"})
                     @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
                 </div>
             </div>

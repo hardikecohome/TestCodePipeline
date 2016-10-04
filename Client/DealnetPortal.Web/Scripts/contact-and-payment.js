@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     $("#home-phone").rules("add", "required");
     $("#cell-phone").rules("add", "required");
+    $("#bank-number").rules("add", "required");
+    $("#transit-number").rules("add", "required");
+    $("#account-number").rules("add", "required");
     $("#enbridge-gas-distribution-account").rules("add", "required");
     $("#meter-number").rules("add", "required");
     //

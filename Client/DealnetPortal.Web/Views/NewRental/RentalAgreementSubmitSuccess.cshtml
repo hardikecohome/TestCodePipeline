@@ -1,4 +1,6 @@
-﻿<div class="rental-successful-page">
+﻿@model DealnetPortal.Web.Models.SendEmailsViewModel
+
+<div class="rental-successful-page">
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-5 message-block">
         <div class="text-center">
@@ -7,7 +9,7 @@
             </svg>
         </div>
         <div class="message-header text-center">Rental Agreement submitted successfully!</div>
-        <div class="message-desc">Thank you for completing the rental agreement. You will receive an email shortly at <a href="mailto:@ViewBag.HomeOwnerEmail">@ViewBag.HomeOwnerEmail</a> containing a copy of the completed agreement.</div>
+        <div class="message-desc">Thank you, @Model.HomeOwnerFullName, for completing the rental agreement. You will receive an email shortly at <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> containing a copy of the completed agreement.</div>
 
         <div class="text-center">
             <a href="@Url.Action("BasicInfo")" class="btn dealnet-button dealnet-success-button wide-button">

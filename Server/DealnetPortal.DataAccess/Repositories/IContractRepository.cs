@@ -93,5 +93,12 @@ namespace DealnetPortal.DataAccess.Repositories
         /// </summary>
         /// <returns>List of Equipment Type</returns>
         IList<EquipmentType> GetEquipmentTypes();
+
+        /// <summary>
+        /// Get Province Tax Rate
+        /// </summary>
+        /// <param name="province">Province abbreviation</param>
+        /// <returns>Tax Rate for particular Province</returns>
+        ProvinceTaxRate GetProvinceTaxRate(string province);
     }
 }

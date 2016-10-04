@@ -13,6 +13,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
@@ -123,6 +124,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
+            ViewBag.IsAllInfoCompleted = false;
             if (!ModelState.IsValid)
             {
                 return View();
@@ -145,6 +147,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
                 return View();
@@ -193,7 +196,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult RentalAgreementSubmitSuccess([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
         {
             ViewBag.HomeOwnerEmail = emails.HomeOwnerEmail;
-            return View();
+            return View(emails);
         }
 
         [HttpPost]
@@ -337,6 +340,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
             }
+            ViewBag.IsAllInfoCompleted = contractResult.Item1.ContactInfo != null && contractResult.Item1.PaymentInfo != null;
             return equipmentInfo;
         }
 
@@ -358,7 +362,10 @@ namespace DealnetPortal.Web.Controllers
             summaryAndConfirmation.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summaryAndConfirmation.ContactAndPaymentInfo, contractResult.Item1);
             summaryAndConfirmation.SendEmails = new SendEmailsViewModel();
+            var rate = (await _contractServiceAgent.GetProvinceTaxRate(summaryAndConfirmation.BasicInfo.AddressInformation.Province.ToProvinceAbbreviation())).Item1;
+            if (rate != null) { summaryAndConfirmation.ProvinceTaxRate = rate.Rate; }
             summaryAndConfirmation.SendEmails.ContractId = contractId;
+            summaryAndConfirmation.SendEmails.HomeOwnerFullName = summaryAndConfirmation.BasicInfo.HomeOwner.FirstName + " " + summaryAndConfirmation.BasicInfo.HomeOwner.LastName;
             return summaryAndConfirmation;
         }
 
