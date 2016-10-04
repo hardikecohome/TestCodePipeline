@@ -3,10 +3,10 @@ html{
 }
 body{
     height: 100%;
-    font-family: @fontLato;
+    font-family: @usual-font-family;
 }
 
-@media (max-width: 991px) {
+@media @tablet-down {
     .navbar-fixed-side {
         position: fixed;
         left: 0;
@@ -65,13 +65,13 @@ body{
         margin-left: -5px;
     }
 }
-@media (min-width: 768px) {
+@media @tablet-up {
     .dealnet-sidebar-logout,
     .dealnet-sidebar-user{
         display: none;
     }
 }
-@media (min-width: 992px) {
+@media @desktop-up {
     .visible-md-block{
         top: 0;
     }

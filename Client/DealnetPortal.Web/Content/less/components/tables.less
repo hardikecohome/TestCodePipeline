@@ -5,7 +5,7 @@
     padding: 10px 0;
     div[class^="col"]{
       &:first-child{
-        @media (max-width: 767px) {
+        @media @mobile {
           text-align: left;
         }
       }
@@ -16,7 +16,7 @@
  table-layout: auto;
 }
 .dataTable {
-  font: 900 14px @fontLato;
+  font: 900 14px @usual-font-family;
   color: #525251;
   table-layout: fixed;
   &.no-footer{
@@ -43,7 +43,7 @@
     background-color: transparent !important;
     border: 1px solid #ededed;
     border-top: 0 !important;
-    font: 14px @fontLato;
+    font: 14px @usual-font-family;
     color: #525251;
     word-wrap: break-word;
     white-space: normal;
@@ -64,7 +64,7 @@
     &:not(.checkbox-cell),
     &:not(.id-cell),
     &:not(.controls-cell){
-      @media (max-width: 768px) {
+      @media @mobile {
         width: 40% !important;
       }
     }
@@ -72,7 +72,7 @@
       padding: 0 !important;
       text-align: center;
       white-space: nowrap;
-      @media (min-width: 768px) {
+      @media @tablet-up {
 
       }
 
@@ -81,7 +81,7 @@
           display: inline-block;
           padding: 5px;
           margin: 0 5px;
-          @media (max-width: 768px) {
+          @media @mobile {
             padding: 2px;
             margin: 0 2px;
           }
@@ -97,7 +97,7 @@
         padding: 10px;
         width: 38px !important;
         margin: 0;
-        @media (max-width: 767px) {
+        @media @mobile {
           width: 28px !important;
           padding: 5px !important;
         }
@@ -112,7 +112,7 @@
     &.id-cell{
       white-space: nowrap;
       width: 55px !important;
-      @media (max-width: 767px) {
+      @media @mobile {
         padding-left: 10px;
         padding-right: 16px !important;
       }

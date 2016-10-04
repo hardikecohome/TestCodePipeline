@@ -13,35 +13,35 @@
   float: left;
 }
 
-@media (min-width: 768px) {
+@media @tablet-up {
   .col-sm-5ths {
     width: 20%;
     float: left;
   }
 }
 
-@media (min-width: 992px) {
+@media @desktop-up {
   .col-md-5ths {
     width: 20%;
     float: left;
   }
 }
 
-@media (min-width: 1200px) {
+@media @desktop-lg-up {
   .col-lg-5ths {
     width: 20%;
     float: left;
   }
 }
 .br-t-min{
-  @media (max-width: 767px) {
+  @media @mobile {
     display: none;
   }
 }
 
 .dealnet-action-link,
 .dealnet-info-link{
-  font: 400 14px @fontLato;
+  font: 400 14px @usual-font-family;
   color: @info-link-color;
   display: inline-block;
   cursor: pointer;
@@ -57,24 +57,24 @@
 }
 
 .dealnet-large-header {
-  font: 900 22px @fontLato;
+  font: 900 22px @usual-font-family;
   color: @heading-text-color;
 }
 
 .dealnet-middle-header {
-  font: 700 20px @fontLato;
+  font: 700 20px @usual-font-family;
   color: @heading-text-color;
 }
 
 .dealnet-middle-header-2 {
-  font: 700 18px @fontLato;
+  font: 700 18px @usual-font-family;
   color: @heading-text-color2;
 }
 
 .dealnet-small-header {
   width: 68px;
   height: 17px;
-  font: 400 14px @fontLato;
+  font: 400 14px @usual-font-family;
   color: @heading-text-color2;
 }
 
@@ -102,7 +102,7 @@
   text-align: center;
   vertical-align: middle;
   border-radius: 50%;
-  font: 700 20px/40px @fontLato;
+  font: 700 20px/40px @usual-font-family;
   border: 4px solid @white-color;
   box-shadow: 0 0 0 1px @default-grey-color;
   color: @default-grey-color;
@@ -159,7 +159,7 @@
   float: right;
 }
 
-@media(max-width: 767px){
+@media @mobile {
   #step2 {
     margin-left: -20px;
   }
