@@ -56,6 +56,12 @@ body.no-authorized .navbar{
   line-height: 50px;
   position: relative;
   vertical-align: middle;
+  @media @desktop-up {
+    float: left;
+  }
+  @media @tablet-down {
+    float: none;
+  }
 }
 
 .navbar-header{

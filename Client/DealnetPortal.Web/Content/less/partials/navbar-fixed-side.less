@@ -6,6 +6,13 @@ body{
     font-family: @usual-font-family;
 }
 
+.navbar-toggle{
+    margin-right: 0;
+    @media @tablet-down {
+        display: block;
+    }
+}
+
 @media @tablet-down {
     .navbar-fixed-side {
         position: fixed;
@@ -18,7 +25,7 @@ body{
         display: inline-block !important;
     }
 
-    .navbar-collapse{
+    .navbar .navbar-collapse{
         position: fixed;
         top: 0;
         left: 0;
@@ -38,6 +45,13 @@ body{
             margin-left: -280px;
             transition: margin-left 0.2s linear;
             display: block;
+        }
+        .navbar-nav{
+            float: none;
+            margin: 7.5px -15px;
+            & > li{
+                float: none;
+            }
         }
     }
     .dealnet-sidebar-header{
@@ -118,6 +132,7 @@ body{
         .navbar-collapse {
             width: 100%;
             border-top: 1px solid #e7e7e7;
+
         }
 
         .navbar-nav {
