@@ -246,7 +246,7 @@ body.no-authorized .navbar{
   width: 140px;
 }
 
-@media @mobile {
+@media (max-width: 1279px) {
   body.open-menu{
     .dealnet-image-ecologo.main-logo{
       display: none;
@@ -288,9 +288,25 @@ body.no-authorized .navbar{
   width: 84%;
   z-index: 1000;
 }
-@media @desktop-only {
+@media (min-width: 1024px) {
   .dealnet-page-header {
-    width: 75%;
+    width: calc(~"100% - 33.33333333%");
+  }
+}
+@media (min-width: 1200px) {
+  .dealnet-page-header {
+    width: calc(~"100% - 16.66666667%");
+  }
+}
+@media (max-width: 1279px) {
+  .dealnet-page-header {
+    display: none !important;
+  }
+}
+
+.dealnet-login-buttons-holder{
+  @media (min-width: 768px) and (max-width: 1279px) {
+    display: block !important;
   }
 }
 .dealnet-button-image {

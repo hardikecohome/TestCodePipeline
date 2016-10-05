@@ -100,7 +100,7 @@ function showTable() {
                 ],
                 dom:
                 "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                "<'row'<'col-md-12'l>>" +
+                "<'row'<'col-md-12 col-sm-6'l>>" +
                 "<'row'<'col-md-12'tr>>" +
                 "<'row'<'col-md-12'p>>" +
                 "<'row'<'col-md-12'i>>",

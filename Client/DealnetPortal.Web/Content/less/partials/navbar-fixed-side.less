@@ -8,12 +8,12 @@ body{
 
 .navbar-toggle{
     margin-right: 0;
-    @media @tablet-down {
+    @media (max-width: 1279px) {
         display: block;
     }
 }
 
-@media @tablet-down {
+@media (max-width: 1279px) {
     .navbar-fixed-side {
         position: fixed;
         left: 0;
@@ -79,13 +79,13 @@ body{
         margin-left: -5px;
     }
 }
-@media @tablet-up {
+@media @tablet-up{
     .dealnet-sidebar-logout,
     .dealnet-sidebar-user{
         display: none;
     }
 }
-@media @desktop-up {
+@media (min-width: 1279px) {
     .visible-md-block{
         top: 0;
     }
@@ -264,4 +264,16 @@ body{
  .dealnet-sidebar-logout{
      position: relative;
  }
+}
+@media only screen and (max-width: 1279px){
+    .navbar-header {
+        float: none;
+    }
+}
+
+@media (max-width: 1279px){
+    .dealnet-body-container{
+        width: 100%;
+        margin: 0;
+    }
 }
