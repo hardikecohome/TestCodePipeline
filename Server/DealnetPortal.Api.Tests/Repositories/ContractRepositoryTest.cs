@@ -177,7 +177,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
             Assert.AreEqual(contract.SecondaryCustomers.First().FirstName, "Name changed");
 
-            
+
 
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();
@@ -295,6 +295,57 @@ namespace DealnetPortal.Api.Tests.Repositories
 
             contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
+        }
+
+        [TestMethod]
+        public void TestUpdateCustomerData()
+        {
+            Customer customer = new Customer()
+            {
+                FirstName = "First",
+                LastName = "Last",
+                DateOfBirth = DateTime.Today,
+                Phones = new List<Phone>()
+                {
+                    new Phone()
+                    {
+                        PhoneType = PhoneType.Home,
+                        PhoneNum = "123"
+                    }
+                }
+            };
+
+            var dbCustomer = _contractRepository.UpdateCustomer(customer);
+            _unitOfWork.Save();            
+            dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
+
+            customer = new Customer()
+            {
+                Id = dbCustomer.Id,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                DateOfBirth = customer.DateOfBirth,
+                Phones = new List<Phone>()
+                {
+                    new Phone()
+                    {
+                        PhoneType = PhoneType.Home,
+                        PhoneNum = "456"
+                    }
+                }
+            };         
+
+            _contractRepository.UpdateCustomer(customer);
+            try
+            {
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
+ 
         }
     }
 }

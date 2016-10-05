@@ -67,6 +67,14 @@ namespace DealnetPortal.DataAccess.Repositories
         //Contract UpdateContractPrimaryClientData(int contractId, IList<Location> locations, IList<Phone> phones);
 
         /// <summary>
+        /// Update customer data
+        /// </summary>
+        /// <param name="customer">customer information</param>
+        Customer UpdateCustomer(Customer customer);
+
+        Customer GetCustomer(int customerId);
+
+        /// <summary>
         /// Update contract state
         /// </summary>
         /// <param name="contractId">Contract Id</param>

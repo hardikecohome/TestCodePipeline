@@ -165,9 +165,9 @@ namespace DealnetPortal.DataAccess.Repositories
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
-                    if (contractData.ContactInfo != null)
+                    if (contractData.Details != null)
                     {
-                        AddOrUpdateContactInfo(contract, contractData.ContactInfo);
+                        AddOrUpdateContactDetails(contract, contractData.Details);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
@@ -185,6 +185,48 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
+        public Customer UpdateCustomer(Customer customer)
+        {
+            if (customer != null)
+            {
+                var locations = customer.Locations;
+                var emails = customer.Emails;
+                var phones = customer.Phones;
+
+                //customer.Locations = null;
+                //customer.Phones = null;
+                //customer.Emails = null;
+
+                var dbCustomer = AddOrUpdateCustomer(customer);
+                if (dbCustomer != null)
+                {
+                    if (locations != null)
+                    {
+                        AddOrUpdateCustomerLocations(dbCustomer, locations.ToList());
+                    }
+                    if (phones != null)
+                    {
+                        AddOrUpdateCustomerPhones(dbCustomer, phones.ToList());
+                    }
+                    if (emails != null)
+                    {
+                        AddOrUpdateCustomerEmails(dbCustomer, emails.ToList());
+                    }
+                }
+                return dbCustomer;
+            }
+            return null;
+        }
+
+        public Customer GetCustomer(int customerId)
+        {
+            return _dbContext.Customers
+                .Include(c => c.Phones)
+                .Include(c => c.Locations)
+                .Include(c => c.Emails)
+                .FirstOrDefault(c => c.Id == customerId);
+        }
+
         public IList<EquipmentType> GetEquipmentTypes()
         {
             return _dbContext.EquipmentTypes.ToList();
@@ -200,6 +242,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var newEquipments = equipmentInfo.NewEquipment;
             var existingEquipments = equipmentInfo.ExistingEquipment;
             var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);//(contract.Id);
+
             if (dbEquipment == null || dbEquipment.Id == 0)
             {
                 equipmentInfo.ExistingEquipment = new List<ExistingEquipment>();
@@ -302,25 +345,87 @@ namespace DealnetPortal.DataAccess.Repositories
                 else
                 {
                     addr.Customer = customer;
-                    _dbContext.Entry<Location>(addr).State = EntityState.Modified;                    
+                    addr.Id = curAddress.Id;
+                    _dbContext.Locations.AddOrUpdate(addr);
+                    //_dbContext.Entry<Location>(addr).State = EntityState.Modified;                    
                 }               
             });
 
             return customer;
         }
 
-        private void AddOrUpdateContactInfo(Contract contract, ContactInfo newData)
+        private Customer AddOrUpdateCustomerPhones(Customer customer, IList<Phone> phones)
         {
-            if (contract.ContactInfo != null)
+            var existingEntities =
+                customer.Phones.Where(
+                    p => phones.Any(pa => pa.Id == p.Id || pa.PhoneType == p.PhoneType)).ToList();
+            var entriesForDelete = customer.Phones.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
+
+            phones.ForEach(phone =>
             {
-                contract.ContactInfo.EmailAddress = newData.EmailAddress;
-                contract.ContactInfo.HouseSize = newData.HouseSize;
-                contract.ContactInfo.Phones = newData.Phones;
-            }
-            else
+                var curPhone =
+                    customer.Phones.FirstOrDefault(p => p.PhoneType == phone.PhoneType);
+                if (curPhone == null)
+                {
+                    phone.Customer = customer;
+                    customer.Phones.Add(phone);
+                }
+                else
+                {
+                    phone.Customer = customer;
+                    phone.Id = curPhone.Id;
+                    _dbContext.Phones.AddOrUpdate(phone);
+                    //_dbContext.Entry<Phone>(phone).State = EntityState.Modified;
+                }
+            });
+
+            return customer;
+        }
+
+        private Customer AddOrUpdateCustomerEmails(Customer customer, IList<Email> emails)
+        {
+            var existingEntities =
+                customer.Emails.Where(
+                    e => emails.Any(em => e.Id == em.Id || e.EmailType == em.EmailType)).ToList();
+            var entriesForDelete = customer.Emails.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
+
+            emails.ForEach(email =>
             {
-                contract.ContactInfo = newData;
-            }
+                var curEmail =
+                    customer.Emails.FirstOrDefault(e => e.EmailType == email.EmailType);
+                if (curEmail == null)
+                {
+                    email.Customer = customer;
+                    customer.Emails.Add(email);
+                }
+                else
+                {
+                    email.Customer = customer;
+                    email.Id = email.Id;
+                    _dbContext.Emails.AddOrUpdate(email);
+                    //_dbContext.Entry<Email>(email).State = EntityState.Modified;
+                }
+            });
+
+            return customer;
+        }
+
+        private void AddOrUpdateContactDetails(Contract contract, ContractDetails contractDetails)
+        {
+            contract.Details = contractDetails;
+            //if (contract.Details != null)
+            //{
+            //    if (contractDetails.)
+            //    contract.ContactInfo.EmailAddress = newData.EmailAddress;
+            //    contract.ContactInfo.HouseSize = newData.HouseSize;
+            //    contract.ContactInfo.Phones = newData.Phones;
+            //}
+            //else
+            //{                
+            //    contract.Details = contractDetails;
+            //}
         }
 
         private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)
@@ -345,7 +450,10 @@ namespace DealnetPortal.DataAccess.Repositories
             var dbCustomer = customer.Id == 0 ? null : _dbContext.Customers.Find(customer.Id);
             if (dbCustomer == null)
             {
-                dbCustomer = _dbContext.Customers.Add(customer);
+                customer.Phones = new List<Phone>();
+                customer.Locations = new List<Location>();
+                customer.Emails = new List<Email>();
+                dbCustomer = _dbContext.Customers.Add(customer);                    
             }
             else
             {
@@ -353,10 +461,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.LastName = customer.LastName;
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
             }
-            if (dbCustomer.Locations == null)
-            {
-                dbCustomer.Locations = new List<Location>();
-            }
+            //if (dbCustomer.Locations == null)
+            //{
+            //    dbCustomer.Locations = new List<Location>();
+            //}
             return dbCustomer;
         }
 

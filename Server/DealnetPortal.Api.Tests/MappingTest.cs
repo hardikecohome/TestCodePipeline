@@ -80,13 +80,13 @@ namespace DealnetPortal.Api.Tests
                     LastName = "LstName",
                     DateOfBirth = DateTime.Today,
                     Id = 1,
-                    Locations = new List<LocationDTO>()
-                    { 
-                        new LocationDTO()
-                        {
-                            City = "Paris"
-                        }
-                    }
+                    //Locations = new List<LocationDTO>()
+                    //{ 
+                    //    new LocationDTO()
+                    //    {
+                    //        City = "Paris"
+                    //    }
+                    //}
                 },
                 SecondaryCustomers = new List<CustomerDTO>()
                 {

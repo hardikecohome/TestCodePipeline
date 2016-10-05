@@ -58,6 +58,7 @@
     <Compile Include="Enumeration\AuthType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Enumeration\CreditCheckState.cs" />
+    <Compile Include="Enumeration\EmailType.cs" />
     <Compile Include="Enumeration\FlowingSummaryType.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />

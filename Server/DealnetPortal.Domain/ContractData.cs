@@ -6,9 +6,11 @@ namespace DealnetPortal.Domain
     {
         public int Id { get; set; }
         public Customer PrimaryCustomer { get; set; }
+
+        public ContractDetails Details { get; set; }
+
         public IList<Customer> SecondaryCustomers { get; set; }
         public IList<Location> Locations { get; set; }
-        public ContactInfo ContactInfo { get; set; }
         public PaymentInfo PaymentInfo { get; set; }
         public EquipmentInfo Equipment { get; set; }
     }

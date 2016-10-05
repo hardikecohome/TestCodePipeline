@@ -12,7 +12,7 @@ namespace DealnetPortal.Domain
     {
         public Contract()
         {
-            SecondaryCustomers = new List<Customer>();
+            SecondaryCustomers = new HashSet<Customer>();
             Details = new ContractDetails();            
         }
 
@@ -29,8 +29,6 @@ namespace DealnetPortal.Domain
         public Customer PrimaryCustomer { get; set; }
 
         public ICollection<Customer> SecondaryCustomers { get; set; }
-
-        public virtual ContactInfo ContactInfo { get; set; }
 
         public virtual PaymentInfo PaymentInfo { get; set; }
         

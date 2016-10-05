@@ -49,9 +49,9 @@
   <ItemGroup>
     <Compile Include="AgreementTemplate.cs" />
     <Compile Include="ApplicationUser.cs" />
-    <Compile Include="ContactInfo.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="ContractDetails.cs" />
+    <Compile Include="Email.cs" />
     <Compile Include="EquipmentInfo.cs" />
     <Compile Include="EquipmentType.cs" />
     <Compile Include="ExistingEquipment.cs" />

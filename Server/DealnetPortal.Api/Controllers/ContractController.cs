@@ -51,6 +51,8 @@ namespace DealnetPortal.Api.Controllers
             return NotFound();
         }
 
+
+
         [Route("CreateContract")]
         [HttpPut]
         public IHttpActionResult CreateContract()
@@ -185,6 +187,38 @@ namespace DealnetPortal.Api.Controllers
             {
                 var result = ContractService.GetProvinceTaxRate(province);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetCustomer")]
+        [HttpGet]
+        public IHttpActionResult GetCustomer(int customerId)
+        {
+            try
+            {
+                return Ok();
+                //var result = ContractService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
+                //return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("UpdateCustomerData")]
+        [HttpPut]
+        public IHttpActionResult UpdateCustomerData([FromBody]CustomerDataDTO[] customers)
+        {
+            try
+            {
+                return Ok();
+                //var alerts = ContractService.UpdateContractData(contractData, LoggedInUser?.UserId);
+                //return Ok(alerts);
             }
             catch (Exception ex)
             {

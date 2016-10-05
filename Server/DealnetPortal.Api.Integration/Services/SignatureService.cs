@@ -653,38 +653,38 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             //TODO: re-implement after refactoring
-            if (contract.ContactInfo != null)
-            {
-                if (!string.IsNullOrEmpty(contract.ContactInfo.EmailAddress))
-                {
-                    formFields[PdfFormFields.EmailAddress] = contract.ContactInfo.EmailAddress;
-                }
-                if (contract.ContactInfo.Phones?.Any() ?? false)
-                {
-                    var homePhone = contract.ContactInfo.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home);
-                    var cellPhone = contract.ContactInfo.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell);
-                    var businessPhone =
-                        contract.ContactInfo.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business);
+            //if (contract.ContactInfo != null)
+            //{
+            //    if (!string.IsNullOrEmpty(contract.ContactInfo.EmailAddress))
+            //    {
+            //        formFields[PdfFormFields.EmailAddress] = contract.ContactInfo.EmailAddress;
+            //    }
+            //    if (contract.ContactInfo.Phones?.Any() ?? false)
+            //    {
+            //        var homePhone = contract.ContactInfo.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home);
+            //        var cellPhone = contract.ContactInfo.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell);
+            //        var businessPhone =
+            //            contract.ContactInfo.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business);
 
-                    if (homePhone == null)
-                    {
-                        homePhone = cellPhone;
-                        cellPhone = null;
-                    }
-                    if (homePhone != null)
-                    {
-                        formFields[PdfFormFields.HomePhone] = homePhone.PhoneNum;
-                    }
-                    if (cellPhone != null)
-                    {
-                        //formFields[PdfFormFields.Ce] = cellPhone.PhoneNum;
-                    }
-                    if (businessPhone != null)
-                    {
-                        formFields[PdfFormFields.BusinessPhone] = businessPhone.PhoneNum;
-                    }
-                }
-            }
+            //        if (homePhone == null)
+            //        {
+            //            homePhone = cellPhone;
+            //            cellPhone = null;
+            //        }
+            //        if (homePhone != null)
+            //        {
+            //            formFields[PdfFormFields.HomePhone] = homePhone.PhoneNum;
+            //        }
+            //        if (cellPhone != null)
+            //        {
+            //            //formFields[PdfFormFields.Ce] = cellPhone.PhoneNum;
+            //        }
+            //        if (businessPhone != null)
+            //        {
+            //            formFields[PdfFormFields.BusinessPhone] = businessPhone.PhoneNum;
+            //        }
+            //    }
+            //}
         }
 
         private void FillApplicantsFieilds(Dictionary<string, string> formFields, Contract contract)
