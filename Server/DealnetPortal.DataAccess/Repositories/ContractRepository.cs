@@ -218,6 +218,29 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
+        public Customer UpdateCustomerData(int customerId, IList<Location> locations,
+            IList<Phone> phones, IList<Email> emails)
+        {
+            var dbCustomer = GetCustomer(customerId);
+            if (dbCustomer != null)
+            {
+                if (locations != null)
+                {
+                    AddOrUpdateCustomerLocations(dbCustomer, locations.ToList());
+                }
+                if (phones != null)
+                {
+                    AddOrUpdateCustomerPhones(dbCustomer, phones.ToList());
+                }
+                if (emails != null)
+                {
+                    AddOrUpdateCustomerEmails(dbCustomer, emails.ToList());
+                }
+                return dbCustomer;
+            }
+            return null;
+        }
+
         public Customer GetCustomer(int customerId)
         {
             return _dbContext.Customers

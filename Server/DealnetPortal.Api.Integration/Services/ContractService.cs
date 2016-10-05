@@ -389,7 +389,27 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
                 throw;
             }
+        }
 
+        public CustomerDTO GetCustomer(int customerId)
+        {
+            var customer = _contractRepository.GetCustomer(customerId);
+            return Mapper.Map<CustomerDTO>(customer);
+        }
+
+        public IList<Alert> UpdateCustomers(CustomerDataDTO[] customers)
+        {
+            var alerts = new List<Alert>();
+
+            if (customers?.Any() ?? false)
+            {
+                customers.ForEach(c =>
+                {
+                    //_contractRepository.UpdateCustomer();
+                });
+            }
+
+            return alerts;
         }
     }
 }

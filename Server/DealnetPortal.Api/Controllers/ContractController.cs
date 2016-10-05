@@ -198,16 +198,12 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetCustomer(int customerId)
         {
-            try
+            var customer = ContractService.GetCustomer(customerId);
+            if (customer != null)
             {
-                return Ok();
-                //var result = ContractService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
-                //return Ok(result);
+                return Ok(customer);
             }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
+            return NotFound();
         }
 
         [Route("UpdateCustomerData")]
@@ -216,9 +212,8 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                return Ok();
-                //var alerts = ContractService.UpdateContractData(contractData, LoggedInUser?.UserId);
-                //return Ok(alerts);
+                var alerts = ContractService.UpdateCustomers(customers);
+                return Ok(alerts);
             }
             catch (Exception ex)
             {
