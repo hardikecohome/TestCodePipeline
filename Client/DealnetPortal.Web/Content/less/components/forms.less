@@ -365,18 +365,18 @@ div.dataTables_wrapper div.dataTables_filter{
   }
 }
 div.dataTables_wrapper div.dataTables_length {
-  @media @mobile {
+  @media @tablet-down {
     width: 100%;
   }
   label{
-    @media @mobile {
+    @media @tablet-down {
       width: 100%;
     }
   }
-  @textWidth: 105px;
+
   .custom-select{
     width: 120px;
-    @media @mobile {
+    @media @tablet-down {
       width: calc(~"100% - 105px");
     }
     select{
