@@ -30,7 +30,7 @@
         @Html.HiddenFor(m => m.SendEmails.ContractId)
         @Html.HiddenFor(m => m.SendEmails.HomeOwnerFullName)
         @Html.AntiForgeryToken()
-        <div class="well rental-summary-emails">
+        <div class="well rental-summary-emails well-info">
             <p class="summary-emails-header">
                 <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
                 You can use digital signature platform to sign the application. Please enter emails of applicants below and click Send Emails.
@@ -52,7 +52,7 @@
                     {
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="addApplicantEmail@(i)">Additional Applicant (Firstname Lastname) Email</label>
+                                <label for="addApplicantEmail@(i)">Additional Applicant 1 Email</label>
                                 <div class="control-group">
                                     @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
                                     @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
@@ -63,11 +63,16 @@
                 }
                 <div class="col-md-4">
                     <div class="form-group btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'));">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form')); $('.sent-email-msg').show()">
                             Send Emails
                         </button>
                     </div>
                 </div>
+	            <div class="col-md-12">
+		            <div class="sent-email-msg" style="display: none;">
+			            Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Invites will be sent to applicants' emails.
+		            </div>
+	            </div>
             </div>
         </div>
     }
