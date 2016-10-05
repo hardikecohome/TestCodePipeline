@@ -13,5 +13,7 @@ namespace DealnetPortal.Api.Models.Contract
         public PhoneType PhoneType { get; set; }
 
         public string PhoneNum { get; set; }
+
+        public int CustomerId { get; set; }
     }
 }
