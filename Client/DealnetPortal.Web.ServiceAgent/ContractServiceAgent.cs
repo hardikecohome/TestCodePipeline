@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,6 +178,20 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get Province Tax Rate", ex);
+                throw;
+            }
+        }
+
+        public async Task<byte[]> GetXlsxReport(IEnumerable<int> ids)
+        {
+            try
+            {
+                var response = await Client.PostAsyncWithHttpResponse($"{_fullUri}/CreateXlsxReport", ids);
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Can't get xlsx report", ex);
                 throw;
             }
         }

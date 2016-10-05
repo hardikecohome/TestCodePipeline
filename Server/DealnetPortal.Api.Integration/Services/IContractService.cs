@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -17,6 +18,8 @@ namespace DealnetPortal.Api.Integration.Services
         ContractDTO CreateContract(string contractOwnerId);
 
         IList<ContractDTO> GetContracts(string contractOwnerId);
+
+        IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId);
 
         ContractDTO GetContract(int contractId, string contractOwnerId);
 
