@@ -31,11 +31,15 @@
         if($('.navbar-collapse').attr('aria-expanded') === 'false'){
           saveScrollPosition();
           $('body').addClass('open-menu');
+          $('body').addClass('menu-animated');
           $('.overlay').show();
         }else{
           $('body').removeClass('open-menu');
           resetScrollPosition();
           $('.overlay').hide();
+          setTimeout( function(){
+            $('body').removeClass('menu-animated');
+          }, 400);
         }
       });
 
@@ -44,16 +48,59 @@
         $('body').removeClass('open-menu');
         resetScrollPosition();
         $(this).hide();
+        setTimeout( function(){
+          $('body').removeClass('menu-animated');
+        }, 400);
       });
 
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();
 
+
       if($('.summary-info-hold #basic-info-form .credit-check-info-hold .col-md-6').length % 2 !== 0){
         $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
       }
+
+
+
+      $('.dealnet-disabled-input').each(function(){
+        $(this).attr('type', 'hidden');
+        var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).is('textarea')? $(this).text() : $(this).val();
+        $(this).after($('<div/>',{
+          class: "dealnet-disabled-input dealnet-disabled-input-value",
+          text: inpValue
+        }));
+      });
+
+      $(window).on('scroll', function(){
+        detectPageHeaight()
+      }).on('resize', function(){
+        detectPageHeaight()
+      });
+
+      $('.reports-contract-item').each(function(){
+        $('.contract-hidden-info').hide();
+      });
+      $('.show-full-conract-link').on('click', function(){
+        $(this).parents('.reports-contract-item').find('.contract-hidden-info').show();
+        $(this).hide();
+        return false;
+      });
     });
+
+function detectPageHeaight(){
+  if($('.dealnet-body').height() > 1000){
+    $('.back-to-top-hold').show();
+  }else{
+    $('.back-to-top-hold').hide();
+  }
+}
+
+function backToTop() {
+  $("html,body").animate({scrollTop: 0}, 1000);
+  return false;
+};
 
 function showLoader() {
     $.loader({

@@ -25,6 +25,11 @@
   font-weight: bold;
   font-size: 20px;
   line-height: 22px;
+  &.empty-title{
+    @media @tablet-down {
+      display: none;
+    }
+  }
 }
 .dealnet-section-edit-link{
   font-weight: 400;
@@ -129,7 +134,7 @@ select.dealnet-disabled-input{
   }
 }
 .credit-check-info-hold{
-  & > div[class^="col-"]{
+  & > div[class^="col-"]:not([class*="pull-"]):not([class*="push-"]){
     &:nth-child(odd) {
       @media @desktop-up {
         clear: left;
@@ -143,6 +148,18 @@ select.dealnet-disabled-input{
     &:nth-child(even) {
       .left-column-info;
    }
+  }
+  & > div[class*="pull-"]{
+    @media @desktop-up {
+      padding-right: 0;
+      .dealnet-credit-check-section{
+        padding-right: 15%;
+        border: 0;
+      }
+    }
+  }
+  & > div[class*="push-"]{
+    .left-column-info;
   }
   &.cols-no-titles{
     & > div[class^="col-"]{
@@ -169,9 +186,26 @@ select.dealnet-disabled-input{
       }
     }
   }
+  &.without-divider{
+    & > div[class^="col-"]:not([class*="pull-"]):not([class*="push-"]){
+      &:nth-child(even) {
+        .dealnet-credit-check-section:before{
+          display: none;
+        }
+      }
+    }
+  }
+  &.no-top-margin{
+    .dealnet-credit-check-section{
+      margin-top: 10px;
+      @media @desktop-up {
+        margin-top: 0;
+      }
+    }
+  }
 }
-.summury-return-quip-item{
-  &+.summury-return-quip-item{
+.summury-return-equip-item{
+  &+.summury-return-equip-item{
     border-top: 1px solid #000 !important;
     margin-top: 20px;
     padding-top: 20px;
@@ -295,68 +329,69 @@ select.dealnet-disabled-input{
     }
   }
 }
-.summary-info-hold{
-  #new-equipment-info-section{
-    .dealnet-disabled-input{
-      text-align: left;
-      font-weight: 400;
-      width: 100%;
+.equipment-info{
+  .dealnet-disabled-input{
+    text-align: left;
+    font-weight: 400;
+    width: 100%;
+  }
+}
+.summary-payment-info{
+  .dealnet-field-caption{
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 900;
+    opacity: 0.85;
+    @media @desktop-up {
+      margin: 10px 0;
+    }
+    @media @mobile {
+      margin: 10px 0;
     }
   }
+  .dealnet-field-holder{
+    text-align: left;
+    font-weight: 700;
+    font-size: 18px;
+    color: @default-dark-grey-color;
+    @media @tablet-only {
+      text-align: right;
+    }
+  }
+  .dealnet-disabled-input{
+    text-align: left;
+    font-size: 18px;
+    width: 85%;
+    float: none;
+    display: inline-block;
+    color: @default-dark-grey-color;
+    @media @tablet-only {
+      text-align: right;
+    }
+  }
+  .summary-payment-info-item{
+    @media @tablet-down {
+      margin: 5px 0 15px;
+    }
+  }
+}
+.summary-return-equipment{
+  .dealnet-section-title{
+    margin-top: 30px;
+  }
+  .dealnet-disabled-input{
+    width: 100%;
+    text-align: left;
+  }
+}
+.summary-info-hold{
 
   .summary-tax-notification{
     margin: 20px 0;
   }
 
-  .summary-payment-info{
-    .dealnet-field-caption{
-      font-size: 18px;
-      text-transform: uppercase;
-      font-weight: 900;
-      opacity: 0.85;
-      @media @desktop-up {
-        margin: 10px 0;
-      }
-      @media @mobile {
-        margin: 10px 0;
-      }
-    }
-    .dealnet-field-holder{
-      text-align: left;
-      font-weight: 700;
-      font-size: 18px;
-      color: @default-dark-grey-color;
-      @media @tablet-only {
-        text-align: right;
-      }
-    }
-    .dealnet-disabled-input{
-      text-align: left;
-      font-size: 18px;
-      width: 85%;
-      float: none;
-      display: inline-block;
-      color: @default-dark-grey-color;
-      @media @tablet-only {
-        text-align: right;
-      }
-    }
-    .summary-payment-info-item{
-      @media @tablet-down {
-        margin: 5px 0 15px;
-      }
-    }
-  }
 
-  .summary-return-equipment{
-    .dealnet-section-title{
-      margin-top: 30px;
-    }
-    .dealnet-disabled-input{
-      width: 100%;
-      text-align: left;
-    }
-  }
+
   .btn-container-proceed{
     margin-top: 20px;
   }
@@ -384,4 +419,18 @@ select.dealnet-disabled-input{
       padding: 0;
     }
   }
+}
+
+.report-documents-list{
+  li+li{
+    margin-top: 10px;
+  }
+  .icon{
+    margin-right: 10px;
+    color: #989897;
+  }
+}
+
+.back-to-top-hold{
+  display: none;
 }

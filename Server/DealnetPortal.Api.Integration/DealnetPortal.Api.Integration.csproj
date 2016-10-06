@@ -37,6 +37,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClearImageNet.70.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Interop.ClearImage">
       <HintPath>..\..\lib\Interop.ClearImage.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -87,6 +91,7 @@
     <Compile Include="Services\SignatureService.cs" />
     <Compile Include="Utility\NoTypeAttributeXmlWriter.cs" />
     <Compile Include="Utility\DriverLicenseParser.cs" />
+    <Compile Include="Utility\XlsxExporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">
@@ -109,6 +114,9 @@
       <Project>{CBE9FAAB-5346-4831-AA25-52E7C28FB029}</Project>
       <Name>DealnetPortal.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

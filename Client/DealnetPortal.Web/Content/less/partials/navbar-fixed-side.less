@@ -39,11 +39,11 @@ body{
         }
         &.in{
             margin-left: 0;
-            transition: margin-left 0.2s linear;
+            //transition: margin-left 0.2s linear;
         }
         &.collapsing{
             margin-left: -280px;
-            transition: margin-left 0.2s linear;
+            //transition: margin-left 0.2s linear;
             display: block;
         }
         .navbar-nav{
@@ -77,6 +77,14 @@ body{
     .icon-circle-hold{
         margin-right: 10px;
         margin-left: -5px;
+    }
+}
+body.menu-animated .navbar .navbar-collapse{
+    &.in{
+        transition: margin-left 0.2s linear;
+    }
+    &.collapsing{
+        transition: margin-left 0.2s linear;
     }
 }
 @media @tablet-up{
