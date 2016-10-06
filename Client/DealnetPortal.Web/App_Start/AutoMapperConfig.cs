@@ -63,9 +63,58 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerId, d => d.Ignore());
 
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
-            //cfg.CreateMap<ContactInfoViewModel, ContactInfoDTO>()
-            //    .ForMember(x => x.Id, d => d.Ignore())
-            //    .ForMember(x => x.Phones, d => d.Ignore());
+
+            cfg.CreateMap<ContactInfoViewModel, CustomerDataDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId))
+                .ForMember(x => x.CustomerInfo, d => d.Ignore())
+                .ForMember(x => x.Phones, d => d.ResolveUsing(src =>
+                {
+                    List<PhoneDTO> phones = new List<PhoneDTO>();
+                    if (!string.IsNullOrEmpty(src.HomePhone))
+                    {
+                        phones.Add(new PhoneDTO()
+                        {
+                            CustomerId = src.CustomerId,
+                            PhoneNum = src.HomePhone,
+                            PhoneType = PhoneType.Home
+                        });                    
+                    }
+                    if (!string.IsNullOrEmpty(src.BusinessPhone))
+                    {
+                        phones.Add(new PhoneDTO()
+                        {
+                            CustomerId = src.CustomerId,
+                            PhoneNum = src.BusinessPhone,
+                            PhoneType = PhoneType.Business
+                        });
+                    }
+                    if (!string.IsNullOrEmpty(src.CellPhone))
+                    {
+                        phones.Add(new PhoneDTO()
+                        {
+                            CustomerId = src.CustomerId,
+                            PhoneNum = src.CellPhone,
+                            PhoneType = PhoneType.Cell
+                        });
+                    }
+                    return phones.Any() ? phones : null;
+                }))
+                .ForMember(x => x.Emails, d => d.ResolveUsing(src =>
+                {
+                    if (!string.IsNullOrEmpty(src.EmailAddress))
+                    {
+                        return new List<EmailDTO>()
+                        {
+                            new EmailDTO()
+                            {
+                                CustomerId = src.CustomerId,
+                                EmailType = EmailType.Main,
+                                EmailAddress = src.EmailAddress
+                            }
+                        };
+                    }
+                    return null;
+                }));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)

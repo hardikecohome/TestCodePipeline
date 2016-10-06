@@ -42,6 +42,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns></returns>
         Task<IList<Alert>> UpdateContractData(ContractDataDTO contractData);
 
+        Task<IList<Alert>> UpdateCustomerData(CustomerDataDTO[] customers);
+
         //Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
 
         /// <summary>

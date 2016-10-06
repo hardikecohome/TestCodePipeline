@@ -79,6 +79,20 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> UpdateCustomerData(CustomerDataDTO[] customers)
+        {
+            try
+            {
+                return
+                    await Client.PutAsync<CustomerDataDTO[], IList<Alert>>($"{_fullUri}/UpdateCustomerData", customers);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError("Can't update customers data", ex);
+                throw;
+            }            
+        }
+
         //public async Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInfoDTO equipmentInfo)
         //{
         //    try

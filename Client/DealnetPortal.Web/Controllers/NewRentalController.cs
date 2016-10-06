@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
@@ -453,54 +454,33 @@ namespace DealnetPortal.Web.Controllers
 
         private async Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
-            var contractData = new ContractDataDTO();
-            contractData.Id = contactAndPaymentInfo.ContractId ?? 0;
-            //TODO: refactor !!!
-            //if (contactAndPaymentInfo.ContactInfo != null)
-            //{
-            //    var contactInfo = AutoMapper.Mapper.Map<ContactInfoDTO>(contactAndPaymentInfo.ContactInfo);
-            //    if (contactAndPaymentInfo.ContactInfo.HomePhone != null ||
-            //        contactAndPaymentInfo.ContactInfo.CellPhone != null ||
-            //        contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
-            //    {
-            //        contactInfo.Phones = new List<PhoneDTO>();
-            //    }
-            //    if (contactAndPaymentInfo.ContactInfo.HomePhone != null)
-            //    {
-            //        contactInfo.Phones.Add(new PhoneDTO
-            //        {
-            //            PhoneNum = contactAndPaymentInfo.ContactInfo.HomePhone,
-            //            PhoneType = PhoneType.Home
-            //        });
-            //    }
-            //    if (contactAndPaymentInfo.ContactInfo.CellPhone != null)
-            //    {
-            //        contactInfo.Phones.Add(new PhoneDTO
-            //        {
-            //            PhoneNum = contactAndPaymentInfo.ContactInfo.CellPhone,
-            //            PhoneType = PhoneType.Cell
-            //        });
-            //    }
-            //    if (contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
-            //    {
-            //        contactInfo.Phones.Add(new PhoneDTO
-            //        {
-            //            PhoneNum = contactAndPaymentInfo.ContactInfo.BusinessPhone,
-            //            PhoneType = PhoneType.Business
-            //        });
-            //    }
-            //    contractData.ContactInfo = contactInfo;
-            //}
-            //else
-            //{
-            //    contractData.ContactInfo = new ContactInfoDTO();
-            //}
+            var alerts = new List<Alert>();
+
+            var contractData = new ContractDataDTO {Id = contactAndPaymentInfo.ContractId ?? 0};
+
+            List<CustomerDataDTO> customers = new List<CustomerDataDTO>();
+            if (contactAndPaymentInfo.HomeOwnerContactInfo != null)
+            {
+                customers.Add(Mapper.Map<CustomerDataDTO>(contactAndPaymentInfo.HomeOwnerContactInfo));
+            }
+            if (contactAndPaymentInfo.CoBorrowersContactInfo?.Any() ?? false)
+            {
+                contactAndPaymentInfo.CoBorrowersContactInfo.ForEach(cnt =>
+                    customers.Add(Mapper.Map<CustomerDataDTO>(cnt)));
+            }
+
+            if (customers.Any())
+            {
+                alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
+            }
+
             if (contactAndPaymentInfo.PaymentInfo != null)
             {
                 var paymentInfo = AutoMapper.Mapper.Map<PaymentInfoDTO>(contactAndPaymentInfo.PaymentInfo);
                 contractData.PaymentInfo = paymentInfo;
+                alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
             }
-            return await _contractServiceAgent.UpdateContractData(contractData);
+            return alerts;
         }
 
 

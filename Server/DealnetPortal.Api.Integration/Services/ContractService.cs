@@ -401,12 +401,30 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
 
-            if (customers?.Any() ?? false)
-            {
-                customers.ForEach(c =>
+            try
+            {            
+                if (customers?.Any() ?? false)
                 {
-                    //_contractRepository.UpdateCustomer();
+                    customers.ForEach(c =>
+                    {
+                        _contractRepository.UpdateCustomerData(c.Id, 
+                            Mapper.Map<IList<Location>>(c.Locations),
+                            Mapper.Map<IList<Phone>>(c.Phones),
+                            Mapper.Map<IList<Email>>(c.Emails));
+                    });
+                }
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to update customers data", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Failed to update customers data",
+                    Message = ex.ToString()
                 });
+                //throw;
             }
 
             return alerts;

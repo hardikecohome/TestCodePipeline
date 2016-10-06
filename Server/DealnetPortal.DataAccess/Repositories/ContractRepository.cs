@@ -135,15 +135,22 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     if (contractData.PrimaryCustomer != null)
                     {
+                        // ?
+                        if (contractData.PrimaryCustomer.Id == 0 && contract.PrimaryCustomer != null)
+                        {
+                            contractData.PrimaryCustomer.Id = contract.PrimaryCustomer.Id;
+                        }
+                                                
                         var homeOwner = AddOrUpdateCustomer(contractData.PrimaryCustomer);
                         if (homeOwner != null)
-                        {
+                        {                            
                             contract.PrimaryCustomer = homeOwner;
                             contract.ContractState = ContractState.CustomerInfoInputted;
                             contract.LastUpdateTime = DateTime.Now;
                         }
                     }
 
+                    //TODO: fix delete issue!!!
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
@@ -433,7 +440,7 @@ namespace DealnetPortal.DataAccess.Repositories
             });
 
             return customer;
-        }
+        }        
 
         private void AddOrUpdateContactDetails(Contract contract, ContractDetails contractDetails)
         {
@@ -491,6 +498,16 @@ namespace DealnetPortal.DataAccess.Repositories
             return dbCustomer;
         }
 
+        private Customer DeleteCustomer(int customerId)
+        {
+            var customer = GetCustomer(customerId);
+            customer.Phones.ForEach(p => customer.Phones.Remove(p));
+            customer.Locations.ForEach(l => customer.Locations.Remove(l));
+            customer.Emails.ForEach(e => customer.Emails.Remove(e));
+            customer = _dbContext.Customers.Remove(customer);
+            return customer;
+        }
+
         private bool AddOrUpdateAdditionalApplicants(Contract contract, IList<Customer> customers)
         {
             var existingEntities =
@@ -498,7 +515,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     ho => customers.Any(cho => cho.Id == ho.Id)).ToList();
 
             var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities).ToList();
-            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
+            entriesForDelete.ForEach(e => _dbContext.Customers.Remove(e));
+            //_dbContext.Entry(e).State = EntityState.Deleted);
             customers.ForEach(ho =>
             {
                 var customer = AddOrUpdateCustomer(ho);
