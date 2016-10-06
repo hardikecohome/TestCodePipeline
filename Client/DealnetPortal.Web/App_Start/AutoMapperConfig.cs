@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using AutoMapper;
 using AutoMapper.Mappers;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
@@ -81,16 +85,61 @@ namespace DealnetPortal.Web.App_Start
                     var customer = src.PrimaryCustomer;
                     if (customer != null)
                     {
-                        return $"{customer.LastName} {customer.FirstName}";
+                        return $"{customer.FirstName} {customer.LastName}";
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.ContractState.ToString()))
+                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.ContractState.GetEnumDescription()))
                 .ForMember(d => d.Action, s => s.Ignore())
-                .ForMember(d => d.Email, s => s.Ignore())
-                .ForMember(d => d.Phone, s => s.Ignore())
+                .ForMember(d => d.Email, s => s.ResolveUsing(src =>
+                {
+                    var contactInfo = src.ContactInfo;
+                    if (contactInfo != null)
+                    {
+                        return contactInfo.EmailAddress;
+                    }
+                    return string.Empty;
+                }))
+                .ForMember(d => d.Phone, s => s.ResolveUsing(src =>
+                {
+                    var phones = src.ContactInfo?.Phones;
+                    if (phones != null)
+                    {
+                        return phones.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum
+                        ?? phones.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
+                    }
+                    return string.Empty;
+                }))
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
-                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToShortDateString()));
+                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
+                .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
+                    {
+                        var equipment = src.Equipment?.NewEquipment;
+                        if (equipment != null)
+                        {
+                            return equipment.Select(eq => eq.Type).ConcatWithComma();
+                        }
+                        return string.Empty;
+                    }))
+                 .ForMember(d => d.Value, s => s.ResolveUsing(src =>
+                    {
+                        var equipment = src.Equipment;
+                        if (equipment != null)
+                        {
+                            return $"$ {equipment.TotalMonthlyPayment:0.00}";
+                        }
+                        return string.Empty;
+                    }))
+                  .ForMember(d => d.RemainingDescription, s => s.ResolveUsing(src =>
+                    {
+                        var stb = new StringBuilder();
+                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.Street));
+                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.Unit));
+                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.City));
+                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.State));
+                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.PostalCode));
+                        return stb.ToString();
+                    }));
 
                 cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                     .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
