@@ -32,66 +32,103 @@
         @Html.HiddenFor(m => m.ContractId)
         <h3 class="dealnet-middle-header">Contact Information</h3>
 
+        <h4 class="dealnet-small-header2">Home Owner Information</h4>
         <div class="row">
-            <div class="col-md-12 col-lg-4">
+            <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     @Html.Label("home-phone", "Home Phone")
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.ContactInfo.HomePhone, new {@class = "form-control dealnet-input", id = "home-phone", placeholder = "Home Phone"})
                         @Html.ValidationMessageFor(m => m.ContactInfo.HomePhone, "", new {@class = "text-danger"})
-                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-4">
+            <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     @Html.Label("cell-phone", "Cell Phone")
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.ContactInfo.CellPhone, new {@class = "form-control dealnet-input", id = "cell-phone", placeholder = "Cell Phone"})
                         @Html.ValidationMessageFor(m => m.ContactInfo.CellPhone, "", new {@class = "text-danger"})
-                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-4">
+            <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     @Html.Label("business-phone", "Business Phone")
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.ContactInfo.BusinessPhone, new {@class = "form-control dealnet-input", id = "business-phone", placeholder = "Business Phone"})
                         @Html.ValidationMessageFor(m => m.ContactInfo.BusinessPhone, "", new {@class = "text-danger"})
-                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-12 col-lg-6">
+            <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                     @Html.Label("email-address", "Email Address")
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.ContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address", type = "email"})
                         @Html.ValidationMessageFor(m => m.ContactInfo.EmailAddress, "", new {@class = "text-danger"})
-                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6">
+            <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                     @Html.Label("house-size", "House Size (sq feet)")
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.ContactInfo.HouseSize, new {@class = "form-control dealnet-input", id = "house-size", placeholder = "House Size"})
                         @Html.ValidationMessageFor(m => m.ContactInfo.HouseSize, "", new {@class = "text-danger"})
-                        <a class="clear-input"><svg aria-hidden="true" class="icon-svg icon-remove"><use xlink:href="#icon-remove"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h4 class="dealnet-small-header2">Additional Applicant (Firstname Lastname) Information</h4>
+
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                    <lalel>Home Phone</lalel>
+                    <div class="control-group">
+                        <input type="text" class="form-control dealnet-input" placeholder = "Home Phone">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                    <lalel>Cell Phone</lalel>
+                    <div class="control-group">
+                        <input type="text" class="form-control dealnet-input" placeholder = "Cell Phone">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                    <lalel>Business Phone</lalel>
+                    <div class="control-group">
+                        <input type="text" class="form-control dealnet-input" placeholder = "Business Phone">
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                    <lalel>Email Address</lalel>
+                    <div class="control-group">
+                        <input type="email" class="form-control dealnet-input" placeholder = "Email Address">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <h3 class="dealnet-middle-header">Payment Information</h3>
 
         <div class="row">
-            <div class="col-md-12 col-lg-6">
+            <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                     @Html.Label("payment-type", "Payment Type")
                     <div class="control-group">
@@ -100,7 +137,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 pap-payment">
+            <div class="col-md-6 col-lg-6 pap-payment">
                 <div class="form-group">
                     @Html.Label("preferred-withdrawal-date", "Preffered Withdrawal Date")
                     <div class="control-group">
@@ -131,7 +168,7 @@
 
         <div class="pap-payment">
             <div class="row">
-                <div class="col-md-12 col-lg-6">
+                <div class="col-md-6 col-lg-6">
                     <div class="form-group">
                         @Html.Label("bank-number", "Bank Number")
                         <div class="control-group">
@@ -140,7 +177,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-lg-6">
+                <div class="col-md-6 col-lg-6">
                     <div class="form-group">
                         @Html.Label("transit-number", "Transit Number")
                         <div class="control-group">
@@ -152,7 +189,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-12 col-lg-6">
+                <div class="col-md-6 col-lg-6">
                     <div class="form-group">
                         @Html.Label("account-number", "Account Number")
                         <div class="control-group">
@@ -167,7 +204,7 @@
 
         <div class="enbridge-payment">
             <div class="row">
-                <div class="col-md-12 col-lg-6">
+                <div class="col-md-6 col-lg-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
                         <div class="control-group">
@@ -176,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-lg-6">
+                <div class="col-md-6 col-lg-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.MeterNumber)
                         <div class="control-group">

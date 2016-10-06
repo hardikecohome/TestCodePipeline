@@ -3,10 +3,17 @@ html{
 }
 body{
     height: 100%;
-    font-family: @fontLato;
+    font-family: @usual-font-family;
 }
 
-@media (max-width: 991px) {
+.navbar-toggle{
+    margin-right: 0;
+    @media (max-width: 1279px) {
+        display: block;
+    }
+}
+
+@media (max-width: 1279px) {
     .navbar-fixed-side {
         position: fixed;
         left: 0;
@@ -18,7 +25,7 @@ body{
         display: inline-block !important;
     }
 
-    .navbar-collapse{
+    .navbar .navbar-collapse{
         position: fixed;
         top: 0;
         left: 0;
@@ -32,12 +39,19 @@ body{
         }
         &.in{
             margin-left: 0;
-            transition: margin-left 0.2s linear;
+            //transition: margin-left 0.2s linear;
         }
         &.collapsing{
             margin-left: -280px;
-            transition: margin-left 0.2s linear;
+            //transition: margin-left 0.2s linear;
             display: block;
+        }
+        .navbar-nav{
+            float: none;
+            margin: 7.5px -15px;
+            & > li{
+                float: none;
+            }
         }
     }
     .dealnet-sidebar-header{
@@ -65,13 +79,21 @@ body{
         margin-left: -5px;
     }
 }
-@media (min-width: 768px) {
+body.menu-animated .navbar .navbar-collapse{
+    &.in{
+        transition: margin-left 0.2s linear;
+    }
+    &.collapsing{
+        transition: margin-left 0.2s linear;
+    }
+}
+@media @tablet-up{
     .dealnet-sidebar-logout,
     .dealnet-sidebar-user{
         display: none;
     }
 }
-@media (min-width: 992px) {
+@media (min-width: 1279px) {
     .visible-md-block{
         top: 0;
     }
@@ -118,6 +140,7 @@ body{
         .navbar-collapse {
             width: 100%;
             border-top: 1px solid #e7e7e7;
+
         }
 
         .navbar-nav {
@@ -249,4 +272,16 @@ body{
  .dealnet-sidebar-logout{
      position: relative;
  }
+}
+@media only screen and (max-width: 1279px){
+    .navbar-header {
+        float: none;
+    }
+}
+
+@media (max-width: 1279px){
+    .dealnet-body-container{
+        width: 100%;
+        margin: 0;
+    }
 }

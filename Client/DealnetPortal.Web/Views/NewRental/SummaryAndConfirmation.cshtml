@@ -30,7 +30,7 @@
         @Html.HiddenFor(m => m.SendEmails.ContractId)
         @Html.HiddenFor(m => m.SendEmails.HomeOwnerFullName)
         @Html.AntiForgeryToken()
-        <div class="well rental-summary-emails">
+        <div class="well rental-summary-emails well-info">
             <p class="summary-emails-header">
                 <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
                 You can use digital signature platform to sign the application. Please enter emails of applicants below and click Send Emails.
@@ -52,7 +52,7 @@
                     {
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="addApplicantEmail@(i)">Additional Applicant Email</label>
+                                <label for="addApplicantEmail@(i)">Additional Applicant 1 Email</label>
                                 <div class="control-group">
                                     @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
                                     @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
@@ -63,11 +63,16 @@
                 }
                 <div class="col-md-4">
                     <div class="form-group btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'));">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form')); $('.sent-email-msg').show()">
                             Send Emails
                         </button>
                     </div>
                 </div>
+	            <div class="col-md-12">
+		            <div class="sent-email-msg" style="display: none;">
+			            Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Invites will be sent to applicants' emails.
+		            </div>
+	            </div>
             </div>
         </div>
     }
@@ -114,49 +119,7 @@
 			        </div>
 			    </div>
 			</div>
-		@if (Model.BasicInfo.AdditionalApplicants != null && Model.BasicInfo.AdditionalApplicants.Any())
-		{
-		    for (var i = 0; i < Model.BasicInfo.AdditionalApplicants.Count; i++)
-		    {
-	        <div class="col-md-6">
-	            <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
-	                <h3 class="dealnet-section-title">Additional Applicant</h3>
-	                <div class="form-group">
-	                    <div class="row">
-	                        @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
-	                        <div class="dealnet-field-holder col-xs-6">
-	                            <div class="control-group">
-	                                @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
 
-	                <div class="form-group">
-	                    <div class="row">
-	                        @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].LastName, new { @class = "dealnet-field-caption col-xs-6"})
-	                        <div class="dealnet-field-holder col-xs-6">
-	                            <div class="control-group">
-	                                @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-	                            </div>
-	                        </div>
-	                    </div>
-
-	                </div>
-	                <div class="form-group">
-	                    <div class="row">
-	                        @Html.Label("", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
-	                        <div class="dealnet-field-holder col-xs-6">
-	                            <div class="control-group date-group">
-	                                @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today"})
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    }
-	}
 			<div class="col-md-6">
 			    <div class="dealnet-credit-check-section" id="address-section">
 			        <h3 class="dealnet-section-title">Address Information <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
@@ -333,8 +296,101 @@
 	        </div>
 	    </div>
 	</form>
+
 	</div>
 	</div>
+	<hr>
+	<div class="clearfix">
+		<div class="row">
+			<div class="credit-check-info-hold">
+				@if (Model.BasicInfo.AdditionalApplicants != null && Model.BasicInfo.AdditionalApplicants.Any())
+				{
+				for (var i = 0; i < Model.BasicInfo.AdditionalApplicants.Count; i++)
+				{
+				<div class="col-md-6">
+					<div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
+						<h3 class="dealnet-section-title">Additional Applicant</h3>
+						<div class="form-group">
+							<div class="row">
+								@Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
+								<div class="dealnet-field-holder col-xs-6">
+									<div class="control-group">
+										@Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+								@Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].LastName, new { @class = "dealnet-field-caption col-xs-6"})
+								<div class="dealnet-field-holder col-xs-6">
+									<div class="control-group">
+										@Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="form-group">
+							<div class="row">
+								@Html.Label("", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+								<div class="dealnet-field-holder col-xs-6">
+									<div class="control-group date-group">
+										@Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today"})
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+				}
+					<div class="col-md-6">
+						<div class="dealnet-credit-check-section" id="contact-info-section">
+							<h3 class="dealnet-section-title">
+								Contact Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a>
+							</h3>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Home Phone</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<input type="text" class="dealnet-disabled-input" value="Home Phone" readonly="readonly">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<input type="text" class="dealnet-disabled-input" value="Cell Phone" readonly="readonly">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Business Phone</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<input type="text" class="dealnet-disabled-input" value="Business Phone" readonly="readonly">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Email Address</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<input type="email" class="dealnet-disabled-input" value="Email Address" readonly="readonly">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+
 	<hr>
 	<form id="new-equipment-info-form" class="clearfix">
 	    @Html.AntiForgeryToken()

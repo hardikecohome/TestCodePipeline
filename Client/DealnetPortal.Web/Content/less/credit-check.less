@@ -6,7 +6,7 @@
   float: right;
   clear: right;
    a{
-    font: 14px @fontLato;
+    font: 14px @usual-font-family;
   }
   .icon-calendar{
     display: none !important;
@@ -48,7 +48,7 @@
   border: none;
   background: none;
   text-align: right;
-  font: bold 14px @fontLato;
+  font: bold 14px @usual-font-family;
   color: @heading-text-color2;
   max-width: 100%;
   width: 100%;
@@ -111,7 +111,7 @@ select.dealnet-disabled-input{
 }
 
 .left-column-info{
-  @media (min-width: 992px) {
+  @media @desktop-up {
     padding-left: 0;
     .dealnet-credit-check-section{
       padding-left: 10%;
@@ -131,7 +131,7 @@ select.dealnet-disabled-input{
 .credit-check-info-hold{
   & > div[class^="col-"]{
     &:nth-child(odd) {
-      @media (min-width: 992px) {
+      @media @desktop-up {
         clear: left;
         padding-right: 0;
         .dealnet-credit-check-section{
@@ -151,7 +151,7 @@ select.dealnet-disabled-input{
           border: 0;
           padding-right: 0;
           &:before{
-            @media (min-width: 992px) {
+            @media @desktop-up {
               top: 0;
             }
           }
@@ -180,7 +180,7 @@ select.dealnet-disabled-input{
 #contact-info-form.shift-to-basic-info{
   & > div[class^="col-"]{
     &:nth-child(odd) {
-      @media (min-width: 992px) {
+      @media @desktop-up {
         clear: none;
         padding-right: 15px;
         .dealnet-credit-check-section{
@@ -198,13 +198,13 @@ select.dealnet-disabled-input{
   margin: 0 auto;
   text-align: center;
   font-size: 20px;
-  @media (max-width: 767px) {
+  @media @mobile {
     font-size: 16px;
   }
 
   .loader-container{
     margin: 170px auto 70px;
-    @media (max-width: 767px) {
+    @media @mobile {
       margin: 30px auto 20px;
       .loader{
         font-size: 17px;
@@ -237,7 +237,7 @@ select.dealnet-disabled-input{
   .equipment-proceed-success{
     font-weight: bold;
     font-size: 16px;
-    @media (max-width: 767px) {
+    @media @mobile {
       font-size: 14px;
     }
   }
@@ -247,7 +247,7 @@ select.dealnet-disabled-input{
   .add-equip-link{
     margin: 25px 0;
   }
-  @media (min-width: 992px) and (max-width: 1170px) {
+  @media @desktop-only {
     .row{
       margin: 0 -10px;
       & > div[class^="col-"]{
@@ -258,36 +258,38 @@ select.dealnet-disabled-input{
 }
 
 
-.rental-summary-emails{
+.rental-summary-emails,
+.well{
   border-radius: 0;
   box-shadow: none;
   border-color: @default-grey-color;
+  &.well-info{
+    background-color: rgba(168, 216, 238, 0.17);
+    border: solid 1px #90d0ee;
+    .icon-email{
+      color: #2f9cd0;
+    }
+  }
   .summary-emails-header{
     position: relative;
     font-size: 16px;
     margin-bottom: 10px;
-    @media (max-width: 991px) {
-      padding-left: 44px;
-    }
+    padding-left: 44px;
     .icon{
       margin: 0 8px;
-      @media (max-width: 991px) {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
+      position: absolute;
+      left: 0;
+      top: 0;
     }
   }
   .summary-emails-header2{
     font-size: 16px;
-    @media (max-width: 991px) {
-      padding-left: 44px;
-    }
+    padding-left: 44px;
   }
   .btn-container{
     .btn{
       margin-top: 20px;
-      @media (min-width: 992px) {
+      @media @desktop-up {
         margin-top: 25px;
         float: right;
         width: 85%;
@@ -314,10 +316,10 @@ select.dealnet-disabled-input{
       text-transform: uppercase;
       font-weight: 900;
       opacity: 0.85;
-      @media (min-width: 992px) {
+      @media @desktop-up {
         margin: 10px 0;
       }
-      @media (max-width: 767px) {
+      @media @mobile {
         margin: 10px 0;
       }
     }
@@ -326,7 +328,7 @@ select.dealnet-disabled-input{
       font-weight: 700;
       font-size: 18px;
       color: @default-dark-grey-color;
-      @media (min-width: 768px) and (max-width: 991px) {
+      @media @tablet-only {
         text-align: right;
       }
     }
@@ -337,12 +339,12 @@ select.dealnet-disabled-input{
       float: none;
       display: inline-block;
       color: @default-dark-grey-color;
-      @media (min-width: 768px) and (max-width: 991px) {
+      @media @tablet-only {
         text-align: right;
       }
     }
     .summary-payment-info-item{
-      @media (max-width: 991px) {
+      @media @tablet-down {
         margin: 5px 0 15px;
       }
     }
@@ -361,7 +363,7 @@ select.dealnet-disabled-input{
     margin-top: 20px;
   }
   .btn-finish{
-    @media (min-width: 992px) {
+    @media @desktop-up {
       float: left;
       margin-right: 40px;
     }
@@ -378,7 +380,7 @@ select.dealnet-disabled-input{
     .icon{
       margin-right: 10px;
     }
-    @media (min-width: 992px) {
+    @media @desktop-up {
       display: inline-block;
       text-align: left;
       padding: 0;

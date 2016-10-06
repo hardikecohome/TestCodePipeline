@@ -31,11 +31,15 @@
         if($('.navbar-collapse').attr('aria-expanded') === 'false'){
           saveScrollPosition();
           $('body').addClass('open-menu');
+          $('body').addClass('menu-animated');
           $('.overlay').show();
         }else{
           $('body').removeClass('open-menu');
           resetScrollPosition();
           $('.overlay').hide();
+          setTimeout( function(){
+            $('body').removeClass('menu-animated');
+          }, 400);
         }
       });
 
@@ -44,6 +48,9 @@
         $('body').removeClass('open-menu');
         resetScrollPosition();
         $(this).hide();
+        setTimeout( function(){
+          $('body').removeClass('menu-animated');
+        }, 400);
       });
 
       addIconsToFields();

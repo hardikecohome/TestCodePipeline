@@ -1,5 +1,5 @@
 .rental-successful-page{
-    @media (min-width: 768px){
+    @media @tablet-up {
         margin-top: 100px;
     }
     .message {
@@ -8,11 +8,11 @@
             margin: 0 auto;
             .icon-successfully {
                 margin: 40px 0 80px;
-                @media (max-width: 767px) {
+                @media @mobile {
                     margin-bottom: 50px;
                 }
             }
-            @media (max-width: 767px) {
+            @media @mobile {
                 .btn {
                     white-space: normal;
                     height: auto;
@@ -20,17 +20,17 @@
             }
         }
         &-header {
-            font-family: @fontLato;
+            font-family: @usual-font-family;
             font-size: 20px;
             font-weight: 700;
         }
         &-desc {
             margin: 25px 0 40px;
             text-align: justify;
-            @media (max-width: 991px) {
+            @media @tablet-down {
                 margin: 40px 0 90px;
             }
-            @media (max-width: 767px) {
+            @media @mobile {
                 margin: 20px 0 40px;
             }
         }

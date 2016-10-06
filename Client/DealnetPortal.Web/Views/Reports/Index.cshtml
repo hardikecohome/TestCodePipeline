@@ -1,2 +1,338 @@
-﻿<h2>Reports</h2>
+﻿<div id="label-steps">
+	<div class="dealnet-action-link">Reports</div> >
+</div>
+<!--<div class="dealnet-large-header">My Deals</div>-->
+<div class="expand-filter-template">
+	<a class="clear-data-link">
+		<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span class="hidden-xs">Clear Filters</span>
+	</a>
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#deal-info-tab" aria-controls="deal-info-tab" role="tab" data-toggle="tab">Deal Info</a></li>
+		<li role="presentation"><a href="#detailed-info-tab" aria-controls="profile" role="tab" data-toggle="tab">Detailed Info</a></li>
+	</ul>
 
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="deal-info-tab">
+			<div class="reset-form-inline">
+				<div class="label-caption">Filter</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-3 col-lg-4">
+						<div class="form-group">
+							<label for="">Deal Type</label>
+							<div class="control-group">
+								<select name="" id="" class="form-control">
+									<option value="">--not selected--</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-3 col-sm-6">
+						<div class="form-group">
+							<label for="">Date From</label>
+							<div class="control-group date-group">
+								<input type="text" class="form-control date-control">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-3 col-sm-6">
+						<div class="form-group">
+							<label for="">Date To</label>
+							<div class="control-group date-group">
+								<input type="text" class="form-control date-control">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3 col-lg-4">
+						<div class="form-group">
+							<label for="">Deal Status</label>
+							<div class="control-group">
+								<select name="" id="" class="form-control">
+									<option value="">--not selected--</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-6">
+						<div class="form-group">
+							<button class="btn dealnet-button dealnet-success-button block-button">Filter</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="detailed-info-tab">
+			<div class="reset-form-inline">
+				<div class="label-caption">Filter</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-4 col-lg-4">
+						<div class="form-group">
+							<label for="">Equipment</label>
+							<div class="control-group">
+								<input type="text" class="form-control dealnet-input">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4 col-lg-4">
+						<div class="form-group">
+							<label for="">Type of Payment</label>
+							<div class="control-group">
+								<select name="" id="" class="form-control">
+									<option value="">--not selected--</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4 col-lg-4">
+						<div class="form-group">
+							<label for="">Value of Deal</label>
+							<div class="control-group">
+								<input type="text" class="form-control dealnet-input">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-6">
+						<div class="form-group">
+							<button class="btn dealnet-button dealnet-success-button block-button">Filter</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<table id="work-items-table" class="display responsive" width="100%">
+	<thead>
+		<tr>
+			<th class="all checkbox-cell"></th>
+			<th class="all id-cell">Contract#</th>
+			<th class="all">Customer</th>
+			<th class="min-tablet">Status</th>
+			<th class="">Email</th>
+			<th class="">Phone</th>
+			<th class="">Date</th>
+			<th class="">Equipment</th>
+			<th class="">Value</th>
+			<th class="all controls-cell"></th>
+		</tr>
+	</thead>
+</table>
+
+<div class="reports-table-footer">
+	<div class="row">
+		<div class="col-sm-5 col-sm-push-7 col-lg-4 col-lg-push-8">
+			<div class="total-info">
+				<div class="row additional-info">
+					<div class="col-xs-6">Total for selected:</div>
+					<div class="col-xs-6 text-right"><span id="selectedTotal"></span></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">Grand Total:</div>
+					<div class="col-xs-6 text-right"><span id="reports-grand-total"></span></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-7 col-sm-pull-5 col-lg-8 col-lg-pull-4">
+			<div class="row additional-info">
+				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button">Preview</button></div>
+				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button">Export to Excel</button></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+@section scripts
+{
+<script type="text/javascript">
+	$(document)
+		.ready(function () {
+			showTable();
+			assignDatepicker($(".date-control"));
+			setTimeout(function(){
+				$(window).trigger('resize');
+			}, 300);
+		});
+	function assignDatepicker(input) {
+		input.datepicker({
+			dateFormat: 'mm/dd/yy',
+			changeYear: true,
+			yearRange: '1900:2016',
+			minDate: Date.parse("1900-01-01"),
+			maxDate: new Date()
+		});
+	}
+
+	var data = [
+
+		{
+			"Contract#": "1111",
+			"Customer": "Fred Flintstone",
+			"Status": "Waiting on Documents",
+			"Email": "mmouse@email.com",
+			"Phone": "555-000-0000",
+			"Date": "2012/06/10",
+			"Equipment": "Furnace Air Conditioner",
+			"Value": "$ 2300.00"
+		},
+
+		{
+			"Contract#": "2345",
+			"Customer": "Fred Flintstone",
+			"Status": "Waiting on Documents",
+			"Email": "mmouse@email.com",
+			"Phone": "555-555-1234",
+			"Date": "2015/10/01",
+			"Equipment": "Furnace Air Conditioner",
+			"Value": "$ 5500.00"
+		}
+
+	]
+
+	function showTable() {
+		$('#work-items-table')
+			.DataTable({
+				data: data,
+				responsive: {
+					details: {
+						type: 'column',
+						target: 1
+					}
+				},
+				oLanguage: {
+					"sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+					"oPaginate": {
+						"sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
+						"sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
+					}
+				},
+				columns: [
+					{
+						"render": function (sdata, type, row) {
+							return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+						},
+						className: 'checkbox-cell'
+					},
+					{ "data" : "Contract#"},
+					{ "data": "Customer" },
+					{ "data": "Status" },
+					{ "data": "Email" },
+					{ "data": "Phone" },
+					{ "data": "Date"},
+					{ "data": "Equipment"},
+					{ "data": "Value"},
+					{// this is Actions Column
+						"render": function (sdata, type, row) {
+							return '<div class="contract-controls"><a href="#" class="icon-link"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+						},
+						className: 'controls-cell'
+					}
+				],
+				columnDefs: [
+					{
+						className: 'control id-cell',
+						targets: 1
+					},
+					{
+						targets  : [0, -1],
+						orderable: false,
+					}
+				],
+				order: [[1, 'asc']],
+				dom:
+				"<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+				"<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+				"<'length-filter '<'row '<'col-md-9 col-sm-6 col-xs-12'l><'#export-all-to-excel.col-md-3 col-sm-4 col-sm-offset-2 col-xs-12'>>>" +
+				"<'row'<'col-md-12'tr>>" +
+				"<'table-footer'>" +
+				"<'row'<'col-md-12'p>>" +
+				"<'row'<'col-md-12'i>>",
+				renderer: 'bootstrap',
+				footerCallback: createTableFooter
+			});
+
+		createFilter();
+	};
+
+	function createFilter(){
+		var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
+		var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
+
+		$('#table-title').html('<div class="dealnet-large-header">Reports <div class="filter-controls hidden">'+ iconFilter +' '+ iconSearch +'</div></div>');
+		$('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-success-button block-button">Export All to Excel</button>');
+
+		$('#table-title .icon-search-control').on('click', function(){
+			$(this).toggleClass('active');
+			$('#work-items-table_filter').slideToggle();
+		});
+		$('#table-title .icon-filter-control').on('click', function(){
+			$(this).toggleClass('active');
+			$('#expand-table-filter').slideToggle();
+		});
+		$('#expand-table-filter').html($('.expand-filter-template').detach());
+
+	}
+
+	function createTableFooter(row, data, start, end, display){
+		var api = this.api(), data;
+
+		// Remove the formatting to get integer data for summation
+		var intVal = function ( i ) {
+			return typeof i === 'string' ?
+			i.replace(/[\$,]/g, '')*1 :
+				typeof i === 'number' ?
+					i : 0;
+		};
+
+		// Total over all pages
+		total = api
+			.column( 8 )
+			.data()
+			.reduce( function (a, b) {
+				return intVal(a) + intVal(b);
+			}, 0 );
+
+		// Total over this page
+		pageTotal = api
+			.column( 8, { page: 'current'} )
+			.data()
+			.reduce( function (a, b) {
+				return intVal(a) + intVal(b);
+			}, 0 );
+
+		// Update footer
+		$('.table-footer').html($('.reports-table-footer').detach());
+		$('.table-footer #reports-grand-total').html('$ '+ total );
+		getTotalForSelectedCheckboxes();
+	}
+
+	function getTotalForSelectedCheckboxes(){
+		var selectedSum;
+
+		$('#work-items-table tbody').on('click', ':checkbox', function () {
+			var tr = $(this).parents('tr');
+			tr.toggleClass('selected');
+			selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : '';
+
+			if(tr[0].classList.contains("selected"))
+			{
+				selectedSum = selectedSum + parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""))
+			}
+			else
+			{
+				selectedSum = selectedSum - parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""))
+			}
+
+			$('#selectedTotal').html('$ '+ selectedSum);
+			if(selectedSum === 0){
+				$('.reports-table-footer').removeClass('has-selected-items')
+			}else{
+				$('.reports-table-footer').addClass('has-selected-items')
+			}
+		} );
+	}
+
+</script>
+}

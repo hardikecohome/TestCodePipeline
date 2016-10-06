@@ -104,7 +104,10 @@ html.ie9{
   }
 }
 .form-container{
-  @media (max-width: 991px) {
+  .dealnet-middle-header + .dealnet-small-header2{
+    margin-top: 20px;
+  }
+  @media @tablet-down {
     max-width: 528px;
     margin: 0 auto;
     .dealnet-success-button{
@@ -166,7 +169,7 @@ html.ie9{
 
   label,
   .dealnet-field-caption{
-    font: 14px @fontLato;
+    font: 14px @usual-font-family;
     color: @heading-text-color2;
   }
 
@@ -189,7 +192,7 @@ html.ie9{
 .text-danger {
   display: block;
   text-align: left;
-  font: 11px @fontLato;
+  font: 11px @usual-font-family;
   color: @danger-color;
   margin-top: 5px;
   &.proceed-error-message{
@@ -199,7 +202,7 @@ html.ie9{
     font-size: 14px;
     line-height: 1.3;
     padding: 14px 18px 12px 45px;
-    margin-top: 15px;
+    margin: 15px 0;
     background-color: rgba(217, 46, 0, 0.04);
     border: solid 1px #f4b7b7;
     color: #525251;
@@ -320,10 +323,10 @@ div.dataTables_wrapper{
 div.dataTables_wrapper div.dataTables_filter{
   width: 100%;
   margin: 0;
-  @media (min-width: 992px) {
+  @media @desktop-up {
     display: block !important;
   }
-  @media (max-width: 991px) {
+  @media @tablet-down {
     float: none;
     text-align: left;
     display: none;
@@ -337,7 +340,7 @@ div.dataTables_wrapper div.dataTables_filter{
     float: none;
     width: 100%;
     .label-caption{
-      @media (min-width: 992px) {
+      @media @desktop-up {
         display: none;
       }
     }
@@ -349,7 +352,7 @@ div.dataTables_wrapper div.dataTables_filter{
       padding: 5px;
       font-size: 16px;
       color: @heading-text-color;
-      @media (max-width: 991px) {
+      @media @tablet-down {
         display: none;
       }
 
@@ -359,24 +362,24 @@ div.dataTables_wrapper div.dataTables_filter{
     width: 280px;
     margin: 0;
     max-width: 100%;
-    @media (min-width: 992px) {
+    @media @desktop-up {
       padding-right: 30px;
     }
   }
 }
 div.dataTables_wrapper div.dataTables_length {
-  @media (max-width: 767px) {
+  @media @tablet-down {
     width: 100%;
   }
   label{
-    @media (max-width: 767px) {
+    @media @tablet-down {
       width: 100%;
     }
   }
-  @textWidth: 105px;
+
   .custom-select{
     width: 120px;
-    @media (max-width: 767px) {
+    @media @tablet-down {
       width: calc(~"100% - 105px");
     }
     select{
@@ -392,32 +395,32 @@ div.dataTables_wrapper div.dataTables_length {
   border: solid 1px @default-grey-color;
   margin-top: 0;
   margin-bottom: 0;
-  font: 500 14px/26px @fontLato;
+  font: 500 14px/26px @usual-font-family;
   color: @form-text-color;
 }
 
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-  font: 400 14px/26px @fontLato;
+  font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  font: 400 14px/26px @fontLato;
+  font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
   opacity: 1;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-  font: 400 14px/26px @fontLato;
+  font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
   opacity: 1;
 }
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  font: 400 14px/26px @fontLato;
+  font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
 }
 .placeholder,
 .pac-placeholder{ /* Internet Explorer 9 */
-  font: 400 14px/26px @fontLato;
+  font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
 }
 
@@ -430,7 +433,7 @@ div.dataTables_wrapper div.dataTables_length {
 }
 
 .dealnet-disabled-text {
-  font: 500 14px @fontLato;
+  font: 500 14px @usual-font-family;
   color: @default-grey-color;
 }
 
@@ -444,7 +447,7 @@ div.dataTables_wrapper div.dataTables_length {
     width: 100%;
   }
   .btn{
-    @media (min-width: 768px){
+    @media @tablet-up {
       margin-top: 25px;
     }
   }
@@ -459,7 +462,7 @@ div.dataTables_wrapper div.dataTables_length {
   position: absolute;
   right: 10px;
   top: 0;
-  @media (max-width: 991px) {
+  @media @tablet-down {
     display: block !important;
   }
   .icon-search-control{
@@ -489,10 +492,10 @@ div.dataTables_wrapper div.dataTables_length {
   }
 }
 #expand-table-filter{
-  @media (max-width: 991px) {
+  @media @tablet-down {
     display: none;
   }
-  @media (min-width: 992px) {
+  @media @desktop-up {
     display: block !important;
   }
 }
