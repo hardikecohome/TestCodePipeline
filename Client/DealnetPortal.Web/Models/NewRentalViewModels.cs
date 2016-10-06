@@ -125,15 +125,22 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Email Address")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
-        //[RegularExpression(@"^[0-9\.,]+$", ErrorMessage = "House Size is in incorrect format")]
-        [Display(Name = "House Size (sq feet)")]
-        public double? HouseSize { get; set; }
+        //[RegularExpression(@"^[0-9\.,]+$", ErrorMessage = "House Size is in incorrect format")]        
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public int CustomerId { get; set; }
     }
 
     public class ContactAndPaymentInfoViewModel
     {
-        public ContactInfoViewModel ContactInfo { get; set; }
+        public ContactInfoViewModel HomeOwnerContactInfo { get; set; }
+        public List<ContactInfoViewModel> CoBorrowersContactInfo { get; set; }
         public PaymentInfoViewModel PaymentInfo { get; set; }
+        [Display(Name = "House Size (sq feet)")]
+        public double? HouseSize { get; set; }
         public int? ContractId { get; set; }
     }
 

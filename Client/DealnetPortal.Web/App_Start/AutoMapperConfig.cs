@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using AutoMapper.Mappers;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
@@ -62,9 +63,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerId, d => d.Ignore());
 
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
-            cfg.CreateMap<ContactInfoViewModel, ContactInfoDTO>()
-                .ForMember(x => x.Id, d => d.Ignore())
-                .ForMember(x => x.Phones, d => d.Ignore());
+            //cfg.CreateMap<ContactInfoViewModel, ContactInfoDTO>()
+            //    .ForMember(x => x.Id, d => d.Ignore())
+            //    .ForMember(x => x.Phones, d => d.Ignore());
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -104,10 +105,16 @@ namespace DealnetPortal.Web.App_Start
                 cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>();
 
                 cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
-                cfg.CreateMap<ContactInfoDTO, ContactInfoViewModel>()
-                    .ForMember(x => x.BusinessPhone, d => d.Ignore())
-                    .ForMember(x => x.HomePhone, d => d.Ignore())
-                    .ForMember(x => x.CellPhone, d => d.Ignore());
+                cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()
+                    .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
+                    .ForMember(x => x.BusinessPhone, d => d.ResolveUsing(src =>
+                        src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum))
+                    .ForMember(x => x.HomePhone, d => d.ResolveUsing(src =>
+                        src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum))
+                    .ForMember(x => x.CellPhone, d => d.ResolveUsing(src =>
+                        src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum))
+                    .ForMember(x => x.EmailAddress, d => d.ResolveUsing(src =>
+                        src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress));
         }
 
 
