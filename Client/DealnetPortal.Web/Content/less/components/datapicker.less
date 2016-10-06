@@ -2,10 +2,23 @@
   font: 14px @usual-font-family;
   &.ui-widget-content{
     border-color: @default-grey-color;
-    padding: 10px 20px 5px;
+    padding: 10px 10px 5px;
     border-radius: 4px;
-    width: 19em;
+    width: 320px;
     z-index: 10 !important;
+    @media @mobile {
+      width: 290px;
+    }
+  }
+  table{
+    margin: 0;
+    td{
+      padding: 0;
+      a{
+        display: block;
+        margin: 0 auto;
+      }
+    }
   }
   .ui-datepicker-title{
     margin: 0 !important;
@@ -28,9 +41,13 @@
   }
   
   .ui-datepicker-header {
+    padding-bottom: 10px !important;
+    margin: 0 -10px 10px;
     background: transparent;
     border: 0;
     color: #525251;
+    border-radius: 0;
+    border-bottom: 1px solid @default-grey-color;
   }
   th{
     color: #525251;
@@ -141,8 +158,16 @@
     }
   }
 }
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next{
+  margin-left: 15px;
+}
+.ui-datepicker .ui-datepicker-title .ui-datepicker-month{
+  left: 15px;
+}
 
   .ui-datepicker-title{
+    padding-right: 20px;
     select{
       z-index: 5;
       background: transparent;
@@ -151,10 +176,10 @@
     &:after{
       content: '';
       position: absolute;
-      right: 4px;
+      right: 24px;
       top: 50%;
       z-index: 1;
-      margin-top: -3px;
+      margin-top: -7px;
       width: 0;
       height: 0;
       border-style: solid;

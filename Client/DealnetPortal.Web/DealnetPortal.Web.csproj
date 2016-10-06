@@ -349,6 +349,7 @@
     <Content Include="Content\images\sprite\delete-name.svg" />
     <Content Include="Content\images\sprite\get-location.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
+    <Content Include="Content\images\sprite\icon-audio.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
@@ -692,6 +693,8 @@
     <Content Include="Views\NewRental\RentalAgreementSubmitSuccess.cshtml" />
     <Content Include="Views\MyDeals\Index.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\Contract.cshtml" />
+    <Content Include="Views\Reports\Contracts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

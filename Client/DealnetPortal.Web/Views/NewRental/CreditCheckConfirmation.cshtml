@@ -57,7 +57,7 @@
 
 				<div class="form-group">
 					<div class="row">
-						@Html.Label("HomeOwner_BirthDate", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+						@Html.Label("HomeOwner_BirthDate", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
 								@Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = "" })
@@ -108,7 +108,7 @@
 				</div>
 				<div class="form-group">
 					<div class="row">
-						@Html.Label("additional-birth-date-1", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+						@Html.Label("additional-birth-date-1", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
 								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
@@ -157,7 +157,7 @@
 				</div>
 				<div class="form-group">
 					<div class="row">
-						@Html.Label("additional-birth-date-2", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+						@Html.Label("additional-birth-date-2", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
 								@Html.TextBoxFor(m => Model.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
@@ -206,7 +206,7 @@
 
 				<div class="form-group">
 					<div class="row">
-						@Html.Label("additional-birth-date-3", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+						@Html.Label("additional-birth-date-3", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group date-group">
 								@Html.TextBoxFor(m => Model.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
@@ -349,13 +349,13 @@
 
 	<div class="row" id="saveproceed-button">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="text-danger proceed-error-message" id="proceed-error-message" style="display: none;">
+				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-error"></use></svg>
+				You can't proceed until all applicants agree to send their personal data to credit check
+			</div>
 		    <button class="btn dealnet-button dealnet-success-button" id="check-credit-button">
 		        Check Credit
 		    </button>
-		    <div class="text-danger proceed-error-message" id="proceed-error-message" style="display: none;">
-			    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-error"></use></svg>
-			    You can't proceed until all applicants agree to send their personal data to credit check
-		    </div>
 		</div>
 	</div>
 </div>
@@ -400,7 +400,7 @@
 
 								<div class="form-group">
 									<div class="row">
-										@Html.Label("birth-date", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+										@Html.Label("birth-date", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
 										<div class="dealnet-field-holder col-xs-6">
 											<div class="control-group date-group">
 												@Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "birth-date", data_val_date = "Date must be in range 1900 - Today" })
@@ -469,7 +469,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 
 								<div class="form-group">
 									<div class="row">
-										@Html.Label("additional" + (i + 1) + "-birth-date", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+										@Html.Label("additional" + (i + 1) + "-birth-date", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
 										<div class="dealnet-field-holder col-xs-6">
 											<div class="control-group date-group">
 												@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional" + (i + 1) + "-birth-date", data_val_date = "Date must be in range 1900 - Today" })

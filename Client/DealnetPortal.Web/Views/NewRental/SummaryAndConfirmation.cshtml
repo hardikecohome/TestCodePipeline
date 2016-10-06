@@ -30,7 +30,7 @@
         @Html.HiddenFor(m => m.SendEmails.ContractId)
         @Html.HiddenFor(m => m.SendEmails.HomeOwnerFullName)
         @Html.AntiForgeryToken()
-        <div class="well rental-summary-emails">
+        <div class="well rental-summary-emails well-info">
             <p class="summary-emails-header">
                 <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
                 You can use digital signature platform to sign the application. Please enter emails of applicants below and click Send Emails.
@@ -540,7 +540,7 @@
                 </h3>
                 @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
                 {
-	            <div class="summury-return-quip-item">
+	            <div class="summury-return-equip-item">
                     <div class="form-group">
                         <div class="row">
                             <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
