@@ -177,8 +177,6 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
             Assert.AreEqual(contract.SecondaryCustomers.First().FirstName, "Name changed");
 
-
-
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
             _unitOfWork.Save();
             Assert.IsTrue(isDeleted);

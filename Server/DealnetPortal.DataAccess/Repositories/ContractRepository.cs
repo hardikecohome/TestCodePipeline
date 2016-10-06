@@ -515,7 +515,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     ho => customers.Any(cho => cho.Id == ho.Id)).ToList();
 
             var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities).ToList();
-            entriesForDelete.ForEach(e => _dbContext.Customers.Remove(e));
+            entriesForDelete.ForEach(e => contract.SecondaryCustomers.Remove(e));
+            //entriesForDelete.ForEach(e => _dbContext.Customers.Remove(e));
             //_dbContext.Entry(e).State = EntityState.Deleted);
             customers.ForEach(ho =>
             {
