@@ -42,6 +42,15 @@ input[type=text]::-ms-reveal {
     width: 0; 
     height: 0; 
 }
+textarea[type="hidden"]{
+  visibility:hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px !important;
+  height: 30px;
+  z-index: -1;
+}
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
@@ -104,19 +113,28 @@ html.ie9{
   }
 }
 .form-container{
-  @media @tablet-down {
+  margin: 0 auto;
+  @media @tablet-only {
+    max-width: 728px;
+  }
+  @media @mobile{
     max-width: 528px;
-    margin: 0 auto;
-    .dealnet-success-button{
-      width: 100%;
-      display: block;
-      max-width: 355px;
+  }
+  .form-section{
+    @media @tablet-down {
+      max-width: 528px;
       margin: 0 auto;
-      height: 49px;
-      line-height: 36px;
-    }
-    .scanlicence-notify{
-      text-align: center;
+      .dealnet-success-button{
+        width: 100%;
+        display: block;
+        max-width: 355px;
+        margin: 0 auto;
+        height: 49px;
+        line-height: 36px;
+      }
+      .scanlicence-notify{
+        text-align: center;
+      }
     }
   }
 }
