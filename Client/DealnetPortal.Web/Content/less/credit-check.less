@@ -292,31 +292,33 @@ select.dealnet-disabled-input{
 }
 
 
-.rental-summary-emails{
+.rental-summary-emails,
+.well{
   border-radius: 0;
   box-shadow: none;
   border-color: @default-grey-color;
+  &.well-info{
+    background-color: rgba(168, 216, 238, 0.17);
+    border: solid 1px #90d0ee;
+    .icon-email{
+      color: #2f9cd0;
+    }
+  }
   .summary-emails-header{
     position: relative;
     font-size: 16px;
     margin-bottom: 10px;
-    @media @tablet-down {
-      padding-left: 44px;
-    }
+    padding-left: 44px;
     .icon{
       margin: 0 8px;
-      @media @tablet-down {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
+      position: absolute;
+      left: 0;
+      top: 0;
     }
   }
   .summary-emails-header2{
     font-size: 16px;
-    @media @tablet-down {
-      padding-left: 44px;
-    }
+    padding-left: 44px;
   }
   .btn-container{
     .btn{
