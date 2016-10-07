@@ -178,7 +178,7 @@
                 <div class="form-group">
                     <label for="additional-first-name-1">First Name</label>
                     <div class="control-group">
-                        @Html.HiddenFor(m => m.AdditionalApplicants[0].CustomerId, new { @class = "form-control dealnet-input", id = "additional-id-1", disabled = "disabled" })
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].CustomerId, new { @class = "form-control dealnet-input", id = "additional-id-1", disabled = "disabled" })
                         @*@Html.HiddenFor(m => m.AdditionalApplicants[0].CustomerId)*@
                         @Html.TextBoxFor(m => m.AdditionalApplicants[0].FirstName, new {@class = "form-control dealnet-input", id = "additional-first-name-1", placeholder = "First Name", disabled = "disabled"})
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].FirstName, "", new {@class = "text-danger"})

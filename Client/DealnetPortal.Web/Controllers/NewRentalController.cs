@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        [HttpPost]|
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {
