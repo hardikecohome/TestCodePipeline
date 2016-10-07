@@ -52,7 +52,7 @@
                     {
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="addApplicantEmail@(i)">Additional Applicant 1 Email</label>
+                                <label for="addApplicantEmail@(i)"> &lt;Name of an applicant&gt; Email</label>
                                 <div class="control-group">
                                     @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
                                     @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
@@ -63,7 +63,7 @@
                 }
                 <div class="col-md-4">
                     <div class="form-group btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form')); $('.sent-email-msg').show()">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form')); $('.sent-email-msg').show(); $(this).text('Resend Emails')">
                             Send Emails
                         </button>
                     </div>
@@ -71,7 +71,7 @@
 	            <div class="col-md-12">
 		            <div class="sent-email-msg text-center" style="display: none;">
 			            <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-success"></use></svg>Invites were sent to emails</h4>
-			            Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Invites will be sent to applicants' emails.
+			            Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails
 		            </div>
 	            </div>
             </div>
