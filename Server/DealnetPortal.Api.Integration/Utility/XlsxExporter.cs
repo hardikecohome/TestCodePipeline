@@ -35,8 +35,9 @@ namespace DealnetPortal.Api.Integration.Utility
                     worksheet.Cells[counter, 1].Value = contract.Id;
                     worksheet.Cells[counter, 2].Value = contract.PrimaryCustomer?.FirstName + " " + contract.PrimaryCustomer?.LastName;
                     worksheet.Cells[counter, 3].Value = contract.ContractState.GetEnumDescription();
-                    worksheet.Cells[counter, 4].Value = contract.ContactInfo?.EmailAddress;
-                    worksheet.Cells[counter, 5].Value = contract.ContactInfo?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum ?? contract.ContactInfo?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
+                    worksheet.Cells[counter, 4].Value =
+                        contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
+                    worksheet.Cells[counter, 5].Value = contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum ?? contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
                     worksheet.Cells[counter, 6].Value = contract.LastUpdateTime?.ToString(CultureInfo.CurrentCulture);
                     worksheet.Cells[counter, 7].Value = contract.Equipment?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma();
                     worksheet.Cells[counter, 8].Value = $"$ {contract.Equipment?.TotalMonthlyPayment:0.00}";
