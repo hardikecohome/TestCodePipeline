@@ -58,7 +58,10 @@ function showTable() {
                             "<'row'<'col-md-12'tr>>" +
                             "<'row'<'col-md-12'p>>" +
                             "<'row'<'col-md-12'i>>",
-                    renderer: 'bootstrap'
+                    renderer: 'bootstrap',
+                    "fnInitComplete": function(oSettings, json) {
+                      customizeSelect();
+                    }
                 });
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
@@ -72,8 +75,8 @@ function showTable() {
                 $(this).toggleClass('active');
                 $('#expand-table-filter').slideToggle();
             });
-            $('#expand-table-filter').html($('.expand-filter-template').clone());
-            $("#filter-button-2").click(function () {
+            $('#expand-table-filter').html($('.expand-filter-template').detach());
+            $("#filter-button").click(function () {
                 table.draw();
             });
         });
