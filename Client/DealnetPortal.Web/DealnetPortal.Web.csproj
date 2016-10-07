@@ -346,6 +346,7 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\sprite\back-to-top.svg" />
     <Content Include="Content\images\sprite\delete-name.svg" />
     <Content Include="Content\images\sprite\get-location.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
@@ -358,6 +359,7 @@
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
+    <Content Include="Content\images\sprite\icon-pdf.svg" />
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
@@ -533,6 +535,7 @@
     <Content Include="Content\less\components\datapicker.less" />
     <Content Include="Content\less\rental-agreement-submit-success.less" />
     <Content Include="Content\less\settings\overrides-variables.less" />
+    <Content Include="Content\less\components\modal.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
