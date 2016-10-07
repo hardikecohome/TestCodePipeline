@@ -361,19 +361,18 @@
 </div>
 }
 
-<div class="modal fade editor-modal" tabindex="-1" role="dialog" id="home-owner-modal">
-	<div class="row">
-		<div class="col-xs-1 col-md-4 col-lg-4 col-sm-3"></div>
-		<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4" style="padding-left: 0">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<div class="modal-title dealnet-large-header">Home Owner Information</div>
-					</div>
-					<div class="modal-body">
-						<div class="dealnet-credit-check-section dealnet-modal-section">
-							<form id="home-owner-section-modal">
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="home-owner-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Home Owner Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="home-owner-section-modal">
+						<div class="row">
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => Model.HomeOwner.FirstName, new { @class = "dealnet-field-caption col-xs-6"})
@@ -386,6 +385,8 @@
 									</div>
 
 								</div>
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => Model.HomeOwner.LastName, new { @class = "dealnet-field-caption col-xs-6"})
@@ -397,7 +398,8 @@
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.Label("birth-date", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
@@ -409,40 +411,34 @@
 										</div>
 									</div>
 								</div>
-							</form>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<div>
-							<button type="button" class="btn dealnet-button dealnet-success-button" onclick="if (saveChanges($('#home-owner-section-modal'), $('#home-owner-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#home-owner-modal').modal('hide'); }">Save changes</button>
-						</div>
-						<div>
-							<a href="#" data-dismiss="modal">Cancel</a>
-						</div>
-					</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#home-owner-section-modal'), $('#home-owner-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#home-owner-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs1 col-md-4 col-lg-4 col-sm-3"></div>
 	</div>
 </div>
 @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Any())
 {
 for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 {
-<div class="modal fade editor-modal" tabindex="-1" role="dialog" id="additional@(i+1)-modal">
-	<div class="row">
-		<div class="col-xs-1 col-md-4 col-lg-4 col-sm-3"></div>
-		<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4" style="padding-left: 0">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<div class="modal-title dealnet-large-header">Additional Applicant #@(i + 1)</div>
-					</div>
-					<div class="modal-body">
-						<div class="dealnet-credit-check-section dealnet-modal-section">
-							<form id="additional@(i+1)-section-modal">
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional@(i+1)-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Additional Applicant #@(i + 1) Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="additional@(i+1)-section-modal">
+						<div class="row">
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
@@ -453,8 +449,9 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 											</div>
 										</div>
 									</div>
-
 								</div>
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.AdditionalApplicants[i].LastName, new { @class = "dealnet-field-caption col-xs-6"})
@@ -466,7 +463,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.Label("additional" + (i + 1) + "-birth-date", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
@@ -478,40 +476,33 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
-							</form>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<div>
-							<button type="button" class="btn dealnet-button dealnet-success-button" onclick="if (saveChanges($('#additional@(i+1)-section-modal'), $('#additional@(i+1)-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#additional@(i+1)-modal').modal('hide'); }">Save changes</button>
-						</div>
-						<div>
-							<a href="#" data-dismiss="modal">Cancel</a>
-						</div>
-					</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional@(i+1)-section-modal'), $('#additional@(i+1)-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#additional@(i+1)-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs1 col-md-4 col-lg-4 col-sm-3"></div>
 	</div>
-
 </div>
 }
 }
 
-<div class="modal fade editor-modal" tabindex="-1" role="dialog" id="address-modal">
-	<div class="row">
-		<div class="col-xs-1 col-md-4 col-lg-4 col-sm-3"></div>
-		<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4" style="padding-left: 0">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<div class="modal-title dealnet-large-header">Address Information</div>
-					</div>
-					<div class="modal-body">
-						<div class="dealnet-credit-check-section dealnet-modal-section">
-							<form id="address-section-modal">
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="address-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Address Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="address-section-modal">
+						<div class="row">
+							<div class="col-md-9">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.AddressInformation.InstallationAddress, new { @class = "dealnet-field-caption col-xs-6"})
@@ -523,7 +514,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="col-md-3">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6"})
@@ -535,7 +527,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6"})
@@ -547,6 +540,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6"})
@@ -558,6 +553,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6"})
@@ -568,42 +565,35 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 											</div>
 										</div>
 									</div>
-
 								</div>
-							</form>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<div>
-							<button type="button" class="btn dealnet-button dealnet-success-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
-						</div>
-						<div>
-							<a href="#" data-dismiss="modal">Cancel</a>
-						</div>
-					</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs1 col-md-4 col-lg-4 col-sm-3"></div>
 	</div>
 
 </div>
 
 @if (Model.MailingAddressInformation != null)
 {
-<div class="modal fade editor-modal" tabindex="-1" role="dialog" id="mailing-address-modal">
-	<div class="row">
-		<div class="col-xs-1 col-md-4 col-lg-4 col-sm-3"></div>
-		<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4" style="padding-left: 0">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<div class="modal-title dealnet-large-header">Mailing Address</div>
-					</div>
-					<div class="modal-body">
-						<div class="dealnet-credit-check-section dealnet-modal-section">
-							<form id="mailing-address-section-modal">
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="mailing-address-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Mailing Address Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="mailing-address-section-modal">
+						<div class="row">
+							<div class="col-md-9">
 								<div class="form-group">
 									<div class="row">
 										@Html.Label("mailing_street", "Mailing Address", new { @class = "dealnet-field-caption col-xs-6" })
@@ -615,7 +605,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="col-md-3">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6"})
@@ -627,7 +618,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
-
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6"})
@@ -639,6 +631,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6"})
@@ -650,6 +644,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="col-md-6">
 								<div class="form-group">
 									<div class="row">
 										@Html.LabelFor(m => m.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6"})
@@ -660,25 +656,18 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 											</div>
 										</div>
 									</div>
-
 								</div>
-							</form>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<div>
-							<button type="button" class="btn dealnet-button dealnet-success-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
-						</div>
-						<div>
-							<a href="#" data-dismiss="modal">Cancel</a>
-						</div>
-					</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs1 col-md-4 col-lg-4 col-sm-3"></div>
 	</div>
-
 </div>
 }
 
