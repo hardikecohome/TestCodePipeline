@@ -72,7 +72,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());
 
-            mapperConfig.CreateMap<CustomerDTO, Customer>();                
+            mapperConfig.CreateMap<CustomerDTO, Customer>()
+                .ForMember(x => x.AccountId, d => d.Ignore());                
 
             mapperConfig.CreateMap<ContractDataDTO, ContractData>();
             mapperConfig.CreateMap<PaymentInfoDTO, PaymentInfo>()

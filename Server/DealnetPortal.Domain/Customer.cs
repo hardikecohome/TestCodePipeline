@@ -33,5 +33,7 @@ namespace DealnetPortal.Domain
         public virtual ICollection<Phone> Phones { get; set; }
 
         public virtual ICollection<Email> Emails { get; set; }
+
+        public string AccountId { get; set; }
     }
 }
