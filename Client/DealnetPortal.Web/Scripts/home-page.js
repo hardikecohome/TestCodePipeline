@@ -108,6 +108,7 @@ function showTable() {
                 "fnInitComplete": function(oSettings, json) {
                   customizeSelect();
                 }
+              }
             });
         var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
         $('#table-title').html('My Work Items  <div class="filter-controls hidden">'+ iconSearch +'</div></div>');

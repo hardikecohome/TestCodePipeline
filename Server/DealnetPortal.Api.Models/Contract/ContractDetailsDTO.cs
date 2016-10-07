@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 
-namespace DealnetPortal.Domain
+namespace DealnetPortal.Api.Models.Contract
 {
-    public class ContractDetails
+    public class ContractDetailsDTO
     {
+        //public int ContractId { get; set; }
         public AgreementType? AgreementType { get; set; }
 
         public double? HouseSize { get; set; }

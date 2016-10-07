@@ -115,12 +115,13 @@
     }
 
     <div class="row owner-info">
+        @Html.HiddenFor(m => m.HomeOwner.CustomerId)
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
                 <label for="first-name">First Name</label>
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = "First Name" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = "First Name"})
+                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>
@@ -128,17 +129,17 @@
             <div class="form-group">
                 <label for="last-name">Last Name</label>
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name"})
+                    @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label for="birth-date">Date of Birth</label>  
-                <div class="control-group date-group">          
-                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
+                <label for="birth-date">Date of Birth</label>
+                <div class="control-group date-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today"})
+                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>
@@ -172,33 +173,34 @@
             </div>
         }
 
-        <div class="row owner-info">
+        <div class="row owner-info">            
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-first-name-1">First Name</label>
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-1", placeholder = "First Name", disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].FirstName, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.AdditionalApplicants[0].CustomerId, new { @class = "form-control dealnet-input", id = "additional-id-1", disabled = "disabled" })
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].FirstName, new {@class = "form-control dealnet-input", id = "additional-first-name-1", placeholder = "First Name", disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].FirstName, "", new {@class = "text-danger"})
                     </div>
-                </div>    
+                </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
-                    <label for="additional-last-name-1">Last Name</label>  
-                    <div class="control-group">              
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-1", placeholder = "Last Name", disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].LastName, "", new { @class = "text-danger" })
-                    </div> 
-                </div> 
+                    <label for="additional-last-name-1">Last Name</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].LastName, new {@class = "form-control dealnet-input", id = "additional-last-name-1", placeholder = "Last Name", disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].LastName, "", new {@class = "text-danger"})
+                    </div>
+                </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
-                    <label for="additional-birth-date-1">Date of Birth</label>  
-                    <div class="control-group date-group">               
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new { @class = "text-danger" })
+                    <label for="additional-birth-date-1">Date of Birth</label>
+                    <div class="control-group date-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new {@class = "text-danger"})
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -231,31 +233,32 @@
             </div>
         }
 
-        <div class="row owner-info">
+        <div class="row owner-info">            
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-first-name-2">First Name</label>
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-2", placeholder = "First Name", disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].FirstName, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.AdditionalApplicants[1].CustomerId, new { id = "additional-id-2", disabled = "disabled" })
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].FirstName, new {@class = "form-control dealnet-input", id = "additional-first-name-2", placeholder = "First Name", disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].FirstName, "", new {@class = "text-danger"})
                     </div>
-                </div>        
+                </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-last-name-2">Last Name</label>
-                    <div class="control-group">                        
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-2", placeholder = "Last Name", disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].LastName, "", new { @class = "text-danger" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].LastName, new {@class = "form-control dealnet-input", id = "additional-last-name-2", placeholder = "Last Name", disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].LastName, "", new {@class = "text-danger"})
                     </div>
-                </div>        
+                </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-birth-date-2">Date of Birth</label>
                     <div class="control-group date-group">
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional-birth-date-2", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].BirthDate, "", new {@class = "text-danger"})
                     </div>
                 </div>
             </div>
@@ -290,33 +293,34 @@
             </div>
         }
 
-        <div class="row owner-info">
+        <div class="row owner-info">            
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-first-name-3">First Name</label>
-                    <div class="control-group">                
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-3", placeholder = "First Name", disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].FirstName, "", new { @class = "text-danger" })
+                    <div class="control-group">
+                        @Html.HiddenFor(m => m.AdditionalApplicants[2].CustomerId, new {id = "additional-id-3", disabled = "disabled" })
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].FirstName, new {@class = "form-control dealnet-input", id = "additional-first-name-3", placeholder = "First Name", disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].FirstName, "", new {@class = "text-danger"})
                     </div>
-                </div>        
+                </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-last-name-3">Last Name</label>
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-3", placeholder = "Last Name", disabled = "disabled" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].LastName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].LastName, new {@class = "form-control dealnet-input", id = "additional-last-name-3", placeholder = "Last Name", disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].LastName, "", new {@class = "text-danger"})
                     </div>
-                </div>        
+                </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="additional-birth-date-3">Date of Birth</label>
-                    <div class="control-group date-group">                
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new { @class = "text-danger" })
+                    <div class="control-group date-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today"})
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new {@class = "text-danger"})
                     </div>
-                </div>        
+                </div>
             </div>
         </div>
     </div>

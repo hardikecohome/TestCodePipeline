@@ -18,6 +18,6 @@ namespace DealnetPortal.Domain
         [MaxLength(50)]
         public string PhoneNum { get; set; }
 
-        public ContactInfo ContactInfo { get; set; }
+        public Customer Customer { get; set; }
     }
 }

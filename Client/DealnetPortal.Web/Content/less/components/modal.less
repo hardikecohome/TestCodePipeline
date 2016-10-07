@@ -13,6 +13,66 @@
   }
   .modal-body{
     padding: 30px 15px 20px;
+    min-height: 120px;
+  }
+  .btn-container{
+    width: 335px;
+    max-width: 100%;
+    margin: 10px auto 0;
+    .btn + .btn{
+      margin: 0;
+    }
+  }
+  .nav-tabs > li.active > a, .nav-tabs > li > a:hover{
+    font-family: @usual-font-family;
+  }
+}
+#payment-info-modal{
+  .file-upload{
+    @media @tablet-only {
+      margin-top: 202px;
+      float: right;
+    }
+    @media @mobile{
+      width: 100%;
+    }
+  }
+}
+.modal-dialog{
+  @media @mobile {
+    margin: 10px auto 10px;
+  }
+
+  .equip-photo-group{
+    position: relative;
+    @media @tablet-down {
+      width: 180px;
+    }
+    img{
+      max-width: 100%;
+      height: auto;
+    }
+    .equip-photo-hold{
+      padding: 20px;
+      min-height: 218px;
+      background: #eee;
+      width: calc(~"100% - 20px");
+      @media @desktop-up {
+        position: absolute;
+      }
+    }
+    .photo-pic{
+      background: #ccc;
+      width: 100%;
+      overflow: hidden;
+      height: 100%;
+    }
+    .remove-link{
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      color: @heading-text-color;
+    }
   }
 }
 .modal-title{
@@ -33,14 +93,5 @@
 
 .modal-warning{
   text-align: center;
-  .modal-body{
-    min-height: 120px;
-  }
-  .btn-container{
-    width: 230px;
-    margin: 0 auto;
-    .btn + .btn{
-      margin: 0;
-    }
-  }
 }
+

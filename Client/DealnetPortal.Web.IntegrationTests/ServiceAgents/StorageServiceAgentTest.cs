@@ -32,7 +32,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         {
             IStorageServiceAgent serviceAgent = new StorageServiceAgent(_client, _loggingService.Object);
 
-            var pdfData = File.ReadAllBytes("SeedData//EcoHome (ON) loan agreement.pdf");
+            var pdfData = File.ReadAllBytes("SeedData//EcoHome (ON) loan agreement 2s.pdf");
             var aggreement = new AgreementTemplateDTO()
             {
                 AgreementType = AgreementType.LoanApplication,
@@ -50,7 +50,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         {
             IStorageServiceAgent serviceAgent = new StorageServiceAgent(_client, _loggingService.Object);
 
-            var pdfData = File.ReadAllBytes("SeedData//EcoHome (ON) rental HVAC Other Equipment.pdf");
+            var pdfData = File.ReadAllBytes("SeedData//EcoHome (ON) rental HVAC Other Equipment 2s.pdf");
             var aggreement = new AgreementTemplateDTO()
             {
                 AgreementType = AgreementType.RentalApplication,

@@ -59,10 +59,12 @@
     <Compile Include="Enumeration\AuthType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Enumeration\CreditCheckState.cs" />
+    <Compile Include="Enumeration\EmailType.cs" />
     <Compile Include="Enumeration\FlowingSummaryType.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
     <Compile Include="Enumeration\SignatureRole.cs" />
+    <Compile Include="Enumeration\SignatureStatus.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Helpers\DomainCodesHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />

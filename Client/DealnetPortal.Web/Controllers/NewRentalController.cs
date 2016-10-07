@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
@@ -322,6 +323,7 @@ namespace DealnetPortal.Web.Controllers
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             if (contractResult.Item1 == null)
             {
+                // TODO: redirect to error page?
                 return contactAndPaymentInfo;
             }
             contactAndPaymentInfo.ContractId = contractId;
@@ -342,7 +344,8 @@ namespace DealnetPortal.Web.Controllers
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
             }
-            ViewBag.IsAllInfoCompleted = contractResult.Item1.ContactInfo != null && contractResult.Item1.PaymentInfo != null;
+            //TODO: ???
+            ViewBag.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null;//contractResult.Item1.ContactInfo != null && contractResult.Item1.PaymentInfo != null;
             return equipmentInfo;
         }
 
@@ -390,26 +393,28 @@ namespace DealnetPortal.Web.Controllers
         {
             contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(
                     contract.PaymentInfo);
-            contactAndPaymentInfo.ContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
-                    contract.ContactInfo);
-            if (contract.ContactInfo?.Phones != null)
-            {
-                foreach (var phone in contract.ContactInfo.Phones)
-                {
-                    switch (phone.PhoneType)
-                    {
-                        case PhoneType.Home:
-                            contactAndPaymentInfo.ContactInfo.HomePhone = phone.PhoneNum;
-                            break;
-                        case PhoneType.Cell:
-                            contactAndPaymentInfo.ContactInfo.CellPhone = phone.PhoneNum;
-                            break;
-                        case PhoneType.Business:
-                            contactAndPaymentInfo.ContactInfo.BusinessPhone = phone.PhoneNum;
-                            break;
-                    }
-                }
-            }
+            contactAndPaymentInfo.HomeOwnerContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
+                    contract.PrimaryCustomer);
+            contactAndPaymentInfo.HouseSize = contract.Details.HouseSize;
+            contactAndPaymentInfo.CoBorrowersContactInfo = AutoMapper.Mapper.Map<List<ContactInfoViewModel>>(contract.SecondaryCustomers);
+            //if (contract.ContactInfo?.Phones != null)
+            //{
+            //    foreach (var phone in contract.ContactInfo.Phones)
+            //    {
+            //        switch (phone.PhoneType)
+            //        {
+            //            case PhoneType.Home:
+            //                contactAndPaymentInfo.ContactInfo.HomePhone = phone.PhoneNum;
+            //                break;
+            //            case PhoneType.Cell:
+            //                contactAndPaymentInfo.ContactInfo.CellPhone = phone.PhoneNum;
+            //                break;
+            //            case PhoneType.Business:
+            //                contactAndPaymentInfo.ContactInfo.BusinessPhone = phone.PhoneNum;
+            //                break;
+            //        }
+            //    }
+            //}
         }
 
         private async Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo)
@@ -450,53 +455,33 @@ namespace DealnetPortal.Web.Controllers
 
         private async Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
-            var contractData = new ContractDataDTO();
-            contractData.Id = contactAndPaymentInfo.ContractId ?? 0;
-            if (contactAndPaymentInfo.ContactInfo != null)
+            var alerts = new List<Alert>();
+
+            var contractData = new ContractDataDTO {Id = contactAndPaymentInfo.ContractId ?? 0};
+
+            List<CustomerDataDTO> customers = new List<CustomerDataDTO>();
+            if (contactAndPaymentInfo.HomeOwnerContactInfo != null)
             {
-                var contactInfo = AutoMapper.Mapper.Map<ContactInfoDTO>(contactAndPaymentInfo.ContactInfo);
-                if (contactAndPaymentInfo.ContactInfo.HomePhone != null ||
-                    contactAndPaymentInfo.ContactInfo.CellPhone != null ||
-                    contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
-                {
-                    contactInfo.Phones = new List<PhoneDTO>();
-                }
-                if (contactAndPaymentInfo.ContactInfo.HomePhone != null)
-                {
-                    contactInfo.Phones.Add(new PhoneDTO
-                    {
-                        PhoneNum = contactAndPaymentInfo.ContactInfo.HomePhone,
-                        PhoneType = PhoneType.Home
-                    });
-                }
-                if (contactAndPaymentInfo.ContactInfo.CellPhone != null)
-                {
-                    contactInfo.Phones.Add(new PhoneDTO
-                    {
-                        PhoneNum = contactAndPaymentInfo.ContactInfo.CellPhone,
-                        PhoneType = PhoneType.Cell
-                    });
-                }
-                if (contactAndPaymentInfo.ContactInfo.BusinessPhone != null)
-                {
-                    contactInfo.Phones.Add(new PhoneDTO
-                    {
-                        PhoneNum = contactAndPaymentInfo.ContactInfo.BusinessPhone,
-                        PhoneType = PhoneType.Business
-                    });
-                }
-                contractData.ContactInfo = contactInfo;
+                customers.Add(Mapper.Map<CustomerDataDTO>(contactAndPaymentInfo.HomeOwnerContactInfo));
             }
-            else
+            if (contactAndPaymentInfo.CoBorrowersContactInfo?.Any() ?? false)
             {
-                contractData.ContactInfo = new ContactInfoDTO();
+                contactAndPaymentInfo.CoBorrowersContactInfo.ForEach(cnt =>
+                    customers.Add(Mapper.Map<CustomerDataDTO>(cnt)));
             }
+
+            if (customers.Any())
+            {
+                alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
+            }
+
             if (contactAndPaymentInfo.PaymentInfo != null)
             {
                 var paymentInfo = AutoMapper.Mapper.Map<PaymentInfoDTO>(contactAndPaymentInfo.PaymentInfo);
                 contractData.PaymentInfo = paymentInfo;
+                alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
             }
-            return await _contractServiceAgent.UpdateContractData(contractData);
+            return alerts;
         }
 
 

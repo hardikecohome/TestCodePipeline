@@ -5,23 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
 {
-    public class ContactInfo
+    public class Email
     {
-        public ContactInfo()
-        {
-            Phones = new HashSet<Phone>();
-        }
-
-        [ForeignKey("Contract")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public virtual ICollection<Phone> Phones { get; set; }
+        
+        public EmailType EmailType { get; set; }
+
         [MaxLength(256)]
         public string EmailAddress { get; set; }
-        public double? HouseSize { get; set; }
 
-        public virtual Contract Contract { get; set; }
+        public Customer Customer { get; set; }
     }
 }

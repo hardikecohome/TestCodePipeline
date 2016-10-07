@@ -55,6 +55,8 @@ namespace DealnetPortal.Api.Controllers
             return NotFound();
         }
 
+
+
         [Route("CreateContract")]
         [HttpPut]
         public IHttpActionResult CreateContract()
@@ -222,6 +224,33 @@ namespace DealnetPortal.Api.Controllers
             catch (Exception ex)
             {
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Route("GetCustomer")]
+        [HttpGet]
+        public IHttpActionResult GetCustomer(int customerId)
+        {
+            var customer = ContractService.GetCustomer(customerId);
+            if (customer != null)
+            {
+                return Ok(customer);
+            }
+            return NotFound();
+        }
+
+        [Route("UpdateCustomerData")]
+        [HttpPut]
+        public IHttpActionResult UpdateCustomerData([FromBody]CustomerDataDTO[] customers)
+        {
+            try
+            {
+                var alerts = ContractService.UpdateCustomers(customers);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
             }
         }
     }

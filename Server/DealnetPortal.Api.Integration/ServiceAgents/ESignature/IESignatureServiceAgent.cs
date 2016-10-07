@@ -27,6 +27,8 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
         Task<Tuple<documentVersionType, IList<Alert>>> EditFormFields(long dpSid, FormField[] formFields);
 
+        Task<Tuple<documentVersionType, IList<Alert>>> RemoveFormFields(long dpSid, FormField[] formFields);
+
         Task<IList<Alert>> MergeData(long dpSid, TextData[] textData);
 
         Task<IList<Alert>> ConfigureSortOrder(long transactionSid, long[] dpSids);
@@ -34,5 +36,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
         Task<IList<Alert>> ConfigureRoles(long transactionSid, eoConfigureRolesRole[] roles);
 
         Task<IList<Alert>> ConfigureInvitation(long transactionSid, string roleName, string senderFirstName, string senderLastName, string senderEmail);
+
+        Task<Tuple<documentType, IList<Alert>>> GetCopy(long dpSid);
+
+        Task<Tuple<signatureResultListTypeTransaction, IList<Alert>>> SearchSignatureResults(long transactionSid);
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
@@ -14,6 +15,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -163,15 +165,33 @@ namespace DealnetPortal.Api.Integration.Services
         {
             try
             {
+                List<SignatureUser> usersForProcessing = new List<SignatureUser>();
                 var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                 var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
                 if (homeOwner != null)
                 {
                     homeOwner.FirstName = contract?.PrimaryCustomer?.FirstName;
                     homeOwner.LastName = contract?.PrimaryCustomer?.LastName;
+                    usersForProcessing.Add(homeOwner);
                 }
 
-                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, signatureUsers);
+                var coCustomers = signatureUsers.Where(u => u.Role == SignatureRole.AdditionalApplicant).ToList();
+                if (coCustomers.Any())
+                {
+                    int i = 0;
+                    contract?.SecondaryCustomers?.ForEach(cc =>
+                    {
+                        if (i < coCustomers.Count && !string.IsNullOrEmpty(coCustomers[i].EmailAddress))
+                        {
+                            coCustomers[i].FirstName = cc.FirstName;
+                            coCustomers[i].LastName = cc.LastName;
+                            usersForProcessing.Add(coCustomers[i]);
+                            i++;
+                        }                        
+                    });
+                }
+
+                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray());
                 return alerts;
             }
             catch (Exception ex)
@@ -374,7 +394,45 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
                 throw;
             }
+        }
 
+        public CustomerDTO GetCustomer(int customerId)
+        {
+            var customer = _contractRepository.GetCustomer(customerId);
+            return Mapper.Map<CustomerDTO>(customer);
+        }
+
+        public IList<Alert> UpdateCustomers(CustomerDataDTO[] customers)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {            
+                if (customers?.Any() ?? false)
+                {
+                    customers.ForEach(c =>
+                    {
+                        _contractRepository.UpdateCustomerData(c.Id, 
+                            Mapper.Map<IList<Location>>(c.Locations),
+                            Mapper.Map<IList<Phone>>(c.Phones),
+                            Mapper.Map<IList<Email>>(c.Emails));
+                    });
+                }
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to update customers data", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Failed to update customers data",
+                    Message = ex.ToString()
+                });
+                //throw;
+            }
+
+            return alerts;
         }
     }
 }

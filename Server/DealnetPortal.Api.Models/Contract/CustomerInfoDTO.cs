@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Contract
 {
-    public class CustomerDTO
-    {        
+    public class CustomerInfoDTO
+    {
         public int Id { get; set; }
         public string FirstName { get; set; }
         [Required]
@@ -16,11 +16,5 @@ namespace DealnetPortal.Api.Models.Contract
         public string LastName { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
-
-        public List<LocationDTO> Locations { get; set; }
-
-        public List<PhoneDTO> Phones { get; set; }
-
-        public List<EmailDTO> Emails { get; set; }
     }
 }

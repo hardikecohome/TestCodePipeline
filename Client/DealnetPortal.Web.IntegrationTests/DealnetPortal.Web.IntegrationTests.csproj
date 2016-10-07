@@ -96,7 +96,13 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SeedData\EcoHome %28ON%29 loan agreement 2s.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SeedData\EcoHome %28ON%29 loan agreement.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SeedData\EcoHome %28ON%29 rental HVAC Other Equipment 2s.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="SeedData\EcoHome %28ON%29 rental HVAC Other Equipment.pdf">

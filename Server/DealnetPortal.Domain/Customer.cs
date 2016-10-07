@@ -12,7 +12,9 @@ namespace DealnetPortal.Domain
     {
         public Customer()
         {
-            Locations = new List<Location>();
+            Locations = new HashSet<Location>();
+            Phones = new HashSet<Phone>();
+            Emails = new HashSet<Email>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,10 +27,13 @@ namespace DealnetPortal.Domain
         public string LastName { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
-        //[Required]
-        // 1 customer for 1 contract ? 
-        //public Contract Contract { get; set; }
-        // Is locations related to a customer or to a contract
-        public ICollection<Location> Locations { get; set; }
+        
+        public virtual ICollection<Location> Locations { get; set; }
+
+        public virtual ICollection<Phone> Phones { get; set; }
+
+        public virtual ICollection<Email> Emails { get; set; }
+
+        public string AccountId { get; set; }
     }
 }

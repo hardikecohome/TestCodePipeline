@@ -40,5 +40,9 @@ namespace DealnetPortal.Api.Integration.Services
         Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();
 
         Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province);
+
+        CustomerDTO GetCustomer(int customerId);
+
+        IList<Alert> UpdateCustomers(CustomerDataDTO[] customers);
     }
 }
