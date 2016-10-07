@@ -124,6 +124,7 @@ $(document).ready(function () {
 function hideAditional1Section() {
     aditional1Section.hide();
     //Needed for validation
+    $("#additional-id-1").prop("disabled", true);
     $("#additional-first-name-1").prop("disabled", true);
     $("#additional-last-name-1").prop("disabled", true);
     $("#additional-birth-date-1").prop("disabled", true);
@@ -132,6 +133,7 @@ function hideAditional1Section() {
 function hideAditional2Section() {
     aditional2Section.hide();
     //Needed for validation
+    $("#additional-id-2").prop("disabled", true);
     $("#additional-first-name-2").prop("disabled", true);
     $("#additional-last-name-2").prop("disabled", true);
     $("#additional-birth-date-2").prop("disabled", true);
@@ -140,6 +142,7 @@ function hideAditional2Section() {
 function hideAditional3Section() {
     aditional3Section.hide();
     //Needed for validation
+    $("#additional-id-3").prop("disabled", true);
     $("#additional-first-name-3").prop("disabled", true);
     $("#additional-last-name-3").prop("disabled", true);
     $("#additional-birth-date-3").prop("disabled", true);
@@ -163,6 +166,7 @@ function disableMailingAddress() {
 }
 function showAditional1Section() {
     aditional1Section.show();
+    $("#additional-id-1").prop("disabled", false);
     $("#additional-first-name-1").prop("disabled", false);
     $("#additional-last-name-1").prop("disabled", false);
     $("#additional-birth-date-1").prop("disabled", false);
@@ -172,6 +176,7 @@ function showAditional1Section() {
 }
 function showAditional2Section() {
     aditional2Section.show();
+    $("#additional-id-2").prop("disabled", false);
     $("#additional-first-name-2").prop("disabled", false);
     $("#additional-last-name-2").prop("disabled", false);
     $("#additional-birth-date-2").prop("disabled", false);
@@ -181,6 +186,7 @@ function showAditional2Section() {
 }
 function showAditional3Section() {
     aditional3Section.show();
+    $("#additional-id-3").prop("disabled", false);
     $("#additional-first-name-3").prop("disabled", false);
     $("#additional-last-name-3").prop("disabled", false);
     $("#additional-birth-date-3").prop("disabled", false);

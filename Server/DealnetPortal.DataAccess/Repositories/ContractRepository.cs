@@ -150,7 +150,6 @@ namespace DealnetPortal.DataAccess.Repositories
                         }
                     }
 
-                    //TODO: fix delete issue!!!
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);

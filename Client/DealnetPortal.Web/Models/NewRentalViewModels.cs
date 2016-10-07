@@ -10,7 +10,8 @@ namespace DealnetPortal.Web.Models
 {
     public class ApplicantPersonalInfo
     {
-        int CustomerId { get; set; }
+        public int CustomerId { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         [StringLength(20, MinimumLength = 2)]
