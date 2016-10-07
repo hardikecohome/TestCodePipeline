@@ -104,7 +104,11 @@ function showTable() {
                 "<'row'<'col-md-12'tr>>" +
                 "<'row'<'col-md-12'p>>" +
                 "<'row'<'col-md-12'i>>",
-                renderer: 'bootstrap'
+                renderer: 'bootstrap',
+              "fnInitComplete": function(oSettings, json) {
+                customizeSelect();
+                console.log( 'DataTables has finished its initialisation.' );
+              }
             });
         var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
         $('#table-title').html('My Work Items  <div class="filter-controls hidden">'+ iconSearch +'</div></div>');

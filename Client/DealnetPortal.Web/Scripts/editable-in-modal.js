@@ -1,13 +1,13 @@
 ﻿$(document)
   .ready(function () {
-     $('.dealnet-disabled-input').each(function(){
+    /* $('.dealnet-disabled-input').each(function(){
          $(this).attr('type', 'hidden');
          var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).val();
          $(this).after($('<div/>',{
                             class: "dealnet-disabled-input dealnet-disabled-input-value",
                             text: inpValue
                             }));
-     });
+     });*/
   });
 
 function copyFormData(form1, form2, validate) {

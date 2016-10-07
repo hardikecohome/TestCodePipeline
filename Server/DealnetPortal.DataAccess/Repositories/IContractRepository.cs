@@ -28,6 +28,14 @@ namespace DealnetPortal.DataAccess.Repositories
         IList<Contract> GetContracts(string ownerUserId);
 
         /// <summary>
+        /// Get list of user contracts with particular ids
+        /// </summary>
+        /// <param name="ids">List od Ids</param>
+        /// <param name="ownerUserId">user Id</param>
+        /// <returns>List of contracts</returns>
+        IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId);
+
+        /// <summary>
         /// Delete contract with all linked data
         /// </summary>
         /// <param name="contractOwnerId">contract owner user Id</param>

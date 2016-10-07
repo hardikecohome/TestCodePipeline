@@ -76,5 +76,12 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="province">Province abbreviation</param>
         /// <returns>Tax Rate for particular Province</returns>
         Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province);
+
+        /// <summary>
+        /// Get xlsx report
+        /// </summary>
+        /// <param name="ids">List od Ids</param>
+        /// <returns>xlsx report in byte array</returns>
+        Task<byte[]> GetXlsxReport(IEnumerable<int> ids);
     }
 }

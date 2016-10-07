@@ -42,7 +42,25 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var contracts = _dbContext.Contracts
                     .Include(c => c.PrimaryCustomer)
+                    .Include(c => c.PrimaryCustomer.Locations)
+                    .Include(c => c.SecondaryCustomers)
+                    .Include(c => c.Equipment)
+                    .Include(c => c.Equipment.ExistingEquipment)
+                    .Include(c => c.Equipment.NewEquipment)
                     .Where(c => c.Dealer.Id == ownerUserId).ToList();
+            return contracts;
+        }
+
+        public IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId)
+        {
+            var contracts = _dbContext.Contracts
+                    .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                    .Where(c => ids.Any(id => id == c.Id) && c.Dealer.Id == ownerUserId).ToList();
             return contracts;
         }
 

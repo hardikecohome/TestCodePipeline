@@ -1,8 +1,11 @@
-﻿<div id="label-steps">
+﻿@using DealnetPortal.Api.Common.Enumeration
+@{
+    var dealStatus = ContractState.Started;
+}
+<div id="label-steps">
 	<div class="dealnet-action-link">My Deals</div> >
 </div>
 <!--<div class="dealnet-large-header">My Deals</div>-->
-
 <div class="expand-filter-template">
 	<div class="reset-form-inline">
 		<div class="label-caption">Filter</div>
@@ -11,9 +14,7 @@
 				<div class="form-group">
 					<label for="">Deal Status</label>
 					<div class="control-group">
-						<select name="" id="" class="form-control">
-							<option value="">--not selected--</option>
-						</select>
+						@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })
 					</div>
 				</div>
 			</div>
@@ -21,7 +22,7 @@
 				<div class="form-group">
 					<label for="">Date From</label>
 					<div class="control-group date-group">
-						<input type="text" class="form-control date-control">
+						<input type="text" class="form-control date-control" id="date-from">
 					</div>
 				</div>
 			</div>
@@ -29,13 +30,13 @@
 				<div class="form-group">
 					<label for="">Date To</label>
 					<div class="control-group date-group">
-						<input type="text" class="form-control date-control">
+						<input type="text" class="form-control date-control" id="date-to">
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-3 col-sm-6">
 				<div class="form-group">
-					<button class="btn dealnet-button dealnet-success-button block-button">Filter</button>
+					<button class="btn dealnet-button dealnet-success-button block-button" id="filter-button">Filter</button>
 				</div>
 			</div>
 		</div>
@@ -52,7 +53,8 @@
 			<th class="min-tablet-l">Phone</th>
 			<th class="desktop">Date</th>
 			<th class="desktop">Equipment</th>
-			<th class="desktop">Value</th>
+		    <th class="desktop">Value</th>
+            <th class="desktop">RemainingDescription</th>
 			<th class="all"></th>
 		</tr>
 	</thead>
@@ -60,90 +62,9 @@
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @section scripts
 {
-<script type="text/javascript">
-	$(document)
-		.ready(function () {
-			showTable();
-			assignDatepicker($(".date-control"));
+    <script type="text/javascript">
+        var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+    </script>
 
-		});
-	function assignDatepicker(input) {
-		input.datepicker({
-			dateFormat: 'mm/dd/yy',
-			changeYear: true,
-			yearRange: '1900:2016',
-			minDate: Date.parse("1900-01-01"),
-			maxDate: new Date()
-		});
-	}
-
-
-
-	var data = [
-
-		{
-			"Contract#": "2345",
-			"Customer": "Fred Flintstone",
-			"Status": "Waiting on Documents",
-			"Email": "mmouse@email.com",
-			"Phone": "555-555-1234",
-			"Date": "2015/10/01",
-			"Equipment": "Furnace Air Conditioner",
-			"Value": "$ 5500.00"
-		}
-
-	]
-
-
-	function showTable() {
-		$('#work-items-table')
-			.DataTable({
-				data: data,
-				oLanguage: {
-					"sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
-					"oPaginate": {
-						"sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
-						"sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
-					}
-				},
-				columns: [
-					{ "data" : "Contract#" },
-					{ "data": "Customer" },
-					{ "data": "Status" },
-					{ "data": "Email" },
-					{ "data": "Phone" },
-					{ "data": "Date"},
-					{ "data": "Equipment"},
-					{ "data": "Value"},
-					{// this is Actions Column
-						"render": function (sdata, type, row) {
-							return '<a href="#" title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>';
-						}
-					}
-				],
-				dom:
-				"<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-				"<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-				"<'row'<'col-md-12'l>>" +
-				"<'row'<'col-md-12'tr>>" +
-				"<'row'<'col-md-12'p>>" +
-				"<'row'<'col-md-12'i>>",
-				renderer: 'bootstrap'
-			});
-
-		var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
-		var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
-		$('#table-title').html('<div class="dealnet-large-header">My Work Items <div class="filter-controls hidden">'+ iconFilter +' '+ iconSearch +'</div></div>');
-		$('#table-title .icon-search-control').on('click', function(){
-			$(this).toggleClass('active');
-			$('#work-items-table_filter').slideToggle();
-		});
-		$('#table-title .icon-filter-control').on('click', function(){
-			$(this).toggleClass('active');
-			$('#expand-table-filter').slideToggle();
-		});
-		$('#expand-table-filter').html($('.expand-filter-template').clone());
-	};
-
-</script>
+    @Scripts.Render("~/bundles/my-deals")
 }
