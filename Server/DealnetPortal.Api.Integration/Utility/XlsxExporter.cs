@@ -38,7 +38,7 @@ namespace DealnetPortal.Api.Integration.Utility
                     worksheet.Cells[counter, 4].Value = contract.ContactInfo?.EmailAddress;
                     worksheet.Cells[counter, 5].Value = contract.ContactInfo?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum ?? contract.ContactInfo?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
                     worksheet.Cells[counter, 6].Value = contract.LastUpdateTime?.ToString(CultureInfo.CurrentCulture);
-                    worksheet.Cells[counter, 7].Value = ConcatWithComma(contract.Equipment?.NewEquipment?.Select(eq => eq.Type));
+                    worksheet.Cells[counter, 7].Value = contract.Equipment?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma();
                     worksheet.Cells[counter, 8].Value = $"$ {contract.Equipment?.TotalMonthlyPayment:0.00}";
                 }
                 worksheet.Cells[1, 1, 1, 8].Style.Font.Bold = true;
@@ -50,20 +50,6 @@ namespace DealnetPortal.Api.Integration.Utility
                 }
                 package.Save();
             }
-        }
-
-        private static string ConcatWithComma(IEnumerable<string> values)
-        {
-            if (values == null) { return null; }
-            var stb = new StringBuilder();
-            var i = 0;
-            foreach (var str in values)
-            {
-                if (i != 0) { stb.Append(", "); }
-                stb.Append(str);
-                i++;
-            }
-            return stb.ToString();
         }
     }
 }
