@@ -143,12 +143,10 @@ function customizeSelect(){
   setTimeout(function(){
     $('select').each(function(){
       var selectClasses = $(this).hasClass("dealnet-disabled-input") ? "custom-select-disabled" : "custom-select";
-      if(!$(this).parents(".ui-datepicker").length){
-        if(!$(this).parents(".custom-select").length || !$(this).parents(".custom-select-disabled").length){
-          $(this).wrap('<div class='+selectClasses+'>');
-          if(detectIE() === false){
-            $(this).after('<span class="caret">');
-          }
+      if(!$(this).parents(".ui-datepicker").length && !$(this).parents(".custom-select").length && !$(this).parents(".custom-select-disabled").length){
+        $(this).wrap('<div class='+selectClasses+'>');
+        if(detectIE() === false){
+          $(this).after('<span class="caret">');
         }
       }
     });
