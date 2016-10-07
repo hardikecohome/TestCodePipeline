@@ -1018,17 +1018,16 @@
 
 </div>
 
-<div class="modal fade editor-modal" tabindex="-1" role="dialog" id="payment-info-modal">
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="payment-info-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="modal-title dealnet-large-header">Payment Information</div>
+                <div class="modal-title dealnet-large-header">Editing Payment Information</div>
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
                     <form id="payment-info-section-modal">
-	                    .row>.
                         <div class="form-group">
                             <div class="row">
                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new {@class = "dealnet-field-caption col-xs-6"})
@@ -1111,14 +1110,12 @@
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="modal-footer">
+
+	            <div class="btn-container">
+		            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); }">Save changes</button>
+		            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+	            </div>
                 <div>
-                    <button type="button" class="btn dealnet-button dealnet-green-button" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); }">Save changes</button>
-                </div>
-                <div>
-                    <a href="#" data-dismiss="modal">Cancel</a>
-                </div>
             </div>
         </div>
     </div>
