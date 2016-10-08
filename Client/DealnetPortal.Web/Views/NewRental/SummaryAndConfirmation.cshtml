@@ -312,7 +312,6 @@
 				<div class="col-md-6">
 					<div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
 					    <h3 class="dealnet-section-title">Additional Applicant</h3>
-                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].CustomerId)
 						<div class="form-group">
 							<div class="row">
 								@Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
@@ -350,7 +349,7 @@
 
 				<div class="col-md-6">
 				    <div class="dealnet-credit-check-section" id="contact-info-section">
-				        @Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo.FirstOrDefault(c => c.CustomerId == Model.BasicInfo.AdditionalApplicants[i].CustomerId).CustomerId)
+				        @*@Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo.FirstOrDefault(c => c.CustomerId == Model.BasicInfo.AdditionalApplicants[i].CustomerId).CustomerId)*@
 				        <h3 class="dealnet-section-title">
 				            Contact Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a>
 				        </h3>
@@ -358,7 +357,8 @@
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">Home Phone</label>
 				                <div class="dealnet-field-holder col-xs-6">
-				                    <input type="text" class="dealnet-disabled-input" value="Home Phone" readonly="readonly">
+				                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo.FirstOrDefault(c => c.CustomerId == Model.BasicInfo.AdditionalApplicants[i].CustomerId).HomePhone, 
+                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 				                </div>
 				            </div>
 				        </div>
@@ -367,7 +367,8 @@
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
 				                <div class="dealnet-field-holder col-xs-6">
-				                    <input type="text" class="dealnet-disabled-input" value="Cell Phone" readonly="readonly">
+				                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo.FirstOrDefault(c => c.CustomerId == Model.BasicInfo.AdditionalApplicants[i].CustomerId).CellPhone,
+                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 				                </div>
 				            </div>
 				        </div>
@@ -376,7 +377,8 @@
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">Business Phone</label>
 				                <div class="dealnet-field-holder col-xs-6">
-				                    <input type="text" class="dealnet-disabled-input" value="Business Phone" readonly="readonly">
+				                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo.FirstOrDefault(c => c.CustomerId == Model.BasicInfo.AdditionalApplicants[i].CustomerId).BusinessPhone,
+                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 				                </div>
 				            </div>
 				        </div>
@@ -384,7 +386,8 @@
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">Email Address</label>
 				                <div class="dealnet-field-holder col-xs-6">
-				                    <input type="email" class="dealnet-disabled-input" value="Email Address" readonly="readonly">
+				                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo.FirstOrDefault(c => c.CustomerId == Model.BasicInfo.AdditionalApplicants[i].CustomerId).EmailAddress,
+                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 				                </div>
 				            </div>
 				        </div>
