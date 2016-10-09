@@ -63,7 +63,7 @@
                 }
                 <div class="col-md-4">
                     <div class="form-group btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form')); $('.sent-email-msg').show(); $(this).text('Resend Emails')">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" id = "send-email-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'), null);">
                             Send Emails
                         </button>
                     </div>
@@ -350,9 +350,9 @@
 				<div class="col-md-6">
 				    <div class="dealnet-credit-check-section" id="contact-info-section">
 				        @*@Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo.FirstOrDefault(c => c.CustomerId == Model.BasicInfo.AdditionalApplicants[i].CustomerId).CustomerId)*@
-				        <h3 class="dealnet-section-title">
+				        @*<h3 class="dealnet-section-title">
 				            Contact Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a>
-				        </h3>
+				        </h3>*@
 				        <div class="form-group">
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">Home Phone</label>

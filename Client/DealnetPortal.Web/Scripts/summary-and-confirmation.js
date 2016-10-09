@@ -6,11 +6,16 @@
         });
 }
 
-function submitAsync(url, form) {
+function submitAsync(url, form, aftervalidateAction) {
     form.validate();
     if (!form.valid()) {
         return;
     };
+    if (aftervalidateAction != null) {
+        aftervalidateAction();
+    }
+    $('.sent-email-msg').show();
+    $('.send-email-button').text('Resend Emails');
     form.ajaxSubmit({
         type: "POST",
         url: url,
