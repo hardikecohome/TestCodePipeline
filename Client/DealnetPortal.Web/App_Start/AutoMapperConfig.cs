@@ -166,11 +166,31 @@ namespace DealnetPortal.Web.App_Start
                   .ForMember(d => d.RemainingDescription, s => s.ResolveUsing(src =>
                     {
                         var stb = new StringBuilder();
-                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.Street));
-                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.Unit));
-                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.City));
-                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.State));
-                        src.PrimaryCustomer.Locations.ForEach(x => stb.AppendLine(x.PostalCode));
+                        src.PrimaryCustomer.Locations.ForEach(x =>
+                        {
+                            stb.AppendLine(x.Street);
+                            stb.AppendLine(x.Unit);
+                            stb.AppendLine(x.City);
+                            stb.AppendLine(x.State);
+                            stb.AppendLine(x.PostalCode);
+                        });
+                        src.PrimaryCustomer.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
+                        src.PrimaryCustomer.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
+                        src.SecondaryCustomers?.ForEach(x =>
+                        {
+                            stb.AppendLine(x.FirstName);
+                            stb.AppendLine(x.LastName);
+                            x.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
+                            x.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
+                        });
+                        src.Equipment?.NewEquipment?.ForEach(x =>
+                        {
+                            stb.AppendLine(x.Description);
+                            stb.AppendLine(x.Description);
+                        });
+                        stb.AppendLine(src.Equipment?.SalesRep);
+                        stb.AppendLine(src.PaymentInfo?.EnbridgeGasDistributionAccount);
+                        stb.AppendLine(src.PaymentInfo?.AccountNumber);
                         return stb.ToString();
                     }));
 

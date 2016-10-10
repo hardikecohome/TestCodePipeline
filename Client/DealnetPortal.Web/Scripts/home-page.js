@@ -105,9 +105,9 @@ function showTable() {
                 "<'row'<'col-md-12'p>>" +
                 "<'row'<'col-md-12'i>>",
                 renderer: 'bootstrap',
-              "fnInitComplete": function(oSettings, json) {
-                customizeSelect();
-                console.log( 'DataTables has finished its initialisation.' );
+                "fnInitComplete": function(oSettings, json) {
+                  customizeSelect();
+                }
               }
             });
         var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
