@@ -6,7 +6,47 @@
 	<div class="form-section">
 		<div class="dealnet-large-header">Report for contract #2345</div>
 		<div class="dealnet-large-header">Documents</div>
-		<div>There are no uploaded documents, yet</div>
+		<div class="documents-container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="no-documents">There are no uploaded documents, yet</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="file-upload btn dealnet-button dealnet-success-button">
+						<span>Upload Documents</span>
+						<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row">
+						<label class="dealnet-field-caption col-xs-4">12/10/2015</label>
+						<div class="dealnet-field-holder col-xs-8">
+							<ul class="report-documents-list editable-list list-unstyled">
+								<li><a href="#" class="dealnet-info-link text-semibold"><svg aria-hidden="true" class="icon icon-audio"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-audio"></use></svg>456789.mp3</a>
+									<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a></li>
+								<li><a href="#" class="dealnet-info-link text-semibold"><svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-pdf"></use></svg>123456.pdf</a>
+									<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="file-upload btn dealnet-button dealnet-success-button">
+						<span>Upload Documents</span>
+						<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+					</div>
+				</div>
+			</div>
+			<div class="well success-well">
+				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-success"></use></svg>Your documents were successfully uploaded
+			</div>
+		</div>
 	</div>
 	<hr>
 	<div class="form-section">
@@ -499,102 +539,111 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="summary-return-equipment">
-					<h3 class="dealnet-section-title">Return Equipment <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#existing-equipment-modal').modal()">Edit</a></h3>
-					<div class="summury-return-equip-item">
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									Is rental?
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<select name="" id="" class="dealnet-disabled-input" readonly="readonly">
-										<option value="">Yes</option>
-									</select>
-								</div>
-							</div>
+		<div class="summary-return-equipment">
+			<h3 class="dealnet-section-title">Return Equipment <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#existing-equipment-modal').modal()">Edit</a></h3>
+			<div class="summury-return-equip-item">
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							Is rental?
 						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									Rental Company
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="ABC Rentals">
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									General Condition
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="Equipment in good condition">
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									Estimated Age
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="5 years">
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									Make
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="Amana">
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									Model
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="ASX160181">
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									Serial Number
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="44323432X">
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-									Notes
-								</div>
-								<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-									<textarea class="dealnet-disabled-input">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua
-									</textarea>
-								</div>
-							</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<select name="" id="" class="dealnet-disabled-input" readonly="readonly">
+								<option value="">Yes</option>
+							</select>
 						</div>
 					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							Rental Company
+						</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<input type="text" class="dealnet-disabled-input" readonly="readonly" value="ABC Rentals">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							General Condition
+						</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<input type="text" class="dealnet-disabled-input" readonly="readonly" value="Equipment in good condition">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							Estimated Age
+						</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<input type="text" class="dealnet-disabled-input" readonly="readonly" value="5 years">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							Make
+						</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<input type="text" class="dealnet-disabled-input" readonly="readonly" value="Amana">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							Model
+						</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<input type="text" class="dealnet-disabled-input" readonly="readonly" value="ASX160181">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							Serial Number
+						</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<input type="text" class="dealnet-disabled-input" readonly="readonly" value="44323432X">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
+							Notes
+						</div>
+						<div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+							<textarea class="dealnet-disabled-input">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua
+							</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="comments-widget">
+			<h3 class="dealnet-section-title">Comments</h3>
+			<div class="form-group">
+				<label for="">Add comment</label>
+				<textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+			</div>
+			<div class="row">
+				<div class="col-sm-5 col-md-3">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="text-center back-to-top-hold">
+	<br />
 	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-back-to-top"></use></svg>Back to top</a>
 </div>
 

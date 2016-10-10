@@ -298,6 +298,19 @@ select.dealnet-disabled-input{
       color: #2f9cd0;
     }
   }
+  &.success-well{
+    background-color: rgba(222, 255, 209, 0.38);
+    border: solid 1px #b1d9a6;
+    padding-left: 50px;
+    position: relative;
+    .icon-success{
+      color: #61c53c;
+      position: absolute;
+      left: 17px;
+      top: 50%;
+      margin-top: -14px;
+    }
+  }
   .summary-emails-header{
     position: relative;
     font-size: 16px;
@@ -419,6 +432,21 @@ select.dealnet-disabled-input{
 }
 
 .report-documents-list{
+  &.editable-list{
+    li{
+      padding-right: 20px;
+      .remove-link{
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -8px;
+        color: @heading-text-color;
+      }
+    }
+  }
+  li{
+    position: relative;
+  }
   li+li{
     margin-top: 10px;
   }
