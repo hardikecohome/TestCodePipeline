@@ -64,6 +64,16 @@
 .dealnet-action-link{
   font-size: 12px;
 }
+.dealnet-success-link{
+  .dealnet-info-link;
+  color: @button-link-color;
+  &:focus{
+    color: @button-link-color;
+  }
+  &:hover{
+    color: @button-link-hover-color;
+  }
+}
 
 .dealnet-large-header {
   font: 900 22px @usual-font-family;
@@ -196,3 +206,13 @@
   font-weight: 700 !important;
 }
 
+.caret-up{
+  border-bottom: 10px solid #000000;
+  border-left: 6px solid rgba(0, 0, 0, 0);
+  border-right: 6px solid rgba(0, 0, 0, 0);
+  content: "";
+  display: inline-block;
+  height: 0;
+  vertical-align: top;
+  width: 0;
+}

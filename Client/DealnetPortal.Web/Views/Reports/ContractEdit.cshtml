@@ -632,13 +632,105 @@
 			<h3 class="dealnet-section-title">Comments</h3>
 			<div class="form-group">
 				<label for="">Add comment</label>
-				<textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+				<input type="text" class="form-control" />
 			</div>
 			<div class="row">
 				<div class="col-sm-5 col-md-3">
 					<button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
 				</div>
 			</div>
+			<div class="comment">
+				<div class="commetn-header">
+					<span class="comment-user">
+						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-user"></use></svg>
+						&lt;FName&gt; &lt;LName&gt;
+					</span>
+					<span class="comment-update">
+						<span class="comment-update-time">11:35 AM</span>
+						<span class="comment-update-date">01/11/2015</span>
+					</span>
+					<span class="owner-comment">your comment</span>
+				</div>
+				<div class="comment-body">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
+				</div>
+				<div class="comment-footer">
+					<a href="#" class="show-comments-answers">3 answers</a>
+					<a href="#" class="dealnet-success-link">Write a reply</a>
+				</div>
+			</div>
+			<ul class="child-comments-list list-unstyled">
+				<li>
+					<div class="comment">
+						<div class="commetn-header">
+							<span class="comment-user">
+								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-user"></use></svg>
+								&lt;FName&gt; &lt;LName&gt;
+							</span>
+							<span class="comment-update">
+								<span class="comment-update-time">11:35 AM</span>
+								<span class="comment-update-date">01/11/2015</span>
+							</span>
+							<span class="owner-comment">your comment</span>
+						</div>
+						<div class="comment-body">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
+						</div>
+						<div class="comment-footer">
+							<a href="#" class="show-comments-answers">3 answers</a>
+							<a href="#" class="dealnet-success-link">Write a reply</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="comment">
+				<div class="commetn-header">
+					<span class="comment-user">
+						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-user"></use></svg>
+						&lt;FName&gt; &lt;LName&gt;
+					</span>
+					<span class="comment-update">
+						<span class="comment-update-time">11:35 AM</span>
+						<span class="comment-update-date">01/11/2015</span>
+					</span>
+					<span class="owner-comment">your comment</span>
+				</div>
+				<div class="comment-body">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
+				</div>
+				<div class="comment-footer">
+					<a href="#" class="show-comments-answers">1 answer</a>
+					<a href="#" class="dealnet-success-link">Write a reply</a>
+				</div>
+			</div>
+			<ul class="child-comments-list list-unstyled">
+				<li>
+					<div class="comment">
+						<div class="commetn-header">
+							<span class="comment-user">
+								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-user"></use></svg>
+								&lt;FName&gt; &lt;LName&gt;
+							</span>
+							<span class="comment-update">
+								<span class="comment-update-time">11:35 AM</span>
+								<span class="comment-update-date">01/11/2015</span>
+							</span>
+							<span class="owner-comment">your comment</span>
+						</div>
+						<div class="comment-body">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>
+						</div>
+						<div class="comment-footer">
+							<a href="#" class="show-comments-answers">3 answers</a>
+							<a href="#" class="dealnet-success-link">Write a reply</a>
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
@@ -1193,3 +1285,17 @@
 		</div>
 	</div>
 </div>
+
+@section scripts
+{
+<script type="text/javascript">
+	$(document)
+		.ready(function () {
+			$('.comment .show-comments-answers').on('click', function(){
+				$(this).toggleClass('active');
+				$(this).parents('.comment').toggleClass('active');
+				return false;
+			});
+		});
+</script>
+}
