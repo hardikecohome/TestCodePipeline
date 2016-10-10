@@ -509,6 +509,7 @@
     <Content Include="Content\less\bootstrap\mixins\text-emphasis.less" />
     <Content Include="Content\less\bootstrap\mixins\text-overflow.less" />
     <Content Include="Content\less\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\less\basic-info.less" />
     <None Include="Content\less\components\loader.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Content\less\components\icons.less" />
@@ -536,6 +537,7 @@
     <Content Include="Content\less\rental-agreement-submit-success.less" />
     <Content Include="Content\less\settings\overrides-variables.less" />
     <Content Include="Content\less\components\modal.less" />
+    <Content Include="Content\less\contract.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
