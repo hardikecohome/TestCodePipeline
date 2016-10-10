@@ -133,6 +133,8 @@ namespace DealnetPortal.Web.Models
 
         public string LastName { get; set; }
 
+        public DateTime DateOfBirth { get; set; }
+
         public int CustomerId { get; set; }
     }
 

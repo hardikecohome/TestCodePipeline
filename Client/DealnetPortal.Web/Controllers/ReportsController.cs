@@ -55,6 +55,11 @@ namespace DealnetPortal.Web.Controllers
             return File(bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx");
         }
 
+        public ActionResult ContractEdit()
+        {
+            return View();
+        }
+
         //[HttpGet]
 
         //public ActionResult DealFlowOverview(DealFlowType type)
