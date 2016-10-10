@@ -10,10 +10,10 @@
 	</div>
 	<hr>
 	<div class="form-section">
-		<div class="row credit-check-info-hold">
+		<h3 class="dealnet-section-title">Deal Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#deal-info-modal').modal();">Edit</a></h3>
+		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title empty-title">&nbsp;</h3>
 					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
@@ -48,7 +48,6 @@
 			</div>
 			<div class="col-md-6 col-md-pull-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Deal Information</h3>
 					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Status</label>
@@ -168,7 +167,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Address Information</h3>
+					<h3 class="dealnet-section-title">Address Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#address-modal').modal();">Edit</a></h3>
 					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Installation Address</label>
@@ -223,7 +222,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Mailing Address</h3>
+					<h3 class="dealnet-section-title">Mailing Address <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#mailing-address-modal').modal();">Edit</a></h3>
 					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Installation Address</label>
@@ -278,7 +277,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Contact Information</h3>
+					<h3 class="dealnet-section-title">Contact Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#contact-info-modal').modal()">Edit</a></h3>
 					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Home Phone</label>
@@ -325,10 +324,10 @@
 	</div>
 	<hr>
 	<div class="form-section">
-		<div class="row credit-check-info-hold equipment-info">
+		<h3 class="dealnet-section-title">Equipment Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+		<div class="row credit-check-info-hold equipment-info no-top-margin">
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Equipment Information</h3>
 					<div class="form-group">
 						<div class="row">
 							<div class="dealnet-field-caption col-xs-12">#1</div>
@@ -378,10 +377,9 @@
 			</div>
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">&nbsp;</h3>
 					<div class="form-group">
 						<div class="row">
-							<div class="dealnet-field-caption col-xs-12">#1</div>
+							<div class="dealnet-field-caption col-xs-12">#2</div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -427,49 +425,45 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group summary-payment-info">
+		<div class="summary-payment-info">
+			<div class="row">
+				<div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
 					<div class="row">
-						<div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-									MONTHLY PAYMENT
-								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-									$84.98
-								</div>
-							</div>
+						<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+							MONTHLY PAYMENT
 						</div>
-						<div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-									HST
-								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-									$11.05
-								</div>
-							</div>
+						<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+							$84.98
 						</div>
-						<div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
-							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-									TOTAL MONTHLY PAYMENT (TAX INCL.)
-								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-									$96.03
-								</div>
-							</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+							HST
+						</div>
+						<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+							$11.05
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
+					<div class="row">
+						<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+							TOTAL MONTHLY PAYMENT (TAX INCL.)
+						</div>
+						<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+							$96.03
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="row credit-check-info-hold">
+		<h3 class="dealnet-section-title">Payment Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Payment Information</h3>
 					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Payment Type</label>
@@ -508,7 +502,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="summary-return-equipment">
-					<h3 class="dealnet-section-title">Return Equipment</h3>
+					<h3 class="dealnet-section-title">Return Equipment <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
 					<div class="summury-return-equip-item">
 						<div class="form-group">
 							<div class="row">
@@ -602,4 +596,393 @@
 </div>
 <div class="text-center back-to-top-hold">
 	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-back-to-top"></use></svg>Back to top</a>
+</div>
+
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="deal-info-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Deal Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="deal-info-section-modal">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="dealnet-field-caption">TOTAL VALUE</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="TOTAL VALUE" value="$ 5 000.03">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="dealnet-field-caption">Requested Term</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Requested Term" value="60">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="dealnet-field-caption">Sales Rep</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Sales Rep" value="<Name> <FName>">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="dealnet-field-caption">Status</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Status" value="Waiting for Documents">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="dealnet-field-caption">Type</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Type" value="Rental">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="dealnet-field-caption">Date</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Date" value="2015/10/01">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="dealnet-field-caption">Type of Equipment</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Type of Equipment" value="FURNACE, AIR CONDITIONER">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="address-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Address Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="address-section-modal">
+						<div class="row">
+							<div class="col-md-9">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Installation Address</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Installation Address">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Unit #</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Unit #">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">City</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="City">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Province</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Province">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Postal Code</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Postal Code">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="mailing-address-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Mailing Address</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="address-section-modal">
+						<div class="row">
+							<div class="col-md-9">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Installation Address</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Installation Address">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Unit #</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Unit #">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">City</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="City">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Province</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Province">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Postal Code</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Postal Code">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="contact-info-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Contact Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="contact-info-section-modal">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Home Phone</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="tel" class="form-control dealnet-input" placeholder="Home Phone">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Cell Phone</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="tel" class="form-control dealnet-input" placeholder="Cell Phone">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Business Phone</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="tel" class="form-control dealnet-input" placeholder="Business Phone">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Email Address</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="email" class="form-control dealnet-input" placeholder="Email Address">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="new-equipment-info-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Equipment Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="new-equipment-info-section-modal">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption"></label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption"></label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption"></label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="">
+										</div>
+									</div>
+								</div>
+							</div>
+							@*<div class="col-md-6">
+							<div class="form-group">
+								<div class="row">
+									<label for="" class="dealnet-field-caption"></label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption"></label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="">
+										</div>
+									</div>
+								</div>
+							</div>*@
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption"></label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>

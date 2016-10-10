@@ -45,14 +45,22 @@
   color: @info-link-color;
   display: inline-block;
   cursor: pointer;
-  &:hover{
+  &:hover,
+  &:focus{
     text-decoration: none;
     color: @info-link-hover-color;
     .icon-svg{
       opacity: 1;
     }
   }
+  &:focus{
+    color: @info-link-color;
+  }
+  &:hover{
+    color: @info-link-hover-color;
+  }
 }
+
 .dealnet-action-link{
   font-size: 12px;
 }
