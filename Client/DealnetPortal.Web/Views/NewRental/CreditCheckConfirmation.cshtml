@@ -82,57 +82,60 @@
 
 		@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
 		{
+		    for (int i = 0; i < Model.AdditionalApplicants.Count; i++)
+		    {
 
-		<div class="col-md-6">
-			<div class="dealnet-credit-check-section" id="additional1-section">
-			    <h3 class="dealnet-section-title">Additional Applicant #1 <a href="#" onclick="copyFormData($('#additional1-section'), $('#additional1-section-modal'), false); $('#additional1-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
-			    </h3>
-                @Html.HiddenFor(m => m.AdditionalApplicants[0].CustomerId)
-				<div class="form-group">
-					<div class="row">
-						@Html.LabelFor(m => Model.AdditionalApplicants[0].FirstName, new { @class = "dealnet-field-caption col-xs-6"})
-						<div class="dealnet-field-holder col-xs-6">
-							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-							</div>
-						</div>
-					</div>
-				</div>
+		        <div class="col-md-6">
+		            <div class="dealnet-credit-check-section" id="additional@(i+1)-section">
+		                <h3 class="dealnet-section-title">Additional Applicant #@(i + 1) <a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+		                </h3>
+		                @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId)
+		                <div class="form-group">
+		                    <div class="row">
+		                        @Html.LabelFor(m => Model.AdditionalApplicants[i].FirstName, new {@class = "dealnet-field-caption col-xs-6"})
+		                        <div class="dealnet-field-holder col-xs-6">
+		                            <div class="control-group">
+		                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
 
-				<div class="form-group">
-					<div class="row">
-						@Html.LabelFor(m => Model.AdditionalApplicants[0].LastName, new { @class = "dealnet-field-caption col-xs-6"})
-						<div class="dealnet-field-holder col-xs-6">
-							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-							</div>
-						</div>
-					</div>
+		                <div class="form-group">
+		                    <div class="row">
+		                        @Html.LabelFor(m => Model.AdditionalApplicants[i].LastName, new {@class = "dealnet-field-caption col-xs-6"})
+		                        <div class="dealnet-field-holder col-xs-6">
+		                            <div class="control-group">
+		                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+		                            </div>
+		                        </div>
+		                    </div>
 
-				</div>
-				<div class="form-group">
-					<div class="row">
-						@Html.Label("additional-birth-date-1", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
-						<div class="dealnet-field-holder col-xs-6">
-							<div class="control-group date-group">
-								@Html.TextBoxFor(m => Model.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
-							</div>
-						</div>
-					</div>
-				</div>
+		                </div>
+		                <div class="form-group">
+		                    <div class="row">
+		                        @Html.Label("additional-birth-date-@(i+1)", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
+		                        <div class="dealnet-field-holder col-xs-6">
+		                            <div class="control-group date-group">
+		                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today"})
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
 
-				<div class="dealnet-agrees form-group">
-					<label class="align-middle custom-checkbox">
-						@Html.CheckBox("additional1-agrees", new { id = "additional1-agrees" })
-						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
-						<span>Agrees to send his/her personal data to credit check</span>
-					</label>
-				</div>
-			</div>
-		</div>
+		                <div class="dealnet-agrees form-group">
+		                    <label class="align-middle custom-checkbox">
+		                        @Html.CheckBox("additional@(i+1)-agrees", new {id = "additional@(i+1)-agrees" })
+		                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
+		                        <span>Agrees to send his/her personal data to credit check</span>
+		                    </label>
+		                </div>
+		            </div>
+		        </div>
+		    }
 		}
 
-		@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 1)
+		@*@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 1)
 		{
 		<div class="col-md-6">
 			<div class="dealnet-credit-check-section">
@@ -232,7 +235,7 @@
 				</div>
 			</div>
 		</div>
-		}
+		}*@
 		<div class="col-md-6">
 			<div class="dealnet-credit-check-section" id="address-section">
 				<h3 class="dealnet-section-title">Address Information <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
