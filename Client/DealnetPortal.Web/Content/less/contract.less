@@ -25,27 +25,38 @@
     .comment-user{
       color: #5c5c5b;
       font-weight: 700;
+      @media @mobile {
+        display: block;
+      }
     }
     .icon-user{
       margin-right: 10px;
     }
     .comment-update{
+      display: inline-block;
       padding: 3px 10px;
       margin: 0 10px;
       background: #f0f0f0;
       border-radius: 10px;
       color: #626262;
       font-size: 11px;
+      @media @mobile {
+        margin: 5px 10px 5px 0;
+      }
       .comment-update-time{
         margin-right: 5px;
       }
     }
     .owner-comment{
+      display: inline-block;
       color: #cacaca;
+      @media @mobile {
+        margin: 5px 0;
+      }
     }
     .show-comments-answers{
       position: relative;
-      padding-right: 10px;
+      padding-right: 15px;
       color: #525251;
       text-decoration: none;
       margin-right: 20px;
@@ -76,11 +87,23 @@
     .dealnet-success-link{
       font-weight: 600;
     }
+    .comment-reply-form{
+      margin: 10px 0 0;
+      .btn{
+        margin: 10px auto 0;
+      }
+    }
   }
   .child-comments-list{
     padding-left: 130px;
     display: none;
     margin: 0;
+    @media @tablet-only {
+      padding-left: 60px;
+    }
+    @media @mobile{
+      padding-left: 30px;
+    }
   }
 }
 .comment-body{
