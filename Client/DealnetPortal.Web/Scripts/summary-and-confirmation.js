@@ -15,7 +15,7 @@ function submitAsync(url, form, aftervalidateAction) {
         aftervalidateAction();
     }
     $('.sent-email-msg').show();
-    $('.send-email-button').text('Resend Emails');
+    $("#send-email-button").text('Resend Emails');
     form.ajaxSubmit({
         type: "POST",
         url: url,
