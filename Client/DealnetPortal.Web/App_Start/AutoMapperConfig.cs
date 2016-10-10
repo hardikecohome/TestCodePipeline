@@ -34,7 +34,9 @@ namespace DealnetPortal.Web.App_Start
         {
             cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
                     .ForMember(x => x.Locations, d => d.Ignore())
-                    .ForMember(x => x.Id, d => d.Ignore())
+                    .ForMember(x => x.Id, d => d.ResolveUsing(src => src.CustomerId ?? 0))
+                    .ForMember(x => x.Phones, d => d.Ignore())
+                    .ForMember(x => x.Emails, d => d.Ignore())
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
 
             cfg.CreateMap<AddressInformation, LocationDTO>()
@@ -70,6 +72,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ContactInfoViewModel, CustomerDataDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId))
                 .ForMember(x => x.CustomerInfo, d => d.Ignore())
+                .ForMember(x => x.Locations, d => d.Ignore())
                 .ForMember(x => x.Phones, d => d.ResolveUsing(src =>
                 {
                     List<PhoneDTO> phones = new List<PhoneDTO>();
@@ -166,7 +169,7 @@ namespace DealnetPortal.Web.App_Start
                   .ForMember(d => d.RemainingDescription, s => s.ResolveUsing(src =>
                     {
                         var stb = new StringBuilder();
-                        src.PrimaryCustomer.Locations.ForEach(x =>
+                        src.PrimaryCustomer?.Locations?.ForEach(x =>
                         {
                             stb.AppendLine(x.Street);
                             stb.AppendLine(x.Unit);
@@ -174,8 +177,8 @@ namespace DealnetPortal.Web.App_Start
                             stb.AppendLine(x.State);
                             stb.AppendLine(x.PostalCode);
                         });
-                        src.PrimaryCustomer.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
-                        src.PrimaryCustomer.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
+                        src.PrimaryCustomer?.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
+                        src.PrimaryCustomer?.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
                         src.SecondaryCustomers?.ForEach(x =>
                         {
                             stb.AppendLine(x.FirstName);
