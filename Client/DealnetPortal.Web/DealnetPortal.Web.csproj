@@ -698,6 +698,7 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\Contract.cshtml" />
     <Content Include="Views\Reports\Contracts.cshtml" />
+    <Content Include="Views\Reports\ContractEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
