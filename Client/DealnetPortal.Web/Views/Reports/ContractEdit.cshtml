@@ -324,7 +324,7 @@
 	</div>
 	<hr>
 	<div class="form-section">
-		<h3 class="dealnet-section-title">Equipment Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+		<h3 class="dealnet-section-title">Equipment Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#equipment-info-modal').modal()">Edit</a></h3>
 		<div class="row credit-check-info-hold equipment-info no-top-margin">
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
@@ -460,7 +460,7 @@
 			</div>
 		</div>
 
-		<h3 class="dealnet-section-title">Payment Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+		<h3 class="dealnet-section-title">Payment Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#payment-info-modal').modal()">Edit</a></h3>
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
@@ -502,7 +502,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="summary-return-equipment">
-					<h3 class="dealnet-section-title">Return Equipment <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+					<h3 class="dealnet-section-title">Return Equipment <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#existing-equipment-modal').modal()">Edit</a></h3>
 					<div class="summury-return-equip-item">
 						<div class="form-group">
 							<div class="row">
@@ -900,8 +900,7 @@
 	</div>
 </div>
 
-
-<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="new-equipment-info-modal">
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="equipment-info-modal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -911,65 +910,44 @@
 			<div class="modal-body">
 				<div class="dealnet-credit-check-section dealnet-modal-section">
 					<form id="new-equipment-info-section-modal">
+						<div class="dealnet-middle-header">#1</div>
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group">
-									<label for="" class="dealnet-field-caption"></label>
+									<label for="" class="dealnet-field-caption">Qty</label>
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											<input type="text" class="form-control dealnet-input" placeholder="">
+											<input type="text" class="form-control dealnet-input" placeholder="Qty">
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-9">
 								<div class="form-group">
-									<label for="" class="dealnet-field-caption"></label>
+									<label for="" class="dealnet-field-caption">Type</label>
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											<input type="text" class="form-control dealnet-input" placeholder="">
+											<input type="text" class="form-control dealnet-input" placeholder="Type">
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label for="" class="dealnet-field-caption"></label>
+									<label for="" class="dealnet-field-caption">Description</label>
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											<input type="text" class="form-control dealnet-input" placeholder="">
+											<input type="text" class="form-control dealnet-input" placeholder="Description">
 										</div>
 									</div>
 								</div>
 							</div>
-							@*<div class="col-md-6">
-							<div class="form-group">
-								<div class="row">
-									<label for="" class="dealnet-field-caption"></label>
-									<div class="dealnet-field-holder">
-										<div class="control-group">
-											<input type="text" class="form-control dealnet-input" placeholder="">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="" class="dealnet-field-caption"></label>
+									<label for="" class="dealnet-field-caption">Estimated Installation Date</label>
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											<input type="text" class="form-control dealnet-input" placeholder="">
-										</div>
-									</div>
-								</div>
-							</div>*@
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="" class="dealnet-field-caption"></label>
-									<div class="dealnet-field-holder">
-										<div class="control-group">
-											<input type="text" class="form-control dealnet-input" placeholder="">
+											<input type="text" class="form-control dealnet-input" placeholder="Estimated Installation Date">
 										</div>
 									</div>
 								</div>
@@ -984,5 +962,185 @@
 			</div>
 		</div>
 	</div>
+</div>
 
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="payment-info-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Payment Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="payment-info-section-modal">
+						<div class="row">
+							<div class="col-md-8 col-sm-12">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Payment Type</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Payment Type">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-5" style="display: none;">
+								<div class="form-group">
+									<div class="dealnet-label dealnet-field-caption">Photo of Void Cheque</div>
+									<div class="equip-photo-group" style="position: relative;">
+										<div class="equip-photo-hold">
+											<div class="photo-pic">
+												<img src="" alt="">
+											</div>
+										</div>
+										<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 col-sm-7" style="display: none;">
+								<div class="form-group">
+									<div class="file-upload btn dealnet-button dealnet-success-button">
+										<svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+										<span>Add New Photo</span>
+										<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 col-sm-12">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Enbridge Acct #</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Enbridge Acct #">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 col-sm-12">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Meter #</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Meter #">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="existing-equipment-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Existing Equipment</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="payment-info-section-modal">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Is rental?</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<select name="" id="" class="form-control">
+												<option value="">Yes</option>
+												<option value="">No</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Rental Company</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Rental Company">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">General Condition</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="General Condition">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Estimated Age</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Estimated Age">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Make</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Make">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Model</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Model">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Serial Number</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Serial Number">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="" class="dealnet-field-caption">Notes</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" class="form-control dealnet-input" placeholder="Notes">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
