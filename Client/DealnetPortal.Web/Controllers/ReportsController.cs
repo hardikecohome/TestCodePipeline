@@ -42,6 +42,11 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        public ActionResult ContractEdit()
+        {
+            return View();
+        }
+
         //[HttpGet]
 
         //public ActionResult DealFlowOverview(DealFlowType type)
