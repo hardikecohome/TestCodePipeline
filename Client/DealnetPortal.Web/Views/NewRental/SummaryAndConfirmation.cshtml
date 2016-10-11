@@ -260,7 +260,9 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
-                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                     </div>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +271,9 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
-                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                     </div>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +282,9 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
-                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                     </div>
                                 </div>
                             </div>
                         </div>
@@ -286,7 +292,9 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
-                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", type = "email" })
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", type = "email" })
+                                     </div>
                                 </div>
                             </div>
                         </div>
@@ -294,14 +302,32 @@
                             <div class="row">
                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.HouseSize, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
-                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dealnet-credit-check-section">
+                        <h3 class="dealnet-section-title">
+                            Additional Contract Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="$('#edit-add-contract-modal').modal()">Edit</a>
+                        </h3>
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="" class = "dealnet-field-caption col-xs-12" >Contract Notes</label>
+                                <div class="dealnet-field-holder col-xs-12">
+                                    <div class="control-group">
+                                        <textarea name="" id="" cols="30" rows="2" class="dealnet-disabled-input dealnet-disabled-textarea"> &lt;Some text here&gt; </textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 
@@ -1382,6 +1408,36 @@
         </div>
     }
 }
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="edit-add-contract-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-title dealnet-large-header">Editing Additional Contract Information</div>
+            </div>
+            <div class="modal-body">
+                <div class="dealnet-credit-check-section dealnet-modal-section">
+                    <form id="">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-xs-12">Contract Notes</label>
+                                <div class="dealnet-field-holder col-xs-12">
+                                    <div class="control-group">
+                                        <textarea name="" id="" cols="30" rows="3" class="form-control">&lt;Some text here&gt;</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="btn-container">
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>

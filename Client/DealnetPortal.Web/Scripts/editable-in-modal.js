@@ -31,7 +31,7 @@ function copyFormData(form1, form2, validate) {
     $(':input[name]', form2).removeClass('input-validation-error');
 
     setTimeout(function(){
-        $('input, select', form2).each(function(){
+        $('input, select, textarea', form2).each(function(){
             var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).val();
             $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').text(inpValue);
         });

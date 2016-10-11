@@ -60,6 +60,12 @@
   color: @heading-text-color2;
   max-width: 100%;
   width: 100%;
+  &.dealnet-disabled-textarea{
+    &+.dealnet-disabled-input-value{
+      font-weight: 400;
+      text-align: left;
+    }
+  }
   & ~ .caret{
     display: none;
   }
