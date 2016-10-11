@@ -1,9 +1,15 @@
-﻿<div id="label-steps">
+﻿@using DealnetPortal.Api.Common.Enumeration
+@{
+    var dealStatus = ContractState.Started;
+    var dealType = AgreementType.LoanApplication;
+    var paymentType = PaymentType.Enbridge;
+}
+<div id="label-steps">
 	<div class="dealnet-action-link">Reports</div> >
 </div>
 <!--<div class="dealnet-large-header">My Deals</div>-->
 <div class="expand-filter-template">
-	<a class="clear-data-link">
+	<a class="clear-data-link" id="clear-filters">
 		<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span class="hidden-xs">Clear Filters</span>
 	</a>
 	<!-- Nav tabs -->
@@ -22,9 +28,7 @@
 						<div class="form-group">
 							<label for="">Deal Type</label>
 							<div class="control-group">
-								<select name="" id="" class="form-control">
-									<option value="">--not selected--</option>
-								</select>
+								@Html.EnumDropDownListFor(s => dealType, null, new { @class = "form-control filter-input select-filter", id = "agreement-type" })
 							</div>
 						</div>
 					</div>
@@ -32,7 +36,7 @@
 						<div class="form-group">
 							<label for="">Date From</label>
 							<div class="control-group date-group">
-								<input type="text" class="form-control date-control">
+								<input type="text" class="form-control date-control filter-input" id="date-from">
 							</div>
 						</div>
 					</div>
@@ -40,7 +44,7 @@
 						<div class="form-group">
 							<label for="">Date To</label>
 							<div class="control-group date-group">
-								<input type="text" class="form-control date-control">
+								<input type="text" class="form-control date-control filter-input" id="date-to">
 							</div>
 						</div>
 					</div>
@@ -48,15 +52,13 @@
 						<div class="form-group">
 							<label for="">Deal Status</label>
 							<div class="control-group">
-								<select name="" id="" class="form-control">
-									<option value="">--not selected--</option>
-								</select>
+								@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control filter-input select-filter", id = "deal-status" })
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-6">
 						<div class="form-group">
-							<button class="btn dealnet-button dealnet-success-button block-button">Filter</button>
+							<button class="btn dealnet-button dealnet-success-button block-button filter-button">Filter</button>
 						</div>
 					</div>
 				</div>
@@ -70,7 +72,7 @@
 						<div class="form-group">
 							<label for="">Equipment</label>
 							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
+								<input type="text" class="form-control dealnet-input filter-input" id="equipment-input">
 							</div>
 						</div>
 					</div>
@@ -78,9 +80,7 @@
 						<div class="form-group">
 							<label for="">Type of Payment</label>
 							<div class="control-group">
-								<select name="" id="" class="form-control">
-									<option value="">--not selected--</option>
-								</select>
+								@Html.EnumDropDownListFor(s => paymentType, null, new { @class = "form-control filter-input select-filter", id = "payment-type" })
 							</div>
 						</div>
 					</div>
@@ -88,13 +88,13 @@
 						<div class="form-group">
 							<label for="">Value of Deal</label>
 							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
+								<input type="text" class="form-control dealnet-input filter-input" id="deal-value">
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-6">
 						<div class="form-group">
-							<button class="btn dealnet-button dealnet-success-button block-button">Filter</button>
+							<button class="btn dealnet-button dealnet-success-button block-button filter-button">Filter</button>
 						</div>
 					</div>
 				</div>
@@ -109,12 +109,15 @@
 			<th class="all checkbox-cell"></th>
 			<th class="all id-cell">Contract#</th>
 			<th class="all">Customer</th>
-			<th class="min-tablet">Status</th>
+		    <th class="min-tablet">Status</th>
 			<th class="">Email</th>
 			<th class="">Phone</th>
 			<th class="">Date</th>
 			<th class="">Equipment</th>
 			<th class="">Value</th>
+            <th class="">RemainingDescription</th>
+            <th class="">AgreementType</th>
+            <th class="">PaymentType</th>
 			<th class="all controls-cell"></th>
 		</tr>
 	</thead>
@@ -137,15 +140,24 @@
 		<div class="col-sm-7 col-sm-pull-5 col-lg-8 col-lg-pull-4">
 			<div class="row additional-info">
 				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button">Preview</button></div>
-				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button">Export to Excel</button></div>
+				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button" id="export-excel">Export to Excel</button></div>
 			</div>
 		</div>
 	</div>
 </div>
 
+@using (Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
+{
+    <div id="export-ids"></div>
+}
+
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @section scripts
 {
+<script type="text/javascript">
+        var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+</script>
+    @Scripts.Render("~/Scripts/datejs.js");
 <script type="text/javascript">
 	$(document)
 		.ready(function () {
@@ -154,6 +166,10 @@
 			setTimeout(function(){
 				$(window).trigger('resize');
 			}, 300);
+			$('.select-filter option').each(function () {
+			    $(this).val($(this).text());
+			});
+			$('<option selected value="">- not selected -</option>').prependTo($('.select-filter'));
 		});
 	function assignDatepicker(input) {
 		input.datepicker({
@@ -165,34 +181,10 @@
 		});
 	}
 
-	var data = [
-
-		{
-			"Contract#": "1111",
-			"Customer": "Fred Flintstone",
-			"Status": "Waiting on Documents",
-			"Email": "mmouse@email.com",
-			"Phone": "555-000-0000",
-			"Date": "2012/06/10",
-			"Equipment": "Furnace Air Conditioner",
-			"Value": "$ 2300.00"
-		},
-
-		{
-			"Contract#": "2345",
-			"Customer": "Fred Flintstone",
-			"Status": "Waiting on Documents",
-			"Email": "mmouse@email.com",
-			"Phone": "555-555-1234",
-			"Date": "2015/10/01",
-			"Equipment": "Furnace Air Conditioner",
-			"Value": "$ 5500.00"
-		}
-
-	]
-
 	function showTable() {
-		$('#work-items-table')
+	    $.when($.ajax(itemsUrl, { mode: 'GET' }))
+        .done(function (data) {
+            var table = $('#work-items-table')
 			.DataTable({
 				data: data,
 				responsive: {
@@ -211,21 +203,33 @@
 				columns: [
 					{
 						"render": function (sdata, type, row) {
-							return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+						    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
 						},
 						className: 'checkbox-cell'
 					},
-					{ "data" : "Contract#"},
-					{ "data": "Customer" },
-					{ "data": "Status" },
-					{ "data": "Email" },
-					{ "data": "Phone" },
-					{ "data": "Date"},
-					{ "data": "Equipment"},
-					{ "data": "Value"},
+					{ "data": "Id" },
+                    { "data": "CustomerName" },
+                    { "data": "Status" },
+                    { "data": "Email" },
+                    { "data": "Phone" },
+                    { "data": "Date" },
+                    { "data": "Equipment" },
+                    { "data": "Value" },
+                    {
+                        "data": "RemainingDescription",
+                        "visible": false
+                    },
+                    {
+                        "data": "AgreementType",
+                        "visible": false
+                    },
+                    {
+                        "data": "PaymentType",
+                        "visible": false
+                    },
 					{// this is Actions Column
 						"render": function (sdata, type, row) {
-							return '<div class="contract-controls"><a href="#" class="icon-link"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+						    return '<div class="contract-controls"><a href="#" class="icon-link"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
 						},
 						className: 'controls-cell'
 					}
@@ -253,15 +257,73 @@
 				footerCallback: createTableFooter
 			});
 
-		createFilter();
+            getTotalForSelectedCheckboxes();
+            createFilter();
+            $(".filter-button").click(function () {
+                table.draw();
+            });
+            $('#clear-filters').click(function () {
+                $('.filter-input').val("");
+                table.draw();
+            });
+            $('#export-excel').click(function () {
+                var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
+                    return $(tr).find(':nth-child(2)').text();
+                });
+                submitExportRequest(ids);
+            });
+            $('#export-all-excel').click(function () {
+                var ids = $.map($('#work-items-table tbody tr'), function (tr) {
+                    return $(tr).find(':nth-child(2)').text();
+                });
+                submitExportRequest(ids);
+            });
+            $('.export-item').click(function() {
+                var tr = $(this).parents('tr');
+                var id = $(tr).find(':nth-child(2)').text();
+                var arr = [];
+                arr[0] = id;
+                submitExportRequest(arr);
+            });
+        });
 	};
+
+	$.fn.dataTable.ext.search.push(
+    function (settings, data, dataIndex) {
+        var status = $("#deal-status").val();
+        var agreementType = $("#agreement-type").val();
+        var paymentType = $("#payment-type").val();
+        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
+        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
+        var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
+        if ((!status || status === data[3]) &&
+            (!dateTo || valueEntered <= dateTo) &&
+            (!dateFrom || valueEntered >= dateFrom) &&
+            (!agreementType || agreementType === data[10]) &&
+            (!paymentType || paymentType === data[11])) {
+            return true;
+        }
+        return false;
+    });
+
+	function submitExportRequest(ids) {
+	    $("#export-ids").empty();
+	    jQuery.each(ids, function (index, item) {
+	        $("#export-ids").append($('<input>', {
+	            'name': 'ids',
+	            'value': item,
+	            'type': 'hidden'
+	        }));
+	    });
+	    $("#export-form").submit();
+	}
 
 	function createFilter(){
 		var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
 		var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
 
 		$('#table-title').html('<div class="dealnet-large-header">Reports <div class="filter-controls hidden">'+ iconFilter +' '+ iconSearch +'</div></div>');
-		$('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-success-button block-button">Export All to Excel</button>');
+		$('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-success-button block-button" id="export-all-excel">Export All to Excel</button>');
 
 		$('#table-title .icon-search-control').on('click', function(){
 			$(this).toggleClass('active');
@@ -305,7 +367,6 @@
 		// Update footer
 		$('.table-footer').html($('.reports-table-footer').detach());
 		$('.table-footer #reports-grand-total').html('$ '+ total );
-		getTotalForSelectedCheckboxes();
 	}
 
 	function getTotalForSelectedCheckboxes(){
@@ -316,20 +377,16 @@
 			tr.toggleClass('selected');
 			selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : '';
 
-			if(tr[0].classList.contains("selected"))
-			{
-				selectedSum = selectedSum + parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""))
-			}
-			else
-			{
-				selectedSum = selectedSum - parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""))
-			}
+			var val = parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""));
+			if (isNaN(val)) { val = 0; }
+		    var isSelected = tr[0].classList.contains("selected");
+		    selectedSum = isSelected ? selectedSum + val : selectedSum - val;
 
 			$('#selectedTotal').html('$ '+ selectedSum);
-			if(selectedSum === 0){
-				$('.reports-table-footer').removeClass('has-selected-items')
-			}else{
-				$('.reports-table-footer').addClass('has-selected-items')
+			if (selectedSum !== 0 || isSelected) {
+			    $('.reports-table-footer').addClass('has-selected-items');
+			}else {
+			    $('.reports-table-footer').removeClass('has-selected-items');
 			}
 		} );
 	}

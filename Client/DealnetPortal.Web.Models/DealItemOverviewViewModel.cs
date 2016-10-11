@@ -26,5 +26,7 @@ namespace DealnetPortal.Web.Models
         public string Equipment { get; set; }
         public string Value { get; set; }
         public string RemainingDescription { get; set; }
+        public string AgreementType { get; set; }
+        public string PaymentType { get; set; }
     }
 }
