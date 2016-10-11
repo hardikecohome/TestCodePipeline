@@ -306,7 +306,12 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             var contractsG = grDaysM.FirstOrDefault(g => g.Key == i);
                             decimal totalSum = 0;
-                            contractsG?.ForEach(c => totalSum += c.Equipment?.TotalMonthlyPayment ?? 0);
+                            contractsG?.ForEach(c =>
+                            {
+                                int term = 0;
+                                int.TryParse(c.Equipment?.RequestedTerm, out term);
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0* term;
+                            });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
                                 ItemLabel = i.ToString(),
@@ -331,7 +336,12 @@ namespace DealnetPortal.Api.Integration.Services
 
                             var contractsW = grDays.FirstOrDefault(g => g.Key == curDay);
                             decimal totalSum = 0;
-                            contractsW?.ForEach(c => totalSum += c.Equipment?.TotalMonthlyPayment ?? 0);
+                            contractsW?.ForEach(c =>
+                            {
+                                int term = 0;
+                                int.TryParse(c.Equipment?.RequestedTerm, out term);
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0 * term;
+                            });
 
                             summary.Add(new FlowingSummaryItemDTO()
                             {
@@ -350,7 +360,12 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             var contractsM = grMonths.FirstOrDefault(g => g.Key == i+1);
                             decimal totalSum = 0;
-                            contractsM?.ForEach(c => totalSum += c.Equipment?.TotalMonthlyPayment ?? 0);
+                            contractsM?.ForEach(c =>
+                            {
+                                int term = 0;
+                                int.TryParse(c.Equipment?.RequestedTerm, out term);
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0 * term;
+                            });
 
                             summary.Add(new FlowingSummaryItemDTO()
                             {
