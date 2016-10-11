@@ -27,15 +27,17 @@ using Microsoft.Practices.ObjectBuilder2;
 namespace DealnetPortal.Web.Controllers
 {    
     [AuthFromContext]
-    public class NewRentalController : Controller
+    public class NewRentalController : UpdateDataController
     {
-        private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
+        private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent; 
         private readonly IContractServiceAgent _contractServiceAgent;
+        private readonly IContractManager _contractManager;
 
-        public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent)
+        public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent, IContractManager contractManager) : base(contractManager)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
+            _contractManager = contractManager;
         }
 
         public async Task<ActionResult> BasicInfo(int? contractId)
@@ -52,7 +54,7 @@ namespace DealnetPortal.Web.Controllers
             }
             if (contractId != null)
             {
-                return View(await GetBasicInfoAsync(contractId.Value));
+                return View(await _contractManager.GetBasicInfoAsync(contractId.Value));
             }
             return View();
         }
@@ -71,7 +73,7 @@ namespace DealnetPortal.Web.Controllers
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
             if (contractResult?.Item1 != null)
             {
-                var updateResult = await UpdateContractAsync(basicInfo);
+                var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
                 if (updateResult.Any(r => r.Type == AlertType.Error))
                 {
                     return View("~/Views/Shared/Error.cshtml");
@@ -82,7 +84,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
-            return View(await GetBasicInfoAsync(contractId));
+            return View(await _contractManager.GetBasicInfoAsync(contractId));
         }
 
         [HttpPost]
@@ -120,7 +122,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
-            return View(await GetEquipmentInfoAsync(contractId));
+            return View(await _contractManager.GetEquipmentInfoAsync(contractId));
         }
 
         [HttpPost]
@@ -132,7 +134,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View();
             }
-            var updateResult = await UpdateContractAsync(equipmentInfo);
+            var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
                 return View("~/Views/Shared/Error.cshtml");
@@ -143,7 +145,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-            return View(await GetContactAndPaymentInfoAsync(contractId));
+            return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId));
         }
 
         [HttpPost]
@@ -155,7 +157,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View();
             }
-            var updateResult = await UpdateContractAsync(contactAndPaymentInfo);
+            var updateResult = await _contractManager.UpdateContractAsync(contactAndPaymentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
                 return View("~/Views/Shared/Error.cshtml");
@@ -166,7 +168,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
-            return View(await GetSummaryAndConfirmationAsync(contractId));
+            return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
 
         [HttpPost]
@@ -200,42 +202,6 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.HomeOwnerEmail = emails.HomeOwnerEmail;
             return View(emails);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<JsonResult> UpdateBasicInfo(BasicInfoViewModel basicInfo)
-        {
-            if (!ModelState.IsValid || basicInfo.ContractId == null)
-            {
-                return GetErrorJson();
-            }
-            var updateResult = await UpdateContractAsync(basicInfo);
-            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<JsonResult> UpdateContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
-        {
-            if (!ModelState.IsValid || contactAndPaymentInfo.ContractId == null)
-            {
-                return GetErrorJson();
-            }
-            var updateResult = await UpdateContractAsync(contactAndPaymentInfo);
-            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<JsonResult> UpdateEquipmentInfo(EquipmentInformationViewModel equipmentInfo)
-        {
-            if (!ModelState.IsValid || equipmentInfo.ContractId == null)
-            {
-                return GetErrorJson();
-            }
-            var updateResult = await UpdateContractAsync(equipmentInfo);
-            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
         [HttpPost]
@@ -304,187 +270,6 @@ namespace DealnetPortal.Web.Controllers
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
 
-        private async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
-        {
-            var basicInfo = new BasicInfoViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
-            {
-                return basicInfo;
-            }
-            basicInfo.ContractId = contractId;
-            MapBasicInfo(basicInfo, contractResult.Item1);
-            return basicInfo;
-        }
-
-        private async Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId)
-        {
-            var contactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
-            {
-                // TODO: redirect to error page?
-                return contactAndPaymentInfo;
-            }
-            contactAndPaymentInfo.ContractId = contractId;
-            MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
-            return contactAndPaymentInfo;
-        }
-
-        private async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
-        {
-            var equipmentInfo = new EquipmentInformationViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
-            {
-                return equipmentInfo;
-            }
-            equipmentInfo.ContractId = contractId;
-            if (contractResult.Item1.Equipment != null)
-            {
-                equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-            }
-            //TODO: ???
-            ViewBag.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null;//contractResult.Item1.ContactInfo != null && contractResult.Item1.PaymentInfo != null;
-            return equipmentInfo;
-        }
-
-        private async Task<SummaryAndConfirmationViewModel> GetSummaryAndConfirmationAsync(int contractId)
-        {
-            var summaryAndConfirmation = new SummaryAndConfirmationViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
-            {
-                return summaryAndConfirmation;
-            }
-            summaryAndConfirmation.BasicInfo = new BasicInfoViewModel();
-            summaryAndConfirmation.BasicInfo.ContractId = contractId;
-            MapBasicInfo(summaryAndConfirmation.BasicInfo, contractResult.Item1);
-            summaryAndConfirmation.EquipmentInfo = new EquipmentInformationViewModel();
-            summaryAndConfirmation.EquipmentInfo.ContractId = contractId;
-            summaryAndConfirmation.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-            summaryAndConfirmation.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
-            summaryAndConfirmation.ContactAndPaymentInfo.ContractId = contractId;
-            MapContactAndPaymentInfo(summaryAndConfirmation.ContactAndPaymentInfo, contractResult.Item1);
-            summaryAndConfirmation.SendEmails = new SendEmailsViewModel();
-            var rate = (await _contractServiceAgent.GetProvinceTaxRate(summaryAndConfirmation.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
-            if (rate != null) { summaryAndConfirmation.ProvinceTaxRate = rate.Rate; }
-            summaryAndConfirmation.SendEmails.ContractId = contractId;
-            summaryAndConfirmation.SendEmails.HomeOwnerFullName = summaryAndConfirmation.BasicInfo.HomeOwner.FirstName + " " + summaryAndConfirmation.BasicInfo.HomeOwner.LastName;
-            return summaryAndConfirmation;
-        }
-
-        private void MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
-        {
-            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
-            basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
-
-            basicInfo.AddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MainAddress));
-            basicInfo.MailingAddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MailAddress));
-        }
-
-        private void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
-        {
-            contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(
-                    contract.PaymentInfo);
-            contactAndPaymentInfo.HomeOwnerContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
-                    contract.PrimaryCustomer);
-            contactAndPaymentInfo.HouseSize = contract.Details.HouseSize;
-            contactAndPaymentInfo.CoBorrowersContactInfo = AutoMapper.Mapper.Map<List<ContactInfoViewModel>>(contract.SecondaryCustomers);
-            //if (contract.ContactInfo?.Phones != null)
-            //{
-            //    foreach (var phone in contract.ContactInfo.Phones)
-            //    {
-            //        switch (phone.PhoneType)
-            //        {
-            //            case PhoneType.Home:
-            //                contactAndPaymentInfo.ContactInfo.HomePhone = phone.PhoneNum;
-            //                break;
-            //            case PhoneType.Cell:
-            //                contactAndPaymentInfo.ContactInfo.CellPhone = phone.PhoneNum;
-            //                break;
-            //            case PhoneType.Business:
-            //                contactAndPaymentInfo.ContactInfo.BusinessPhone = phone.PhoneNum;
-            //                break;
-            //        }
-            //    }
-            //}
-        }
-
-        private async Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo)
-        {
-            var contractData = new ContractDataDTO();
-            contractData.Id = basicInfo.ContractId ?? 0;
-            contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
-            contractData.SecondaryCustomers = new List<CustomerDTO>();
-            if (basicInfo.AdditionalApplicants != null)
-            {
-                basicInfo.AdditionalApplicants.ForEach(a =>
-                {
-                    contractData.SecondaryCustomers.Add(AutoMapper.Mapper.Map<CustomerDTO>(a));
-                });
-            }
-            contractData.Locations = new List<LocationDTO>();
-            var address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.AddressInformation);
-            address.AddressType = AddressType.MainAddress;
-            contractData.Locations.Add(address);
-            if (basicInfo.MailingAddressInformation != null)
-            {
-                address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.MailingAddressInformation);
-                address.AddressType = AddressType.MailAddress;
-                contractData.Locations.Add(address);
-            }
-            return await _contractServiceAgent.UpdateContractData(contractData);
-        }
-
-        private async Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo)
-        {
-            var contractData = new ContractDataDTO
-            {
-                Id = equipmnetInfo.ContractId ?? 0,
-                Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
-            };
-            return await _contractServiceAgent.UpdateContractData(contractData);
-        }
-
-        private async Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
-        {
-            var alerts = new List<Alert>();
-
-            var contractData = new ContractDataDTO {Id = contactAndPaymentInfo.ContractId ?? 0};
-
-            List<CustomerDataDTO> customers = new List<CustomerDataDTO>();
-            if (contactAndPaymentInfo.HomeOwnerContactInfo != null)
-            {
-                customers.Add(Mapper.Map<CustomerDataDTO>(contactAndPaymentInfo.HomeOwnerContactInfo));
-            }
-            if (contactAndPaymentInfo.CoBorrowersContactInfo?.Any() ?? false)
-            {
-                contactAndPaymentInfo.CoBorrowersContactInfo.ForEach(cnt =>
-                    customers.Add(Mapper.Map<CustomerDataDTO>(cnt)));
-            }
-
-            if (customers.Any())
-            {
-                alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
-            }
-
-            if (contactAndPaymentInfo.PaymentInfo != null)
-            {
-                var paymentInfo = AutoMapper.Mapper.Map<PaymentInfoDTO>(contactAndPaymentInfo.PaymentInfo);
-                contractData.PaymentInfo = paymentInfo;
-                alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
-            }
-            return alerts;
-        }
-
-
         private JsonResult GetSuccessJson()
         {
             return Json(new { isSuccess = true });
@@ -494,12 +279,5 @@ namespace DealnetPortal.Web.Controllers
         {
             return Json(new { isError = true });
         }
-
-        ////Example of Export to xlsx usage
-        //public async Task<ActionResult> GetXlsxReport(IEnumerable<int> ids)
-        //{
-        //    var bytes = await _contractServiceAgent.GetXlsxReport(ids);
-        //    return File(bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx");
-        //}
     }
 }

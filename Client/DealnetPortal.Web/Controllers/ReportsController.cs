@@ -15,23 +15,27 @@ namespace DealnetPortal.Web.Controllers
     public class ReportsController : Controller
     {
         private readonly IContractServiceAgent _contractServiceAgent;
-        public ReportsController(IContractServiceAgent contractServiceAgent)
+        private readonly IContractManager _contractManager;
+        public ReportsController(IContractServiceAgent contractServiceAgent, IContractManager contractManager)
         {
             _contractServiceAgent = contractServiceAgent;
+            _contractManager = contractManager;
         }
 
         public ActionResult Index()
         {
             return View();
-        }       
-
-        public ActionResult Contract()
-        {
-            return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Contract(int contractId)
+        {
+            ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
+            return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
+        }
 
-        public ActionResult Contracts()
+        [HttpPost]
+        public ActionResult Contracts(IEnumerable<int> ids)
         {
             return View();
         }
