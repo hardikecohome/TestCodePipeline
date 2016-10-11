@@ -139,7 +139,7 @@
 		</div>
 		<div class="col-sm-7 col-sm-pull-5 col-lg-8 col-lg-pull-4">
 			<div class="row additional-info">
-				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button">Preview</button></div>
+				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button" id="preview-button">Preview</button></div>
 				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button" id="export-excel">Export to Excel</button></div>
 			</div>
 		</div>
@@ -149,6 +149,16 @@
 @using (Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
 {
     <div id="export-ids"></div>
+}
+
+@using (Html.BeginForm("Contract", "Reports", FormMethod.Post, new { id = "single-preview-form" }))
+{
+    <input type="hidden" name="contractId" id="contract-preview-id"/>
+}
+
+@using (Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "multiple-preview-form" }))
+{
+    <div id="contract-preview-ids"></div>
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
@@ -229,7 +239,7 @@
                     },
 					{// this is Actions Column
 						"render": function (sdata, type, row) {
-						    return '<div class="contract-controls"><a href="#" class="icon-link"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+						    return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="/Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="/Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
 						},
 						className: 'controls-cell'
 					}
@@ -285,6 +295,21 @@
                 arr[0] = id;
                 submitExportRequest(arr);
             });
+            $('#preview-button').click(function () {
+                var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
+                    return $(tr).find(':nth-child(2)').text();
+                });
+                if (ids.length > 1) {
+                    submitMultiplePreviewRequest(ids);
+                } else {
+                    submitSinglePreviewRequest(ids[0]);
+                }
+            });
+            $('.preview-item').click(function () {
+                var tr = $(this).parents('tr');
+                var id = $(tr).find(':nth-child(2)').text();
+                submitSinglePreviewRequest(id);
+            });
         });
 	};
 
@@ -308,7 +333,7 @@
 
 	function submitExportRequest(ids) {
 	    $("#export-ids").empty();
-	    jQuery.each(ids, function (index, item) {
+	    $.each(ids, function (index, item) {
 	        $("#export-ids").append($('<input>', {
 	            'name': 'ids',
 	            'value': item,
@@ -316,6 +341,23 @@
 	        }));
 	    });
 	    $("#export-form").submit();
+	}
+
+	function submitSinglePreviewRequest(id) {
+	    $("#contract-preview-id").val(id);
+	    $("#single-preview-form").submit();
+	}
+
+	function submitMultiplePreviewRequest(ids) {
+	    $("#contract-preview-ids").empty();
+	    $.each(ids, function (index, item) {
+	        $("#contract-preview-ids").append($('<input>', {
+	            'name': 'ids',
+	            'value': item,
+	            'type': 'hidden'
+	        }));
+	    });
+	    $("#multiple-preview-form").submit();
 	}
 
 	function createFilter(){
