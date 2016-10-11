@@ -87,8 +87,11 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreditCheckConfirmation(BasicInfoViewModel basicInfo)
+        public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
         {
+            //Initiate a credit check here!
+            var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
+
             return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
         }
 
@@ -99,22 +102,61 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> CheckCreditStatus(int contractId)
         {
-            //TODO: Initiate real credit status check
-            Thread.Sleep(3000);
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
+            //Initiate credit status check
+            const int numOfAttempts = 3;
+            TimeSpan timeOut = TimeSpan.FromSeconds(30);
+
+            Tuple<CreditCheckDTO, IList<Alert>> checkResult = null;
+            for (int i = 0; i < numOfAttempts; i++)
+            {
+                checkResult = await _contractServiceAgent.GetCreditCheckResult(contractId);
+                if (checkResult == null || (checkResult.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+                {
+                    break;
+                }
+                if (checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
+                {
+                    break;                    
+                }
+                await Task.Delay(timeOut);
+            }
+
+            if (checkResult?.Item1 == null || (checkResult.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
                 return View("~/Views/Shared/Error.cshtml");
             }
-            if (true)
-            {
-                TempData["MaxCreditAmount"] = 15000;
-                return RedirectToAction("EquipmentInformation", new {contractId});
+
+            switch (checkResult?.Item1.CreditCheckState)
+            {                
+                case CreditCheckState.Approved:
+                    TempData["MaxCreditAmount"] = checkResult?.Item1.CreditAmount;
+                    return RedirectToAction("EquipmentInformation", new { contractId });
+                    break;
+                case CreditCheckState.Declined:
+                    return View("CreditRejected", contractId);
+                    break;                                
+                case CreditCheckState.NotInitiated:
+                case CreditCheckState.Initiated:
+                case CreditCheckState.MoreInfoRequired:
+                default:
+                    return View("CreditRejected", contractId);
             }
-            else
-            {
-                return View("CreditRejected", contractId);
-            }
+
+            ////Thread.Sleep(3000);
+            //var contractResult = await _contractServiceAgent.GetContract(contractId);
+            //if (contractResult.Item1 == null)
+            //{
+            //    return View("~/Views/Shared/Error.cshtml");
+            //}
+            //if (true)
+            //{
+            //    TempData["MaxCreditAmount"] = 15000;
+            //    return RedirectToAction("EquipmentInformation", new {contractId});
+            //}
+            //else
+            //{
+            //    return View("CreditRejected", contractId);
+            //}
         }
 
         public async Task<ActionResult> EquipmentInformation(int contractId)
@@ -160,7 +202,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View("~/Views/Shared/Error.cshtml");
             }
-            return RedirectToAction("SummaryAndConfirmation", new { contractId = contactAndPaymentInfo.ContractId });
+            return RedirectToAction("SummaryAndConfirmation", new {contractId = contactAndPaymentInfo.ContractId});
         }
 
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
@@ -171,23 +213,21 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void SendContractEmails([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
+        public void SendContractEmails([Bind(Prefix = "SendEmails")] SendEmailsViewModel emails)
         {
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
             signatureUsers.ContractId = emails.ContractId;
             signatureUsers.Users = new List<SignatureUser>();
             signatureUsers.Users.Add(new SignatureUser()
             {
-                EmailAddress = emails.HomeOwnerEmail,
-                Role = SignatureRole.HomeOwner
+                EmailAddress = emails.HomeOwnerEmail, Role = SignatureRole.HomeOwner
             });
 
             emails.AdditionalApplicantsEmails?.ForEach(us =>
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
-                    EmailAddress = us.Email,
-                    Role = SignatureRole.AdditionalApplicant
+                    EmailAddress = us.Email, Role = SignatureRole.AdditionalApplicant
                 });
             });
 
@@ -196,8 +236,9 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RentalAgreementSubmitSuccess([Bind(Prefix = "SendEmails")]SendEmailsViewModel emails)
+        public async Task<ActionResult> RentalAgreementSubmitSuccess([Bind(Prefix = "SendEmails")] SendEmailsViewModel emails)
         {
+            await _contractServiceAgent.SubmitContract(emails.ContractId);
             ViewBag.HomeOwnerEmail = emails.HomeOwnerEmail;
             return View(emails);
         }
@@ -266,7 +307,7 @@ namespace DealnetPortal.Web.Controllers
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
+            ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
@@ -299,7 +340,7 @@ namespace DealnetPortal.Web.Controllers
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
+            ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
             var result = await _scanProcessingServiceAgent.ScanVoidCheque(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
@@ -345,7 +386,7 @@ namespace DealnetPortal.Web.Controllers
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
             }
             //TODO: ???
-            ViewBag.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null;//contractResult.Item1.ContactInfo != null && contractResult.Item1.PaymentInfo != null;
+            ViewBag.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null; //contractResult.Item1.ContactInfo != null && contractResult.Item1.PaymentInfo != null;
             return equipmentInfo;
         }
 
@@ -368,9 +409,28 @@ namespace DealnetPortal.Web.Controllers
             MapContactAndPaymentInfo(summaryAndConfirmation.ContactAndPaymentInfo, contractResult.Item1);
             summaryAndConfirmation.SendEmails = new SendEmailsViewModel();
             var rate = (await _contractServiceAgent.GetProvinceTaxRate(summaryAndConfirmation.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
-            if (rate != null) { summaryAndConfirmation.ProvinceTaxRate = rate.Rate; }
+            if (rate != null)
+            {
+                summaryAndConfirmation.ProvinceTaxRate = rate.Rate;
+            }
             summaryAndConfirmation.SendEmails.ContractId = contractId;
             summaryAndConfirmation.SendEmails.HomeOwnerFullName = summaryAndConfirmation.BasicInfo.HomeOwner.FirstName + " " + summaryAndConfirmation.BasicInfo.HomeOwner.LastName;
+            summaryAndConfirmation.SendEmails.HomeOwnerId = contractResult.Item1.PrimaryCustomer?.Id ?? 0;
+            summaryAndConfirmation.SendEmails.HomeOwnerEmail = contractResult.Item1.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                contractResult.Item1.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
+
+            if (contractResult.Item1.SecondaryCustomers?.Any() ?? false)
+            {
+                summaryAndConfirmation.SendEmails.AdditionalApplicantsEmails =
+                    contractResult.Item1.SecondaryCustomers.Select(c =>
+                        new CustomerEmail()
+                        {
+                            CustomerId = c.Id,
+                            Email = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                                        c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
+                        }).ToArray();
+            }
+
             return summaryAndConfirmation;
         }
 
@@ -379,22 +439,14 @@ namespace DealnetPortal.Web.Controllers
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
 
-            basicInfo.AddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MainAddress));
-            basicInfo.MailingAddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MailAddress));
+            basicInfo.AddressInformation = AutoMapper.Mapper.Map<AddressInformation>(contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress));
+            basicInfo.MailingAddressInformation = AutoMapper.Mapper.Map<AddressInformation>(contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MailAddress));
         }
 
         private void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
         {
-            contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(
-                    contract.PaymentInfo);
-            contactAndPaymentInfo.HomeOwnerContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(
-                    contract.PrimaryCustomer);
+            contactAndPaymentInfo.PaymentInfo = AutoMapper.Mapper.Map<PaymentInfoViewModel>(contract.PaymentInfo);
+            contactAndPaymentInfo.HomeOwnerContactInfo = AutoMapper.Mapper.Map<ContactInfoViewModel>(contract.PrimaryCustomer);
             contactAndPaymentInfo.HouseSize = contract.Details.HouseSize;
             contactAndPaymentInfo.CoBorrowersContactInfo = AutoMapper.Mapper.Map<List<ContactInfoViewModel>>(contract.SecondaryCustomers);
             //if (contract.ContactInfo?.Phones != null)
@@ -425,10 +477,7 @@ namespace DealnetPortal.Web.Controllers
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             if (basicInfo.AdditionalApplicants != null)
             {
-                basicInfo.AdditionalApplicants.ForEach(a =>
-                {
-                    contractData.SecondaryCustomers.Add(AutoMapper.Mapper.Map<CustomerDTO>(a));
-                });
+                basicInfo.AdditionalApplicants.ForEach(a => { contractData.SecondaryCustomers.Add(AutoMapper.Mapper.Map<CustomerDTO>(a)); });
             }
             contractData.Locations = new List<LocationDTO>();
             var address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.AddressInformation);
@@ -447,8 +496,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var contractData = new ContractDataDTO
             {
-                Id = equipmnetInfo.ContractId ?? 0,
-                Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+                Id = equipmnetInfo.ContractId ?? 0, Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
@@ -466,8 +514,7 @@ namespace DealnetPortal.Web.Controllers
             }
             if (contactAndPaymentInfo.CoBorrowersContactInfo?.Any() ?? false)
             {
-                contactAndPaymentInfo.CoBorrowersContactInfo.ForEach(cnt =>
-                    customers.Add(Mapper.Map<CustomerDataDTO>(cnt)));
+                contactAndPaymentInfo.CoBorrowersContactInfo.ForEach(cnt => customers.Add(Mapper.Map<CustomerDataDTO>(cnt)));
             }
 
             if (customers.Any())
@@ -487,12 +534,12 @@ namespace DealnetPortal.Web.Controllers
 
         private JsonResult GetSuccessJson()
         {
-            return Json(new { isSuccess = true });
+            return Json(new {isSuccess = true});
         }
 
         private JsonResult GetErrorJson()
         {
-            return Json(new { isError = true });
+            return Json(new {isError = true});
         }
 
         ////Example of Export to xlsx usage

@@ -20,8 +20,8 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(Name = "Credit check declined")]
         [Description("Credit check declined")]
         CreditCheckDeclined = 3,
-        [Display(Name = "Credit check confirmed")]
-        [Description("Credit check confirmed")]
+        [Display(Name = "Credit check approved")]
+        [Description("Credit check approved")]
         CreditContirmed = 4,
         [Display(Name = "Contract filled and sent to Aspire")]
         [Description("Contract filled and sent to Aspire")]

@@ -80,11 +80,6 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<ContractDTO>(contract);
         }
 
-        public IList<Alert> UpdateContractClientData(int contractId, string contractOwnerId, IList<LocationDTO> addresses, IList<CustomerDTO> customers)
-        {
-            throw new NotImplementedException();
-        }
-
         public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId)
         {
             try
@@ -94,6 +89,11 @@ namespace DealnetPortal.Api.Integration.Services
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
                 {
+                    //if (updatedContract.ContractState == ContractState.Started)
+                    //{
+                    //    _contractRepository.UpdateContractState(updatedContract.Id, contractOwnerId,
+                    //        ContractState.CustomerInfoInputted);
+                    //}
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
                 }
@@ -135,6 +135,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
+                    //TODO: credit check ?
                     if (contract.ContractState > ContractState.Started)
                     {
                         _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditCheckInitiated);
@@ -205,7 +206,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             //stub for future Aspire request
 
-            TimeSpan creditCheckPause = TimeSpan.FromMinutes(2);
+            TimeSpan creditCheckPause = TimeSpan.FromSeconds(30);
 
             var creditCheck = new CreditCheckDTO()
             {
@@ -215,80 +216,100 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             if (contract != null)
             {
-                creditCheck.ContractId = contractId;                
-                if (contract.ContractState < ContractState.CreditCheckInitiated)
+                creditCheck.ContractId = contractId;
+
+                switch (contract.ContractState)
                 {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.CreditCheckFailed,
-                        Message = "Credit check process wasn't initiated"
-                    });
-                }
-                else if (contract.ContractState == ContractState.CreditCheckInitiated)
-                {
-                    //stub - check time
-                    if ((DateTime.Now - contract.LastUpdateTime) < creditCheckPause)
-                    {
-                        creditCheck.CreditCheckState = CreditCheckState.Initiated;
+                    case ContractState.Started:
+                    case ContractState.CustomerInfoInputted:
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = ErrorConstants.CreditCheckFailed,
+                            Message = "Credit check process wasn't initiated"
+                        });
+                        break;
+                    case ContractState.CreditCheckInitiated:
+                        //stub - check time
+                        if ((DateTime.Now - contract.LastUpdateTime) < creditCheckPause)
+                        {
+                            creditCheck.CreditCheckState = CreditCheckState.Initiated;
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Information,
+                                Header = "Credit check in progress",
+                                Message = "Credit check in progress",
+                            });
+                        }
+                        else
+                        {
+                            _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
+                            _unitOfWork.Save();
+                            creditCheck.CreditCheckState = CreditCheckState.Approved;
+                            creditCheck.CreditAmount = 15000;
+                        }
+                        break;
+                    case ContractState.CreditCheckDeclined:
+                        creditCheck.CreditCheckState = CreditCheckState.Declined;
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Warning,
+                            Header = "Credit check declined",
+                            Message = "Credit declined",
+                        });
+                        break;
+                    case ContractState.CreditContirmed:
+                    case ContractState.Completed:
                         alerts.Add(new Alert()
                         {
                             Type = AlertType.Information,
-                            Header = "Credit check in progress",
-                            Message = "Credit check in progress",
+                            Header = "Credit approved",
+                            Message = "Credit approved",
                         });
-                    }
-                    else
-                    {
-                        _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
-                        _unitOfWork.Save();
                         creditCheck.CreditCheckState = CreditCheckState.Approved;
-                        creditCheck.CreditAmount = 10000;
-                    }
-                }
-                else if (contract.ContractState == ContractState.CreditCheckDeclined)
-                {
-                    creditCheck.CreditCheckState = CreditCheckState.Declined;
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Warning,
-                        Header = "Credit check declined",
-                        Message = "Credit declined",
-                    });
-                }
-                else
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Information,
-                        Header = "Credit approved",
-                        Message = "Credit approved",
-                    });
-                    creditCheck.CreditCheckState = CreditCheckState.Approved;
-                    creditCheck.CreditAmount = 10000;
-                }
+                        creditCheck.CreditAmount = 15000;
+                        break;                    
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }               
             }
             else
             {
-                var errorMsg = $"Cannot find a contract [{contractId}] for get credit check";
+                var errorMsg = $"Cannot find contract [{contractId}] for get credit check";
                 alerts.Add(new Alert()
                 {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.CreditCheckFailed,
-                    Message = errorMsg
+                    Type = AlertType.Error, Header = ErrorConstants.CreditCheckFailed, Message = errorMsg
                 });
-                _loggingService.LogError(errorMsg);                
+                _loggingService.LogError(errorMsg);
             }
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
         }
 
         public IList<Alert> SubmitContract(int contractId, string contractOwnerId)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+            //stub for future Aspire submit
+            var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
+            if (contract != null)
+            {
+                _loggingService.LogInfo($"Contract [{contractId}] submitted");
+            }
+            else
+            {
+                var errorMsg = $"Cannot submit contract [{contractId}]";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.SubmitFailed,
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+
+            return alerts;
         }
 
-        public IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId,
-            FlowingSummaryType summaryType)
+        public IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType)
         {
             IList<FlowingSummaryItemDTO> summary = new List<FlowingSummaryItemDTO>();
             var dealerContracts = _contractRepository.GetContracts(contractsOwnerId);
@@ -298,9 +319,7 @@ namespace DealnetPortal.Api.Integration.Services
                 switch (summaryType)
                 {
                     case FlowingSummaryType.Month:
-                        var grDaysM = dealerContracts.Where(
-                            c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day))
-                            .GroupBy(c => c.CreationTime.Day);
+                        var grDaysM = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day)).GroupBy(c => c.CreationTime.Day);
 
                         for (int i = 1; i < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
                         {
@@ -310,12 +329,11 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 int term = 0;
                                 int.TryParse(c.Equipment?.RequestedTerm, out term);
-                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0* term;
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0*term;
                             });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
-                                ItemLabel = i.ToString(),
-                                ItemCount = contractsG?.Count() ?? 0,//grDaysM.Count(g => g.Key == i),
+                                ItemLabel = i.ToString(), ItemCount = contractsG?.Count() ?? 0, //grDaysM.Count(g => g.Key == i),
                                 ItemData = totalSum // rand.Next(1, 100)
                             });
                         }
@@ -326,8 +344,7 @@ namespace DealnetPortal.Api.Integration.Services
                         int curDayIdx = Array.IndexOf(weekDays, DateTime.Today.DayOfWeek.ToString());
                         Enum.TryParse(weekDays[0], out fstWeekDay);
                         var daysDiff = -curDayIdx;
-                        var grDays = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(daysDiff))
-                            .GroupBy(c => c.CreationTime.DayOfWeek);
+                        var grDays = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(daysDiff)).GroupBy(c => c.CreationTime.DayOfWeek);
 
                         for (int i = 0; i < weekDays.Length; i++)
                         {
@@ -340,43 +357,38 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 int term = 0;
                                 int.TryParse(c.Equipment?.RequestedTerm, out term);
-                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0 * term;
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0*term;
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
                             {
-                                ItemLabel = weekDays[i],
-                                ItemCount = contractsW?.Count() ?? 0,
-                                ItemData = totalSum//rand.Next(1, 100)
+                                ItemLabel = weekDays[i], ItemCount = contractsW?.Count() ?? 0, ItemData = totalSum //rand.Next(1, 100)
                             });
                         }
                         break;
                     case FlowingSummaryType.Year:
                         var months = DateTimeFormatInfo.InvariantInfo.MonthNames;
-                        var grMonths = dealerContracts.Where(c => c.CreationTime.Year == DateTime.Today.Year)
-                            .GroupBy(c => c.CreationTime.Month);
+                        var grMonths = dealerContracts.Where(c => c.CreationTime.Year == DateTime.Today.Year).GroupBy(c => c.CreationTime.Month);
 
                         for (int i = 0; i < months.Length; i++)
                         {
-                            var contractsM = grMonths.FirstOrDefault(g => g.Key == i+1);
+                            var contractsM = grMonths.FirstOrDefault(g => g.Key == i + 1);
                             decimal totalSum = 0;
                             contractsM?.ForEach(c =>
                             {
                                 int term = 0;
                                 int.TryParse(c.Equipment?.RequestedTerm, out term);
-                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0 * term;
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0*term;
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
                             {
-                                ItemLabel = DateTimeFormatInfo.CurrentInfo.MonthNames[i],
-                                ItemCount = contractsM?.Count() ?? 0,
-                                ItemData = totalSum
+                                ItemLabel = DateTimeFormatInfo.CurrentInfo.MonthNames[i], ItemCount = contractsM?.Count() ?? 0, ItemData = totalSum
                             });
                         }
                         break;
                 }
-            }            
+            }
 
             return summary;
         }
@@ -393,9 +405,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var errorMsg = "Cannot retrieve Equipment Types";
                     alerts.Add(new Alert()
                     {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
-                        Message = errorMsg
+                        Type = AlertType.Error, Header = ErrorConstants.EquipmentTypesRetrievalFailed, Message = errorMsg
                     });
                     _loggingService.LogError(errorMsg);
                 }
@@ -406,7 +416,6 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to retrieve Equipment Types", ex);
                 throw;
             }
-            
         }
 
         public Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province)
@@ -421,9 +430,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var errorMsg = "Cannot retrieve Province Tax Rate";
                     alerts.Add(new Alert()
                     {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
-                        Message = errorMsg
+                        Type = AlertType.Error, Header = ErrorConstants.ProvinceTaxRateRetrievalFailed, Message = errorMsg
                     });
                     _loggingService.LogError(errorMsg);
                 }
@@ -447,16 +454,10 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
 
             try
-            {            
+            {
                 if (customers?.Any() ?? false)
                 {
-                    customers.ForEach(c =>
-                    {
-                        _contractRepository.UpdateCustomerData(c.Id, 
-                            Mapper.Map<IList<Location>>(c.Locations),
-                            Mapper.Map<IList<Phone>>(c.Phones),
-                            Mapper.Map<IList<Email>>(c.Emails));
-                    });
+                    customers.ForEach(c => { _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails)); });
                 }
                 _unitOfWork.Save();
             }
@@ -465,9 +466,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to update customers data", ex);
                 alerts.Add(new Alert()
                 {
-                    Type = AlertType.Error,
-                    Header = "Failed to update customers data",
-                    Message = ex.ToString()
+                    Type = AlertType.Error, Header = "Failed to update customers data", Message = ex.ToString()
                 });
                 //throw;
             }

@@ -253,5 +253,20 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("SubmitContract")]
+        [HttpPost]
+        public IHttpActionResult SubmitContract(int contractId)
+        {
+            try
+            {
+                var alerts = ContractService.SubmitContract(contractId, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }
