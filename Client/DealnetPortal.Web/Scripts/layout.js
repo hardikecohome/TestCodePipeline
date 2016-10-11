@@ -88,7 +88,7 @@
         return false;
       });
 
-      $('#steps .step-item').on('click', function(){
+      $('#steps .step-item[data-warning="true"]').on('click', function(){
         if($(this).attr('href')){
           navigateToStep($(this));
         }

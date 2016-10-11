@@ -15,10 +15,10 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a href="@Url.Action("BasicInfo", new { contractId = Model.ContractId })" class="step-item">1</a>
+        <a href="@Url.Action("BasicInfo", new { contractId = Model.ContractId })" data-warning="true" class="step-item">1</a>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a href="@Url.Action("CreditCheckConfirmation", new { contractId = Model.ContractId })" id="step2" class="step-item">2</a>
+        <a href="@Url.Action("CreditCheckConfirmation", new { contractId = Model.ContractId })" data-warning="true" id="step2" class="step-item">2</a>
 
         <div id="step3" class="step-item step-active">3</div>
     </div>
