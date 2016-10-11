@@ -10,6 +10,8 @@ namespace DealnetPortal.Api.Models.Contract
     {
         public string ItemLabel { get; set; }
 
-        public int ItemData { get; set; }
+        public int ItemCount { get; set; }
+
+        public decimal ItemData { get; set; }
     }
 }
