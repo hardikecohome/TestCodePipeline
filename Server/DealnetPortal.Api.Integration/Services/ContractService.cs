@@ -290,53 +290,93 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId,
             FlowingSummaryType summaryType)
         {
-            // Stub for a future deals summary requests
-
             IList<FlowingSummaryItemDTO> summary = new List<FlowingSummaryItemDTO>();
-            var rand = new Random();
-            switch (summaryType)
+            var dealerContracts = _contractRepository.GetContracts(contractsOwnerId);
+
+            if (dealerContracts?.Any() ?? false)
             {
-                case FlowingSummaryType.Month:
-                    {
+                switch (summaryType)
+                {
+                    case FlowingSummaryType.Month:
+                        var grDaysM = dealerContracts.Where(
+                            c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day))
+                            .GroupBy(c => c.CreationTime.Day);
+
                         for (int i = 1; i < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
                         {
+                            var contractsG = grDaysM.FirstOrDefault(g => g.Key == i);
+                            decimal totalSum = 0;
+                            contractsG?.ForEach(c =>
+                            {
+                                int term = 0;
+                                int.TryParse(c.Equipment?.RequestedTerm, out term);
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0* term;
+                            });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
                                 ItemLabel = i.ToString(),
-                                ItemData = rand.Next(1, 100)
-                            });                            
-                        }
-                        break;
-                    }
-                case FlowingSummaryType.Week:
-                    {
-                        foreach (var day in DateTimeFormatInfo.CurrentInfo.DayNames)
-                        {
-                            summary.Add(new FlowingSummaryItemDTO()
-                            {
-                                ItemLabel = day,
-                                ItemData = rand.Next(1, 100)
+                                ItemCount = contractsG?.Count() ?? 0,//grDaysM.Count(g => g.Key == i),
+                                ItemData = totalSum // rand.Next(1, 100)
                             });
                         }
                         break;
-                    }
-                case FlowingSummaryType.Year:
-                    {
-                        foreach (var month in DateTimeFormatInfo.CurrentInfo.MonthNames)
+                    case FlowingSummaryType.Week:
+                        var weekDays = DateTimeFormatInfo.InvariantInfo.DayNames;
+                        DayOfWeek fstWeekDay;
+                        int curDayIdx = Array.IndexOf(weekDays, DateTime.Today.DayOfWeek.ToString());
+                        Enum.TryParse(weekDays[0], out fstWeekDay);
+                        var daysDiff = -curDayIdx;
+                        var grDays = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(daysDiff))
+                            .GroupBy(c => c.CreationTime.DayOfWeek);
+
+                        for (int i = 0; i < weekDays.Length; i++)
                         {
-                            if (string.IsNullOrEmpty(month))
+                            DayOfWeek curDay;
+                            Enum.TryParse(weekDays[i], out curDay);
+
+                            var contractsW = grDays.FirstOrDefault(g => g.Key == curDay);
+                            decimal totalSum = 0;
+                            contractsW?.ForEach(c =>
                             {
-                                continue;
-                            }
+                                int term = 0;
+                                int.TryParse(c.Equipment?.RequestedTerm, out term);
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0 * term;
+                            });
+
                             summary.Add(new FlowingSummaryItemDTO()
                             {
-                                ItemLabel = month,
-                                ItemData = rand.Next(1, 100) 
+                                ItemLabel = weekDays[i],
+                                ItemCount = contractsW?.Count() ?? 0,
+                                ItemData = totalSum//rand.Next(1, 100)
                             });
                         }
                         break;
-                    }
-            }
+                    case FlowingSummaryType.Year:
+                        var months = DateTimeFormatInfo.InvariantInfo.MonthNames;
+                        var grMonths = dealerContracts.Where(c => c.CreationTime.Year == DateTime.Today.Year)
+                            .GroupBy(c => c.CreationTime.Month);
+
+                        for (int i = 0; i < months.Length; i++)
+                        {
+                            var contractsM = grMonths.FirstOrDefault(g => g.Key == i+1);
+                            decimal totalSum = 0;
+                            contractsM?.ForEach(c =>
+                            {
+                                int term = 0;
+                                int.TryParse(c.Equipment?.RequestedTerm, out term);
+                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0 * term;
+                            });
+
+                            summary.Add(new FlowingSummaryItemDTO()
+                            {
+                                ItemLabel = DateTimeFormatInfo.CurrentInfo.MonthNames[i],
+                                ItemCount = contractsM?.Count() ?? 0,
+                                ItemData = totalSum
+                            });
+                        }
+                        break;
+                }
+            }            
 
             return summary;
         }
