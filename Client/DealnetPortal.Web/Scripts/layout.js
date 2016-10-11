@@ -87,7 +87,29 @@
         $(this).hide();
         return false;
       });
+
+      $('#steps .step-item').on('click', function(){
+        if($(this).attr('href')){
+          navigateToStep($(this));
+        }
+        return false;
+      });
+
     });
+
+function navigateToStep(targetLink){
+  var url = targetLink.attr('href');
+  var stepName = targetLink.text();
+
+  var message = "If you change Home Owner Information you will have to pass Credit Check step again"
+  $('#alertModal').find('.modal-body p').html(message);
+  $('#alertModal').find('.modal-title').html('Navigate to step '+stepName+'?');
+  $('#alertModal').find('#confirmAlert').html('Go to Step '+stepName);
+  $('#alertModal').modal('show');
+  $('#confirmAlert').on('click', function(){
+    window.location.href = url;
+  });
+}
 
 function detectPageHeaight(){
   if($('.dealnet-body').height() > 1000){
