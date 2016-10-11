@@ -185,21 +185,18 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.Equipment != null)
                     {
                         AddOrUpdateEquipment(contract, contractData.Equipment);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
                     if (contractData.Details != null)
                     {
                         AddOrUpdateContactDetails(contract, contractData.Details);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
                     if (contractData.PaymentInfo != null)
                     {
                         AddOrUpdatePaymentInfo(contract, contractData.PaymentInfo);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }                    
 

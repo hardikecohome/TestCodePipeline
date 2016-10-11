@@ -28,7 +28,6 @@ namespace DealnetPortal.Web.Common.Security
                 var nameclaim = Claims.FirstOrDefault(t => t.Type == ClaimTypes.Name);
 
                 return nameclaim == null ? null : nameclaim.Value;
-
             }
         }
     }

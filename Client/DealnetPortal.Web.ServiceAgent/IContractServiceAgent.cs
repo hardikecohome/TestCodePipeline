@@ -53,6 +53,11 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>List of alerts (warnings, errors)</returns>
         Task<IList<Alert>> InitiateCreditCheck(int contractId);
 
+        /// <summary>
+        /// Initiate a process of digital signature of contract
+        /// </summary>
+        /// <param name="signatureUsers"></param>
+        /// <returns></returns>
         Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
 
         /// <summary>
@@ -62,7 +67,19 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>Credit check result and list of alerts in a tuple</returns>
         Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId);
 
+        /// <summary>
+        /// Reports info about deals flowing
+        /// </summary>
+        /// <param name="summaryType"></param>
+        /// <returns></returns>
         Task<IList<FlowingSummaryItemDTO>> GetContractsSummary(string summaryType);
+
+        /// <summary>
+        /// Submit contract and send it to Aspire
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns></returns>
+        Task<IList<Alert>> SubmitContract(int contractId);
 
         /// <summary>
         /// Get Equipment Types list

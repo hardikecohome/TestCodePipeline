@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Web.Models
 {
-    public class AdiitionalApplicantEmail
+    public class CustomerEmail
     {
+        public int CustomerId { get; set; }
+
         //[Required]
-        [Display(Name = "Adiitional Applicant Email")]
+        [Display(Name = "Additional Applicant Email")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
     }
@@ -18,6 +20,8 @@ namespace DealnetPortal.Web.Models
     public class SendEmailsViewModel
     {
         public int ContractId { get; set; }
+
+        public int HomeOwnerId { get; set; }
 
         [Required]
         public string HomeOwnerFullName { get; set; }
@@ -27,6 +31,6 @@ namespace DealnetPortal.Web.Models
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string HomeOwnerEmail { get; set; }
 
-        public AdiitionalApplicantEmail[] AdditionalApplicantsEmails { get; set; }
+        public CustomerEmail[] AdditionalApplicantsEmails { get; set; }
     }
 }

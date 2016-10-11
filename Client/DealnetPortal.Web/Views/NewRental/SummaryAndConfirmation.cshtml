@@ -29,6 +29,7 @@
     @using (Html.BeginForm("RentalAgreementSubmitSuccess", "NewRental", FormMethod.Post, new { id = "send-mails-form", @class = "clearfix" }))
     {
         @Html.HiddenFor(m => m.SendEmails.ContractId)
+        @Html.HiddenFor(m => m.SendEmails.HomeOwnerId)
         @Html.HiddenFor(m => m.SendEmails.HomeOwnerFullName)
         @Html.AntiForgeryToken()
         <div class="well rental-summary-emails well-info">
@@ -41,9 +42,9 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="homeOwnerEmail">Home Owner Email</label>
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new { id = "homeOwnerEmail", @class = "dealnet-input form-control", type = "email" })
-                            @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new { @class = "text-danger" })
+                        <div class="control-group">                            
+                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new {id = "homeOwnerEmail", @class = "dealnet-input form-control", type = "email"})
+                            @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new {@class = "text-danger"})
                         </div>
                     </div>
                 </div>
@@ -55,8 +56,9 @@
                             <div class="form-group">
                                 <label for="addApplicantEmail@(i)"> &lt;Name of an applicant&gt; Email</label>
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new { id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email" })
-                                    @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(m => m.SendEmails.AdditionalApplicantsEmails[i].CustomerId)
+                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
+                                    @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
                                 </div>
                             </div>
                         </div>
