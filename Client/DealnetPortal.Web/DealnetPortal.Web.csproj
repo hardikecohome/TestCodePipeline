@@ -346,6 +346,8 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\Spinner_1.gif" />
+    <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
     <Content Include="Content\images\sprite\delete-name.svg" />
     <Content Include="Content\images\sprite\get-location.svg" />
