@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -38,24 +39,38 @@ namespace DealnetPortal.Api.Integration.Services
                 body.AppendLine($"Contract {contract.Id} was successfully submitted");
                 body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
                 body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
-                var recipients = new List<string>();
+                var recipients = GetContractRecipients(contract);
 
-                try
+                if (recipients.Any())
                 {
-                    var sAlerts = await SendEmail(recipients, subject, body.ToString());
-                    if (sAlerts?.Any() ?? false)
+                    try
                     {
-                        alerts.AddRange(sAlerts);
+                        var sAlerts = await SendEmail(recipients, subject, body.ToString());
+                        if (sAlerts?.Any() ?? false)
+                        {
+                            alerts.AddRange(sAlerts);
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        var errorMsg = "Can't send notification email";
+                        _loggingService.LogError("Can't send notification email", ex);
+                        alerts.Add(new Alert()
+                        {
+                            Header = errorMsg,
+                            Message = ex.ToString(),
+                            Type = AlertType.Error
+                        });
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    var errorMsg = "Can't send notification email";
-                    _loggingService.LogError("Can't send notification email", ex);
+                    var errorMsg = $"Can't get recipients list for contract [{contractId}]";
+                    _loggingService.LogError(errorMsg);
                     alerts.Add(new Alert()
                     {
-                        Header = errorMsg,
-                        Message = ex.ToString(),
+                        Header = "Can't get recipients list",
+                        Message = errorMsg,
                         Type = AlertType.Error
                     });
                 }
@@ -71,33 +86,97 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Can't get contract with id {contractId}");
             }
 
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Email notifications for contract [{contractId}] was sent");
+            }
+
             return alerts;
+        }
+
+        private IList<string> GetContractRecipients(Domain.Contract contract)
+        {
+            var recipients = new List<string>();
+
+            if (contract.PrimaryCustomer?.Emails?.Any() ?? false)
+            {
+                recipients.Add(contract.PrimaryCustomer.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                    contract.PrimaryCustomer.Emails.First().EmailAddress);
+            }
+
+            if (contract?.SecondaryCustomers?.Any() ?? false)
+            {
+                contract.SecondaryCustomers.ForEach(c =>
+                {
+                    if (c.Emails?.Any() ?? false)
+                    {
+                        recipients.Add(c.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                            c.Emails.First().EmailAddress);
+                    }
+                });
+            }
+
+            //TODO: dealer and ODI/Ecohome team
+            if (!string.IsNullOrEmpty(contract.Dealer?.Email))
+            {
+                recipients.Add(contract.Dealer.Email);
+            }
+
+            return recipients;
         }
 
         private async Task<IList<Alert>> SendEmail(IList<string> recipients, string subject, string body)
         {
+            var alerts = new List<Alert>();
             HttpClient client = new HttpClient();
-            string baseUri = ConfigurationManager.AppSettings["EmailService.FromEmailAddress"];
-            client.BaseAddress = new Uri(baseUri);
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("api", "key-7b6273c4442da6aaa9496eb3eed25036");
-            var credentials = Encoding.ASCII.GetBytes("api:key-7b6273c4442da6aaa9496eb3eed25036");
+            string baseUri = string.Empty;
+            string domain = string.Empty;
+            string key = string.Empty;
+            string sender = string.Empty;
+
+            try
+            {
+                baseUri = ConfigurationManager.AppSettings["MailGun.ApiUrl"];
+                domain = ConfigurationManager.AppSettings["MailGun.Domain"];
+                key = ConfigurationManager.AppSettings["MailGun.ApiKey"];
+                sender = ConfigurationManager.AppSettings["MailGun.From"];
+            }
+            catch (Exception ex)
+            {
+                var errorMsg = "Can't get mailgun settings from config";
+                _loggingService.LogError(errorMsg, ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = errorMsg,
+                    Message = ex.ToString()
+                });
+            }            
+
+            client.BaseAddress = new Uri(baseUri);            
+            var credentials = Encoding.ASCII.GetBytes($"api:{key}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
 
-
-            var domain = "sandbox36ed7e337cd34757869b6c132e07e7b0.mailgun.org";
-
-            var data = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            var requestValues = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("domain", domain),
-                new KeyValuePair<string, string>("from", "Mailgun Sandbox <postmaster@sandbox36ed7e337cd34757869b6c132e07e7b0.mailgun.org>"),
-                new KeyValuePair<string, string>("to", "mkhar@yandex.ru"),
-                new KeyValuePair<string, string>("subject", "Hello Maksim"),
-                new KeyValuePair<string, string>("text", "Congratulations Maksim, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free."),
-            });
+                new KeyValuePair<string, string>("from", sender),
+                //new KeyValuePair<string, string>("to", "mkhar@yandex.ru"),
+                new KeyValuePair<string, string>("subject", subject),
+                new KeyValuePair<string, string>("text", body)
+            };
 
+            recipients?.ForEach(r =>
+                requestValues.Add(new KeyValuePair<string, string>("to", r)));
+
+            var data = new FormUrlEncodedContent(requestValues);
+            
             var requestUri = new Uri(new Uri(baseUri), $"{domain}/messages");
 
-            var response = client.PostAsync(requestUri, data).GetAwaiter().GetResult();
+            var response = await client.PostAsync(requestUri, data);
+            response.EnsureSuccessStatusCode();            
+
+            return alerts;
         }
     }
 }
