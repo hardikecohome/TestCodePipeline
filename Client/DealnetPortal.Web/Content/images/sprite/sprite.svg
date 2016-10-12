@@ -1,5 +1,20 @@
 <svg width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
+        <symbol id="icon-home" viewBox="0 0 20 20">
+            <path fill="currentColor" fill-rule="evenodd" d="M15 8.942V16H5V8.942H3l7.012-5.04 7.012 5.04H15zM8 11h4v5H8v-5z"/>
+        </symbol>
+        <symbol id="icon-new-rental-side" viewBox="0 0 22 24">
+            <defs><path id="a_rs" d="M4 3h8.993v2.978H16V17H4z"/><mask id="b_rs" width="10" height="12" x="0" y="0" fill="currentColor"><use xlink:href="#a_rs"/></mask></defs><use fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="2" mask="url(#b_rs)" xlink:href="#a_rs"/>
+        </symbol>
+        <symbol id="icon-info" viewBox="0 0 20 20">
+            <path fill="currentColor" fill-rule="evenodd" d="M11 9v4h1v1H8v-1h1V9H8V8h4v1h-1zm-1 8c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm0-10c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/>
+        </symbol>
+        <symbol id="icon-reports-side" viewBox="0 0 20 20">
+            <path fill="currentColor" fill-rule="evenodd" d="M5 12h2v4H5v-4zm4-3h2v7H9V9zm4-4h2v11h-2V5z"/>
+        </symbol>
+        <symbol id="icon-my-deals-side" viewBox="0 0 20 20">
+            <path fill="currentColor" fill-rule="evenodd" d="M6.126 8H5.002C4.456 8 4 8.446 4 8.997v6.006c0 .544.45.997 1.002.997h9.996c.546 0 1.002-.446 1.002-.997V8.997C16 8.453 15.55 8 14.998 8h-1.124C13.43 6.277 11.864 5 10 5 8.14 5 6.57 6.275 6.126 8zM12 9c0-1.102-.897-2-2-2-1.102 0-2 .897-2 2 .017-.003 3.998-.01 4 0z"/>
+        </symbol>
         <symbol id="icon-edit" viewBox="0 0 20 20">
             <path d="M12.52 2.134c.552-.954 1.767-1.283 2.73-.727.957.552 1.285 1.774.735 2.727l-7.003 12.13-3.464-2 7.003-12.13zM5.02 15.13l3.464 2-3.732 2.463.268-4.464zm7-12.125l3.464 2-.5.866-3.464-2 .5-.865z" fill-rule="evenodd" fill="currentColor"/>
         </symbol>
