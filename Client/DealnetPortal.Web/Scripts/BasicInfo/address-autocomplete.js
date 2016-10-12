@@ -163,6 +163,7 @@ function autodetectAddress() {
                     'latLng': latlng
                 }, function (results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
+                        //$('#street, #locality, #administrative_area_level_1').removeClass('placeholder').removeClass('pac-placeholder');
                         if (results[0]) {
                             var street;
                             for (var i = 0; i < results[0].address_components.length; i++) {
@@ -185,10 +186,12 @@ function autodetectAddress() {
                                         }
                                         continue;
                                     }
+                                    $('#locality, #administrative_area_level_1').removeClass('placeholder').removeClass('pac-placeholder');
                                     document.getElementById(addressType).value = val;
                                 }
                             }
                             if (street) {
+                                $('#street').removeClass('placeholder').removeClass('pac-placeholder');
                                 document.getElementById('street').value = street;
                             }
                         } else {
