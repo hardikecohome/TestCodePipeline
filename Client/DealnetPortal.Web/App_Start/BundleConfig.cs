@@ -54,6 +54,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/my-deals").Include("~/Scripts/datejs.js").Include("~/Scripts/my-deals.js"));
+            bundles.Add(new ScriptBundle("~/bundles/reports").Include("~/Scripts/datejs.js").Include("~/Scripts/reports.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
 

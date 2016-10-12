@@ -27,11 +27,10 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Contract(int contractId)
+        [HttpGet]
+        public async Task<ActionResult> Contract(int id)
         {
-            ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
-            return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
+            return View(await _contractManager.GetSummaryAndConfirmationAsync(id));
         }
 
         [HttpPost]
@@ -44,11 +43,6 @@ namespace DealnetPortal.Web.Controllers
         {
             var bytes = await _contractServiceAgent.GetXlsxReport(ids);
             return File(bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx");
-        }
-
-        public ActionResult ContractEdit()
-        {
-            return View();
         }        
     }
 }

@@ -661,6 +661,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
     <Content Include="Scripts\navigation-with-warning.js" />
+    <Content Include="Scripts\reports.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\svgxuse.min.js" />
@@ -709,7 +710,7 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\Contract.cshtml" />
     <Content Include="Views\Reports\Contracts.cshtml" />
-    <Content Include="Views\Reports\ContractEdit.cshtml" />
+    <Content Include="Views\MyDeals\ContractEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

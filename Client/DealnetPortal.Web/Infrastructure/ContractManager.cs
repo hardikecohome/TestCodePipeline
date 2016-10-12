@@ -208,7 +208,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
 
             summary.SendEmails.ContractId = contractId;
-            summary.SendEmails.HomeOwnerFullName = summary.BasicInfo.HomeOwner.FirstName + " " + summary.BasicInfo.HomeOwner.LastName;
+            summary.SendEmails.HomeOwnerFullName = summary.BasicInfo.HomeOwner?.FirstName + " " + summary.BasicInfo.HomeOwner?.LastName;
             summary.SendEmails.HomeOwnerId = contract.PrimaryCustomer?.Id ?? 0;
             summary.SendEmails.HomeOwnerEmail = contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                 contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
