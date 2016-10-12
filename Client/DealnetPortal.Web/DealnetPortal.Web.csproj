@@ -360,12 +360,17 @@
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
+    <Content Include="Content\images\sprite\icon-home.svg" />
+    <Content Include="Content\images\sprite\icon-info.svg" />
+    <Content Include="Content\images\sprite\icon-my-deals-side.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
+    <Content Include="Content\images\sprite\icon-new-rental-side.svg" />
     <Content Include="Content\images\sprite\icon-pdf.svg" />
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
+    <Content Include="Content\images\sprite\icon-reports-side.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
     <Content Include="Content\images\sprite\icon-successfully.svg" />
