@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Results;
+using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
@@ -55,7 +56,24 @@ namespace DealnetPortal.Api.Controllers
             return NotFound();
         }
 
-
+        [Route("GetContracts")]
+        [HttpPost]
+        public IHttpActionResult GetContracts(IEnumerable<int> ids)
+        {
+            try
+            {
+                var contracts = ContractService.GetContracts(ids, LoggedInUser?.UserId);
+                if (contracts != null)
+                {
+                    return Ok(Mapper.Map<IList<ContractDTO>>(contracts));
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
         [Route("CreateContract")]
         [HttpPut]

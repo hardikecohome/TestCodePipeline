@@ -77,24 +77,25 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 return summaryAndConfirmation;
             }
-            summaryAndConfirmation.BasicInfo = new BasicInfoViewModel();
-            summaryAndConfirmation.BasicInfo.ContractId = contractId;
-            MapBasicInfo(summaryAndConfirmation.BasicInfo, contractResult.Item1);
-            summaryAndConfirmation.EquipmentInfo = new EquipmentInformationViewModel();
-            summaryAndConfirmation.EquipmentInfo.ContractId = contractId;
-            summaryAndConfirmation.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-            summaryAndConfirmation.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
-            summaryAndConfirmation.ContactAndPaymentInfo.ContractId = contractId;
-            MapContactAndPaymentInfo(summaryAndConfirmation.ContactAndPaymentInfo, contractResult.Item1);
-            summaryAndConfirmation.SendEmails = new SendEmailsViewModel();
-            var rate = (await _contractServiceAgent.GetProvinceTaxRate(summaryAndConfirmation.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
-            if (rate != null) { summaryAndConfirmation.ProvinceTaxRate = rate.Rate; }
-            summaryAndConfirmation.SendEmails.ContractId = contractId;
-            summaryAndConfirmation.SendEmails.HomeOwnerFullName = summaryAndConfirmation.BasicInfo.HomeOwner.FirstName + " " + summaryAndConfirmation.BasicInfo.HomeOwner.LastName;
-            summaryAndConfirmation.AdditionalInfo = new AdditionalInfoViewModel();
-            summaryAndConfirmation.AdditionalInfo.ContractState = contractResult.Item1.ContractState;
-            summaryAndConfirmation.AdditionalInfo.LastUpdateTime = contractResult.Item1.LastUpdateTime;
+            await MapSummary(summaryAndConfirmation, contractResult.Item1, contractId);
             return summaryAndConfirmation;
+        }
+
+        public async Task<IList<SummaryAndConfirmationViewModel>> GetSummaryAndConfirmationsAsync(IEnumerable<int> ids)
+        {
+            var contractsResult = await _contractServiceAgent.GetContracts(ids);
+            if (contractsResult.Item1 == null)
+            {
+                return new List<SummaryAndConfirmationViewModel>();
+            }
+            var summaries = new List<SummaryAndConfirmationViewModel>();
+            foreach (var contract in contractsResult.Item1)
+            {
+                var summaryAndConfirmation = new SummaryAndConfirmationViewModel();
+                await MapSummary(summaryAndConfirmation, contract, contract.Id);
+                summaries.Add(summaryAndConfirmation);
+            }
+            return summaries;
         }
 
         public void MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
@@ -187,6 +188,29 @@ namespace DealnetPortal.Web.Infrastructure
                 alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
             }
             return alerts;
+        }
+
+        private async Task MapSummary(SummaryAndConfirmationViewModel summary, ContractDTO contract, int contractId)
+        {
+            summary.BasicInfo = new BasicInfoViewModel();
+            summary.BasicInfo.ContractId = contractId;
+            MapBasicInfo(summary.BasicInfo, contract);
+            summary.EquipmentInfo = new EquipmentInformationViewModel();
+            summary.EquipmentInfo.ContractId = contractId;
+            summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
+            summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
+            summary.ContactAndPaymentInfo.ContractId = contractId;
+            MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
+            summary.SendEmails = new SendEmailsViewModel();
+            if (summary.BasicInfo.AddressInformation != null) { 
+                var rate = (await _contractServiceAgent.GetProvinceTaxRate(summary.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
+                if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
+            }
+            summary.SendEmails.ContractId = contractId;
+            summary.SendEmails.HomeOwnerFullName = summary.BasicInfo.HomeOwner?.FirstName + " " + summary.BasicInfo.HomeOwner?.LastName;
+            summary.AdditionalInfo = new AdditionalInfoViewModel();
+            summary.AdditionalInfo.ContractState = contract.ContractState;
+            summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
         }
     }
 }

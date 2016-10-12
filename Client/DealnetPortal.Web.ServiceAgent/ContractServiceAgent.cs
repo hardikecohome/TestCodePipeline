@@ -66,6 +66,27 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<IList<ContractDTO>, IList<Alert>>> GetContracts(IEnumerable<int> ids)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var contracts = await Client.PostAsync<IEnumerable<int>, IList<ContractDTO>>($"{_fullUri}/GetContracts", ids);
+                return new Tuple<IList<ContractDTO>, IList<Alert>>(contracts, alerts);
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = $"Can't get contracts",
+                    Message = ex.Message
+                });
+                _loggingService.LogError($"Can't get contracts", ex);
+            }
+            return new Tuple<IList<ContractDTO>, IList<Alert>>(null, alerts);
+        }
+
         public async Task<IList<Alert>> UpdateContractData(ContractDataDTO contractData)
         {
             try

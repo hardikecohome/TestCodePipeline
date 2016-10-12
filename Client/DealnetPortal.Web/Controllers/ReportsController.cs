@@ -35,9 +35,9 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Contracts(IEnumerable<int> ids)
+        public async Task<ActionResult> Contracts(IEnumerable<int> ids)
         {
-            return View();
+            return View(await _contractManager.GetSummaryAndConfirmationsAsync(ids));
         }
 
         public async Task<ActionResult> GetXlsxReport(IEnumerable<int> ids)
