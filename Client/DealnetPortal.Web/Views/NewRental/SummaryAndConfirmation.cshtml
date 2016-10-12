@@ -54,7 +54,7 @@
                     {
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="addApplicantEmail@(i)"> &lt;Name of an applicant&gt; Email</label>
+                                <label for="addApplicantEmail@(i)">Additional Applicant #@i Email</label>
                                 <div class="control-group">
                                     @Html.HiddenFor(m => m.SendEmails.AdditionalApplicantsEmails[i].CustomerId)
                                     @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})

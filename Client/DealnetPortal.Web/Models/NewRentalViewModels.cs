@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Models.EquipmentInformation;
 
 namespace DealnetPortal.Web.Models
@@ -63,22 +64,6 @@ namespace DealnetPortal.Web.Models
         public AddressInformation AddressInformation { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
         public int? ContractId { get; set; }
-    }
-
-    public enum PaymentType
-    {
-        [Display(Name = "ENBRIDGE")]
-        Enbridge,
-        [Display(Name = "PAP")]
-        Pap
-    }
-
-    public enum WithdrawalDateType
-    {
-        [Display(Name = "1st")]
-        First,
-        [Display(Name = "15th")]
-        Fifteenth
     }
 
     public class PaymentInfoViewModel
@@ -148,12 +133,19 @@ namespace DealnetPortal.Web.Models
         public int? ContractId { get; set; }
     }
 
+    public class AdditionalInfoViewModel
+    {
+        public ContractState ContractState { get; set; }
+        public DateTime? LastUpdateTime { get; set; }
+    }
+
     public class SummaryAndConfirmationViewModel
     {
         public BasicInfoViewModel BasicInfo { get; set; }
         public EquipmentInformationViewModel EquipmentInfo { get; set; }
         public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
         public SendEmailsViewModel SendEmails { get; set; }
+        public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
     }
 }

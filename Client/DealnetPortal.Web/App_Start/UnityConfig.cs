@@ -3,6 +3,7 @@ using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
+using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
@@ -50,6 +51,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
+            container.RegisterType<IContractManager, ContractManager>();
         }
     }
 }

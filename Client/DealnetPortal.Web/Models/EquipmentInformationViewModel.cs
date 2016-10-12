@@ -1,17 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
-    public enum AgreementType
-    {
-        [Display(Name = "Loan Application")]
-        LoanApplication,
-        [Display(Name = " Rental Application (HWT)")]
-        RentalApplicationHwt,
-        [Display(Name = "Rental Application")]
-        RentalApplication
-    }
     public class EquipmentInformationViewModel
     {
         [Display(Name = "Type of agreement")]
@@ -42,5 +34,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public string Notes { get; set; }
 
         public int? ContractId { get; set; }
+
+        public bool IsAllInfoCompleted { get; set; }
     }
 }

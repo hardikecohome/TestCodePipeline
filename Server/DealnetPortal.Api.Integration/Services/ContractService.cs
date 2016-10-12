@@ -292,6 +292,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
             if (contract != null)
             {
+                _unitOfWork.Save();
                 _loggingService.LogInfo($"Contract [{contractId}] submitted");
             }
             else

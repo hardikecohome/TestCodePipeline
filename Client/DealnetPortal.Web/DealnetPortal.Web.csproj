@@ -182,12 +182,15 @@
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\StubController.cs" />
+    <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
+    <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
+    <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
@@ -196,7 +199,6 @@
     <Compile Include="Models\NewEquipmentInformation.cs" />
     <Compile Include="Models\NewRentalViewModels.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
-    <Compile Include="Models\YesNo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -715,6 +717,7 @@
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\Rentals\" />
+    <Folder Include="Views\UpdateData\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
