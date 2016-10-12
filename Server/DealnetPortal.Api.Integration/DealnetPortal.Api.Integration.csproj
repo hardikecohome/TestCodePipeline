@@ -86,7 +86,9 @@
     <Compile Include="Services\IContractService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IMailService.cs" />
     <Compile Include="Services\ISignatureService.cs" />
+    <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\PdfFormFields.cs" />
     <Compile Include="Services\SignatureService.cs" />
     <Compile Include="Utility\NoTypeAttributeXmlWriter.cs" />
