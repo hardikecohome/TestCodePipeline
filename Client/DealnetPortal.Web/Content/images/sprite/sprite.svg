@@ -3,8 +3,8 @@
         <symbol id="icon-home" viewBox="0 0 20 20">
             <path fill="currentColor" fill-rule="evenodd" d="M15 8.942V16H5V8.942H3l7.012-5.04 7.012 5.04H15zM8 11h4v5H8v-5z"/>
         </symbol>
-        <symbol id="icon-new-rental-side" viewBox="0 0 22 24">
-            <defs><path id="a_rs" d="M4 3h8.993v2.978H16V17H4z"/><mask id="b_rs" width="10" height="12" x="0" y="0" fill="currentColor"><use xlink:href="#a_rs"/></mask></defs><use fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="2" mask="url(#b_rs)" xlink:href="#a_rs"/>
+        <symbol id="icon-new-rental-side" viewBox="0 0 40 40">
+            <polygon points="5 3 19.9889207 3 19.9889202 7.99658203 25 7.99658203 25 27 5 27"  fill="none" stroke="currentColor" stroke-width="3"></polygon>
         </symbol>
         <symbol id="icon-info" viewBox="0 0 20 20">
             <path fill="currentColor" fill-rule="evenodd" d="M11 9v4h1v1H8v-1h1V9H8V8h4v1h-1zm-1 8c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm0-10c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/>
