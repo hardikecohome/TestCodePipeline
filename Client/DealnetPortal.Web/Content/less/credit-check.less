@@ -119,6 +119,7 @@ select.dealnet-disabled-input{
   @media @desktop-up {
     padding-left: 0;
     .dealnet-credit-check-section{
+      width: 100%;
       padding-left: 10%;
       position: relative;
       &:before{
@@ -133,7 +134,7 @@ select.dealnet-disabled-input{
     }
   }
 }
-.credit-check-info-hold{
+.credit-check-info-hold:not(.shift-to-basic-info){
   & > div[class^="col-"]:not([class*="pull-"]):not([class*="push-"]){
     &:nth-child(odd) {
       @media @desktop-up {
@@ -214,6 +215,7 @@ select.dealnet-disabled-input{
 #contact-info-form.shift-to-basic-info{
   & > div[class^="col-"]{
     &:nth-child(odd) {
+      .left-column-info;
       @media @desktop-up {
         clear: none;
         padding-right: 15px;
@@ -221,8 +223,14 @@ select.dealnet-disabled-input{
           padding-right: 0;
         }
       }
+
     }
-    .left-column-info;
+    &:nth-child(even) {
+      .dealnet-credit-check-section{
+        padding: 0 15% 0 0;
+        width: 100%;
+      }
+    }
   }
 }
 
