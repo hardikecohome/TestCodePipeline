@@ -12,6 +12,7 @@ using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
+    [AuthFromContext]
     public class UpdateDataController : Controller
     {
         private readonly IContractManager _contractManager;
