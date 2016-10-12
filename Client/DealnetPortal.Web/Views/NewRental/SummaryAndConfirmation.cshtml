@@ -489,22 +489,22 @@
                                 </div>
                                 @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Cost)
                                 @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost)
-                                @*<div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                            </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                            </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                         </div>
-                                    </div>*@
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="row">
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
@@ -1208,7 +1208,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div class="modal-title dealnet-large-header">Editing Return Equipment</div>
+                    <div class="modal-title dealnet-large-header">Editing Existing Equipment Information</div>
                 </div>
                 <div class="modal-body">
                     <div class="dealnet-credit-check-section dealnet-modal-section">
