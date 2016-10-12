@@ -206,8 +206,25 @@ namespace DealnetPortal.Web.Infrastructure
                 var rate = (await _contractServiceAgent.GetProvinceTaxRate(summary.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
             }
+
             summary.SendEmails.ContractId = contractId;
-            summary.SendEmails.HomeOwnerFullName = summary.BasicInfo.HomeOwner?.FirstName + " " + summary.BasicInfo.HomeOwner?.LastName;
+            summary.SendEmails.HomeOwnerFullName = summary.BasicInfo.HomeOwner.FirstName + " " + summary.BasicInfo.HomeOwner.LastName;
+            summary.SendEmails.HomeOwnerId = contract.PrimaryCustomer?.Id ?? 0;
+            summary.SendEmails.HomeOwnerEmail = contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
+
+            if (contract.SecondaryCustomers?.Any() ?? false)
+            {
+                summary.SendEmails.AdditionalApplicantsEmails =
+                    contract.SecondaryCustomers.Select(c =>
+                        new CustomerEmail()
+                        {
+                            CustomerId = c.Id,
+                            Email = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                                        c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
+                        }).ToArray();
+            }
+                        
             summary.AdditionalInfo = new AdditionalInfoViewModel();
             summary.AdditionalInfo.ContractState = contract.ContractState;
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
