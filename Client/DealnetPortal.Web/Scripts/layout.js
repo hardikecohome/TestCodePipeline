@@ -95,6 +95,15 @@
         return false;
       });
 
+      setTimeout(function(){
+        $('.credit-check-info-hold .dealnet-credit-check-section').each(function(){
+          var col = $(this).parents('.col-md-6');
+          var colOffset = col.position().left;
+          if(colOffset == 0 && col.next('.col-md-6').length){
+            col.addClass('has-right-border');
+          }
+        });
+      }, 300);
     });
 
 function navigateToStep(targetLink){
