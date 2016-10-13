@@ -89,14 +89,18 @@ function showTable() {
                       { "data": "Date"},
                       {// this is Actions Column
                           "render": function (sdata, type, row) {
-                              return '<a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>';
+                              return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                           }
                       }
                   ],
 
                 columnDefs: [
                   { responsivePriority: 8, targets: -1 },
-                  { width: "40px", targets: -1 }
+                  { width: "40px", targets: -1 },
+                  { className: 'customer-cell', targets: 1},
+                  { className: 'id-cell', targets: 0},
+                  { className: 'edit-cell', targets: -1},
+                  { targets  : [-1], orderable: false}
                 ],
                 dom:
                 "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
