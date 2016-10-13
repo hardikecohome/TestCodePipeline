@@ -7,7 +7,7 @@
 <div class="dropdown dealnet-login-buttons">
     <a href="#" class="dropdown-toggle dealnet-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
         <span class="icon-circle-hold">
-            <svg aria-hidden="true" class="icon icon-user"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-user"></use></svg>
+            <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
         </span>
         @if (User.Identity.IsAuthenticated)
         {

@@ -186,8 +186,9 @@ function autodetectAddress() {
                                         }
                                         continue;
                                     }
-                                    $('#locality, #administrative_area_level_1').removeClass('placeholder').removeClass('pac-placeholder');
+
                                     document.getElementById(addressType).value = val;
+                                    $('#'+addressType).removeClass('placeholder').removeClass('pac-placeholder');
                                 }
                             }
                             if (street) {

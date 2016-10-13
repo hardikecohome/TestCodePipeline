@@ -34,7 +34,7 @@
         @Html.AntiForgeryToken()
         <div class="well rental-summary-emails well-info">
             <p class="summary-emails-header">
-                <svg aria-hidden="true" class="icon icon-email"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+                <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
                 You can use digital signature platform to sign the application. Please enter emails of applicants below and click Send Emails.
             </p>
             <p class="summary-emails-header2">Invites for digital signing of the application will be sent to the following e-mails</p>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="sent-email-msg text-center" style="display: none;">
-                        <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-success"></use></svg>Invites were sent to emails</h4>
+                        <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Invites were sent to emails</h4>
                         Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails
                     </div>
                 </div>
@@ -750,7 +750,7 @@
         }
         <div class="form-group btn-container-proceed">
             <a href="" class="print-link">
-                <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-printer"></use></svg>Print the contract
+                <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
             </a>
             <button class="btn dealnet-button dealnet-success-button btn-finish" onclick="$('#send-mails-form').submit()">Finish</button>
         </div>
@@ -1129,7 +1129,7 @@
 		                    <div class="col-md-8 col-sm-7" style="display: none;">
 			                    <div class="form-group">
 				                    <div class="file-upload btn dealnet-button dealnet-success-button">
-					                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+					                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
 					                    <span>Add New Photo</span>
 					                    <input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
 				                    </div>

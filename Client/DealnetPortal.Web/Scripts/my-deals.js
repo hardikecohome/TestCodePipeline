@@ -47,9 +47,15 @@ function showTable() {
                         {
                             // this is Actions Column
                             "render": function (sdata, type, row) {
-                                return '<a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>';
+                                return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                             }
                         }
+                    ],
+                    columnDefs: [
+                      { targets  : [-1], orderable: false},
+                      { className: 'customer-cell', targets: 1},
+                      { className: 'id-cell', targets: 0},
+                      { className: 'edit-cell', targets: -1}
                     ],
                     dom:
                         "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
