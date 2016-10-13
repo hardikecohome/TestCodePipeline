@@ -321,6 +321,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     }
                     else
                     {
+                        ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
                         _dbContext.NewEquipment.AddOrUpdate(ne);
                     }
                 });
@@ -344,6 +345,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     }
                     else
                     {
+                        ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
                         _dbContext.ExistingEquipment.AddOrUpdate(ee);
                     }
                 });

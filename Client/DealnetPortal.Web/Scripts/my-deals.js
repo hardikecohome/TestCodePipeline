@@ -47,7 +47,7 @@ function showTable() {
                         {
                             // this is Actions Column
                             "render": function (sdata, type, row) {
-                                return '<a href="#" title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>';
+                                return '<a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>';
                             }
                         }
                     ],

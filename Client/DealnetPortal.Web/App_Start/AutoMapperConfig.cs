@@ -48,11 +48,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerId, d => d.Ignore());
 
             cfg.CreateMap<EquipmentInformationViewModel, EquipmentInfoDTO>()
-                .ForMember(x => x.Id, s => s.Ignore());
-            cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
-                .ForMember(x => x.Id, s => s.Ignore());
-            cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>()
-                .ForMember(x => x.Id, s => s.Ignore());
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0));
+            cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>();
+            cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
 
             cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
                     .ForMember(x => x.Locations, d => d.Ignore())
@@ -209,7 +207,8 @@ namespace DealnetPortal.Web.App_Start
 
                 cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
                 cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
-                cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>();
+                cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
+                    .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id));
 
                 cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
                 cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()

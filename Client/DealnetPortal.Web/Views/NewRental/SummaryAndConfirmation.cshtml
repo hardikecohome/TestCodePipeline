@@ -83,7 +83,17 @@
     <div class="clearfix">
         <div class="row">
             <form id="basic-info-form">
-                @Html.AntiForgeryToken()                
+                @Html.AntiForgeryToken()
+                @if (Model.BasicInfo.AdditionalApplicants != null && Model.BasicInfo.AdditionalApplicants.Any())
+                {
+                    for (var i = 0; i < Model.BasicInfo.AdditionalApplicants.Count; i++)
+                    {
+                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].CustomerId)
+                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName)
+                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].LastName)
+                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate)
+                    }
+                }
                 <div class="credit-check-info-hold">
                     <div class="col-md-6">
                         @Html.HiddenFor(m => m.BasicInfo.ContractId)
@@ -332,9 +342,7 @@
             </form>
         </div>
     </div>
-
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
+    
     @if (Model.ContactAndPaymentInfo.CoBorrowersContactInfo != null && Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Any())
     {
     <hr>
@@ -342,6 +350,8 @@
         <div class="row">
             <div class="credit-check-info-hold">
                 <form id="contact-info-coborrowers-form" class="credit-check-info-hold">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
                     @for (var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                     {
                         <div class="col-md-6">
@@ -452,6 +462,7 @@
                     {
                         <div class="col-md-6">
                             <div class="dealnet-credit-check-section">
+                                @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-xs-12">
@@ -643,6 +654,7 @@
                     @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
                 {
                 <div class="summury-return-equip-item">
+                    @Html.HiddenFor(m => m.EquipmentInfo.ExistingEquipment[i].Id)
                     <div class="form-group">
                         <div class="row">
                             <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
