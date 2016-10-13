@@ -65,7 +65,7 @@
                             @*@Html.AntiForgeryToken()*@
                                 <div class="dealnet-sidebar-user">
                                     <span class="icon-circle-hold">
-                                        <svg aria-hidden="true" class="icon icon-user"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-user"></use></svg>
+                                        <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
                                     </span> @User.Identity.Name
                                 </div>
 

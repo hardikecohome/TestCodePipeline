@@ -164,7 +164,7 @@
                     @Html.Label("owner-upload-file", "Photo of Void Cheque")
                     <div class="control-group">
                         <div class="file-upload btn dealnet-button dealnet-success-button" @if (!ViewBag.IsMobileRequest){ <text>data-toggle="modal" data-target="#camera-modal"</text> } >
-                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-scan-licence"></use></svg>
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                             <span>Add Photo</span>
                             @if (ViewBag.IsMobileRequest)
                             {
