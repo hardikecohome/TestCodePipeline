@@ -30,6 +30,8 @@ namespace DealnetPortal.Api.Tests.TrdPartySDKs
                 new KeyValuePair<string, string>("domain", domain),
                 new KeyValuePair<string, string>("from", "Mailgun Sandbox <postmaster@sandbox36ed7e337cd34757869b6c132e07e7b0.mailgun.org>"),
                 new KeyValuePair<string, string>("to", "mkhar@yandex.ru"),
+                new KeyValuePair<string, string>("to", "mykharlamov@gmail.com"),
+                //new KeyValuePair<string, string>("to", "user@user.com"),
                 new KeyValuePair<string, string>("subject", "Hello Maksim"),
                 new KeyValuePair<string, string>("text", "Congratulations Maksim, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free."),
             });

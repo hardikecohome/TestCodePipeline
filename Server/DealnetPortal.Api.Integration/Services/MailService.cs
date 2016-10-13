@@ -45,11 +45,14 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     try
                     {
-                        var sAlerts = await SendEmail(recipients, subject, body.ToString());
-                        if (sAlerts?.Any() ?? false)
+                        recipients.ForEach(r =>
                         {
-                            alerts.AddRange(sAlerts);
-                        }                        
+                            var sAlerts = SendEmail(new List<string>() {r}, subject, body.ToString()).GetAwaiter().GetResult();
+                            if (sAlerts?.Any() ?? false)
+                            {
+                                alerts.AddRange(sAlerts);
+                            }
+                        });
                     }
                     catch (Exception ex)
                     {
@@ -161,7 +164,6 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 new KeyValuePair<string, string>("domain", domain),
                 new KeyValuePair<string, string>("from", sender),
-                //new KeyValuePair<string, string>("to", "mkhar@yandex.ru"),
                 new KeyValuePair<string, string>("subject", subject),
                 new KeyValuePair<string, string>("text", body)
             };
