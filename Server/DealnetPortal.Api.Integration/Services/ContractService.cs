@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -27,14 +28,16 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISignatureService _signatureService;
+        private readonly IMailService _mailService;
 
         public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, 
-            ISignatureService signatureService, ILoggingService loggingService)
+            ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _signatureService = signatureService;
+            _mailService = mailService;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -294,6 +297,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _unitOfWork.Save();
                 _loggingService.LogInfo($"Contract [{contractId}] submitted");
+
+                Task.Run(async () => await _mailService.SendSubmitNotification(contractId, contractOwnerId));
+                //_mailService.SendSubmitNotification(contractId, contractOwnerId);
             }
             else
             {
