@@ -72,7 +72,7 @@
 				<div class="dealnet-agrees form-group">
 					<label class="align-middle custom-checkbox">
 						@Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees" })
-						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
+						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 						<span>Agrees to send his/her personal data to credit check</span>
 					</label>
 				</div>
@@ -127,7 +127,7 @@
 		                <div class="dealnet-agrees form-group">
 		                    <label class="align-middle custom-checkbox">
 		                        @Html.CheckBox("additional@(i+1)-agrees", new {id = "additional@(i+1)-agrees" })
-		                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
+		                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 		                        <span>Agrees to send his/her personal data to credit check</span>
 		                    </label>
 		                </div>
@@ -179,7 +179,7 @@
 				<div class="dealnet-agrees form-group">
 					<label class="align-midle custom-checkbox">
 						@Html.CheckBox("additional2-agrees", new { id = "additional2-agrees" })
-						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
+						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 						<span>Agrees to send his/her personal data to credit check</span>
 					</label>
 				</div>
@@ -230,7 +230,7 @@
 				<div class="dealnet-agrees form-group">
 					<label class="align-middle custom-checkbox">
 						@Html.CheckBox("additional3-agrees", new { id = "additional3-agrees" })
-						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span>
+						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 						<span>Agrees to send his/her personal data to credit check</span>
 					</label>
 				</div>
@@ -362,7 +362,7 @@
 	<div class="row" id="saveproceed-button">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="text-danger proceed-error-message" id="proceed-error-message" style="display: none;">
-				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-error"></use></svg>
+				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
 				You can't proceed until all applicants agree to send their personal data to credit check
 			</div>
 		    <button class="btn dealnet-button dealnet-success-button" id="check-credit-button">

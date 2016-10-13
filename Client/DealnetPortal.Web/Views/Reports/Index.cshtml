@@ -10,7 +10,7 @@
 <!--<div class="dealnet-large-header">My Deals</div>-->
 <div class="expand-filter-template">
 	<a class="clear-data-link" id="clear-filters">
-		<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span class="hidden-xs">Clear Filters</span>
+		<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">Clear Filters</span>
 	</a>
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs" role="tablist">
@@ -264,7 +264,10 @@
 				"<'row'<'col-md-12'p>>" +
 				"<'row'<'col-md-12'i>>",
 				renderer: 'bootstrap',
-				footerCallback: createTableFooter
+				footerCallback: createTableFooter,
+				"fnInitComplete": function(oSettings, json) {
+					customizeSelect();
+				}
 			});
 
             getTotalForSelectedCheckboxes();

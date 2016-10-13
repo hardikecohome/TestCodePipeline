@@ -6,17 +6,17 @@
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <a class="dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
-                <svg aria-hidden="true" class="icon icon-new-rental"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-new-rental"></use></svg><span>New Application</span>
+                <svg aria-hidden="true" class="icon icon-new-rental"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental")"></use></svg><span>New Application</span>
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
             <a class="dealnet-page-button" href="@Url.Action("Index", "MyDeals")">
-                <svg class="icon icon-my-deals"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-my-deals"></use></svg><span>My deals</span>
+                <svg class="icon icon-my-deals"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals")"></use></svg><span>My deals</span>
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
             <a class="dealnet-page-button" href="@Url.Action("Index", "Reports")">
-                <svg aria-hidden="true" class="icon icon-reports-big"><use xlink:href="~/Content/images/sprite/sprite.svg#icon-reports-big"></use></svg><span>Reports</span>
+                <svg aria-hidden="true" class="icon icon-reports-big"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-big")"></use></svg><span>Reports</span>
             </a>
         </div>
     </div>
@@ -31,14 +31,14 @@
             <table id="work-items-table" class="display responsive"  width="100%">
                 <thead>
                     <tr>
-                        <th class="all">Contract</th>
-                        <th class="min-phone-l">Customer</th>
+                        <th class="all id-cell">Contract</th>
+                        <th class="min-phone-l customer-cell">Customer</th>
                         <th class="min-tablet">Status</th>
                         <th class="min-tablet">Action Req.</th>
                         <th class="min-desktop">Email</th>
                         <th class="min-desktop">Phone</th>
                         <th class="min-desktop">Date</th>
-                        <th class="all"></th>
+                        <th class="all edit-cell"></th>
                     </tr>
                 </thead>                
             </table>
