@@ -41,6 +41,6 @@ namespace DealnetPortal.Api.Integration.Services
 
         CustomerDTO GetCustomer(int customerId);
 
-        IList<Alert> UpdateCustomers(CustomerDataDTO[] customers);
+        IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId);
     }
 }

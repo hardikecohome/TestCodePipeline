@@ -27,15 +27,17 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAspireService _aspireService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
 
         public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, 
-            ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
+            IAspireService aspireService, ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _aspireService = aspireService;
             _signatureService = signatureService;
             _mailService = mailService;
         }
@@ -91,14 +93,21 @@ namespace DealnetPortal.Api.Integration.Services
                 var contractData = Mapper.Map<ContractData>(contract);
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
-                {
-                    //if (updatedContract.ContractState == ContractState.Started)
-                    //{
-                    //    _contractRepository.UpdateContractState(updatedContract.Id, contractOwnerId,
-                    //        ContractState.CustomerInfoInputted);
-                    //}
+                {                    
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+
+                    //update customers on aspire
+                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null ||
+                        contract.Locations != null)
+                    {                        
+                        var aspireAlerts =
+                            _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
+                        //if (aspireAlerts?.Any() ?? false)
+                        //{
+                        //    alerts.AddRange(aspireAlerts);
+                        //}
+                    }
                 }
                 else
                 {
@@ -456,7 +465,7 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<CustomerDTO>(customer);
         }
 
-        public IList<Alert> UpdateCustomers(CustomerDataDTO[] customers)
+        public IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId)
         {
             var alerts = new List<Alert>();
 
@@ -467,6 +476,14 @@ namespace DealnetPortal.Api.Integration.Services
                     customers.ForEach(c => { _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails)); });
                 }
                 _unitOfWork.Save();
+
+                //update customers on aspire
+                //var aspireAlerts =
+                //        _aspireService.UpdateContractCustomer(null, contractOwnerId).GetAwaiter().GetResult();
+                //if (aspireAlerts?.Any() ?? false)
+                //{
+                //    alerts.AddRange(aspireAlerts);
+                //}
             }
             catch (Exception ex)
             {

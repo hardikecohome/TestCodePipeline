@@ -263,7 +263,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.UpdateCustomers(customers);
+                var alerts = ContractService.UpdateCustomers(customers, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)

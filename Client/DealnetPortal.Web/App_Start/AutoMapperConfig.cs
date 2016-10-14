@@ -52,11 +52,6 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>();
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
 
-            cfg.CreateMap<ApplicantPersonalInfo, CustomerDTO>()
-                    .ForMember(x => x.Locations, d => d.Ignore())
-                    .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId ?? 0))
-                    .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
-
             cfg.CreateMap<AddressInformation, LocationDTO>()
                 .ForMember(x => x.Street, d => d.MapFrom(src => src.InstallationAddress))
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))

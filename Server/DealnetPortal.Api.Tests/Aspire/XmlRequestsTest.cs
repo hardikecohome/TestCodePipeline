@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Models.Aspire;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,9 +15,20 @@ namespace DealnetPortal.Api.Tests.Aspire
     [TestClass]
     public class XmlRequestsTest
     {
+        private IHttpApiClient _httpApiClient;
+        private IAspireServiceAgent _aspireServiceAgent;
+
+        [TestInitialize]
+        public void Intialize()
+        {
+            _httpApiClient = new HttpApiClient(ConfigurationManager.AppSettings["AspireApiUrl"]);
+            _aspireServiceAgent = new AspireServiceAgent(_httpApiClient);
+        }
+
+
         [Ignore]
         [TestMethod]
-        public void TestRequestForCustomerUpload()
+        public void TestPrepareRequestForCustomerUpload()
         {
             DealUploadRequest request = new DealUploadRequest();
 
@@ -57,6 +71,23 @@ namespace DealnetPortal.Api.Tests.Aspire
             var writer = XmlWriter.Create(fs, settings);
             x.Serialize(writer, request);
             writer.Flush();
+        }
+
+        [TestMethod]
+        public void TestAspireCustomerUpdate()
+        {
+            DealUploadRequest request = new DealUploadRequest();
+
+            request.Header = new Header()
+            {
+                From = new From()
+                {
+                    AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
+                    Password = ConfigurationManager.AppSettings["AspirePassword"]
+                }
+            };
+
+            var response = _aspireServiceAgent.CustomerUploadSubmission(request).GetAwaiter().GetResult();
         }
     }
 }
