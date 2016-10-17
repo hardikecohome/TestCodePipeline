@@ -19,11 +19,14 @@ namespace DealnetPortal.Web.Infrastructure
     {
         private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
         private readonly IContractServiceAgent _contractServiceAgent;
+        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public ContractManager(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent)
+        public ContractManager(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent,
+            IDictionaryServiceAgent dictionaryServiceAgent)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
+            _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
         public async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
@@ -203,7 +206,7 @@ namespace DealnetPortal.Web.Infrastructure
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
             summary.SendEmails = new SendEmailsViewModel();
             if (summary.BasicInfo.AddressInformation != null) { 
-                var rate = (await _contractServiceAgent.GetProvinceTaxRate(summary.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
+                var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
             }
 

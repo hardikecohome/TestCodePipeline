@@ -203,35 +203,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 _loggingService.LogError("Can't get credit contracts summary", ex);
                 throw;
             }
-        }
-
-        public async Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes()
-        {
-            try
-            {
-                return await Client.GetAsync<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/GetEquipmentTypes");
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get Equipment Types", ex);
-                throw;
-            }
-        }
-
-        public async Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province)
-        {
-            try
-            {
-                return await Client.GetAsync<Tuple<ProvinceTaxRateDTO, IList<Alert>>>(
-                            $"{_fullUri}/{province}/ProvinceTaxRate");
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get Province Tax Rate", ex);
-                throw;
-            }
-        }
+        }       
 
         public async Task<byte[]> GetXlsxReport(IEnumerable<int> ids)
         {
@@ -243,6 +215,20 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError($"Can't get xlsx report", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> AddDocumentToContract(DocumentTypeDTO document)
+        {
+            try
+            {
+                return
+                    await Client.PutAsync<DocumentTypeDTO, IList<Alert>>($"{_fullUri}/AddDocument", document);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError("Can't add document to contract", ex);
                 throw;
             }
         }

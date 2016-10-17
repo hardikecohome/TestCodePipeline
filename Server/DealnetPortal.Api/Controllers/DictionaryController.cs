@@ -34,11 +34,10 @@ namespace DealnetPortal.Api.Controllers
             var alerts = new List<Alert>();
             try
             {
-                var equipmentTypes = ContractRepository.GetEquipmentTypes();
-                var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
-                if (equipmentTypes == null)
+                var docTypes = Mapper.Map<IList<DocumentTypeDTO>>(ContractRepository.GetDocumentTypes());
+                if (docTypes == null)
                 {
-                    var errorMsg = "Cannot retrieve Equipment Types";
+                    var errorMsg = "Cannot retrieve Document Types";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
@@ -47,12 +46,12 @@ namespace DealnetPortal.Api.Controllers
                     });
                     LoggingService.LogError(errorMsg);
                 }
-                var result = new Tuple<IList<EquipmentTypeDTO>, IList<Alert>>(equipmentTypeDtos, alerts);
+                var result = new Tuple<IList<DocumentTypeDTO>, IList<Alert>>(docTypes, alerts);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                LoggingService.LogError("Failed to retrieve Equipment Types", ex);
+                LoggingService.LogError("Failed to retrieve Document Types", ex);
                 return InternalServerError(ex);
             }
         }

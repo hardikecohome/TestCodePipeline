@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Utilities;
+
+namespace DealnetPortal.Web.ServiceAgent
+{
+    public class DictionaryServiceAgent : ApiBase, IDictionaryServiceAgent
+    {
+        private const string ContractApi = "dict";
+        private ILoggingService _loggingService;
+
+        public DictionaryServiceAgent(IHttpApiClient client, ILoggingService loggingService)
+            : base(client, ContractApi)
+        {
+            _loggingService = loggingService;
+        }
+
+        public async Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes()
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/GetEquipmentTypes");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Equipment Types", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province)
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<ProvinceTaxRateDTO, IList<Alert>>>(
+                            $"{_fullUri}/{province}/ProvinceTaxRate");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Province Tax Rate", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get Equipment Types list
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        public async Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetDocumentTypes()
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/DocumentTypes");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Province Tax Rate", ex);
+                throw;
+            }
+        }
+    }
+}

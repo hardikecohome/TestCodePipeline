@@ -81,20 +81,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
-        Task<IList<Alert>> SubmitContract(int contractId);
-
-        /// <summary>
-        /// Get Equipment Types list
-        /// </summary>
-        /// <returns>List of Equipment Type</returns>
-        Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes();
-
-        /// <summary>
-        /// Get Province Tax Rate
-        /// </summary>
-        /// <param name="province">Province abbreviation</param>
-        /// <returns>Tax Rate for particular Province</returns>
-        Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province);
+        Task<IList<Alert>> SubmitContract(int contractId);        
 
         /// <summary>
         /// Get xlsx report
@@ -102,5 +89,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="ids">List od Ids</param>
         /// <returns>xlsx report in byte array</returns>
         Task<byte[]> GetXlsxReport(IEnumerable<int> ids);
+
+        Task<IList<Alert>> AddDocumentToContract(DocumentTypeDTO document);
     }
 }
