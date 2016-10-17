@@ -14,10 +14,9 @@
 				</div>
 
 				<div class="col-md-6">
-					<div class="file-upload btn dealnet-button dealnet-success-button">
+					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 						<span>Upload Documents</span>
-						<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
-					</div>
+					</a>
 				</div>
 			</div>
 			<br>
@@ -38,10 +37,9 @@
 				</div>
 
 				<div class="col-md-6">
-					<div class="file-upload btn dealnet-button dealnet-success-button">
+					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 						<span>Upload Documents</span>
-						<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
-					</div>
+					</a>
 				</div>
 			</div>
 			<div class="well success-well">
@@ -1287,6 +1285,90 @@
 	</div>
 </div>
 
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="upload-documents-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Upload New Documents</div>
+			</div>
+			<div class="modal-body">
+				<div class="upload-documents-container">
+					<h3 class="dealnet-section-title">Upload main documents</h3>
+					<div class="documents-main-group">
+						<div class="form-group main-document-template">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="">Choose type of a document</label>
+									<select name="" id="" class="form-control">
+										<option value="">Signed contract</option>
+										<option value="">Signed Installation Certificate</option>
+										<option value="">Invoice</option>
+										<option value="">Copy of Void Personal Cheque</option>
+										<option value="">Extended Warranty Form</option>
+										<option value="">Third party verification call</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<div class="dealnet-label">&nbsp;</div>
+									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
+										<span>Choose file and upload</span>
+										<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+									</div>
+								</div>
+							</div>
+							<div class="progress-container">
+								<span class="progress-bar-value" style="left: 25%">25%</span>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+								</div>
+								<div class="text-center">123456.pdf</div>
+								<a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+							</div>
+						</div>
+					</div>
+					<a href="#" class="dealnet-info-link add-main-document">Add new main document</a>
+				</div>
+				<div class="upload-documents-container">
+					<h3 class="dealnet-section-title">Or other documents</h3>
+					<div class="documents-other-group">
+						<div class="form-group other-document-template">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="">Name of a document</label>
+									<div class="control-group">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="dealnet-label">&nbsp;</div>
+									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
+										<span>Choose file and upload</span>
+										<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+									</div>
+								</div>
+							</div>
+							<div class="progress-container">
+								<span class="progress-bar-value" style="left: 25%">25%</span>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+								</div>
+								<div class="text-center">123456.pdf</div>
+								<a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+							</div>
+						</div>
+					</div>
+					<a href="#" class="dealnet-info-link add-other-document">Add new other document</a>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="hidden">
 	<div class="comment-reply-form">
 		<label for="">Add comment</label>
@@ -1315,6 +1397,23 @@
 				var commentForm = $('.comment-reply-form').detach();
 				commentForm.appendTo(currComment);
 				return false;
+			});
+
+			$(".add-main-document").on('click', function(){
+				var newDocForm = $('.main-document-template').clone(true).removeClass('main-document-template').removeClass('file-uploaded');
+				newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-main-group'));
+			});
+			$(".add-other-document").on('click', function(){
+				var newDocForm = $('.other-document-template').clone(true).removeClass('other-document-template').removeClass('file-uploaded');
+				newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-other-group'));
+			});
+			$('#upload-documents-modal .file-upload').on('click', function(){
+				console.log('click');
+				$(this).parents('.form-group').addClass('file-uploaded');
+				return false;
+			});
+			$('.progress-container .clear-data-link').on('click', function(){
+				$(this).parents('.form-group').removeClass('file-uploaded');
 			});
 		});
 </script>

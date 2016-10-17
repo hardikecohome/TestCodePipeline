@@ -98,12 +98,20 @@
       setTimeout(function(){
         $('.credit-check-info-hold .dealnet-credit-check-section').each(function(){
           var col = $(this).parents('.col-md-6');
-          var colOffset = col.position().left;
-          if(colOffset == 0 && col.next('.col-md-6').length){
-            col.addClass('has-right-border');
+          if(col.not('.col-md-push-6')){
+            var colOffset = col.position().left;
+            if(colOffset == 0 && col.next('.col-md-6').length){
+              col.addClass('has-right-border');
+            }
+          }
+          if(col.is('.col-md-push-6')){
+            var colOffset = col.next('.col-md-pull-6').position().left;
+            if(colOffset == 0 && col.next('.col-md-pull-6').length){
+              col.next('.col-md-pull-6').addClass('has-right-border');
+            }
           }
         });
-      }, 300);
+      }, 500);
     });
 
 function navigateToStep(targetLink){

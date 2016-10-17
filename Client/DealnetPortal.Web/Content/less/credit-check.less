@@ -173,6 +173,22 @@ select.dealnet-disabled-input{
     @media @desktop-up {
       .right-column-info
     }
+    &.has-right-border{
+      @media @desktop-up {
+        .dealnet-credit-check-section{
+          position: relative;
+          &:before{
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 40px;
+            bottom: 8px;
+            width: 1px;
+            background: #000;
+          }
+        }
+      }
+    }
   }
   & > div[class*="push-"]{
     .left-column-info;
@@ -220,6 +236,13 @@ select.dealnet-disabled-input{
     }
   }
 }
+.credit-check-info-hold.no-top-margin{
+  .dealnet-credit-check-section{
+    &:before{
+      top: 0 !important;
+    }
+  }
+}
 .summury-return-equip-item{
   &+.summury-return-equip-item{
     border-top: 1px solid #000 !important;
@@ -231,14 +254,6 @@ select.dealnet-disabled-input{
   & > div[class^="col-"]{
     &:nth-child(odd) {
       .left-column-info;
-      /*@media @desktop-up {
-        clear: none;
-        padding-right: 15px;
-        .dealnet-credit-check-section{
-          padding-right: 0;
-        }
-      }*/
-
     }
     &:nth-child(even) {
       @media @desktop-up {
