@@ -198,7 +198,7 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
+        }        
 
         [AllowAnonymous]
         [Route("{province}/ProvinceTaxRate")]

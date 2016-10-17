@@ -120,10 +120,20 @@ namespace DealnetPortal.DataAccess.Repositories
         IList<EquipmentType> GetEquipmentTypes();
 
         /// <summary>
+        /// Get Document Types list
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        IList<DocumentType> GetDocumentTypes();
+
+        /// <summary>
         /// Get Province Tax Rate
         /// </summary>
         /// <param name="province">Province abbreviation</param>
         /// <returns>Tax Rate for particular Province</returns>
         ProvinceTaxRate GetProvinceTaxRate(string province);
+
+        Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
+
+        IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId);
     }
 }
