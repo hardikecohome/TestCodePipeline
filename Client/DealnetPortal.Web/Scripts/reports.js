@@ -42,7 +42,7 @@ function showTable() {
             columns: [
                 {
                     "render": function (sdata, type, row) {
-                        return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                        return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                     },
                     className: 'checkbox-cell'
                 },
@@ -68,7 +68,7 @@ function showTable() {
                 },
                 {// this is Actions Column
                     "render": function (sdata, type, row) {
-                        return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-preview")"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-excel")"></use></a></div>';
+                        return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-excel")"></use></a></div>';
                     },
                     className: 'controls-cell'
                 }
@@ -192,7 +192,7 @@ function submitMultiplePreviewRequest(ids) {
 }
 
 function createFilter() {
-    var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
+    var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
 
     $('#table-title').html('<div class="dealnet-large-header">Reports <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
