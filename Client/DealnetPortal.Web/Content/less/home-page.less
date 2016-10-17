@@ -146,3 +146,23 @@ div.dataTables_wrapper{
         }
     }
 }
+
+.about-page{
+    max-width: 590px;
+    @media @tablet-down {
+        margin: 0 auto;
+    }
+    .promo-section{
+        @media @desktop-up {
+            font-size: 16px;
+        }
+        @media @mobile {
+            font-size: 14px;
+        }
+    }
+    .page-section{
+        &+.page-section{
+            margin-top: 20px;
+        }
+    }
+}
