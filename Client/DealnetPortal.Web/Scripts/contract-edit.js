@@ -27,7 +27,7 @@
             commentForm.appendTo(currComment);
             return false;
         });
-        
+
         $(".add-main-document").on('click', function(){
             var newDocForm = $('.main-document-template').clone(true).removeClass('main-document-template').removeClass('file-uploaded');
             newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-main-group'));
@@ -37,7 +37,6 @@
             newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-other-group'));
         });
         $('#upload-documents-modal .file-upload').on('click', function(){
-            console.log('click');
             $(this).parents('.form-group').addClass('file-uploaded');
             return false;
         });
