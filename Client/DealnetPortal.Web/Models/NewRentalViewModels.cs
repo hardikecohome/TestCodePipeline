@@ -135,7 +135,9 @@ namespace DealnetPortal.Web.Models
 
     public class AdditionalInfoViewModel
     {
+        [Display(Name = "Status")]
         public ContractState ContractState { get; set; }
+        [Display(Name = "Date")]
         public DateTime? LastUpdateTime { get; set; }
     }
 
