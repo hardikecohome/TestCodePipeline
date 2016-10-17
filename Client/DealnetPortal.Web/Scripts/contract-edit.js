@@ -27,6 +27,22 @@
             commentForm.appendTo(currComment);
             return false;
         });
+
+        $(".add-main-document").on('click', function(){
+            var newDocForm = $('.main-document-template').clone(true).removeClass('main-document-template').removeClass('file-uploaded');
+            newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-main-group'));
+        });
+        $(".add-other-document").on('click', function(){
+            var newDocForm = $('.other-document-template').clone(true).removeClass('other-document-template').removeClass('file-uploaded');
+            newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-other-group'));
+        });
+        $('#upload-documents-modal .file-upload').on('click', function(){
+            $(this).parents('.form-group').addClass('file-uploaded');
+            return false;
+        });
+        $('.progress-container .clear-data-link').on('click', function(){
+            $(this).parents('.form-group').removeClass('file-uploaded');
+        });
     });
 
 function assignDatepicker() {
