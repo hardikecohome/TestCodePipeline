@@ -22,6 +22,8 @@ namespace DealnetPortal.Web.Infrastructure
 
         Task<IList<SummaryAndConfirmationViewModel>> GetSummaryAndConfirmationsAsync(IEnumerable<int> ids);
 
+        Task<ContractEditViewModel> GetContractEditAsync(int contractId);
+
         void MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract);
 
         void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract);

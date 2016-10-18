@@ -3,7 +3,7 @@
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
+@model DealnetPortal.Web.Models.ContractEditViewModel
 <div id="label-steps">
 	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
 </div>
@@ -1699,15 +1699,17 @@
 						<div class="form-group main-document-template">
 							<div class="row">
 								<div class="col-md-6">
-									<label for="">Choose type of a document</label>
-									<select name="" id="" class="form-control">
+								    <label for="">Choose type of a document</label>
+                                    @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
+                                        Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control" })
+									@*<select name="" id="" class="form-control">
 										<option value="">Signed contract</option>
 										<option value="">Signed Installation Certificate</option>
 										<option value="">Invoice</option>
 										<option value="">Copy of Void Personal Cheque</option>
 										<option value="">Extended Warranty Form</option>
 										<option value="">Third party verification call</option>
-									</select>
+									</select>*@
 								</div>
 								<div class="col-md-6">
 									<div class="dealnet-label empty-label">&nbsp;</div>

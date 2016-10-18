@@ -32,7 +32,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContractEdit(int id)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
-            return View(await _contractManager.GetSummaryAndConfirmationAsync(id));
+            return View(await _contractManager.GetContractEditAsync(id));
         }
     }
 }

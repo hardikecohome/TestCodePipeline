@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using DealnetPortal.Web.Models.EquipmentInformation;
 
 namespace DealnetPortal.Web.Models
@@ -23,12 +24,12 @@ namespace DealnetPortal.Web.Models
         public string DocumentName { get; set; }
     }
 
-    public class UploadDocument
+    public class DocumentForUpload
     {
         //[Required]
         public string DocumentName { get; set; }
 
-        public int DocumentType { get; set; }
+        public int DocumentTypeId { get; set; }
 
         [Required(ErrorMessage = "Please, select a document file")]
         public HttpPostedFileBase File { get; set; }
@@ -36,11 +37,11 @@ namespace DealnetPortal.Web.Models
 
     public class UploadDocumentsViewModel
     {
-        public List<DocumentType> DocumentTypes { get; set; }
+        public List<SelectListItem> DocumentTypes { get; set; }
 
         public List<ExistingDocument> ExistingDocuments { get; set; }
 
-        public List<UploadDocument> UploadDocuments { get; set; }
+        public List<DocumentForUpload> DocumentsForUpload { get; set; }
     }
 
     public class ContractEditViewModel
@@ -51,6 +52,8 @@ namespace DealnetPortal.Web.Models
         //public SendEmailsViewModel SendEmails { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
+
+        public UploadDocumentsViewModel UploadDocumentsInfo { get; set; }
         
     }
 }
