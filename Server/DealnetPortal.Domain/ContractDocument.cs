@@ -20,6 +20,7 @@ namespace DealnetPortal.Domain
 
         public byte[] DocumentBytes { get; set; }
 
+        public DateTime CreationDate { get; set; }
 
         public int ContractId { get; set; }
         [ForeignKey("ContractId")]

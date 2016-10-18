@@ -306,6 +306,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
 
+            document.CreationDate = DateTime.Now;           
+
             if (contract != null)
             {
                 var dbDocument = contract.Documents.FirstOrDefault(d => d.DocumentTypeId == docTypeId);

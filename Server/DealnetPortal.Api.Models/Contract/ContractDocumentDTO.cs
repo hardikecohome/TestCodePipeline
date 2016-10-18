@@ -16,6 +16,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public byte[] DocumentBytes { get; set; }
 
+        public DateTime CreationDate { get; set; }
+
         public int ContractId { get; set; }        
     }
 }
