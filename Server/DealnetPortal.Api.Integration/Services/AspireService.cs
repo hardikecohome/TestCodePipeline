@@ -13,6 +13,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -37,7 +38,6 @@ namespace DealnetPortal.Api.Integration.Services
             _unitOfWork = unitOfWork;
         }
 
-        //TODO: add TransactionId and AccountId support
         public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
@@ -93,7 +93,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                _loggingService.LogInfo($"Customers for contract [{contractId}] uploaded to Aspire successfully");
+                _loggingService.LogInfo($"Customers for contract [{contractId}] uploaded to Aspire successfully with transaction Id [{contract?.Details.TransactionId}]");
             }
 
             return alerts;
@@ -135,7 +135,10 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
         private void FillCustomerInfo(DealUploadRequest request, Domain.Contract contract)
-        {            
+        {
+            const string CustRole = "CUST";
+            const string GuarRole = "GUAR";
+
             if (request.Payload == null)
             {
                 request.Payload = new Payload();
@@ -148,6 +151,10 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 request.Payload.Lease.Accounts = new List<Account>();
             }
+            if (request.Payload.Lease.Application == null)
+            {
+                request.Payload.Lease.Application = new Application();
+            }
 
             if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
             {
@@ -158,7 +165,7 @@ namespace DealnetPortal.Api.Integration.Services
                 request.Payload.Lease.Application.TransactionId = contract.Details.TransactionId;
             }
 
-            Func<Domain.Customer, Account> fillAccount = c =>
+            Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
             {
                 var account = new Account
                 {
@@ -209,17 +216,22 @@ namespace DealnetPortal.Api.Integration.Services
                     account.ClientId = c.AccountId;
                 }
 
+                if (!string.IsNullOrEmpty(role))
+                {
+                    account.Role = role;
+                }
+
                 return account;
             };
 
             if (contract.PrimaryCustomer != null)
             {
-                var acc = fillAccount(contract.PrimaryCustomer);
-                acc.IsPrimary = true;
+                var acc = fillAccount(contract.PrimaryCustomer, CustRole);
+                acc.IsPrimary = true;                
                 request.Payload.Lease.Accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.ForEach(c => request.Payload.Lease.Accounts.Add(fillAccount(c)));
+            contract.SecondaryCustomers?.ForEach(c => request.Payload.Lease.Accounts.Add(fillAccount(c, GuarRole)));
         }
 
         private IList<Alert> AnalyzeResponse(DealUploadResponce responce, Domain.Contract contract)
@@ -233,22 +245,55 @@ namespace DealnetPortal.Api.Integration.Services
                     Header = responce.Header.Status,
                     Message = responce.Header.ErrorMsg,
                     Type = AlertType.Error
-                });
-
+                });                
+            }
+            else
+            {
                 if (responce.Payload != null)
                 {
                     if (!string.IsNullOrEmpty(responce.Payload.TransactionId) && contract.Details != null && contract.Details.TransactionId != responce.Payload?.TransactionId)
                     {
                         contract.Details.TransactionId = responce.Payload?.TransactionId;
                         _unitOfWork.Save();
+                        _loggingService.LogInfo($"Aspire transaction Id [{responce.Payload?.TransactionId}] created for contract [{contract.Id}]");
                     }
 
-                    if (!string.IsNullOrEmpty(responce.Payload.TransactionId))
+                    if (!string.IsNullOrEmpty(responce.Payload.EntityId) && !string.IsNullOrEmpty(responce.Payload.EntityName))
                     {
-                        
+                        var ids = responce.Payload.EntityId.Split(new char[] { '|' });
+                        var names = responce.Payload.EntityName?.Split(new char[] { '|' });
+
+                        var idUpdated = false;
+                        if (ids.Any() && (ids.Length == names.Length))
+                        {
+                            for (int i = 0; i < ids.Length; i++)
+                            {
+                                if (names[i].Contains(contract.PrimaryCustomer.FirstName) &&
+                                    names[i].Contains(contract.PrimaryCustomer.LastName) && contract.PrimaryCustomer.AccountId != ids[i])
+                                {
+                                    contract.PrimaryCustomer.AccountId = ids[i];
+                                    idUpdated = true;
+                                }
+
+                                contract?.SecondaryCustomers.ForEach(c =>
+                                {
+                                    if (names[i].Contains(c.FirstName) &&
+                                    names[i].Contains(c.LastName) && c.AccountId != ids[i])
+                                    {
+                                        c.AccountId = ids[i];
+                                        idUpdated = true;
+                                    }
+                                });
+                            }
+                            if (idUpdated)
+                            {
+                                _unitOfWork.Save();
+                                _loggingService.LogInfo($"Aspire accounts [{responce.Payload.EntityId}] created for customers [{responce.Payload.EntityName}]");
+                            }
+                        }
                     }
                 }
-            }            
+            }      
 
             return alerts;
         }
