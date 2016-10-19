@@ -5,14 +5,14 @@
 @using DealnetPortal.Api.Common.Helpers
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 <div id="label-steps">
-	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
+	@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  &gt;
 </div>
 
 <div class="form-container">
 	<div class="form-section">
 		<div class="dealnet-large-header">Report for contract #@Model.BasicInfo.ContractId</div>
 		<div class="dealnet-large-header">Documents</div>
-		<div>There are no uploaded documents, yet</div>
+		<div class="text-md">There are no uploaded documents, yet</div>
 	</div>
 	<hr>
 	<div class="form-section">
