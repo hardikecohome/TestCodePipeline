@@ -95,6 +95,11 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<IList<Alert>> InitiateCreditCheck(int contractId, string contractOwnerId)
+        {
+            throw new NotImplementedException();
+        }
+
         private IList<Alert> GetAspireUser(DealUploadRequest request, string contractOwnerId)
         {
             var alerts = new List<Alert>();
