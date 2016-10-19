@@ -71,6 +71,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var contracts = _contractRepository.GetContracts(contractOwnerId);
             var contractsDTO = Mapper.Map<IList<ContractDTO>>(contracts);
+            foreach (var contractDTO in contractsDTO)
+            {
+                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
+                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId); }
+            }
             return contractsDTO;
         }
 
@@ -82,7 +87,9 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            return Mapper.Map<ContractDTO>(contract);
+            var contractDTO = Mapper.Map<ContractDTO>(contract);
+            AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+            return contractDTO;
         }
 
         public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId)
@@ -496,6 +503,90 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        public IList<Alert> AddComment(CommentDTO comment, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.TryAddComment(Mapper.Map<Comment>(comment), contractOwnerId))
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot update contract comment";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.CommentUpdateFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to update contract comment", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.CommentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
+        }
+
+        public IList<Alert> RemoveComment(int commentId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.TryRemoveComment(commentId, contractOwnerId))
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot update contract comment";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.CommentUpdateFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to update contract comment", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.CommentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
+        }
+
+        private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
+        {
+            var srcComments = src.ToArray();
+            foreach (var destComment in dest)
+            {
+                var scrComment = srcComments.FirstOrDefault(x => x.Id == destComment.Id);
+                if (scrComment == null) { continue; }
+                destComment.IsOwn = scrComment.DealerId == contractOwnerId;
+                if (destComment.Replies.Any()) { AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId); }
+            }
         }
     }
 }
