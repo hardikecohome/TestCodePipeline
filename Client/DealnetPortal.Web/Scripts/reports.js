@@ -246,14 +246,14 @@ function createTableFooter(row, data, start, end, display) {
 function getTotalForSelectedCheckboxes() {
     var selectedSum;
 
-    $('#work-items-table tbody').on('click', ':checkbox', function () {
+    $('#work-items-table tbody').on('change', ':checkbox', function () {
         var tr = $(this).parents('tr');
         tr.toggleClass('selected');
         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : '';
 
         var val = parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
-        var isSelected = tr.is("selected");
+        var isSelected = tr.is(".selected");
         selectedSum = isSelected ? selectedSum + val : selectedSum - val;
 
         $('#selectedTotal').html('$ ' + selectedSum);
