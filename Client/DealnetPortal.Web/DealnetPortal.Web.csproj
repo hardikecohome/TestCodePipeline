@@ -362,6 +362,7 @@
     <Content Include="Content\images\sprite\icon-error.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
+    <Content Include="Content\images\sprite\icon-fax.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
@@ -555,6 +556,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\camera-capturing.js" />
     <Content Include="Scripts\contact-and-payment.js" />
+    <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />

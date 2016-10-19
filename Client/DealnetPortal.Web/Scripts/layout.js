@@ -1,9 +1,9 @@
-﻿$(document)
+﻿var urlContent = window.location.origin+"/client/";
+$(document)
     .ready(function () {
       if(detectIE()){
         $('body').addClass('ie');
       }
-       // fixMetaViewportIos();
 
         $("input, textarea").placeholder();
 
@@ -160,16 +160,6 @@ function hideLoader() {
     $.loader('close');
 }
 
-function fixMetaViewportIos(){
-  if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-    document.querySelector('meta[name=viewport]')
-      .setAttribute(
-        'content',
-        'initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001, user-scalable=no'
-      );
-  }
-}
-
 function customizeSelect(){
   setTimeout(function(){
     $('select').each(function(){
@@ -189,9 +179,9 @@ function addIconsToFields(fields){
   var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
-  var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
-  var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
-  var iconPassField = $('<svg aria-hidden="true" class="icon icon-eye"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-eye"></use></svg>');
+  var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
+  var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
+  var iconPassField = $('<svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg>');
   iconCalendar.appendTo(fieldDateParent);
   iconClearField.appendTo(fieldParent);
   iconPassField.appendTo(fieldPassParent);

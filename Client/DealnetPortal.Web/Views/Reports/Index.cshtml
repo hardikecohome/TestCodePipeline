@@ -8,7 +8,7 @@
 	<div class="dealnet-action-link">Reports</div> >
 </div>
 <!--<div class="dealnet-large-header">My Deals</div>-->
-<div class="expand-filter-template">
+<div class="expand-filter-template reports-expanded-filter">
 	<a class="clear-data-link" id="clear-filters">
         <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">Clear Filters</span>
 	</a>
@@ -58,7 +58,7 @@
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-6">
 						<div class="form-group">
-							<button class="btn dealnet-button dealnet-success-button block-button filter-button">Filter</button>
+							<button class="btn dealnet-button dealnet-success-button block-button reports-filter-button filter-button">Filter</button>
 						</div>
 					</div>
 				</div>
@@ -139,8 +139,8 @@
 		</div>
 		<div class="col-sm-7 col-sm-pull-5 col-lg-8 col-lg-pull-4">
 			<div class="row additional-info">
-				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button" id="preview-button">Preview</button></div>
-				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button" id="export-excel">Export to Excel</button></div>
+				<div class="col-sm-5 col-lg-3 col-lg-push-3 col-sm-push-5"><button class="btn dealnet-button dealnet-success-button block-button" id="export-excel">Export to Excel</button></div>
+				<div class="col-sm-5 col-lg-3 col-lg-pull-3 col-sm-pull-5"><button class="btn dealnet-button dealnet-success-button block-button" id="preview-button">Preview</button></div>
 			</div>
 		</div>
 	</div>
