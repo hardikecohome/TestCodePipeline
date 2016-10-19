@@ -246,7 +246,7 @@ function createTableFooter(row, data, start, end, display) {
 function getTotalForSelectedCheckboxes() {
     var selectedSum;
 
-    $('#work-items-table tbody').on('click', ':checkbox', function () {
+    $('#work-items-table tbody input[type="checkbox"]').on('click', function () {
         var tr = $(this).parents('tr');
         tr.toggleClass('selected');
         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : '';
