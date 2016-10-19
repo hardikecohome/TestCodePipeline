@@ -5,7 +5,7 @@
 @using DealnetPortal.Api.Common.Helpers
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 <div id="label-steps">
-	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
+	@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  &gt;
 </div>
 
 <div class="form-container">
