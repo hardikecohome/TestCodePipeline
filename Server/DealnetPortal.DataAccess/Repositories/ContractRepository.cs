@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Policy;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -368,6 +369,30 @@ namespace DealnetPortal.DataAccess.Repositories
                 contractData.Equipment = contract.Equipment;
             }
             return contractData;
+        }
+
+        public bool TryAddComment(Comment comment, string contractOwnerId)
+        {
+            //if (!CheckContractAccess(comment.ContractId, contractOwnerId)) { return false; }
+            var dealer = GetUserById(contractOwnerId);
+            comment.Date = DateTime.Now;
+            comment.Dealer = dealer;
+            _dbContext.Comments.AddOrUpdate(comment);
+            return true;
+        }
+
+        public bool TryRemoveComment(CommentDTO comment, string contractOwnerId)
+        {
+            var cmmnt = _dbContext.Comments.FirstOrDefault(x => x.Id == comment.Id && x.DealerId == contractOwnerId);
+            if (cmmnt == null || cmmnt.Replies.Any()) { return false; }
+            _dbContext.Comments.Remove(cmmnt);
+            return true;
+        }
+
+        private bool CheckContractAccess(int contractId, string contractOwnerId)
+        {
+            return _dbContext.Contracts
+                .Any(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
         private Customer AddOrUpdateCustomerLocations(Customer customer, IList<Location> locations)

@@ -286,5 +286,35 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("AddComment")]
+        [HttpPost]
+        public IHttpActionResult AddComment(CommentDTO comment)
+        {
+            try
+            {
+                var alerts = ContractService.AddComment(comment, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("RemoveComment")]
+        [HttpPost]
+        public IHttpActionResult RemoveComment(CommentDTO comment)
+        {
+            try
+            {
+                var alerts = ContractService.RemoveComment(comment, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

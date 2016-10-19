@@ -41,6 +41,8 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<ProvinceTaxRate> ProvinceTaxRates { get; set; }
 
+        public virtual DbSet<Comment> Comments { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 

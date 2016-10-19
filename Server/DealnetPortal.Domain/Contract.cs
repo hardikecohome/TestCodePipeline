@@ -35,5 +35,7 @@ namespace DealnetPortal.Domain
         public EquipmentInfo Equipment { get; set; }
 
         public ContractDetails Details { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }
