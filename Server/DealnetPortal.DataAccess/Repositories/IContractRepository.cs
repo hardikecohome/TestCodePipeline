@@ -120,6 +120,12 @@ namespace DealnetPortal.DataAccess.Repositories
         IList<EquipmentType> GetEquipmentTypes();
 
         /// <summary>
+        /// Get Document Types list
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        IList<DocumentType> GetDocumentTypes();
+
+        /// <summary>
         /// Get Province Tax Rate
         /// </summary>
         /// <param name="province">Province abbreviation</param>
@@ -129,5 +135,9 @@ namespace DealnetPortal.DataAccess.Repositories
         bool TryAddComment(Comment comment, string contractOwnerId);
 
         bool TryRemoveComment(int commentId, string contractOwnerId);
+        
+        Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
+
+        IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId);
     }
 }

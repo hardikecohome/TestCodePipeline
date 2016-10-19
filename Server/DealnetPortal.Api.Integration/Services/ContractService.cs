@@ -588,5 +588,27 @@ namespace DealnetPortal.Api.Integration.Services
                 if (destComment.Replies.Any()) { AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId); }
             }
         }
+
+        public IList<Alert> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                _contractRepository.AddDocumentToContract(document.Id, Mapper.Map<ContractDocument>(document),
+                    contractOwnerId);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to add document to contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Failed to add document to contract",
+                    Message = ex.ToString()
+                });
+            }
+            return alerts;
+        }
     }
 }

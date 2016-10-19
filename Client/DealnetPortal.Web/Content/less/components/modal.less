@@ -95,3 +95,41 @@
   text-align: center;
 }
 
+#upload-documents-modal{
+  .modal-body{
+    padding-top: 0;
+  }
+  .empty-label{
+    @media @tablet-down {
+      display: none;
+    }
+  }
+  .file-upload{
+    @media @tablet-down {
+      margin-top: 15px;
+    }
+  }
+  .btn-container{
+    margin-top: 30px;
+  }
+  .progress-container{
+    display: none;
+  }
+  .form-group.file-uploaded{
+    .progress-container{
+      display: block;
+    }
+    .file-upload{
+      display: none;
+    }
+  }
+}
+.upload-documents-container{
+  &+.upload-documents-container{
+    margin-top: 30px;
+  }
+  .dealnet-section-title{
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+}

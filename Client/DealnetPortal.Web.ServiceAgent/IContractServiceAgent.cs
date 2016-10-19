@@ -81,7 +81,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
-        Task<IList<Alert>> SubmitContract(int contractId);
+        Task<IList<Alert>> SubmitContract(int contractId);        
 
         /// <summary>
         /// Get Equipment Types list
@@ -106,5 +106,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<Alert>> AddComment(CommentDTO comment);
 
         Task<IList<Alert>> RemoveComment(int commentId);
+        
+        Task<IList<Alert>> AddDocumentToContract(DocumentTypeDTO document);
     }
 }

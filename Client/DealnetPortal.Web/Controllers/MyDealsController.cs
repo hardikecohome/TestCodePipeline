@@ -14,9 +14,13 @@ namespace DealnetPortal.Web.Controllers
     {
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
-        public MyDealsController(IContractServiceAgent contractServiceAgent, IContractManager contractManager)
+        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+
+        public MyDealsController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent,
+            IContractManager contractManager)
         {
             _contractServiceAgent = contractServiceAgent;
+            _dictionaryServiceAgent = dictionaryServiceAgent;
             _contractManager = contractManager;
         }
         public ActionResult Index()
@@ -27,8 +31,8 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> ContractEdit(int id)
         {
-            ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
-            return View(await _contractManager.GetSummaryAndConfirmationAsync(id));
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
+            return View(await _contractManager.GetContractEditAsync(id));
         }
     }
 }

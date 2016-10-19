@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -19,11 +20,14 @@ namespace DealnetPortal.Web.Infrastructure
     {
         private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
         private readonly IContractServiceAgent _contractServiceAgent;
+        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public ContractManager(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent)
+        public ContractManager(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent,
+            IDictionaryServiceAgent dictionaryServiceAgent)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
+            _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
         public async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
@@ -96,6 +100,35 @@ namespace DealnetPortal.Web.Infrastructure
                 summaries.Add(summaryAndConfirmation);
             }
             return summaries;
+        }
+
+        public async Task<ContractEditViewModel> GetContractEditAsync(int contractId)
+        {
+            var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId);
+
+            var contractEditViewModel = new ContractEditViewModel()
+            {
+                AdditionalInfo = summaryViewModel.AdditionalInfo,
+                ContactAndPaymentInfo = summaryViewModel.ContactAndPaymentInfo,
+                BasicInfo = summaryViewModel.BasicInfo,
+                EquipmentInfo = summaryViewModel.EquipmentInfo,
+                ProvinceTaxRate = summaryViewModel.ProvinceTaxRate
+            };
+
+            contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
+            contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = new List<ExistingDocument>();
+            contractEditViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
+            var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
+            if (docTypes?.Item1 != null)
+            {
+                contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.Description                                        
+                }).ToList();
+            }
+
+            return contractEditViewModel;
         }
 
         public void MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
@@ -203,7 +236,7 @@ namespace DealnetPortal.Web.Infrastructure
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
             summary.SendEmails = new SendEmailsViewModel();
             if (summary.BasicInfo.AddressInformation != null) { 
-                var rate = (await _contractServiceAgent.GetProvinceTaxRate(summary.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
+                var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
             }
 
