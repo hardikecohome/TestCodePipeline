@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
+using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
@@ -22,15 +23,18 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireServiceAgent _aspireServiceAgent;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         //Aspire codes
         private const string CodeSuccess = "T000";
 
-        public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, ILoggingService loggingService)
+        public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
+            IUnitOfWork unitOfWork, ILoggingService loggingService)
         {
             _aspireServiceAgent = aspireServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
+            _unitOfWork = unitOfWork;
         }
 
         //TODO: add TransactionId and AccountId support
@@ -55,7 +59,7 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeResponse(response);
+                        var rAlerts = AnalyzeResponse(response, contract);
                         if (rAlerts.Any())
                         {
                             alerts.AddRange(rAlerts);
@@ -131,7 +135,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
         private void FillCustomerInfo(DealUploadRequest request, Domain.Contract contract)
-        {
+        {            
             if (request.Payload == null)
             {
                 request.Payload = new Payload();
@@ -143,6 +147,15 @@ namespace DealnetPortal.Api.Integration.Services
             if (request.Payload.Lease.Accounts == null)
             {
                 request.Payload.Lease.Accounts = new List<Account>();
+            }
+
+            if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
+            {
+                if (request.Payload.Lease.Application == null)
+                {
+                    request.Payload.Lease.Application = new Application();
+                }
+                request.Payload.Lease.Application.TransactionId = contract.Details.TransactionId;
             }
 
             Func<Domain.Customer, Account> fillAccount = c =>
@@ -191,6 +204,11 @@ namespace DealnetPortal.Api.Integration.Services
                     };
                 }
 
+                if (!string.IsNullOrEmpty(c.AccountId))
+                {
+                    account.ClientId = c.AccountId;
+                }
+
                 return account;
             };
 
@@ -204,7 +222,7 @@ namespace DealnetPortal.Api.Integration.Services
             contract.SecondaryCustomers?.ForEach(c => request.Payload.Lease.Accounts.Add(fillAccount(c)));
         }
 
-        private IList<Alert> AnalyzeResponse(DealUploadResponce responce)
+        private IList<Alert> AnalyzeResponse(DealUploadResponce responce, Domain.Contract contract)
         {
             var alerts = new List<Alert>();
 
@@ -216,7 +234,22 @@ namespace DealnetPortal.Api.Integration.Services
                     Message = responce.Header.ErrorMsg,
                     Type = AlertType.Error
                 });
-            }
+
+                if (responce.Payload != null)
+                {
+                    if (!string.IsNullOrEmpty(responce.Payload.TransactionId) && contract.Details != null && contract.Details.TransactionId != responce.Payload?.TransactionId)
+                    {
+                        contract.Details.TransactionId = responce.Payload?.TransactionId;
+                        _unitOfWork.Save();
+                    }
+
+                    if (!string.IsNullOrEmpty(responce.Payload.TransactionId))
+                    {
+                        
+                    }
+                }
+            }            
+
             return alerts;
         }
     }
