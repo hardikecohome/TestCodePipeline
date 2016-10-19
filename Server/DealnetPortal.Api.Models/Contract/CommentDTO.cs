@@ -12,7 +12,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string Text { get; set; }
         public DateTime Date { get; set; }
         public IList<CommentDTO> Replies { get; set; }
-        public int? CommentId { get; set; }
+        public int? ParentCommentId { get; set; }
         public int? ContractId { get; set; }
         public bool IsOwn { get; set; }
     }

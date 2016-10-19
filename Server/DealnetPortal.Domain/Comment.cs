@@ -14,8 +14,8 @@ namespace DealnetPortal.Domain
         public string Text { get; set; }
         public DateTime Date { get; set; }
         public virtual ICollection<Comment> Replies { get; set; }
-        public int? CommentId { get; set; }
-        [ForeignKey("CommentId")]
+        public int? ParentCommentId { get; set; }
+        [ForeignKey("ParentCommentId")]
         public virtual Comment ParentComment { get; set; }
         public int? ContractId { get; set; }
         [ForeignKey("ContractId")]

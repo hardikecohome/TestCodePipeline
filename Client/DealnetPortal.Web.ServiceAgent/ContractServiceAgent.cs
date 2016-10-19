@@ -263,14 +263,14 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> RemoveComment(CommentDTO comment)
+        public async Task<IList<Alert>> RemoveComment(int commentId)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<CommentDTO, IList<Alert>>(
-                            $"{_fullUri}/RemoveComment", comment);
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/RemoveComment?commentId={commentId}", "");
             }
             catch (Exception ex)
             {

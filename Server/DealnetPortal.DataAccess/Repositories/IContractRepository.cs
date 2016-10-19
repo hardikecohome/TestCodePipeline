@@ -128,6 +128,6 @@ namespace DealnetPortal.DataAccess.Repositories
 
         bool TryAddComment(Comment comment, string contractOwnerId);
 
-        bool TryRemoveComment(CommentDTO comment, string contractOwnerId);
+        bool TryRemoveComment(int commentId, string contractOwnerId);
     }
 }

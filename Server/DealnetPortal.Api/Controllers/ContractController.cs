@@ -304,11 +304,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("RemoveComment")]
         [HttpPost]
-        public IHttpActionResult RemoveComment(CommentDTO comment)
+        public IHttpActionResult RemoveComment(int commentId)
         {
             try
             {
-                var alerts = ContractService.RemoveComment(comment, LoggedInUser?.UserId);
+                var alerts = ContractService.RemoveComment(commentId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)

@@ -105,6 +105,6 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> AddComment(CommentDTO comment);
 
-        Task<IList<Alert>> RemoveComment(CommentDTO comment);
+        Task<IList<Alert>> RemoveComment(int commentId);
     }
 }

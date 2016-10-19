@@ -541,13 +541,13 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public IList<Alert> RemoveComment(CommentDTO comment, string contractOwnerId)
+        public IList<Alert> RemoveComment(int commentId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
 
             try
             {
-                if (_contractRepository.TryRemoveComment(comment, contractOwnerId))
+                if (_contractRepository.TryRemoveComment(commentId, contractOwnerId))
                 {
                     _unitOfWork.Save();
                 }

@@ -45,6 +45,6 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> AddComment(CommentDTO comment, string contractOwnerId);
 
-        IList<Alert> RemoveComment(CommentDTO comment, string contractOwnerId);
+        IList<Alert> RemoveComment(int commentId, string contractOwnerId);
     }
 }

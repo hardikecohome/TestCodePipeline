@@ -381,9 +381,9 @@ namespace DealnetPortal.DataAccess.Repositories
             return true;
         }
 
-        public bool TryRemoveComment(CommentDTO comment, string contractOwnerId)
+        public bool TryRemoveComment(int commentId, string contractOwnerId)
         {
-            var cmmnt = _dbContext.Comments.FirstOrDefault(x => x.Id == comment.Id && x.DealerId == contractOwnerId);
+            var cmmnt = _dbContext.Comments.FirstOrDefault(x => x.Id == commentId && x.DealerId == contractOwnerId);
             if (cmmnt == null || cmmnt.Replies.Any()) { return false; }
             _dbContext.Comments.Remove(cmmnt);
             return true;
