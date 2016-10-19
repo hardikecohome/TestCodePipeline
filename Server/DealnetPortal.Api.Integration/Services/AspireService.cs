@@ -54,6 +54,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
+                    FillTransactionId(request, contract);
                     FillCustomerInfo(request, contract);
 
                     try
@@ -101,7 +102,63 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task<IList<Alert>> InitiateCreditCheck(int contractId, string contractOwnerId)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract != null)
+            {
+                DealUploadRequest request = new DealUploadRequest();
+
+                var uAlerts = GetAspireUser(request, contractOwnerId);
+                if (uAlerts.Any())
+                {
+                    alerts.AddRange(uAlerts);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    FillTransactionId(request, contract);
+
+                    try
+                    {
+                        var response = await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
+                        var rAlerts = AnalyzeResponse(response, contract);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Header = ErrorConstants.AspireConnectionFailed,
+                            Type = AlertType.Error,
+                            Message = ex.ToString()
+                        });
+                        _loggingService.LogError("Failed to communicate with Aspire", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Aspire credit check for contract [{contractId}] with transaction Id [{contract?.Details.TransactionId}] initiated successfully");
+            }
+
+            return alerts;
         }
 
         private IList<Alert> GetAspireUser(DealUploadRequest request, string contractOwnerId)
@@ -134,11 +191,8 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private void FillCustomerInfo(DealUploadRequest request, Domain.Contract contract)
+        private void InitRequestPayload(DealUploadRequest request)
         {
-            const string CustRole = "CUST";
-            const string GuarRole = "GUAR";
-
             if (request.Payload == null)
             {
                 request.Payload = new Payload();
@@ -155,6 +209,11 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 request.Payload.Lease.Application = new Application();
             }
+        }
+
+        private void FillTransactionId(DealUploadRequest request, Domain.Contract contract)
+        {
+            InitRequestPayload(request);
 
             if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
             {
@@ -164,6 +223,14 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 request.Payload.Lease.Application.TransactionId = contract.Details.TransactionId;
             }
+        }
+
+        private void FillCustomerInfo(DealUploadRequest request, Domain.Contract contract)
+        {
+            const string CustRole = "CUST";
+            const string GuarRole = "GUAR";
+
+            InitRequestPayload(request);            
 
             Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
             {
