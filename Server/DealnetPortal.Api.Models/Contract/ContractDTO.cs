@@ -32,5 +32,7 @@ namespace DealnetPortal.Api.Models.Contract
         public PaymentInfoDTO PaymentInfo { get; set; }
 
         public EquipmentInfoDTO Equipment { get; set; }
+
+        public List<CommentDTO> Comments { get; set; }
     }
 }
