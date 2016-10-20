@@ -109,7 +109,7 @@ namespace DealnetPortal.Web.Controllers
         {
             //Initiate credit status check
             const int numOfAttempts = 3;
-            TimeSpan timeOut = TimeSpan.FromSeconds(30);
+            TimeSpan timeOut = TimeSpan.FromSeconds(10);
 
             Tuple<CreditCheckDTO, IList<Alert>> checkResult = null;
             for (int i = 0; i < numOfAttempts; i++)

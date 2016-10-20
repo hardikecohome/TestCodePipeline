@@ -118,7 +118,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var errorMsg = $"Cannot find a contract [{contract.Id}] for update";
+                    var errorMsg = $"Cannot find a contract [{contract.Id}] for update. Contract owner: [{contractOwnerId}]";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
@@ -228,7 +228,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             //stub for future Aspire request
 
-            TimeSpan creditCheckPause = TimeSpan.FromSeconds(30);
+            TimeSpan creditCheckPause = TimeSpan.FromSeconds(10);
 
             var creditCheck = new CreditCheckDTO()
             {

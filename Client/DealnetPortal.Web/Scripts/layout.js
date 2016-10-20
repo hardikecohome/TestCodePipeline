@@ -53,16 +53,9 @@ $(document)
         }, 400);
       });
 
-      addIconsToFields();
-      toggleClearInputIcon();
-      customizeSelect();
-
-
       if($('.summary-info-hold #basic-info-form .credit-check-info-hold .col-md-6').length % 2 !== 0){
         $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
       }
-
-
 
       $('.dealnet-disabled-input').each(function(){
         $(this).attr('type', 'hidden');
@@ -112,6 +105,13 @@ $(document)
           }
         });
       }, 500);
+
+
+
+      addIconsToFields();
+      toggleClearInputIcon();
+      customizeSelect();
+      commonDataTablesSettings();
     });
 
 function navigateToStep(targetLink){
@@ -134,6 +134,15 @@ function detectPageHeaight(){
   }else{
     $('.back-to-top-hold').hide();
   }
+}
+
+function commonDataTablesSettings(){
+  $.extend( true, $.fn.dataTable.defaults, {
+    "fnInitComplete": function(oSettings, json) {
+      $('#work-items-table_filter input[type="search"], .dataTables_length select').removeClass('input-sm');
+      customizeSelect();
+    }
+  } );
 }
 
 function backToTop() {
