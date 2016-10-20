@@ -225,7 +225,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             //stub for future Aspire request
 
-            TimeSpan creditCheckPause = TimeSpan.FromSeconds(30);
+            TimeSpan creditCheckPause = TimeSpan.FromSeconds(10);
 
             var creditCheck = new CreditCheckDTO()
             {
