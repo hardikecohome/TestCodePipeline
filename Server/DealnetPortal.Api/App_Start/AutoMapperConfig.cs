@@ -36,7 +36,8 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>();
             mapperConfig.CreateMap<Comment, CommentDTO>()
-                .ForMember(x => x.IsOwn, s => s.Ignore());
+                .ForMember(x => x.IsOwn, s => s.Ignore())
+                .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => src.Dealer.UserName));
             mapperConfig.CreateMap<Customer, CustomerDTO>();
                 //.ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations));
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();

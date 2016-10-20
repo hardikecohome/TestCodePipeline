@@ -52,6 +52,7 @@ namespace DealnetPortal.Web.Models
         //public SendEmailsViewModel SendEmails { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
+        public List<CommentViewModel> Comments { get; set; } 
 
         public UploadDocumentsViewModel UploadDocumentsInfo { get; set; }
         
