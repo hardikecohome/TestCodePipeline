@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
+using DealnetPortal.Api.Integration.Services.Signature;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.DataAccess;
@@ -20,18 +21,16 @@ using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
-{
+{    
     public class SignatureService : ISignatureService
     {
+        private readonly ISignatureEngine _signatureEngine;
         private readonly IESignatureServiceAgent _signatureServiceAgent;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
         private readonly IUnitOfWork _unitOfWork;
-
-        private readonly string _eCoreLogin;
-        private readonly string _eCorePassword;
-        private readonly string _eCoreOrganisation;
+        
         private readonly string _eCoreSignatureRole;
         private readonly string _eCoreAgreementTemplate;
         private readonly string _eCoreCustomerSecurityCode;
@@ -39,18 +38,16 @@ namespace DealnetPortal.Api.Integration.Services
         private List<string> _signatureFields = new List<string>() {"Signature1", "Signature2"};//, "Sinature3"};
         private List<string> _signatureRoles = new List<string>();
 
-        public SignatureService(IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
+        public SignatureService(ISignatureEngine signatureEngine, IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
             IFileRepository fileRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
         {
+            _signatureEngine = signatureEngine;
             _signatureServiceAgent = signatureServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
-
-            _eCoreLogin = System.Configuration.ConfigurationManager.AppSettings["eCoreUser"];
-            _eCorePassword = System.Configuration.ConfigurationManager.AppSettings["eCorePassword"];
-            _eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings["eCoreOrganization"];
+            
             _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
             _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
             _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
@@ -60,7 +57,7 @@ namespace DealnetPortal.Api.Integration.Services
             //_signatureRoles.Add($"{_eCoreSignatureRole}3");
         }
 
-        public IList<Alert> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
+        public async Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
         {
             List<Alert> alerts = new List<Alert>();
 
@@ -72,38 +69,19 @@ namespace DealnetPortal.Api.Integration.Services
                 var fields = PrepareFormFields(contract);
                 _loggingService.LogInfo($"{fields.Count} fields collected");
 
-                var logRes = LoginToService();
+                var logRes = await _signatureEngine.ServiceLogin();// LoginToService();
                 if (logRes.Any(a => a.Type == AlertType.Error))
                 {
                     LogAlerts(alerts);
                     return alerts;
                 }
-                var trRes = CreateTransaction(contract);
-                if (trRes.Item2?.Any() ?? false)
-                {
-                    alerts.AddRange(trRes.Item2);
-                }
-                if (trRes.Item2?.Any(a => a.Type != AlertType.Error) ?? false)
-                {
-                    LogAlerts(alerts);
-                    return alerts;
-                }
-                var transId = trRes.Item1;
-                _loggingService.LogInfo($"eSignature transaction [{transId}] was created successefully");
 
-                var docRes = CreateAgreementProfile(contract, transId);
-                if (docRes.Item2?.Any() ?? false)
-                {
-                    alerts.AddRange(docRes.Item2);
-                }
-                if (docRes.Item2?.Any(a => a.Type != AlertType.Error) ?? false)
-                {
-                    LogAlerts(alerts);
-                    return alerts;
-                }
-                var docId = docRes.Item1;
-                _loggingService.LogInfo($"eSignature document profile [{docId}] was created and uploaded successefully");
-                UpdateContractDetails(contractId, ownerUserId, transId.ToString(), docId.ToString(), SignatureStatus.ProfileCreated);
+                var trRes = await _signatureEngine.StartNewTransaction(contract);                
+
+                //TODO: !!!
+                //var docId = docRes.Item1;
+                //_loggingService.LogInfo($"eSignature document profile [{docId}] was created and uploaded successefully");
+                //UpdateContractDetails(contractId, ownerUserId, transId.ToString(), docId.ToString(), SignatureStatus.ProfileCreated);
 
                 var insertRes = InsertAgreementFields(docId, fields);
                 if (insertRes?.Any() ?? false)
@@ -318,19 +296,7 @@ namespace DealnetPortal.Api.Integration.Services
             FillPaymentFieilds(fields, contract);
 
             return fields;
-        }
-
-        private IList<Alert> LoginToService()
-        {
-            List<Alert> alerts = new List<Alert>();
-            var res = _signatureServiceAgent.Login(_eCoreLogin, _eCoreOrganisation, _eCorePassword).GetAwaiter().GetResult();
-            alerts.AddRange(res);
-            if (alerts.Any(a => a.Type == AlertType.Error))
-            {
-                _loggingService.LogError("Can't login to eCore signature service with provided credentials");
-            }
-            return alerts;
-        }
+        }        
 
         private bool LogoutFromService()
         {

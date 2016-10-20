@@ -211,7 +211,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
-                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray());
+                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray()).GetAwaiter().GetResult();
                 return alerts;
             }
             catch (Exception ex)
