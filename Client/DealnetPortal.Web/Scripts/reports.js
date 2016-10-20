@@ -80,6 +80,10 @@ function showTable() {
                     targets: 1
                 },
                 {
+                    className: 'customer-cell',
+                    targets: 2
+                },
+                {
                     targets: [0, -1],
                     orderable: false,
                 }
