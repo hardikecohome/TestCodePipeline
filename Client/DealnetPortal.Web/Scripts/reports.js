@@ -80,6 +80,10 @@ function showTable() {
                     targets: 1
                 },
                 {
+                    className: 'customer-cell',
+                    targets: 2
+                },
+                {
                     targets: [0, -1],
                     orderable: false,
                 }
@@ -94,10 +98,7 @@ function showTable() {
             "<'row'<'col-md-12'p>>" +
             "<'row'<'col-md-12'i>>",
             renderer: 'bootstrap',
-            footerCallback: createTableFooter,
-            "fnInitComplete": function (oSettings, json) {
-                customizeSelect();
-            }
+            footerCallback: createTableFooter
         });
 
         getTotalForSelectedCheckboxes();

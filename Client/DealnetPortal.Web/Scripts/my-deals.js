@@ -60,14 +60,11 @@ function showTable() {
                     dom:
                         "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                             "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                            "<'row'<'col-md-12'l>>" +
+                            "<'row'<'col-md-12 col-sm-6'l>>" +
                             "<'row'<'col-md-12'tr>>" +
                             "<'row'<'col-md-12'p>>" +
                             "<'row'<'col-md-12'i>>",
-                    renderer: 'bootstrap',
-                    "fnInitComplete": function(oSettings, json) {
-                      customizeSelect();
-                    }
+                    renderer: 'bootstrap'
                 });
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';

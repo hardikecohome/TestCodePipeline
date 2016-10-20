@@ -2,6 +2,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child,
 table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child{
   padding-left: 10px !important;
 }
+
 #work-items-table_wrapper{
   .table-footer{
     font-weight: 700;
@@ -27,9 +28,20 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child{
       }
     }
   }
+  .total-info{
+    font-size: 16px;
+    font-weight: 700;
+    color: #cacaca;
+    .additional-info{
+      color: #000;
+    }
+  }
 }
 #table-title{
   margin-bottom: 10px;
+  @media @desktop-up {
+    line-height: 40px;
+  }
 }
 .reports-table-footer{
   .additional-info{
@@ -259,8 +271,8 @@ table.dataTable.dtr-column.collapsed > tbody > tr.parent:not(.child) > th.contro
   &.reports-expanded-filter{
     @media @mobile {
       border-bottom: 1px solid #000;
-      padding: 0 0 5px;
-      margin-bottom: 5px;
+      padding: 0 0 10px;
+      margin-bottom: 10px;
     }
   }
   .form-group{
@@ -321,4 +333,3 @@ div.dataTables_wrapper{
     }
   }
 }
-
