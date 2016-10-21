@@ -11,11 +11,11 @@ namespace DealnetPortal.Api.Common.ApiClient
 {
     public static class HttpExtensions
     {
-        public static Task<HttpResponseMessage> PostAsXmlWithSerializerAsync<T>(this HttpClient client, string requestUri, T value, CancellationToken cancellationToken)
+        public static async Task<HttpResponseMessage> PostAsXmlWithSerializerAsync<T>(this HttpClient client, string requestUri, T value, CancellationToken cancellationToken)
         {
-            return client.PostAsync(requestUri, value,
+            return await client.PostAsync(requestUri, value,
                           new XmlMediaTypeFormatter { UseXmlSerializer = true },
-                          cancellationToken);
+                          cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -10,6 +10,9 @@ namespace DealnetPortal.Api.Models.Aspire
     public class Header
     {
         public From From { get; set; }
+
+        public To To { get; set; }
+
         public string Status { get; set; }
         public string ErrorMsg { get; set; }
     }

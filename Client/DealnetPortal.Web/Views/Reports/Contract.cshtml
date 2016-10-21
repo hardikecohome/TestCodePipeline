@@ -5,14 +5,14 @@
 @using DealnetPortal.Api.Common.Helpers
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 <div id="label-steps">
-	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
+	@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  &gt;
 </div>
 
 <div class="form-container">
 	<div class="form-section">
 		<div class="dealnet-large-header">Report for contract #@Model.BasicInfo.ContractId</div>
 		<div class="dealnet-large-header">Documents</div>
-		<div>There are no uploaded documents, yet</div>
+		<div class="text-md">There are no uploaded documents, yet</div>
 	</div>
 	<hr>
 	<div class="form-section">
@@ -414,30 +414,30 @@
 					<div class="row">
 						<div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
 							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+								<div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
 									MONTHLY PAYMENT
 								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+								<div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 									$@(Model.EquipmentInfo?.TotalMonthlyPayment)
 								</div>
 							</div>
 						</div>
 						<div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+								<div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
 									HST
 								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+								<div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                     $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate / 100, 2))
 								</div>
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
 							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+								<div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
 									TOTAL MONTHLY PAYMENT (TAX INCL.)
 								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+								<div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 									$@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate / 100, 2))
 								</div>
 							</div>

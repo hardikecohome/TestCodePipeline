@@ -1,14 +1,50 @@
 ﻿@{
     ViewBag.Title = "About us";
 }
-
-<h2 class="dealnet-large-header">@ViewBag.Title</h2>
-<!--<h3>@ViewBag.Message</h3>-->
-
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed sem nec nunc pulvinar luctus sed eget est. Nunc elementum porttitor mi in aliquam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce quis erat non dui blandit viverra ut sit amet velit. Ut quis metus tellus. Aliquam elementum eget elit in rhoncus. Vivamus convallis varius mattis.</p>
-<br />
-<h2 class="dealnet-large-header">Contact us</h2>
-<ul class="contact-info-list">
-    <li class="contact-tel"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>555-444-1234</li>
-    <li class="contact-email"><a href="mailto:1111111@email.com" class="dealnet-info-link"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span>1111111@email.com</span></a></li>
-</ul>
+<div class="about-page">
+    <div class="page-section promo-section">
+        <h2 class="dealnet-large-header">@ViewBag.Title</h2>
+        <!--<h3>@ViewBag.Message</h3>-->
+        <p>EcoHome Financial is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house.</p>
+        <p>We partner with leading dealers and manufacturers to deliver what is needed to succeed in today’s competitive arena – hassle free finance programs for dealers and their customers.</p>
+        <p>Give your customers the ability to purchase now, and the ability to purchase more. We deliver what you need to succeed.</p>
+    </div>
+    <div class="page-section">
+        <h2 class="dealnet-large-header">Contact us</h2>
+        <ul class="contact-info-list">
+            <li class="contact-tel"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>1-866-382-7468</li>
+            <li class="contact-tel"><svg aria-hidden="true" class="icon icon-fax"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-fax")"></use></svg>1-877-689-3863</li>
+            <li class="contact-email"><a href="mailto:1111111@email.com" class="dealnet-info-link"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span>info@ecohomefinancial.com</span></a></li>
+        </ul>
+    </div>
+    <div class="page-section">
+        <h2 class="dealnet-large-header">Find us</h2>
+        <div class="vcard">
+            <div class="hidden"><span class="fn org">EcoHome</span></div>
+            <div class="adr">
+                <span class="street-address">325 Milner Avenue, Suite 300,</span> <br />
+                <span class="locality">Toronto</span>, <span class="region">ON</span> <br />
+                <span class="postal-code">M1B 5N1</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="about-page" style="display:none;">
+    <div class="page-section">
+        <h2 class="dealnet-large-header">Find us</h2>
+        <div class="vcard">
+            <div class="hidden"><span class="fn org">One Dealer Financial</span></div>
+            <div class="adr">
+                <span class="street-address">325 Milner Ave #300</span><br />
+                <span class="locality">Toronto</span>, <span class="region">ON</span> <span class="postal-code">M1B 5N1</span>
+            </div>
+        </div>
+    </div>
+    <div class="page-section">
+        <h2 class="dealnet-large-header">Contact us</h2>
+        <ul class="contact-info-list">
+            <li class="contact-tel"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>888-859-0204</li>
+            <li class="contact-email"><a href="mailto:customerservice@onedealerfinancial.com" class="dealnet-info-link"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span>customerservice@onedealerfinancial.com</span></a></li>
+        </ul>
+    </div>
+</div>

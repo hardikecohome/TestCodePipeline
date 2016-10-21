@@ -263,7 +263,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.UpdateCustomers(customers);
+                var alerts = ContractService.UpdateCustomers(customers, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -279,6 +279,36 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var alerts = ContractService.SubmitContract(contractId, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AddComment")]
+        [HttpPost]
+        public IHttpActionResult AddComment(CommentDTO comment)
+        {
+            try
+            {
+                var alerts = ContractService.AddComment(comment, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("RemoveComment")]
+        [HttpPost]
+        public IHttpActionResult RemoveComment(int commentId)
+        {
+            try
+            {
+                var alerts = ContractService.RemoveComment(commentId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)

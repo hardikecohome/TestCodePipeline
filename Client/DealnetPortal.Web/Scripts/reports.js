@@ -9,6 +9,7 @@
 		        $(this).val($(this).text());
 		    });
 		    $('<option selected value="">- not selected -</option>').prependTo($('.select-filter'));
+        $('.select-filter').val($('.select-filter > option:first').val());
 		});
 function assignDatepicker(input) {
     input.datepicker({
@@ -68,7 +69,7 @@ function showTable() {
                 },
                 {// this is Actions Column
                     "render": function (sdata, type, row) {
-                        return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-excel")"></use></a></div>';
+                        return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
                     },
                     className: 'controls-cell'
                 }
@@ -79,6 +80,10 @@ function showTable() {
                     targets: 1
                 },
                 {
+                    className: 'customer-cell',
+                    targets: 2
+                },
+                {
                     targets: [0, -1],
                     orderable: false,
                 }
@@ -87,16 +92,13 @@ function showTable() {
             dom:
             "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
             "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-            "<'length-filter '<'row '<'col-md-7 col-sm-6 col-xs-12'l><'#export-all-to-excel.col-md-3 col-sm-4 col-sm-offset-2 col-xs-12'>>>" +
+            "<'length-filter '<'row '<'#export-all-to-excel.col-md-3 col-sm-4 col-xs-12 col-md-push-9 col-sm-push-8'><'col-md-7 col-sm-6 col-xs-12  col-md-pull-3 col-sm-pull-4'l>>>" +
             "<'row'<'col-md-12'tr>>" +
             "<'table-footer'>" +
             "<'row'<'col-md-12'p>>" +
             "<'row'<'col-md-12'i>>",
             renderer: 'bootstrap',
-            footerCallback: createTableFooter,
-            "fnInitComplete": function (oSettings, json) {
-                customizeSelect();
-            }
+            footerCallback: createTableFooter
         });
 
         getTotalForSelectedCheckboxes();
@@ -252,7 +254,7 @@ function getTotalForSelectedCheckboxes() {
 
         var val = parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
-        var isSelected = tr[0].classList.contains("selected");
+        var isSelected = tr.is(".selected");
         selectedSum = isSelected ? selectedSum + val : selectedSum - val;
 
         $('#selectedTotal').html('$ ' + selectedSum);

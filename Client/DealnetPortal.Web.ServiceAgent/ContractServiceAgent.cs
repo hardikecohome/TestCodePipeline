@@ -246,5 +246,37 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<IList<Alert>> AddComment(CommentDTO comment)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<CommentDTO, IList<Alert>>(
+                            $"{_fullUri}/AddComment", comment);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't add comment to contract", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> RemoveComment(int commentId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/RemoveComment?commentId={commentId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove comment to contract", ex);
+                throw;
+            }
+        }
     }
 }

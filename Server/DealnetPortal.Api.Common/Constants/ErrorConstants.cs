@@ -14,8 +14,12 @@
 
         public const string EcoreConnectionFailed = "ecore_connection_failed";
 
+        public const string AspireConnectionFailed = "aspire_connection_failed";
+
         public const string EquipmentTypesRetrievalFailed = "equipment_types_retrieval_failed";
 
         public const string ProvinceTaxRateRetrievalFailed = "province_tax_rate_retrieval_failed";
+
+        public const string CommentUpdateFailed = "comment_update_failed";
     }
 }
