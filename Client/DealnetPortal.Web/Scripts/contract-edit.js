@@ -61,7 +61,10 @@
                 $('.file-uploaded .progress-bar:last').width(percentVal);
                 $('.file-uploaded .progress-bar-value:last').html(percentVal);               
             },
-            complete: function (xhr) {              
+            complete: function (xhr) {
+                var percentVal = '0%';
+                $('.file-uploaded .progress-bar:last').width(percentVal);
+                $('.file-uploaded .progress-bar-value:last').html(percentVal);
                 alert(xhr.responseText);
             }
             }).submit();

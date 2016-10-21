@@ -37,18 +37,18 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public  ActionResult UploadDocument(HttpPostedFileBase files )
+        public  ActionResult UploadDocument(HttpPostedFileBase files, FormCollection form)
         {           
-            if (files != null)
-             //   foreach(var file in files)
-            {
+            int document = 0;
+            bool isDocument = int.TryParse(HttpUtility.ParseQueryString(form[0]).ToString(), out document);
+            if (files != null && isDocument ) 
+            {               
                 string fileName = Guid.NewGuid().ToString();
                 string extension = Path.GetExtension(files.FileName);
                 fileName += extension;
                 files.SaveAs(Server.MapPath(@"/App_Data/Upload/" + fileName));
                 return Json("File was saved", JsonRequestBehavior.DenyGet);
             }
-
             return Json("occurred error", JsonRequestBehavior.DenyGet);
         }
     }

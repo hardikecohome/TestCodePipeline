@@ -41,11 +41,11 @@
 					</div>
 				</div>
 
-				<div class="col-md-6">
+				@*<div class="col-md-6">
 					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 						<span>Upload Documents</span>
 					</a>
-				</div>
+				</div>*@
 			</div>
 			<div class="well success-well">
 				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Your documents were successfully uploaded
@@ -1700,6 +1700,7 @@
 							<div class="row">
 								<div class="col-md-6">
 								    <label for="">Choose type of a document</label>
+                                    <form action="@Url.Action("UploadDocument","MyDeals")" method="post" enctype="multipart/form-data">
                                     @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
                                         Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control" })
 									@*<select name="" id="" class="form-control">
@@ -1712,14 +1713,13 @@
 									</select>*@
 								</div>
 								<div class="col-md-6">
-									<div class="dealnet-label empty-label">&nbsp;</div>
-                                    <form action="@Url.Action("UploadDocument","MyDeals")" method="post" enctype="multipart/form-data">
+									<div class="dealnet-label empty-label">&nbsp;</div>                                   
                                         <div class="file-upload btn  btn dealnet-button dealnet-success-button block-button">
                                             <span>Choose file and upload</span>
                                             <input type="file"  name="files" accept="image/*" class="upload" id="upload-new-photo" />                                                                                                                             
-                                        </div>                                                                               
-                                     </form>                                  
-								</div>                              
+                                       </div>                                                                                                                                                    
+								</div> 
+                                </form>                              
 							</div>
 							<div class="progress-container">
 								<span class="progress-bar-value" style="left: 25%">0%</span>
