@@ -94,6 +94,6 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> RemoveComment(int commentId);
         
-        Task<IList<Alert>> AddDocumentToContract(DocumentTypeDTO document);
+        Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document);
     }
 }
