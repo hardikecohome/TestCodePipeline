@@ -117,11 +117,6 @@ body.no-authorized .navbar{
   height: 50px;
   padding-right: 5px;
 }
-@media @mobile{
-  .dealnet-login-buttons-holder {
-    display: none !important;
-  }
-}
 
 .dealnet-link {
   color: #FFFFFF !important;
@@ -137,6 +132,29 @@ body.no-authorized .navbar{
 
 .dealnet-login-buttons {
   display: inline-block;
+  margin-right: 10px;
+  .dealnet-login-buttons-text{
+    display: inline-block;
+    @media @mobile {
+      display: none;
+    }
+  }
+  .dropdown-menu{
+    background-color: @navbar-header;
+    @media @mobile {
+      display: none!important;
+    }
+  }
+  .icon-circle-hold{
+    @media @mobile {
+      margin: 0;
+    }
+  }
+  .caret{
+    @media @mobile {
+      display: none;
+    }
+  }
 }
 
 .dealnet-login-buttons .dropdown-toggle {
@@ -144,13 +162,16 @@ body.no-authorized .navbar{
   vertical-align: middle;
 }
 
-.dealnet-login-buttons .dropdown-menu {
-  background-color: #3e281d;
-}
-
 .dealnet-button-holder {
   margin-left: 0px;
   margin-right: 0px;
+}
+body.open-menu{
+  .dealnet-login-buttons-holder{
+    @media @mobile {
+      display: none !important;
+    }
+  }
 }
 
 .dealnet-page-header-login {
@@ -228,6 +249,15 @@ body.no-authorized .navbar{
   height: 50px;
   margin: 0 auto;
   width: 140px;
+}
+@media @mobile{
+  .navbar-header > div{
+    width: 50%;
+    &.burger-hold,
+    &.user-hold{
+      width: 25%;
+    }
+  }
 }
 @media (max-width: 1279px) {
   .navbar-logo-hold{
