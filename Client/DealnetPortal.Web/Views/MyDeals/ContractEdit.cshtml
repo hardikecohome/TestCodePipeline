@@ -2,6 +2,7 @@
 @using System.Collections.Generic
 @using System.Globalization
 @using System.Linq
+@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models
@@ -60,17 +61,21 @@
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6">
 				<div class="dealnet-credit-check-section">
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
-							<div class="dealnet-field-holder col-xs-6">
-							    <div class="control-group">
-                                    $ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
-							    </div>
-							</div>
-						</div>
-					</div>
-				    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "deal-info-form" }))
+				    @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+				         Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+				    {
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        $ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    }
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "deal-info-form" }))
                     {
 				        @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
@@ -550,14 +555,6 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <div class="form-group">
-	                        <div class="row">
-	                            @Html.Label("", "Qty", new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
-	                            </div>
-	                        </div>
-	                    </div>
 
 	                    <div class="form-group">
 	                        <div class="row">
@@ -578,17 +575,19 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                    @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Cost)
-	                    @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost)
-	                    <div class="form-group">
-	                        <div class="row">
-	                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                    @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+	                         Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+	                    {
+	                        <div class="form-group">
+	                            <div class="row">
+	                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
+	                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+	                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                                </div>
 	                            </div>
 	                        </div>
-	                    </div>
-	                    <div class="form-group">
+	                    }
+                        <div class="form-group">
 	                        <div class="row">
 	                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
@@ -1282,18 +1281,7 @@ foreach (var comment in comments)
                         @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
                         {
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("", "Qty", new { @class = "dealnet-field-caption" })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, new { @class = "form-control dealnet-input" })
-                                                @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption" })
                                         <div class="dealnet-field-holder">
@@ -1316,18 +1304,22 @@ foreach (var comment in comments)
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption" })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "form-control dealnet-input" })
-                                                @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Cost, "", new { @class = "text-danger" })
+                                @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+                                     Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption"})
+                                            <div class="dealnet-field-holder">
+                                                <div class="control-group">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "form-control dealnet-input"})
+                                                    @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Cost, "", new {@class = "text-danger"})
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
+                                }
+                                <div class="@(Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication && Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt ? "col-md-6" : "col-md-12")">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption" })
                                         <div class="dealnet-field-holder">
