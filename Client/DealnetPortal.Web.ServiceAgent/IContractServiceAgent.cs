@@ -90,6 +90,6 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>xlsx report in byte array</returns>
         Task<byte[]> GetXlsxReport(IEnumerable<int> ids);
 
-        Task<IList<Alert>> AddDocumentToContract(DocumentTypeDTO document);
+        Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document);
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
 using System.IO;
+using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -46,7 +47,19 @@ namespace DealnetPortal.Web.Controllers
                 string fileName = Guid.NewGuid().ToString();
                 string extension = Path.GetExtension(files.FileName);
                 fileName += extension;
-                files.SaveAs(Server.MapPath(@"/App_Data/Upload/" + fileName));
+                //files.SaveAs(Server.MapPath(@"/App_Data/Upload/" + fileName));
+                
+                //TODO: implement upload to server !!!
+                //var document = new ContractDocumentDTO()
+                //{
+
+                //};
+                //await _contractServiceAgent.AddDocumentToContract(document);
+
+                //TODO: загруженные документы лучше брать примерно так
+                //var contract = await _contractServiceAgent.GetContract(contractId);
+                //contract.Item1.Documents ...
+
                 return Json("File was saved", JsonRequestBehavior.DenyGet);
             }
             return Json("occurred error", JsonRequestBehavior.DenyGet);
