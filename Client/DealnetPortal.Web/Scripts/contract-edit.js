@@ -42,11 +42,33 @@
         });
         $('#upload-documents-modal .file-upload').on('click', function(){
             $(this).parents('.form-group').addClass('file-uploaded');
-            return false;
+            $('.file-uploaded .progress-bar:last').width('0%');
+            return true;
         });
         $('.progress-container .clear-data-link').on('click', function(){
             $(this).parents('.form-group').removeClass('file-uploaded');
         });
+        });            
+   
+        $('input[type="file"]').on('change', function () {          
+            $('form:last').ajaxForm({
+                method: 'post',
+                contentType: false,
+                beforeSend: function (data) {
+                var percentVal = '0%';
+                $('.file-uploaded .progress-bar:last').width(percentVal);
+                $('.file-uploaded .progress-bar-value:last').html(percentVal);
+                $('.file-uploaded .text-center:last').html(event.currentTarget.value.match(/[\w-]+\.\w+/gi));
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+                var percentVal = percentComplete + '%';
+                $('.file-uploaded .progress-bar:last').width(percentVal);
+                $('.file-uploaded .progress-bar-value:last').html(percentVal);               
+            },
+            complete: function (xhr) {              
+                alert(xhr.responseText);
+            }
+            }).submit();
     });
 
 function addReplyFrom() {
