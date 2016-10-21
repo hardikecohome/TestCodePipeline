@@ -110,6 +110,7 @@ html.ie9{
 .form-group{
   label,
   .dealnet-label{
+    line-height: 20px;
     margin-bottom: 7px;
   }
 }
@@ -522,5 +523,33 @@ div.dataTables_wrapper div.dataTables_length {
   }
   @media @desktop-up {
     display: block !important;
+  }
+}
+
+.progress-container{
+  margin: 30px 0 20px;
+  position: relative;
+  padding-right: 30px;
+  .clear-data-link{
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .progress{
+    border: 1px solid @default-grey-color;
+    box-shadow: none;
+    border-radius: 12px;
+  }
+  .progress-bar{
+    background: @success-color;
+    box-shadow: none;
+  }
+  .progress-bar-value{
+    color: #5d5d5d;
+    position: absolute;
+    top: -20px;
+    left: 0;
+    transform: translateX(-50%);
+    margin-left: 5px;
   }
 }

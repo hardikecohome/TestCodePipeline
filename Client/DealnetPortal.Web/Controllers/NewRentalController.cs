@@ -32,12 +32,15 @@ namespace DealnetPortal.Web.Controllers
         private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent; 
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
+        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent, IContractManager contractManager) : base(contractManager)
+        public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent, 
+            IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager) : base(contractManager)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
             _contractManager = contractManager;
+            _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
         public async Task<ActionResult> BasicInfo(int? contractId)
@@ -163,7 +166,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
-            ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
             return View(await _contractManager.GetEquipmentInfoAsync(contractId));
         }
 
@@ -209,7 +212,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
         {
-            ViewBag.EquipmentTypes = (await _contractServiceAgent.GetEquipmentTypes()).Item1;
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
 

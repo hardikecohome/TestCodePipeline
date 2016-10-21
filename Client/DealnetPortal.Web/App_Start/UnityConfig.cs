@@ -51,6 +51,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
+            container.RegisterType<IDictionaryServiceAgent, DictionaryServiceAgent>();
             container.RegisterType<IContractManager, ContractManager>();
         }
     }

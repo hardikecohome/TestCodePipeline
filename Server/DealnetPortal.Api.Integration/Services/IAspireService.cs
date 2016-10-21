@@ -16,5 +16,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="contractOwnerId">dealer Id</param>
         /// <returns></returns>
         Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId);
+
+        Task<IList<Alert>> InitiateCreditCheck(int contractId, string contractOwnerId);
     }
 }
