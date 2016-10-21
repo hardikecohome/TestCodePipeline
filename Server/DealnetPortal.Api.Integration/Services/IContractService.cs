@@ -49,7 +49,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId);
 
-        IList<Alert> AddComment(CommentDTO comment, string contractOwnerId);
+        Tuple<int?, IList<Alert>> AddComment(CommentDTO comment, string contractOwnerId);
 
         IList<Alert> RemoveComment(int commentId, string contractOwnerId);
     }

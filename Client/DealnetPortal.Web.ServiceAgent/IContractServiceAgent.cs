@@ -90,7 +90,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>xlsx report in byte array</returns>
         Task<byte[]> GetXlsxReport(IEnumerable<int> ids);
 
-        Task<IList<Alert>> AddComment(CommentDTO comment);
+        Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
 
         Task<IList<Alert>> RemoveComment(int commentId);
         

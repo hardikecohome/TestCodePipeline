@@ -508,13 +508,15 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public IList<Alert> AddComment(CommentDTO comment, string contractOwnerId)
+        public Tuple<int?, IList<Alert>> AddComment(CommentDTO commentDTO, string contractOwnerId)
         {
             var alerts = new List<Alert>();
+            Comment comment = null;
 
             try
             {
-                if (_contractRepository.TryAddComment(Mapper.Map<Comment>(comment), contractOwnerId))
+                comment = _contractRepository.TryAddComment(Mapper.Map<Comment>(commentDTO), contractOwnerId);
+                if (comment != null)
                 {
                     _unitOfWork.Save();
                 }
@@ -541,7 +543,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            return alerts;
+            return new Tuple<int?, IList<Alert>>(comment?.Id, alerts);
         }
 
         public IList<Alert> RemoveComment(int commentId, string contractOwnerId)

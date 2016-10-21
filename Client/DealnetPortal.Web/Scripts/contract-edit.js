@@ -15,16 +15,15 @@
     setValidationRelation($("#meter-number"), $("#enbridge-gas-distribution-account"));
 
         $('.comment .show-comments-answers').on('click', function() {
-            $(this).toggleClass('active');
-            $(this).parents('.comment').toggleClass('active');
+            expandReplies(this);
             return false;
         });
 
+        $('.comment .write-reply-link').on('click', addReplyFrom);
 
-        $('.comment .write-reply-link').on('click', function() {
-            var currComment = $(this).parents('.comment');
-            var commentForm = $('.comment-reply-form').detach();
-            commentForm.appendTo(currComment);
+        $('.reply-button').on('click', function () {
+            var form = $(this).parents('form');
+            submitComment(form, addBaseComment);
             return false;
         });
 
@@ -45,6 +44,30 @@
         });
     });
 
+function addReplyFrom() {
+    var currComment = $(this).parents('.comment');
+    var existingForm = currComment.find('.comment-reply-form');
+    if (existingForm.length) {
+        existingForm.remove();
+    } else {
+        var commentForm = $('#comment-reply-form').clone();
+        commentForm.find("input[name='ParentCommentId']").val(currComment.find("input[name='comment-id']").val());
+        commentForm.attr("id", "");
+        commentForm.appendTo(currComment);
+        commentForm.find('.reply-button').on('click', function () {
+            var form = $(this).parents('form');
+            submitComment(form, addChildComment);
+            return false;
+        });
+    }
+    return false;
+}
+
+function expandReplies(button) {
+    $(button).toggleClass('active');
+    $(button).parents('.comment').toggleClass('active');
+}
+
 function assignDatepicker() {
     $(this).datepicker({
         dateFormat: 'mm/dd/yy',
@@ -52,4 +75,68 @@ function assignDatepicker() {
         yearRange: '1900:2200',
         minDate: Date.parse("1900-01-01")
     });
+}
+
+function submitComment(form, addComment) {
+    showLoader();
+    form.ajaxSubmit({
+        type: "POST",
+        success: function (json) {
+            hideLoader();
+            if (json.isError) {
+                alert("An error occurred while adding comment");
+            } else {
+                var comment = addComment(form, json);
+                comment.find('.write-reply-link').on('click', addReplyFrom);
+                comment.find('.show-comments-answers').on('click', function () {
+                    expandReplies(this);
+                    return false;
+                });
+            }
+        },
+        error: function (xhr, status, p3) {
+            hideLoader();
+            alert(xhr.responseText);
+        }
+    });
+}
+function addBaseComment(form, json) {
+    var currComments = $('#comments-start');
+    var commentTemplate = $('#comment-template').clone();
+    commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
+    var commentText = $('.base-comment-text');
+    commentTemplate.find(".comment-body p").text(commentText.val());
+    commentText.val("");
+    commentTemplate.find(".comment-user .comment-username").text(form.parents('.comments-widget').data('username'));
+    commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
+    commentTemplate.attr("id", "");
+    commentTemplate.insertAfter(currComments);
+    var replies = $('#replies-template').clone();
+    replies.insertAfter(commentTemplate);
+    replies.attr("id", "");
+    return commentTemplate;
+}
+
+function addChildComment(form, json) {
+    var parentComment = form.parents('.comment');
+    var currComments = parentComment.next('ul').find('li');
+    var commentTemplate = $('#comment-template').clone();
+    commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
+    commentTemplate.find(".comment-body p").text(form.find('.base-comment-text').val());
+    commentTemplate.find(".comment-user .comment-username").text(form.parents('.comments-widget').data('username'));
+    commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
+    commentTemplate.attr("id", "");
+    commentTemplate.appendTo(currComments);
+    var replies = $('#replies-template').clone();
+    replies.appendTo(currComments);
+    replies.attr("id", "");
+    form.parents('.comment-reply-form').remove();
+    var prevQuantity = parentComment.find('.answers-quantity');
+    var prevQuantityVal = Number(prevQuantity.text());
+    prevQuantity.text(prevQuantityVal + 1);
+    if (prevQuantityVal === 0) {
+        parentComment.find('.show-comments-answers').toggleClass('active');
+        parentComment.toggleClass('active');
+    }
+    return commentTemplate;
 }

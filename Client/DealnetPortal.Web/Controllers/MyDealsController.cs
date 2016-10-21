@@ -48,7 +48,7 @@ namespace DealnetPortal.Web.Controllers
                 return GetErrorJson();
             }
             var updateResult = await _contractServiceAgent.AddComment(Mapper.Map<CommentDTO>(comment));
-            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+            return updateResult.Item2.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : Json(new { updatedCommentId = updateResult.Item1 });
         }
 
         [HttpPost]

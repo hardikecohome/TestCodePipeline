@@ -823,18 +823,24 @@
 	        </div>
 	    }
 	}
-        <div class="comments-widget">
+        <div class="comments-widget" data-username="@User.Identity.Name">
 			<h3 class="dealnet-section-title">Comments</h3>
-			<div class="form-group">
-				<label for="">Add comment</label>
-				<textarea name="" id="" cols="30" rows="2" class="form-control" placeholder="Write a reply..."></textarea>
-			</div>
-			<div class="row">
-				<div class="col-sm-5 col-md-3">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
-				</div>
-			</div>
-			<div class="comment">
+            @using (Html.BeginForm("AddComment", "MyDeals"))
+            {
+                <div class="form-group">
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("ContractId", Model.BasicInfo.ContractId)
+                    <label for="">Add comment</label>
+                    <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="Write a reply..."></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 col-md-3">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">Reply</button>
+                    </div>
+                </div>
+            }
+            <div id="comments-start"></div>
+            <div class="comment">
 				<div class="commetn-header">
 					<span class="comment-user">
 						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
@@ -930,15 +936,49 @@
 	</div>
 </div>
 <div class="hidden">
-    <div class="comment-reply-form">
-        <label for="">Add comment</label>
-        <textarea name="" id="" cols="30" rows="2" class="form-control" placeholder="Write a reply..."></textarea>
-        <div class="row">
-            <div class="col-sm-5 col-md-3">
-                <button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
+    <div class="comment-reply-form" id="comment-reply-form">
+        @using (Html.BeginForm("AddComment", "MyDeals"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ParentCommentId")
+            <label for="">Add comment</label>
+            <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="Write a reply..."></textarea>
+            <div class="row">
+                <div class="col-sm-5 col-md-3">
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">Reply</button>
+                </div>
             </div>
+        }
+    </div>
+</div>
+<div class="hidden">
+    <div class="comment" id="comment-template">
+        <div class="commetn-header">
+            <span class="comment-user">
+                    <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>                    
+                <span class="comment-username"></span>
+                </span>
+            <span class="comment-update">
+                    <span class="comment-update-time"></span>
+                </span>
+            <span class="owner-comment">your comment</span>
+        </div>
+        <div class="comment-body">
+            <input hidden name="comment-id"/>
+            <p></p>
+            <a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+        </div>
+        <div class="comment-footer">
+            <a href="#" class="show-comments-answers"><span class="answers-quantity">0</span> answer(s)</a>
+            <a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
         </div>
     </div>
+</div>
+<div class="hidden">
+    <ul class="child-comments-list list-unstyled" id="replies-template">
+        <li>
+        </li>
+    </ul>
 </div>
 <div class="text-center back-to-top-hold">
     <br/>

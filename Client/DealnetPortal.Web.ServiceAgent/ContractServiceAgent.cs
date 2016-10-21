@@ -233,13 +233,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> AddComment(CommentDTO comment)
+        public async Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<CommentDTO, IList<Alert>>(
+                        Client.PostAsync<CommentDTO, Tuple<int?, IList<Alert>>>(
                             $"{_fullUri}/AddComment", comment);
             }
             catch (Exception ex)

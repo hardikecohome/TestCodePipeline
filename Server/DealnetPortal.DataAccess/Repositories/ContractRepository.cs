@@ -431,14 +431,14 @@ namespace DealnetPortal.DataAccess.Repositories
             return contractData;
         }
 
-        public bool TryAddComment(Comment comment, string contractOwnerId)
+        public Comment TryAddComment(Comment comment, string contractOwnerId)
         {
             //if (!CheckContractAccess(comment.ContractId, contractOwnerId)) { return false; }
             var dealer = GetUserById(contractOwnerId);
             comment.Date = DateTime.Now;
             comment.Dealer = dealer;
             _dbContext.Comments.AddOrUpdate(comment);
-            return true;
+            return comment;
         }
 
         public bool TryRemoveComment(int commentId, string contractOwnerId)
