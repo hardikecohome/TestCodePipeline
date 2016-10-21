@@ -1,8 +1,10 @@
 @using System
 @using System.Collections.Generic
+@using System.Globalization
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Models
 @model DealnetPortal.Web.Models.ContractEditViewModel
 <div id="label-steps">
 	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
@@ -840,101 +842,48 @@
                 </div>
             }
             <div id="comments-start"></div>
-            <div class="comment">
-				<div class="commetn-header">
-					<span class="comment-user">
-						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-						&lt;FName&gt; &lt;LName&gt;
-					</span>
-					<span class="comment-update">
-						<span class="comment-update-time">11:35 AM</span>
-						<span class="comment-update-date">01/11/2015</span>
-					</span>
-					<span class="owner-comment">your comment</span>
-				</div>
-				<div class="comment-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-				</div>
-				<div class="comment-footer">
-					<a href="#" class="show-comments-answers">3 answers</a>
-					<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-				</div>
-			</div>
-			<ul class="child-comments-list list-unstyled">
-				<li>
-					<div class="comment">
-						<div class="commetn-header">
-							<span class="comment-user">
-								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-								&lt;FName&gt; &lt;LName&gt;
-							</span>
-							<span class="comment-update">
-								<span class="comment-update-time">11:35 AM</span>
-								<span class="comment-update-date">01/11/2015</span>
-							</span>
-							<!--<span class="owner-comment">your comment</span>-->
-						</div>
-						<div class="comment-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-						</div>
-						<div class="comment-footer">
-							<a href="#" class="show-comments-answers">3 answers</a>
-							<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-						</div>
-					</div>
-				</li>
-			</ul>
-			<div class="comment">
-				<div class="commetn-header">
-					<span class="comment-user">
-						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-						&lt;FName&gt; &lt;LName&gt;
-					</span>
-					<span class="comment-update">
-						<span class="comment-update-time">11:35 AM</span>
-						<span class="comment-update-date">01/11/2015</span>
-					</span>
-					<!--<span class="owner-comment">your comment</span>-->
-				</div>
-				<div class="comment-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-				</div>
-				<div class="comment-footer">
-					<a href="#" class="show-comments-answers">1 answer</a>
-					<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-				</div>
-			</div>
-			<ul class="child-comments-list list-unstyled">
-				<li>
-					<div class="comment">
-						<div class="commetn-header">
-							<span class="comment-user">
-								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-								&lt;FName&gt; &lt;LName&gt;
-							</span>
-							<span class="comment-update">
-								<span class="comment-update-time">11:35 AM</span>
-								<span class="comment-update-date">01/11/2015</span>
-							</span>
-							<span class="owner-comment">your comment</span>
-						</div>
-						<div class="comment-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-						</div>
-						<div class="comment-footer">
-							<a href="#" class="show-comments-answers">3 answers</a>
-							<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-						</div>
-					</div>
-				</li>
-			</ul>
+            @AddComments(Model.Comments)
 		</div>
 	</div>
 </div>
+@helper AddComments(IEnumerable<CommentViewModel> comments)
+{
+if (comments == null) { return; }
+foreach (var comment in comments)
+{
+    <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }" >
+        <div class="commetn-header">
+            <span class="comment-user">
+                <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+                <span class="comment-username">@comment.AuthorName</span>
+            </span>
+            <span class="comment-update">
+                <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
+            </span>
+            @if (comment.IsOwn)
+            {
+                <span class="owner-comment">your comment</span>
+            }
+        </div>
+        <div class="comment-body">
+            <input hidden name="comment-id" value="@comment.Id"/>
+            <p>@comment.Text</p>
+            <a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+        </div>
+        <div class="comment-footer">
+            <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> answer(s)</a>
+            <a href="#" class="dealnet-success-link write-reply-link @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">Write a reply</a>
+        </div>
+
+    </div>
+
+    <ul class="child-comments-list list-unstyled">
+        <li>
+            @AddComments(comment.Replies)
+        </li>
+    </ul>
+    }
+}
 <div class="hidden">
     <div class="comment-reply-form" id="comment-reply-form">
         @using (Html.BeginForm("AddComment", "MyDeals"))
@@ -980,6 +929,11 @@
         </li>
     </ul>
 </div>
+@using (Html.BeginForm("RemoveComment", "MyDeals", FormMethod.Post, new { id = "remove-comment-form"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("commentId")
+}
 <div class="text-center back-to-top-hold">
     <br/>
     <a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
@@ -1827,5 +1781,5 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/contract-edit");
+    @Scripts.Render("~/bundles/contract-edit") ;
 }

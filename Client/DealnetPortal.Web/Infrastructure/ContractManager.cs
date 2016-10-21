@@ -116,7 +116,9 @@ namespace DealnetPortal.Web.Infrastructure
                 EquipmentInfo = summaryViewModel.EquipmentInfo,
                 ProvinceTaxRate = summaryViewModel.ProvinceTaxRate
             };
-            contractEditViewModel.Comments = AutoMapper.Mapper.Map<List<CommentViewModel>>(contractsResult.Item1.Comments);
+            var comments = AutoMapper.Mapper.Map<List<CommentViewModel>>(contractsResult.Item1.Comments);
+            comments?.Reverse();
+            contractEditViewModel.Comments = comments;
 
             contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
             contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = new List<ExistingDocument>();
