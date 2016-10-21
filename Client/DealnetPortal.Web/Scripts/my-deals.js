@@ -47,7 +47,7 @@ function showTable() {
                         {
                             // this is Actions Column
                             "render": function (sdata, type, row) {
-                                return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                                return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                             }
                         }
                     ],
@@ -60,17 +60,14 @@ function showTable() {
                     dom:
                         "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                             "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                            "<'row'<'col-md-12'l>>" +
+                            "<'row'<'col-md-12 col-sm-6'l>>" +
                             "<'row'<'col-md-12'tr>>" +
                             "<'row'<'col-md-12'p>>" +
                             "<'row'<'col-md-12'i>>",
-                    renderer: 'bootstrap',
-                    "fnInitComplete": function(oSettings, json) {
-                      customizeSelect();
-                    }
+                    renderer: 'bootstrap'
                 });
 
-            var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
+            var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
             $('#table-title').html('<div class="dealnet-large-header">My Work Items <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {

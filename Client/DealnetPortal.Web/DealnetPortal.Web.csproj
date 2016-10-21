@@ -362,6 +362,7 @@
     <Content Include="Content\images\sprite\icon-error.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
+    <Content Include="Content\images\sprite\icon-fax.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
@@ -549,6 +550,7 @@
     <Content Include="Content\less\settings\overrides-variables.less" />
     <Content Include="Content\less\components\modal.less" />
     <Content Include="Content\less\contract.less" />
+    <Content Include="Content\less\reports.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
