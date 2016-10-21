@@ -58,12 +58,12 @@ namespace DealnetPortal.Web.Controllers
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
-        private JsonResult GetSuccessJson()
+        protected JsonResult GetSuccessJson()
         {
             return Json(new { isSuccess = true });
         }
 
-        private JsonResult GetErrorJson()
+        protected JsonResult GetErrorJson()
         {
             return Json(new { isError = true });
         }

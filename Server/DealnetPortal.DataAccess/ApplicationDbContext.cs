@@ -29,6 +29,8 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Email> Emails { get; set; }
 
+        public virtual DbSet<ContractDocument> ContractDocuments { get; set; }
+
         public virtual DbSet<EquipmentInfo> EquipmentInfo { get; set; }
         public virtual DbSet<NewEquipment> NewEquipment { get; set; }
         public virtual DbSet<ExistingEquipment> ExistingEquipment { get; set; }
@@ -40,6 +42,8 @@ namespace DealnetPortal.DataAccess
         public DbSet<AgreementTemplate> AgreementTemplates { get; set; }
 
         public virtual DbSet<ProvinceTaxRate> ProvinceTaxRates { get; set; }
+
+        public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
         public virtual DbSet<Comment> Comments { get; set; }
 

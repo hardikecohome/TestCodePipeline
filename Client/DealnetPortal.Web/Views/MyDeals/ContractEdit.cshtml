@@ -1,9 +1,11 @@
 @using System
 @using System.Collections.Generic
+@using System.Globalization
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
+@using DealnetPortal.Web.Models
+@model DealnetPortal.Web.Models.ContractEditViewModel
 <div id="label-steps">
 	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
 </div>
@@ -19,10 +21,9 @@
 				</div>
 
 				<div class="col-md-6">
-					<div class="file-upload btn dealnet-button dealnet-success-button">
+					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 						<span>Upload Documents</span>
-						<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
-					</div>
+					</a>
 				</div>
 			</div>
 			<br>
@@ -43,10 +44,9 @@
 				</div>
 
 				<div class="col-md-6">
-					<div class="file-upload btn dealnet-button dealnet-success-button">
+					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 						<span>Upload Documents</span>
-						<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
-					</div>
+					</a>
 				</div>
 			</div>
 			<div class="well success-well">
@@ -105,7 +105,7 @@
 					        @Html.LabelFor(m => m.AdditionalInfo.ContractState, new { @class = "dealnet-field-caption col-xs-6" })
 					        <div class="dealnet-field-holder col-xs-6">
 					            <div class="control-group">
-					                @Html.EnumDropDownListFor(m => m.AdditionalInfo.ContractState, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })			                
+					                @Html.EnumDropDownListFor(m => m.AdditionalInfo.ContractState, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 					            </div>
 					        </div>
 					    </div>
@@ -825,117 +825,119 @@
 	        </div>
 	    }
 	}
-        <div class="comments-widget">
+        <div class="comments-widget" data-username="@User.Identity.Name">
 			<h3 class="dealnet-section-title">Comments</h3>
-			<div class="form-group">
-				<label for="">Add comment</label>
-				<textarea name="" id="" cols="30" rows="2" class="form-control" placeholder="Write a reply..."></textarea>
-			</div>
-			<div class="row">
-				<div class="col-sm-5 col-md-3">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
-				</div>
-			</div>
-			<div class="comment">
-				<div class="commetn-header">
-					<span class="comment-user">
-						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-						&lt;FName&gt; &lt;LName&gt;
-					</span>
-					<span class="comment-update">
-						<span class="comment-update-time">11:35 AM</span>
-						<span class="comment-update-date">01/11/2015</span>
-					</span>
-					<span class="owner-comment">your comment</span>
-				</div>
-				<div class="comment-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-				</div>
-				<div class="comment-footer">
-					<a href="#" class="show-comments-answers">3 answers</a>
-					<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-				</div>
-			</div>
-			<ul class="child-comments-list list-unstyled">
-				<li>
-					<div class="comment">
-						<div class="commetn-header">
-							<span class="comment-user">
-								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-								&lt;FName&gt; &lt;LName&gt;
-							</span>
-							<span class="comment-update">
-								<span class="comment-update-time">11:35 AM</span>
-								<span class="comment-update-date">01/11/2015</span>
-							</span>
-							<!--<span class="owner-comment">your comment</span>-->
-						</div>
-						<div class="comment-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-						</div>
-						<div class="comment-footer">
-							<a href="#" class="show-comments-answers">3 answers</a>
-							<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-						</div>
-					</div>
-				</li>
-			</ul>
-			<div class="comment">
-				<div class="commetn-header">
-					<span class="comment-user">
-						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-						&lt;FName&gt; &lt;LName&gt;
-					</span>
-					<span class="comment-update">
-						<span class="comment-update-time">11:35 AM</span>
-						<span class="comment-update-date">01/11/2015</span>
-					</span>
-					<!--<span class="owner-comment">your comment</span>-->
-				</div>
-				<div class="comment-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-				</div>
-				<div class="comment-footer">
-					<a href="#" class="show-comments-answers">1 answer</a>
-					<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-				</div>
-			</div>
-			<ul class="child-comments-list list-unstyled">
-				<li>
-					<div class="comment">
-						<div class="commetn-header">
-							<span class="comment-user">
-								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-								&lt;FName&gt; &lt;LName&gt;
-							</span>
-							<span class="comment-update">
-								<span class="comment-update-time">11:35 AM</span>
-								<span class="comment-update-date">01/11/2015</span>
-							</span>
-							<span class="owner-comment">your comment</span>
-						</div>
-						<div class="comment-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-						</div>
-						<div class="comment-footer">
-							<a href="#" class="show-comments-answers">3 answers</a>
-							<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-						</div>
-					</div>
-				</li>
-			</ul>
+            @using (Html.BeginForm("AddComment", "MyDeals"))
+            {
+                <div class="form-group">
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("ContractId", Model.BasicInfo.ContractId)
+                    <label for="">Add comment</label>
+                    <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="Write a reply..."></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 col-md-3">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">Reply</button>
+                    </div>
+                </div>
+            }
+            <div id="comments-start"></div>
+            @AddComments(Model.Comments)
 		</div>
 	</div>
 </div>
-<div class="text-center back-to-top-hold">
-	<br />
-	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
-</div>
+@helper AddComments(IEnumerable<CommentViewModel> comments)
+{
+if (comments == null) { return; }
+foreach (var comment in comments)
+{
+    <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }" >
+        <div class="commetn-header">
+            <span class="comment-user">
+                <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+                <span class="comment-username">@comment.AuthorName</span>
+            </span>
+            <span class="comment-update">
+                <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
+            </span>
+            @if (comment.IsOwn)
+            {
+                <span class="owner-comment">your comment</span>
+            }
+        </div>
+        <div class="comment-body">
+            <input hidden name="comment-id" value="@comment.Id"/>
+            <p>@comment.Text</p>
+            <a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+        </div>
+        <div class="comment-footer">
+            <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> answer(s)</a>
+            <a href="#" class="dealnet-success-link write-reply-link @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">Write a reply</a>
+        </div>
 
+    </div>
+
+    <ul class="child-comments-list list-unstyled">
+        <li>
+            @AddComments(comment.Replies)
+        </li>
+    </ul>
+    }
+}
+<div class="hidden">
+    <div class="comment-reply-form" id="comment-reply-form">
+        @using (Html.BeginForm("AddComment", "MyDeals"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ParentCommentId")
+            <label for="">Add comment</label>
+            <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="Write a reply..."></textarea>
+            <div class="row">
+                <div class="col-sm-5 col-md-3">
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">Reply</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="hidden">
+    <div class="comment" id="comment-template">
+        <div class="commetn-header">
+            <span class="comment-user">
+                    <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>                    
+                <span class="comment-username"></span>
+                </span>
+            <span class="comment-update">
+                    <span class="comment-update-time"></span>
+                </span>
+            <span class="owner-comment">your comment</span>
+        </div>
+        <div class="comment-body">
+            <input hidden name="comment-id"/>
+            <p></p>
+            <a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+        </div>
+        <div class="comment-footer">
+            <a href="#" class="show-comments-answers"><span class="answers-quantity">0</span> answer(s)</a>
+            <a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
+        </div>
+    </div>
+</div>
+<div class="hidden">
+    <ul class="child-comments-list list-unstyled" id="replies-template">
+        <li>
+        </li>
+    </ul>
+</div>
+@using (Html.BeginForm("RemoveComment", "MyDeals", FormMethod.Post, new { id = "remove-comment-form"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("commentId")
+}
+<div class="text-center back-to-top-hold">
+    <br/>
+    <a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
+</div>
 
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="deal-info-modal">
 	<div class="modal-dialog" role="document">
@@ -1024,7 +1026,7 @@
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#deal-info-section-modal'), $('#deal-info-form'), '@Url.Action("UpdateEquipmentInfo", "Reports")', $('#deal-info-form'))) { $('#deal-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#deal-info-section-modal'), $('#deal-info-form'), '@Url.Action("UpdateEquipmentInfo", "MyDeals")', $('#deal-info-form'))) { $('#deal-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1102,7 +1104,7 @@
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#basic-info-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "MyDeals")', $('#basic-info-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1180,7 +1182,7 @@
                         </div>
                     </div>
                     <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button"  dealnet-success-button block-button big-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#basic-info-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button"  dealnet-success-button block-button big-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "MyDeals")', $('#basic-info-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
                         <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -1259,7 +1261,7 @@
                     </form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section-modal'), $('#contact-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-form'))) { $('#contact-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section-modal'), $('#contact-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "MyDeals")', $('#contact-info-form'))) { $('#contact-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1352,7 +1354,7 @@
                     </form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#new-equipment-info-section-modal'), $('#new-equipment-info-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#new-equipment-info-form'))) { $('#new-equipment-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#new-equipment-info-section-modal'), $('#new-equipment-info-section'), '@Url.Action("UpdateEquipmentInfo", "MyDeals")', $('#new-equipment-info-form'))) { $('#new-equipment-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1472,7 +1474,7 @@
                     </form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "MyDeals")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1594,7 +1596,7 @@
                         </form>
                     </div>
                     <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#existing-equipment-section-modal'), $('#existing-equipment-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#existing-equipment-form'))) { $('#existing-equipment-modal').modal('hide'); }">Save changes</button>
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#existing-equipment-section-modal'), $('#existing-equipment-section'), '@Url.Action("UpdateEquipmentInfo", "MyDeals")', $('#existing-equipment-form'))) { $('#existing-equipment-modal').modal('hide'); }">Save changes</button>
                         <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -1677,7 +1679,7 @@
                             </form>
                         </div>
                         <div class="btn-container">
-                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section@(i + 1)-coborrower-modal'), $('#contact-info-section@(i + 1)-coborrower'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-coborrowers-form'))) { $('#contact-info-coborrower@(i + 1)-modal').modal('hide'); }">Save changes</button>
+                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section@(i + 1)-coborrower-modal'), $('#contact-info-section@(i + 1)-coborrower'), '@Url.Action("UpdateContactAndPaymentInfo", "MyDeals")', $('#contact-info-coborrowers-form'))) { $('#contact-info-coborrower@(i + 1)-modal').modal('hide'); }">Save changes</button>
                             <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -1687,16 +1689,90 @@
     }
 }
 
-<div class="hidden">
-    <div class="comment-reply-form">
-        <label for="">Add comment</label>
-        <textarea name="" id="" cols="30" rows="2" class="form-control" placeholder="Write a reply..."></textarea>
-        <div class="row">
-            <div class="col-sm-5 col-md-3">
-                <button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
-            </div>
-        </div>
-    </div>
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="upload-documents-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Upload New Documents</div>
+			</div>
+			<div class="modal-body">
+				<div class="upload-documents-container">
+					<h3 class="dealnet-section-title">Upload main documents</h3>
+					<div class="documents-main-group">
+						<div class="form-group main-document-template">
+							<div class="row">
+								<div class="col-md-6">
+								    <label for="">Choose type of a document</label>
+                                    @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
+                                        Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control" })
+									@*<select name="" id="" class="form-control">
+										<option value="">Signed contract</option>
+										<option value="">Signed Installation Certificate</option>
+										<option value="">Invoice</option>
+										<option value="">Copy of Void Personal Cheque</option>
+										<option value="">Extended Warranty Form</option>
+										<option value="">Third party verification call</option>
+									</select>*@
+								</div>
+								<div class="col-md-6">
+									<div class="dealnet-label empty-label">&nbsp;</div>
+									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
+										<span>Choose file and upload</span>
+										<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+									</div>
+								</div>
+							</div>
+							<div class="progress-container">
+								<span class="progress-bar-value" style="left: 25%">25%</span>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+								</div>
+								<div class="text-center">123456.pdf</div>
+								<a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+							</div>
+						</div>
+					</div>
+					<a href="#" class="dealnet-info-link add-main-document">Add new main document</a>
+				</div>
+				<div class="upload-documents-container">
+					<h3 class="dealnet-section-title">Or other documents</h3>
+					<div class="documents-other-group">
+						<div class="form-group other-document-template">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="">Name of a document</label>
+									<div class="control-group">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="dealnet-label empty-label">&nbsp;</div>
+									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
+										<span>Choose file and upload</span>
+										<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+									</div>
+								</div>
+							</div>
+							<div class="progress-container">
+								<span class="progress-bar-value" style="left: 25%">25%</span>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+								</div>
+								<div class="text-center">123456.pdf</div>
+								<a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+							</div>
+						</div>
+					</div>
+					<a href="#" class="dealnet-info-link add-other-document">Add new other document</a>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
@@ -1705,5 +1781,5 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/contract-edit");
+    @Scripts.Render("~/bundles/contract-edit") ;
 }

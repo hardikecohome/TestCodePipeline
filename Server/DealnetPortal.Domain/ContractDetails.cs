@@ -13,11 +13,16 @@ namespace DealnetPortal.Domain
 
         public double? HouseSize { get; set; }
 
+        /// <summary>
+        /// Aspire Transaction ID
+        /// </summary>
         public string TransactionId { get; set; }
 
         public string SignatureTransactionId { get; set; }
 
         public string SignatureDocumentId { get; set; }
+
+        public DateTime? SignatureInitiatedTime { get; set; }
 
         public SignatureStatus? SignatureStatus { get; set; }
     }

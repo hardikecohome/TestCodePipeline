@@ -15,7 +15,8 @@ namespace DealnetPortal.DataAccess
         {
             SetTestUsers(context);
             SetTestEquipmentTypes(context);
-            SetTestProvnceTaxRates(context);
+            SetTestProvinceTaxRates(context);
+            SetDocumentTypes(context);
         }
 
         private void SetTestUsers(ApplicationDbContext context)
@@ -29,10 +30,11 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==", //Password: 123_Qwe
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
             };
-            context.Users.Add(user);            
+            context.Users.Add(user);
         }
 
         private void SetTestEquipmentTypes(ApplicationDbContext context)
@@ -67,7 +69,7 @@ namespace DealnetPortal.DataAccess
             context.EquipmentTypes.AddRange(equipmentTypes);
         }
 
-        private void SetTestProvnceTaxRates(ApplicationDbContext context)
+        private void SetTestProvinceTaxRates(ApplicationDbContext context)
         {
             //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
             var taxRates = new[]
@@ -87,6 +89,21 @@ namespace DealnetPortal.DataAccess
                 new ProvinceTaxRate {Province = "YT", Rate = 5}
             };
             context.ProvinceTaxRates.AddRange(taxRates);
+        }
+
+        private void SetDocumentTypes(ApplicationDbContext context)
+        {
+            var documentTypes = new[]
+            {
+                new DocumentType()  {Description = "Signed contract", Prefix = "SC_"},
+                new DocumentType()  {Description = "Signed Installation certificate", Prefix = "SIC_"},
+                new DocumentType()  {Description = "Invoice", Prefix = "INV_"},
+                new DocumentType()  {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
+                new DocumentType()  {Description = "Extended Warranty Form", Prefix = "EWF_"},
+                new DocumentType()  {Description = "Third party verification call", Prefix = "TPV_"},
+                new DocumentType()  {Description = "Other", Prefix = ""},
+            };
+            context.DocumentTypes.AddRange(documentTypes);
         }
     }
 }
