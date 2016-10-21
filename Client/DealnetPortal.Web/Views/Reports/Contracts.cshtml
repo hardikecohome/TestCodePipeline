@@ -33,7 +33,7 @@
 							<div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL VALUE</div>
 							<div class="col-xs-12 col-sm-3 dealnet-field-holder">
 								<div class="control-group">
-                                    $ @($"{Model.Sum(c => c.EquipmentInfo?.NewEquipment.Sum(e => e.Cost)):0,00.00}")
+                                    $ @($"{Model.Where(x => x.EquipmentInfo != null && x.EquipmentInfo.AgreementType != AgreementType.RentalApplication && x.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt).Sum(c => c.EquipmentInfo?.NewEquipment.Sum(e => e.Cost)):0,00.00}")
 								</div>
 							</div>
 						</div>
@@ -69,17 +69,21 @@
 				<div class="col-md-6 col-md-push-6">
 					<div class="dealnet-credit-check-section">
 						<h3 class="dealnet-section-title empty-title">&nbsp;</h3>
-						<div class="form-group">
-							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
-								<div class="dealnet-field-holder col-xs-6">
-									<div class="control-group">
-                                        $ @($"{contract.EquipmentInfo?.NewEquipment.Sum(e => e.Cost):0,00.00}")
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
+					    @if (contract.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+                             contract.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+                        {
+					        <div class="form-group">
+					            <div class="row">
+					                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+					                <div class="dealnet-field-holder col-xs-6">
+					                    <div class="control-group">
+					                        $ @($"{contract.EquipmentInfo?.NewEquipment.Sum(e => e.Cost):0,00.00}")
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    }
+                        <div class="form-group">
 							<div class="row">
 								<label class="dealnet-field-caption col-xs-6">Requested Term</label>
 								<div class="dealnet-field-holder col-xs-6">
@@ -412,16 +416,6 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="dealnet-field-caption col-xs-12">#@(++i)</div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Qty</label>
-                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                            <div class="control-group">
-                                                @equipment.Quantity
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
