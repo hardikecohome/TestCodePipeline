@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
+using System.IO;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -33,6 +34,22 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
             return View(await _contractManager.GetContractEditAsync(id));
+        }
+
+        [HttpPost]
+        public  ActionResult UploadDocument(HttpPostedFileBase files )
+        {           
+            if (files != null)
+             //   foreach(var file in files)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                string extension = Path.GetExtension(files.FileName);
+                fileName += extension;
+                files.SaveAs(Server.MapPath(@"/App_Data/Upload/" + fileName));
+                return Json("File was saved", JsonRequestBehavior.DenyGet);
+            }
+
+            return Json("occurred error", JsonRequestBehavior.DenyGet);
         }
     }
 }

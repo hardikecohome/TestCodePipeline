@@ -1713,16 +1713,18 @@
 								</div>
 								<div class="col-md-6">
 									<div class="dealnet-label empty-label">&nbsp;</div>
-									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
-										<span>Choose file and upload</span>
-										<input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
-									</div>
-								</div>
+                                    <form action="@Url.Action("UploadDocument","MyDeals")" method="post" enctype="multipart/form-data">
+                                        <div class="file-upload btn  btn dealnet-button dealnet-success-button block-button">
+                                            <span>Choose file and upload</span>
+                                            <input type="file"  name="files" accept="image/*" class="upload" id="upload-new-photo" />                                                                                                                             
+                                        </div>                                                                               
+                                     </form>                                  
+								</div>                              
 							</div>
 							<div class="progress-container">
-								<span class="progress-bar-value" style="left: 25%">25%</span>
+								<span class="progress-bar-value" style="left: 25%">0%</span>
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
 								</div>
 								<div class="text-center">123456.pdf</div>
 								<a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
@@ -1785,6 +1787,7 @@
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>
+<script  type ="text/javascript" src="http://malsup.github.com/jquery.form.js"></script>
 
 @section scripts
 {
