@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
+using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
@@ -25,6 +30,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _eCoreSignatureRole;
         private readonly string _eCoreAgreementTemplate;
         private readonly string _eCoreCustomerSecurityCode;
+
+        private List<string> _signatureFields = new List<string>() { "Signature1", "Signature2", "Signature3"};
+        private List<string> _signatureRoles = new List<string>();        
 
         public string TransactionId { get; private set; }
 
@@ -44,6 +52,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
             _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
             _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
+
+            _signatureRoles.Add(_eCoreSignatureRole);
+            _signatureRoles.Add($"{_eCoreSignatureRole}2");
+            _signatureRoles.Add($"{_eCoreSignatureRole}3");
         }
 
         public async Task<IList<Alert>> ServiceLogin()
@@ -90,12 +102,93 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public Task<IList<Alert>> InsertDocumentFields(IList<FormField> formFields)
+        public async Task<IList<Alert>> InsertDocumentFields(IList<Models.Signature.FormField> formFields)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+
+            var textData = new List<TextData>();
+            formFields.ForEach(field =>
+            {
+                textData.Add(new TextData()
+                {
+                    Items = new string[] { field.Name },
+                    text = field.Value
+                });
+            });
+
+            long docId;
+            if (long.TryParse(DocumentId, out docId))
+            {
+                var mergeRes = await _signatureServiceAgent.MergeData(docId, textData.ToArray()).ConfigureAwait(false);
+                if (mergeRes?.Any() ?? false)
+                {
+                    alerts.AddRange(mergeRes);
+                }
+                if (mergeRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                {
+                    _loggingService.LogError("Can't merge fields with agreement document template in eCore service");
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.EcoreConnectionFailed,
+                    Message = "eCore document wasn't created"
+                });
+            }
+
+            return alerts;
         }
 
-        public void InsertSignatures()
+        public async Task<IList<Alert>> InsertSignatures(IList<SignatureUser> signatureUsers)
+        {
+            var alerts = new List<Alert>();
+            long docId;
+            if (long.TryParse(DocumentId, out docId))
+            {
+                var removeRes = await RemoveExtraSignatures(docId, signatureUsers);
+                if (removeRes?.Any() ?? false)
+                {
+                    alerts.AddRange(removeRes);
+                }
+
+                // We follow to signatures only if signatureUsers was setted
+                if (signatureUsers?.Any() ?? false)
+                {
+
+                    var insertRes = await InsertSignatureFields(docId, signatureUsers);
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        _loggingService.LogWarning(
+                            $"Signature fields inserted into agreement document form {docId} with errors");
+                    }
+                    else
+                    {
+                        _loggingService.LogInfo(
+                            $"Signature fields inserted into agreement document form {docId} successefully");
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.EcoreConnectionFailed,
+                    Message = "eCore document wasn't created"
+                });
+            }
+
+            return alerts;
+        }
+
+        public Task<IList<Alert>> SendInvitations()
         {
             throw new NotImplementedException();
         }
@@ -187,6 +280,109 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
 
             return new Tuple<long, IList<Alert>>(dpId, alerts);
+        }
+
+        private async Task<IList<Alert>> RemoveExtraSignatures(long docId, IList<SignatureUser> signatureUsers)
+        {
+            var alerts = new List<Alert>();
+
+            //document can have more signature fields then signature users
+            var signToRemove = (signatureUsers == null || !signatureUsers.Any())
+                ? _signatureFields.Count
+                : _signatureFields.Count - signatureUsers.Count;
+
+            if (signToRemove > 0)
+            {
+                _loggingService.LogInfo($"{signToRemove} signature fields will be removed");
+
+                var formFields = new List<ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField>();
+
+                for (var i = (_signatureFields.Count - signToRemove); i < _signatureFields.Count; i++)
+                {
+                    formFields.Add(new ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField()
+                    {
+                        Item = _signatureFields[i]
+                    });
+                }
+
+                var removeRes = await _signatureServiceAgent.RemoveFormFields(docId, formFields.ToArray()).ConfigureAwait(false);
+                if (removeRes?.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(removeRes.Item2);
+                }
+            }
+
+            return alerts;
+        }
+
+        private async Task<IList<Alert>> InsertSignatureFields(long docId, IList<SignatureUser> signatureUsers)
+        {
+            var alerts = new List<Alert>();
+
+            // for now we accept only 1st customer
+
+            var formFields = new List<ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField>();
+            // lets insert one by one
+            for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
+            {
+                formFields = new List<FormField>()
+                {
+                    new FormField()
+                    {
+                        Item = _signatureFields[i],//"Signature1",
+                        customProperty = new List<CustomProperty>()
+                        {
+                            new CustomProperty()
+                            {
+                                name = "role",
+                                Value = _signatureRoles[i]//_eCoreSignatureRole
+                            },
+                            new CustomProperty()
+                            {
+                                name = "label",
+                                Value = _signatureFields[i]
+                            },
+                            new CustomProperty()
+                            {
+                                name = "type",
+                                Value = "signature"
+                            },
+                            new CustomProperty()
+                            {
+                                name = "required",
+                                Value = "true"
+                            },
+                            new CustomProperty()
+                            {
+                                name = "initialValueType",
+                                Value = "fullName"
+                            },
+                            //new CustomProperty()
+                            //{
+                            //    name = "protectedField",
+                            //    Value = "false"
+                            //},
+                            new CustomProperty()
+                            {
+                                name = "displayOrder",
+                                Value = (i+1).ToString()//"1"
+                            }
+                        }
+                    }
+                };
+                var resDv = _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
+                if (resDv?.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(resDv.Item2);
+                }
+            }
+
+            if (alerts.Any(a => a.Type == AlertType.Error))
+            {
+                _loggingService.LogError("Can't edit signature fields in agreement document template in eCore service");
+            }
+
+            return alerts;
         }
     }
 }

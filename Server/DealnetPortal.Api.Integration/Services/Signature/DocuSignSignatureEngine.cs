@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Domain;
 using DocuSign.eSign.Api;
 using DocuSign.eSign.Client;
 using DocuSign.eSign.Model;
@@ -18,7 +20,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsPassword;
         private readonly string _dsIntegratorKey;
 
-        public string AccountId { get; private set; }
+        public string AccountId { get; private set; }        
 
         public string TransactionId { get; private set; }
 
@@ -87,17 +89,22 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> StartNewTransaction(int contractId)
-        {            
+        public Task<IList<Alert>> StartNewTransaction(Contract contract)
+        {
             throw new NotImplementedException();
-        }
+        }        
 
         public Task<IList<Alert>> InsertDocumentFields(IList<FormField> formFields)
         {
             throw new NotImplementedException();
         }
 
-        public void InsertSignatures()
+        public Task<IList<Alert>> InsertSignatures(IList<SignatureUser> signatureUsers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Alert>> SendInvitations()
         {
             throw new NotImplementedException();
         }

@@ -19,6 +19,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
+using FormField = DealnetPortal.Api.Models.Signature.FormField;
 
 namespace DealnetPortal.Api.Integration.Services
 {    
@@ -76,14 +77,20 @@ namespace DealnetPortal.Api.Integration.Services
                     return alerts;
                 }
 
-                var trRes = await _signatureEngine.StartNewTransaction(contract);                
+                var trRes = await _signatureEngine.StartNewTransaction(contract);
 
+                if (trRes?.Any() ?? false)
+                {
+                    alerts.AddRange(trRes);
+                }
                 //TODO: !!!
                 //var docId = docRes.Item1;
                 //_loggingService.LogInfo($"eSignature document profile [{docId}] was created and uploaded successefully");
                 //UpdateContractDetails(contractId, ownerUserId, transId.ToString(), docId.ToString(), SignatureStatus.ProfileCreated);
 
-                var insertRes = InsertAgreementFields(docId, fields);
+                var insertRes = await _signatureEngine.InsertDocumentFields(fields);
+                    //InsertAgreementFields(docId, fields);
+
                 if (insertRes?.Any() ?? false)
                 {
                     alerts.AddRange(insertRes);
@@ -286,9 +293,9 @@ namespace DealnetPortal.Api.Integration.Services
             });
         }
 
-        private Dictionary<string, string> PrepareFormFields(Contract contract)
+        private List<FormField> PrepareFormFields(Contract contract)
         {
-            var fields = new Dictionary<string, string>();
+            var fields = new List<FormField>();
 
             FillHomeOwnerFieilds(fields, contract);
             FillApplicantsFieilds(fields, contract);
@@ -462,7 +469,7 @@ namespace DealnetPortal.Api.Integration.Services
             // lets insert one by one
             for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
             {
-                formFields = new List<FormField>()
+                formFields = new List<ESignature.E.Transformation FormField>()
                 { 
                     new FormField()
                     {

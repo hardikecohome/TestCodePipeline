@@ -103,7 +103,6 @@
     <Compile Include="Services\IMailService.cs" />
     <Compile Include="Services\Signature\DocuSignSignatureEngine.cs" />
     <Compile Include="Services\Signature\EcoreSignatureEngine.cs" />
-    <Compile Include="Services\Signature\FormField.cs" />
     <Compile Include="Services\Signature\ISignatureEngine.cs" />
     <Compile Include="Services\ISignatureService.cs" />
     <Compile Include="Services\MailService.cs" />

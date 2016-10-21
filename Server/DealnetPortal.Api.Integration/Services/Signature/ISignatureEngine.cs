@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
@@ -13,7 +14,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<IList<Alert>> InsertDocumentFields(IList<FormField> formFields);
 
-        void InsertSignatures();
+        Task<IList<Alert>> InsertSignatures(IList<SignatureUser> signatureUsers);
+
+        Task<IList<Alert>> SendInvitations();
 
         string TransactionId { get; }
 
