@@ -219,12 +219,12 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> AddDocumentToContract(DocumentTypeDTO document)
+        public async Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document)
         {
             try
             {
                 return
-                    await Client.PutAsync<DocumentTypeDTO, IList<Alert>>($"{_fullUri}/AddDocument", document);
+                    await Client.PutAsync<ContractDocumentDTO, IList<Alert>>($"{_fullUri}/AddDocument", document);
             }
             catch (Exception ex)
             {
