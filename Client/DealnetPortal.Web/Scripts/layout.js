@@ -1,4 +1,5 @@
 ﻿var urlContent = window.location.origin+"/client/";
+//var urlContent = window.location.origin+"/";
 $(document)
     .ready(function () {
       if(detectIE()){
@@ -53,7 +54,7 @@ $(document)
         }, 400);
       });
 
-      if($('.summary-info-hold #basic-info-form .credit-check-info-hold .col-md-6').length % 2 !== 0){
+      if($('.basic-info-cols.credit-check-info-hold .col-md-6').length % 2 !== 0){
         $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
       }
 
