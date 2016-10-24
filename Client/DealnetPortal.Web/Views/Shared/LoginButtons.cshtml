@@ -11,7 +11,7 @@
         </span>
         @if (User.Identity.IsAuthenticated)
         {
-            @User.Identity.Name
+            <span class="dealnet-login-buttons-text">@User.Identity.Name</span>
         }
         else
         {

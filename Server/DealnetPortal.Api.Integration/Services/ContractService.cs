@@ -143,6 +143,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var alerts = new List<Alert>();
                 var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+                //_aspireService.InitiateCreditCheck(contractId, contractOwnerId);
+
                 if (contract == null)
                 {
                     alerts.Add(new Alert()
@@ -505,13 +508,15 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public IList<Alert> AddComment(CommentDTO comment, string contractOwnerId)
+        public Tuple<int?, IList<Alert>> AddComment(CommentDTO commentDTO, string contractOwnerId)
         {
             var alerts = new List<Alert>();
+            Comment comment = null;
 
             try
             {
-                if (_contractRepository.TryAddComment(Mapper.Map<Comment>(comment), contractOwnerId))
+                comment = _contractRepository.TryAddComment(Mapper.Map<Comment>(commentDTO), contractOwnerId);
+                if (comment != null)
                 {
                     _unitOfWork.Save();
                 }
@@ -538,7 +543,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            return alerts;
+            return new Tuple<int?, IList<Alert>>(comment?.Id, alerts);
         }
 
         public IList<Alert> RemoveComment(int commentId, string contractOwnerId)
@@ -587,6 +592,28 @@ namespace DealnetPortal.Api.Integration.Services
                 destComment.IsOwn = scrComment.DealerId == contractOwnerId;
                 if (destComment.Replies.Any()) { AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId); }
             }
+        }
+
+        public IList<Alert> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                _contractRepository.AddDocumentToContract(document.Id, Mapper.Map<ContractDocument>(document),
+                    contractOwnerId);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to add document to contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Failed to add document to contract",
+                    Message = ex.ToString()
+                });
+            }
+            return alerts;
         }
     }
 }

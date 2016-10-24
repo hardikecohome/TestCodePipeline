@@ -52,6 +52,8 @@
     <Compile Include="Comment.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="ContractDetails.cs" />
+    <Compile Include="ContractDocument.cs" />
+    <Compile Include="DocumentType.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="EquipmentInfo.cs" />
     <Compile Include="EquipmentType.cs" />

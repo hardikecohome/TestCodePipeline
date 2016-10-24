@@ -106,13 +106,6 @@ namespace DealnetPortal.Api.Controllers
             return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }
 
-        //[Route("UpdateContract")]
-        //[HttpPut]
-        //public IHttpActionResult UpdateContract(ContractDTO contractData)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         [Route("UpdateContractData")]
         [HttpPut]
         public IHttpActionResult UpdateContractData(ContractDataDTO contractData)
@@ -158,6 +151,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("AddDocument")]
+        [HttpGet]
+        public IHttpActionResult AddDocumentToContract(ContractDocumentDTO document)
+        {
+            try
+            {
+                var result = ContractService.AddDocumentToContract(document, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCreditCheckResult")]
         [HttpGet]
         public IHttpActionResult GetCreditCheckResult(int contractId)
@@ -182,39 +190,7 @@ namespace DealnetPortal.Api.Controllers
 
             var result = ContractService.GetDealsFlowingSummary(LoggedInUser?.UserId, type);
             return Ok(result);
-        }
-
-        [AllowAnonymous]
-        [Route("GetEquipmentTypes")]
-        [HttpGet]
-        public IHttpActionResult GetEquipmentTypes()
-        {
-            try
-            {
-                var result = ContractService.GetEquipmentTypes();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [AllowAnonymous]
-        [Route("{province}/ProvinceTaxRate")]
-        [HttpGet]
-        public IHttpActionResult GetProvinceTaxRate(string province)
-        {
-            try
-            {
-                var result = ContractService.GetProvinceTaxRate(province);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+        }        
 
         [Route("CreateXlsxReport")]
         [HttpPost]
