@@ -86,6 +86,11 @@
     }
     .dealnet-success-link{
       font-weight: 600;
+      color: @comments-link-color;
+      opacity: 0.85;
+      &:hover{
+        opacity: 1;
+      }
     }
     .comment-reply-form{
       margin: 10px 0 0;
@@ -119,6 +124,9 @@
   line-height: 20px !important;
   color: #e04217;
   &:focus{
+    color: #e04217;
+  }
+  &:visited{
     color: #e04217;
   }
   &:hover{

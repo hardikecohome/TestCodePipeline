@@ -16,6 +16,7 @@ $(document)
 
 
 function showChart() {
+  var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
@@ -46,7 +47,7 @@ function showChart() {
                                 },
                                 elements: {
                                     rectangle: {
-                                        backgroundColor: 'rgba(221, 243, 213, 1)'
+                                        backgroundColor: graphsBgColor
                                     }
                                 },
                                 scales: {

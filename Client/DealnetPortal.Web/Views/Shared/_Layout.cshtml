@@ -14,10 +14,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/libs")
     @Scripts.Render("~/bundles/dealnet")
-    <link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">
+    <!--<link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">-->
+    <link rel="stylesheet/less" type="text/css" href="~/Content/less/main-dealer.less">
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
 </head>
-<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized")">
+<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") theme-one-dealer">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 col-lg-2">
