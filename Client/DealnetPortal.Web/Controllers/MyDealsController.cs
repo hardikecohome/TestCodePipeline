@@ -38,30 +38,37 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public  ActionResult UploadDocument(HttpPostedFileBase files, FormCollection form)
-        {           
-            int document = 0;
-            bool isDocument = int.TryParse(HttpUtility.ParseQueryString(form[0]).ToString(), out document);
-            if (files != null && isDocument ) 
+        public  async Task<ActionResult> UploadDocument(HttpPostedFileBase files, FormCollection form)
+        {
+            byte[] _documentBytes;        
+            int _documentId, _contractId = 0;
+            bool isDocument = int.TryParse(form[0], out _documentId);
+            bool isContractId = int.TryParse(form[1], out _contractId);
+            if (files != null && isDocument && isContractId) 
             {               
                 string fileName = Guid.NewGuid().ToString();
                 string extension = Path.GetExtension(files.FileName);
                 fileName += extension;
-                //files.SaveAs(Server.MapPath(@"/App_Data/Upload/" + fileName));
-                
-                //TODO: implement upload to server !!!
-                //var document = new ContractDocumentDTO()
-                //{
-
-                //};
-                //await _contractServiceAgent.AddDocumentToContract(document);
+           
+                using (var reader = new BinaryReader(files.InputStream))
+                {
+                    _documentBytes = reader.ReadBytes(files.ContentLength);
+                }             
+                var document = new ContractDocumentDTO
+                {
+                    DocumentTypeId = _documentId,
+                    DocumentBytes = _documentBytes,
+                    DocumentName = files.FileName, 
+                    ContractId = _contractId
+                };            
+                    await _contractServiceAgent.AddDocumentToContract(document);
 
                 //TODO: загруженные документы лучше брать примерно так
-                //var contract = await _contractServiceAgent.GetContract(contractId);
+               //   var contract = await _contractServiceAgent.GetContract(1);
                 //contract.Item1.Documents ...
 
-                return Json("File was saved", JsonRequestBehavior.DenyGet);
-            }
+            return Json("File was saved", JsonRequestBehavior.DenyGet);
+    }
             return Json("occurred error", JsonRequestBehavior.DenyGet);
         }
     }
