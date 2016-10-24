@@ -46,10 +46,6 @@ namespace DealnetPortal.Web.Controllers
             bool isContractId = int.TryParse(form[1], out _contractId);
             if (files != null && isDocument && isContractId) 
             {               
-                string fileName = Guid.NewGuid().ToString();
-                string extension = Path.GetExtension(files.FileName);
-                fileName += extension;
-           
                 using (var reader = new BinaryReader(files.InputStream))
                 {
                     _documentBytes = reader.ReadBytes(files.ContentLength);
@@ -61,11 +57,7 @@ namespace DealnetPortal.Web.Controllers
                     DocumentName = files.FileName, 
                     ContractId = _contractId
                 };            
-                    await _contractServiceAgent.AddDocumentToContract(document);
-
-                //TODO: загруженные документы лучше брать примерно так
-               //   var contract = await _contractServiceAgent.GetContract(1);
-                //contract.Item1.Documents ...
+                    await _contractServiceAgent.AddDocumentToContract(document);              
 
             return Json("File was saved", JsonRequestBehavior.DenyGet);
     }
