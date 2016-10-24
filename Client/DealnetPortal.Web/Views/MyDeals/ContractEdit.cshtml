@@ -275,7 +275,7 @@
 
                     <div class="form-group">
                         <div class="row">
-                            @Html.Label("", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+                            @Html.Label("", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group date-group">
                                     @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = "" })
@@ -551,7 +551,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.Label("", "Birth of Date", new {@class = "dealnet-field-caption col-xs-6"})
+                                            @Html.Label("", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group date-group">
                                                     @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].DateOfBirth, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today"})
