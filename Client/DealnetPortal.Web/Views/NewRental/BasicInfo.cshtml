@@ -40,6 +40,22 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
+    <div class="dealnet-middle-header">Sub-Dealer</div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="">Choose a Sub-Dealer</label>
+                <div class="control-group">
+                    <select name="" id="" class="form-control">
+                        <option value="">-not selected-</option>
+                        <option value="">On my behalf</option>
+                        <option value="">Sub-Dealer Name1</option>
+                        <option value="">Sub-Dealer Name2</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 
     if (!ViewBag.IsMobileRequest)
