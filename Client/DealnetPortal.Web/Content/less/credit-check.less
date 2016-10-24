@@ -167,7 +167,57 @@ select.dealnet-disabled-input{
     }
   }
 }
-
+.report-documents-list{
+  margin: 0 0 20px;
+  display: table;
+  width: 100%;
+  & > .col-md-6{
+    display: table-cell;
+    float: none;
+    vertical-align: top;
+    .table-div{
+      display: table;
+      width: 100%;
+      height: 100%;
+    }
+    .table-row{
+      display: table-row;
+      margin: 0;
+      &.full-height{
+        height: 100%;
+      }
+      &+.bottom{
+        height: 1px;
+      }
+    }
+  }
+  .dealnet-button{
+    margin-top: 15px;
+  }
+  .document-item{
+    padding-left: 20px;
+    display: inline-block;
+    position: relative;
+    .remove-link{
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -8px;
+      color: @heading-text-color;
+    }
+  }
+  .icon{
+    margin-left: 5px;
+    color: #989897;
+  }
+}
+.no-vertical-border{
+  .dealnet-credit-check-section{
+    &:before{
+      display: none !important;
+    }
+  }
+}
 .credit-check-info-hold:not(.shift-to-basic-info){
   & > div[class^="col-"]:not([class*="pull-"]):not([class*="push-"]){
     &:nth-child(odd) {
@@ -470,7 +520,7 @@ select.dealnet-disabled-input{
   }
 }
 
-.report-documents-list{
+/*.report-documents-list{
   &.editable-list{
     li{
       padding-right: 20px;
@@ -493,7 +543,7 @@ select.dealnet-disabled-input{
     margin-right: 10px;
     color: #989897;
   }
-}
+}*/
 
 .back-to-top-hold{
   display: none;
