@@ -1,6 +1,4 @@
-﻿var urlContent = window.location.origin+"/client/";
-//var urlContent = window.location.origin+"/";
-$(document)
+﻿$(document)
     .ready(function () {
       if(detectIE()){
         $('body').addClass('ie');
