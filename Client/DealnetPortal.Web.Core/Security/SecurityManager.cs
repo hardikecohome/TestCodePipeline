@@ -11,6 +11,7 @@ using System.Web.Security;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Utilities;
+using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.AspNet.Identity;
@@ -26,14 +27,15 @@ namespace DealnetPortal.Web.Core.Security
 
         private const string EmptyUser = "Admin";//use administrator here because for testing empty username and password are using
 
-        private const string CookieName = "DEALNET_AUTH_COOKIE";
+        private readonly string _cookieName;
 
         public SecurityManager(ISecurityServiceAgent securityService, IUserManagementServiceAgent userManagementService,
-            ILoggingService loggingService)
+            ILoggingService loggingService, PortalType portalType)
         {
             _securityService = securityService;
             _userManagementService = userManagementService;
             _loggingService = loggingService;
+            _cookieName = "DEALNET_AUTH_COOKIE_" + portalType.ToString().ToUpper();
         }
 
         public async Task<IList<Alert>> Login(string userName, string password)
@@ -81,7 +83,7 @@ namespace DealnetPortal.Web.Core.Security
         public IPrincipal GetUser()
         {
             //HttpContext.Current.User
-            var authCookie = HttpContext.Current.Request.Cookies[CookieName];
+            var authCookie = HttpContext.Current.Request.Cookies[_cookieName];
             if (!string.IsNullOrEmpty(authCookie?.Value))
             {
                 var ticket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -119,7 +121,7 @@ namespace DealnetPortal.Web.Core.Security
 
         public void Logout()
         {
-            var httpCookie = HttpContext.Current?.Response.Cookies[CookieName];
+            var httpCookie = HttpContext.Current?.Response.Cookies[_cookieName];
             if (httpCookie != null)
             {
                 httpCookie.Value = string.Empty;
@@ -152,7 +154,7 @@ namespace DealnetPortal.Web.Core.Security
                 // Encrypt the ticket.
                 var encTicket = FormsAuthentication.Encrypt(ticket);
                 // Create the cookie.
-                var authCookie = new HttpCookie(CookieName)
+                var authCookie = new HttpCookie(_cookieName)
                 {
                     Value = encTicket,
                     HttpOnly = true,

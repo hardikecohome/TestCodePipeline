@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using DealnetPortal.Web.Common
+@using DealnetPortal.Web.Infrastructure
+<!DOCTYPE html>
 <html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>
@@ -14,19 +16,39 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/libs")
     @Scripts.Render("~/bundles/dealnet")
-    <link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">
-    <!--<link rel="stylesheet/less" type="text/css" href="~/Content/less/main-dealer.less">-->
+    @switch (ApplicationSettingsManager.PortalType)
+    {
+        case PortalType.Ecohome:
+        default:
+            <link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">
+            break;
+        case PortalType.Odi:
+            <link rel="stylesheet/less" type="text/css" href="~/Content/less/main-dealer.less">
+            break;
+    }
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
 </head>
-<!--<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") theme-one-dealer">-->
-<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized")">
+@{
+    string themeClass;
+    switch (ApplicationSettingsManager.PortalType)
+    {
+        case PortalType.Ecohome:
+        default:
+            themeClass = "";
+            break;
+        case PortalType.Odi:
+            themeClass = "theme-one-dealer";
+            break;
+    }
+}
+<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 col-lg-2">
                 <nav class="navbar navbar-inverse navbar-fixed-side">
                     <div class="navbar-header">
                         @if (User.Identity.IsAuthenticated)
-                            {
+        {
                         <div class="burger-hold">
                                 <button class="navbar-toggle pull-left" data-target=".navbar-collapse" data-toggle="collapse">
                                     <span class="sr-only">Toggle navigation</span>
@@ -47,7 +69,7 @@
                         </div>
                     </div>
                     @if (User.Identity.IsAuthenticated)
-                    {
+    {
 
                     <div class="collapse navbar-collapse" aria-expanded="false">
                         <div class="dealnet-sidebar-header">
@@ -62,8 +84,8 @@
                         </div>
 
                         @if (Request.IsAuthenticated)
-                        {
-                            {
+    {
+        {
                             @*@Html.AntiForgeryToken()*@
                                 <div class="dealnet-sidebar-user">
                                     <span class="icon-circle-hold">
