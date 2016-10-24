@@ -203,35 +203,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 _loggingService.LogError("Can't get credit contracts summary", ex);
                 throw;
             }
-        }
-
-        public async Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes()
-        {
-            try
-            {
-                return await Client.GetAsync<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/GetEquipmentTypes");
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get Equipment Types", ex);
-                throw;
-            }
-        }
-
-        public async Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province)
-        {
-            try
-            {
-                return await Client.GetAsync<Tuple<ProvinceTaxRateDTO, IList<Alert>>>(
-                            $"{_fullUri}/{province}/ProvinceTaxRate");
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get Province Tax Rate", ex);
-                throw;
-            }
-        }
+        }       
 
         public async Task<byte[]> GetXlsxReport(IEnumerable<int> ids)
         {
@@ -243,6 +215,52 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError($"Can't get xlsx report", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document)
+        {
+            try
+            {
+                return
+                    await Client.PutAsync<ContractDocumentDTO, IList<Alert>>($"{_fullUri}/AddDocument", document);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError("Can't add document to contract", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<CommentDTO, Tuple<int?, IList<Alert>>>(
+                            $"{_fullUri}/AddComment", comment);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't add comment to contract", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> RemoveComment(int commentId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/RemoveComment?commentId={commentId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove comment to contract", ex);
                 throw;
             }
         }

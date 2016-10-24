@@ -44,6 +44,11 @@ namespace DealnetPortal.Api.Tests.Repositories
             var context = _databaseFactory.Get();
             context.Database.Initialize(true);
 
+            InitTestData();
+        }
+
+        private void InitTestData()
+        {
             _user = _databaseFactory.Get().Users.FirstOrDefault();
             if (_user == null)
             {
@@ -51,6 +56,23 @@ namespace DealnetPortal.Api.Tests.Repositories
                 _databaseFactory.Get().Users.Add(_user);
                 _unitOfWork.Save();
             }
+            SetDocumentTypes();
+        }
+
+        private void SetDocumentTypes()
+        {
+            var documentTypes = new[]
+            {
+                new DocumentType()  {Description = "Signed contract", Prefix = "SC_"},
+                new DocumentType()  {Description = "Signed Installation certificate", Prefix = "SIC_"},
+                new DocumentType()  {Description = "Invoice", Prefix = "INV_"},
+                new DocumentType()  {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
+                new DocumentType()  {Description = "Extended Warranty Form", Prefix = "EWF_"},
+                new DocumentType()  {Description = "Third party verification call", Prefix = "TPV_"},
+                new DocumentType()  {Description = "Other", Prefix = ""},
+            };
+            _databaseFactory.Get().DocumentTypes.AddRange(documentTypes);
+            _unitOfWork.Save();
         }
 
         private ApplicationUser CreateTestUser()
@@ -206,8 +228,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 Cost = 50,
                 Description = "Description",
-                MonthlyCost = 100,
-                Quantity = 10
+                MonthlyCost = 100
             });
 
             equipmentInfo.ExistingEquipment.Add(new ExistingEquipment
@@ -238,8 +259,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 Cost = 50,
                 Description = "Description 2",
-                MonthlyCost = 150,
-                Quantity = 10
+                MonthlyCost = 150
             });
             contractData.Equipment = equipmentInfo;
             _contractRepository.UpdateContractData(contractData, _user.Id);
@@ -344,6 +364,53 @@ namespace DealnetPortal.Api.Tests.Repositories
             }
             dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
  
+        }
+
+        [TestMethod]
+        public void TestAddContractDocument()
+        {
+            var contract = _contractRepository.CreateContract(_user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(contract);
+
+            ContractDocument doc = new ContractDocument()
+            {
+                ContractId = contract.Id,
+                DocumentName = "doc1",
+                DocumentTypeId = 1                
+            };
+
+            _contractRepository.AddDocumentToContract(contract.Id, doc, _user.Id);
+            _unitOfWork.Save();
+
+            var docs = _contractRepository.GetContractDocumentsList(contract.Id, _user.Id);
+            Assert.AreEqual(docs.Count, 1);
+
+            doc = new ContractDocument()
+            {
+                ContractId = contract.Id,
+                DocumentName = "doc2",
+                DocumentTypeId = 1
+            };
+
+            _contractRepository.AddDocumentToContract(contract.Id, doc, _user.Id);
+            _unitOfWork.Save();
+
+            docs = _contractRepository.GetContractDocumentsList(contract.Id, _user.Id);
+            Assert.AreEqual(docs.Count, 1);
+
+            doc = new ContractDocument()
+            {
+                ContractId = contract.Id,
+                DocumentName = "doc2",
+                DocumentTypeId = 2
+            };
+
+            _contractRepository.AddDocumentToContract(contract.Id, doc, _user.Id);
+            _unitOfWork.Save();
+
+            docs = _contractRepository.GetContractDocumentsList(contract.Id, _user.Id);
+            Assert.AreEqual(docs.Count, 2);
         }
     }
 }

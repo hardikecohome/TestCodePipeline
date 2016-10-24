@@ -101,12 +101,11 @@ namespace DealnetPortal.Api.Common.ApiClient
         {
             try
             {
-                var response = await Client.PostAsXmlWithSerializerAsync(requestUri, content, cancellationToken);
+                var response = await Client.PostAsXmlWithSerializerAsync(requestUri, content, cancellationToken).ConfigureAwait(false);
 
                 if (response?.Content == null)
                     return default(T2);
                 return XmlSerializerHelper.DeserializeFromString<T2>(await response.Content.ReadAsStringAsync());
-                //return await response.Content.ReadAsAsync<T2>(new [] { new XmlMediaTypeFormatter { UseXmlSerializer = true }}, cancellationToken);
             }
             catch (HttpRequestException)
             {

@@ -14,7 +14,6 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Controllers
 {
-    //[Authorize]
     [RoutePrefix("api/Storage")]
     public class StorageController : BaseApiController
     {
@@ -29,7 +28,8 @@ namespace DealnetPortal.Api.Controllers
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
         }
-        
+
+        [AllowAnonymous]
         [Route("UploadAgreementTemplate")]
         [HttpPost]
         public async Task<IHttpActionResult> PostUploadAgreementTemplate(AgreementTemplateDTO newAgreementTemplate)

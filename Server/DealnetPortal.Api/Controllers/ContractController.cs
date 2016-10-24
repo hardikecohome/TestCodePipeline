@@ -106,13 +106,6 @@ namespace DealnetPortal.Api.Controllers
             return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }
 
-        //[Route("UpdateContract")]
-        //[HttpPut]
-        //public IHttpActionResult UpdateContract(ContractDTO contractData)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         [Route("UpdateContractData")]
         [HttpPut]
         public IHttpActionResult UpdateContractData(ContractDataDTO contractData)
@@ -158,6 +151,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("AddDocument")]
+        [HttpGet]
+        public IHttpActionResult AddDocumentToContract(ContractDocumentDTO document)
+        {
+            try
+            {
+                var result = ContractService.AddDocumentToContract(document, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCreditCheckResult")]
         [HttpGet]
         public IHttpActionResult GetCreditCheckResult(int contractId)
@@ -182,39 +190,7 @@ namespace DealnetPortal.Api.Controllers
 
             var result = ContractService.GetDealsFlowingSummary(LoggedInUser?.UserId, type);
             return Ok(result);
-        }
-
-        [AllowAnonymous]
-        [Route("GetEquipmentTypes")]
-        [HttpGet]
-        public IHttpActionResult GetEquipmentTypes()
-        {
-            try
-            {
-                var result = ContractService.GetEquipmentTypes();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [AllowAnonymous]
-        [Route("{province}/ProvinceTaxRate")]
-        [HttpGet]
-        public IHttpActionResult GetProvinceTaxRate(string province)
-        {
-            try
-            {
-                var result = ContractService.GetProvinceTaxRate(province);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+        }        
 
         [Route("CreateXlsxReport")]
         [HttpPost]
@@ -263,7 +239,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.UpdateCustomers(customers);
+                var alerts = ContractService.UpdateCustomers(customers, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -279,6 +255,36 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var alerts = ContractService.SubmitContract(contractId, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AddComment")]
+        [HttpPost]
+        public IHttpActionResult AddComment(CommentDTO comment)
+        {
+            try
+            {
+                var alerts = ContractService.AddComment(comment, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("RemoveComment")]
+        [HttpPost]
+        public IHttpActionResult RemoveComment(int commentId)
+        {
+            try
+            {
+                var alerts = ContractService.RemoveComment(commentId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)

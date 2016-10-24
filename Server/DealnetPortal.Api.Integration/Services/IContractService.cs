@@ -24,7 +24,7 @@ namespace DealnetPortal.Api.Integration.Services
         ContractDTO GetContract(int contractId, string contractOwnerId);
 
         IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId);
-        
+
         IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
 
         IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);
@@ -35,12 +35,22 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
 
+        IList<Alert> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId);
+
         Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();
+
+        //IList<EquipmentTypeDTO> GetDocumentTypes();
+
+        //IList<string> GetContractDocumentsList();        
 
         Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province);
 
         CustomerDTO GetCustomer(int customerId);
 
-        IList<Alert> UpdateCustomers(CustomerDataDTO[] customers);
+        IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId);
+
+        Tuple<int?, IList<Alert>> AddComment(CommentDTO comment, string contractOwnerId);
+
+        IList<Alert> RemoveComment(int commentId, string contractOwnerId);
     }
 }

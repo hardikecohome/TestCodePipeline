@@ -1,9 +1,10 @@
-﻿$(document)
+﻿var urlContent = window.location.origin+"/client/";
+//var urlContent = window.location.origin+"/";
+$(document)
     .ready(function () {
       if(detectIE()){
         $('body').addClass('ie');
       }
-       // fixMetaViewportIos();
 
         $("input, textarea").placeholder();
 
@@ -53,16 +54,9 @@
         }, 400);
       });
 
-      addIconsToFields();
-      toggleClearInputIcon();
-      customizeSelect();
-
-
-      if($('.summary-info-hold #basic-info-form .credit-check-info-hold .col-md-6').length % 2 !== 0){
+      if($('.basic-info-cols.credit-check-info-hold .col-md-6').length % 2 !== 0){
         $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
       }
-
-
 
       $('.dealnet-disabled-input').each(function(){
         $(this).attr('type', 'hidden');
@@ -98,12 +92,27 @@
       setTimeout(function(){
         $('.credit-check-info-hold .dealnet-credit-check-section').each(function(){
           var col = $(this).parents('.col-md-6');
-          var colOffset = col.position().left;
-          if(colOffset == 0 && col.next('.col-md-6').length){
-            col.addClass('has-right-border');
+          if(col.not('.col-md-push-6')){
+            var colOffset = col.position().left;
+            if(colOffset == 0 && col.next('.col-md-6').length){
+              col.addClass('has-right-border');
+            }
+          }
+          if(col.is('.col-md-push-6')){
+            var colOffset = col.next('.col-md-pull-6').position().left;
+            if(colOffset == 0 && col.next('.col-md-pull-6').length){
+              col.next('.col-md-pull-6').addClass('has-right-border');
+            }
           }
         });
-      }, 300);
+      }, 500);
+
+
+
+      addIconsToFields();
+      toggleClearInputIcon();
+      customizeSelect();
+      commonDataTablesSettings();
     });
 
 function navigateToStep(targetLink){
@@ -126,6 +135,15 @@ function detectPageHeaight(){
   }else{
     $('.back-to-top-hold').hide();
   }
+}
+
+function commonDataTablesSettings(){
+  $.extend( true, $.fn.dataTable.defaults, {
+    "fnInitComplete": function(oSettings, json) {
+      $('#work-items-table_filter input[type="search"], .dataTables_length select').removeClass('input-sm');
+      customizeSelect();
+    }
+  } );
 }
 
 function backToTop() {
@@ -160,16 +178,6 @@ function hideLoader() {
     $.loader('close');
 }
 
-function fixMetaViewportIos(){
-  if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-    document.querySelector('meta[name=viewport]')
-      .setAttribute(
-        'content',
-        'initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001, user-scalable=no'
-      );
-  }
-}
-
 function customizeSelect(){
   setTimeout(function(){
     $('select').each(function(){
@@ -189,9 +197,9 @@ function addIconsToFields(fields){
   var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
-  var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
-  var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
-  var iconPassField = $('<svg aria-hidden="true" class="icon icon-eye"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-eye"></use></svg>');
+  var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
+  var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
+  var iconPassField = $('<svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg>');
   iconCalendar.appendTo(fieldDateParent);
   iconClearField.appendTo(fieldParent);
   iconPassField.appendTo(fieldPassParent);

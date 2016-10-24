@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aspire\XmlRequestsTest.cs" />
     <Compile Include="Controllers\ContractControllerTest.cs" />
     <Compile Include="ESignature\ESignatureServiceAgentTest.cs" />
     <Compile Include="Services\ImageScanManagerTest.cs" />

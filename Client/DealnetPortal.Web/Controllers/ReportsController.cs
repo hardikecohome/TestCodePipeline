@@ -12,11 +12,11 @@ using DealnetPortal.Web.ServiceAgent;
 namespace DealnetPortal.Web.Controllers
 {
     [AuthFromContext]
-    public class ReportsController : UpdateDataController
+    public class ReportsController : Controller
     {
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
-        public ReportsController(IContractServiceAgent contractServiceAgent, IContractManager contractManager): base(contractManager)
+        public ReportsController(IContractServiceAgent contractServiceAgent, IContractManager contractManager)
         {
             _contractServiceAgent = contractServiceAgent;
             _contractManager = contractManager;

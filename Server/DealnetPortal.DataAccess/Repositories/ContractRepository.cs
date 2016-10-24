@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Policy;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -84,6 +85,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)                
                 .FirstOrDefault(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
@@ -276,9 +278,68 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.EquipmentTypes.ToList();
         }
 
+        public IList<DocumentType> GetDocumentTypes()
+        {
+            return _dbContext.DocumentTypes.ToList();
+        }
+
         public ProvinceTaxRate GetProvinceTaxRate(string province)
         {
             return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.Province == province);
+        }
+
+        public Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
+        {
+            var contract = _dbContext.Contracts.Find(contractId);            
+            var docTypeId = document.DocumentTypeId;
+            if (document.DocumentType != null)
+            {
+                docTypeId =
+                    _dbContext.DocumentTypes.FirstOrDefault(t => t.Prefix == document.DocumentType.Prefix)?.Id ??
+                    docTypeId;                
+            }
+            var docType = _dbContext.DocumentTypes.Find(docTypeId);
+            if (!string.IsNullOrEmpty(docType?.Prefix))
+            {
+                if (string.IsNullOrEmpty(document.DocumentName) || !document.DocumentName.StartsWith(docType.Prefix) )
+                {
+                    document.DocumentName = docType.Prefix + document.DocumentName;
+                }
+            }
+
+            document.CreationDate = DateTime.Now;           
+
+            if (contract != null)
+            {
+                var dbDocument = contract.Documents.FirstOrDefault(d => d.DocumentTypeId == docTypeId);
+                if (dbDocument != null)
+                {
+                    var otherType = _dbContext.DocumentTypes.FirstOrDefault(t => string.IsNullOrEmpty(t.Prefix));
+                    if (otherType != null && dbDocument.DocumentType.Id == otherType.Id && dbDocument.DocumentName != document.DocumentName)
+                    {
+                        document.Contract = contract;
+                        contract.Documents.Add(document);
+                    }
+                    else
+                    {
+                        document.Id = dbDocument.Id;
+                        document.Contract = contract;
+                        _dbContext.ContractDocuments.AddOrUpdate(document);
+                    }                    
+                }
+                else
+                {
+                    document.Contract = contract;
+                    contract.Documents.Add(document);
+                }                
+            }
+            return contract;
+        }        
+
+        public IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId)
+        {
+            var contract = _dbContext.Contracts.Find(contractId);
+            return contract.Documents.ToList();
         }
 
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
@@ -368,6 +429,30 @@ namespace DealnetPortal.DataAccess.Repositories
                 contractData.Equipment = contract.Equipment;
             }
             return contractData;
+        }
+
+        public Comment TryAddComment(Comment comment, string contractOwnerId)
+        {
+            //if (!CheckContractAccess(comment.ContractId, contractOwnerId)) { return false; }
+            var dealer = GetUserById(contractOwnerId);
+            comment.Date = DateTime.Now;
+            comment.Dealer = dealer;
+            _dbContext.Comments.AddOrUpdate(comment);
+            return comment;
+        }
+
+        public bool TryRemoveComment(int commentId, string contractOwnerId)
+        {
+            var cmmnt = _dbContext.Comments.FirstOrDefault(x => x.Id == commentId && x.DealerId == contractOwnerId);
+            if (cmmnt == null || cmmnt.Replies.Any()) { return false; }
+            _dbContext.Comments.Remove(cmmnt);
+            return true;
+        }
+
+        private bool CheckContractAccess(int contractId, string contractOwnerId)
+        {
+            return _dbContext.Contracts
+                .Any(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
         private Customer AddOrUpdateCustomerLocations(Customer customer, IList<Location> locations)

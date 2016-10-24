@@ -34,7 +34,10 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
             mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>();
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
-            mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>();            
+            mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>();
+            mapperConfig.CreateMap<Comment, CommentDTO>()
+                .ForMember(x => x.IsOwn, s => s.Ignore())
+                .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => src.Dealer.UserName));
             mapperConfig.CreateMap<Customer, CustomerDTO>();
                 //.ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations));
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();
@@ -42,16 +45,19 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
                 .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))
-                .ForMember(x => x.PaymentInfo, o => o.MapFrom(src => src.PaymentInfo));
+                .ForMember(x => x.PaymentInfo, o => o.MapFrom(src => src.PaymentInfo))
+                .ForMember(x => x.Comments, o => o.MapFrom(src => src.Comments));
+                //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>();
             mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>();
 
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
                 .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm));
-                //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src =>
-                //{
-                //    return src.EquipmentTypes?.Select(eq => eq.Type).ToList();
-                //}));
+
+            mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>();
+            mapperConfig.CreateMap<ContractDocument, ContractDocumentDTO>()
+                .ForMember(x => x.DocumentBytes, d => d.Ignore());
+
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
@@ -71,7 +77,11 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ExistingEquipmentDTO, ExistingEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());
-
+            mapperConfig.CreateMap<CommentDTO, Comment>()
+               .ForMember(x => x.ParentComment, d => d.Ignore())
+               .ForMember(x => x.Contract, d => d.Ignore())
+               .ForMember(x => x.Replies, d => d.Ignore())
+               .ForMember(d => d.Dealer, s => s.Ignore());
             mapperConfig.CreateMap<CustomerDTO, Customer>()
                 .ForMember(x => x.AccountId, d => d.Ignore());                
 
@@ -80,11 +90,18 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Contract, s => s.Ignore());            
             mapperConfig.CreateMap<ContractDTO, Contract>()
                 .ForMember(d => d.Dealer, s => s.Ignore())
-                .ForMember(d => d.PaymentInfo, s => s.Ignore());
+                .ForMember(d => d.PaymentInfo, s => s.Ignore())
+                .ForMember(d => d.Comments, s => s.Ignore())
+                .ForMember(x => x.Documents, d => d.Ignore());
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
                 .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw));
-                //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
+            //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
+
+            mapperConfig.CreateMap<DocumentTypeDTO, DocumentType>();
+            mapperConfig.CreateMap<ContractDocumentDTO, ContractDocument>()
+                .ForMember(x => x.Contract, d => d.Ignore())
+                .ForMember(x => x.DocumentType, d => d.Ignore());
         }
     }
 }

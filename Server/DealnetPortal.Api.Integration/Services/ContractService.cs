@@ -27,15 +27,17 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAspireService _aspireService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
 
         public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, 
-            ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
+            IAspireService aspireService, ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _aspireService = aspireService;
             _signatureService = signatureService;
             _mailService = mailService;
         }
@@ -69,6 +71,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var contracts = _contractRepository.GetContracts(contractOwnerId);
             var contractsDTO = Mapper.Map<IList<ContractDTO>>(contracts);
+            foreach (var contractDTO in contractsDTO)
+            {
+                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
+                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId); }
+            }
             return contractsDTO;
         }
 
@@ -80,7 +87,9 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            return Mapper.Map<ContractDTO>(contract);
+            var contractDTO = Mapper.Map<ContractDTO>(contract);
+            AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+            return contractDTO;
         }
 
         public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId)
@@ -91,18 +100,25 @@ namespace DealnetPortal.Api.Integration.Services
                 var contractData = Mapper.Map<ContractData>(contract);
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
-                {
-                    //if (updatedContract.ContractState == ContractState.Started)
-                    //{
-                    //    _contractRepository.UpdateContractState(updatedContract.Id, contractOwnerId,
-                    //        ContractState.CustomerInfoInputted);
-                    //}
+                {                    
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+
+                    //update customers on aspire
+                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null ||
+                        contract.Locations != null)
+                    {                        
+                        var aspireAlerts =
+                            _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
+                        //if (aspireAlerts?.Any() ?? false)
+                        //{
+                        //    alerts.AddRange(aspireAlerts);
+                        //}
+                    }
                 }
                 else
                 {
-                    var errorMsg = $"Cannot find a contract [{contract.Id}] for update";
+                    var errorMsg = $"Cannot find a contract [{contract.Id}] for update. Contract owner: [{contractOwnerId}]";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
@@ -127,6 +143,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var alerts = new List<Alert>();
                 var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+                //_aspireService.InitiateCreditCheck(contractId, contractOwnerId);
+
                 if (contract == null)
                 {
                     alerts.Add(new Alert()
@@ -209,7 +228,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             //stub for future Aspire request
 
-            TimeSpan creditCheckPause = TimeSpan.FromSeconds(30);
+            TimeSpan creditCheckPause = TimeSpan.FromSeconds(10);
 
             var creditCheck = new CreditCheckDTO()
             {
@@ -456,7 +475,7 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<CustomerDTO>(customer);
         }
 
-        public IList<Alert> UpdateCustomers(CustomerDataDTO[] customers)
+        public IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId)
         {
             var alerts = new List<Alert>();
 
@@ -467,6 +486,14 @@ namespace DealnetPortal.Api.Integration.Services
                     customers.ForEach(c => { _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails)); });
                 }
                 _unitOfWork.Save();
+
+                //update customers on aspire
+                //var aspireAlerts =
+                //        _aspireService.UpdateContractCustomer(null, contractOwnerId).GetAwaiter().GetResult();
+                //if (aspireAlerts?.Any() ?? false)
+                //{
+                //    alerts.AddRange(aspireAlerts);
+                //}
             }
             catch (Exception ex)
             {
@@ -478,6 +505,114 @@ namespace DealnetPortal.Api.Integration.Services
                 //throw;
             }
 
+            return alerts;
+        }
+
+        public Tuple<int?, IList<Alert>> AddComment(CommentDTO commentDTO, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            Comment comment = null;
+
+            try
+            {
+                comment = _contractRepository.TryAddComment(Mapper.Map<Comment>(commentDTO), contractOwnerId);
+                if (comment != null)
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot update contract comment";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.CommentUpdateFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to update contract comment", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.CommentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return new Tuple<int?, IList<Alert>>(comment?.Id, alerts);
+        }
+
+        public IList<Alert> RemoveComment(int commentId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.TryRemoveComment(commentId, contractOwnerId))
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot update contract comment";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.CommentUpdateFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to update contract comment", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.CommentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
+        }
+
+        private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
+        {
+            var srcComments = src.ToArray();
+            foreach (var destComment in dest)
+            {
+                var scrComment = srcComments.FirstOrDefault(x => x.Id == destComment.Id);
+                if (scrComment == null) { continue; }
+                destComment.IsOwn = scrComment.DealerId == contractOwnerId;
+                if (destComment.Replies.Any()) { AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId); }
+            }
+        }
+
+        public IList<Alert> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                _contractRepository.AddDocumentToContract(document.Id, Mapper.Map<ContractDocument>(document),
+                    contractOwnerId);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to add document to contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Failed to add document to contract",
+                    Message = ex.ToString()
+                });
+            }
             return alerts;
         }
     }

@@ -1,8 +1,10 @@
 html{
-  -webkit-text-size-adjust: none
+  -webkit-text-size-adjust: none;
+  height: 100%;
 }
 body{
   position: relative;
+  height: 100%;
   -webkit-font-smoothing: antialiased;
   font-family: @usual-font-family;
   font-size: 14px;
@@ -135,6 +137,29 @@ body.no-authorized .navbar{
 
 .dealnet-login-buttons {
   display: inline-block;
+  margin-right: 10px;
+  .dealnet-login-buttons-text{
+    display: inline-block;
+    @media @mobile {
+      display: none;
+    }
+  }
+  .dropdown-menu{
+    background-color: @navbar-header;
+    @media @mobile {
+      display: none!important;
+    }
+  }
+  .icon-circle-hold{
+    @media @mobile {
+      margin: 0;
+    }
+  }
+  .caret{
+    @media @mobile {
+      display: none;
+    }
+  }
 }
 
 .dealnet-login-buttons .dropdown-toggle {
@@ -149,6 +174,13 @@ body.no-authorized .navbar{
 .dealnet-button-holder {
   margin-left: 0px;
   margin-right: 0px;
+}
+body.open-menu{
+  .dealnet-login-buttons-holder{
+    @media @mobile {
+      display: none !important;
+    }
+  }
 }
 
 .dealnet-page-header-login {
@@ -218,24 +250,6 @@ body.no-authorized .navbar{
   box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.12);
 }
 
-.dealnet-image-homepage { background-image: url('../images/home-page.png'); }
-
-.dealnet-image-newrental { background-image: url('../images/new-rental.png'); }
-
-.dealnet-image-checkcredit { background-image: url('../images/icon-check-credit.png'); }
-
-.dealnet-image-mydeals { background-image: url('../images/icon-my-deals.png'); }
-
-.dealnet-image-reports { background-image: url('../images/icon-reports.png'); }
-
-.dealnet-image-reports-btn { background-image: url('../images/icon-reports-btn.png'); }
-
-.dealnet-image-mydeals-btn { background-image: url('../images/icon-mydeals-btn.png'); }
-
-.dealnet-image-newrental-btn { background-image: url('../images/new-rental-btn.png'); }
-
-
-
 .dealnet-image-ecologo {
   background-image: url('../images/logo-eco-home.png');
   background-position: center;
@@ -244,6 +258,23 @@ body.no-authorized .navbar{
   height: 50px;
   margin: 0 auto;
   width: 140px;
+}
+@media @mobile{
+  .navbar-header > div{
+    width: 50%;
+    &.burger-hold,
+    &.user-hold{
+      width: 25%;
+    }
+  }
+}
+@media (max-width: 1279px) {
+  .navbar-logo-hold{
+    text-align: center;
+  }
+  .dealnet-image-ecologo.main-logo{
+    display: inline-block;
+  }
 }
 
 @media (max-width: 1279px) {

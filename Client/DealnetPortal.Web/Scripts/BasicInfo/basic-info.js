@@ -66,6 +66,7 @@ $(document).ready(function () {
                 $(this).val("");
             }
         });
+        return false;
     });
     $("#clear-mailing-address").click(function () {
         $('#mailing_street, #mailing_unit_number, #mailing_locality, #mailing_administrative_area_level_1, #mailing_postal_code').each(function () {
@@ -73,6 +74,7 @@ $(document).ready(function () {
                 $(this).val("");
             }
         });
+        return false;
     });
     $("#owner-scan-button").click(function () {
         var modal = document.getElementById('camera-modal');

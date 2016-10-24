@@ -65,7 +65,9 @@
   <ItemGroup>
     <Compile Include="ApiBase.cs" />
     <Compile Include="ContractServiceAgent.cs" />
+    <Compile Include="DictionaryServiceAgent.cs" />
     <Compile Include="IContractServiceAgent.cs" />
+    <Compile Include="IDictionaryServiceAgent.cs" />
     <Compile Include="IStorageServiceAgent.cs" />
     <Compile Include="ScanProcessingServiceAgent.cs" />
     <Compile Include="IScanProcessingServiceAgent.cs" />

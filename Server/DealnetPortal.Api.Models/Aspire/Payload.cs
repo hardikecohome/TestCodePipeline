@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -15,9 +17,60 @@ namespace DealnetPortal.Api.Models.Aspire
     }
 
     [Serializable]
+    [System.Xml.Serialization.XmlRoot(ElementName= "Payload")]
+    public class ResponsePayload
+    {
+        public string TransactionId { get; set; }
+        public string EntityId { get; set; }    
+        public string EntityName { get; set; }
+    }
+
+    [Serializable]
     public class Lease
     {
+        public Application Application { get; set; }
         public Client Client { get; set; }
+
+        [XmlElement("Account")]
+        public List<Account> Accounts { get; set; }
+    }
+
+    [Serializable]
+    public class Application
+    {
+        public string TransactionId { get; set; }
+    }
+
+    [Serializable]
+    public class Account
+    {
+        public string ClientId { get; set; }
+
+        public string Role { get; set; }
+
+        public bool? IsPrimary { get; set; }
+
+        public bool IsPrimarySpecified => IsPrimary.HasValue;
+
+        public bool? IsIndividual { get; set; }
+
+        public bool IsIndividualSpecified => IsIndividual.HasValue;
+
+        public string EmailAddress { get; set; }
+
+        public Personal Personal { get; set; }
+
+        public Address Address { get; set; }
+
+        public Telecomm Telecomm { get; set; }
+    }
+
+    [Serializable]
+    public class Personal
+    {
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Dob { get; set; }
     }
 
     [Serializable]
@@ -59,6 +112,9 @@ namespace DealnetPortal.Api.Models.Aspire
         [XmlElement(ElementName = "Street_No")]
         public string StreetNo { get; set; }
 
+        [XmlElement(ElementName = "Suite_No")]
+        public string SuiteNo { get; set; }
+
         [XmlElement(ElementName = "Street_Name")]
         public string StreetName { get; set; }
 
@@ -70,6 +126,13 @@ namespace DealnetPortal.Api.Models.Aspire
         public string Postalcode { get; set; }
 
         public Country Country { get; set; }
+
+        public string Attention { get; set; }
+    }
+
+    public class Telecomm
+    {
+        public string Phone { get; set; }
     }
 
     [Serializable]

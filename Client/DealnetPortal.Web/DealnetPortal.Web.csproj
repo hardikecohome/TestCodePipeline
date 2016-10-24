@@ -193,6 +193,8 @@
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -362,6 +364,7 @@
     <Content Include="Content\images\sprite\icon-error.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
+    <Content Include="Content\images\sprite\icon-fax.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
@@ -549,12 +552,14 @@
     <Content Include="Content\less\settings\overrides-variables.less" />
     <Content Include="Content\less\components\modal.less" />
     <Content Include="Content\less\contract.less" />
+    <Content Include="Content\less\reports.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\camera-capturing.js" />
     <Content Include="Scripts\contact-and-payment.js" />
+    <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
@@ -715,7 +720,7 @@
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />

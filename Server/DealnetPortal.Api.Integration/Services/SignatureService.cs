@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
@@ -223,7 +224,6 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
-            throw new NotImplementedException();
         }
 
         public IList<Alert> GetSignatureResults(int contractId, string ownerUserId)
@@ -363,7 +363,7 @@ namespace DealnetPortal.Api.Integration.Services
             List<Alert> alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
             var province =
-                contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
+                contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
             // get agreement template
             var agreementTemplate = _fileRepository.FindAgreementTemplate(at => 
                 at.AgreementType == contract.Equipment.AgreementType && (string.IsNullOrEmpty(province) || at.State == province));
@@ -704,10 +704,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var newEquipments = contract.Equipment.NewEquipment;
                 var fstEq = newEquipments.First();
-
-                formFields[PdfFormFields.EquipmentQuantity] = fstEq.Quantity.ToString();
+                
                 formFields[PdfFormFields.EquipmentDescription] = fstEq.Description.ToString();
-                formFields[PdfFormFields.EquipmentCost] = fstEq.Cost.ToString(CultureInfo.CurrentCulture);
+                formFields[PdfFormFields.EquipmentCost] = fstEq.Cost?.ToString(CultureInfo.CurrentCulture);
                 formFields[PdfFormFields.MonthlyPayment] = fstEq.MonthlyCost.ToString(CultureInfo.CurrentCulture);
 
                 var othersEq = new List<NewEquipment>();

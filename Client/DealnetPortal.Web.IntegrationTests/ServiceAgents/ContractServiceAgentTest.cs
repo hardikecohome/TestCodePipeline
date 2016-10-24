@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Utilities;
@@ -153,6 +154,45 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             Assert.IsTrue(checkAlerts.Item2.First().Type == AlertType.Error);
         }
 
+        [TestMethod]
+        public async Task TestAddRemoveContractComment()
+        {
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
+            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
+            // Create a contract
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
+            var contractResult = await contractServiceAgent.CreateContract();
+
+            //Adding comments
+            var comment1 = new CommentDTO();
+            comment1.Text = "Comment number 1";
+            comment1.ContractId = contractResult.Item1.Id;
+            var addResult = await contractServiceAgent.AddComment(comment1);
+            Assert.IsNotNull(addResult?.Item1);
+            Assert.IsNotNull(addResult.Item2);
+            Assert.IsTrue(addResult.Item2.All(a => a.Type != AlertType.Error));
+            var updatedComment1Id = addResult.Item1;
+            var comments = (await contractServiceAgent.GetContract(contractResult.Item1.Id)).Item1.Comments;
+            var updatedComment = comments.First(x => x.Id == addResult.Item1);
+            var comment2 = new CommentDTO();
+            comment2.Text = "Comment number 2";
+            comment2.ParentCommentId = updatedComment.Id;
+            addResult = await contractServiceAgent.AddComment(comment2);
+            Assert.IsNotNull(addResult?.Item1);
+            Assert.IsNotNull(addResult.Item2);
+            Assert.IsTrue(addResult.Item2.All(a => a.Type != AlertType.Error));
+            var updatedComment2Id = addResult.Item1;
+
+            //Removing comments with replies
+            var removeAlerts = await contractServiceAgent.RemoveComment(updatedComment1Id.Value);
+            Assert.IsNotNull(removeAlerts);
+            Assert.IsTrue(removeAlerts.Any(x => x.Header == ErrorConstants.CommentUpdateFailed));
+            //Removing comments without replies 
+            removeAlerts = await contractServiceAgent.RemoveComment(updatedComment2Id.Value);
+            Assert.IsNotNull(removeAlerts);
+            Assert.IsTrue(removeAlerts.All(a => a.Type != AlertType.Error));
+        }
     }
 }

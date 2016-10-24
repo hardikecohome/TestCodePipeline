@@ -84,23 +84,16 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<Alert>> SubmitContract(int contractId);
 
         /// <summary>
-        /// Get Equipment Types list
-        /// </summary>
-        /// <returns>List of Equipment Type</returns>
-        Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes();
-
-        /// <summary>
-        /// Get Province Tax Rate
-        /// </summary>
-        /// <param name="province">Province abbreviation</param>
-        /// <returns>Tax Rate for particular Province</returns>
-        Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province);
-
-        /// <summary>
         /// Get xlsx report
         /// </summary>
         /// <param name="ids">List od Ids</param>
         /// <returns>xlsx report in byte array</returns>
         Task<byte[]> GetXlsxReport(IEnumerable<int> ids);
+
+        Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
+
+        Task<IList<Alert>> RemoveComment(int commentId);
+        
+        Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document);
     }
 }

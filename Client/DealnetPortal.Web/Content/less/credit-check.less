@@ -16,6 +16,7 @@
   margin-right: 0;
   float: right;
   clear: right;
+  word-wrap: break-word;
    a{
     font: 14px @usual-font-family;
   }
@@ -113,15 +114,15 @@ select.dealnet-disabled-input{
   margin-top: 30px;
   padding: 0;
   border: 0 !important;
+  position: relative;
 }
 
-.left-column-info{
+.right-column-info{
   @media @desktop-up {
+    /*background: lightblue;*/
     padding-left: 0;
     .dealnet-credit-check-section{
-      width: 100%;
       padding-left: 10%;
-      position: relative;
       &:before{
         content: '';
         position: absolute;
@@ -135,8 +136,9 @@ select.dealnet-disabled-input{
   }
 }
 
-.right-column-info{
+.left-column-info{
   @media @desktop-up {
+    /*background: lightgoldenrodyellow;*/
     clear: left;
     padding-right: 0;
     .dealnet-credit-check-section{
@@ -145,7 +147,6 @@ select.dealnet-disabled-input{
     }
     &.has-right-border{
       .dealnet-credit-check-section{
-        position: relative;
         &:before{
           content: '';
           position: absolute;
@@ -156,6 +157,13 @@ select.dealnet-disabled-input{
           background: #000;
         }
       }
+      &+.col-md-6{
+        .dealnet-credit-check-section{
+          &:before{
+            display: block;
+          }
+        }
+      }
     }
   }
 }
@@ -163,19 +171,18 @@ select.dealnet-disabled-input{
 .credit-check-info-hold:not(.shift-to-basic-info){
   & > div[class^="col-"]:not([class*="pull-"]):not([class*="push-"]){
     &:nth-child(odd) {
-      .right-column-info
+      .left-column-info
     }
     &:nth-child(even) {
-      .left-column-info;
+      .right-column-info;
    }
   }
   & > div[class*="pull-"]{
-    @media @desktop-up {
-      .right-column-info
-    }
+    .left-column-info;
+    clear: none !important;
   }
   & > div[class*="push-"]{
-    .left-column-info;
+    .right-column-info;
   }
   &.cols-no-titles{
     & > div[class^="col-"]{
@@ -220,6 +227,13 @@ select.dealnet-disabled-input{
     }
   }
 }
+.credit-check-info-hold.no-top-margin{
+  .dealnet-credit-check-section{
+    &:before{
+      top: 0 !important;
+    }
+  }
+}
 .summury-return-equip-item{
   &+.summury-return-equip-item{
     border-top: 1px solid #000 !important;
@@ -230,15 +244,7 @@ select.dealnet-disabled-input{
 .credit-check-info-hold.shift-to-basic-info{
   & > div[class^="col-"]{
     &:nth-child(odd) {
-      .left-column-info;
-      /*@media @desktop-up {
-        clear: none;
-        padding-right: 15px;
-        .dealnet-credit-check-section{
-          padding-right: 0;
-        }
-      }*/
-
+      .right-column-info;
     }
     &:nth-child(even) {
       @media @desktop-up {
@@ -342,6 +348,29 @@ select.dealnet-disabled-input{
       left: 17px;
       top: 50%;
       margin-top: -14px;
+    }
+  }
+  &.danger-well{
+    position: relative;
+    font-size: 14px;
+    line-height: 1.3;
+    padding: 14px 18px 12px 45px;
+    margin: 15px 0;
+    background-color: rgba(217, 46, 0, 0.04);
+    border: solid 1px #f4b7b7;
+    color: #525251;
+    &.error-descr{
+      padding: 20px 20px 20px 60px;
+      .icon-error{
+        top: 20px;
+        left: 20px;
+      }
+    }
+    .icon-error{
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      color: rgb(218, 46, 0);;
     }
   }
   .summary-emails-header{
@@ -491,6 +520,9 @@ select.dealnet-disabled-input{
 
 .back-to-top-hold{
   display: none;
+  @media @desktop-up {
+    display: none !important;
+  }
 }
 .sent-email-msg{
   .icon-success{

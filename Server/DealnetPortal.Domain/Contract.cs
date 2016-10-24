@@ -13,7 +13,8 @@ namespace DealnetPortal.Domain
         public Contract()
         {
             SecondaryCustomers = new HashSet<Customer>();
-            Details = new ContractDetails();            
+            Details = new ContractDetails();
+            Documents = new HashSet<ContractDocument>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
@@ -35,5 +36,9 @@ namespace DealnetPortal.Domain
         public EquipmentInfo Equipment { get; set; }
 
         public ContractDetails Details { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
+        
+        public ICollection<ContractDocument> Documents { get; set; }
     }
 }

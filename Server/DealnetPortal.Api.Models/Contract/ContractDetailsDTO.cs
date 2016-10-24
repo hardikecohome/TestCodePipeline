@@ -20,6 +20,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public string SignatureDocumentId { get; set; }
 
+        public DateTime? SignatureInitiatedTime { get; set; }
+
         public SignatureStatus? SignatureStatus { get; set; }
     }
 }
