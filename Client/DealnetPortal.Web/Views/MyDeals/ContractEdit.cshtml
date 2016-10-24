@@ -27,27 +27,88 @@
 					</a>
 				</div>
 			</div>
-			<br>
-			<br>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="row">
-						<label class="dealnet-field-caption col-xs-4">12/10/2015</label>
-						<div class="dealnet-field-holder col-xs-8">
-							<ul class="report-documents-list editable-list list-unstyled">
-								<li><a href="#" class="dealnet-info-link text-semibold"><svg aria-hidden="true" class="icon icon-audio"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-audio")"></use></svg>456789.mp3</a>
-									<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a></li>
-								<li><a href="#" class="dealnet-info-link text-semibold"><svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>123456.pdf</a>
-									<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a></li>
-							</ul>
+			<div class="row ">
+				<div class="report-documents-list credit-check-info-hold no-vertical-border">
+					<div class="col-md-6 document-col">
+						<div class="dealnet-credit-check-section">
+							<div class="documents-inner">
+								<h3 class="dealnet-section-title">Main Documents</h3>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Signed contract</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item">
+											<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+											<a href="#" class="dealnet-info-link text-semibold">
+												456789.pdf<svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Signed Installation Certificate</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item">
+											<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+											<a href="#" class="dealnet-info-link text-semibold">
+												456789.pdf<svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Invoice</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item"></span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Copy of Void Personal Cheque</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item">
+											<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+											<a href="#" class="dealnet-info-link text-semibold">
+												456789.mp3<svg aria-hidden="true" class="icon icon-audio"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-audio")"></use></svg>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Extended Warranty Form</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item"></span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Third party verification call</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<span class="document-item"></span>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="col-md-6">
-					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
-						<span>Upload Documents</span>
-					</a>
+					<div class="col-md-6 document-col full-height">
+						<div class="dealnet-credit-check-section">
+							<div class="documents-inner">
+									<h3 class="dealnet-section-title">Other Documents</h3>
+									<div class="row form-group">
+										<label class="dealnet-field-caption col-sm-6">12/10/2015</label>
+										<div class="dealnet-field-holder col-sm-6">
+											<span class="document-item">
+												<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+												<a href="#" class="dealnet-info-link text-semibold">
+													456789.pdf<svg aria-hidden="true" class="icon icon-audio"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-audio")"></use></svg>
+												</a>
+											</span>
+										</div>
+									</div>
+									<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
+										<span>Upload Documents</span>
+									</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="well success-well">
@@ -170,7 +231,7 @@
 	</div>
 	<hr>
 	<div class="form-section">
-		<div class="row credit-check-info-hold">
+		<div class="row">
 
 		@using (Html.BeginForm(null, null, FormMethod.Post, new {id = "basic-info-form"}))
 		{
@@ -185,6 +246,7 @@
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate)
 		        }
 		    }
+			<div class="credit-check-info-hold">
 		    <div class="col-md-6">
 		        @Html.HiddenFor(m => m.BasicInfo.ContractId)
 		        <div class="dealnet-credit-check-section" id="home-owner-section">
@@ -316,7 +378,7 @@
                     </div>
 		        </div>
 		    </div>
-		    if (Model.BasicInfo.MailingAddressInformation != null)
+		    @if (Model.BasicInfo.MailingAddressInformation != null)
 		    {
                 <div class="col-md-6">
 		            <div class="dealnet-credit-check-section">
@@ -378,10 +440,12 @@
 		            </div>
 		        </div>
 		    }
+			</div>
 		}
 
             @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "contact-info-form" }))
             {
+			<div class="credit-check-info-hold">
                 <div class="col-md-6">
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
@@ -443,6 +507,7 @@
                         </div>
                     </div>
                 </div>
+			</div>
             }
         </div>
 	</div>

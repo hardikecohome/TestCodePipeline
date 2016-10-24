@@ -167,7 +167,95 @@ select.dealnet-disabled-input{
     }
   }
 }
+.report-documents-list{
+  margin: 0 0 20px;
+  @media @desktop-up {
+    display: table;
+    width: 100%;
+  }
+  .document-col{
+    .dealnet-credit-check-section{
+      @media @tablet-down {
+        min-height: 0 !important;
+      }
+    }
+    &.full-height{
+      .documents-inner{
+        @media @desktop-up {
+          padding-bottom: 30px;
+        }
+      }
+    }
+  }
+  & > .col-md-6{
+/*    @media @desktop-up {
+      display: table-cell;
+      float: none;
+      vertical-align: top;
+      .table-div{
+        display: table;
+        width: 100%;
+        height: 100%;
+      }
+      .table-row{
+        display: table-row;
+        margin: 0;
+        &.full-height{
+          height: 100%;
+        }
+        &+.bottom{
+          height: 1px;
+        }
+      }
+    }*/
+  }
+  .dealnet-button{
+    margin-top: 10px;
+    @media @desktop-up {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+  .document-item{
+    padding-left: 20px;
+    padding-right: 23px;
+    display: inline-block;
+    position: relative;
+    .remove-link{
+      position: absolute;
+      left: 0;
+      top: 2px;
+      color: @heading-text-color;
+    }
+  }
+  .dealnet-field-caption{
+    @media @mobile {
+      width: 100%;
+    }
+  }
 
+  .dealnet-field-holder{
+    @media @mobile {
+      float: none;
+      text-align: left;
+    }
+  }
+  .icon{
+    margin-left: 0;
+    color: #989897;
+    position: absolute;
+    right: 0;
+    top: 1px;
+  }
+}
+.no-vertical-border{
+  .dealnet-credit-check-section{
+    &:before{
+      display: none !important;
+    }
+  }
+}
 .credit-check-info-hold:not(.shift-to-basic-info){
   & > div[class^="col-"]:not([class*="pull-"]):not([class*="push-"]){
     &:nth-child(odd) {
@@ -493,7 +581,7 @@ select.dealnet-disabled-input{
   }
 }
 
-.report-documents-list{
+/*.report-documents-list{
   &.editable-list{
     li{
       padding-right: 20px;
@@ -516,7 +604,7 @@ select.dealnet-disabled-input{
     margin-right: 10px;
     color: #989897;
   }
-}
+}*/
 
 .back-to-top-hold{
   display: none;

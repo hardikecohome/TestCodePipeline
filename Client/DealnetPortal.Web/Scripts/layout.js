@@ -70,7 +70,8 @@ $(document)
       $(window).on('scroll', function(){
         detectPageHeaight()
       }).on('resize', function(){
-        detectPageHeaight()
+        detectPageHeaight();
+        documentsColHeight();
       });
 
       $('.reports-contract-item').each(function(){
@@ -90,6 +91,7 @@ $(document)
       });
 
       setTimeout(function(){
+        documentsColHeight();
         $('.credit-check-info-hold .dealnet-credit-check-section').each(function(){
           var col = $(this).parents('.col-md-6');
           if(col.not('.col-md-push-6')){
@@ -114,6 +116,12 @@ $(document)
       customizeSelect();
       commonDataTablesSettings();
     });
+
+function documentsColHeight(){
+  var columns = $('.report-documents-list .document-col');
+  console.log(columns.find('.documents-inner').height());
+  columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());
+}
 
 function navigateToStep(targetLink){
   var url = targetLink.attr('href');
