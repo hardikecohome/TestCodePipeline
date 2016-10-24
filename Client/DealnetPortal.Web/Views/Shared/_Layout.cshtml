@@ -14,11 +14,12 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/libs")
     @Scripts.Render("~/bundles/dealnet")
-    <!--<link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">-->
-    <link rel="stylesheet/less" type="text/css" href="~/Content/less/main-dealer.less">
+    <link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">
+    <!--<link rel="stylesheet/less" type="text/css" href="~/Content/less/main-dealer.less">-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
 </head>
-<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") theme-one-dealer">
+<!--<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") theme-one-dealer">-->
+<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized")">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 col-lg-2">
@@ -26,7 +27,7 @@
                     <div class="navbar-header">
                         @if (User.Identity.IsAuthenticated)
                             {
-                        <div class="visible-xs-inline-block visible-sm-inline-block visible-md-inline-block burger-hold">
+                        <div class="burger-hold">
                                 <button class="navbar-toggle pull-left" data-target=".navbar-collapse" data-toggle="collapse">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>

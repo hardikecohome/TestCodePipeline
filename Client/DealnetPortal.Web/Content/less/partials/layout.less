@@ -254,11 +254,18 @@ body.open-menu{
   background-image: @logo-img;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: auto 40px;
   display: inline-block;
   height: 50px;
   margin: 0 auto;
   width: 140px;
 }
+.theme-one-dealer .dealnet-image-ecologo {
+  @media (min-width: 1279px) {
+    margin-left: 15px;
+  }
+}
+
 @media @mobile{
   .navbar-header > div{
     width: 50%;
