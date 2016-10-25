@@ -10,6 +10,7 @@ using DealnetPortal.Domain;
 using DocuSign.eSign.Api;
 using DocuSign.eSign.Client;
 using DocuSign.eSign.Model;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
@@ -25,6 +26,13 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         public string TransactionId { get; private set; }
 
         public string DocumentId { get; private set; }
+
+        private Document _document { get; set; }
+
+        private List<Text> _textTabs { get; set; }
+
+        private List<Checkbox> _checkboxTabs { get; set; } 
+
 
         public DocuSignSignatureEngine()
         {
@@ -89,14 +97,56 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public Task<IList<Alert>> StartNewTransaction(Contract contract, AgreementTemplate agreementTemplate)
+        public async Task<IList<Alert>> StartNewTransaction(Contract contract, AgreementTemplate agreementTemplate)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+
+            await Task.Run(() =>
+            {
+
+                if (contract != null & agreementTemplate != null)
+                {
+                    _document = new Document();
+                    _document.DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.AgreementForm);
+                    _document.Name = agreementTemplate.TemplateName;
+                    _document.DocumentId = contract.Id.ToString();
+                    _document.TransformPdfFields = "true";
+                }
+            });                      
+
+            return alerts;
         }        
 
-        public Task<IList<Alert>> InsertDocumentFields(IList<FormField> formFields)
+        public async Task<IList<Alert>> InsertDocumentFields(IList<FormField> formFields)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+            _textTabs = new List<Text>();
+            _checkboxTabs = new List<Checkbox>();
+
+            await Task.Run(() =>
+            {
+                formFields.ForEach(ff =>
+                {
+                    if (ff.FieldType == FieldType.CheckBox)
+                    {
+                        _checkboxTabs.Add(new Checkbox()
+                        {
+                            TabLabel = ff.Name,
+                            Selected = ff.Value
+                        });
+                    }
+                    else //Text
+                    {
+                        _textTabs.Add(new Text()
+                        {
+                            TabLabel = ff.Name,
+                            Value = ff.Value
+                        });
+                    }
+                });
+            });
+
+            return alerts;
         }
 
         public Task<IList<Alert>> InsertSignatures(IList<SignatureUser> signatureUsers)
