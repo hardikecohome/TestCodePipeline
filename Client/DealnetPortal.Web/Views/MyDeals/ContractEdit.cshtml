@@ -1697,10 +1697,12 @@
 					<h3 class="dealnet-section-title">Upload main documents</h3>
 					<div class="documents-main-group">
 						<div class="form-group main-document-template">
-							<div class="row">
-								<div class="col-md-6">
-								    <label for="">Choose type of a document</label>
-                                    <form action="@Url.Action("UploadDocument","MyDeals")" method="post" enctype="multipart/form-data">
+							<div class="row">								
+                                   @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {
+                                           enctype = "multipart/form-data" }))
+                                   {
+                                    <div class="col-md-6">
+								    <label for="">Choose type of a document</label>                                  
                                     @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
                                         Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control" })
 									@*<select name="" id="" class="form-control">
@@ -1710,17 +1712,17 @@
 										<option value="">Copy of Void Personal Cheque</option>
 										<option value="">Extended Warranty Form</option>
 										<option value="">Third party verification call</option>
-									</select>*@
-								</div>
-								<div class="col-md-6">
+									</select>*@                                  
+                                     </div>
+                                    @Html.HiddenFor(m=>Model.BasicInfo.ContractId)                                   
+                                    <div class="col-md-6">
 									<div class="dealnet-label empty-label">&nbsp;</div>                                   
                                         <div class="file-upload btn  btn dealnet-button dealnet-success-button block-button">
                                             <span>Choose file and upload</span>
                                             <input type="file"  name="files" accept="image/*" class="upload" id="upload-new-photo" />                                                                                                                             
                                        </div>                                                                                                                                                    
-								</div> 
-                                <input hidden  name="ContractId" value="@Model.BasicInfo.ContractId"  />
-                                </form>                              
+								</div>  
+                                   }
 							</div>
 							<div class="progress-container">
 								<span class="progress-bar-value" style="left: 25%">0%</span>
@@ -1766,7 +1768,7 @@
 					<a href="#" class="dealnet-info-link add-other-document">Add new other document</a>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
+					<button type="button" id="save" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>

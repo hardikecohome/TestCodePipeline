@@ -45,29 +45,41 @@
             $(this).parents('.form-group').removeClass('file-uploaded');
         });
         });            
-   
-        $('input[type="file"]').on('change', function () {          
-            $('form:last').ajaxForm({
-                method: 'post',
-                contentType: false,
-                beforeSend: function (data) {
-                var percentVal = '0%';
-                $('.file-uploaded .progress-bar:last').width(percentVal);
-                $('.file-uploaded .progress-bar-value:last').html(percentVal);
-                $('.file-uploaded .text-center:last').html(event.currentTarget.value.match(/[\w-]+\.\w+/gi));
-            },
-            uploadProgress: function (event, position, total, percentComplete) {
-                var percentVal = percentComplete + '%';
-                $('.file-uploaded .progress-bar:last').width(percentVal);
-                $('.file-uploaded .progress-bar-value:last').html(percentVal);               
-            },
-            complete: function (xhr) {
-                var percentVal = '0%';
-                $('.file-uploaded .progress-bar:last').width(percentVal);
-                $('.file-uploaded .progress-bar-value:last').html(percentVal);
-                alert(xhr.responseText);
-            }
-            }).submit();
+     
+       
+          $("#save").on('click', function () {
+              var n = 0;
+              if(n=>0)
+               $('.file-uploaded form').each(function () {                                 
+                       $(this).ajaxForm({
+                           method: 'post',
+                           contentType: false,
+                           beforeSend: function (data) {
+                               var percentVal = '0%';
+                               $('.file-uploaded .progress-bar').eq(n).width(percentVal);
+                               $('.file-uploaded .progress-bar-value').eq(n).html(percentVal);
+                               $('.file-uploaded .text-center:last').html(event.currentTarget.value.match(/[\w-]+\.\w+/gi));
+                           },
+                           uploadProgress: function (event, position, total, percentComplete) {
+                               var percentVal = 2*percentComplete + '%';
+                               $('.file-uploaded .progress-bar').eq(n).width(percentVal);
+                               $('.file-uploaded .progress-bar-value').eq(n).html(100 + '%');
+                               n++;
+                           },
+                           success: function (result) {
+                              
+                               if (result.message="success")
+                               {                                   
+                               }
+                           },
+                           complete: function (xhr) {
+                           },
+                           error: function () {
+                               $('.file-uploaded .progress-bar:eq(0)').width(0);
+                               $('.file-uploaded .progress-bar-value:eq(0)').html(0);
+                           }
+                       }).submit();                      
+                   });                  
     });
 
 function assignDatepicker() {
