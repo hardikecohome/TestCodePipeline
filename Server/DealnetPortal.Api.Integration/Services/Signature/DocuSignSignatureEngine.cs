@@ -89,7 +89,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public Task<IList<Alert>> StartNewTransaction(Contract contract)
+        public Task<IList<Alert>> StartNewTransaction(Contract contract, AgreementTemplate agreementTemplate)
         {
             throw new NotImplementedException();
         }        

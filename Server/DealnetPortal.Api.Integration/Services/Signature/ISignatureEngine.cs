@@ -10,7 +10,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
     {
         Task<IList<Alert>> ServiceLogin();
 
-        Task<IList<Alert>> StartNewTransaction(Contract contract);
+        Task<IList<Alert>> StartNewTransaction(Contract contract, AgreementTemplate agreementTemplate);
 
         Task<IList<Alert>> InsertDocumentFields(IList<FormField> formFields);
 

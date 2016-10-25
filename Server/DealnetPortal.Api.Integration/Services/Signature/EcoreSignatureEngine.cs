@@ -71,7 +71,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> StartNewTransaction(Contract contract)
+        public async Task<IList<Alert>> StartNewTransaction(Contract contract, AgreementTemplate agreementTemplate)
         {
             var alerts = new List<Alert>();
 
@@ -87,7 +87,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 _loggingService.LogInfo($"eSignature transaction [{transId}] was created successefully");
                 TransactionId = transId.ToString();
 
-                var docRes = await CreateAgreementProfile(contract, transId);
+                var docRes = await CreateAgreementProfile(contract, agreementTemplate, transId);
                 if (docRes.Item2?.Any() ?? false)
                 {
                     alerts.AddRange(docRes.Item2);
@@ -290,33 +290,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<long, IList<Alert>>(transId, alerts);
         }
 
-        private async Task<Tuple<long, IList<Alert>>> CreateAgreementProfile(Contract contract, long transId)
+        private async Task<Tuple<long, IList<Alert>>> CreateAgreementProfile(Contract contract, AgreementTemplate agreementTemplate, long transId)
         {
             long dpId = 0;
-            List<Alert> alerts = new List<Alert>();
-            var agreementType = contract.Equipment.AgreementType;
-            var province =
-                contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
-            // get agreement template
-            var agreementTemplate = _fileRepository.FindAgreementTemplate(at =>
-                at.AgreementType == contract.Equipment.AgreementType && (string.IsNullOrEmpty(province) || at.State == province));
-            if (agreementTemplate == null && agreementType == AgreementType.RentalApplicationHwt)
-            {
-                _fileRepository.FindAgreementTemplate(at =>
-                    at.AgreementType == AgreementType.RentalApplication && (string.IsNullOrEmpty(province) || at.State == province));
-            }
-            if (agreementTemplate == null)
-            {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementType == contract.Equipment.AgreementType);
-            }
-            if (agreementTemplate == null)
-            {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.State == province);
-            }
-            if (agreementTemplate == null)
-            {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementForm != null);
-            }
+            List<Alert> alerts = new List<Alert>();            
 
             if (agreementTemplate?.AgreementForm != null)
             {
@@ -343,18 +320,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     _loggingService.LogError("Can't create eCore document profile");
                 }
-            }
-            else
-            {
-                var errorMsg =
-                    $"Can't find agreement template for contract with province = {province} and type = {agreementType}";
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = "Can't find agreement template",
-                    Message = errorMsg
-                });
-            }
+            }            
 
             return new Tuple<long, IList<Alert>>(dpId, alerts);
         }
