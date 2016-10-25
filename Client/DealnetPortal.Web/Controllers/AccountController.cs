@@ -11,8 +11,10 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Utilities;
+using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Security;
+using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 
@@ -54,7 +56,7 @@ namespace DealnetPortal.Web.Controllers
                 return View(model);
             }
             _loggingService.LogInfo(string.Format("Attemtp to login user: {0}", model.Email));
-            var result = await _securityManager.Login(model.Email, model.Password);
+            var result = await _securityManager.Login(model.Email, model.Password, ApplicationSettingsManager.PortalId);
             if (result.Any(item => item.Type == AlertType.Error && item.Header == ErrorConstants.ResetPasswordRequired))
             {
                 _loggingService.LogInfo(string.Format("Attemtp to login user: {0}; needs change password", model.Email));
@@ -102,6 +104,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return View(model);
             }
+            model.ApplicationId = ApplicationSettingsManager.PortalId;
             var result = await _userManagementServiceAgent.Register(model);
             if (result.Any(item => item.Type == AlertType.Error))
             {

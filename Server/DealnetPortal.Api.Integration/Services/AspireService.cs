@@ -16,6 +16,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
+using Application = DealnetPortal.Api.Models.Aspire.Application;
 
 namespace DealnetPortal.Api.Integration.Services
 {

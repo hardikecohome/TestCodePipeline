@@ -47,6 +47,14 @@ namespace DealnetPortal.Api.Providers
                 return;
             }
 
+            var applicationId = context.OwinContext.Get<string>("portalId");
+
+            if (user.Application?.Id != applicationId)
+            {
+                context.SetError(ErrorConstants.UnknownApplication, "Unknown application to log in.");
+                return;
+            }
+
             if (_authType != AuthType.AuthProviderOneStepRegister && !user.EmailConfirmed)
             {
                 context.SetError(ErrorConstants.ResetPasswordRequired, "Your on-time password is correct, now please change the password");
@@ -80,6 +88,11 @@ namespace DealnetPortal.Api.Providers
 
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
+            var portalId = context.Parameters.Where(f => f.Key == "portalId").Select(f => f.Value).FirstOrDefault()?.FirstOrDefault();
+            if (!string.IsNullOrEmpty(portalId))
+            {
+                context.OwinContext.Set<string>("portalId", portalId);
+            }
             // Resource owner password credentials does not provide a client ID.
             if (context.ClientId == null)
             {

@@ -20,6 +20,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         private Mock<ILoggingService> _loggingService;
         private const string DefUserName = "user@user.com";
         private const string DefUserPassword = "123_Qwe";
+        private const string DefPortalId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
 
         [TestInitialize]
         public void Intialize()
@@ -46,7 +47,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestCreateContractForAutorizedUser()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
@@ -62,7 +63,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestGetContract()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
@@ -86,7 +87,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestUpdateContract()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
@@ -121,7 +122,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestInitiateCreditCheck()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
@@ -139,7 +140,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestGetCreditCheckResult()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
@@ -158,7 +159,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestAddRemoveContractComment()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract

@@ -16,6 +16,8 @@ namespace DealnetPortal.DataAccess
             return new ApplicationDbContext();
         }
 
+        public virtual DbSet<Application> Applications { get; set; }
+
         /// <summary>
         /// temporary added virtual
         /// </summary>
