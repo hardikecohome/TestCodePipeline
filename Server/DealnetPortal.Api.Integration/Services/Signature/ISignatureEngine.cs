@@ -16,7 +16,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<IList<Alert>> InsertSignatures(IList<SignatureUser> signatureUsers);
 
-        Task<IList<Alert>> SendInvitations();
+        Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers);
 
         string TransactionId { get; }
 

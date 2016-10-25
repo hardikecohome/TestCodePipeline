@@ -104,7 +104,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             throw new NotImplementedException();
         }
 
-        public Task<IList<Alert>> SendInvitations()
+        public Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
         {
             throw new NotImplementedException();
         }
@@ -118,8 +118,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 IntegratorKey = integratorKey
             };
 
-            string authHeader = Newtonsoft.Json.JsonConvert.SerializeObject(dsCreds);
-            return authHeader;
+            throw new NotImplementedException();
+            //string authHeader = Newtonsoft.Json.JsonConvert.SerializeObject(dsCreds);
+            //return authHeader;
         }
     }
 

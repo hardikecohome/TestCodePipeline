@@ -7,6 +7,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.Api.Models;
@@ -188,9 +189,85 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public Task<IList<Alert>> SendInvitations()
+        public async Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+
+            long docId;
+            long transId;
+            if (long.TryParse(DocumentId, out docId) && long.TryParse(TransactionId, out transId))
+            {
+                var res =
+                    await _signatureServiceAgent.ConfigureSortOrder(transId, new long[] {docId}).ConfigureAwait(false);
+                if (res?.Any() ?? false)
+                {
+                    alerts.AddRange(res);
+                }
+                if (res?.All(a => a.Type != AlertType.Error) ?? true)
+                {
+                    var roles = new List<eoConfigureRolesRole>();
+                    for (int i = 0; i < Math.Min(signatureUsers.Count, _signatureFields.Count); i++)
+                    {
+                        roles.Add(
+                            new eoConfigureRolesRole()
+                            {
+                                order = (i + 1).ToString(), //"1",
+                                name = _signatureRoles[i], //_eCoreSignatureRole,
+                                firstName = signatureUsers[i].FirstName ?? "Fst",
+                                lastName = signatureUsers[i].LastName ?? "name",
+                                eMail = signatureUsers[i].EmailAddress,
+                                ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
+                                Items = new string[] {_eCoreCustomerSecurityCode},
+                                required = true,
+                                signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod()
+                                {
+                                    Value = signatureCaptureMethodType.TYPE
+                                },
+                            });
+                    }
+                    ;
+
+                    res = _signatureServiceAgent.ConfigureRoles(transId, roles.ToArray()).GetAwaiter().GetResult();
+                    if (res?.Any() ?? false)
+                    {
+                        alerts.AddRange(res);
+                    }
+                    if (res?.All(a => a.Type != AlertType.Error) ?? true)
+                    {
+                        //res =
+                        //        _signatureServiceAgent.ConfigureInvitation(transId, _eCoreSignatureRole,
+                        //            signatureUsers.First().FirstName, signatureUsers.First().LastName,
+                        //            signatureUsers.First().EmailAddress).GetAwaiter().GetResult();
+                        for (int i = 0; i < Math.Min(signatureUsers.Count, _signatureFields.Count); i++)
+                        {
+                            res =
+                                _signatureServiceAgent.ConfigureInvitation(transId, _signatureRoles[i],
+                                    signatureUsers[i].FirstName ?? "fst", signatureUsers[i].LastName ?? "name",
+                                    signatureUsers[i].EmailAddress).GetAwaiter().GetResult();
+                            if (res?.Any() ?? false)
+                            {
+                                alerts.AddRange(res);
+                            }
+                        }
+                    }
+                }
+
+                if (alerts.Any(a => a.Type == AlertType.Error))
+                {
+                    _loggingService.LogError("Can't send invitations to users");
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.EcoreConnectionFailed,
+                    Message = "eCore document wasn't created"
+                });
+            }
+
+            return alerts;
         }
 
         private async Task<Tuple<long, IList<Alert>>> CreateTransaction(Contract contract)
@@ -323,11 +400,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             var formFields = new List<ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField>();
             // lets insert one by one
-            for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
+            for (int i = 0; i < Math.Min(signatureUsers.Count, _signatureFields.Count); i++)
             {
-                formFields = new List<FormField>()
-                {
-                    new FormField()
+                formFields.Add(
+                    new ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField()
                     {
                         Item = _signatureFields[i],//"Signature1",
                         customProperty = new List<CustomProperty>()
@@ -368,9 +444,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                 Value = (i+1).ToString()//"1"
                             }
                         }
-                    }
-                };
-                var resDv = _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
+                    });
+                var resDv = await _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).ConfigureAwait(false);
                 if (resDv?.Item2?.Any() ?? false)
                 {
                     alerts.AddRange(resDv.Item2);

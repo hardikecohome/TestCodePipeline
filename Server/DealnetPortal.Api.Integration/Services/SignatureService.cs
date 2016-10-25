@@ -97,55 +97,49 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
                 {
-                    _loggingService.LogWarning($"Fields merged with agreement document {docId} with errors");
-                    //LogAlerts(alerts);
-                    //return alerts;
+                    _loggingService.LogWarning($"Fields merged with agreement document with errors");
+                    LogAlerts(alerts);
+                    return alerts;
+                }
+                //else
+                //{
+                //    _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
+                //    UpdateContractDetails(contractId, ownerUserId, null, null, SignatureStatus.FieldsMerged);
+                //}     
+
+                insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
+                
+                if (insertRes?.Any() ?? false)
+                {
+                    alerts.AddRange(insertRes);
+                }
+                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                {
+                    _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");
+                    LogAlerts(alerts);
+                    return alerts;
                 }
                 else
                 {
-                    _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
-                    UpdateContractDetails(contractId, ownerUserId, null, null, SignatureStatus.FieldsMerged);
-                }                
-
-                var removeRes = RemoveExtraSignatures(docId, signatureUsers);
-                if (removeRes?.Any() ?? false)
-                {
-                    alerts.AddRange(removeRes);
+                    _loggingService.LogInfo(
+                        $"Signature fields inserted into agreement document form successefully");
                 }
 
-                // We follow to signatures only if signatureUsers was setted
-                if (signatureUsers?.Any() ?? false)
+                insertRes = await _signatureEngine.SendInvitations(signatureUsers);
+                    
+                    //SendInvitations(transId, docId, signatureUsers);
+                if (insertRes?.Any() ?? false)
                 {
-                    insertRes = InsertSignatureFields(docId, signatureUsers);
-                    if (insertRes?.Any() ?? false)
-                    {
-                        alerts.AddRange(insertRes);
-                    }
-                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                    {
-                        _loggingService.LogWarning($"Signature fields inserted into agreement document form {docId} with errors");
-                        //LogAlerts(alerts);
-                        //return alerts;
-                    }
-                    else
-                    {
-                        _loggingService.LogInfo(
-                            $"Signature fields inserted into agreement document form {docId} successefully");
-                    }
-
-                    insertRes = SendInvitations(transId, docId, signatureUsers);
-                    if (insertRes?.Any() ?? false)
-                    {
-                        alerts.AddRange(insertRes);
-                    }
-                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                    {
-                        LogAlerts(alerts);
-                        return alerts;
-                    }
-                    _loggingService.LogInfo($"Invitations for agreement document form {docId} sent successefully");
-                    UpdateContractDetails(contractId, ownerUserId, null, null, SignatureStatus.InvitationsSent);
-                }               
+                    alerts.AddRange(insertRes);
+                }
+                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                {
+                    LogAlerts(alerts);
+                    return alerts;
+                }                
+                
+                _loggingService.LogInfo($"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
+                UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId, _signatureEngine.DocumentId, SignatureStatus.InvitationsSent);
             }
             else
             {
@@ -166,47 +160,47 @@ namespace DealnetPortal.Api.Integration.Services
         {
             List<Alert> alerts = new List<Alert>();
 
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-            if (contract != null)
-            {
-                if (!string.IsNullOrEmpty(contract.Details.SignatureDocumentId) ||
-                    !contract.Details.SignatureStatus.HasValue)
-                {
-                    var logRes = LoginToService();
-                    if (logRes.Any(a => a.Type == AlertType.Error))
-                    {
-                        LogAlerts(alerts);
-                        return alerts;
-                    }
-                    long docId = 0;
-                    long.TryParse(contract.Details.SignatureDocumentId, out docId);
-                    var getRes = _signatureServiceAgent.GetCopy(docId).GetAwaiter().GetResult();
-                    if (getRes?.Item2?.Any() ?? false)
-                    {
-                        alerts.AddRange(getRes.Item2);
-                    }
-                    //TODO: add return of document
+            //var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            //if (contract != null)
+            //{
+            //    if (!string.IsNullOrEmpty(contract.Details.SignatureDocumentId) ||
+            //        !contract.Details.SignatureStatus.HasValue)
+            //    {
+            //        var logRes = LoginToService();
+            //        if (logRes.Any(a => a.Type == AlertType.Error))
+            //        {
+            //            LogAlerts(alerts);
+            //            return alerts;
+            //        }
+            //        long docId = 0;
+            //        long.TryParse(contract.Details.SignatureDocumentId, out docId);
+            //        var getRes = _signatureServiceAgent.GetCopy(docId).GetAwaiter().GetResult();
+            //        if (getRes?.Item2?.Any() ?? false)
+            //        {
+            //            alerts.AddRange(getRes.Item2);
+            //        }
+            //        //TODO: add return of document
 
-                }
-                else
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Message = $"Digital signature for contract with id {contractId} doesn't complete",
-                        Header = "Can't get contract agreement"
-                    });
-                }
-            }
-            else
-            {
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Message = $"Can't get contract with id {contractId}",
-                    Header = "Can't get contract"
-                });
-            }
+            //    }
+            //    else
+            //    {
+            //        alerts.Add(new Alert()
+            //        {
+            //            Type = AlertType.Error,
+            //            Message = $"Digital signature for contract with id {contractId} doesn't complete",
+            //            Header = "Can't get contract agreement"
+            //        });
+            //    }
+            //}
+            //else
+            //{
+            //    alerts.Add(new Alert()
+            //    {
+            //        Type = AlertType.Error,
+            //        Message = $"Can't get contract with id {contractId}",
+            //        Header = "Can't get contract"
+            //    });
+            //}
 
             return alerts;
         }
@@ -430,31 +424,31 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
 
-            //document can have more signature fields then signature users
-            var signToRemove = (signatureUsers == null || !signatureUsers.Any())
-                ? _signatureFields.Count
-                : _signatureFields.Count - signatureUsers.Length;
+            ////document can have more signature fields then signature users
+            //var signToRemove = (signatureUsers == null || !signatureUsers.Any())
+            //    ? _signatureFields.Count
+            //    : _signatureFields.Count - signatureUsers.Length;
 
-            if (signToRemove > 0)
-            {
-                _loggingService.LogInfo($"{signToRemove} signature fields will be removed");
+            //if (signToRemove > 0)
+            //{
+            //    _loggingService.LogInfo($"{signToRemove} signature fields will be removed");
 
-                var formFields = new List<FormField>();
+            //    var formFields = new List<FormField>();
 
-                for (var i = (_signatureFields.Count - signToRemove); i < _signatureFields.Count; i++)
-                {
-                    formFields.Add(new FormField()
-                    {
-                        Item = _signatureFields[i]
-                    });
-                }
+            //    for (var i = (_signatureFields.Count - signToRemove); i < _signatureFields.Count; i++)
+            //    {
+            //        formFields.Add(new FormField()
+            //        {
+            //            Item = _signatureFields[i]
+            //        });
+            //    }
 
-                var removeRes = _signatureServiceAgent.RemoveFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
-                if (removeRes?.Item2?.Any() ?? false)
-                {
-                    alerts.AddRange(removeRes.Item2);
-                }                
-            }                                             
+            //    var removeRes = _signatureServiceAgent.RemoveFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
+            //    if (removeRes?.Item2?.Any() ?? false)
+            //    {
+            //        alerts.AddRange(removeRes.Item2);
+            //    }                
+            //}                                             
 
             return alerts;
         }
@@ -463,68 +457,68 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
 
-            // for now we accept only 1st customer
+            //    // for now we accept only 1st customer
 
-            var formFields = new List<FormField>();
-            // lets insert one by one
-            for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
-            {
-                formFields = new List<ESignature.E.Transformation FormField>()
-                { 
-                    new FormField()
-                    {
-                        Item = _signatureFields[i],//"Signature1",
-                        customProperty = new List<CustomProperty>()
-                        {
-                            new CustomProperty()
-                            {
-                                name = "role",
-                                Value = _signatureRoles[i]//_eCoreSignatureRole
-                            },
-                            new CustomProperty()
-                            {
-                                name = "label",
-                                Value = _signatureFields[i]
-                            },
-                            new CustomProperty()
-                            {
-                                name = "type",
-                                Value = "signature"
-                            },
-                            new CustomProperty()
-                            {
-                                name = "required",
-                                Value = "true"
-                            },
-                            new CustomProperty()
-                            {
-                                name = "initialValueType",
-                                Value = "fullName"
-                            },
-                            //new CustomProperty()
-                            //{
-                            //    name = "protectedField",
-                            //    Value = "false"
-                            //},
-                            new CustomProperty()
-                            {
-                                name = "displayOrder",
-                                Value = (i+1).ToString()//"1"
-                            }                    
-                        }
-                    }
-                };
-                var resDv = _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
-                if (resDv?.Item2?.Any() ?? false)
-                {
-                    alerts.AddRange(resDv.Item2);
-                }
-            }            
-            
-            if (alerts.Any(a => a.Type == AlertType.Error))
-            {
-                _loggingService.LogError("Can't edit signature fields in agreement document template in eCore service");
-            }
+            //    var formFields = new List<FormField>();
+            //    // lets insert one by one
+            //    for (int i = 0; i < Math.Min(signatureUsers.Length, _signatureFields.Count); i++)
+            //    {
+            //        formFields = new List<ESignature.E.Transformation FormField>()
+            //        { 
+            //            new FormField()
+            //            {
+            //                Item = _signatureFields[i],//"Signature1",
+            //                customProperty = new List<CustomProperty>()
+            //                {
+            //                    new CustomProperty()
+            //                    {
+            //                        name = "role",
+            //                        Value = _signatureRoles[i]//_eCoreSignatureRole
+            //                    },
+            //                    new CustomProperty()
+            //                    {
+            //                        name = "label",
+            //                        Value = _signatureFields[i]
+            //                    },
+            //                    new CustomProperty()
+            //                    {
+            //                        name = "type",
+            //                        Value = "signature"
+            //                    },
+            //                    new CustomProperty()
+            //                    {
+            //                        name = "required",
+            //                        Value = "true"
+            //                    },
+            //                    new CustomProperty()
+            //                    {
+            //                        name = "initialValueType",
+            //                        Value = "fullName"
+            //                    },
+            //                    //new CustomProperty()
+            //                    //{
+            //                    //    name = "protectedField",
+            //                    //    Value = "false"
+            //                    //},
+            //                    new CustomProperty()
+            //                    {
+            //                        name = "displayOrder",
+            //                        Value = (i+1).ToString()//"1"
+            //                    }                    
+            //                }
+            //            }
+            //        };
+            //        var resDv = _signatureServiceAgent.EditFormFields(docId, formFields.ToArray()).GetAwaiter().GetResult();
+            //        if (resDv?.Item2?.Any() ?? false)
+            //        {
+            //            alerts.AddRange(resDv.Item2);
+            //        }
+            //    }            
+
+            //    if (alerts.Any(a => a.Type == AlertType.Error))
+            //    {
+            //        _loggingService.LogError("Can't edit signature fields in agreement document template in eCore service");
+            //    }
 
             return alerts;
         }
@@ -594,13 +588,13 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private void FillHomeOwnerFieilds(Dictionary<string, string> formFields, Contract contract)
+        private void FillHomeOwnerFieilds(List<FormField> formFields, Contract contract)
         {
             if (contract.PrimaryCustomer != null)
             {
-                formFields[PdfFormFields.FirstName] = contract.PrimaryCustomer.FirstName;
-                formFields[PdfFormFields.LastName] = contract.PrimaryCustomer.LastName;
-                formFields[PdfFormFields.DateOfBirth] = contract.PrimaryCustomer.DateOfBirth.ToShortDateString();
+                formFields.Add(new FormField() {FieldType = FieldType.Text, Name = PdfFormFields.FirstName, Value = contract.PrimaryCustomer.FirstName });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LastName, Value = contract.PrimaryCustomer.LastName });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DateOfBirth, Value = contract.PrimaryCustomer.DateOfBirth.ToShortDateString() });
                 if (contract.PrimaryCustomer.Locations?.Any() ?? false)
                 {
                     var mainAddress =
@@ -608,7 +602,9 @@ namespace DealnetPortal.Api.Integration.Services
                             l => l.AddressType == AddressType.MainAddress);
                     if (mainAddress != null)
                     {
-                        formFields[PdfFormFields.InstallationAddress] = mainAddress.Street;
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationAddress, Value = mainAddress.Street });
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationAddress, Value = mainAddress.Street });
+
                         formFields[PdfFormFields.City] = mainAddress.City;
                         formFields[PdfFormFields.Province] = mainAddress.State;
                         formFields[PdfFormFields.PostalCode] = mainAddress.PostalCode;
@@ -660,7 +656,7 @@ namespace DealnetPortal.Api.Integration.Services
             //}
         }
 
-        private void FillApplicantsFieilds(Dictionary<string, string> formFields, Contract contract)
+        private void FillApplicantsFieilds(List<FormField> formFields, Contract contract)
         {
             if (contract.SecondaryCustomers?.Any() ?? false)
             {
@@ -671,7 +667,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillEquipmentFieilds(Dictionary<string, string> formFields, Contract contract)
+        private void FillEquipmentFieilds(List<FormField> formFields, Contract contract)
         {
             if (contract.Equipment?.NewEquipment?.Any() ?? false)
             {
@@ -787,7 +783,7 @@ namespace DealnetPortal.Api.Integration.Services
             }            
         }
 
-        private void FillPaymentFieilds(Dictionary<string, string> formFields, Contract contract)
+        private void FillPaymentFieilds(List<FormField> formFields, Contract contract)
         {
             if (contract.PaymentInfo != null)
             {
