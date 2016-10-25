@@ -49,7 +49,8 @@ namespace DealnetPortal.Api
             container.RegisterType<IAspireService, AspireService>();
 
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));
-            container.RegisterType<ISignatureEngine, DocuSignSignatureEngine>();
+            //container.RegisterType<ISignatureEngine, DocuSignSignatureEngine>();
+            container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();
         }
