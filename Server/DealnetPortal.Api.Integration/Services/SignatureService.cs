@@ -603,20 +603,18 @@ namespace DealnetPortal.Api.Integration.Services
                     if (mainAddress != null)
                     {
                         formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationAddress, Value = mainAddress.Street });
-                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationAddress, Value = mainAddress.Street });
-
-                        formFields[PdfFormFields.City] = mainAddress.City;
-                        formFields[PdfFormFields.Province] = mainAddress.State;
-                        formFields[PdfFormFields.PostalCode] = mainAddress.PostalCode;
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.City, Value = mainAddress.City });
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Province, Value = mainAddress.State });
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.PostalCode, Value = mainAddress.PostalCode });
                     }
                     var mailAddress =
                         contract.PrimaryCustomer?.Locations?.FirstOrDefault(
                             l => l.AddressType == AddressType.MailAddress);
                     if (mailAddress != null)
                     {
-                        formFields[PdfFormFields.IsMailingDifferent] = "true";
-                        formFields[PdfFormFields.MailingAddress] =
-                            $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}";
+                        formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsMailingDifferent, Value = "true" });
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MailingAddress, Value =
+                            $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}" });                        
                     }
                 }
             }
