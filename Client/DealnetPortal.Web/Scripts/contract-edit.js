@@ -49,7 +49,6 @@
        
           $("#save").on('click', function () {
               var n = 0;
-              if(n=>0)
                $('.file-uploaded form').each(function () {                                 
                        $(this).ajaxForm({
                            method: 'post',
@@ -61,22 +60,30 @@
                                $('.file-uploaded .text-center:last').html(event.currentTarget.value.match(/[\w-]+\.\w+/gi));
                            },
                            uploadProgress: function (event, position, total, percentComplete) {
-                               var percentVal = 2*percentComplete + '%';
+                               var percentVal = percentComplete * (n + 2) + '%';
                                $('.file-uploaded .progress-bar').eq(n).width(percentVal);
-                               $('.file-uploaded .progress-bar-value').eq(n).html(100 + '%');
+                               $('.file-uploaded .progress-bar-value').eq(n).html(percentVal);
                                n++;
                            },
                            success: function (result) {
                               
                                if (result.message="success")
-                               {                                   
+                               {
+                                   $('.file-uploaded .progress-bar').width(100 + "%");
+                                   $('.file-uploaded .progress-bar-value').html(100 + '%');
+                                  // $('.file-uploaded form').clearForm();
+                                  // $('.file-uploaded form').resetForm();
+                                  // $('.file-uploaded .progress-container').hide();
                                }
                            },
-                           complete: function (xhr) {
+                           complete: function (xhr) {                              
+                              
                            },
                            error: function () {
-                               $('.file-uploaded .progress-bar:eq(0)').width(0);
-                               $('.file-uploaded .progress-bar-value:eq(0)').html(0);
+                               $('.file-uploaded form').clearForm();
+                               $('.file-uploaded form').resetForm();
+                               $('.file-uploaded .progress-bar').hide();
+                               $('.file-uploaded .progress-bar-value').hide();
                            }
                        }).submit();                      
                    });                  

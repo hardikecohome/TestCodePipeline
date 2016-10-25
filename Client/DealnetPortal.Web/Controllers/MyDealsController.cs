@@ -41,21 +41,18 @@ namespace DealnetPortal.Web.Controllers
         public  async Task<ActionResult> UploadDocument(HttpPostedFileBase files, FormCollection form)
         {
             byte[] _documentBytes;
-            int _documentId, _contractId = 0;
-            bool isDocument = int.TryParse(form[0], out _documentId);
-            bool isContractId = int.TryParse(form[1], out _contractId);
-            if (files.ContentLength > 0  && isDocument && isContractId) 
+            if (files.ContentLength > 0 ) 
             {
                 using (var reader = new BinaryReader(files.InputStream))
                 {
                     _documentBytes = reader.ReadBytes(files.ContentLength);
-                }
+                }              
                 var document = new ContractDocumentDTO
                 {
-                    DocumentTypeId = _documentId,
+                    DocumentTypeId = form.AllKeys[0] != "name-document" ? int.Parse(form[0]):7,
                     DocumentBytes = _documentBytes,
-                    DocumentName = files.FileName,
-                    ContractId = _contractId
+                    DocumentName = form.AllKeys[0]!= "name-document"? files.FileName: form[0],
+                    ContractId = int.Parse(form[1])
                 };
                 await _contractServiceAgent.AddDocumentToContract(document);
 
