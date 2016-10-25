@@ -8,6 +8,7 @@ using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
 using System.IO;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -38,21 +39,21 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public  async Task<ActionResult> UploadDocument(HttpPostedFileBase files, FormCollection form)
+        public  async Task<ActionResult> UploadDocument(DocumentForUpload documentForUpload)
         {
             byte[] _documentBytes;
-            if (files.ContentLength > 0 ) 
+            if (documentForUpload?.File?.ContentLength > 0)
             {
-                using (var reader = new BinaryReader(files.InputStream))
+                using (var reader = new BinaryReader(documentForUpload.File.InputStream))
                 {
-                    _documentBytes = reader.ReadBytes(files.ContentLength);
-                }              
+                    _documentBytes = reader.ReadBytes(documentForUpload.File.ContentLength);
+                }
                 var document = new ContractDocumentDTO
                 {
-                    DocumentTypeId = form.AllKeys[0] != "name-document" ? int.Parse(form[0]):7,
+                    DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
                     DocumentBytes = _documentBytes,
-                    DocumentName = form.AllKeys[0]!= "name-document"? files.FileName: form[0],
-                    ContractId = int.Parse(form[1])
+                    DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
+                    ContractId = documentForUpload.ContractId
                 };
                 await _contractServiceAgent.AddDocumentToContract(document);
 
