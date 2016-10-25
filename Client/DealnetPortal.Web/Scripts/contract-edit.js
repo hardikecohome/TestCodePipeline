@@ -46,48 +46,80 @@
         });
         });            
      
-       
-          $("#save").on('click', function () {
-              var n = 0;
-               $('.file-uploaded form').each(function () {                                 
+   $('body').on('change', '.file-uploaded input[type=file]', function () { 
+            $('.file-uploaded .text-center:last').html($('.file-uploaded input[type=file]:last').val().match(/[\w-]+\.\w+/gi));
+        });
+
+        $("#save").on('click', function () {
+               var n,m = 0;
+               $('.file-uploaded form').each(function () {
                        $(this).ajaxForm({
                            method: 'post',
                            contentType: false,
-                           beforeSend: function (data) {
-                               var percentVal = '0%';
-                               $('.file-uploaded .progress-bar').eq(n).width(percentVal);
-                               $('.file-uploaded .progress-bar-value').eq(n).html(percentVal);
-                               $('.file-uploaded .text-center:last').html(event.currentTarget.value.match(/[\w-]+\.\w+/gi));
+                           beforeSend: function (event) {
+                               var percentVal = '0%';                             
+                                $('.file-uploaded form').clearForm();
+                                $('.file-uploaded form').resetForm();                              
+                                $('.file-uploaded .progress-bar').eq(n).width(percentVal);
+                                $('.file-uploaded .progress-bar-value').eq(n).html(percentVal);
                            },
                            uploadProgress: function (event, position, total, percentComplete) {
-                               var percentVal = percentComplete * (n + 2) + '%';
+                               var percentVal = percentComplete + '%';
                                $('.file-uploaded .progress-bar').eq(n).width(percentVal);
                                $('.file-uploaded .progress-bar-value').eq(n).html(percentVal);
                                n++;
                            },
                            success: function (result) {
-                              
+                               m++;
                                if (result.message="success")
                                {
                                    $('.file-uploaded .progress-bar').width(100 + "%");
-                                   $('.file-uploaded .progress-bar-value').html(100 + '%');
-                                  // $('.file-uploaded form').clearForm();
-                                  // $('.file-uploaded form').resetForm();
-                                  // $('.file-uploaded .progress-container').hide();
+                                   $('.file-uploaded .progress-bar-value').html(100 + '%');                                
                                }
+                               if (m == $('.file-uploaded form').length)
+                                   setTimeout(closeModalWindow, 1000); 
                            },
                            complete: function (xhr) {                              
-                              
                            },
                            error: function () {
-                               $('.file-uploaded form').clearForm();
+                              
                                $('.file-uploaded form').resetForm();
                                $('.file-uploaded .progress-bar').hide();
                                $('.file-uploaded .progress-bar-value').hide();
                            }
                        }).submit();                      
-                   });                  
-    });
+               });            
+              return false;
+        });
+
+        var Url = '@Url.Action("UploadedList","MyDeals",new {Id = 1})';
+        var closeModalWindow = function () {
+            $('#upload-documents-modal').modal("toggle");
+            $('.clear-data-link').click();
+            $('.no-documents').hide();
+            $.ajax({
+                type: "POST",
+                url: '/MyDeals/UploadedList/1',
+                data: param = "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: success,
+                error: error
+            });
+        };
+
+          
+                function success(data, status) {
+                    $.each(data, function (index, value) {
+                        $('.documents').append('<div>' + value + '<div>');
+                    });
+                }
+         
+
+            function error() {
+                alert('error');
+            }
+      
 
 function assignDatepicker() {
     $(this).datepicker({

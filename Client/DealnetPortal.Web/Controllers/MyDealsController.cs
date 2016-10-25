@@ -61,5 +61,21 @@ namespace DealnetPortal.Web.Controllers
             }
             return Json(new { message = string.Format("error") }, JsonRequestBehavior.DenyGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadedList(int id)
+        {
+           var contract = await _contractServiceAgent.GetContract(id);
+            if (contract.Item1.Documents != null)
+            {
+                var document = contract.Item1.Documents.Where(i => i.ContractId == id)
+                                                        .Select(i => i.DocumentName)
+                                                        .Take(10)
+                                                        .ToList();
+
+                return Json(document, JsonRequestBehavior.DenyGet);
+            }
+            return Json(new { message = string.Format("error") }, JsonRequestBehavior.DenyGet);
+        }
     }
 }

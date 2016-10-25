@@ -13,10 +13,13 @@
 		<div class="dealnet-large-header">Contract #@Model.BasicInfo.ContractId</div>
 		<div class="dealnet-large-header">Documents</div>
 		<div class="documents-container">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="no-documents">There are no uploaded documents, yet</div>
-				</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="no-documents">There are no uploaded documents, yet</div>
+                </div>
+                <div class="col-md-8">
+                <div class="documents">Documents</div>
+               </div>
 
 				<div class="col-md-6">
 					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
@@ -1701,28 +1704,25 @@
                                    @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {
                                            enctype = "multipart/form-data" }))
                                    {
-                                       <div class="col-md-6">
-                                           <label for="">Choose type of a document</label>
-                                           @Html.DropDownList("DocumentTypeId",
-                                               Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control" })
-                                           @*@Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
-                                               Model.UploadDocumentsInfo.DocumentTypes, new {@class = "form-control"})*@
-                                           @*<select name="" id="" class="form-control">
+                                    <div class="col-md-6">
+								    <label for="">Choose type of a document</label>                                  
+                                    @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
+                                        Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control" })
+									@*<select name="" id="" class="form-control">
 										<option value="">Signed contract</option>
 										<option value="">Signed Installation Certificate</option>
 										<option value="">Invoice</option>
 										<option value="">Copy of Void Personal Cheque</option>
 										<option value="">Extended Warranty Form</option>
 										<option value="">Third party verification call</option>
-									</select>*@
-                                       </div>
-                                    @Html.Hidden("ContractId", @Model.BasicInfo.ContractId)
-                                    @*@Html.HiddenFor(m=>Model.BasicInfo.ContractId)*@                                   
+									</select>*@                                  
+                                     </div>
+                                    @Html.HiddenFor(m=>Model.BasicInfo.ContractId)                                   
                                     <div class="col-md-6">
 									<div class="dealnet-label empty-label">&nbsp;</div>                                   
                                         <div class="file-upload btn  btn dealnet-button dealnet-success-button block-button">
                                             <span>Choose file and upload</span>
-                                            <input type="file"  name="File" class="upload" id="upload-new-photo" />                                                                                                                             
+                                            <input type="file"  name="files" accept="image/*" class="upload" id="upload-new-photo" />                                                                                                                             
                                        </div>                                                                                                                                                    
 								</div>  
                                    }
@@ -1746,21 +1746,21 @@
 							<div class="row">
                                 @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {
                                            enctype = "multipart/form-data" }))
-                                {
-                                    <div class="col-md-6">
-                                        <label for="">Name of a document</label>
-                                        <div class="control-group">
-                                            @Html.TextBox("DocumentName", null, new { @class="form-control"})
-                                        </div>
-                                    </div>
-                                    @Html.Hidden("ContractId", @Model.BasicInfo.ContractId)
-								    <div class="col-md-6">
-									    <div class="dealnet-label empty-label">&nbsp;</div>
-									    <div class="file-upload btn dealnet-button dealnet-success-button block-button">
-										    <span>Choose file and upload</span>
-										    <input type="file" name="File" class="upload" id="upload-new-photo"/>
-									    </div>
-								    </div>
+                                   {                                   
+								<div class="col-md-6">
+									<label for="">Name of a document</label>
+									<div class="control-group">
+										<input type="text" name="name-document" class="form-control">
+									</div>
+								</div>
+                                @Html.HiddenFor(m => Model.BasicInfo.ContractId)
+								<div class="col-md-6">
+									<div class="dealnet-label empty-label">&nbsp;</div>
+									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
+										<span>Choose file and upload</span>
+										<input type="file" name="files" accept="image/*" class="upload" id="upload-new-photo"/>
+									</div>
+								</div>
                                 }
 							</div>
 							<div class="progress-container">
@@ -1777,7 +1777,7 @@
 				</div>
 				<div class="btn-container">
 					<button type="button" id="save" class="btn dealnet-button dealnet-success-button block-button big-button">Save changes</button>
-					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+					<button type="button"  id="cancel" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
