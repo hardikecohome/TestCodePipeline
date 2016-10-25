@@ -37,25 +37,26 @@ namespace DealnetPortal.Api.Controllers
         private ILoggingService _loggingService;
         private AuthType _authType;
 
-        public AccountController()
+        public AccountController(IApplicationRepository applicationRepository)
         {
+            _applicationRepository = applicationRepository;
             _loggingService =
                 (ILoggingService)
                     GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (ILoggingService));
             InitController();
         }
 
-        public AccountController(IApplicationRepository applicationRepository, ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
-            ILoggingService loggingService)
-        {
-            _applicationRepository = applicationRepository;
-            //TODO: add role manager
-            UserManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
-            _loggingService = loggingService;
-            InitController();            
-        }
+        //public AccountController(IApplicationRepository applicationRepository, ApplicationUserManager userManager,
+        //    ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
+        //    ILoggingService loggingService)
+        //{
+        //    _applicationRepository = applicationRepository;
+        //    //TODO: add role manager
+        //    UserManager = userManager;
+        //    AccessTokenFormat = accessTokenFormat;
+        //    _loggingService = loggingService;
+        //    InitController();            
+        //}
 
         private void InitController()
         {
@@ -408,7 +409,7 @@ namespace DealnetPortal.Api.Controllers
                 ModelState.AddModelError(ErrorConstants.UnknownApplication, "Unknown application to register");
                 return BadRequest(ModelState);
             }
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Application = application };            
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, ApplicationId = application.Id };            
             try
             {
                 var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
