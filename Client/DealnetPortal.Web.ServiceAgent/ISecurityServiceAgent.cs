@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="userName">user name</param>
         /// <param name="password">password</param>
         /// <returns>Tos security principal</returns>
-        Task<Tuple<IPrincipal, IList<Alert>>> Authenicate(string userName, string password);
+        Task<Tuple<IPrincipal, IList<Alert>>> Authenicate(string userName, string password, string portalId);
         /// <summary>
         /// Sets default request header for bearer authorization
         /// </summary>

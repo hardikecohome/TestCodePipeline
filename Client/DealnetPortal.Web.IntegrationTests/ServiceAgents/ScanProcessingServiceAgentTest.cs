@@ -17,6 +17,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         private IHttpApiClient _client;
         private const string DefUserName = "user@user.com";
         private const string DefUserPassword = "123_Qwe";
+        private const string DefPortalId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
 
         [TestInitialize]
         public void Intialize()
@@ -31,7 +32,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public void TestScanDriverLicense()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = securityServiceAgent.Authenicate(DefUserName, DefUserPassword).GetAwaiter().GetResult();
+            var authResult = securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId).GetAwaiter().GetResult();
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
 
@@ -59,7 +60,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public void TestScanVoidCheque()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = securityServiceAgent.Authenicate(DefUserName, DefUserPassword).GetAwaiter().GetResult();
+            var authResult = securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId).GetAwaiter().GetResult();
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client);

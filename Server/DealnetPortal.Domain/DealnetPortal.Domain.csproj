@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgreementTemplate.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="Contract.cs" />

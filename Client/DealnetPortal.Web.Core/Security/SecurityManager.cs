@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Core.Security
             _cookieName = "DEALNET_AUTH_COOKIE_" + portalType.ToString().ToUpper();
         }
 
-        public async Task<IList<Alert>> Login(string userName, string password)
+        public async Task<IList<Alert>> Login(string userName, string password, string portalId)
         {
             var alerts = new List<Alert>();
 
@@ -53,7 +53,7 @@ namespace DealnetPortal.Web.Core.Security
                 password = EmptyUser;
             }
 
-            var result = await _securityService.Authenicate(userName, password);
+            var result = await _securityService.Authenicate(userName, password, portalId);
 
             if (result?.Item1 != null)
             {

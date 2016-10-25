@@ -19,6 +19,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         private IHttpApiClient _client;
         private const string DefUserName = "user@ya.ru";
         private const string DefUserPassword = "123_Qwe";
+        private const string DefPortalId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
 
         [TestInitialize]
         public void Intialize()
@@ -42,7 +43,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public async Task TestAuthorizedLogout()
         {
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var result = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword);
+            var result = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Item1);
             Assert.IsNotNull(result.Item2);
