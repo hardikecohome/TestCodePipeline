@@ -118,9 +118,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 IntegratorKey = integratorKey
             };
 
-            throw new NotImplementedException();
-            //string authHeader = Newtonsoft.Json.JsonConvert.SerializeObject(dsCreds);
-            //return authHeader;
+            string authHeader = Newtonsoft.Json.JsonConvert.SerializeObject(dsCreds);
+            return authHeader;
         }
     }
 
