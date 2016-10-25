@@ -28,6 +28,10 @@
             </div>
         </div>
     </div>
+    <br>
+    <br>
+    <a href="#" class="show-spin">Show spin</a>
+    <div class="loader-container" style="display: none;"><div class="loader">Loading...</div></div>
 </div>
 <div class="about-page" style="display:none;">
     <div class="page-section">
@@ -48,3 +52,15 @@
         </ul>
     </div>
 </div>
+
+@section scripts
+{
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.show-spin').on('click', function(){
+            $('.loader-container').toggle();
+            return false;
+        })
+    })
+</script>
+}

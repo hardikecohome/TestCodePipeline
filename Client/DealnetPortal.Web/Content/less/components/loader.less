@@ -51,6 +51,7 @@ html:not(.ie9){
       top: 50%;
       left: 50%;
       margin: (-@width / 2) 0 0 (-@width / 2);
+      -webkit-transition: all 1s ease 0s;
       transition: all 1s ease 0s;
       border-radius: 100%;
       border-right: @border-width solid @ring-beam-color;
@@ -58,20 +59,35 @@ html:not(.ie9){
       border-left: @border-width solid @ring-color;
       border-bottom: @border-width solid @ring-color;
       opacity: 1;
+      -webkit-animation: standard 1s infinite linear;
       animation: standard 1s infinite linear;
+      -webkit-transform-origin: center;
       transform-origin: center;
-
     }
   }
 
-
-
   /* whirl standard rotation animation used for duo, double-up etc. */
+  @-moz-keyframes standard {
+    0% {
+      -moz-transform: rotate(0deg);
+    }
+    100% {
+      -moz-transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes standard {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
   @keyframes standard {
-    from {
+    0% {
       transform: rotate(0deg);
     }
-    to {
+    100% {
       transform: rotate(360deg);
     }
   }
