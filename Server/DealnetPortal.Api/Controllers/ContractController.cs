@@ -152,7 +152,7 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [Route("AddDocument")]
-        [HttpGet]
+        [HttpPut]
         public IHttpActionResult AddDocumentToContract(ContractDocumentDTO document)
         {
             try

@@ -599,7 +599,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                _contractRepository.AddDocumentToContract(document.Id, Mapper.Map<ContractDocument>(document),
+                _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
                     contractOwnerId);
                 _unitOfWork.Save();
             }
