@@ -12,6 +12,7 @@ using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using System.IO;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -61,32 +62,44 @@ namespace DealnetPortal.Web.Controllers
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
-        [HttpPost]
-        public  ActionResult UploadDocument(HttpPostedFileBase files )
-        {           
-            if (files != null)
-             //   foreach(var file in files)
+        [HttpPost]       
+        public  async Task<ActionResult> UploadDocument(DocumentForUpload documentForUpload)
+        {
+            byte[] _documentBytes;
+            if (documentForUpload?.File?.ContentLength > 0)
             {
-                string fileName = Guid.NewGuid().ToString();
-                string extension = Path.GetExtension(files.FileName);
-                fileName += extension;
-                //files.SaveAs(Server.MapPath(@"/App_Data/Upload/" + fileName));
-                
-                //TODO: implement upload to server !!!
-                //var document = new ContractDocumentDTO()
-                //{
+                using (var reader = new BinaryReader(documentForUpload.File.InputStream))
+                {
+                    _documentBytes = reader.ReadBytes(documentForUpload.File.ContentLength);
+                }
+                var document = new ContractDocumentDTO
+                {
+                    DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
+                    DocumentBytes = _documentBytes,
+                    DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
+                    ContractId = documentForUpload.ContractId
+                };
+                await _contractServiceAgent.AddDocumentToContract(document);
 
-                //};
-                //await _contractServiceAgent.AddDocumentToContract(document);
-
-                //TODO: загруженные документы лучше брать примерно так
-                //var contract = await _contractServiceAgent.GetContract(contractId);
-                //contract.Item1.Documents ...
-
-                return Json("File was saved", JsonRequestBehavior.DenyGet);
+                return Json(new { message = string.Format("success") }, JsonRequestBehavior.DenyGet);
             }
+            return Json(new { message = string.Format("error") }, JsonRequestBehavior.DenyGet);
+        }
 
-            return Json("occurred error", JsonRequestBehavior.DenyGet);
+        [HttpPost]
+        public async Task<ActionResult> UploadedList(int id)
+        {
+           var contract = await _contractServiceAgent.GetContract(id);
+            if (contract.Item1.Documents != null)
+            {
+                var document = contract.Item1.Documents.Where(i => i.ContractId == id)
+                                                        .Select(i => i.DocumentName)
+                                                        .Take(5)
+                                                        .ToList();
+
+                return Json(document, JsonRequestBehavior.DenyGet);
+            }
+            return Json(new { message = string.Format("error") }, JsonRequestBehavior.DenyGet);
         }
     }
 }

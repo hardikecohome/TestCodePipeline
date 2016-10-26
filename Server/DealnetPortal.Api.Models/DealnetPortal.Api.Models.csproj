@@ -72,6 +72,7 @@
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />
     <Compile Include="Scanning\VoidChequeData.cs" />
+    <Compile Include="Signature\FormField.cs" />
     <Compile Include="Signature\SignatureUser.cs" />
     <Compile Include="Signature\SignatureUsersDTO.cs" />
     <Compile Include="Storage\AgreementTemplateDTO.cs" />

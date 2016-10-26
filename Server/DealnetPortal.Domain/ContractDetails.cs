@@ -18,6 +18,11 @@ namespace DealnetPortal.Domain
         /// </summary>
         public string TransactionId { get; set; }
 
+        /// <summary>
+        /// State of contract in Aspire
+        /// </summary>
+        public string IntegrationState { get; set; }
+
         public string SignatureTransactionId { get; set; }
 
         public string SignatureDocumentId { get; set; }
@@ -25,5 +30,7 @@ namespace DealnetPortal.Domain
         public DateTime? SignatureInitiatedTime { get; set; }
 
         public SignatureStatus? SignatureStatus { get; set; }
+
+        public DateTime? SignatureTime { get; set; }
     }
 }
