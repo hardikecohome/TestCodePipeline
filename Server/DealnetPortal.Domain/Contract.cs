@@ -20,7 +20,10 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
         public int Id { get; set; }
 
-        public ApplicationUser Dealer { get; set; }
+        public virtual ApplicationUser Dealer { get; set; }
+
+        public string SubmittingDealerId { get; set; }
+
         public ContractState ContractState { get; set; }        
 
         public DateTime CreationTime { get; set; }

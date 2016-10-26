@@ -153,6 +153,12 @@ namespace DealnetPortal.DataAccess.Repositories
                 var contract = GetContract(contractData.Id, contractOwnerId);
                 if (contract != null)
                 {
+                    if (contract.SubmittingDealerId != contractData.SubmittingDealerId)
+                    {
+                        contract.SubmittingDealerId = contractData.SubmittingDealerId;
+                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
+                    }
                     if (contractData.PrimaryCustomer != null)
                     {
                         // ?

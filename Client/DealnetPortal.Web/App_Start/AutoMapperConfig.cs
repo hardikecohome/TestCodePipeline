@@ -120,6 +120,8 @@ namespace DealnetPortal.Web.App_Start
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
         {
+            cfg.CreateMap<ApplicationUserDTO, DealerOption>()
+                .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.UserName));
             cfg.CreateMap<DriverLicenseData, RecognizedLicense>();
             cfg.CreateMap<Tuple<DriverLicenseData, IList<Alert>>, DriverLicenseViewModel>()
                 .ForMember(x => x.DriverLicense, o => o.MapFrom(src => src.Item1))

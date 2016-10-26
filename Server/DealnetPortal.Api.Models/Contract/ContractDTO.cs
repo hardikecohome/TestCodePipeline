@@ -17,6 +17,10 @@ namespace DealnetPortal.Api.Models.Contract
         }
         public int Id { get; set; }
 
+        public ApplicationUserDTO Dealer { get; set; }
+
+        public string SubmittingDealerId { get; set; }
+
         public ContractState ContractState { get; set; }       
 
         public DateTime CreationTime { get; set; }

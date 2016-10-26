@@ -5,6 +5,7 @@ namespace DealnetPortal.Domain
     public class ContractData
     {
         public int Id { get; set; }
+        public string SubmittingDealerId { get; set; }
         public Customer PrimaryCustomer { get; set; }
 
         public ContractDetails Details { get; set; }

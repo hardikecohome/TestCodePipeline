@@ -47,6 +47,37 @@ namespace DealnetPortal.DataAccess
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
             };
+            var subUser1 = new ApplicationUser()
+            {
+                Email = "Winnie Pooh",
+                UserName = "Winnie Pooh",
+                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+            };
+            var subUser2 = new ApplicationUser()
+            {
+                Email = "Mickey Mouse",
+                UserName = "Mickey Mouse",
+                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+            };
+            user1.SubDealers = new HashSet<ApplicationUser>();
+            user1.SubDealers.Add(subUser1);
+            user1.SubDealers.Add(subUser2);
             var user2 = new ApplicationUser()
             {
                 Email = "user2@user.com",

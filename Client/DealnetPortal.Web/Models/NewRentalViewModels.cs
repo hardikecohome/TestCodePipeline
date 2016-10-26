@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 
 namespace DealnetPortal.Web.Models
@@ -56,13 +57,21 @@ namespace DealnetPortal.Web.Models
         public string PostalCode { get; set; }
     }
 
-    //TODO: AntiForgeryToken
+    public class DealerOption
+    {
+        public string Id { get; set; }
+        public string DisplayName { get; set; }
+    }
+    
     public class BasicInfoViewModel
     {
+        [Required]
+        public string SubmittingDealerId { get; set; }
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public AddressInformation AddressInformation { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
+        public List<DealerOption> SubDealersOptions { get; set; }
         public int? ContractId { get; set; }
     }
 
