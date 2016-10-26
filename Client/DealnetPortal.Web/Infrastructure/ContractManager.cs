@@ -73,15 +73,15 @@ namespace DealnetPortal.Web.Infrastructure
             return equipmentInfo;
         }
 
-        public async Task<SummaryAndConfirmationViewModel> GetSummaryAndConfirmationAsync(int contractId)
+        public async Task<SummaryAndConfirmationViewModel> GetSummaryAndConfirmationAsync(int contractId, ContractDTO contract = null)
         {
             var summaryAndConfirmation = new SummaryAndConfirmationViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if (contractResult.Item1 == null)
+            var contractResult = contract ?? (await _contractServiceAgent.GetContract(contractId))?.Item1;
+            if (contractResult == null)
             {
                 return summaryAndConfirmation;
             }
-            await MapSummary(summaryAndConfirmation, contractResult.Item1, contractId);
+            await MapSummary(summaryAndConfirmation, contractResult, contractId);
             return summaryAndConfirmation;
         }
 
@@ -104,7 +104,9 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<ContractEditViewModel> GetContractEditAsync(int contractId)
         {
-            var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId);
+            var contractsResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractsResult == null) { return null; }
+            var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId, contractsResult.Item1);
 
             var contractEditViewModel = new ContractEditViewModel()
             {
@@ -114,6 +116,9 @@ namespace DealnetPortal.Web.Infrastructure
                 EquipmentInfo = summaryViewModel.EquipmentInfo,
                 ProvinceTaxRate = summaryViewModel.ProvinceTaxRate
             };
+            var comments = AutoMapper.Mapper.Map<List<CommentViewModel>>(contractsResult.Item1.Comments);
+            comments?.Reverse();
+            contractEditViewModel.Comments = comments;
 
             contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
             contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = new List<ExistingDocument>();

@@ -33,6 +33,7 @@ function initGoogleServices() {
             var addressType = place.address_components[i].types[0];
             if (addressType == 'locality') {
                 document.getElementById('locality').value = place.address_components[i][addressForm[addressType]];
+                $('#locality').removeClass('pac-placeholder').removeClass('placeholder');
                 break;
             }
         }
@@ -43,6 +44,7 @@ function initGoogleServices() {
             var addressType = place.address_components[i].types[0];
             if (addressType == 'locality') {
                 document.getElementById('mailing_locality').value = place.address_components[i][addressForm[addressType]];
+                $('#mailing_locality').removeClass('pac-placeholder').removeClass('placeholder');
                 break;
             }
         }
@@ -53,6 +55,7 @@ function initGoogleServices() {
             var addressType = place.address_components[i].types[0];
             if (addressType == 'administrative_area_level_1') {
                 document.getElementById('administrative_area_level_1').value = place.address_components[i][addressForm[addressType]];
+                $('#administrative_area_level_1').removeClass('pac-placeholder').removeClass('placeholder');
                 break;
             }
         }
@@ -63,6 +66,7 @@ function initGoogleServices() {
             var addressType = place.address_components[i].types[0];
             if (addressType == 'administrative_area_level_1') {
                 document.getElementById('mailing_administrative_area_level_1').value = place.address_components[i][addressForm[addressType]];
+                $('#mailing_administrative_area_level_1').removeClass('pac-placeholder').removeClass('placeholder');
                 break;
             }
         }
@@ -92,22 +96,27 @@ function initGoogleServices() {
                 }
                 if (addressType == 'locality') {
                     document.getElementById('locality').value = val;
+                    $('#locality').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'administrative_area_level_1') {
                     document.getElementById('administrative_area_level_1').value = val;
+                    $('#administrative_area_level_1').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'postal_code') {
                     document.getElementById('postal_code').value = val;
+                    $('#postal_code').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
             }
         }
         if (street) {
             document.getElementById('street').value = street;
+            $('#street').removeClass('pac-placeholder').removeClass('placeholder');
         } else {
             document.getElementById('street').value = '';
+            $('#street').placeholder();
         }
     });
     google.maps.event.addListener(streetAutocomplete2, 'place_changed', function () {
@@ -135,22 +144,27 @@ function initGoogleServices() {
                 }
                 if (addressType == 'locality') {
                     document.getElementById('mailing_locality').value = val;
+                    $('#mailing_locality').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'administrative_area_level_1') {
                     document.getElementById('mailing_administrative_area_level_1').value = val;
+                    $('#mailing_administrative_area_level_1').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'postal_code') {
                     document.getElementById('mailing_postal_code').value = val;
+                    $('#mailing_postal_code').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
             }
         }
         if (street) {
             document.getElementById('mailing_street').value = street;
+            $('#mailing_postal_code').removeClass('pac-placeholder').removeClass('placeholder');
         } else {
             document.getElementById('mailing_street').value = '';
+            $('#mailing_street').placeholder();
         }
     });
 }

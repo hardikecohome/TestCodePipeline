@@ -1,18 +1,16 @@
-html{
-    height: 100%;
-}
-body{
-    height: 100%;
-    font-family: @usual-font-family;
-}
-
 .navbar-toggle{
     margin-right: 0;
     @media (max-width: 1279px) {
         display: block;
     }
 }
-
+.navbar-header .navbar-toggle{
+    margin-top: 10px;
+}
+.navbar-header .icon-circle-hold{
+    position: relative;
+    top: -2px;
+}
 @media (max-width: 1279px) {
     .navbar-fixed-side {
         position: fixed;
@@ -34,6 +32,7 @@ body{
         width: 280px; /*example + never use min-width with this solution */
         height: 100% !important;
         background: @navbar-bg;
+        border: 0 !important;
         &.collapse{
             display: block !important;
         }
@@ -94,6 +93,12 @@ body.menu-animated .navbar .navbar-collapse{
     }
 }
 @media (min-width: 1279px) {
+    .burger-hold{
+        display: none;
+    }
+    .dealnet-login-buttons{
+        margin: 0;
+    }
     .visible-md-block{
         top: 0;
     }
@@ -116,6 +121,10 @@ body.menu-animated .navbar .navbar-collapse{
         border-bottom-width: 0;
         border-radius: 0;
         top: 0;
+
+        &.navbar-inverse .navbar-collapse{
+            border-color: transparent;
+        }
 
         .container,
         .container-fluid {

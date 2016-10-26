@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace DealnetPortal.Api.Models.Aspire
 {
     [Serializable]
-    [XmlRoot(ElementName = "LeaseDecisionXML")]
+    [XmlRoot(ElementName = "DecisionXML")]
     public class DealUploadResponce
     {
         [XmlAttribute("version")]
@@ -21,6 +21,8 @@ namespace DealnetPortal.Api.Models.Aspire
         public string Timestamp { get; set; }
 
         public Header Header { set; get; }
-        public Payload Payload { set; get; }
+
+        public ResponsePayload Payload { set; get; }        
+        //public Payload Payload { set; get; }
     }
 }

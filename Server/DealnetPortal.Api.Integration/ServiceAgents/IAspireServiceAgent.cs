@@ -21,5 +21,12 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
         /// <param name="dealUploadRequest"></param>
         /// <returns></returns>
         Task<DealUploadResponce> CustomerUploadSubmission(DealUploadRequest dealUploadRequest);
+
+        /// <summary>
+        /// Credit Check Submission
+        /// </summary>
+        /// <param name="dealUploadRequest"></param>
+        /// <returns></returns>
+        Task<DealUploadResponce> CreditCheckSubmission(DealUploadRequest dealUploadRequest);
     }
 }

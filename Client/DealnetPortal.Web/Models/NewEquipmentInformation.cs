@@ -11,11 +11,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
     public class NewEquipmentInformation
     {
         [Required]
-        //[StringLength(3,MinimumLength = 1)]
-        [RegularExpression(@"^[1-9]\d*$")]
-        public int Quantity { get; set; }
-
-        [Required]
         public string Type { get; set; }
 
         [Required]
@@ -23,7 +18,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public string Description { get; set; }
 
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
-        public double Cost { get; set; }
+        public double? Cost { get; set; }
 
         [Required]
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]

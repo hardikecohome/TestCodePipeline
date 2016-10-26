@@ -123,6 +123,9 @@ html.ie9{
     max-width: 528px;
   }
   .form-section{
+    .dealnet-middle-header{
+      margin-bottom: 15px;
+    }
     @media @tablet-down {
       max-width: 528px;
       margin: 0 auto;
@@ -140,6 +143,7 @@ html.ie9{
     }
   }
 }
+
 .custom-checkbox{
   position: relative;
   input[type="checkbox"]{
@@ -214,8 +218,6 @@ html.ie9{
   margin-top: 5px;
   &.proceed-error-message{
     position: relative;
-/*    width: 355px;
-    max-width: 100%;*/
     font-size: 14px;
     line-height: 1.3;
     padding: 14px 18px 12px 45px;
@@ -340,8 +342,10 @@ div.dataTables_wrapper{
 div.dataTables_wrapper div.dataTables_filter{
   width: 100%;
   margin: 0;
+  position: relative;
   @media @desktop-up {
     display: block !important;
+    height: 40px;
   }
   @media @tablet-down {
     float: none;
@@ -352,7 +356,13 @@ div.dataTables_wrapper div.dataTables_filter{
     width: 100%;
   }
   label{
-    position: relative;
+    margin: 0 0 10px;
+    @media @desktop-up {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      margin: -20px 0 0;
+    }
     display: block;
     float: none;
     width: 100%;
@@ -364,11 +374,11 @@ div.dataTables_wrapper div.dataTables_filter{
     .icon-search{
       position: absolute;
       right: 4px;
-      top: 2px;
+      top: 7px;
       display: inline-block;
       padding: 5px;
       font-size: 16px;
-      color: @heading-text-color;
+      color: @icon-gray-color;
       @media @tablet-down {
         display: none;
       }
@@ -384,6 +394,7 @@ div.dataTables_wrapper div.dataTables_filter{
     }
   }
 }
+
 div.dataTables_wrapper div.dataTables_length {
   @media @tablet-down {
     width: 100%;
@@ -478,7 +489,7 @@ div.dataTables_wrapper div.dataTables_length {
 .filter-controls{
   position: absolute;
   right: 10px;
-  top: 0;
+  top: -2px;
   @media @tablet-down {
     display: block !important;
   }
@@ -486,7 +497,7 @@ div.dataTables_wrapper div.dataTables_length {
     display: inline-block;
     vertical-align: middle;
     padding: 5px;
-    color: @heading-text-color;
+    color: @icon-gray-color;
     font-size: 18px;
     height: 32px;
   }
@@ -496,15 +507,17 @@ div.dataTables_wrapper div.dataTables_length {
     padding: 0 5px;
     margin-right: 20px;
     vertical-align: middle;
+    line-height: 26px;
     .icon-filter{
-      color: @heading-text-color;
+      color: @icon-gray-color;
     }
   }
   .icon-filter-control,
   .icon-search-control{
     border: 1px solid transparent;
     &.active{
-      border: 1px solid #000;
+      border: 1px solid @default-grey-color;
+      border-radius: 4px;
     }
   }
 }
@@ -525,6 +538,13 @@ div.dataTables_wrapper div.dataTables_length {
     position: absolute;
     right: 0;
     top: 0;
+    color: #dcdcdc;
+    &:focus, &:visited{
+      color: #dcdcdc;
+    }
+    &:hover{
+      color: #cacaca;
+    }
   }
   .progress{
     border: 1px solid @default-grey-color;

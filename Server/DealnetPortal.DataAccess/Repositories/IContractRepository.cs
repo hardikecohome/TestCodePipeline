@@ -132,6 +132,10 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Tax Rate for particular Province</returns>
         ProvinceTaxRate GetProvinceTaxRate(string province);
 
+        Comment TryAddComment(Comment comment, string contractOwnerId);
+
+        bool TryRemoveComment(int commentId, string contractOwnerId);
+        
         Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
 
         IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId);

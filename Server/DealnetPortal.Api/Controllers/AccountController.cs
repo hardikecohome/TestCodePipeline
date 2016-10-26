@@ -18,6 +18,7 @@ using Microsoft.Owin.Security.OAuth;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Providers;
 using DealnetPortal.Api.Results;
+using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 
@@ -30,29 +31,32 @@ namespace DealnetPortal.Api.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private readonly IApplicationRepository _applicationRepository;
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
         private ILoggingService _loggingService;
         private AuthType _authType;
 
-        public AccountController()
+        public AccountController(IApplicationRepository applicationRepository)
         {
+            _applicationRepository = applicationRepository;
             _loggingService =
                 (ILoggingService)
                     GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (ILoggingService));
             InitController();
         }
 
-        public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
-            ILoggingService loggingService)
-        {
-            //TODO: add role manager
-            UserManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
-            _loggingService = loggingService;
-            InitController();            
-        }
+        //public AccountController(IApplicationRepository applicationRepository, ApplicationUserManager userManager,
+        //    ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
+        //    ILoggingService loggingService)
+        //{
+        //    _applicationRepository = applicationRepository;
+        //    //TODO: add role manager
+        //    UserManager = userManager;
+        //    AccessTokenFormat = accessTokenFormat;
+        //    _loggingService = loggingService;
+        //    InitController();            
+        //}
 
         private void InitController()
         {
@@ -399,7 +403,13 @@ namespace DealnetPortal.Api.Controllers
             }
 
             _loggingService.LogInfo(string.Format("Recieved request for register user {0}", model.Email));
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };            
+
+            var application = _applicationRepository.GetApplication(model.ApplicationId);
+            if (application == null) {
+                ModelState.AddModelError(ErrorConstants.UnknownApplication, "Unknown application to register");
+                return BadRequest(ModelState);
+            }
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, ApplicationId = application.Id };            
             try
             {
                 var oneTimePass = await SecurityHelper.GeneratePasswordAsync();

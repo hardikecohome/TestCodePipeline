@@ -23,7 +23,31 @@
                     },
                     "Please enter a valid date!"
                 );
+
+                var initAgreementType = $("#agreement-type").find(":selected").val();
+                manageAgreementElements(initAgreementType);
+                $("#agreement-type").change(function () {
+                    manageAgreementElements($(this).find(":selected").val());
+                });
             });
+
+function manageAgreementElements(agreementType) {
+    switch (agreementType) {
+        case '0':
+            $(".equipment-cost").prop("disabled", false);
+            $(".equipment-cost").each(function () {
+                $(this).rules("add", "required");
+            });
+            break;
+        case '1':
+        case '2':
+            $(".equipment-cost").prop("disabled", true);
+            $(".equipment-cost").each(function() {
+                $(this).rules("remove", "required");
+            });
+            break;
+    }
+}
 
 function addNewEquipment() {
     sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) + 1;
@@ -37,6 +61,7 @@ function addNewEquipment() {
     document.getElementById('new-equipments').appendChild(newDiv);
     assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
     resetFormValidator("#equipment-form");
+    manageAgreementElements($("#agreement-type").find(":selected").val());
 }
 
 function addExistingEquipment() {
@@ -58,10 +83,8 @@ function recalculateTotalMonthlyPayment() {
     $(".monthly-cost").each(function() {
         var numberValue = Number(this.value);
         var parent = $(this).parents(".new-equipment");
-        var quantity = parent.find(".new-equipment-quantity");
-        var quantityNumber = Number(quantity.val());
-        if (!isNaN(numberValue) && !isNaN(quantityNumber)) {
-            sum += quantityNumber * numberValue;
+        if (!isNaN(numberValue)) {
+            sum += numberValue;
         }
     });
     $("#total-monthly-payment").val(sum);

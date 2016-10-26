@@ -704,10 +704,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var newEquipments = contract.Equipment.NewEquipment;
                 var fstEq = newEquipments.First();
-
-                formFields[PdfFormFields.EquipmentQuantity] = fstEq.Quantity.ToString();
+                
                 formFields[PdfFormFields.EquipmentDescription] = fstEq.Description.ToString();
-                formFields[PdfFormFields.EquipmentCost] = fstEq.Cost.ToString(CultureInfo.CurrentCulture);
+                formFields[PdfFormFields.EquipmentCost] = fstEq.Cost?.ToString(CultureInfo.CurrentCulture);
                 formFields[PdfFormFields.MonthlyPayment] = fstEq.MonthlyCost.ToString(CultureInfo.CurrentCulture);
 
                 var othersEq = new List<NewEquipment>();

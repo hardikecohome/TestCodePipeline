@@ -47,6 +47,7 @@
     <Compile Include="Aspire\DealUploadResponce.cs" />
     <Compile Include="Aspire\Header.cs" />
     <Compile Include="Aspire\Payload.cs" />
+    <Compile Include="Contract\CommentDTO.cs" />
     <Compile Include="Contract\ContractDataDTO.cs" />
     <Compile Include="Contract\ContractDetailsDTO.cs" />
     <Compile Include="Contract\ContractDocumentDTO.cs" />

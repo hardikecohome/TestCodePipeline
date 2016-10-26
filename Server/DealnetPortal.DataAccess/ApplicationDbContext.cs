@@ -16,6 +16,8 @@ namespace DealnetPortal.DataAccess
             return new ApplicationDbContext();
         }
 
+        public virtual DbSet<Application> Applications { get; set; }
+
         /// <summary>
         /// temporary added virtual
         /// </summary>
@@ -44,6 +46,8 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<ProvinceTaxRate> ProvinceTaxRates { get; set; }
 
         public virtual DbSet<DocumentType> DocumentTypes { get; set; }
+
+        public virtual DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

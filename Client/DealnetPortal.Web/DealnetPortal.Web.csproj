@@ -170,6 +170,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\ApplicationSettingsActivator.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
@@ -349,6 +352,11 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\loader.gif" />
+    <Content Include="Content\images\logo-one-dealer%402x.png" />
+    <Content Include="Content\images\logo-one-dealer%403x.png" />
+    <Content Include="Content\images\logo-one-dealer.png" />
+    <Content Include="Content\images\logo-one-dealer.svg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
@@ -363,6 +371,7 @@
     <Content Include="Content\images\sprite\icon-error.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
+    <Content Include="Content\images\sprite\icon-fax.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
@@ -550,6 +559,9 @@
     <Content Include="Content\less\settings\overrides-variables.less" />
     <Content Include="Content\less\components\modal.less" />
     <Content Include="Content\less\contract.less" />
+    <Content Include="Content\less\reports.less" />
+    <Content Include="Content\less\main-dealer.less" />
+    <Content Include="Content\less\settings\variables-dealer.less" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />

@@ -70,14 +70,21 @@
       background: #ccc;
     }
   }
-  .ui-state-hover{
-    background: @default-grey-color !important;
-  }
-  .ui-state-active,
-  .ui-state-highlight{
+
+  .ui-state-active{
     color: #fff !important;
     background-color: @success-color !important;
   }
+
+  .ui-state-highlight{
+    background-color: transparent !important;
+    color: #454545 !important;
+    border: 1px solid @default-grey-color !important;
+  }
+  .ui-state-hover{
+    background: @default-grey-color !important;
+  }
+
   .ui-datepicker-prev{
     &:hover{
       background: none !important;
