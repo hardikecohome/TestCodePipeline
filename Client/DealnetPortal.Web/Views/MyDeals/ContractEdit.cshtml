@@ -144,7 +144,7 @@
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6">
 				<div class="dealnet-credit-check-section">
-				    @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+				    @if (Model.EquipmentInfo != null && Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
 				         Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
 				    {
 				        <div class="form-group">
