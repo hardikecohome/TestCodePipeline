@@ -144,7 +144,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var alerts = new List<Alert>();
                 var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
-                //_aspireService.InitiateCreditCheck(contractId, contractOwnerId);
+                _aspireService.InitiateCreditCheck(contractId, contractOwnerId);
 
                 if (contract == null)
                 {
