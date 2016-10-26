@@ -9,9 +9,9 @@ namespace DealnetPortal.Api.Common.Enumeration
     public enum SignatureStatus
     {
         NotInitiated = 0,
-        ProfileCreated = 1,
-        FieldsMerged = 2,
-        InvitationsSent = 3,
-        Signed = 4
+        //ProfileCreated = 1,
+        //FieldsMerged = 2,
+        InvitationsSent = 1,
+        Signed = 2
     }
 }

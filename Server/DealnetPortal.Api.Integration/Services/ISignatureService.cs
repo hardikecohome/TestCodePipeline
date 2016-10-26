@@ -21,7 +21,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="ownerUserId"></param>
         /// <param name="signatureUsers"></param>
         /// <returns></returns>
-        IList<Alert> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
+        Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
 
         IList<Alert> GetContractAgreement(int contractId, string ownerUserId);
 

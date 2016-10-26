@@ -214,7 +214,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
-                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray());
+                var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray()).GetAwaiter().GetResult();
                 return alerts;
             }
             catch (Exception ex)
@@ -599,7 +599,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                _contractRepository.AddDocumentToContract(document.Id, Mapper.Map<ContractDocument>(document),
+                _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
                     contractOwnerId);
                 _unitOfWork.Save();
             }
