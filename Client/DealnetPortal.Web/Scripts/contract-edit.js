@@ -1,5 +1,13 @@
 ﻿$(document)
 		.ready(function() {
+		    $.fn.extend({
+		        MyDealFunctionality: function (options) {
+		            var defaults = {};
+		            var opts = defaults;
+		            if (options) {
+		                opts = $.extend(defaults, options);
+		            }
+
 		    $('.date-input').each(assignDatepicker);
             $("#home-phone").rules("add", "required");
     $("#cell-phone").rules("add", "required");
@@ -44,7 +52,7 @@
         $('.progress-container .clear-data-link').on('click', function(){
             $(this).parents('.form-group').removeClass('file-uploaded');
         });
-        });            
+                   
      
    $('body').on('change', '.file-uploaded input[type=file]', function () { 
             $('.file-uploaded .text-center:last').html($('.file-uploaded input[type=file]:last').val().match(/[\w-]+\.\w+/gi));
@@ -91,35 +99,34 @@
                });            
               return false;
         });
-
-        var Url = '@Url.Action("UploadedList","MyDeals",new {Id = 1})';
-        var closeModalWindow = function () {
+                 
+        var closeModalWindow = function () {           
+           var url= opts.Url;
             $('#upload-documents-modal').modal("toggle");
             $('.clear-data-link').click();
             $('.no-documents').hide();
             $.ajax({
                 type: "POST",
-                url: '/MyDeals/UploadedList/1',
-                data: param = "",
+                url: url,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: success,
                 error: error
             });
-        };
-
-          
-                function success(data, status) {
+        };          
+            function success(data, status) {
+                $('.documents').empty();
                     $.each(data, function (index, value) {
-                        $('.documents').append('<div>' + value + '<div>');
+                        $('.documents').append('<li>'+value+'</li>');
                     });
-                }
-         
-
+                }         
             function error() {
-                alert('error');
+                $('.documents').append('<div> Occurred error <div>');
             }
-      
+                
+            }
+        });
+   });
 
 function assignDatepicker() {
     $(this).datepicker({

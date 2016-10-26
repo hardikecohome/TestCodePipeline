@@ -70,7 +70,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 var document = contract.Item1.Documents.Where(i => i.ContractId == id)
                                                         .Select(i => i.DocumentName)
-                                                        .Take(10)
+                                                        .Take(5)
                                                         .ToList();
 
                 return Json(document, JsonRequestBehavior.DenyGet);

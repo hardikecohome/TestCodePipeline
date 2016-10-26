@@ -17,16 +17,15 @@
                 <div class="col-md-6">
                     <div class="no-documents">There are no uploaded documents, yet</div>
                 </div>
-                <div class="col-md-8">
-                <div class="documents">Documents</div>
-               </div>
-
 				<div class="col-md-6">
 					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 						<span>Upload Documents</span>
 					</a>
 				</div>
 			</div>
+            <div class="col-md-5 col-md-offset-7">
+                <ul class="documents"></ul>
+            </div>
 			<br>
 			<br>
 			<div class="row">
@@ -1804,4 +1803,13 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/contract-edit");
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var options = {
+            Url: '@Url.Action("UploadedList", "MyDeals", new { Id = Model.BasicInfo.ContractId })',
+        };
+        $(document).MyDealFunctionality(options);
+    });
+  </script>
 }
