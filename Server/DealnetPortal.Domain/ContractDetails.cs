@@ -25,5 +25,7 @@ namespace DealnetPortal.Domain
         public DateTime? SignatureInitiatedTime { get; set; }
 
         public SignatureStatus? SignatureStatus { get; set; }
+
+        public DateTime? SignatureTime { get; set; }
     }
 }

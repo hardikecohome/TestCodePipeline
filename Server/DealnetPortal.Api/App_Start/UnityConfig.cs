@@ -5,6 +5,7 @@ using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
+using DealnetPortal.Api.Integration.Services.Signature;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
@@ -47,6 +48,8 @@ namespace DealnetPortal.Api
             container.RegisterType<IAspireService, AspireService>();
 
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));
+            container.RegisterType<ISignatureEngine, DocuSignSignatureEngine>();
+            //container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();
         }
