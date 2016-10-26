@@ -59,7 +59,7 @@
     }
     else
     {
-        @Html.HiddenFor(m => m.SubmittingDealerId, new { value = Model.SubDealersOptions.First().Id })
+        @Html.Hidden("SubmittingDealerId", Model.SubDealersOptions.First().Id)
     }
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 

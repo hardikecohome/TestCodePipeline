@@ -117,26 +117,27 @@
 	</div>
 	<hr>
 	<div class="form-section">
-		<div class="row credit-check-info-hold">
-			<div class="col-md-6">
-				<div class="dealnet-credit-check-section">
-					<div class="dealnet-section-title">Sub-Dealer</div>
-					<div class="form-group">
-						<div class="row">
-							<label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									<select name="" id="" class="form-control dealnet-disabled-input">
-										<option value="">Sub-Dealer Name</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<h3 class="dealnet-section-title">Deal Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();">Edit</a></h3>
+	    @if (Model.BasicInfo.SubDealersOptions.Count > 1)
+	    {
+	        <div class="row credit-check-info-hold">
+	            <div class="col-md-6">
+	                <div class="dealnet-credit-check-section">
+	                    <div class="dealnet-section-title">Sub-Dealer</div>
+	                    <div class="form-group">
+	                        <div class="row">
+	                            <label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
+	                            <div class="dealnet-field-holder col-xs-6">
+	                                <div class="control-group">
+	                                    @(Model.BasicInfo.SubDealersOptions.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    }
+        <h3 class="dealnet-section-title">Deal Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();">Edit</a></h3>
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6">
 				<div class="dealnet-credit-check-section">
@@ -243,8 +244,9 @@
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName)
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].LastName)
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate)
-		        }
-		    }
+                }
+            }
+            @Html.HiddenFor(m => m.BasicInfo.SubmittingDealerId)
 			<div class="credit-check-info-hold">
 		    <div class="col-md-6">
 		        @Html.HiddenFor(m => m.BasicInfo.ContractId)
