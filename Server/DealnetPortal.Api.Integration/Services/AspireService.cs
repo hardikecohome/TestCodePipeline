@@ -122,7 +122,7 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         var response = await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeResponse(response, contract);
+                        var rAlerts = AnalyzeResponse(response, contract);                        
                         if (rAlerts.Any())
                         {
                             alerts.AddRange(rAlerts);
@@ -326,38 +326,33 @@ namespace DealnetPortal.Api.Integration.Services
                         _loggingService.LogInfo($"Aspire transaction Id [{responce.Payload?.TransactionId}] created for contract [{contract.Id}]");
                     }
 
-                    if (!string.IsNullOrEmpty(responce.Payload.EntityId) && !string.IsNullOrEmpty(responce.Payload.EntityName))
+                    if (responce.Payload.Accounts?.Any() ?? false)                        
                     {
-                        var ids = responce.Payload.EntityId.Split(new char[] { '|' });
-                        var names = responce.Payload.EntityName?.Split(new char[] { '|' });
-
                         var idUpdated = false;
-                        if (ids.Any() && (ids.Length == names.Length))
+                        responce.Payload.Accounts.ForEach(a =>
                         {
-                            for (int i = 0; i < ids.Length; i++)
+                            if (a.Name.Contains(contract.PrimaryCustomer.FirstName) &&
+                                    a.Name.Contains(contract.PrimaryCustomer.LastName) && contract.PrimaryCustomer.AccountId != a.Id)
                             {
-                                if (names[i].Contains(contract.PrimaryCustomer.FirstName) &&
-                                    names[i].Contains(contract.PrimaryCustomer.LastName) && contract.PrimaryCustomer.AccountId != ids[i])
+                                contract.PrimaryCustomer.AccountId = a.Id;
+                                idUpdated = true;
+                            }
+
+                            contract?.SecondaryCustomers.ForEach(c =>
+                            {
+                                if (a.Name.Contains(c.FirstName) &&
+                                    a.Name.Contains(c.LastName) && c.AccountId != a.Id)
                                 {
-                                    contract.PrimaryCustomer.AccountId = ids[i];
+                                    c.AccountId = a.Id;
                                     idUpdated = true;
                                 }
+                            });
+                        });
 
-                                contract?.SecondaryCustomers.ForEach(c =>
-                                {
-                                    if (names[i].Contains(c.FirstName) &&
-                                    names[i].Contains(c.LastName) && c.AccountId != ids[i])
-                                    {
-                                        c.AccountId = ids[i];
-                                        idUpdated = true;
-                                    }
-                                });
-                            }
-                            if (idUpdated)
-                            {
-                                _unitOfWork.Save();
-                                _loggingService.LogInfo($"Aspire accounts [{responce.Payload.EntityId}] created for customers [{responce.Payload.EntityName}]");
-                            }
+                        if (idUpdated)
+                        {
+                            _unitOfWork.Save();
+                            _loggingService.LogInfo($"Aspire accounts created for {responce.Payload.Accounts.Count} customers");
                         }
                     }
                 }

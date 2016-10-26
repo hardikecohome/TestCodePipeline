@@ -21,8 +21,14 @@ namespace DealnetPortal.Api.Models.Aspire
     public class ResponsePayload
     {
         public string TransactionId { get; set; }
-        public string EntityId { get; set; }    
-        public string EntityName { get; set; }
+        public string ProfileName { get; set; }
+        public string ScorecardPoints { get; set; }
+        public string ScorecardPassFail { get; set; }
+
+        [XmlElement("Account")]
+        public List<AccountResponse> Accounts { get; set; }
+        //public string EntityId { get; set; }    
+        //public string EntityName { get; set; }
     }
 
     [Serializable]
@@ -63,6 +69,14 @@ namespace DealnetPortal.Api.Models.Aspire
         public Address Address { get; set; }
 
         public Telecomm Telecomm { get; set; }
+    }
+
+    [Serializable]
+    [System.Xml.Serialization.XmlRoot(ElementName = "Account")]
+    public class AccountResponse
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 
     [Serializable]
