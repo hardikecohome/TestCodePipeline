@@ -7,6 +7,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities;
 using DocuSign.eSign.Api;
 using DocuSign.eSign.Client;
 using DocuSign.eSign.Model;
@@ -21,6 +22,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsPassword;
         private readonly string _dsIntegratorKey;
 
+        private ILoggingService _loggingService;
+
         public string AccountId { get; private set; }        
 
         public string TransactionId { get; private set; }
@@ -34,10 +37,14 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<SignHere> _signHereTabs { get; set; }
         private List<Signer> _signers { get; set; }
         private List<CarbonCopy> _copyViewers { get; set; }
+        private EnvelopeDefinition _envelopeDefinition { get; set; }
 
+        private const string EmailSubject = "Please Sign Agreement";
 
-        public DocuSignSignatureEngine()
+        public DocuSignSignatureEngine(ILoggingService loggingService)
         {
+            _loggingService = loggingService;
+
             _baseUrl = System.Configuration.ConfigurationManager.AppSettings["DocuSignApiUrl"];
             _dsUser = System.Configuration.ConfigurationManager.AppSettings["DocuSignUser"];
             _dsPassword = System.Configuration.ConfigurationManager.AppSettings["DocuSignPassword"];
@@ -80,6 +87,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
                 if (string.IsNullOrEmpty(AccountId))
                 {
+                    _loggingService.LogError("Can't login to DocuSign service");
                     logAlerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
@@ -89,7 +97,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 }
 
                 return logAlerts;
-            });
+            }).ConfigureAwait(false);
 
             if (loginAlerts.Any())
             {
@@ -104,8 +112,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             var alerts = new List<Alert>();
 
             await Task.Run(() =>
-            {
-
+            {                
                 if (contract != null & agreementTemplate != null)
                 {
                     _document = new Document
@@ -117,6 +124,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     };
                     _signers = new List<Signer>();
                     _copyViewers = new List<CarbonCopy>();
+                    _envelopeDefinition = new EnvelopeDefinition();
                 }
             });                      
 
@@ -176,15 +184,85 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     {
                         _signers.Add(CreateSigner(s, signN++));
                     });
+                    signatureUsers.Where(s => s.Role == SignatureRole.CopyViewer).ForEach(s =>
+                    {
+                        _copyViewers.Add(new CarbonCopy()
+                        {
+                            Email = s.EmailAddress,
+                            Name = $"{s.FirstName} {s.LastName}",
+                            RoutingOrder = signN.ToString(),
+                            RecipientId = signN.ToString(),                            
+                        });
+                        signN++;
+                    });
                 }
+
             });
 
             return alerts;
         }        
 
-        public Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
+        public async Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+
+            var tskAlerts = await Task.Run(() =>
+            {
+                var sendAlerts = new List<Alert>();
+
+                _envelopeDefinition.EmailSubject = EmailSubject;
+                _envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
+                {
+                    new CompositeTemplate()
+                    {
+                        InlineTemplates = new List<InlineTemplate>()
+                        {
+                            new InlineTemplate()
+                            {
+                                Sequence = "1",
+                                Recipients = new Recipients()
+                                {
+                                    Signers = _signers,
+                                    CarbonCopies = _copyViewers
+                                }
+                            }
+                        },
+                        Document = _document
+                    },
+                };
+                _envelopeDefinition.Status = "sent";
+
+                EnvelopesApi envelopesApi = new EnvelopesApi();
+                EnvelopeSummary envelopeSummary = envelopesApi.CreateEnvelope(AccountId, _envelopeDefinition);
+
+                if (!string.IsNullOrEmpty(envelopeSummary?.EnvelopeId))
+                {
+                    EnvelopeDocumentsResult docsList = envelopesApi.ListDocuments(AccountId, envelopeSummary.EnvelopeId);
+
+                    TransactionId = envelopeSummary.EnvelopeId;
+                    _loggingService.LogInfo($"DocuSign document was successfully created: envelope {TransactionId}, document {docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId}");
+                    DocumentId = docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId;
+                }
+                else
+                {
+                    _loggingService.LogError("DocuSign document wasn't created");
+                    sendAlerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "DocuSign error",
+                        Message = "DocuSign document wasn't created"
+                    });
+                    
+                }                
+                return sendAlerts;                
+            }).ConfigureAwait(false);
+
+            if (tskAlerts.Any())
+            {
+                alerts.AddRange(tskAlerts);
+            }
+
+            return alerts;
         }
 
         private string CreateAuthHeader(string userName, string password, string integratorKey)

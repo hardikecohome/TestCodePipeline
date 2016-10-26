@@ -265,6 +265,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (updated)
                     {
+                        contract.Details.SignatureTime = DateTime.Now;                        
                         _unitOfWork.Save();
                     }
                 }

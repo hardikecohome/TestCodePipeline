@@ -23,7 +23,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
     {
         private readonly IESignatureServiceAgent _signatureServiceAgent;
         private readonly ILoggingService _loggingService;
-        private readonly IFileRepository _fileRepository;
 
         private readonly string _eCoreLogin;
         private readonly string _eCorePassword;
@@ -41,11 +40,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private Contract _contract { get; set; }
 
-        public EcoreSignatureEngine(IESignatureServiceAgent signatureServiceAgent, IFileRepository fileRepository, ILoggingService loggingService)
+        public EcoreSignatureEngine(IESignatureServiceAgent signatureServiceAgent, ILoggingService loggingService)
         {
             _signatureServiceAgent = signatureServiceAgent;
             _loggingService = loggingService;
-            _fileRepository = fileRepository;
 
             _eCoreLogin = System.Configuration.ConfigurationManager.AppSettings["eCoreUser"];
             _eCorePassword = System.Configuration.ConfigurationManager.AppSettings["eCorePassword"];
