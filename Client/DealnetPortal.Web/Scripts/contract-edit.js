@@ -70,8 +70,8 @@
                            contentType: false,
                            beforeSend: function (event) {
                                var percentVal = '0%';                             
-                                $('.file-uploaded form').clearForm();
-                                $('.file-uploaded form').resetForm();                              
+                               // $('.file-uploaded form').clearForm();
+                              //  $('.file-uploaded form').resetForm();                              
                                 $('.file-uploaded .progress-bar').eq(n).width(percentVal);
                                 $('.file-uploaded .progress-bar-value').eq(n).html(percentVal);
                            },
@@ -119,9 +119,13 @@
             });
         };          
             function success(data, status) {
-                $('.documents').empty();
-                    $.each(data, function (index, value) {
-                        $('.documents').append('<div>'+value+'</div>');
+                $('.documents1').empty();
+                $('.documents2').empty();
+                $.each(data, function (index, value) {
+                    if (value.Description != 'Other')
+                        $('.documents1').append('<div><div  style="display: inline-block;" >' + value.Description + '</div><div style="float:left; style="display: inline-block;" >' + value.DocumentName + '</div></div>');
+                    else
+                        $('.documents2').append('<div><div  style="display: inline-block;" >' + value.Description + '</div><div style="float:left; style="display: inline-block;" >' + value.DocumentName + '</div></div>');
                     });
                 }         
             function error() {
