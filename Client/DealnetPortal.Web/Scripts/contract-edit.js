@@ -121,7 +121,7 @@
             function success(data, status) {
                 $('.documents').empty();
                     $.each(data, function (index, value) {
-                        $('.documents').append('<li>'+value+'</li>');
+                        $('.documents').append('<div>'+value+'</div>');
                     });
                 }         
             function error() {

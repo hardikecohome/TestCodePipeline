@@ -15,6 +15,9 @@
 	<div class="form-section">
 		<div class="dealnet-large-header">Contract #@Model.BasicInfo.ContractId</div>
 		<div class="dealnet-large-header">Documents</div>
+        <br />
+        <div class="documents">
+        </div>
 		<div class="documents-container">
             <div class="row">
                 <div class="col-md-6">
@@ -25,7 +28,8 @@
 						<span>Upload Documents</span>
 					</a>
 				</div>
-			</div>
+			</div>         
+            <br>
 			<div class="row ">
 				<div class="report-documents-list credit-check-info-hold no-vertical-border">
 					<div class="col-md-6 document-col">
@@ -102,9 +106,9 @@
 											</span>
 										</div>
 									</div>
-									<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
+									@*<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 										<span>Upload Documents</span>
-									</a>
+									</a>*@
 							</div>
 						</div>
 					</div>
@@ -1783,7 +1787,7 @@ foreach (var comment in comments)
                                     <div class="col-md-6">
 								    <label for="">Choose type of a document</label>                                  
                                     @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
-                                        Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control" })
+                                        Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control",Name = "DocumentTypeId"})
 									@*<select name="" id="" class="form-control">
 										<option value="">Signed contract</option>
 										<option value="">Signed Installation Certificate</option>
@@ -1793,12 +1797,12 @@ foreach (var comment in comments)
 										<option value="">Third party verification call</option>
 									</select>*@                                  
                                      </div>
-                                    @Html.HiddenFor(m=>Model.BasicInfo.ContractId)                                   
+                                    @Html.HiddenFor(m=>Model.BasicInfo.ContractId, new { Name = "ContractId" })                                   
                                     <div class="col-md-6">
 									<div class="dealnet-label empty-label">&nbsp;</div>                                   
                                         <div class="file-upload btn  btn dealnet-button dealnet-success-button block-button">
                                             <span>Choose file and upload</span>
-                                            <input type="file"  name="files" accept="image/*" class="upload" id="upload-new-photo" />                                                                                                                             
+                                            <input type="file"  name="File" accept="image/*" class="upload" id="upload-new-photo" />                                                                                                                             
                                        </div>                                                                                                                                                    
 								</div>  
                                    }
@@ -1826,15 +1830,15 @@ foreach (var comment in comments)
 								<div class="col-md-6">
 									<label for="">Name of a document</label>
 									<div class="control-group">
-										<input type="text" name="name-document" class="form-control">
+										<input type="text" name="DocumentName" class="form-control">
 									</div>
 								</div>
-                                @Html.HiddenFor(m => Model.BasicInfo.ContractId)
+                                @Html.HiddenFor(m => Model.BasicInfo.ContractId, new { Name = "ContractId" })
 								<div class="col-md-6">
 									<div class="dealnet-label empty-label">&nbsp;</div>
 									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
 										<span>Choose file and upload</span>
-										<input type="file" name="files" accept="image/*" class="upload" id="upload-new-photo"/>
+										<input type="file" name="File" accept="image/*" class="upload" id="upload-new-photo"/>
 									</div>
 								</div>
                                 }
