@@ -47,7 +47,7 @@
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4 col-lg-2">
+            <div class="col-md-12">
                 <nav class="navbar navbar-inverse navbar-fixed-side">
                     <div class="navbar-header">
                         @if (User.Identity.IsAuthenticated)
@@ -71,91 +71,13 @@
                             </div>
                         </div>
                     </div>
-                    @if (User.Identity.IsAuthenticated)
-    {
-
-                    <div class="collapse navbar-collapse" aria-expanded="false">
-                        <div class="dealnet-sidebar-header">
-                            <div class="dealnet-image-ecologo">
-                            </div>
-                            <button class="navbar-toggle pull-right" data-target=".navbar-collapse" data-toggle="collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-
-                        @if (Request.IsAuthenticated)
-    {
-        {
-                            @*@Html.AntiForgeryToken()*@
-                                <div class="dealnet-sidebar-user">
-                                    <span class="icon-circle-hold">
-                                        <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-                                    </span> @User.Identity.Name
-                                </div>
-
-                            }
-                        }
-
-                        <ul class="nav navbar-nav">
-                            <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
-                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                    <svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg>
-                                </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Home page", "Index", "Home", null, new { @class = "dealnet-link" })</div>
-                            </li>
-                            <li class="dealnet-sidebar-item" id="sidebar-item-newrental">
-                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                    <svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental-side")"></use></svg>
-                                </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("New Application", "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })</div>
-                            </li>
-                            <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
-                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                    <svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg>
-                                </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My deals", "Index", "MyDeals", null, new { @class = "dealnet-link" })</div>
-                            </li>
-                            <li class="dealnet-sidebar-item" id="sidebar-item-reports">
-                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                    <svg aria-hidden="true" class="icon icon-reports-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-side")"></use></svg>
-                                </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-link" })</div>
-                            </li>
-                            <li class="dealnet-sidebar-item" id="sidebar-item-about">
-                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                    <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
-                                </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("About", "About", "Home", null, new { @class = "dealnet-link" })</div>
-                            </li>
-                        </ul>
-
-                        <div class="dealnet-sidebar-logout">
-                            <div class="dealnet-sidebar-item">
-                                @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })
-                            </div>
-                        </div>
-
-                    </div>
-                    }
                 </nav>
-            </div>
-
-            <div class="col-md-8 col-lg-10">
-                <div class="row dealnet-page-header visible-md-block visible-lg-block">
-                    <div class="col-lg-12 col-md-12  visible-md-block visible-lg-block">
-                        @Html.Partial("LoginButtons")
-                    </div>
-                </div>
             </div>
         </div>
         <div class="row">
             @if (User.Identity.IsAuthenticated)
             {
             <div class="dealnet-sidebar collapse navbar-collapse" aria-expanded="false">
-                <div>tablet device</div>
                 <div class="dealnet-sidebar-header">
                     <div class="dealnet-image-ecologo">
                     </div>

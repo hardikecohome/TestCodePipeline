@@ -107,41 +107,11 @@
         });
       }, 500);
 
-      var androidVersion = LowerThanAndroidVersion('4.2');
-/*      if (androidVersion) {
-        alert('lower than android 4.4')
-      } else if (androidVersion == undefined) {
-        alert('no android')
-      } else {
-        alert('android 4.4 or higher');
-        $('body').addClass('android-device');
-      }*/
-
-
-      if (!androidVersion && androidVersion != undefined) {
-        $('body').addClass('android-device');
-      }
-
-
-
-
-
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();
       commonDataTablesSettings();
 });
-
-function LowerThanAndroidVersion(testversion) {
-  //var useragent = 'Mozilla/5.0 (Linux; U; Android 4.3.1; en-gb; GT-I9300 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30';
-  var useragent = navigator.userAgent;
-  var androidpoint = useragent.indexOf('Android');
-  if (androidpoint >= 0) {
-    var rest = useragent.substring(androidpoint + 8, useragent.length);
-    var version = rest.substring(0, rest.indexOf(';'));
-    return (version < testversion) ? true : false;
-  }
-}
 
 function documentsColHeight(){
   var columns = $('.report-documents-list .document-col');
