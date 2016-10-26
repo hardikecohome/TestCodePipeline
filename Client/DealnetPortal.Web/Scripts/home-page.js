@@ -16,6 +16,7 @@ $(document)
 
 
 function showChart() {
+  var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
@@ -46,7 +47,7 @@ function showChart() {
                                 },
                                 elements: {
                                     rectangle: {
-                                        backgroundColor: 'rgba(221, 243, 213, 1)'
+                                        backgroundColor: graphsBgColor
                                     }
                                 },
                                 scales: {
@@ -89,7 +90,7 @@ function showTable() {
                       { "data": "Date"},
                       {// this is Actions Column
                           "render": function (sdata, type, row) {
-                              return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="/client/Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                              return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                           }
                       }
                   ],
@@ -109,9 +110,6 @@ function showTable() {
                 "<'row'<'col-md-12'p>>" +
                 "<'row'<'col-md-12'i>>",
                 renderer: 'bootstrap',
-                "fnInitComplete": function(oSettings, json) {
-                  customizeSelect();
-                }
             });
         var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
         $('#table-title').html('My Work Items  <div class="filter-controls hidden">'+ iconSearch +'</div></div>');

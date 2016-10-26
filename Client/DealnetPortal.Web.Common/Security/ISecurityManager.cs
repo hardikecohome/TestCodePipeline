@@ -20,7 +20,7 @@ namespace DealnetPortal.Web.Common.Security
         /// <param name="userName">user name</param>
         /// <param name="password">password</param>
         /// <returns></returns>
-        Task<IList<Alert>> Login(string userName, string password);
+        Task<IList<Alert>> Login(string userName, string password, string portalId);
         IPrincipal GetUser();
         /// <summary>
         /// Set user's Principal

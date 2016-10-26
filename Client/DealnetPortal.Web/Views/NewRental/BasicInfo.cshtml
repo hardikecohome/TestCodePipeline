@@ -40,6 +40,22 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
+    <div class="dealnet-middle-header">Sub-Dealer</div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="">Choose a Sub-Dealer</label>
+                <div class="control-group">
+                    <select name="" id="" class="form-control">
+                        <option value="">-not selected-</option>
+                        <option value="">On my behalf</option>
+                        <option value="">Sub-Dealer Name1</option>
+                        <option value="">Sub-Dealer Name2</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 
     if (!ViewBag.IsMobileRequest)
@@ -392,9 +408,10 @@
                     </div>
                 </div> 
             </div>
-            <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-address">
-                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg>
-                <span>Clear Address</span>
+            <div class="col-md-4 col-lg-4">
+                <a href="#" class="dealnet-disabled-text clear-address" id="clear-address">
+                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                </a>
             </div>
         </div>
 
@@ -456,9 +473,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-4 dealnet-disabled-text clear-address" id="clear-mailing-address">
-                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg>
-                    <span>Clear Address</span>
+                <div class="col-md-4 col-lg-4">
+                    <a href="#" class="dealnet-disabled-text clear-address" id="clear-mailing-address">
+                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                    </a>
                 </div>
             </div>
         </div>

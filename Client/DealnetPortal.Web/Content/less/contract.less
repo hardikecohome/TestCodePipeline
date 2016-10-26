@@ -86,6 +86,11 @@
     }
     .dealnet-success-link{
       font-weight: 600;
+      color: @comments-link-color;
+      opacity: 0.85;
+      &:hover{
+        opacity: 1;
+      }
     }
     .comment-reply-form{
       margin: 10px 0 0;
@@ -121,6 +126,9 @@
   &:focus{
     color: #e04217;
   }
+  &:visited{
+    color: #e04217;
+  }
   &:hover{
     color: #c83913;
   }
@@ -128,5 +136,24 @@
 .show-comments-answers{
   .glyphicon{
     font-size: 9px;
+  }
+}
+
+.common-contract-information{
+  .dealnet-field-caption{
+    font-size: 18px;
+    @media @mobile {
+      font-size: 15px;
+    }
+  }
+  .dealnet-field-holder{
+    .control-group{
+      font-weight: 700;
+      font-size: 18px;
+      @media @mobile {
+        text-align: left;
+        margin-top: 5px;
+      }
+    }
   }
 }

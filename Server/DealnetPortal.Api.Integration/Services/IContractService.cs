@@ -48,5 +48,9 @@ namespace DealnetPortal.Api.Integration.Services
         CustomerDTO GetCustomer(int customerId);
 
         IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId);
+
+        Tuple<int?, IList<Alert>> AddComment(CommentDTO comment, string contractOwnerId);
+
+        IList<Alert> RemoveComment(int commentId, string contractOwnerId);
     }
 }

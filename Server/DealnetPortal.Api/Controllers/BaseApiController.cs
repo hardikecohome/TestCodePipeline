@@ -36,7 +36,8 @@ namespace DealnetPortal.Api.Controllers
             {
                 if (_loggedInUser == null)
                 {
-                    var identity = (ClaimsIdentity)User.Identity;
+                    var identity = (ClaimsIdentity)RequestContext.Principal.Identity;
+                    //var identity = (ClaimsIdentity)User.Identity;
 
                     if (identity == null || identity.Claims.All(t => t.Type != ClaimTypes.Name)) // claims types name must be defined in token, otherwise we will not be able to get username
                         return null;

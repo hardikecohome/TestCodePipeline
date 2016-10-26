@@ -47,7 +47,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
-            container.RegisterType<ISecurityManager, SecurityManager>();
+            container.RegisterType<ISecurityManager, SecurityManager>(new InjectionConstructor(typeof(ISecurityServiceAgent), typeof(IUserManagementServiceAgent), typeof(ILoggingService), ApplicationSettingsManager.PortalType));
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();

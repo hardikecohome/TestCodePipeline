@@ -81,7 +81,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
-        Task<IList<Alert>> SubmitContract(int contractId);        
+        Task<IList<Alert>> SubmitContract(int contractId);
 
         /// <summary>
         /// Get xlsx report
@@ -90,6 +90,10 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>xlsx report in byte array</returns>
         Task<byte[]> GetXlsxReport(IEnumerable<int> ids);
 
+        Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
+
+        Task<IList<Alert>> RemoveComment(int commentId);
+        
         Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document);
     }
 }

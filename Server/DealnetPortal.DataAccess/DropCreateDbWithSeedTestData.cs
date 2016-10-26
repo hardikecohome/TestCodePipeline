@@ -13,18 +13,31 @@ namespace DealnetPortal.DataAccess
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            SetTestUsers(context);
+            var applications = SetApplications(context);
+            SetTestUsers(context, applications);
             SetTestEquipmentTypes(context);
             SetTestProvinceTaxRates(context);
             SetDocumentTypes(context);
         }
 
-        private void SetTestUsers(ApplicationDbContext context)
+        private Application[] SetApplications(ApplicationDbContext context)
         {
-            var user = new ApplicationUser()
+            var applications = new []
+            {
+               new Application { Id = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f", Name = "Ecohome" },
+               new Application { Id = "606cfa8b-0e2c-47ef-b646-66c5f639aebd", Name = "ODI" }
+            };
+            context.Applications.AddRange(applications);
+            return applications;
+        }
+
+        private void SetTestUsers(ApplicationDbContext context, Application[] applications)
+        {
+            var user1 = new ApplicationUser()
             {
                 Email = "user@user.com",
                 UserName = "user@user.com",
+                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -34,7 +47,22 @@ namespace DealnetPortal.DataAccess
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
             };
-            context.Users.Add(user);
+            var user2 = new ApplicationUser()
+            {
+                Email = "user2@user.com",
+                UserName = "user2@user.com",
+                Application = applications.First(x => x.Id == "606cfa8b-0e2c-47ef-b646-66c5f639aebd"),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+            };
+            context.Users.Add(user1);
+            context.Users.Add(user2);
         }
 
         private void SetTestEquipmentTypes(ApplicationDbContext context)

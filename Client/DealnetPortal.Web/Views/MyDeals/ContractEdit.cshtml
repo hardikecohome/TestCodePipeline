@@ -1,8 +1,11 @@
 @using System
 @using System.Collections.Generic
+@using System.Globalization
 @using System.Linq
+@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Models
 @model DealnetPortal.Web.Models.ContractEditViewModel
 <div id="label-steps">
 	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
@@ -23,31 +26,89 @@
 					</a>
 				</div>
 			</div>
-            <div class="col-md-5 col-md-offset-7">
-                <ul class="documents"></ul>
-            </div>
-			<br>
-			<br>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="row">
-						<label class="dealnet-field-caption col-xs-4">12/10/2015</label>
-						<div class="dealnet-field-holder col-xs-8">
-							<ul class="report-documents-list editable-list list-unstyled">
-								<li><a href="#" class="dealnet-info-link text-semibold"><svg aria-hidden="true" class="icon icon-audio"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-audio")"></use></svg>456789.mp3</a>
-									<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a></li>
-								<li><a href="#" class="dealnet-info-link text-semibold"><svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>123456.pdf</a>
-									<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a></li>
-							</ul>
+			<div class="row ">
+				<div class="report-documents-list credit-check-info-hold no-vertical-border">
+					<div class="col-md-6 document-col">
+						<div class="dealnet-credit-check-section">
+							<div class="documents-inner">
+								<h3 class="dealnet-section-title">Main Documents</h3>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Signed contract</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item">
+											<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+											<a href="#" class="dealnet-info-link text-semibold">
+												456789.pdf<svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Signed Installation Certificate</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item">
+											<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+											<a href="#" class="dealnet-info-link text-semibold">
+												456789.pdf<svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Invoice</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item"></span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Copy of Void Personal Cheque</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item">
+											<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+											<a href="#" class="dealnet-info-link text-semibold">
+												456789.mp3<svg aria-hidden="true" class="icon icon-audio"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-audio")"></use></svg>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Extended Warranty Form</label>
+									<div class="dealnet-field-holder col-sm-6">
+										<span class="document-item"></span>
+									</div>
+								</div>
+								<div class="row form-group">
+									<label class="dealnet-field-caption col-sm-6">Third party verification call</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<span class="document-item"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6 document-col full-height">
+						<div class="dealnet-credit-check-section">
+							<div class="documents-inner">
+									<h3 class="dealnet-section-title">Other Documents</h3>
+									<div class="row form-group">
+										<label class="dealnet-field-caption col-sm-6">12/10/2015</label>
+										<div class="dealnet-field-holder col-sm-6">
+											<span class="document-item">
+												<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+												<a href="#" class="dealnet-info-link text-semibold">
+													456789.pdf<svg aria-hidden="true" class="icon icon-audio"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-audio")"></use></svg>
+												</a>
+											</span>
+										</div>
+									</div>
+									<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
+										<span>Upload Documents</span>
+									</a>
+							</div>
 						</div>
 					</div>
 				</div>
-
-				@*<div class="col-md-6">
-					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
-						<span>Upload Documents</span>
-					</a>
-				</div>*@
 			</div>
 			<div class="well success-well">
 				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Your documents were successfully uploaded
@@ -56,21 +117,44 @@
 	</div>
 	<hr>
 	<div class="form-section">
+		<div class="row credit-check-info-hold">
+			<div class="col-md-6">
+				<div class="dealnet-credit-check-section">
+					<div class="dealnet-section-title">Sub-Dealer</div>
+					<div class="form-group">
+						<div class="row">
+							<label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									<select name="" id="" class="form-control dealnet-disabled-input">
+										<option value="">Sub-Dealer Name</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<h3 class="dealnet-section-title">Deal Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();">Edit</a></h3>
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6">
 				<div class="dealnet-credit-check-section">
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
-							<div class="dealnet-field-holder col-xs-6">
-							    <div class="control-group">
-                                    $ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
-							    </div>
-							</div>
-						</div>
-					</div>
-				    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "deal-info-form" }))
+				    @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+				         Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+				    {
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        $ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    }
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "deal-info-form" }))
                     {
 				        @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
@@ -146,7 +230,7 @@
 	</div>
 	<hr>
 	<div class="form-section">
-		<div class="row credit-check-info-hold">
+		<div class="row">
 
 		@using (Html.BeginForm(null, null, FormMethod.Post, new {id = "basic-info-form"}))
 		{
@@ -161,6 +245,7 @@
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate)
 		        }
 		    }
+			<div class="credit-check-info-hold">
 		    <div class="col-md-6">
 		        @Html.HiddenFor(m => m.BasicInfo.ContractId)
 		        <div class="dealnet-credit-check-section" id="home-owner-section">
@@ -189,7 +274,7 @@
 
                     <div class="form-group">
                         <div class="row">
-                            @Html.Label("", "Birth of Date", new { @class = "dealnet-field-caption col-xs-6" })
+                            @Html.Label("", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group date-group">
                                     @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = "" })
@@ -292,7 +377,7 @@
                     </div>
 		        </div>
 		    </div>
-		    if (Model.BasicInfo.MailingAddressInformation != null)
+		    @if (Model.BasicInfo.MailingAddressInformation != null)
 		    {
                 <div class="col-md-6">
 		            <div class="dealnet-credit-check-section">
@@ -354,10 +439,12 @@
 		            </div>
 		        </div>
 		    }
+			</div>
 		}
 
             @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "contact-info-form" }))
             {
+			<div class="credit-check-info-hold">
                 <div class="col-md-6">
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
@@ -419,6 +506,7 @@
                         </div>
                     </div>
                 </div>
+			</div>
             }
         </div>
 	</div>
@@ -462,7 +550,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.Label("", "Birth of Date", new {@class = "dealnet-field-caption col-xs-6"})
+                                            @Html.Label("", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group date-group">
                                                     @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].DateOfBirth, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today"})
@@ -550,14 +638,6 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <div class="form-group">
-	                        <div class="row">
-	                            @Html.Label("", "Qty", new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
-	                            </div>
-	                        </div>
-	                    </div>
 
 	                    <div class="form-group">
 	                        <div class="row">
@@ -578,17 +658,19 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                    @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Cost)
-	                    @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost)
-	                    <div class="form-group">
-	                        <div class="row">
-	                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                    @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+	                         Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+	                    {
+	                        <div class="form-group">
+	                            <div class="row">
+	                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
+	                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+	                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                                </div>
 	                            </div>
 	                        </div>
-	                    </div>
-	                    <div class="form-group">
+	                    }
+                        <div class="form-group">
 	                        <div class="row">
 	                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
@@ -825,117 +907,119 @@
 	        </div>
 	    }
 	}
-        <div class="comments-widget">
+        <div class="comments-widget" data-username="@User.Identity.Name">
 			<h3 class="dealnet-section-title">Comments</h3>
-			<div class="form-group">
-				<label for="">Add comment</label>
-				<textarea name="" id="" cols="30" rows="2" class="form-control" placeholder="Write a reply..."></textarea>
-			</div>
-			<div class="row">
-				<div class="col-sm-5 col-md-3">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
-				</div>
-			</div>
-			<div class="comment">
-				<div class="commetn-header">
-					<span class="comment-user">
-						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-						&lt;FName&gt; &lt;LName&gt;
-					</span>
-					<span class="comment-update">
-						<span class="comment-update-time">11:35 AM</span>
-						<span class="comment-update-date">01/11/2015</span>
-					</span>
-					<span class="owner-comment">your comment</span>
-				</div>
-				<div class="comment-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-				</div>
-				<div class="comment-footer">
-					<a href="#" class="show-comments-answers">3 answers</a>
-					<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-				</div>
-			</div>
-			<ul class="child-comments-list list-unstyled">
-				<li>
-					<div class="comment">
-						<div class="commetn-header">
-							<span class="comment-user">
-								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-								&lt;FName&gt; &lt;LName&gt;
-							</span>
-							<span class="comment-update">
-								<span class="comment-update-time">11:35 AM</span>
-								<span class="comment-update-date">01/11/2015</span>
-							</span>
-							<!--<span class="owner-comment">your comment</span>-->
-						</div>
-						<div class="comment-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-						</div>
-						<div class="comment-footer">
-							<a href="#" class="show-comments-answers">3 answers</a>
-							<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-						</div>
-					</div>
-				</li>
-			</ul>
-			<div class="comment">
-				<div class="commetn-header">
-					<span class="comment-user">
-						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-						&lt;FName&gt; &lt;LName&gt;
-					</span>
-					<span class="comment-update">
-						<span class="comment-update-time">11:35 AM</span>
-						<span class="comment-update-date">01/11/2015</span>
-					</span>
-					<!--<span class="owner-comment">your comment</span>-->
-				</div>
-				<div class="comment-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-				</div>
-				<div class="comment-footer">
-					<a href="#" class="show-comments-answers">1 answer</a>
-					<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-				</div>
-			</div>
-			<ul class="child-comments-list list-unstyled">
-				<li>
-					<div class="comment">
-						<div class="commetn-header">
-							<span class="comment-user">
-								<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-								&lt;FName&gt; &lt;LName&gt;
-							</span>
-							<span class="comment-update">
-								<span class="comment-update-time">11:35 AM</span>
-								<span class="comment-update-date">01/11/2015</span>
-							</span>
-							<span class="owner-comment">your comment</span>
-						</div>
-						<div class="comment-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-						</div>
-						<div class="comment-footer">
-							<a href="#" class="show-comments-answers">3 answers</a>
-							<a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
-						</div>
-					</div>
-				</li>
-			</ul>
+            @using (Html.BeginForm("AddComment", "MyDeals"))
+            {
+                <div class="form-group">
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("ContractId", Model.BasicInfo.ContractId)
+                    <label for="">Add comment</label>
+                    <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="Write a reply..."></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 col-md-3">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">Reply</button>
+                    </div>
+                </div>
+            }
+            <div id="comments-start"></div>
+            @AddComments(Model.Comments)
 		</div>
 	</div>
 </div>
-<div class="text-center back-to-top-hold">
-	<br />
-	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
-</div>
+@helper AddComments(IEnumerable<CommentViewModel> comments)
+{
+if (comments == null) { return; }
+foreach (var comment in comments)
+{
+    <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }" >
+        <div class="commetn-header">
+            <span class="comment-user">
+                <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+                <span class="comment-username">@comment.AuthorName</span>
+            </span>
+            <span class="comment-update">
+                <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
+            </span>
+            @if (comment.IsOwn)
+            {
+                <span class="owner-comment">your comment</span>
+            }
+        </div>
+        <div class="comment-body">
+            <input hidden name="comment-id" value="@comment.Id"/>
+            <p>@comment.Text</p>
+            <a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+        </div>
+        <div class="comment-footer">
+            <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> answer(s)</a>
+            <a href="#" class="dealnet-success-link write-reply-link @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">Write a reply</a>
+        </div>
 
+    </div>
+
+    <ul class="child-comments-list list-unstyled">
+        <li>
+            @AddComments(comment.Replies)
+        </li>
+    </ul>
+    }
+}
+<div class="hidden">
+    <div class="comment-reply-form" id="comment-reply-form">
+        @using (Html.BeginForm("AddComment", "MyDeals"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ParentCommentId")
+            <label for="">Add comment</label>
+            <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="Write a reply..."></textarea>
+            <div class="row">
+                <div class="col-sm-5 col-md-3">
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">Reply</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="hidden">
+    <div class="comment" id="comment-template">
+        <div class="commetn-header">
+            <span class="comment-user">
+                    <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>                    
+                <span class="comment-username"></span>
+                </span>
+            <span class="comment-update">
+                    <span class="comment-update-time"></span>
+                </span>
+            <span class="owner-comment">your comment</span>
+        </div>
+        <div class="comment-body">
+            <input hidden name="comment-id"/>
+            <p></p>
+            <a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+        </div>
+        <div class="comment-footer">
+            <a href="#" class="show-comments-answers"><span class="answers-quantity">0</span> answer(s)</a>
+            <a href="#" class="dealnet-success-link write-reply-link">Write a reply</a>
+        </div>
+    </div>
+</div>
+<div class="hidden">
+    <ul class="child-comments-list list-unstyled" id="replies-template">
+        <li>
+        </li>
+    </ul>
+</div>
+@using (Html.BeginForm("RemoveComment", "MyDeals", FormMethod.Post, new { id = "remove-comment-form"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("commentId")
+}
+<div class="text-center back-to-top-hold">
+    <br/>
+    <a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
+</div>
 
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="deal-info-modal">
 	<div class="modal-dialog" role="document">
@@ -1024,7 +1108,7 @@
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#deal-info-section-modal'), $('#deal-info-form'), '@Url.Action("UpdateEquipmentInfo", "Reports")', $('#deal-info-form'))) { $('#deal-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#deal-info-section-modal'), $('#deal-info-form'), '@Url.Action("UpdateEquipmentInfo", "MyDeals")', $('#deal-info-form'))) { $('#deal-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1102,7 +1186,7 @@
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#basic-info-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "MyDeals")', $('#basic-info-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1180,7 +1264,7 @@
                         </div>
                     </div>
                     <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button"  dealnet-success-button block-button big-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#basic-info-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button"  dealnet-success-button block-button big-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "MyDeals")', $('#basic-info-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
                         <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -1259,7 +1343,7 @@
                     </form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section-modal'), $('#contact-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-form'))) { $('#contact-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section-modal'), $('#contact-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "MyDeals")', $('#contact-info-form'))) { $('#contact-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1280,18 +1364,7 @@
                         @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
                         {
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("", "Qty", new { @class = "dealnet-field-caption" })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, new { @class = "form-control dealnet-input" })
-                                                @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Quantity, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption" })
                                         <div class="dealnet-field-holder">
@@ -1314,18 +1387,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption" })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "form-control dealnet-input" })
-                                                @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Cost, "", new { @class = "text-danger" })
+                                @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+                                     Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption"})
+                                            <div class="dealnet-field-holder">
+                                                <div class="control-group">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "form-control dealnet-input"})
+                                                    @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Cost, "", new {@class = "text-danger"})
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
+                                }
+                                <div class="@(Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication && Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt ? "col-md-6" : "col-md-12")">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption" })
                                         <div class="dealnet-field-holder">
@@ -1352,7 +1429,7 @@
                     </form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#new-equipment-info-section-modal'), $('#new-equipment-info-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#new-equipment-info-form'))) { $('#new-equipment-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#new-equipment-info-section-modal'), $('#new-equipment-info-section'), '@Url.Action("UpdateEquipmentInfo", "MyDeals")', $('#new-equipment-info-form'))) { $('#new-equipment-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1472,7 +1549,7 @@
                     </form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "MyDeals")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); }">Save changes</button>
 					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -1594,7 +1671,7 @@
                         </form>
                     </div>
                     <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#existing-equipment-section-modal'), $('#existing-equipment-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#existing-equipment-form'))) { $('#existing-equipment-modal').modal('hide'); }">Save changes</button>
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#existing-equipment-section-modal'), $('#existing-equipment-section'), '@Url.Action("UpdateEquipmentInfo", "MyDeals")', $('#existing-equipment-form'))) { $('#existing-equipment-modal').modal('hide'); }">Save changes</button>
                         <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -1677,7 +1754,7 @@
                             </form>
                         </div>
                         <div class="btn-container">
-                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section@(i + 1)-coborrower-modal'), $('#contact-info-section@(i + 1)-coborrower'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-coborrowers-form'))) { $('#contact-info-coborrower@(i + 1)-modal').modal('hide'); }">Save changes</button>
+                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#contact-info-section@(i + 1)-coborrower-modal'), $('#contact-info-section@(i + 1)-coborrower'), '@Url.Action("UpdateContactAndPaymentInfo", "MyDeals")', $('#contact-info-coborrowers-form'))) { $('#contact-info-coborrower@(i + 1)-modal').modal('hide'); }">Save changes</button>
                             <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -1783,18 +1860,6 @@
 	</div>
 </div>
 
-<div class="hidden">
-    <div class="comment-reply-form">
-        <label for="">Add comment</label>
-        <textarea name="" id="" cols="30" rows="2" class="form-control" placeholder="Write a reply..."></textarea>
-        <div class="row">
-            <div class="col-sm-5 col-md-3">
-                <button type="button" class="btn dealnet-button dealnet-success-button block-button">Reply</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>
 <script  type ="text/javascript" src="http://malsup.github.com/jquery.form.js"></script>
@@ -1802,7 +1867,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/contract-edit");
+    @Scripts.Render("~/bundles/contract-edit") ;
 
 <script type="text/javascript">
     $(document).ready(function () {

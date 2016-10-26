@@ -45,7 +45,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns>User Principal </returns>
-        public async Task<Tuple<IPrincipal, IList<Alert>>> Authenicate(string userName, string password)
+        public async Task<Tuple<IPrincipal, IList<Alert>>> Authenicate(string userName, string password, string portalId)
         {
             //Tuple<IPrincipal, IList<Alert>> result = new Tuple<IPrincipal, IList<Alert>>(null, new List<Alert>());
             IList<Alert> alerts = new List<Alert>();
@@ -55,7 +55,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 new KeyValuePair<string, string>("grant_type", "password"),
                 new KeyValuePair<string, string>("username", userName),
-                new KeyValuePair<string, string>("Password", password)
+                new KeyValuePair<string, string>("Password", password),
+                new KeyValuePair<string, string>("portalId", portalId)
             });
 
             try

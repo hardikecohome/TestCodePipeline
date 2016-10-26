@@ -2,7 +2,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity.Mvc;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DealnetPortal.Web.App_Start.UnityWebActivator), "Start")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DealnetPortal.Web.App_Start.UnityWebActivator), "Start", Order = 2)]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(DealnetPortal.Web.App_Start.UnityWebActivator), "Shutdown")]
 
 namespace DealnetPortal.Web.App_Start

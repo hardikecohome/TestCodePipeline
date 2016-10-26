@@ -8,7 +8,7 @@
 	<div class="dealnet-action-link">Reports</div> >
 </div>
 <!--<div class="dealnet-large-header">My Deals</div>-->
-<div class="expand-filter-template">
+<div class="expand-filter-template reports-expanded-filter">
 	<a class="clear-data-link" id="clear-filters">
         <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">Clear Filters</span>
 	</a>
@@ -58,7 +58,7 @@
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-6">
 						<div class="form-group">
-							<button class="btn dealnet-button dealnet-success-button block-button filter-button">Filter</button>
+							<button class="btn dealnet-button dealnet-success-button block-button reports-filter-button filter-button">Filter</button>
 						</div>
 					</div>
 				</div>
@@ -103,21 +103,21 @@
 	</div>
 </div>
 
-<table id="work-items-table" class="display responsive" width="100%">
+<table id="work-items-table" class="display responsive table-reports" width="100%">
 	<thead>
 		<tr>
 			<th class="all checkbox-cell"></th>
-			<th class="all id-cell">Contract#</th>
-			<th class="all">Customer</th>
-		    <th class="min-tablet">Status</th>
-			<th class="">Email</th>
-			<th class="">Phone</th>
-			<th class="">Date</th>
-			<th class="">Equipment</th>
-			<th class="">Value</th>
-            <th class="">RemainingDescription</th>
-            <th class="">AgreementType</th>
-            <th class="">PaymentType</th>
+			<th class="all id-cell">Contract&nbsp;#</th>
+			<th class="all customer-cell">Customer</th>
+		    <th class="min-tablet-p status-cell">Status</th>
+			<th class="min-desktop email-cell">Email</th>
+			<th class="min-desktop phone-cell">Phone</th>
+			<th class="min-desktop date-cell">Date</th>
+			<th class="min-desktop equipment-cell">Equipment</th>
+			<th class="min-desktop value-cell">Value</th>
+            <th class="min-desktop">RemainingDescription</th>
+            <th class="min-desktop">AgreementType</th>
+            <th class="min-desktop">PaymentType</th>
 			<th class="all controls-cell"></th>
 		</tr>
 	</thead>
@@ -128,7 +128,7 @@
 		<div class="col-sm-5 col-sm-push-7 col-lg-4 col-lg-push-8">
 			<div class="total-info">
 				<div class="row additional-info">
-					<div class="col-xs-6">Total for selected:</div>
+					<div class="col-xs-6">Total for Selected:</div>
 					<div class="col-xs-6 text-right"><span id="selectedTotal"></span></div>
 				</div>
 				<div class="row">
@@ -139,8 +139,8 @@
 		</div>
 		<div class="col-sm-7 col-sm-pull-5 col-lg-8 col-lg-pull-4">
 			<div class="row additional-info">
-				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button" id="preview-button">Preview</button></div>
-				<div class="col-sm-4 col-lg-3"><button class="btn dealnet-button dealnet-success-button block-button" id="export-excel">Export to Excel</button></div>
+				<div class="col-sm-5 col-lg-3 col-lg-push-3 col-sm-push-5"><button class="btn dealnet-button dealnet-success-button block-button" id="export-excel">Export to Excel</button></div>
+				<div class="col-sm-5 col-lg-3 col-lg-pull-3 col-sm-pull-5"><button class="btn dealnet-button dealnet-success-button block-button" id="preview-button">Preview</button></div>
 			</div>
 		</div>
 	</div>

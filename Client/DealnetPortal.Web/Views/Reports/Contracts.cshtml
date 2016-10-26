@@ -5,7 +5,7 @@
 @using DealnetPortal.Api.Common.Helpers
 @model System.Collections.Generic.IList<DealnetPortal.Web.Models.SummaryAndConfirmationViewModel>
 <div id="label-steps">
-	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contracts</div>  >
+	@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Contracts</div>  &gt;
 </div>
 <div class="form-container">
 	<div class="form-section">
@@ -17,11 +17,11 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="dealnet-credit-check-section">
+				<div class="dealnet-credit-check-section common-contract-information">
 					<div class="form-group">
 						<div class="row">
-							<div class="col-sm-9 dealnet-field-caption">TOTAL MONTHLY PAYMENT (TAX INCL.)</div>
-							<div class="col-sm-3 dealnet-field-holder">
+							<div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL MONTHLY PAYMENT (TAX INCL.)</div>
+							<div class="col-xs-12 col-sm-3 dealnet-field-holder">
 								<div class="control-group">
                                     $ @(Model.Sum(c => Math.Round((c.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (c.EquipmentInfo?.TotalMonthlyPayment ?? 0) * c.ProvinceTaxRate / 100, 2)))
 								</div>
@@ -30,10 +30,10 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<div class="col-sm-9 dealnet-field-caption">TOTAL VALUE</div>
-							<div class="col-sm-3 dealnet-field-holder">
+							<div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL VALUE</div>
+							<div class="col-xs-12 col-sm-3 dealnet-field-holder">
 								<div class="control-group">
-                                    $ @($"{Model.Sum(c => c.EquipmentInfo?.NewEquipment.Sum(e => e.Cost)):0,00.00}")
+                                    $ @($"{Model.Where(x => x.EquipmentInfo != null && x.EquipmentInfo.AgreementType != AgreementType.RentalApplication && x.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt).Sum(c => c.EquipmentInfo?.NewEquipment.Sum(e => e.Cost)):0,00.00}")
 								</div>
 							</div>
 						</div>
@@ -69,17 +69,21 @@
 				<div class="col-md-6 col-md-push-6">
 					<div class="dealnet-credit-check-section">
 						<h3 class="dealnet-section-title empty-title">&nbsp;</h3>
-						<div class="form-group">
-							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
-								<div class="dealnet-field-holder col-xs-6">
-									<div class="control-group">
-                                        $ @($"{contract.EquipmentInfo?.NewEquipment.Sum(e => e.Cost):0,00.00}")
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
+					    @if (contract.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+                             contract.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+                        {
+					        <div class="form-group">
+					            <div class="row">
+					                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+					                <div class="dealnet-field-holder col-xs-6">
+					                    <div class="control-group">
+					                        $ @($"{contract.EquipmentInfo?.NewEquipment.Sum(e => e.Cost):0,00.00}")
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    }
+                        <div class="form-group">
 							<div class="row">
 								<label class="dealnet-field-caption col-xs-6">Requested Term</label>
 								<div class="dealnet-field-holder col-xs-6">
@@ -95,6 +99,16 @@
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.EquipmentInfo?.SalesRep)
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<label class="dealnet-field-caption col-xs-6">Sub-Dealer</label>
+								<div class="dealnet-field-holder col-xs-6">
+									<div class="control-group">
+										Dealer Name
 									</div>
 								</div>
 							</div>
@@ -140,6 +154,16 @@
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.EquipmentInfo?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma())
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<label class="dealnet-field-caption col-xs-6">Sub Dealer</label>
+								<div class="dealnet-field-holder col-xs-6">
+									<div class="control-group">
+										Dealer Name
 									</div>
 								</div>
 							</div>
@@ -416,16 +440,6 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Qty</label>
-                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                            <div class="control-group">
-                                                @equipment.Quantity
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
                                         <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Type</label>
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                             <div class="control-group">
@@ -461,34 +475,34 @@
 			}
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group summary-payment-info">
+                        <div class="form-group summary-payment-info well">
                             <div class="row">
                                 <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
                                     <div class="row">
-                                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
                                             MONTHLY PAYMENT
                                         </div>
-                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                             $@(contract.EquipmentInfo?.TotalMonthlyPayment)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                                     <div class="row">
-                                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
                                             HST
                                         </div>
-                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                             $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * contract.ProvinceTaxRate / 100, 2))
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
                                     <div class="row">
-                                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
                                             TOTAL MONTHLY PAYMENT (TAX INCL.)
                                         </div>
-                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                             $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * contract.ProvinceTaxRate / 100, 2))
                                         </div>
                                     </div>
@@ -672,6 +686,7 @@
                 }
 			</div>
 		</div>
+		<hr>
 	</div>
     }
 </div>

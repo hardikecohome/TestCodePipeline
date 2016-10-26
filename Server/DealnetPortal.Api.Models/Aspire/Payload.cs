@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -16,6 +17,15 @@ namespace DealnetPortal.Api.Models.Aspire
     }
 
     [Serializable]
+    [System.Xml.Serialization.XmlRoot(ElementName= "Payload")]
+    public class ResponsePayload
+    {
+        public string TransactionId { get; set; }
+        public string EntityId { get; set; }    
+        public string EntityName { get; set; }
+    }
+
+    [Serializable]
     public class Lease
     {
         public Application Application { get; set; }
@@ -27,12 +37,15 @@ namespace DealnetPortal.Api.Models.Aspire
 
     [Serializable]
     public class Application
-    {                     
+    {
+        public string TransactionId { get; set; }
     }
 
     [Serializable]
     public class Account
     {
+        public string ClientId { get; set; }
+
         public string Role { get; set; }
 
         public bool? IsPrimary { get; set; }

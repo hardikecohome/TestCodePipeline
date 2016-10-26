@@ -5,32 +5,55 @@
 @using DealnetPortal.Api.Common.Helpers
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 <div id="label-steps">
-	<div class="dealnet-action-link">Reports</div> > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
+	@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  &gt;
 </div>
 
 <div class="form-container">
 	<div class="form-section">
 		<div class="dealnet-large-header">Report for contract #@Model.BasicInfo.ContractId</div>
 		<div class="dealnet-large-header">Documents</div>
-		<div>There are no uploaded documents, yet</div>
+		<div class="text-md">There are no uploaded documents, yet</div>
 	</div>
 	<hr>
 	<div class="form-section">
 		<div class="row credit-check-info-hold">
-			<div class="col-md-6 col-md-push-6">
+			<div class="col-md-6">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title empty-title">&nbsp;</h3>
+					<div class="dealnet-section-title">Sub-Dealer</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+							<label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
-                                    $ @($"{Model.EquipmentInfo?.NewEquipment.Sum(e => e.Cost):0,00.00}")
+									<select name="" id="" class="form-control dealnet-disabled-input">
+										<option value="">Sub-Dealer Name</option>
+									</select>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+				</div>
+			</div>
+		</div>
+		<div class="row credit-check-info-hold no-top-margin">
+			<div class="col-md-6 col-md-push-6">
+				<div class="dealnet-credit-check-section">
+					<h3 class="dealnet-section-title empty-title">&nbsp;</h3>
+				    @if (Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
+                        Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+				    {
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        $ @($"{Model.EquipmentInfo?.NewEquipment.Sum(e => e.Cost):0,00.00}")
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    }
+                    <div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Requested Term</label>
 							<div class="dealnet-field-holder col-xs-6">
@@ -365,16 +388,6 @@
 	                    </div>
 	                    <div class="form-group">
 	                        <div class="row">
-	                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Qty</label>
-	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                <div class="control-group">
-	                                    @equipment.Quantity
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="form-group">
-	                        <div class="row">
 	                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Type</label>
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
 	                                <div class="control-group">
@@ -414,30 +427,30 @@
 					<div class="row">
 						<div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
 							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+								<div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
 									MONTHLY PAYMENT
 								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+								<div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 									$@(Model.EquipmentInfo?.TotalMonthlyPayment)
 								</div>
 							</div>
 						</div>
 						<div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+								<div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
 									HST
 								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+								<div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                     $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate / 100, 2))
 								</div>
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
 							<div class="row">
-								<div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+								<div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
 									TOTAL MONTHLY PAYMENT (TAX INCL.)
 								</div>
-								<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+								<div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 									$@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate / 100, 2))
 								</div>
 							</div>

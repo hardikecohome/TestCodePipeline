@@ -6,6 +6,7 @@
         public const string InvalidGrant = "invalid_grant";
         public const string ServiceFailed = "service_failed";
         public const string ScanFailed = "scan_failed";
+        public const string UnknownApplication = "unknown_application";
 
         public const string ContractCreateFailed = "contract_create_failed";
         public const string ContractUpdateFailed = "contract_update_failed";
@@ -19,5 +20,7 @@
         public const string EquipmentTypesRetrievalFailed = "equipment_types_retrieval_failed";
 
         public const string ProvinceTaxRateRetrievalFailed = "province_tax_rate_retrieval_failed";
+
+        public const string CommentUpdateFailed = "comment_update_failed";
     }
 }
