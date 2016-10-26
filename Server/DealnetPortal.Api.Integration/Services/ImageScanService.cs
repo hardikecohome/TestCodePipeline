@@ -36,10 +36,8 @@ namespace DealnetPortal.Api.Integration.Services
                     ImageEditor repair = new ImageEditor();
                     MemoryStream ms = new MemoryStream(scanningRequest.ImageForReadRaw);
                     repair.Image.Open(ms, 0);
-                    repair.AutoDeskew();
-                    repair.AutoRotate();
-                    repair.CleanNoise(3);
 
+                    Barcode[] barcodes = null;
                     BarcodeReader reader = new BarcodeReader()
                     {
                         Horizontal = true,
@@ -47,7 +45,27 @@ namespace DealnetPortal.Api.Integration.Services
                         Diagonal = true,
                         DrvLicID = true,
                     };
-                    Barcode[] barcodes = reader.Read(repair);
+
+                    try
+                    {
+                        repair.AutoDeskew();
+                        repair.AutoRotate();
+                        repair.CleanNoise(3);
+                        barcodes = reader.Read(repair);
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Warning,
+                            Header = "Driver Scan Issue",
+                            Message = ex.ToString()
+                        });
+
+                        var bMs = new MemoryStream(scanningRequest.ImageForReadRaw);
+                        barcodes = reader.Read(bMs);
+                    }                    
+                                        
                     aamva = barcodes.First().Decode(BarcodeDecoding.aamva);
                 }
                 catch (Exception ex)
