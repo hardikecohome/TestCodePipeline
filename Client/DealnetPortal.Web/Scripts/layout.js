@@ -107,13 +107,11 @@
         });
       }, 500);
 
-
-
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();
       commonDataTablesSettings();
-    });
+});
 
 function documentsColHeight(){
   var columns = $('.report-documents-list .document-col');
