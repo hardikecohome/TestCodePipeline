@@ -65,7 +65,6 @@ namespace DealnetPortal.Web.Models
     
     public class BasicInfoViewModel
     {
-        [Required]
         public string SubmittingDealerId { get; set; }
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }

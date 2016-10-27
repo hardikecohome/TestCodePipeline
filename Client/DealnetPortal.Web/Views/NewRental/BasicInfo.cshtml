@@ -41,7 +41,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
 
-    if (Model.SubDealers?.Any() ?? false)
+    if (Model?.SubDealers?.Any() ?? false)
     {
         <div class="dealnet-middle-header">Sub-Dealer</div>
         <div class="row">
