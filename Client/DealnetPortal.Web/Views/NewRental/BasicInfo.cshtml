@@ -40,22 +40,27 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
-    <div class="dealnet-middle-header">Sub-Dealer</div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                <label for="">Choose a Sub-Dealer</label>
-                <div class="control-group">
-                    <select name="" id="" class="form-control">
-                        <option value="">-not selected-</option>
-                        <option value="">On my behalf</option>
-                        <option value="">Sub-Dealer Name1</option>
-                        <option value="">Sub-Dealer Name2</option>
-                    </select>
+
+    if (Model.SubDealersOptions.Count > 1)
+    {
+        <div class="dealnet-middle-header">Sub-Dealer</div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="">Choose a Sub-Dealer</label>
+                    <div class="control-group">
+                        @Html.DropDownListFor(m => m.SubmittingDealerId,
+                            Model.SubDealersOptions.Select(x => new SelectListItem {Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id}),
+                            new {@class = "form-control", id = "subdealers"})
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        @Html.Hidden("SubmittingDealerId", Model.SubDealersOptions.First().Id)
+    }
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 
     if (!ViewBag.IsMobileRequest)
@@ -499,5 +504,11 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=initGoogleServices" async defer></script>
+    <script type="text/javascript">
+        $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- not selected -</option>').prependTo($('#subdealers'));
+        if (Model.SubmittingDealerId == null) {
+            $('#subdealers').val($('#subdealers > option:first').val());
+        }
+    </script>
 }
 

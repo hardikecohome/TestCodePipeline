@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using AutoMapper;
+using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
@@ -27,6 +28,8 @@ namespace DealnetPortal.Api.App_Start
 
         private static void MapDomainsToModels(IMapperConfigurationExpression mapperConfig)
         {
+            mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
+                .ForMember(x => x.SubDealers, o => o.MapFrom(src => src.SubDealers));
             mapperConfig.CreateMap<Location, LocationDTO>();
             mapperConfig.CreateMap<Phone, PhoneDTO>()
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
@@ -89,10 +92,11 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<PaymentInfoDTO, PaymentInfo>()
                 .ForMember(d => d.Contract, s => s.Ignore());            
             mapperConfig.CreateMap<ContractDTO, Contract>()
-                .ForMember(d => d.Dealer, s => s.Ignore())
                 .ForMember(d => d.PaymentInfo, s => s.Ignore())
                 .ForMember(d => d.Comments, s => s.Ignore())
-                .ForMember(x => x.Documents, d => d.Ignore());
+                .ForMember(x => x.Documents, d => d.Ignore())
+                .ForMember(x => x.SubmittingDealer, d => d.Ignore())
+                .ForMember(x => x.Dealer, d => d.Ignore());
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
                 .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw));

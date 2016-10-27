@@ -95,25 +95,27 @@
                         @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate)
                     }
                 }
-                <div class="credit-check-info-hold">
-                    <div class="col-md-6">
-                        <div class="dealnet-credit-check-section">
-                            <div class="dealnet-section-title">Sub-Dealer</div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            <select name="" id="" class="form-control dealnet-disabled-input">
-                                                <option value="">Sub-Dealer Name</option>
-                                            </select>
+                @Html.HiddenFor(m => m.BasicInfo.SubmittingDealerId)
+                @if (Model.BasicInfo.SubDealersOptions.Count > 1)
+                {
+                    <div class="credit-check-info-hold">
+                        <div class="col-md-6">
+                            <div class="dealnet-credit-check-section">
+                                <div class="dealnet-section-title">Sub-Dealer</div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.SubDealersOptions.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
                 <div class="credit-check-info-hold basic-info-cols">
                     <div class="col-md-6">
                         @Html.HiddenFor(m => m.BasicInfo.ContractId)

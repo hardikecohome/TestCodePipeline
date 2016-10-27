@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Domain;
@@ -11,10 +12,14 @@ namespace DealnetPortal.DataAccess
     public class DropCreateDbWithSeedTestData :
         DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
+        private const string EcohomeAppId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
+        private const string OdiAppId = "606cfa8b-0e2c-47ef-b646-66c5f639aebd";
+
         protected override void Seed(ApplicationDbContext context)
         {
             var applications = SetApplications(context);
             SetTestUsers(context, applications);
+            SetAspireTestUsers(context, applications);
             SetTestEquipmentTypes(context);
             SetTestProvinceTaxRates(context);
             SetDocumentTypes(context);
@@ -24,8 +29,8 @@ namespace DealnetPortal.DataAccess
         {
             var applications = new []
             {
-               new Application { Id = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f", Name = "Ecohome" },
-               new Application { Id = "606cfa8b-0e2c-47ef-b646-66c5f639aebd", Name = "ODI" }
+               new Application { Id = EcohomeAppId, Name = "Ecohome" },
+               new Application { Id = OdiAppId, Name = "ODI" }
             };
             context.Applications.AddRange(applications);
             return applications;
@@ -37,7 +42,7 @@ namespace DealnetPortal.DataAccess
             {
                 Email = "user@user.com",
                 UserName = "user@user.com",
-                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
+                Application = applications.First(x => x.Id == EcohomeAppId),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -51,7 +56,7 @@ namespace DealnetPortal.DataAccess
             {
                 Email = "user2@user.com",
                 UserName = "user2@user.com",
-                Application = applications.First(x => x.Id == "606cfa8b-0e2c-47ef-b646-66c5f639aebd"),
+                Application = applications.First(x => x.Id == OdiAppId),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -63,6 +68,62 @@ namespace DealnetPortal.DataAccess
             };
             context.Users.Add(user1);
             context.Users.Add(user2);
+
+            var subUser1 = new ApplicationUser()
+            {
+                Email = "Winnie Pooh",
+                UserName = "Winnie Pooh",
+                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+            };
+            var subUser2 = new ApplicationUser()
+            {
+                Email = "Mickey Mouse",
+                UserName = "Mickey Mouse",
+                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+            };
+            user1.SubDealers = new HashSet<ApplicationUser>();
+            user1.SubDealers.Add(subUser1);
+            user1.SubDealers.Add(subUser2);            
+        }
+
+        private void SetAspireTestUsers(ApplicationDbContext context, Application[] applications)
+        {
+            var ecosmartUser = new ApplicationUser()
+            {
+                Email = "ecosmart@eco.com",
+                UserName = "ecosmart@eco.com",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Eco Smart Home Services",
+                AspireAccountId = "70017",
+                AspireLogin = "ecosmart",
+                AspirePassword = "123456789"
+            };
+            context.Users.Add(ecosmartUser);
         }
 
         private void SetTestEquipmentTypes(ApplicationDbContext context)

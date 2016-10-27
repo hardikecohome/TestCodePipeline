@@ -149,6 +149,16 @@ namespace DealnetPortal.Web.Infrastructure
                 AutoMapper.Mapper.Map<AddressInformation>(
                     contract.PrimaryCustomer?.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MailAddress));
+
+            basicInfo.SubmittingDealerId = contract.SubmittingDealerId;
+            basicInfo.SubDealersOptions = new List<DealerOption>();
+            var dealerOption = Mapper.Map<DealerOption>(contract.Dealer);
+            dealerOption.DisplayName = "On my behalf";
+            basicInfo.SubDealersOptions.Add(dealerOption);
+            if (contract.Dealer.SubDealers != null && contract.Dealer.SubDealers.Any())
+            {
+                basicInfo.SubDealersOptions.AddRange(Mapper.Map<IList<DealerOption>>(contract.Dealer.SubDealers));
+            }
         }
 
         public void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
@@ -165,6 +175,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             var contractData = new ContractDataDTO();
             contractData.Id = basicInfo.ContractId ?? 0;
+            contractData.SubmittingDealerId = basicInfo.SubmittingDealerId;
             contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             if (basicInfo.AdditionalApplicants != null)
