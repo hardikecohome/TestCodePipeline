@@ -118,7 +118,7 @@ namespace DealnetPortal.DataAccess
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
-                SubDealerName = "Eco Smart Home Services",
+                DisplayName = "Eco Smart Home Services",
                 AspireAccountId = "70017",
                 AspireLogin = "ecosmart",
                 AspirePassword = "123456789"

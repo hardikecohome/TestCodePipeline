@@ -20,7 +20,7 @@ namespace DealnetPortal.Domain
 
         public string Company { get; set; }
 
-        public string SubDealerName { get; set; }
+        public string DisplayName { get; set; }
 
         public virtual ICollection<ApplicationUser> SubDealers { get; set; }
 
