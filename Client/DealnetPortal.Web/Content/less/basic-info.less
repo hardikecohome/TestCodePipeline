@@ -242,8 +242,10 @@
   width: 100%;
   left: 0px;
   bottom: -1px;
+  -webkit-transition: all 250ms ease 0s;
   transition: all 250ms ease 0s;
   -ms-transform: scale(0);
+  -webkit-transform: scale(0);
   transform: scale(0);
 }
 .nav-tabs > li:not(.active):hover > a::after{
@@ -251,6 +253,7 @@
 }
 .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after {
   -ms-transform: scale(1);
+  -webkit-transform: scale(1);
   transform: scale(1);
   zoom: 1;
 }
