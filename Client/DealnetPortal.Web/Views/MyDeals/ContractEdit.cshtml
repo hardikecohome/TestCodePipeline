@@ -705,7 +705,9 @@
 	                        MONTHLY PAYMENT
 	                    </div>
 	                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                            $@Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+		                    <div class="inline-children">
+			                    $@Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+		                    </div>
 	                    </div>
 	                </div>
 	            </div>
