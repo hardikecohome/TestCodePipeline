@@ -2,13 +2,17 @@
 
 $(document)
     .ready(function () {
+      setTimeout(function(){
         showChart();
+      }, 500);
         showTable();
         $('.dealnet-chart-switch-button')
             .click(function () {
                 $('.dealnet-chart-switch-button').removeClass('dealnet-chart-switch-button-selected');
                 $(this).addClass('dealnet-chart-switch-button-selected');
-                showChart();
+                setTimeout(function(){
+                  showChart();
+                }, 500);
             });
     });
 
