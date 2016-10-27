@@ -41,7 +41,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
 
-    if (Model.SubDealersOptions.Count > 1)
+    if (Model.SubDealers.Any())
     {
         <div class="dealnet-middle-header">Sub-Dealer</div>
         <div class="row">
@@ -50,7 +50,7 @@
                     <label for="">Choose a Sub-Dealer</label>
                     <div class="control-group">
                         @Html.DropDownListFor(m => m.SubmittingDealerId,
-                            Model.SubDealersOptions.Select(x => new SelectListItem {Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id}),
+                            Model.SubDealers.Select(x => new SelectListItem {Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id}),
                             new {@class = "form-control", id = "subdealers"})
                     </div>
                 </div>
@@ -59,7 +59,8 @@
     }
     else
     {
-        @Html.Hidden("SubmittingDealerId", Model.SubDealersOptions.First().Id)
+        @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)*@
+        @*@Html.Hidden("SubmittingDealerId", "")*@
     }
     <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
 

@@ -24,7 +24,7 @@ namespace DealnetPortal.Web.Infrastructure
 
         Task<ContractEditViewModel> GetContractEditAsync(int contractId);
 
-        void MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract);
+        Task MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract);
 
         void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract);
 

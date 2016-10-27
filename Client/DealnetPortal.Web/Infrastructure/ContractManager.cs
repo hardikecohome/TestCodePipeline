@@ -39,7 +39,7 @@ namespace DealnetPortal.Web.Infrastructure
                 return basicInfo;
             }
             basicInfo.ContractId = contractId;
-            MapBasicInfo(basicInfo, contractResult.Item1);
+            await MapBasicInfo(basicInfo, contractResult.Item1);
             return basicInfo;
         }
 
@@ -136,7 +136,7 @@ namespace DealnetPortal.Web.Infrastructure
             return contractEditViewModel;
         }
 
-        public void MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
+        public async Task MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
         {
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
@@ -150,14 +150,18 @@ namespace DealnetPortal.Web.Infrastructure
                     contract.PrimaryCustomer?.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MailAddress));
 
-            basicInfo.SubmittingDealerId = contract.SubmittingDealerId;
-            basicInfo.SubDealersOptions = new List<DealerOption>();
-            var dealerOption = Mapper.Map<DealerOption>(contract.Dealer);
-            dealerOption.DisplayName = "On my behalf";
-            basicInfo.SubDealersOptions.Add(dealerOption);
-            if (contract.Dealer.SubDealers != null && contract.Dealer.SubDealers.Any())
+            basicInfo.SubmittingDealerId = contract.DealerId;
+            basicInfo.SubDealers = new List<SubDealer>();
+            var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
+            if (dealerInfo?.SubDealers?.Any() ?? false)
             {
-                basicInfo.SubDealersOptions.AddRange(Mapper.Map<IList<DealerOption>>(contract.Dealer.SubDealers));
+                var mainDealer = new SubDealer()
+                {
+                    Id = dealerInfo.Id,
+                    DisplayName = "On my behalf"
+                };
+                basicInfo.SubDealers.Add(mainDealer);
+                basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.SubDealers));                
             }
         }
 
@@ -175,7 +179,10 @@ namespace DealnetPortal.Web.Infrastructure
         {
             var contractData = new ContractDataDTO();
             contractData.Id = basicInfo.ContractId ?? 0;
-            contractData.SubmittingDealerId = basicInfo.SubmittingDealerId;
+            if (!string.IsNullOrEmpty(basicInfo.SubmittingDealerId))
+            {
+                contractData.DealerId = basicInfo.SubmittingDealerId;
+            }            
             contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             if (basicInfo.AdditionalApplicants != null)
@@ -243,7 +250,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             summary.BasicInfo = new BasicInfoViewModel();
             summary.BasicInfo.ContractId = contractId;
-            MapBasicInfo(summary.BasicInfo, contract);
+            await MapBasicInfo(summary.BasicInfo, contract);
             summary.EquipmentInfo = new EquipmentInformationViewModel();
             summary.EquipmentInfo.ContractId = contractId;
             summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);

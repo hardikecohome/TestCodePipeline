@@ -48,7 +48,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     .Include(c => c.Equipment)
                     .Include(c => c.Equipment.ExistingEquipment)
                     .Include(c => c.Equipment.NewEquipment)
-                    .Where(c => c.Dealer.Id == ownerUserId).ToList();
+                    .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();
             return contracts;
         }
 
@@ -61,7 +61,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
-                    .Where(c => ids.Any(id => id == c.Id) && c.Dealer.Id == ownerUserId).ToList();
+                    .Where(c => ids.Any(id => id == c.Id) && (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)).ToList();
             return contracts;
         }
 
@@ -86,7 +86,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)                
-                .FirstOrDefault(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
+                .FirstOrDefault(c => c.Id == contractId && (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
         }
 
         public Contract GetContractAsUntracked(int contractId, string contractOwnerId)
@@ -99,13 +99,13 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .AsNoTracking().
-                FirstOrDefault(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
+                FirstOrDefault(c => c.Id == contractId && (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
         }
 
         public bool DeleteContract(string contractOwnerId, int contractId)
         {
             bool deleted = false;
-            var contract = _dbContext.Contracts.FirstOrDefault(c => c.Dealer.Id == contractOwnerId && c.Id == contractId);
+            var contract = _dbContext.Contracts.FirstOrDefault(c => (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId) && c.Id == contractId);
             if (contract != null)
             {
                 //remove clients for contract?
@@ -129,7 +129,7 @@ namespace DealnetPortal.DataAccess.Repositories
         public bool CleanContract(string contractOwnerId, int contractId)
         {
             bool cleaned = false;
-            var contract = _dbContext.Contracts.FirstOrDefault(c => c.Dealer.Id == contractOwnerId && c.Id == contractId);
+            var contract = _dbContext.Contracts.FirstOrDefault(c => (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId) && c.Id == contractId);
             if (contract != null)
             {
                 contract.SecondaryCustomers.Clear();
@@ -153,14 +153,16 @@ namespace DealnetPortal.DataAccess.Repositories
                 var contract = GetContract(contractData.Id, contractOwnerId);
                 if (contract != null)
                 {
-                    if (contractData.SubmittingDealerId != null)
+                    if (!string.IsNullOrEmpty(contractData.DealerId))
                     {
-                        if (contract.SubmittingDealerId != contractData.SubmittingDealerId)
+                        if (contract.DealerId != contractData.DealerId)
                         {
-                            contract.SubmittingDealerId = contractData.SubmittingDealerId;
+                            //TODO: check availability to change dealer Id (we have ability to change t)
+                            contract.DealerId = contractData.DealerId;
                             contract.LastUpdateTime = DateTime.Now;
                         }
                     }
+
                     if (contractData.PrimaryCustomer != null)
                     {
                         // ?
@@ -348,6 +350,17 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var contract = _dbContext.Contracts.Find(contractId);
             return contract.Documents.ToList();
+        }
+
+        public IList<ApplicationUser> GetSubDealers(string dealerId)
+        {
+            var dealer = _dbContext.Users.Find(dealerId);
+            return dealer?.SubDealers.ToList() ?? new List<ApplicationUser>();
+        }
+
+        public ApplicationUser GetDealer(string dealerId)
+        {
+            return _dbContext.Users.Find(dealerId);            
         }
 
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)

@@ -14,7 +14,7 @@ namespace DealnetPortal.Api.App_Start
             //Database.SetInitializer(
             //    new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
             Database.SetInitializer(
-                new DropCreateDbWithSeedTestData());
+                new DropCreateDbWithSeedTestData());            
         }
     }
 }

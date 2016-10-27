@@ -66,5 +66,20 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<ApplicationUserDTO> GetDealerInfo()
+        {
+            try
+            {
+                return await Client.GetAsync<ApplicationUserDTO>(
+                            $"{_fullUri}/GetDealerInfo").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get sub dealers list", ex);
+                throw;
+            }
+        }
+
     }
 }

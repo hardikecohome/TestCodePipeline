@@ -96,7 +96,7 @@
                     }
                 }
                 @Html.HiddenFor(m => m.BasicInfo.SubmittingDealerId)
-                @if (Model.BasicInfo.SubDealersOptions.Count > 1)
+                @if (Model.BasicInfo.SubDealers.Count > 1)
                 {
                     <div class="credit-check-info-hold">
                         <div class="col-md-6">
@@ -107,7 +107,7 @@
                                         <label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @(Model.BasicInfo.SubDealersOptions.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
+                                                @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
                                             </div>
                                         </div>
                                     </div>

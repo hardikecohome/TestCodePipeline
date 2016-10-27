@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Domain;
@@ -14,6 +15,12 @@ namespace DealnetPortal.DataAccess
     {
         private const string EcohomeAppId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
         private const string OdiAppId = "606cfa8b-0e2c-47ef-b646-66c5f639aebd";
+
+        public override void InitializeDatabase(ApplicationDbContext context)
+        {
+            base.InitializeDatabase(context);
+        }
+
 
         protected override void Seed(ApplicationDbContext context)
         {
@@ -69,41 +76,42 @@ namespace DealnetPortal.DataAccess
             context.Users.Add(user1);
             context.Users.Add(user2);
 
-            var subUser1 = new ApplicationUser()
-            {
-                Email = "Winnie Pooh",
-                UserName = "Winnie Pooh",
-                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
-            };
-            var subUser2 = new ApplicationUser()
-            {
-                Email = "Mickey Mouse",
-                UserName = "Mickey Mouse",
-                Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
-            };
-            user1.SubDealers = new HashSet<ApplicationUser>();
-            user1.SubDealers.Add(subUser1);
-            user1.SubDealers.Add(subUser2);            
+            //var subUser1 = new ApplicationUser()
+            //{
+            //    Email = "Winnie Pooh",
+            //    UserName = "Winnie Pooh",
+            //    Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
+            //    EmailConfirmed = true,
+            //    PhoneNumberConfirmed = false,
+            //    TwoFactorEnabled = false,
+            //    LockoutEnabled = false,
+            //    AccessFailedCount = 0,
+            //    PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+            //    //Password: 123_Qwe
+            //    SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+            //};
+            //var subUser2 = new ApplicationUser()
+            //{
+            //    Email = "Mickey Mouse",
+            //    UserName = "Mickey Mouse",
+            //    Application = applications.First(x => x.Id == "df460bb2-f880-42c9-aae5-9e3c76cdcd0f"),
+            //    EmailConfirmed = true,
+            //    PhoneNumberConfirmed = false,
+            //    TwoFactorEnabled = false,
+            //    LockoutEnabled = false,
+            //    AccessFailedCount = 0,
+            //    PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+            //    //Password: 123_Qwe
+            //    SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+            //};
+            //user1.SubDealers = new HashSet<ApplicationUser>();
+            //user1.SubDealers.Add(subUser1);
+            //user1.SubDealers.Add(subUser2);            
         }
 
         private void SetAspireTestUsers(ApplicationDbContext context, Application[] applications)
         {
+            //EcoSmarts users
             var ecosmartUser = new ApplicationUser()
             {
                 Email = "ecosmart@eco.com",
@@ -124,6 +132,191 @@ namespace DealnetPortal.DataAccess
                 AspirePassword = "123456789"
             };
             context.Users.Add(ecosmartUser);
+            var canadianhomeUser = new ApplicationUser()
+            {
+                Email = "canadianhome@eco.com",
+                UserName = "canadianhome@eco.com",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Canadian Home Efficiency Services",
+                AspireAccountId = "70122",
+                AspireLogin = "canadianhome",
+                AspirePassword = "123456789"
+            };
+            context.Users.Add(canadianhomeUser);
+            var enertechUser = new ApplicationUser()
+            {
+                Email = "enertech@eco.com",
+                UserName = "enertech@eco.com",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Enertech Home Services",
+                AspireAccountId = "70133",
+                AspireLogin = "enertech",
+                AspirePassword = "123456789"
+            };
+            context.Users.Add(enertechUser);
+            var efficiencyUser = new ApplicationUser()
+            {
+                Email = "efficiency@eco.com",
+                UserName = "efficiency@eco.com",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Efficiency Standard Home Services",
+                AspireAccountId = "70116",
+                AspireLogin = "efficiency",
+                AspirePassword = "123456789"
+            };
+            context.Users.Add(efficiencyUser);
+            
+            //EcoEnergy users
+            var ecoenergyUser = new ApplicationUser()
+            {
+                Email = "ecoenergy@eco.com",
+                UserName = "ecoenergy@eco.com",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Eco Energy Home Services",
+                AspireAccountId = "70015",
+                AspireLogin = "ecoenergy",
+                AspirePassword = "123456789"
+            };
+
+            ecoenergyUser.SubDealers = new HashSet<ApplicationUser>();
+            var ecoenergySubUser = new ApplicationUser()
+            {
+                Email = "",
+                UserName = "Apex Home Services",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Apex Home Services",
+                AspireAccountId = "70015",
+                AspireLogin = "ecoenergy",
+                AspirePassword = "123456789"
+            };
+            ecoenergyUser.SubDealers.Add(ecoenergySubUser);
+            ecoenergySubUser = new ApplicationUser()
+            {
+                Email = "",
+                UserName = "Ontario Safety Standards",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Ontario Safety Standards",
+                AspireAccountId = "70015",
+                AspireLogin = "ecoenergy",
+                AspirePassword = "123456789"
+            };
+            ecoenergyUser.SubDealers.Add(ecoenergySubUser);
+            ecoenergySubUser = new ApplicationUser()
+            {
+                Email = "",
+                UserName = "Ikotel O/A Ontario Water Health Safety",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Ikotel O/A Ontario Water Health Safety",
+                AspireAccountId = "70015",
+                AspireLogin = "ecoenergy",
+                AspirePassword = "123456789"
+            };
+            ecoenergyUser.SubDealers.Add(ecoenergySubUser);
+            ecoenergySubUser = new ApplicationUser()
+            {
+                Email = "",
+                UserName = "Ontario Green Solutions",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Ontario Green Solutions",
+                AspireAccountId = "70015",
+                AspireLogin = "ecoenergy",
+                AspirePassword = "123456789"
+            };
+            ecoenergyUser.SubDealers.Add(ecoenergySubUser);
+            ecoenergySubUser = new ApplicationUser()
+            {
+                Email = "",
+                UserName = "EcoLife",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                PasswordHash = "",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "EcoLife",
+                AspireAccountId = "70015",
+                AspireLogin = "ecoenergy",
+                AspirePassword = "123456789"
+            };
+            ecoenergyUser.SubDealers.Add(ecoenergySubUser);
+
+            context.Users.Add(ecoenergyUser);
         }
 
         private void SetTestEquipmentTypes(ApplicationDbContext context)
@@ -194,5 +387,25 @@ namespace DealnetPortal.DataAccess
             };
             context.DocumentTypes.AddRange(documentTypes);
         }
+
+        private static string HashPassword(string password)
+        {
+            byte[] salt;
+            byte[] buffer2;
+            if (password == null)
+            {
+                throw new ArgumentNullException("password");
+            }
+            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
+            {
+                salt = bytes.Salt;
+                buffer2 = bytes.GetBytes(0x20);
+            }
+            byte[] dst = new byte[0x31];
+            Buffer.BlockCopy(salt, 0, dst, 1, 0x10);
+            Buffer.BlockCopy(buffer2, 0, dst, 0x11, 0x20);
+            return Convert.ToBase64String(dst);
+        }
+
     }
 }

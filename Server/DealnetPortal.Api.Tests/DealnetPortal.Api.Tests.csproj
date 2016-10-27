@@ -129,6 +129,7 @@
     <Compile Include="Aspire\XmlRequestsTest.cs" />
     <Compile Include="Controllers\ContractControllerTest.cs" />
     <Compile Include="ESignature\ESignatureServiceAgentTest.cs" />
+    <Compile Include="Security\PassworHashTest.cs" />
     <Compile Include="Services\ImageScanManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />

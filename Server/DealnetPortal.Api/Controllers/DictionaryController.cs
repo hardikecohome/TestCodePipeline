@@ -115,5 +115,22 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Authorize]
+        [Route("GetDealerInfo")]
+        [HttpGet]
+        public IHttpActionResult GetDealerInfo()
+        {
+            try
+            {
+                var dealer = ContractRepository.GetDealer(LoggedInUser?.UserId);
+                var dealerDto = Mapper.Map<ApplicationUserDTO>(dealer);
+                return Ok(dealerDto);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }
