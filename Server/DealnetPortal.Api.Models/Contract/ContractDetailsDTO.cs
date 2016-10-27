@@ -16,6 +16,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public string TransactionId { get; set; }
 
+        public string IntegrationState { get; set; }
+
         public string SignatureTransactionId { get; set; }
 
         public string SignatureDocumentId { get; set; }
@@ -23,5 +25,7 @@ namespace DealnetPortal.Api.Models.Contract
         public DateTime? SignatureInitiatedTime { get; set; }
 
         public SignatureStatus? SignatureStatus { get; set; }
+
+        public DateTime? SignatureTime { get; set; }
     }
 }

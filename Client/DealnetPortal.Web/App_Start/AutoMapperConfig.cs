@@ -62,7 +62,8 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
 
-            cfg.CreateMap<CommentViewModel, CommentDTO>();
+            cfg.CreateMap<CommentViewModel, CommentDTO>()
+                .ForMember(x => x.DealerId, d => d.Ignore());
 
             cfg.CreateMap<ContactInfoViewModel, CustomerDataDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId))
@@ -120,6 +121,8 @@ namespace DealnetPortal.Web.App_Start
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
         {
+            cfg.CreateMap<ApplicationUserDTO, DealerOption>()
+                .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.UserName));
             cfg.CreateMap<DriverLicenseData, RecognizedLicense>();
             cfg.CreateMap<Tuple<DriverLicenseData, IList<Alert>>, DriverLicenseViewModel>()
                 .ForMember(x => x.DriverLicense, o => o.MapFrom(src => src.Item1))

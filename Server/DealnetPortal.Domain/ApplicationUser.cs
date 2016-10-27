@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -12,6 +13,21 @@ namespace DealnetPortal.Domain
         public string ApplicationId { get; set; }
         [ForeignKey("ApplicationId")]
         public virtual Application Application { get; set; }
+
+        public string AspireLogin { get; set; }
+        public string AspirePassword { get; set; }
+        public string AspireAccountId { get; set; }
+
+        public string Company { get; set; }
+
+        public string SubDealerName { get; set; }
+
+        public virtual ICollection<ApplicationUser> SubDealers { get; set; }
+
+        public string ParentDealerId { get; set; }
+        [ForeignKey("ParentDealerId")]
+        public virtual ApplicationUser ParentDealer { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
