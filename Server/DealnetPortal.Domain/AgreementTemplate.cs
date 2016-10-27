@@ -20,6 +20,10 @@ namespace DealnetPortal.Domain
 
         public string State { get; set; }
 
+        public string DealerId { get; set; }
+        [ForeignKey("DealerId")]
+        public ApplicationUser Dealer { get; set; }
+
         public byte[] AgreementForm { get; set; }
         
         //public int? EquipmentTypeId { get; set; }
