@@ -98,7 +98,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Dealer, d => d.Ignore());
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
-                .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw));
+                .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))
+                .ForMember(d => d.Dealer, s => s.Ignore()); ;
             //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
 
             mapperConfig.CreateMap<DocumentTypeDTO, DocumentType>();
