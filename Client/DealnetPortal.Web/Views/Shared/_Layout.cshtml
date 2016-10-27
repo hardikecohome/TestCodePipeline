@@ -51,20 +51,17 @@
                 <nav class="navbar navbar-inverse navbar-fixed-side">
                     <div class="navbar-header">
                         @if (User.Identity.IsAuthenticated)
-        {
-                        <div class="burger-hold">
+                        {
+                            <div class="burger-hold">
                                 <button class="navbar-toggle pull-left" data-target=".navbar-collapse" data-toggle="collapse">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                        </div>
-                        <div class="navbar-logo-hold">
-                            <div class="dealnet-image-ecologo main-logo">
                             </div>
-                        </div>
-                            }
+                            <div class="dealnet-image-ecologo main-logo"></div>
+                        }
                         <div class="user-hold">
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
@@ -129,7 +126,7 @@
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("About", "About", "Home", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("About us", "About", "Home", null, new { @class = "dealnet-link" })</div>
                         </li>
                     </ul>
 
