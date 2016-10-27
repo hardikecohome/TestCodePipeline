@@ -73,7 +73,7 @@ namespace DealnetPortal.Web.Controllers
                     _documentBytes = reader.ReadBytes(documentForUpload.File.ContentLength);
                 }
                 var document = new ContractDocumentDTO
-                {
+                {   CreationDate = DateTime.Now,
                     DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
                     DocumentBytes = _documentBytes,
                     DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
@@ -90,15 +90,28 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> UploadedList(int id)
         {
            var contract = await _contractServiceAgent.GetContract(id);
-            if (contract.Item1.Documents != null)
-            {
-                var document = contract.Item1.Documents.Where(i => i.ContractId == id)
-                                                        .Select(i => i.DocumentName)
-                                                        .Take(5)
-                                                        .ToList();
+           var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();       
 
+              if (contract?.Item1.Documents != null && docTypes?.Item1 != null)
+               {
+                //var document = contract.Item1.Documents
+                //                              .OrderByDescending(x => x.Id)
+                //                              .Select(i =>  new { i.DocumentName, i.DocumentTypeId })                                             
+                //                              .Take(5)
+                //                              .ToList();
+                var document = (from i in contract.Item1.Documents
+                                join p in docTypes.Item1
+                                on i.DocumentTypeId equals p.Id
+                                orderby i.Id descending
+                                select new
+                                {
+                                    p.Description,
+                                    i.DocumentName,
+                                }).Take(5).ToList();
+              
+                 
                 return Json(document, JsonRequestBehavior.DenyGet);
-            }
+               }
             return Json(new { message = string.Format("error") }, JsonRequestBehavior.DenyGet);
         }
     }
