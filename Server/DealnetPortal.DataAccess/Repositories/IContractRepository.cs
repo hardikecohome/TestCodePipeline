@@ -139,5 +139,10 @@ namespace DealnetPortal.DataAccess.Repositories
         Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
 
         IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId);
+
+        IList<ApplicationUser> GetSubDealers(string dealerId);
+
+        ApplicationUser GetDealer(string dealerId);
+
     }
 }

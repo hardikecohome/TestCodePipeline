@@ -179,7 +179,7 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
+        }        
 
         [Route("{summaryType}/ContractsSummary")]
         [HttpGet]

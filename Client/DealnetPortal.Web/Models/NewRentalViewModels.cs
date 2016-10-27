@@ -57,7 +57,7 @@ namespace DealnetPortal.Web.Models
         public string PostalCode { get; set; }
     }
 
-    public class DealerOption
+    public class SubDealer    
     {
         public string Id { get; set; }
         public string DisplayName { get; set; }
@@ -71,7 +71,7 @@ namespace DealnetPortal.Web.Models
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public AddressInformation AddressInformation { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
-        public List<DealerOption> SubDealersOptions { get; set; }
+        public List<SubDealer> SubDealers { get; set; }
         public int? ContractId { get; set; }
     }
 

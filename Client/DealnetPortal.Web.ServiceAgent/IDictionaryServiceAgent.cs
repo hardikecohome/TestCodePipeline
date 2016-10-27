@@ -29,5 +29,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <returns>List of Equipment Type</returns>
         Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetDocumentTypes();
+
+        Task<ApplicationUserDTO> GetDealerInfo();
     }
 }
