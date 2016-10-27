@@ -94,9 +94,9 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId)
         {
+            var alerts = new List<Alert>();
             try
-            {
-                var alerts = new List<Alert>();               
+            {                
                 var contractData = Mapper.Map<ContractData>(contract);
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
@@ -126,14 +126,19 @@ namespace DealnetPortal.Api.Integration.Services
                         Message = errorMsg
                     });
                     _loggingService.LogError(errorMsg);
-                }
-                return alerts;
+                }                
             }
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to update a contract [{contract.Id}]", ex);
-                throw;
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.ContractUpdateFailed,
+                    Message = $"Failed to update a contract [{contract.Id}]"
+                });
             }
+            return alerts;
         }
  
 

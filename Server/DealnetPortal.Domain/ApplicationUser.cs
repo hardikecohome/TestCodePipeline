@@ -16,7 +16,11 @@ namespace DealnetPortal.Domain
 
         public string AspireLogin { get; set; }
         public string AspirePassword { get; set; }
-        public int AspireAccountId { get; set; }
+        public string AspireAccountId { get; set; }
+
+        public string Company { get; set; }
+
+        public string SubDealerName { get; set; }
 
         public virtual ICollection<ApplicationUser> SubDealers { get; set; }
 

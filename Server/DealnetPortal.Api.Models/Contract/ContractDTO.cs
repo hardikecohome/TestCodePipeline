@@ -16,7 +16,8 @@ namespace DealnetPortal.Api.Models.Contract
             SecondaryCustomers = new List<CustomerDTO>();
         }
         public int Id { get; set; }
-
+        
+        //TODO: Are we really need it here ?
         public ApplicationUserDTO Dealer { get; set; }
 
         public string SubmittingDealerId { get; set; }

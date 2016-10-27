@@ -158,7 +158,6 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (contract.SubmittingDealerId != contractData.SubmittingDealerId)
                         {
                             contract.SubmittingDealerId = contractData.SubmittingDealerId;
-                            contract.ContractState = ContractState.CustomerInfoInputted;
                             contract.LastUpdateTime = DateTime.Now;
                         }
                     }
