@@ -351,7 +351,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo-one-dealer%402x.png" />
     <Content Include="Content\images\logo-one-dealer%403x.png" />
@@ -453,10 +453,6 @@
     <Content Include="Content\images\upload%403x.png" />
     <Content Include="Content\images\upload.png" />
     <Content Include="Content\images\upload.svg" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\bootstrap\.csscomb.json" />
     <Content Include="Content\less\bootstrap\.csslintrc" />
     <Content Include="Content\less\bootstrap\alerts.less" />
@@ -531,6 +527,10 @@
     <Content Include="Content\less\bootstrap\mixins\text-overflow.less" />
     <Content Include="Content\less\bootstrap\mixins\vendor-prefixes.less" />
     <Content Include="Content\less\basic-info.less" />
+    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
     <None Include="Content\less\components\loader.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Content\less\components\icons.less" />

@@ -10,14 +10,13 @@
     <meta name="HandheldFriendly" content="true">
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
+    @RenderSection("Styles", false)
     <script type="text/javascript">
         var urlContent = "@Url.Content("~/")";
     </script>
-    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/libs")
     @Scripts.Render("~/bundles/dealnet")
     @switch (ApplicationSettingsManager.PortalType)
     {
@@ -114,7 +113,7 @@
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My deals", "Index", "MyDeals", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My Deals", "Index", "MyDeals", null, new { @class = "dealnet-link" })</div>
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-reports">
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
