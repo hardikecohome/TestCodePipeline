@@ -22,6 +22,9 @@ namespace DealnetPortal.Api.Models.Aspire
     {
         public string TransactionId { get; set; }
         public string ProfileName { get; set; }
+
+        public string ContractStatus { get; set; }
+        public string CreditDecision { get; set; }        
         public string ScorecardPoints { get; set; }
         public string ScorecardPassFail { get; set; }
 

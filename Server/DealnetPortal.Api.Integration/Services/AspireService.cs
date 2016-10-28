@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -101,7 +102,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> InitiateCreditCheck(int contractId, string contractOwnerId)
+        public async Task<Tuple<CreditCheckDTO, IList<Alert>>> InitiateCreditCheck(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
@@ -159,7 +160,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Aspire credit check for contract [{contractId}] with transaction Id [{contract?.Details.TransactionId}] initiated successfully");
             }
 
-            return alerts;
+            return new Tuple<CreditCheckDTO, IList<Alert>>(null, alerts);
         }
 
         public async Task<IList<Alert>> LoginUser(string userName, string password)

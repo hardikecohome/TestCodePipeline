@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -17,7 +18,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <returns></returns>
         Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId);
 
-        Task<IList<Alert>> InitiateCreditCheck(int contractId, string contractOwnerId);
+        Task<Tuple<CreditCheckDTO, IList<Alert>>> InitiateCreditCheck(int contractId, string contractOwnerId);
 
         Task<IList<Alert>> LoginUser(string userName, string password);
     }

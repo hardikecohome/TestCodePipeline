@@ -13,5 +13,7 @@ namespace DealnetPortal.Api.Models.Contract
         public CreditCheckState CreditCheckState { get; set; }
 
         public decimal CreditAmount { get; set; }
+
+        public int ScorecardPoints { get; set; }
     }
 }
