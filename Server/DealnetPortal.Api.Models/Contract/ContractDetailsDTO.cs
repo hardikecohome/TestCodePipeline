@@ -16,7 +16,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public string TransactionId { get; set; }
 
-        public string IntegrationState { get; set; }
+        public string Status { get; set; }
 
         public string SignatureTransactionId { get; set; }
 

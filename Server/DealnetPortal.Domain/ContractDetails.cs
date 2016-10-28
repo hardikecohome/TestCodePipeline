@@ -21,7 +21,7 @@ namespace DealnetPortal.Domain
         /// <summary>
         /// State of contract in Aspire
         /// </summary>
-        public string IntegrationState { get; set; }
+        public string Status { get; set; }
 
         public string SignatureTransactionId { get; set; }
 

@@ -106,6 +106,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            CreditCheckDTO creditCheckResult = null;
 
             if (contract != null)
             {
@@ -127,6 +128,10 @@ namespace DealnetPortal.Api.Integration.Services
                         if (rAlerts.Any())
                         {
                             alerts.AddRange(rAlerts);
+                        }
+                        if (rAlerts.All(a => a.Type != AlertType.Error))
+                        {
+                            creditCheckResult = GetCreditCheckResult(response);
                         }
                     }
                     catch (Exception ex)
@@ -160,7 +165,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Aspire credit check for contract [{contractId}] with transaction Id [{contract?.Details.TransactionId}] initiated successfully");
             }
 
-            return new Tuple<CreditCheckDTO, IList<Alert>>(null, alerts);
+            return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheckResult, alerts);
         }
 
         public async Task<IList<Alert>> LoginUser(string userName, string password)
@@ -369,6 +374,14 @@ namespace DealnetPortal.Api.Integration.Services
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for contract [{contract.Id}]");
                     }
 
+                    if (!string.IsNullOrEmpty(response.Payload.ContractStatus) && contract.Details != null &&
+                        contract.Details.Status != response.Payload.ContractStatus)
+                    {
+                        contract.Details.Status = response.Payload.ContractStatus;
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"Contract [{contract.Id}] state was changed to [{response.Payload.ContractStatus}]");
+                    }
+
                     if (response.Payload.Accounts?.Any() ?? false)                        
                     {
                         var idUpdated = false;
@@ -402,6 +415,50 @@ namespace DealnetPortal.Api.Integration.Services
             }      
 
             return alerts;
+        }
+
+        private CreditCheckDTO GetCreditCheckResult(DealUploadResponse response)
+        {
+            CreditCheckDTO checkResult = new CreditCheckDTO();
+
+            int scorePoints = 0;
+
+            if (!string.IsNullOrEmpty(response?.Payload?.ScorecardPoints) &&
+                int.TryParse(response.Payload.ScorecardPoints, out scorePoints))
+            {
+                if (scorePoints <= 150)
+                {
+                    checkResult.CreditAmount = 10000;
+                }
+                if (scorePoints > 150 && scorePoints <= 170)
+                {
+                    checkResult.CreditAmount = 12000;
+                }
+                if (scorePoints > 170 && scorePoints <= 180)
+                {
+                    checkResult.CreditAmount = 15000;
+                }
+                if (scorePoints > 180 && scorePoints <= 190)
+                {
+                    checkResult.CreditAmount = 20000;
+                }
+                if (scorePoints > 190)
+                {
+                    checkResult.CreditAmount = 40000;
+                }
+            }
+
+            checkResult.CreditCheckState = CreditCheckState.Initiated;
+
+            bool passFail = true;
+            bool.TryParse(response?.Payload?.ScorecardPassFail, out passFail);            
+
+            if (!string.IsNullOrEmpty(response?.Payload?.ContractStatus) && !passFail)
+            {
+                
+            }
+
+            return checkResult;
         }
     }
 }
