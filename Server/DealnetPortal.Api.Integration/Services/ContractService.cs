@@ -599,12 +599,13 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public IList<Alert> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
+        public Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
         {
             var alerts = new List<Alert>();
+            ContractDocument doc = null;
             try
             {
-                _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
+                doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
                     contractOwnerId);
                 _unitOfWork.Save();
             }
@@ -618,7 +619,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Message = ex.ToString()
                 });
             }
-            return alerts;
+            return new Tuple<int?, IList<Alert>>(doc?.Id, alerts); ;
         }
 
         public IList<Alert> RemoveContractDocument(int documentId, string contractOwnerId)

@@ -80,8 +80,8 @@ namespace DealnetPortal.Web.Controllers
                     DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
                     ContractId = documentForUpload.ContractId
                 };
-                var alerts = await _contractServiceAgent.AddDocumentToContract(document);
-                return alerts.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+                var updateResult = await _contractServiceAgent.AddDocumentToContract(document);
+                return updateResult.Item2.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : Json(new { updatedDocumentId = updateResult.Item1, isSuccess = true });
             }
             return GetErrorJson();
         }

@@ -50,9 +50,12 @@
             $(this).parents('.form-group').removeClass('file-uploaded');
         });
 
-        $('.document-item .remove-link').on('click', function () {
-            $("#remove-document-form input[name='documentId']").val($(this).prev("input[name='documentId']").val());
-            submitDocumentRemoval($(this));
+        $('#main-documents .remove-link').on('click', function () {
+            removeDocument(this, false);
+        });
+
+        $('#other-documents .remove-link').on('click', function () {
+            removeDocument(this, true);
         });
 
         $('body').on('change', '.file-uploaded input[type=file]', function() {
@@ -74,9 +77,9 @@
                     method: 'post',
                     contentType: false,
                     beforeSend: function(event) {
-                        //form.find('.progress-container .clear-data-link').on('click', function () {
-                        //    event.abort();
-                        //});
+                        form.find('.progress-container .clear-data-link').on('click', function () {
+                            event.abort();
+                        });
                         var percentVal = '0%';
                         // $('.file-uploaded form').clearForm();
                         //  $('.file-uploaded form').resetForm();                              
@@ -92,6 +95,20 @@
                         if (result.isSuccess) {
                             form.find('.progress-bar').width(100 + "%");
                             form.find('.progress-bar-value').html(100 + '%');
+                            var typeId = form.find('.document-type-id');
+                            if (typeId.length) {
+
+                            } else {
+                                //For "Other" document type
+                                var document = $('#other-document-template').clone();
+                                document.attr("id", "");
+                                document.find("input[name='documentId']").val(result.updatedDocumentId);
+                                document.find('.file-name').text(form.find("input[name='DocumentName']").val());
+                                document.appendTo('#other-documents');
+                                document.find('.remove-link').on('click', function () {
+                                    removeDocument(this, true);
+                                });
+                            }
                         } else {
                             if (result.isError) {
                                 alert("An error occurred while uploading file");
@@ -114,7 +131,12 @@
         });
     });
 
-function submitDocumentRemoval(removalLink) {
+function removeDocument(button, removeWholeLine) {
+    $("#remove-document-form input[name='documentId']").val($(button).prev("input[name='documentId']").val());
+    submitDocumentRemoval($(button), removeWholeLine);
+}
+
+function submitDocumentRemoval(removalLink, removeWholeLine) {
     showLoader();
     var form = $('#remove-document-form');
     form.ajaxSubmit({
@@ -125,8 +147,12 @@ function submitDocumentRemoval(removalLink) {
                 alert("An error occurred while removing document");
             } else {
                 if (json.isSuccess) {
-                    removalLink.hide();
-                    removalLink.next(".dealnet-info-link").text("");
+                    if (removeWholeLine) {
+                        removalLink.parents('.document-row').remove();
+                    } else {
+                        removalLink.hide();
+                        removalLink.next(".dealnet-info-link").text("");
+                    }
                 }
             }
         },

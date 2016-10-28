@@ -296,7 +296,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.Province == province);
         }
 
-        public Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
+        public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
         {
             var contract = _dbContext.Contracts.Find(contractId);            
             var docTypeId = document.DocumentTypeId;
@@ -341,7 +341,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.Documents.Add(document);
                 }                
             }
-            return contract;
+            return document;
         }
 
         public bool TryRemoveContractDocument(int documentId, string contractOwnerId)

@@ -93,8 +93,8 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
 
         Task<IList<Alert>> RemoveComment(int commentId);
-        
-        Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document);
+
+        Task<Tuple<int?, IList<Alert>>> AddDocumentToContract(ContractDocumentDTO document);
 
         Task<IList<Alert>> RemoveContractDocument(int documentId);
     }
