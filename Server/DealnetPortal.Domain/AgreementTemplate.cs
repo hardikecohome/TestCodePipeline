@@ -16,7 +16,7 @@ namespace DealnetPortal.Domain
 
         public string TemplateName { get; set; }
 
-        public AgreementType AgreementType { get; set; }
+        public AgreementType? AgreementType { get; set; }
 
         public string State { get; set; }
 
