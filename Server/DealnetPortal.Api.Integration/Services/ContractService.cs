@@ -147,9 +147,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-
-                _aspireService.InitiateCreditCheck(contractId, contractOwnerId);
+                var contract = _contractRepository.GetContract(contractId, contractOwnerId);                
 
                 if (contract == null)
                 {
@@ -235,81 +233,94 @@ namespace DealnetPortal.Api.Integration.Services
 
             TimeSpan creditCheckPause = TimeSpan.FromSeconds(10);
 
-            var creditCheck = new CreditCheckDTO()
-            {
-                CreditCheckState = CreditCheckState.NotInitiated
-            };
-            var alerts = new List<Alert>();            
-            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            if (contract != null)
-            {
-                creditCheck.ContractId = contractId;
+            var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
 
-                switch (contract.ContractState)
-                {
-                    case ContractState.Started:
-                    case ContractState.CustomerInfoInputted:
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Error,
-                            Header = ErrorConstants.CreditCheckFailed,
-                            Message = "Credit check process wasn't initiated"
-                        });
-                        break;
-                    case ContractState.CreditCheckInitiated:
-                        //stub - check time
-                        if ((DateTime.Now - contract.LastUpdateTime) < creditCheckPause)
-                        {
-                            creditCheck.CreditCheckState = CreditCheckState.Initiated;
-                            alerts.Add(new Alert()
-                            {
-                                Type = AlertType.Information,
-                                Header = "Credit check in progress",
-                                Message = "Credit check in progress",
-                            });
-                        }
-                        else
-                        {
-                            _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
-                            _unitOfWork.Save();
-                            creditCheck.CreditCheckState = CreditCheckState.Approved;
-                            creditCheck.CreditAmount = 15000;
-                        }
-                        break;
-                    case ContractState.CreditCheckDeclined:
-                        creditCheck.CreditCheckState = CreditCheckState.Declined;
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Warning,
-                            Header = "Credit check declined",
-                            Message = "Credit declined",
-                        });
-                        break;
-                    case ContractState.CreditContirmed:
-                    case ContractState.Completed:
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Information,
-                            Header = "Credit approved",
-                            Message = "Credit approved",
-                        });
-                        creditCheck.CreditCheckState = CreditCheckState.Approved;
-                        creditCheck.CreditAmount = 15000;
-                        break;                    
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }               
-            }
-            else
+            if (checkResult?.Item1 != null)
             {
-                var errorMsg = $"Cannot find contract [{contractId}] for get credit check";
-                alerts.Add(new Alert()
+                switch (checkResult.Item1.CreditCheckState)
                 {
-                    Type = AlertType.Error, Header = ErrorConstants.CreditCheckFailed, Message = errorMsg
-                });
-                _loggingService.LogError(errorMsg);
+                    case CreditCheckState.Approved:
+                        _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
+                        _unitOfWork.Save();
+                        break;
+                    case CreditCheckState.Declined:
+                        break;
+                    case CreditCheckState.MoreInfoRequired:
+                        break;
+                }
             }
-            return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
+
+            return checkResult;
+
+            //var creditCheck = new CreditCheckDTO()
+            //{
+            //    CreditCheckState = CreditCheckState.NotInitiated
+            //};
+            //var alerts = new List<Alert>();
+            //var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+
+            //if (contract != null)
+            //{
+            //    creditCheck.ContractId = contractId;
+
+            //    switch (contract.ContractState)
+            //    {
+            //        case ContractState.Started:
+            //        case ContractState.CustomerInfoInputted:
+            //            alerts.Add(new Alert()
+            //            {
+            //                Type = AlertType.Error, Header = ErrorConstants.CreditCheckFailed, Message = "Credit check process wasn't initiated"
+            //            });
+            //            break;
+            //        case ContractState.CreditCheckInitiated:
+            //            //stub - check time
+            //            if ((DateTime.Now - contract.LastUpdateTime) < creditCheckPause)
+            //            {
+            //                creditCheck.CreditCheckState = CreditCheckState.Initiated;
+            //                alerts.Add(new Alert()
+            //                {
+            //                    Type = AlertType.Information, Header = "Credit check in progress", Message = "Credit check in progress",
+            //                });
+            //            }
+            //            else
+            //            {
+            //                _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
+            //                _unitOfWork.Save();
+            //                creditCheck.CreditCheckState = CreditCheckState.Approved;
+            //                creditCheck.CreditAmount = 15000;
+            //            }
+            //            break;
+            //        case ContractState.CreditCheckDeclined:
+            //            creditCheck.CreditCheckState = CreditCheckState.Declined;
+            //            alerts.Add(new Alert()
+            //            {
+            //                Type = AlertType.Warning, Header = "Credit check declined", Message = "Credit declined",
+            //            });
+            //            break;
+            //        case ContractState.CreditContirmed:
+            //        case ContractState.Completed:
+            //            alerts.Add(new Alert()
+            //            {
+            //                Type = AlertType.Information, Header = "Credit approved", Message = "Credit approved",
+            //            });
+            //            creditCheck.CreditCheckState = CreditCheckState.Approved;
+            //            creditCheck.CreditAmount = 15000;
+            //            break;
+            //        default:
+            //            throw new ArgumentOutOfRangeException();
+            //    }
+            //}
+            //else
+            //{
+            //    var errorMsg = $"Cannot find contract [{contractId}] for get credit check";
+            //    alerts.Add(new Alert()
+            //    {
+            //        Type = AlertType.Error, Header = ErrorConstants.CreditCheckFailed, Message = errorMsg
+            //    });
+            //    _loggingService.LogError(errorMsg);
+            //}
+            //return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
         }
 
         public IList<Alert> SubmitContract(int contractId, string contractOwnerId)
@@ -330,9 +341,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var errorMsg = $"Cannot submit contract [{contractId}]";
                 alerts.Add(new Alert()
                 {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.SubmitFailed,
-                    Message = errorMsg
+                    Type = AlertType.Error, Header = ErrorConstants.SubmitFailed, Message = errorMsg
                 });
                 _loggingService.LogError(errorMsg);
             }
@@ -530,9 +539,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var errorMsg = "Cannot update contract comment";
                     alerts.Add(new Alert()
                     {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.CommentUpdateFailed,
-                        Message = errorMsg
+                        Type = AlertType.Error, Header = ErrorConstants.CommentUpdateFailed, Message = errorMsg
                     });
                     _loggingService.LogError(errorMsg);
                 }
@@ -542,9 +549,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to update contract comment", ex);
                 alerts.Add(new Alert()
                 {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.CommentUpdateFailed,
-                    Message = ex.ToString()
+                    Type = AlertType.Error, Header = ErrorConstants.CommentUpdateFailed, Message = ex.ToString()
                 });
             }
 
@@ -566,9 +571,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var errorMsg = "Cannot update contract comment";
                     alerts.Add(new Alert()
                     {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.CommentUpdateFailed,
-                        Message = errorMsg
+                        Type = AlertType.Error, Header = ErrorConstants.CommentUpdateFailed, Message = errorMsg
                     });
                     _loggingService.LogError(errorMsg);
                 }
@@ -578,9 +581,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to update contract comment", ex);
                 alerts.Add(new Alert()
                 {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.CommentUpdateFailed,
-                    Message = ex.ToString()
+                    Type = AlertType.Error, Header = ErrorConstants.CommentUpdateFailed, Message = ex.ToString()
                 });
             }
 
@@ -593,9 +594,15 @@ namespace DealnetPortal.Api.Integration.Services
             foreach (var destComment in dest)
             {
                 var scrComment = srcComments.FirstOrDefault(x => x.Id == destComment.Id);
-                if (scrComment == null) { continue; }
+                if (scrComment == null)
+                {
+                    continue;
+                }
                 destComment.IsOwn = scrComment.DealerId == contractOwnerId;
-                if (destComment.Replies.Any()) { AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId); }
+                if (destComment.Replies.Any())
+                {
+                    AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId);
+                }
             }
         }
 
@@ -604,8 +611,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
-                    contractOwnerId);
+                _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document), contractOwnerId);
                 _unitOfWork.Save();
             }
             catch (Exception ex)
@@ -613,9 +619,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to add document to contract", ex);
                 alerts.Add(new Alert()
                 {
-                    Type = AlertType.Error,
-                    Header = "Failed to add document to contract",
-                    Message = ex.ToString()
+                    Type = AlertType.Error, Header = "Failed to add document to contract", Message = ex.ToString()
                 });
             }
             return alerts;

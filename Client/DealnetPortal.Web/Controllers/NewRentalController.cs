@@ -134,6 +134,7 @@ namespace DealnetPortal.Web.Controllers
             switch (checkResult?.Item1.CreditCheckState)
             {                
                 case CreditCheckState.Approved:
+                case CreditCheckState.MoreInfoRequired:
                     TempData["MaxCreditAmount"] = checkResult?.Item1.CreditAmount;
                     return RedirectToAction("EquipmentInformation", new { contractId });
                     break;
@@ -142,7 +143,6 @@ namespace DealnetPortal.Web.Controllers
                     break;                                
                 case CreditCheckState.NotInitiated:
                 case CreditCheckState.Initiated:
-                case CreditCheckState.MoreInfoRequired:
                 default:
                     return View("CreditRejected", contractId);
             }

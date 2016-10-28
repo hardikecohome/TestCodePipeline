@@ -110,7 +110,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract != null)
             {
-                DealUploadRequest request = new DealUploadRequest();
+                CreditCheckRequest request = new CreditCheckRequest();
 
                 var uAlerts = GetAspireUser(request, contractOwnerId);
                 if (uAlerts.Any())
@@ -119,7 +119,14 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    FillTransactionId(request, contract);
+                    request.Header.UserId = request.Header.From.AccountNumber;
+                    request.Header.Password = request.Header.From.Password;
+                    request.Header.From = null;
+
+                    request.Payload = new Payload()
+                    {
+                        TransactionId = contract.Details?.TransactionId
+                    };
 
                     try
                     {
@@ -132,6 +139,10 @@ namespace DealnetPortal.Api.Integration.Services
                         if (rAlerts.All(a => a.Type != AlertType.Error))
                         {
                             creditCheckResult = GetCreditCheckResult(response);
+                            if (creditCheckResult != null)
+                            {
+                                creditCheckResult.ContractId = contractId;
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -216,14 +227,30 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                request.Header = new Header()
+                var dealer = _contractRepository.GetDealer(contractOwnerId);
+                if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) &&
+                    !string.IsNullOrEmpty(dealer.AspirePassword))
                 {
-                    From = new From()
+                    request.Header = new Header()
                     {
-                        AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
-                        Password = ConfigurationManager.AppSettings["AspirePassword"]
-                    }
-                };
+                        From = new From()
+                        {
+                            AccountNumber = dealer.AspireLogin,
+                            Password = dealer.AspirePassword
+                        }
+                    };
+                }
+                else
+                {
+                    request.Header = new Header()
+                    {
+                        From = new From()
+                        {
+                            AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
+                            Password = ConfigurationManager.AppSettings["AspirePassword"]
+                        }
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -426,6 +453,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (!string.IsNullOrEmpty(response?.Payload?.ScorecardPoints) &&
                 int.TryParse(response.Payload.ScorecardPoints, out scorePoints))
             {
+                checkResult.ScorecardPoints = scorePoints;
                 if (scorePoints <= 150)
                 {
                     checkResult.CreditAmount = 10000;
@@ -444,18 +472,33 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (scorePoints > 190)
                 {
-                    checkResult.CreditAmount = 40000;
+                    checkResult.CreditAmount = 20000;
                 }
             }
 
             checkResult.CreditCheckState = CreditCheckState.Initiated;
 
             bool passFail = true;
-            bool.TryParse(response?.Payload?.ScorecardPassFail, out passFail);            
+            bool.TryParse(response?.Payload?.ScorecardPassFail, out passFail);
+
+            const string Approved = "Approved";
+            const string Declined = "Declined";
+            string[] CreditReview = { "Credit Review", "MIR", "Submitted" };
 
             if (!string.IsNullOrEmpty(response?.Payload?.ContractStatus) && !passFail)
             {
-                
+                if (response.Payload.ContractStatus.Contains(Approved))
+                {
+                    checkResult.CreditCheckState = CreditCheckState.Approved;
+                }
+                if (response.Payload.ContractStatus.Contains(Declined))
+                {
+                    checkResult.CreditCheckState = CreditCheckState.Declined;
+                }
+                if (CreditReview.Any(c => response.Payload.ContractStatus.Contains(c)))
+                {
+                    checkResult.CreditCheckState = CreditCheckState.MoreInfoRequired;
+                }
             }
 
             return checkResult;

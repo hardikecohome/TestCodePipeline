@@ -12,6 +12,7 @@ namespace DealnetPortal.Api.Models.Aspire
     [Serializable]
     public class Payload
     {
+        public string TransactionId { get; set; }
         public Lease Lease { get; set; }
         public LeaseDecision LeaseDecision { get; set; }
     }
