@@ -115,7 +115,7 @@
 
 function documentsColHeight(){
   var columns = $('.report-documents-list .document-col');
-  console.log(columns.find('.documents-inner').height());
+  /*console.log(columns.find('.documents-inner').height());*/
   columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());
 }
 
