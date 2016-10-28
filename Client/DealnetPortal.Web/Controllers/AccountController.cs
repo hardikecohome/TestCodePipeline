@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.Controllers
                 return View(model);
             }
             _loggingService.LogInfo(string.Format("Attemtp to login user: {0}", model.Email));
-            var result = await _securityManager.Login(model.Email, model.Password, ApplicationSettingsManager.PortalId);
+            var result = await _securityManager.Login(model.UserName, model.Password, ApplicationSettingsManager.PortalId);
             if (result.Any(item => item.Type == AlertType.Error && item.Header == ErrorConstants.ResetPasswordRequired))
             {
                 _loggingService.LogInfo(string.Format("Attemtp to login user: {0}; needs change password", model.Email));

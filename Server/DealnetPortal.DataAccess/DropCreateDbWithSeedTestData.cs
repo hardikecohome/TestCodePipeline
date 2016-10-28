@@ -115,15 +115,15 @@ namespace DealnetPortal.DataAccess
             var ecosmartUser = new ApplicationUser()
             {
                 Email = "ecosmart@eco.com",
-                UserName = "ecosmart@eco.com",
+                UserName = "ecosmart",
                 Application = applications.First(x => x.Id == EcohomeAppId),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
+                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Eco Smart Home Services",
@@ -135,15 +135,15 @@ namespace DealnetPortal.DataAccess
             var canadianhomeUser = new ApplicationUser()
             {
                 Email = "canadianhome@eco.com",
-                UserName = "canadianhome@eco.com",
+                UserName = "canadianhome",
                 Application = applications.First(x => x.Id == EcohomeAppId),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
+                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Canadian Home Efficiency Services",
@@ -155,15 +155,15 @@ namespace DealnetPortal.DataAccess
             var enertechUser = new ApplicationUser()
             {
                 Email = "enertech@eco.com",
-                UserName = "enertech@eco.com",
+                UserName = "enertech",
                 Application = applications.First(x => x.Id == EcohomeAppId),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
+                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Enertech Home Services",
@@ -175,15 +175,15 @@ namespace DealnetPortal.DataAccess
             var efficiencyUser = new ApplicationUser()
             {
                 Email = "efficiency@eco.com",
-                UserName = "efficiency@eco.com",
+                UserName = "efficiency",
                 Application = applications.First(x => x.Id == EcohomeAppId),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
+                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Efficiency Standard Home Services",
@@ -197,15 +197,15 @@ namespace DealnetPortal.DataAccess
             var ecoenergyUser = new ApplicationUser()
             {
                 Email = "ecoenergy@eco.com",
-                UserName = "ecoenergy@eco.com",
+                UserName = "ecoenergy",
                 Application = applications.First(x => x.Id == EcohomeAppId),
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
+                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Eco Energy Home Services",

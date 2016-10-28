@@ -10,7 +10,7 @@ namespace DealnetPortal.Api.Tests.Security
         [TestMethod]
         public void TestMethod1()
         {
-            string pswrd = "123_Qwe";
+            string pswrd = "123456789";
             var hash = HashPassword(pswrd);
 
         }

@@ -409,7 +409,7 @@ namespace DealnetPortal.Api.Controllers
                 ModelState.AddModelError(ErrorConstants.UnknownApplication, "Unknown application to register");
                 return BadRequest(ModelState);
             }
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, ApplicationId = application.Id };            
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, ApplicationId = application.Id };            
             try
             {
                 var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
