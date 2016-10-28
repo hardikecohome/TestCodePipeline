@@ -29,13 +29,13 @@
                                     <div class="row form-group document-row">
                                         <label class="dealnet-field-caption col-sm-6">@documentType.Text</label>
                                         <div class="dealnet-field-holder col-sm-6">
-                                            <span class="document-item">
+                                            <span class="document-item" id="document-type-@(documentType.Value)">
                                                 @{
                                                     var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == documentType.Value);
                                                 }
                                                 @Html.Hidden("documentId", document?.DocumentId)
                                                 <a href="#" @(document == null ? "style=display:none;" : "") class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
-                                                <a href="#" class="dealnet-info-link text-semibold">
+                                                <a href="#" class="dealnet-info-link text-semibold file-name">
                                                     @(document?.DocumentName)
                                                 </a>
                                             </span>

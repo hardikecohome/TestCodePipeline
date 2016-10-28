@@ -97,7 +97,10 @@
                             form.find('.progress-bar-value').html(100 + '%');
                             var typeId = form.find('.document-type-id');
                             if (typeId.length) {
-
+                                var mainDocument = $('#main-documents #document-type-' + typeId.val());
+                                mainDocument.find("input[name='documentId']").val(result.updatedDocumentId);
+                                mainDocument.find('.file-name').text(form.find("input[name='File']").val().match(/[\w-]+\.\w+/gi));
+                                mainDocument.find('.remove-link').show();
                             } else {
                                 //For "Other" document type
                                 var document = $('#other-document-template').clone();
