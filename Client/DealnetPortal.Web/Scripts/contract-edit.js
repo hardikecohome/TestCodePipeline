@@ -89,7 +89,6 @@
                         form.find('.progress-bar-value').html(percentVal);
                     },
                     success: function(result) {
-                        m++;
                         if (result.isSuccess) {
                             form.find('.progress-bar').width(100 + "%");
                             form.find('.progress-bar-value').html(100 + '%');
@@ -98,10 +97,11 @@
                                 alert("An error occurred while uploading file");
                             }
                         }
+                    },
+                    complete: function (xhr) {
+                        m++;
                         if (m === $('.file-uploaded form').length)
                             setTimeout(closeModalWindow, 1000);
-                    },
-                    complete: function(xhr) {
                     },
                     error: function() {
                         form.find('form').resetForm();
