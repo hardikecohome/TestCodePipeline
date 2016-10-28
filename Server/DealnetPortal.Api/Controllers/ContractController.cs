@@ -166,6 +166,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("RemoveDocument")]
+        [HttpPost]
+        public IHttpActionResult RemoveContractDocument(int documentId)
+        {
+            try
+            {
+                var result = ContractService.RemoveContractDocument(documentId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCreditCheckResult")]
         [HttpGet]
         public IHttpActionResult GetCreditCheckResult(int contractId)

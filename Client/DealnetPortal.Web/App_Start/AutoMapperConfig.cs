@@ -211,6 +211,9 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id));
 
                 cfg.CreateMap<CommentDTO, CommentViewModel>();
+                cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
+                .ForMember(x => x.DocumentId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)));
 
                 cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
                 cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()

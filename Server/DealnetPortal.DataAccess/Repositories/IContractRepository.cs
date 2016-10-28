@@ -138,6 +138,8 @@ namespace DealnetPortal.DataAccess.Repositories
         
         Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
 
+        bool TryRemoveContractDocument(int documentId, string contractOwnerId);
+
         IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId);
     }
 }

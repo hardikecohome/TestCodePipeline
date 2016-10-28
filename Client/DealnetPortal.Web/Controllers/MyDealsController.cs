@@ -11,6 +11,7 @@ using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using System.IO;
+using System.Threading;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models;
 
@@ -79,11 +80,18 @@ namespace DealnetPortal.Web.Controllers
                     DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
                     ContractId = documentForUpload.ContractId
                 };
-                await _contractServiceAgent.AddDocumentToContract(document);
-
-                return Json(new { message = string.Format("success") }, JsonRequestBehavior.DenyGet);
+                var alerts = await _contractServiceAgent.AddDocumentToContract(document);
+                return alerts.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
             }
-            return Json(new { message = string.Format("error") }, JsonRequestBehavior.DenyGet);
+            return GetErrorJson();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> RemoveDocument(int documentId)
+        {
+            var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId);
+            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
         [HttpPost]

@@ -233,6 +233,22 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> RemoveContractDocument(int documentId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/RemoveDocument?documentId={documentId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove contract document", ex);
+                throw;
+            }
+        }
+
         public async Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment)
         {
             try
