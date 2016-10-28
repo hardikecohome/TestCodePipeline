@@ -4,24 +4,33 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Integration.Services;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities;
 using Microsoft.AspNet.Identity;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
+        private readonly IAspireService _aspireService;
+        private readonly ILoggingService _loggingService;
         private readonly string _publicClientId;
         private AuthType _authType;
 
         public ApplicationOAuthProvider(string publicClientId)
         {
+            _aspireService = (IAspireService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
+            _loggingService = (ILoggingService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
+
             if (publicClientId == null)
             {
                 throw new ArgumentNullException("publicClientId");
@@ -43,13 +52,18 @@ namespace DealnetPortal.Api.Providers
 
             if (user == null)
             {
+                user = await CheckAndCreateAspireUser(context);
+            }                      
+
+            if (user == null)
+            {
                 context.SetError(ErrorConstants.InvalidGrant, "The user name or password is incorrect.");
                 return;
             }
 
             var applicationId = context.OwinContext.Get<string>("portalId");
 
-            if (user.Application?.Id != applicationId)
+            if (user.ApplicationId != applicationId)
             {
                 context.SetError(ErrorConstants.UnknownApplication, "Unknown application to log in.");
                 return;
@@ -124,6 +138,55 @@ namespace DealnetPortal.Api.Providers
                 { "userName", userName }
             };
             return new AuthenticationProperties(data);
+        }
+
+        private async Task<ApplicationUser> CheckAndCreateAspireUser(OAuthGrantResourceOwnerCredentialsContext context)
+        {
+            ApplicationUser user = null;
+
+            if (_aspireService != null)
+            {
+                _loggingService?.LogInfo($"Check user [{context.UserName}] in Aspire");
+                var alerts = await _aspireService.LoginUser(context.UserName, context.Password);
+
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+
+                    var applicationId = context.OwinContext.Get<string>("portalId");
+
+                    var newUser = new ApplicationUser()
+                    {
+                        UserName = context.UserName,
+                        Email = "",
+                        ApplicationId = applicationId,
+                        EmailConfirmed = true,
+                        TwoFactorEnabled = false,
+                        AspireLogin = context.UserName,
+                        AspirePassword = context.Password                        
+                    };
+
+                    try
+                    {
+                        IdentityResult result = await userManager.CreateAsync(newUser, context.Password);                        
+                        if (result.Succeeded)
+                        {
+                            _loggingService?.LogInfo($"New entity for Aspire user [{context.UserName}] created successefully");
+                            user = await userManager.FindAsync(context.UserName, context.Password);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        user = null;
+                    }
+                }
+                else
+                {
+                    alerts.Where(a => a.Type == AlertType.Error).ForEach(a => 
+                        _loggingService?.LogInfo(a.Message));
+                }
+            }
+            return user;
         }
     }
 }

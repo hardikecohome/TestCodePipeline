@@ -162,6 +162,48 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<IList<Alert>> LoginUser(string userName, string password)
+        {
+            var alerts = new List<Alert>();
+
+            DealUploadRequest request = new DealUploadRequest()
+            {
+                Header = new Header()
+                {
+                    UserId = userName,
+                    Password = password
+                }
+            };
+
+            try
+            {
+                var response = await _aspireServiceAgent.LoginSubmission(request);
+                if (response?.Header == null || response.Header.Code != CodeSuccess || !string.IsNullOrEmpty(response.Header.ErrorMsg))
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Header = response.Header.Code,
+                        Message = response.Header.Message ?? response.Header.ErrorMsg,
+                        Type = AlertType.Error
+                    });
+                }                
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = ErrorConstants.AspireConnectionFailed,
+                    Type = AlertType.Error,
+                    Message = ex.ToString()
+                });
+                _loggingService.LogError("Failed to communicate with Aspire", ex);
+            }
+            
+
+
+            return alerts;
+        }
+
         private IList<Alert> GetAspireUser(DealUploadRequest request, string contractOwnerId)
         {
             var alerts = new List<Alert>();
@@ -302,34 +344,34 @@ namespace DealnetPortal.Api.Integration.Services
             contract.SecondaryCustomers?.ForEach(c => request.Payload.Lease.Accounts.Add(fillAccount(c, GuarRole)));
         }
 
-        private IList<Alert> AnalyzeResponse(DealUploadResponce responce, Domain.Contract contract)
+        private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract)
         {
             var alerts = new List<Alert>();
 
-            if (responce?.Header == null || responce.Header.Status != CodeSuccess || !string.IsNullOrEmpty(responce.Header.ErrorMsg))
+            if (response?.Header == null || response.Header.Code != CodeSuccess || !string.IsNullOrEmpty(response.Header.ErrorMsg))
             {
                 alerts.Add(new Alert()
                 {
-                    Header = responce.Header.Status,
-                    Message = responce.Header.ErrorMsg,
+                    Header = response.Header.Status,
+                    Message = response.Header.Message ?? response.Header.ErrorMsg,
                     Type = AlertType.Error
                 });                
             }
             else
             {
-                if (responce.Payload != null)
+                if (response.Payload != null)
                 {
-                    if (!string.IsNullOrEmpty(responce.Payload.TransactionId) && contract.Details != null && contract.Details.TransactionId != responce.Payload?.TransactionId)
+                    if (!string.IsNullOrEmpty(response.Payload.TransactionId) && contract.Details != null && contract.Details.TransactionId != response.Payload?.TransactionId)
                     {
-                        contract.Details.TransactionId = responce.Payload?.TransactionId;
+                        contract.Details.TransactionId = response.Payload?.TransactionId;
                         _unitOfWork.Save();
-                        _loggingService.LogInfo($"Aspire transaction Id [{responce.Payload?.TransactionId}] created for contract [{contract.Id}]");
+                        _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for contract [{contract.Id}]");
                     }
 
-                    if (responce.Payload.Accounts?.Any() ?? false)                        
+                    if (response.Payload.Accounts?.Any() ?? false)                        
                     {
                         var idUpdated = false;
-                        responce.Payload.Accounts.ForEach(a =>
+                        response.Payload.Accounts.ForEach(a =>
                         {
                             if (a.Name.Contains(contract.PrimaryCustomer.FirstName) &&
                                     a.Name.Contains(contract.PrimaryCustomer.LastName) && contract.PrimaryCustomer.AccountId != a.Id)
@@ -352,7 +394,7 @@ namespace DealnetPortal.Api.Integration.Services
                         if (idUpdated)
                         {
                             _unitOfWork.Save();
-                            _loggingService.LogInfo($"Aspire accounts created for {responce.Payload.Accounts.Count} customers");
+                            _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} customers");
                         }
                     }
                 }

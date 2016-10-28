@@ -16,28 +16,35 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             _fullUri = AspireApiClient.Client.BaseAddress.ToString();
         }
 
-        public async Task<DealUploadResponce> DealUploadSubmission(DealUploadRequest dealUploadRequest)
+        public async Task<DealUploadResponse> DealUploadSubmission(DealUploadRequest dealUploadRequest)
         {
             CancellationToken cancellationToken = new CancellationToken();
 
             //api/dealuploader/DealUploadSubmission.aspx
-            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponce>($"{_fullUri}/dealuploader/DealUploadSubmission.aspx", dealUploadRequest, cancellationToken);
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponse>($"{_fullUri}/dealuploader/DealUploadSubmission.aspx", dealUploadRequest, cancellationToken);
         }
 
-        public async Task<DealUploadResponce> CustomerUploadSubmission(DealUploadRequest dealUploadRequest)
+        public async Task<DealUploadResponse> CustomerUploadSubmission(DealUploadRequest dealUploadRequest)
         {
             CancellationToken cancellationToken = new CancellationToken();
 
             //api//DealUploadWeb/CustomerUploadSubmission.aspx
-            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponce>($"{_fullUri}/DealUploadWeb/CustomerUploadSubmission.aspx", dealUploadRequest, cancellationToken).ConfigureAwait(false);
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponse>($"{_fullUri}/DealUploadWeb/CustomerUploadSubmission.aspx", dealUploadRequest, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<DealUploadResponce> CreditCheckSubmission(DealUploadRequest dealUploadRequest)
+        public async Task<DealUploadResponse> CreditCheckSubmission(DealUploadRequest dealUploadRequest)
         {
             CancellationToken cancellationToken = new CancellationToken();
 
             //api//DealUploadWeb/CreditCheckSubmission.aspx
-            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponce>($"{_fullUri}/DealUploadWeb/CreditCheckSubmission.aspx", dealUploadRequest, cancellationToken).ConfigureAwait(false);
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponse>($"{_fullUri}/DealUploadWeb/CreditCheckSubmission.aspx", dealUploadRequest, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<DecisionLoginResponse> LoginSubmission(DealUploadRequest dealUploadRequest)
+        {
+            CancellationToken cancellationToken = new CancellationToken();
+            //api//DealUploadWeb/LoginSubmission.aspx
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DecisionLoginResponse>($"{_fullUri}/DealUploadWeb/LoginSubmission.aspx", dealUploadRequest, cancellationToken).ConfigureAwait(false);
         }
     }
 }

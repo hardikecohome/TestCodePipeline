@@ -9,7 +9,7 @@ namespace DealnetPortal.Api.Models.Aspire
 {
     [Serializable]
     [XmlRoot(ElementName = "DecisionXML")]
-    public class DealUploadResponce
+    public class DealUploadResponse
     {
         [XmlAttribute("version")]
         public string Version { get; set; }

@@ -18,5 +18,7 @@ namespace DealnetPortal.Api.Integration.Services
         Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId);
 
         Task<IList<Alert>> InitiateCreditCheck(int contractId, string contractOwnerId);
+
+        Task<IList<Alert>> LoginUser(string userName, string password);
     }
 }
