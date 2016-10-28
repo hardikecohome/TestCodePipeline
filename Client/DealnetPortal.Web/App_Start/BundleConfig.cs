@@ -19,26 +19,24 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
+                "~/Scripts/jquery.placeholder.min.js", "~/Scripts/svgxuse.min.js",
+                "~/Scripts/layout.js", "~/Scripts/jquery-ui-1.12.0.js"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
-            bundles.Add(new ScriptBundle("~/bundles/libs").Include(
-                     "~/Scripts/chart.js",
+            bundles.Add(new ScriptBundle("~/bundles/data-tables-scripts").Include(
                      "~/Scripts/DataTables/jquery.dataTables.js",
                      "~/Scripts/datatables/dataTables.bootstrap.js",
-                     "~/Scripts/datatables/dataTables.responsive.js",
-                     "~/Scripts/jquery.placeholder.min.js",
-                     "~/Scripts/svgxuse.min.js",
-                     "~/Scripts/jquery.loader.js")
-                     );
-            bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
-                     "~/Scripts/layout.js", "~/Scripts/home-page.js", "~/Scripts/jquery-ui-1.12.0.js"));
+                     "~/Scripts/datatables/dataTables.responsive.js"));
+            bundles.Add(new ScriptBundle("~/bundles/home-page").Include(
+                "~/Scripts/chart.js", "~/Scripts/home-page.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
                 "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/camera-capturing.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").IncludeDirectory(
-                     "~/Scripts/BasicInfo", "*.js").Include(
+                "~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include("~/Scripts/datejs.js"));
             bundles.Add(new ScriptBundle("~/bundles/credit-check").Include(
                 "~/Scripts/credit-check.js").Include("~/Scripts/datejs.js").Include("~/Scripts/jquery.form.js")
@@ -59,15 +57,10 @@ namespace DealnetPortal.Web
                         .Include("~/Scripts/jquery.form.js").Include("~/Scripts/general-address-autocomplete.js")
                         .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/contract-edit.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css",
+            bundles.Add(new StyleBundle("~/bundles/data-tables-content").Include(
                       "~/Content/datatables/css/jquery.dataTables.css",
-                "~/Content/datatables/css/dataTables.bootstrap.css",
-                "~/Content/datatables/css/responsive.bootstrap.css",
-                      "~/Content/home-page.css", "~/Content/credit-check.css"
-                      ));
+                      "~/Content/datatables/css/dataTables.bootstrap.css",
+                      "~/Content/datatables/css/responsive.bootstrap.css"));
         }
     }
 }
