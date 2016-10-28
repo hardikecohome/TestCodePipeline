@@ -44,28 +44,31 @@
 </div>
 
 <table id="work-items-table" class="display responsive" width="100%">
-	<thead>
-		<tr>
-			<th class="all id-cell">Contract&nbsp;#</th>
-			<th class="all customer-cell">Customer</th>
-			<th class="min-tablet-p">Status</th>
-			<th class="min-desktop">Email</th>
-			<th class="min-desktop">Phone</th>
-			<th class="min-desktop">Date</th>
-			<th class="min-desktop">Equipment</th>
-		    <th class="min-desktop">Value</th>
-            <th class="min-desktop hidden">RemainingDescription</th>
-			<th class="all edit-cell"></th>
-		</tr>
-	</thead>
+    <thead>
+    <tr>
+        <th class="all id-cell">Contract&nbsp;#</th>
+        <th class="all customer-cell">Customer</th>
+        <th class="min-tablet-p">Status</th>
+        <th class="min-desktop">Email</th>
+        <th class="min-desktop">Phone</th>
+        <th class="min-desktop">Date</th>
+        <th class="min-desktop">Equipment</th>
+        <th class="min-desktop">Value</th>
+        <th class="min-desktop hidden">RemainingDescription</th>
+        <th class="all edit-cell"></th>
+    </tr>
+    </thead>
 </table>
+
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+@Styles.Render("~/bundles/data-tables-content")
 @section scripts
 {
     <script type="text/javascript">
         var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
         var editContractUrl = '@Url.Action("ContractEdit", "MyDeals")';
     </script>
-
+    
+    @Scripts.Render("~/bundles/data-tables-scripts")
     @Scripts.Render("~/bundles/my-deals")
 }
