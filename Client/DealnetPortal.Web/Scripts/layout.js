@@ -211,8 +211,9 @@ function addIconsToFields(fields){
   iconPassField.appendTo(fieldPassParent);
   setTimeout(function(){
     fields.each(function(){
+      console.log($(this).text());
       if($(this).val().length > 0){
-        $(this).siblings('.clear-input').show();
+        $(this).siblings('.clear-input').css('display', 'block');
       }else{
         $(this).siblings('.clear-input').hide();
       }
@@ -225,7 +226,7 @@ function toggleClearInputIcon(fields){
   var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   fields.on('keyup', function(){
     if($(this).val().length !== 0){
-      $(this).siblings('.clear-input').show();
+      $(this).siblings('.clear-input').css('display', 'block');
     }else{
       $(this).siblings('.clear-input').hide();
     }
