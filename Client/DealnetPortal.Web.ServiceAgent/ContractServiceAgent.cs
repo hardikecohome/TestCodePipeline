@@ -219,16 +219,32 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> AddDocumentToContract(ContractDocumentDTO document)
+        public async Task<Tuple<int?, IList<Alert>>> AddDocumentToContract(ContractDocumentDTO document)
         {
             try
             {
                 return
-                    await Client.PutAsync<ContractDocumentDTO, IList<Alert>>($"{_fullUri}/AddDocument", document);
+                    await Client.PutAsync<ContractDocumentDTO, Tuple<int?, IList<Alert>>>($"{_fullUri}/AddDocument", document);
             }
             catch (Exception ex)
             {
                 this._loggingService.LogError("Can't add document to contract", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> RemoveContractDocument(int documentId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/RemoveDocument?documentId={documentId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove contract document", ex);
                 throw;
             }
         }

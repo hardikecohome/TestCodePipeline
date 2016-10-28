@@ -17,85 +17,54 @@
 		<div class="dealnet-large-header">Documents</div>
         <br />      
 		<div class="documents-container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="no-documents">There are no uploaded documents, yet</div>
-                </div>
-				<div class="col-md-6">
-					<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
-						<span>Upload Documents</span>
-					</a>
-				</div>
-			</div>         
-            <br>
-			<div class="row ">
-				<div class="report-documents-list credit-check-info-hold no-vertical-border">
-					<div class="col-md-6 document-col">
-						<div class="dealnet-credit-check-section">
-							<div class="documents-inner">
-								<h3 class="dealnet-section-title">Main Documents</h3>
-								<div class="row form-group">
-									<label class="documents1 "></label>
+		    <div class="row ">
+		        <div class="report-documents-list credit-check-info-hold no-vertical-border">
+		            <div class="col-md-6 document-col">
+		                <div class="dealnet-credit-check-section">
+		                    <div class="documents-inner" id="main-documents">
+		                        <h3 class="dealnet-section-title">Main Documents</h3>
+                                @foreach (var documentType in Model.UploadDocumentsInfo.DocumentTypes)
+                                {
+                                    if (documentType.Value == "7") { continue; } //For "Other" types
+                                    <div class="row form-group document-row">
+                                        <label class="dealnet-field-caption col-sm-6">@documentType.Text</label>
+                                        <div class="dealnet-field-holder col-sm-6">
+                                            <span class="document-item" id="document-type-@(documentType.Value)">
+                                                @{
+                                                    var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == documentType.Value);
+                                                }
+                                                @Html.Hidden("documentId", document?.DocumentId)
+                                                <a href="#" @(document == null ? "style=display:none;" : "") class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+                                                <a href="#" class="dealnet-info-link text-semibold file-name">
+                                                    @(document?.DocumentName)
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+		                    </div>
+		                </div>
+		            </div>
 
-									@*<div class="dealnet-field-holder col-sm-6">
-										<span class="document-item">
-											@*<a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
-											<a href="#" class="dealnet-info-link text-semibold">
-												<svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
-											</a>
-										</span>
-									</div
-							@*	</div>
-                                <div class="row form-group">
-        <label class="dealnet-field-caption col-sm-6">Signed Installation Certificate</label>
-        <div class="dealnet-field-holder col-sm-6">
-            <span class="document-item">
-                <a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
-                <a href="#" class="dealnet-info-link text-semibold">
-                    456789.pdf<svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
-                </a>
-            </span>
-        </div>
-    </div>
-    <div class="row form-group">
-        <label class="dealnet-field-caption col-sm-6">Invoice</label>
-        <div class="dealnet-field-holder col-sm-6">
-            <span class="document-item"></span>
-        </div>
-    </div>
-    <div class="row form-group">
-        <label class="dealnet-field-caption col-sm-6">Copy of Void Personal Cheque</label>
-        <div class="dealnet-field-holder col-sm-6">
-            <span class="document-item">
-                <a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
-                <a href="#" class="dealnet-info-link text-semibold">
-                    456789.mp3<svg aria-hidden="true" class="icon icon-audio"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-audio")"></use></svg>
-                </a>
-            </span>
-        </div>
-    </div>
-    <div class="row form-group">
-        <label class="dealnet-field-caption col-sm-6">Extended Warranty Form</label>
-        <div class="dealnet-field-holder col-sm-6">
-            <span class="document-item"></span>
-        </div>
-    </div>
-    <div class="row form-group">*@
-									<label class="dealnet-field-caption col-sm-6"></label>
-									<div class="dealnet-field-holder col-xs-6">
-										<span class="document-item"></span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-6 document-col full-height">
-						<div class="dealnet-credit-check-section">
-							<div class="documents-inner">
-									<h3 class="dealnet-section-title">Other Documents</h3>
-                                   <label class="documents2 dealnet-field-caption col-md-10"></label>
-									@*<div class="row form-group">
+		            <div class="col-md-6 document-col full-height">
+		                <div class="dealnet-credit-check-section">
+		                    <div class="documents-inner" id="other-documents">
+		                        <h3 class="dealnet-section-title">Other Documents</h3>
+		                        @foreach (var document in Model.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
+		                        {
+		                            <div class="row form-group document-row">
+		                                <div class="dealnet-field-holder col-sm-6">
+		                                    <span class="document-item">
+                                                @Html.Hidden("documentId", document.DocumentId)
+                                                <a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+                                                <a href="#" class="dealnet-info-link text-semibold">
+                                                    @document.DocumentName
+                                                </a>
+                                            </span>
+		                                </div>
+		                            </div>
+		                        }
+		                        @*<div class="row form-group">
 										<label class="dealnet-field-caption col-sm-6">12/10/2015</label>
 										<div class="dealnet-field-holder col-sm-6">
 											<span class="document-item">
@@ -106,15 +75,44 @@
 											</span>
 										</div>
 									</div>*@
-									@*<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
+		                        @*<a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
 										<span>Upload Documents</span>
 									</a>*@
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="well success-well">
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+            <br>
+		    <div class="row">
+		        <div class="col-md-6">
+		            @*<div class="no-documents">There are no uploaded documents, yet</div>*@
+		        </div>
+		        <div class="col-md-6">
+		            <a href="#" onClick="$('#upload-documents-modal').modal();" class="file-upload btn dealnet-button dealnet-success-button">
+		                <span>Upload Documents</span>
+		            </a>
+		        </div>
+		        @using (Html.BeginForm("RemoveDocument", "MyDeals", FormMethod.Post, new {id = "remove-document-form"}))
+		        {
+		            @Html.AntiForgeryToken()
+		            @Html.Hidden("documentId")
+		        }
+		        <div class="hidden">
+		            <div class="row form-group document-row" id="other-document-template">
+		                <div class="dealnet-field-holder col-sm-6">
+		                    <span class="document-item">
+                                @Html.Hidden("documentId")
+                                <a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+                                <a href="#" class="dealnet-info-link text-semibold file-name">
+                                </a>
+                            </span>
+		                </div>
+		            </div>
+		        </div>
+            </div>
+            <br>
+			<div class="well success-well" id="upload-success" style="display:none;">
 				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Your documents were successfully uploaded
 			</div>
 		</div>
@@ -1783,43 +1781,43 @@ foreach (var comment in comments)
 				<div class="upload-documents-container">
 					<h3 class="dealnet-section-title">Upload main documents</h3>
 					<div class="documents-main-group">
-						<div class="form-group main-document-template">
-							<div class="row">								
-                                   @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {
-                                           enctype = "multipart/form-data" }))
+						<div class="form-group main-document-template">								
+                                   @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                    {
-                                    <div class="col-md-6">
-								    <label for="">Choose type of a document</label>                                  
-                                    @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
-                                        Model.UploadDocumentsInfo.DocumentTypes, new { @class = "form-control",Name = "DocumentTypeId"})
-									@*<select name="" id="" class="form-control">
-										<option value="">Signed contract</option>
-										<option value="">Signed Installation Certificate</option>
-										<option value="">Invoice</option>
-										<option value="">Copy of Void Personal Cheque</option>
-										<option value="">Extended Warranty Form</option>
-										<option value="">Third party verification call</option>
-									</select>*@                                  
-                                     </div>
-                                    @Html.HiddenFor(m=>Model.BasicInfo.ContractId, new { Name = "ContractId" })                                   
-                                    <div class="col-md-6">
-									<div class="dealnet-label empty-label">&nbsp;</div>                                   
-                                        <div class="file-upload btn  btn dealnet-button dealnet-success-button block-button">
-                                            <span>Choose file and upload</span>
-                                            <input type="file"  name="File" accept="image/*" class="upload" id="upload-new-photo" />                                                                                                                             
-                                       </div>                                                                                                                                                    
-								</div>  
+                                       <div class="row">
+                                           <div class="col-md-6">
+                                               <label for="">Choose type of a document</label>
+                                               @Html.DropDownListFor(m => m.UploadDocumentsInfo.DocumentsForUpload[0].DocumentTypeId,
+                                                   Model.UploadDocumentsInfo.DocumentTypes, new {@class = "form-control document-type-id", Name = "DocumentTypeId"})
+                                               @*<select name="" id="" class="form-control">
+                                                    <option value="">Signed contract</option>
+                                                    <option value="">Signed Installation Certificate</option>
+                                                    <option value="">Invoice</option>
+                                                    <option value="">Copy of Void Personal Cheque</option>
+                                                    <option value="">Extended Warranty Form</option>
+                                                    <option value="">Third party verification call</option>
+                                                </select>*@
+                                           </div>
+                                           @Html.HiddenFor(m => Model.BasicInfo.ContractId, new {Name = "ContractId"})
+                                           <div class="col-md-6">
+                                               <div class="dealnet-label empty-label">&nbsp;</div>
+                                               <div class="file-upload btn  btn dealnet-button dealnet-success-button block-button">
+                                                   <span>Choose file and upload</span>
+                                                   <input type="file" name="File" class="upload" id="upload-new-photo"/>
+                                               </div>
+                                           </div>
+
+                                       </div>
+                                       <div class="progress-container">
+                                           <span class="progress-bar-value" style="left: 25%">0%</span>
+                                           <div class="progress">
+                                               <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                           </div>
+                                           <div class="text-center file-name"></div>
+                                           <a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+                                       </div>
                                    }
-							</div>
-							<div class="progress-container">
-								<span class="progress-bar-value" style="left: 25%">0%</span>
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-								</div>
-								<div class="text-center">123456.pdf</div>
-								<a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-							</div>
-						</div>
+                        </div>
 					</div>
 					<a href="#" class="dealnet-info-link add-main-document">Add new main document</a>
 				</div>
@@ -1827,35 +1825,35 @@ foreach (var comment in comments)
 					<h3 class="dealnet-section-title">Or other documents</h3>
 					<div class="documents-other-group">
 						<div class="form-group other-document-template">
-							<div class="row">
-                                @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {
-                                           enctype = "multipart/form-data" }))
-                                   {                                   
-								<div class="col-md-6">
-									<label for="">Name of a document</label>
-									<div class="control-group">
-										<input type="text" name="DocumentName" class="form-control">
-									</div>
-								</div>
-                                @Html.HiddenFor(m => Model.BasicInfo.ContractId, new { Name = "ContractId" })
-								<div class="col-md-6">
-									<div class="dealnet-label empty-label">&nbsp;</div>
-									<div class="file-upload btn dealnet-button dealnet-success-button block-button">
-										<span>Choose file and upload</span>
-										<input type="file" name="File" accept="image/*" class="upload" id="upload-new-photo"/>
-									</div>
-								</div>
+                                @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">Name of a document</label>
+                                            <div class="control-group">
+                                                <input type="text" name="DocumentName" class="form-control">
+                                            </div>
+                                        </div>
+                                        @Html.HiddenFor(m => Model.BasicInfo.ContractId, new {Name = "ContractId"})
+                                        <div class="col-md-6">
+                                            <div class="dealnet-label empty-label">&nbsp;</div>
+                                            <div class="file-upload btn dealnet-button dealnet-success-button block-button">
+                                                <span>Choose file and upload</span>
+                                                <input type="file" name="File" class="upload" id="upload-new-photo"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="progress-container">
+                                        <span class="progress-bar-value" style="left: 25%">0%</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                        </div>
+                                        <div class="text-center file-name"></div>
+                                        <a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+                                    </div>
                                 }
-							</div>
-							<div class="progress-container">
-								<span class="progress-bar-value" style="left: 25%">0%</span>
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-								</div>
-								<div class="text-center">123456.pdf</div>
-								<a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
-							</div>
-						</div>
+                        </div>
 					</div>
 					<a href="#" class="dealnet-info-link add-other-document">Add new other document</a>
 				</div>
@@ -1875,14 +1873,5 @@ foreach (var comment in comments)
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/contract-edit") ;
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        var options = {
-            Url: '@Url.Action("UploadedList", "MyDeals", new { Id = Model.BasicInfo.ContractId })',
-        };
-        $(document).MyDealFunctionality(options);
-    });
-  </script>
+    @Scripts.Render("~/bundles/contract-edit")
 }

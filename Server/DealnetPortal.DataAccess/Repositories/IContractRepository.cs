@@ -135,8 +135,10 @@ namespace DealnetPortal.DataAccess.Repositories
         Comment TryAddComment(Comment comment, string contractOwnerId);
 
         bool TryRemoveComment(int commentId, string contractOwnerId);
-        
-        Contract AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
+
+        ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
+
+        bool TryRemoveContractDocument(int documentId, string contractOwnerId);
 
         IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId);
 

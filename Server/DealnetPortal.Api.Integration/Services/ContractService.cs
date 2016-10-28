@@ -606,12 +606,14 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public IList<Alert> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
+        public Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
         {
             var alerts = new List<Alert>();
+            ContractDocument doc = null;
             try
             {
-                _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document), contractOwnerId);
+                doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
+                    contractOwnerId);
                 _unitOfWork.Save();
             }
             catch (Exception ex)
@@ -622,6 +624,42 @@ namespace DealnetPortal.Api.Integration.Services
                     Type = AlertType.Error, Header = "Failed to add document to contract", Message = ex.ToString()
                 });
             }
+            return new Tuple<int?, IList<Alert>>(doc?.Id, alerts); ;
+        }
+
+        public IList<Alert> RemoveContractDocument(int documentId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.TryRemoveContractDocument(documentId, contractOwnerId))
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot remove contract document";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.DocumentUpdateFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to remove contract document", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.DocumentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
             return alerts;
         }
     }
