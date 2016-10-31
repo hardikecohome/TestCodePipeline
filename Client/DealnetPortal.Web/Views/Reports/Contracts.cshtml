@@ -103,13 +103,13 @@
 								</div>
 							</div>
 						</div>
-                        @if (contract.BasicInfo.SubDealersOptions.Count > 1)
+                        @if (Model.BasicInfo.SubDealers?.Any() ?? false)
                         {
                             <div class="form-group">
                                 <div class="row">
                                     <label class="dealnet-field-caption col-xs-6">Sub-Dealer</label>
                                     <div class="dealnet-field-holder col-xs-6">
-                                        @(contract.BasicInfo.SubDealersOptions.FirstOrDefault(x => x.Id == contract.BasicInfo.SubmittingDealerId)?.DisplayName)
+                                       @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
                                     </div>
                                 </div>
                             </div>
