@@ -422,7 +422,7 @@ namespace DealnetPortal.Api.Controllers
                 {
                     await this.UserManager.SendEmailAsync(user.Id,
                             "Your one-time password",
-                            $"This is your one-time password: {oneTimePass}\r\n Please use it to login the protal, and then you will be prompted to change the password.");
+                            $"This is your one-time password: {oneTimePass}\r\n Please use it to login the portal, and then you will be prompted to change the password.");
                     _loggingService.LogInfo("Confirmation email sended");
                 }
                 else
