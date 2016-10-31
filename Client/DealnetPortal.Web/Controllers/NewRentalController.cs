@@ -126,7 +126,7 @@ namespace DealnetPortal.Web.Controllers
                 await Task.Delay(timeOut);
             }
 
-            if (checkResult?.Item1 == null || (checkResult.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+            if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
                 return View("~/Views/Shared/Error.cshtml");
             }
