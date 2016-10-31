@@ -144,6 +144,17 @@ namespace DealnetPortal.Api.Integration.Services
                                 creditCheckResult.ContractId = contractId;
                             }
                         }
+                        else
+                        {
+                            //TODO: Only for test. Remove in the future
+                            creditCheckResult = new CreditCheckDTO()
+                            {
+                                CreditCheckState = CreditCheckState.Approved,
+                                ScorecardPoints = 150,
+                                CreditAmount = 10000,
+                                ContractId = contractId
+                            };
+                        }
                     }
                     catch (Exception ex)
                     {
