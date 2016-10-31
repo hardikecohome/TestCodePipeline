@@ -313,22 +313,35 @@ namespace DealnetPortal.Api.Integration.Services
             var agreementType = contract.Equipment.AgreementType;
             var province =
                 contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
-            // get agreement template
+            // get agreement template            
+
             var agreementTemplate = _fileRepository.FindAgreementTemplate(at =>
-                at.AgreementType == contract.Equipment.AgreementType && (string.IsNullOrEmpty(province) || at.State == province));
+                at.DealerId == contractOwnerId
+                && (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType)
+                && (string.IsNullOrEmpty(province) || at.State == province));
+
             if (agreementTemplate == null && agreementType == AgreementType.RentalApplicationHwt)
             {
-                _fileRepository.FindAgreementTemplate(at =>
-                    at.AgreementType == AgreementType.RentalApplication && (string.IsNullOrEmpty(province) || at.State == province));
+                agreementTemplate = _fileRepository.FindAgreementTemplate(at =>
+                at.DealerId == contractOwnerId
+                && (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType));
             }
+
+            if (agreementTemplate == null)
+            {
+                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.DealerId == contractOwnerId);
+            }
+
             if (agreementTemplate == null)
             {
                 agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementType == contract.Equipment.AgreementType);
             }
+
             if (agreementTemplate == null)
             {
                 agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.State == province);
             }
+
             if (agreementTemplate == null)
             {
                 agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementForm != null);
@@ -337,7 +350,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (agreementTemplate == null)
             {
                 var errorMsg =
-                    $"Can't find agreement template for contract with province = {province} and type = {agreementType}";
+                    $"Can't find agreement template for a dealer contract {contractOwnerId} with province = {province} and type = {agreementType}";
                 //alerts.Add(new Alert()
                 //{
                 //    Type = AlertType.Error,
