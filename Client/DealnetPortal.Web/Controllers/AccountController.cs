@@ -105,6 +105,7 @@ namespace DealnetPortal.Web.Controllers
                 return View(model);
             }
             model.ApplicationId = ApplicationSettingsManager.PortalId;
+            model.UserName = model.Email;
             var result = await _userManagementServiceAgent.Register(model);
             if (result.Any(item => item.Type == AlertType.Error))
             {

@@ -65,7 +65,7 @@ namespace DealnetPortal.Api.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 
