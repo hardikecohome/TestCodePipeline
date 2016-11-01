@@ -501,13 +501,19 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 _unitOfWork.Save();
 
-                //update customers on aspire
-                //var aspireAlerts =
-                //        _aspireService.UpdateContractCustomer(null, contractOwnerId).GetAwaiter().GetResult();
-                //if (aspireAlerts?.Any() ?? false)
-                //{
-                //    alerts.AddRange(aspireAlerts);
-                //}
+                //TODO: update customers on aspire
+                if (customers?.Any() ?? false)
+                {
+                    var contractId = customers.First().ContractId;
+                    if (contractId.HasValue)
+                    {                        
+                        _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
+                        //if (aspireAlerts?.Any() ?? false)
+                        //{
+                        //    alerts.AddRange(aspireAlerts);
+                        //}
+                    }
+                }                
             }
             catch (Exception ex)
             {

@@ -43,6 +43,28 @@ namespace DealnetPortal.Web.Controllers
             _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
+        public async Task<ActionResult> ContractEdit(int contractId)
+        {
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
+            {
+                if (contractResult.Item1.ContractState == ContractState.CreditContirmed)
+                {
+                    return RedirectToAction("EquipmentInformation", new { contractId = contractId });
+                }
+                if (contractResult.Item1.ContractState == ContractState.Completed)
+                {
+                    return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
+                }
+            }
+            else
+            {
+                return RedirectToAction("Error", "Info", new { alers = contractResult?.Item2 });
+            }
+            return RedirectToAction("BasicInfo", new {id = contractId});
+        }
+
+
         public async Task<ActionResult> BasicInfo(int? contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
@@ -54,12 +76,13 @@ namespace DealnetPortal.Web.Controllers
                 {
                     contractId = contract.Item1.Id;
                 }
+                else
+                {
+                    return RedirectToAction("Error", "Info", new {alers = contract?.Item2});
+                }
             }
-            if (contractId != null)
-            {
-                return View(await _contractManager.GetBasicInfoAsync(contractId.Value));
-            }
-            return View();
+
+            return View(await _contractManager.GetBasicInfoAsync(contractId.Value));
         }
 
         [HttpPost]

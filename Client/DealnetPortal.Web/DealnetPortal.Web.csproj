@@ -179,6 +179,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -727,6 +728,7 @@
     <Content Include="Views\Reports\Contract.cshtml" />
     <Content Include="Views\Reports\Contracts.cshtml" />
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
+    <Content Include="Views\Info\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

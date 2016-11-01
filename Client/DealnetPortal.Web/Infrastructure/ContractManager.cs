@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.Infrastructure
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
-        }
+        }        
 
         public async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
         {
@@ -234,6 +234,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             if (customers.Any())
             {
+                customers.ForEach(c => c.ContractId = contactAndPaymentInfo.ContractId);
                 alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
             }
 
