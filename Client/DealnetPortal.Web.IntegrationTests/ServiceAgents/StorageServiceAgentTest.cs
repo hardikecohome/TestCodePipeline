@@ -63,5 +63,23 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             Assert.IsNotNull(res);
             Assert.IsNotNull(res.Item1);
         }
+
+        [TestMethod]
+        public void TestUploadAgreementTemplate3()
+        {
+            IStorageServiceAgent serviceAgent = new StorageServiceAgent(_client, _loggingService.Object);
+
+            var pdfData = File.ReadAllBytes("SeedData//EcoSmart  H.V.A.C RENTAL AGREEMENT - Ontario Aug 2016.pdf");
+            var aggreement = new AgreementTemplateDTO()
+            {                
+                State = "ON",
+                DealerName = "canadianhome",
+                TemplateName = "Canadian Home Efficiency HVAC",                
+                AgreementFormRaw = pdfData
+            };
+            var res = serviceAgent.UploadAgreementTemplate(aggreement).GetAwaiter().GetResult();
+            Assert.IsNotNull(res);
+            Assert.IsNotNull(res.Item1);
+        }
     }
 }

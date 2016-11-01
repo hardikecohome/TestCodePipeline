@@ -11,6 +11,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace DealnetPortal.Api.Controllers
 {
@@ -39,6 +40,18 @@ namespace DealnetPortal.Api.Controllers
                 var result = await Task.Run(() =>
                 {
                     var newAgreement = Mapper.Map<AgreementTemplate>(newAgreementTemplate);
+
+                    if (string.IsNullOrEmpty(newAgreement.DealerId) &&
+                        !string.IsNullOrEmpty(newAgreementTemplate.DealerName))
+                    {
+                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var user = userManager?.FindByNameAsync(newAgreementTemplate.DealerName).GetAwaiter().GetResult();
+                        if (user != null)
+                        {
+                            newAgreement.DealerId = user.Id;
+                        }
+                    }
+
                     //var addEquipments = newAgreementTemplate.EquipmentTypes;
                     //if (addEquipments?.Any() ?? false)
                     //{

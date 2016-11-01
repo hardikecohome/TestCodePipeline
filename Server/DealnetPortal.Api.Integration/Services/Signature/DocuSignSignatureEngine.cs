@@ -32,6 +32,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private Document _document { get; set; }
 
+        private string _templateId { get; set; }
+
+        private bool _templateUsed { get; set; }
+
         private List<Text> _textTabs { get; set; }
         private List<Checkbox> _checkboxTabs { get; set; }
         private List<SignHere> _signHereTabs { get; set; }
@@ -115,13 +119,22 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             {                
                 if (contract != null & agreementTemplate != null)
                 {
-                    _document = new Document
+                    if (!string.IsNullOrEmpty(agreementTemplate.ExternalTemplateId))
                     {
-                        DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.AgreementForm),
-                        Name = agreementTemplate.TemplateName,
-                        DocumentId = contract.Id.ToString(),
-                        TransformPdfFields = "true"
-                    };
+                        _templateId = agreementTemplate.ExternalTemplateId;
+                        _templateUsed = true;
+                    }
+                    else
+                    {
+                        _templateUsed = false;
+                        _document = new Document
+                        {
+                            DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.AgreementForm),
+                            Name = agreementTemplate.TemplateName,
+                            DocumentId = contract.Id.ToString(),
+                            TransformPdfFields = "true"
+                        };
+                    }
                     _signers = new List<Signer>();
                     _copyViewers = new List<CarbonCopy>();
                     _envelopeDefinition = new EnvelopeDefinition();
@@ -210,27 +223,29 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             {
                 var sendAlerts = new List<Alert>();
 
-                _envelopeDefinition.EmailSubject = EmailSubject;
-                _envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
-                {
-                    new CompositeTemplate()
-                    {
-                        InlineTemplates = new List<InlineTemplate>()
-                        {
-                            new InlineTemplate()
-                            {
-                                Sequence = "1",
-                                Recipients = new Recipients()
-                                {
-                                    Signers = _signers,
-                                    CarbonCopies = _copyViewers
-                                }
-                            }
-                        },
-                        Document = _document
-                    },
-                };
-                _envelopeDefinition.Status = "sent";
+                _envelopeDefinition = PrepareEnvelope();
+
+                //_envelopeDefinition.EmailSubject = EmailSubject;
+                //_envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
+                //{
+                //    new CompositeTemplate()
+                //    {
+                //        InlineTemplates = new List<InlineTemplate>()
+                //        {
+                //            new InlineTemplate()
+                //            {
+                //                Sequence = "1",
+                //                Recipients = new Recipients()
+                //                {
+                //                    Signers = _signers,
+                //                    CarbonCopies = _copyViewers
+                //                }
+                //            }
+                //        },
+                //        Document = _document
+                //    },
+                //};
+                //_envelopeDefinition.Status = "sent";
 
                 EnvelopesApi envelopesApi = new EnvelopesApi();
                 EnvelopeSummary envelopeSummary = envelopesApi.CreateEnvelope(AccountId, _envelopeDefinition);
@@ -263,6 +278,75 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
 
             return alerts;
+        }
+
+        private EnvelopeDefinition PrepareEnvelope()
+        {
+            EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition()
+            {
+                EmailSubject = EmailSubject
+            };
+
+            if (_templateUsed)
+            {
+                FillEnvelopeForTemplate(envelopeDefinition);
+            }
+            else
+            {
+                envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
+                {
+                    new CompositeTemplate()
+                    {
+                        InlineTemplates = new List<InlineTemplate>()
+                        {
+                            new InlineTemplate()
+                            {
+                                Sequence = "1",
+                                Recipients = new Recipients()
+                                {
+                                    Signers = _signers,
+                                    CarbonCopies = _copyViewers
+                                }
+                            }
+                        },
+                        Document = _document
+                    },
+                };
+            }
+            envelopeDefinition.Status = "sent";
+
+            return envelopeDefinition;
+        }
+
+        private void FillEnvelopeForTemplate(EnvelopeDefinition envelopeDefinition)
+        {
+            List<TemplateRole> rolesList = new List<TemplateRole>();
+
+            _signers.ForEach(signer =>
+            {
+                rolesList.Add(new TemplateRole()
+                {
+                    Name = signer.Name,
+                    Email = signer.Email,
+                    RoutingOrder = signer.RoutingOrder,
+                    RoleName = $"Signer{signer.RoutingOrder}",
+                    Tabs = signer.Tabs
+                });
+            });            
+
+            _copyViewers.ForEach(viewer =>
+            {
+                rolesList.Add(new TemplateRole()
+                {
+                    Email = viewer.Email,
+                    Name = viewer.Name,
+                    RoutingOrder = viewer.RoutingOrder,
+                    RoleName = "Viewer",                    
+                });
+            });
+
+            envelopeDefinition.TemplateId = _templateId;
+            envelopeDefinition.TemplateRoles = rolesList;            
         }
 
         private string CreateAuthHeader(string userName, string password, string integratorKey)

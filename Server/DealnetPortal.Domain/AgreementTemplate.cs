@@ -25,9 +25,7 @@ namespace DealnetPortal.Domain
         public ApplicationUser Dealer { get; set; }
 
         public byte[] AgreementForm { get; set; }
-        
-        //public int? EquipmentTypeId { get; set; }
-        //[ForeignKey("EquipmentTypeId")]
-        //public virtual List<EquipmentType> EquipmentTypes { get; set; }
+
+        public string ExternalTemplateId { get; set; }
     }
 }
