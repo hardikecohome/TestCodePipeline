@@ -498,7 +498,7 @@
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                             @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Description, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Description }),
+                                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type }),
                                                     new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                         </div>
                                     </div>
@@ -1031,7 +1031,7 @@
 				                    <div class="dealnet-field-holder">
 					                    <div class="control-group">
 						                    @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-						                    ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Description, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Description }),
+						                    ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type }),
 						                    new {@class = "form-control"})
 					                    </div>
 				                    </div>
