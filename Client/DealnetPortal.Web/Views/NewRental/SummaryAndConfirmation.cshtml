@@ -554,7 +554,9 @@
                                 MONTHLY PAYMENT
                             </div>
                             <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                <div class="inline-children">
                                 $@Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -753,9 +755,7 @@
                                 @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes)
                             </div>
                             <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-                                <div class="dealnet-disabled-input">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                </div>
+                                @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -1122,7 +1122,7 @@
 				                    </div>
 			                    </div>
 		                    </div>
-		                    <div class="col-md-4 col-sm-5" style="display: none;">
+		                    <div class="col-md-4 col-sm-5">
 			                    <div class="form-group">
 				                    <div class="dealnet-label dealnet-field-caption">Photo of Void Cheque</div>
 				                    <div class="equip-photo-group" style="position: relative;">
@@ -1135,7 +1135,7 @@
 				                    </div>
 			                    </div>
 		                    </div>
-		                    <div class="col-md-8 col-sm-7" style="display: none;">
+		                    <div class="col-md-8 col-sm-7">
 			                    <div class="form-group">
 				                    <div class="file-upload btn dealnet-button dealnet-success-button">
 					                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
