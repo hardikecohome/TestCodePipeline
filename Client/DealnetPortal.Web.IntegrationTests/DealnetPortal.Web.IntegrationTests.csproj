@@ -108,6 +108,9 @@
     <None Include="SeedData\EcoHome %28ON%29 rental HVAC Other Equipment.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SeedData\EcoSmart  H.V.A.C RENTAL AGREEMENT - Ontario Aug 2016.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Img\Barcode-Driver_License.CA.jpg">

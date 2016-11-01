@@ -55,7 +55,8 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>();
 
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
-                .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm));
+                .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
+                .ForMember(d => d.DealerName, s => s.ResolveUsing(src => src.Dealer?.UserName ?? string.Empty));
 
             mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>();
             mapperConfig.CreateMap<ContractDocument, ContractDocumentDTO>()

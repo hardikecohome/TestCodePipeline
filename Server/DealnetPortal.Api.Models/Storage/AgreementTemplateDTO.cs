@@ -21,8 +21,10 @@ namespace DealnetPortal.Api.Models.Storage
 
         public string DealerId { get; set; }
 
+        public string DealerName { get; set; }
+
         public byte[] AgreementFormRaw { get; set; }
 
-        //public virtual List<string> EquipmentTypes { get; set; }
+        public string ExternalTemplateId { get; set; }
     }
 }
