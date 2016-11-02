@@ -488,16 +488,7 @@ namespace DealnetPortal.DataAccess
                 ExternalTemplateId = "a7ef2bce-abfb-4643-8133-884b19f0b354",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario"))
             };
-            context.AgreementTemplates.Add(template);
-
-            template = new AgreementTemplate()
-            {
-                State = "ON",
-                TemplateName = "OSS RENTAL AGREEMENT - EGD 7-8-16",
-                ExternalTemplateId = "a7ef2bce-abfb-4643-8133-884b19f0b354",
-                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Safety"))
-            };
-            context.AgreementTemplates.Add(template);
+            context.AgreementTemplates.Add(template);           
 
             template = new AgreementTemplate()
             {
