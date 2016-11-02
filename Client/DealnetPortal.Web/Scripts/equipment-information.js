@@ -29,6 +29,9 @@
                 $("#agreement-type").change(function () {
                     manageAgreementElements($(this).find(":selected").val());
                 });
+                if (initAgreementType === '0') {
+                    recalculateTotalCashPrice();
+                }
             });
 
 function manageAgreementElements(agreementType) {
@@ -38,6 +41,14 @@ function manageAgreementElements(agreementType) {
             $(".equipment-cost").each(function () {
                 $(this).rules("add", "required");
             });
+            $(".monthly-cost").prop("disabled", true);
+            $(".monthly-cost").each(function () {
+                $(this).rules("remove", "required");
+            });
+            $('.loan-element').show();
+            $('.rental-element').hide();
+            $('#total-monthly-payment').rules("remove", "required");
+            $('#requested-term-label').text("Loan Term");
             break;
         case '1':
         case '2':
@@ -45,6 +56,14 @@ function manageAgreementElements(agreementType) {
             $(".equipment-cost").each(function() {
                 $(this).rules("remove", "required");
             });
+            $(".monthly-cost").prop("disabled", false);
+            $(".monthly-cost").each(function () {
+                $(this).rules("add", "required");
+            });
+            $('.loan-element').hide();
+            $('.rental-element').show();
+            $('#total-monthly-payment').rules("add", "required");
+            $('#requested-term-label').text("Requested Term");
             break;
     }
 }
@@ -81,13 +100,26 @@ function addExistingEquipment() {
 function recalculateTotalMonthlyPayment() {
     var sum = 0;
     $(".monthly-cost").each(function() {
-        var numberValue = Number(this.value);
-        var parent = $(this).parents(".new-equipment");
+        var numberValue = parseFloat(this.value);
         if (!isNaN(numberValue)) {
             sum += numberValue;
         }
     });
+    
     $("#total-monthly-payment").val(sum);
+}
+
+function recalculateTotalCashPrice() {
+    var sum = 0;
+    $(".equipment-cost").each(function () {
+        var numberValue = parseFloat(this.value);
+        if (!isNaN(numberValue)) {
+            sum += numberValue;
+        }
+    });
+
+    $("#equipment-cash-price").text(sum);
+    calculateLoanValues();
 }
 
 function resetFormValidator(formId) {

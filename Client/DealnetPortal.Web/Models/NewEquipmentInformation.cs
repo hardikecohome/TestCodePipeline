@@ -19,11 +19,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
         public double? Cost { get; set; }
-
-        [Required]
+        
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
         [Display(Name = "Monthly Cost")]
-        public double MonthlyCost { get; set; }
+        public double? MonthlyCost { get; set; }
 
         [Display(Name = "Estimated Installation Date")]
         [DataType(DataType.Date)]

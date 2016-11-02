@@ -14,10 +14,18 @@ namespace DealnetPortal.Domain
         public AgreementType AgreementType { get; set; }
         public ICollection<NewEquipment> NewEquipment { get; set; }
         public ICollection<ExistingEquipment> ExistingEquipment { get; set; }
-        public decimal TotalMonthlyPayment { get; set; }
+        public decimal? TotalMonthlyPayment { get; set; }
 
-        public string RequestedTerm { get; set; }
+        public int RequestedTerm { get; set; } 
+
+        public int? AmortizationTerm { get; set; }
         
+        public double? CustomerRate { get; set; }
+        
+        public double? AdminFee { get; set; }
+        
+        public double? DownPayment { get; set; }
+
         public string SalesRep { get; set; }
         
         public string Notes { get; set; }

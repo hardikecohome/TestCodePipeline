@@ -219,7 +219,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             var equipmentInfo = new EquipmentInfo
             {
                 Notes = "Equipment Notes",
-                RequestedTerm = "Requiested Term",
+                RequestedTerm = 60,
                 SalesRep = "Sales Rep",
                 NewEquipment = new List<NewEquipment>(),
                 ExistingEquipment = new List<ExistingEquipment>()

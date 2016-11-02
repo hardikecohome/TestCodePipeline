@@ -103,13 +103,13 @@
 								</div>
 							</div>
 						</div>
-                        @if (Model.BasicInfo.SubDealers?.Any() ?? false)
+                        @if (contract.BasicInfo.SubDealers?.Any() ?? false)
                         {
                             <div class="form-group">
                                 <div class="row">
                                     <label class="dealnet-field-caption col-xs-6">Sub-Dealer</label>
                                     <div class="dealnet-field-holder col-xs-6">
-                                       @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
+                                       @(contract.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == contract.BasicInfo.SubmittingDealerId)?.DisplayName)
                                     </div>
                                 </div>
                             </div>
@@ -484,30 +484,41 @@
                                             MONTHLY PAYMENT
                                         </div>
                                         <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-                                            $@(contract.EquipmentInfo?.TotalMonthlyPayment)
+                                            @if (contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                                            {
+                                                <text>$</text>@(Math.Round(contract.LoanCalculatorOutput.TotalMonthlyPayment, 2))
+
+                                            }
+                                            else
+                                            {
+                                                <text>$</text>@(contract.EquipmentInfo?.TotalMonthlyPayment)
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-                                            HST
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-                                            $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * contract.ProvinceTaxRate / 100, 2))
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-                                            TOTAL MONTHLY PAYMENT (TAX INCL.)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-                                            $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * contract.ProvinceTaxRate / 100, 2))
+                                @if (contract.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
+                                {
+                                    <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
+                                        <div class="row">
+                                            <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
+                                                HST
+                                            </div>
+                                            <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
+                                                $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate/100, 2))
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
+                                        <div class="row">
+                                            <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
+                                                TOTAL MONTHLY PAYMENT (TAX INCL.)
+                                            </div>
+                                            <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
+                                                $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate/100, 2))
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

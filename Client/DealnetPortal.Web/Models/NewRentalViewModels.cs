@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 
@@ -157,5 +158,6 @@ namespace DealnetPortal.Web.Models
         public SendEmailsViewModel SendEmails { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
+        public LoanCalculator.Output LoanCalculatorOutput { get; set; }
     }
 }
