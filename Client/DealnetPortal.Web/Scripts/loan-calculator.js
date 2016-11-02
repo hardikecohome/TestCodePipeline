@@ -19,9 +19,9 @@
     $("#loan-total-all-monthly-payments").text(totalAllMonthlyPayments.toFixed(2));
     var residualBalance = 0;
     if (loanTerm !== amortizationTerm) {
-        residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0);
+        residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
-    $("#residual-balance").text(residualBalance);
+    $("#residual-balance").text(residualBalance.toFixed(2));
     var totalObligation = totalAllMonthlyPayments + residualBalance;
     $("#total-obligation").text(totalObligation.toFixed(2));
     var totalBorrowingCost = totalObligation - totalAmountFinanced;

@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Common.Helpers
             output.TotalAllMonthlyPayments = output.TotalMonthlyPayment*input.LoanTerm;
             if (input.LoanTerm != input.AmortizationTerm)
             {
-                output.ResidualBalance = -Financial.PV(input.CustomerRate / 100 / 12, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment);
+                output.ResidualBalance = -Financial.PV(input.CustomerRate / 100 / 12, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + input.CustomerRate/100/12);
             }
             output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments;
             output.TotalBorowingCost = output.TotalObligation - output.TotalAmountFinanced;
