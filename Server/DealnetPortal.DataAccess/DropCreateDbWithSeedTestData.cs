@@ -45,6 +45,7 @@ namespace DealnetPortal.DataAccess
             SetTestEquipmentTypes(context);
             SetTestProvinceTaxRates(context);
             SetDocumentTypes(context);
+            SetDocuSignTemplates(context);
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -401,6 +402,120 @@ namespace DealnetPortal.DataAccess
                 new DocumentType()  {Description = "Other", Prefix = ""},
             };
             context.DocumentTypes.AddRange(documentTypes);
+        }
+
+        private void SetDocuSignTemplates(ApplicationDbContext context)
+        {
+            // EcoSmart users
+            var template = new AgreementTemplate()
+            {                
+                State = "ON",
+                TemplateName = "EcoSmart HVAC Rental ",
+                ExternalTemplateId = "a8c47648-542c-4edf-b222-3168d39d4d68",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecosmart"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "CanadianHome Template",
+                ExternalTemplateId = "b6f6aa88-d405-4921-85c2-e1a4bd2162cd",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("canadianhome"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "CanadianHome Template",
+                ExternalTemplateId = "36301cc8-07b1-4205-a96e-e9e647e7e110",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "EFFICIENCY STANDARDS - HVAC RENTAL",
+                ExternalTemplateId = "567ece58-44ab-45f8-8085-6a6e68457e0e",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                EquipmentType = "ECO44",
+                TemplateName = "EFFICIENCY STANDARDS - WATER SOFTENER RENTAL",
+                ExternalTemplateId = "78f231cf-6d08-4fdc-8eaa-f06c5552153c",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            // EcoEnergy users
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "Eco Energy Rental App 3-18-15",
+                ExternalTemplateId = "c68e3bf5-b6c5-4291-9392-82102371948b",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "AB",
+                TemplateName = "EEHS - Rental App - Alberta 2-22-16",
+                ExternalTemplateId = "67b4cff0-d95c-43ed-9696-1b9c7fa2d1f3",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "Apex Home Services Rental Agreement",
+                ExternalTemplateId = "598be4b6-855b-4684-a0ee-fb5c83eb1eeb",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Apex"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "OSS RENTAL AGREEMENT - EGD 7-8-16",
+                ExternalTemplateId = "a7ef2bce-abfb-4643-8133-884b19f0b354",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "OSS RENTAL AGREEMENT - EGD 7-8-16",
+                ExternalTemplateId = "a7ef2bce-abfb-4643-8133-884b19f0b354",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Safety"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "OGSI RENTAL AGREEMENT - EGD 6-23-16",
+                ExternalTemplateId = "6af6000b-6079-4ffd-970c-41bfb1639e5c",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Green"))
+            };
+            context.AgreementTemplates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "ELHC RENTAL AGREEMENT - EGD 5-11-2016",
+                ExternalTemplateId = "dc11e414-b7c6-4f9a-bdaf-7e09c8c79f63",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife")),                
+            };
+            context.AgreementTemplates.Add(template);
         }
 
         private static string HashPassword(string password)
