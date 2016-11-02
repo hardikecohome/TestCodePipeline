@@ -73,7 +73,7 @@
         <h3 class="dealnet-middle-header">New Equipment Information</h3>
         <div id="new-equipment-base" class="new-equipment">
             <div class="dealnet-middle-header owner-info-label">№1
-                <div id="new-equipment-remove-0" class="additional-remove" onclick="$('#new-equipment-0').remove(); recalculateTotalMonthlyPayment();"><i class="glyphicon glyphicon-remove"></i>
+                <div id="new-equipment-remove-0" class="additional-remove" onclick="$('#new-equipment-0').remove(); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();"><i class="glyphicon glyphicon-remove"></i>
                 </div>
             </div>
             <div class="row">
@@ -102,7 +102,7 @@
                         @Html.LabelFor(m => m.NewEquipment[0].Cost)
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
-                            @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input equipment-cost", placeholder = "Cost" })
+                            @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                 <div id="new-equipment-@(i)" class="new-equipment">
                     <div class="dealnet-middle-header owner-info-label">
                         №@(i+1)
-                        <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove();">
+                        <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove(); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
                             <i class="glyphicon glyphicon-remove"></i>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                                 @Html.LabelFor(m => m.NewEquipment[i].Cost)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", placeholder = "Cost" })
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();" })
                                     @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -202,52 +202,59 @@
             </div>
         </div>
     </div>
-    <hr>
-    <div class="row">
+    <hr class="loan-element">
+    <div class="row loan-element">
         <div class="col-md-4">
             <div class="form-group">
-                <label>Add: Admin Fee</label>
+                @Html.LabelFor(m => m.AdminFee)
                 <div class="control-group">
-                    <input type="text" class="form-control">
+                    @Html.TextBoxFor(m => m.AdminFee, new { @class = "form-control", placeholder = "Admin Fee", id = "admin-fee", onchange= "calculateLoanValues();" })
+                    @Html.ValidationMessageFor(m => m.AdminFee, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label>Cash Price of Equipment</label>
+                @Html.LabelFor(m => m.DownPayment)
                 <div class="control-group">
-                    <input type="text" class="form-control">
+                    @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = "Down Payment", id = "down-payment", onchange = "calculateLoanValues();" })
+                    @Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label>Customer Rate (%)</label>
+                @Html.LabelFor(m => m.CustomerRate)
                 <div class="control-group">
-                    <input type="text" class="form-control">
+                    @Html.TextBoxFor(m => m.CustomerRate, new { @class = "form-control", placeholder = "Customer Rate (%)", id = "customer-rate", onchange = "calculateLoanValues();" })
+                    @Html.ValidationMessageFor(m => m.CustomerRate, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row loan-element">
         <div class="col-md-8">
             <div class="row form-group">
-                <div class="col-xs-8">Total Cash Price (1+2)</div>
-                <div class="col-xs-4 text-right text-semibold">$ 22,400.00</div>
+                <div class="col-xs-8">Cash Price of Equipment</div>
+                <div class="col-xs-4 text-right text-semibold">$ <span id="equipment-cash-price"></span></div>
             </div>
             <div class="row form-group">
                 <div class="col-xs-8">HTS</div>
-                <div class="col-xs-4 text-right text-semibold">$ 2,400.00</div>
+                <div class="col-xs-4 text-right text-semibold">$ <span id="hst"></span></div>
             </div>
             <div class="row form-group">
-                <div class="col-xs-8">Total Amount Financed (3+4-5)</div>
-                <div class="col-xs-4 text-right text-semibold">$ 22,459.95</div>
+                <div class="col-xs-8">Total Cash Price</div>
+                <div class="col-xs-4 text-right text-semibold">$ <span id="total-cash-price"></span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8">Total Amount Financed</div>
+                <div class="col-xs-4 text-right text-semibold">$ <span id="total-amount-financed"></span></div>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row rental-element">
         <div class="col-md-6">
             <div class="form-group">                
                 @Html.LabelFor(m => m.TotalMonthlyPayment)
@@ -264,22 +271,31 @@
     <h3 class="dealnet-middle-header">Term and Rep</h3>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.RequestedTerm)
+                @Html.LabelFor(m => m.RequestedTerm, new { id = "requested-term-label"})
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input", placeholder = "Requested Term"})
+                    @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input", placeholder = "Requested Term", id = "requested-term", onchange = "calculateLoanValues();" })
                     @Html.ValidationMessageFor(m => m.RequestedTerm, "", new {@class = "text-danger"})
                 </div>              
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.SalesRep)
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.SalesRep, new {@class = "form-control dealnet-input", placeholder = "Sales Rep"})
                     @Html.ValidationMessageFor(m => m.SalesRep, "", new {@class = "text-danger"})
-                </div>               
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 loan-element">
+            <div class="form-group">
+                @Html.LabelFor(m => m.AmortizationTerm)
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();" })
+                    @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
     </div>
@@ -481,34 +497,24 @@
         </div>
     </div>
     <hr>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="row form-group">
-                <div class="col-xs-12 col-sm-9">
-                    Annual Interest Rate
-                </div>
-                <div class="col-xs-12 col-sm-3 text-right-sm text-semibold">
-                    8.99%
-                </div>
-            </div>
-        </div>
+    <div class="row loan-element">
         <div class="col-md-8">
             <div class="row form-group">
                 <div class="col-xs-12 col-sm-9">
                     Total Monthly Payment
                 </div>
                 <div class="col-xs-12 col-sm-3 text-right-sm text-semibold">
-                    466.12
+                    $ <span  id="loan-total-monthly-payment"></span>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="row form-group">
                 <div class="col-xs-12 col-sm-9">
-                    Total of All Monthly Payments (7*10)
+                    Total of All Monthly Payments
                 </div>
                 <div class="col-xs-12 col-sm-3 text-right-sm text-semibold">
-                    $ 27,967.35
+                    $ <span id="loan-total-all-monthly-payments"></span>
                 </div>
             </div>
         </div>
@@ -518,37 +524,27 @@
                     Balance Owing at the End of Monthly Payments (Residual)
                 </div>
                 <div class="col-xs-12 col-sm-3 text-right-sm text-semibold">
-                    $ -
+                    $ <span id="residual-balance"></span>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="row form-group">
                 <div class="col-xs-12 col-sm-9">
-                    Total Obligation (11+12)
+                    Total Obligation
                 </div>
                 <div class="col-xs-12 col-sm-3 text-right-sm text-semibold">
-                    $ 27,967.35
+                    $ <span id="total-obligation"></span>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="row form-group">
                 <div class="col-xs-12 col-sm-9">
-                    Total Cost of Prrowing
+                    Total Cost of Borrowing
                 </div>
                 <div class="col-xs-12 col-sm-3 text-right-sm text-semibold">
-                    $ 5,507.40
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="row form-group">
-                <div class="col-xs-12 col-sm-9">
-                    Total Tax
-                </div>
-                <div class="col-xs-12 col-sm-3 text-right-sm text-semibold">
-                    13.000 %
+                    $ <span id="total-borrowing-cost"></span>
                 </div>
             </div>
         </div>
@@ -583,6 +579,10 @@
 
 @section scripts
 {
+    <script type="text/javascript">
+        var taxRate = @Model.ProvinceTaxRate;
+    </script>
+
     @Scripts.Render("~/bundles/jqueryval")
 
     @Scripts.Render("~/bundles/equipment-information")

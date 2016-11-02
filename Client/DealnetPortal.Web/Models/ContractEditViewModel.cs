@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Web.Models.EquipmentInformation;
 
 namespace DealnetPortal.Web.Models
@@ -53,7 +54,8 @@ namespace DealnetPortal.Web.Models
         //public SendEmailsViewModel SendEmails { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
-        public List<CommentViewModel> Comments { get; set; } 
+        public List<CommentViewModel> Comments { get; set; }
+        public LoanCalculator.Output LoanCalculatorOutput { get; set; }
 
         public UploadDocumentsViewModel UploadDocumentsInfo { get; set; }
         

@@ -13,15 +13,27 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
         [Display(Name = "Total Monthly Payment")]
-        public double TotalMonthlyPayment { get; set; }
+        public double? TotalMonthlyPayment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
 
         [Required]
-        [StringLength(10)]
-        [RegularExpression(@"^[0-9\/]+$")]
+        [RegularExpression(@"^[0-9]+$")]
         [Display(Name = "Requested Term")]
-        public string RequestedTerm { get; set; }
+        public int? RequestedTerm { get; set; }
+        
+        [RegularExpression(@"^[0-9]+$")]
+        [Display(Name = "Amortization Term")]
+        public int? AmortizationTerm { get; set; }
+
+        [Display(Name = "Customer Rate (%)")]
+        public double? CustomerRate { get; set; }
+
+        [Display(Name = "Admin Fee")]
+        public double? AdminFee { get; set; }
+
+        [Display(Name = "Down Payment")]
+        public double? DownPayment { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -34,6 +46,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public string Notes { get; set; }
 
         public int? ContractId { get; set; }
+
+        public double ProvinceTaxRate { get; set; }
 
         public bool IsAllInfoCompleted { get; set; }
     }

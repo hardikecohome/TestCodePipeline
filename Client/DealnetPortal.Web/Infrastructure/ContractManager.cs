@@ -69,6 +69,9 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
             }
+            var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(contractResult.Item1.PrimaryCustomer.Locations.First(
+                        l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
+            if (rate != null) { equipmentInfo.ProvinceTaxRate = rate.Rate; }
             equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
             return equipmentInfo;
         }
@@ -114,7 +117,8 @@ namespace DealnetPortal.Web.Infrastructure
                 ContactAndPaymentInfo = summaryViewModel.ContactAndPaymentInfo,
                 BasicInfo = summaryViewModel.BasicInfo,
                 EquipmentInfo = summaryViewModel.EquipmentInfo,
-                ProvinceTaxRate = summaryViewModel.ProvinceTaxRate
+                ProvinceTaxRate = summaryViewModel.ProvinceTaxRate,
+                LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput
             };
             var comments = AutoMapper.Mapper.Map<List<CommentViewModel>>(contractsResult.Item1.Comments);
             comments?.Reverse();
@@ -284,6 +288,20 @@ namespace DealnetPortal.Web.Infrastructure
             summary.AdditionalInfo = new AdditionalInfoViewModel();
             summary.AdditionalInfo.ContractState = contract.ContractState;
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
+            if (contract.Equipment != null && contract.Equipment.AgreementType == AgreementType.LoanApplication)
+            {
+                var loanCalculatorInput = new LoanCalculator.Input
+                {
+                    TaxRate = summary.ProvinceTaxRate,
+                    LoanTerm = contract.Equipment.RequestedTerm,
+                    AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                    EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                    AdminFee = contract.Equipment.AdminFee ?? 0,
+                    DownPayment = contract.Equipment.DownPayment ?? 0,
+                    CustomerRate = contract.Equipment.CustomerRate ?? 0
+                };
+                summary.LoanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+            }
         }
     }
 }
