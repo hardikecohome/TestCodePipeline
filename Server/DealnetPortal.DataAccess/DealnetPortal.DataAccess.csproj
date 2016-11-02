@@ -99,6 +99,10 @@
       <Project>{E19A2AB3-216E-45E0-BA5B-9211B2D112E3}</Project>
       <Name>DealnetPortal.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Utilities\DealnetPortal.Utilities.csproj">
+      <Project>{CBE9FAAB-5346-4831-AA25-52E7C28FB029}</Project>
+      <Name>DealnetPortal.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

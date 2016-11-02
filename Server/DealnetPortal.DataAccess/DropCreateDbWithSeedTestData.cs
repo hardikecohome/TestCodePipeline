@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities;
 
 namespace DealnetPortal.DataAccess
 {
@@ -16,9 +17,23 @@ namespace DealnetPortal.DataAccess
         private const string EcohomeAppId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
         private const string OdiAppId = "606cfa8b-0e2c-47ef-b646-66c5f639aebd";
 
+        private ILoggingService _loggingService;
+
+        public DropCreateDbWithSeedTestData(ILoggingService loggingService)
+        {
+            _loggingService = loggingService;
+        }
+
         public override void InitializeDatabase(ApplicationDbContext context)
         {
-            base.InitializeDatabase(context);
+            try
+            {
+                base.InitializeDatabase(context);
+            }
+            catch (Exception ex)
+            {
+                _loggingService?.LogError("Failed to Initialize database", ex);
+            }            
         }
 
 

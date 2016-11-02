@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using DealnetPortal.DataAccess;
+using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.App_Start
 {
@@ -13,8 +15,12 @@ namespace DealnetPortal.Api.App_Start
         {
             //Database.SetInitializer(
             //    new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            var loggingService =
+                (ILoggingService)
+                    GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
+
             Database.SetInitializer(
-                new DropCreateDbWithSeedTestData());            
+                new DropCreateDbWithSeedTestData(loggingService));            
         }
     }
 }
