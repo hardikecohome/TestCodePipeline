@@ -19,22 +19,17 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public Contract CreateContract(string contractOwnerId)
         {
-            //check is new contract already created
-            var contract = _dbContext.Contracts.FirstOrDefault(
-                c => c.Dealer.Id == contractOwnerId && c.ContractState == ContractState.Started);
-            if (contract == null)
+            Contract contract = null;
+            var dealer = GetUserById(contractOwnerId);
+            if (dealer != null)
             {
-                var dealer = GetUserById(contractOwnerId);
-                if (dealer != null)
+                contract = new Contract()
                 {
-                    contract = new Contract()
-                    {
-                        ContractState = ContractState.Started,
-                        CreationTime = DateTime.Now,
-                        Dealer = dealer
-                    };
-                    _dbContext.Contracts.Add(contract);
-                }
+                    ContractState = ContractState.Started,
+                    CreationTime = DateTime.Now,
+                    Dealer = dealer
+                };
+                _dbContext.Contracts.Add(contract);
             }
             return contract;
         }
