@@ -27,5 +27,9 @@ namespace DealnetPortal.Domain
         public byte[] AgreementForm { get; set; }
 
         public string ExternalTemplateId { get; set; }
+
+        public string EquipmentType { get; set; }
+
+        //public virtual List<EquipmentType> EquipmentTypes { get; set; }
     }
 }

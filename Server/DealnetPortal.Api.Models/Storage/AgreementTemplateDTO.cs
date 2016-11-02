@@ -26,5 +26,9 @@ namespace DealnetPortal.Api.Models.Storage
         public byte[] AgreementFormRaw { get; set; }
 
         public string ExternalTemplateId { get; set; }
+
+        public string EquipmentType { get; set; }
+
+        //public virtual List<string> EquipmentTypes { get; set; }
     }
 }
