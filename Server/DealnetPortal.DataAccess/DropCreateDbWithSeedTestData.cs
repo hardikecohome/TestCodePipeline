@@ -428,7 +428,7 @@ namespace DealnetPortal.DataAccess
             template = new AgreementTemplate()
             {
                 State = "ON",
-                TemplateName = "CanadianHome Template",
+                TemplateName = "EnerTech Home Services H.V.A.C OTHER RENTAL AGREEMENT",
                 ExternalTemplateId = "36301cc8-07b1-4205-a96e-e9e647e7e110",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech"))
             };
