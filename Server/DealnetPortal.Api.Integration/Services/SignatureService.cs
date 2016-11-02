@@ -311,41 +311,60 @@ namespace DealnetPortal.Api.Integration.Services
         private AgreementTemplate SelectAgreementTemplate(Contract contract, string contractOwnerId)
         {
             var agreementType = contract.Equipment.AgreementType;
+            var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
+
             var province =
                 contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
-            // get agreement template            
 
-            var agreementTemplate = _fileRepository.FindAgreementTemplate(at =>
-                at.DealerId == contractOwnerId
-                && (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType)
-                && (string.IsNullOrEmpty(province) || at.State == province));
+            var dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
+                at.DealerId == contractOwnerId);
+            
+            // get agreement template 
+            AgreementTemplate agreementTemplate = null;
 
-            if (agreementTemplate == null && agreementType == AgreementType.RentalApplicationHwt)
+            if (dealerTemplates?.Any() ?? false)                
             {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at =>
-                at.DealerId == contractOwnerId
-                && (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType));
-            }
+                // if dealer has templates, select one
+                agreementTemplate = dealerTemplates.FirstOrDefault(at =>                
+                (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType)
+                && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
+                && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
 
-            if (agreementTemplate == null)
-            {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.DealerId == contractOwnerId);
-            }
+                if (agreementTemplate == null)
+                {
+                    agreementTemplate = dealerTemplates.FirstOrDefault(at =>
+                        (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType)
+                        && (string.IsNullOrEmpty(province) || at.State == province));
+                }
 
-            if (agreementTemplate == null)
-            {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementType == contract.Equipment.AgreementType);
+                if (agreementTemplate == null && agreementType == AgreementType.RentalApplicationHwt)
+                {
+                    agreementTemplate = dealerTemplates.FirstOrDefault(at => (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType));
+                }
+                if (agreementTemplate == null)
+                {
+                    agreementTemplate = dealerTemplates.First();
+                }
             }
+            else
+            {
+                //otherwise select any common template
+                var commonTemplates = _fileRepository.FindAgreementTemplates(at => string.IsNullOrEmpty(at.DealerId));
+                if (commonTemplates?.Any() ?? false)
+                {
+                    agreementTemplate = commonTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
 
-            if (agreementTemplate == null)
-            {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.State == province);
-            }
+                    if (agreementTemplate == null)
+                    {
+                        agreementTemplate = commonTemplates.FirstOrDefault(at => at.State == province);
+                    }
 
-            if (agreementTemplate == null)
-            {
-                agreementTemplate = _fileRepository.FindAgreementTemplate(at => at.AgreementForm != null);
-            }
+                    if (agreementTemplate == null)
+                    {
+                        agreementTemplate = commonTemplates.FirstOrDefault(at => at.AgreementForm != null);
+                    }
+                }
+            }                                   
 
             if (agreementTemplate == null)
             {

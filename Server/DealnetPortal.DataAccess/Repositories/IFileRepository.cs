@@ -14,6 +14,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         AgreementTemplate FindAgreementTemplate(Expression<Func<AgreementTemplate, bool>> predicate);
 
+        IList<AgreementTemplate> FindAgreementTemplates(Expression<Func<AgreementTemplate, bool>> predicate);
+
         AgreementTemplate GetAgreementTemplate(int templateId);
 
         AgreementTemplate RemoveAgreementTemplate(AgreementTemplate agreementTemplate);

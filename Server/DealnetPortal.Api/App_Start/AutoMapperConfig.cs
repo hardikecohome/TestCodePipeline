@@ -57,6 +57,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
                 .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
                 .ForMember(d => d.DealerName, s => s.ResolveUsing(src => src.Dealer?.UserName ?? string.Empty));
+                //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src => src.EquipmentTypes?.Select(e => e.Type)));
 
             mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>();
             mapperConfig.CreateMap<ContractDocument, ContractDocumentDTO>()
@@ -100,8 +101,8 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
                 .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))
-                .ForMember(d => d.Dealer, s => s.Ignore()); ;
-            //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
+                .ForMember(d => d.Dealer, s => s.Ignore());
+                //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
 
             mapperConfig.CreateMap<DocumentTypeDTO, DocumentType>();
             mapperConfig.CreateMap<ContractDocumentDTO, ContractDocument>()

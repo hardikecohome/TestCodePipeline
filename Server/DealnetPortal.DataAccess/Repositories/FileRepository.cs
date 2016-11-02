@@ -26,6 +26,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Set<AgreementTemplate>().FirstOrDefault(predicate);
         }
 
+        public IList<AgreementTemplate> FindAgreementTemplates(Expression<Func<AgreementTemplate, bool>> predicate)
+        {
+            return _dbContext.Set<AgreementTemplate>().Where(predicate).ToList();
+        }
+
         public AgreementTemplate GetAgreementTemplate(int templateId)
         {
             return _dbContext.Set<AgreementTemplate>().FirstOrDefault(t => t.Id == templateId);
