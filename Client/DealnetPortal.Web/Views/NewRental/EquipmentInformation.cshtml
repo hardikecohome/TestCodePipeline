@@ -438,8 +438,7 @@
                         <div class="col-sm-12 col-md-3 col-lg-3">
                             <div class="form-group">
                                 @Html.LabelFor(m => m.ExistingEquipment[i].Make)
-                                <div class="control-group has-addon-left">
-                                    <div class="control-group-addon">$</div>
+                                <div class="control-group">
                                     @Html.TextBoxFor(m => m.ExistingEquipment[i].Make, new { @class = "form-control dealnet-input", placeholder = "Make" })
                                     @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Make, "", new { @class = "text-danger" })
                                 </div>
@@ -448,8 +447,7 @@
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 @Html.LabelFor(m => m.ExistingEquipment[i].Model)
-                                <div class="control-group has-addon-left">
-                                    <div class="control-group-addon">$</div>
+                                <div class="control-group">
                                     @Html.TextBoxFor(m => m.ExistingEquipment[i].Model, new { @class = "form-control dealnet-input", placeholder = "Model" })
                                     @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Model, "", new { @class = "text-danger" })
                                 </div>
