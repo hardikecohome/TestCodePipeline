@@ -79,9 +79,16 @@ namespace DealnetPortal.Api.Integration.Services
             return contractsDTO;
         }
 
-        public IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId)
+        public IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId)
         {
-            return _contractRepository.GetContracts(ids, ownerUserId);
+            var contracts = _contractRepository.GetContracts(ids, ownerUserId);
+            var contractsDTO = Mapper.Map<IList<ContractDTO>>(contracts);
+            foreach (var contractDTO in contractsDTO)
+            {
+                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
+                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
+            }
+            return contractsDTO;
         }
 
         public ContractDTO GetContract(int contractId, string contractOwnerId)

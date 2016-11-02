@@ -63,11 +63,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var contracts = ContractService.GetContracts(ids, LoggedInUser?.UserId);
-                if (contracts != null)
-                {
-                    return Ok(Mapper.Map<IList<ContractDTO>>(contracts));
-                }
-                return NotFound();
+                return Ok(contracts);                
             }
             catch (Exception ex)
             {

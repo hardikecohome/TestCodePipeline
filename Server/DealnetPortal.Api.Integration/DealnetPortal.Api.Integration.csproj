@@ -91,6 +91,7 @@
     <Compile Include="ServiceAgents\AspireServiceAgent.cs" />
     <Compile Include="ServiceAgents\IAspireServiceAgent.cs" />
     <Compile Include="Services\AspireService.cs" />
+    <Compile Include="Services\AspireStorageService.cs" />
     <Compile Include="Services\ContractService.cs" />
     <Compile Include="ServiceAgents\ESignature\ECoreTypes.cs" />
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\ResponseTypes.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="ServiceAgents\ESignature\ESignatureServiceAgent.cs" />
     <Compile Include="ServiceAgents\ESignature\IESignatureServiceAgent.cs" />
     <Compile Include="Services\IAspireService.cs" />
+    <Compile Include="Services\IAspireStorageService.cs" />
     <Compile Include="Services\IContractService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
