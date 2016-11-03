@@ -47,12 +47,29 @@ $('#camera-modal').on('shown.bs.modal', function () {
             ]
         }
     };
-    navigator.getUserMedia(constraints, function (stream) {
-        video.src = window.URL.createObjectURL(stream);
-        localMediaStream = stream;
-    }, function (e) {
-        console.log(e);
-    });
+    try {
+        navigator.getUserMedia(constraints, function (stream) {
+            video.src = window.URL.createObjectURL(stream);
+            localMediaStream = stream;
+        }, function (e) {
+            console.log(e);
+        });
+    } catch (err) {
+        console.log(err);
+        constraints = {
+            audio: false,
+            video: {
+                width: 9999,
+                height: 9999
+            }
+        }
+        navigator.getUserMedia(constraints, function (stream) {
+            video.src = window.URL.createObjectURL(stream);
+            localMediaStream = stream;
+        }, function (e) {
+            console.log(e);
+        });
+    }
 });
 
 $('#camera-modal').on('hidden.bs.modal', function () {
