@@ -32,7 +32,7 @@ function showTable() {
                         }
                     },
                     columns: [
-                        { "data": "Id" },
+                        { "data": "TransactionId" },
                         { "data": "CustomerName" },
                         { "data": "Status" },
                         { "data": "Email" },
@@ -49,12 +49,16 @@ function showTable() {
                             "render": function (sdata, type, row) {
                                 return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                             }
+                        },
+                        {
+                            "data": "Id",
+                            "visible": false
                         }
                     ],
                     columnDefs: [
                       { targets  : [-1], orderable: false},
                       { className: 'customer-cell', targets: 1},
-                      { className: 'id-cell', targets: 0},
+                      { className: 'id-cell', targets: 9},
                       { className: 'edit-cell', targets: -1}
                     ],
                     dom:

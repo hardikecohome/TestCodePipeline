@@ -28,7 +28,12 @@ namespace DealnetPortal.Web.Infrastructure
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
-        }        
+        }
+
+        public async Task<DealItemOverviewViewModel> GetWorkItemsAsync()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
         {

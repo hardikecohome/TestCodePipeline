@@ -84,8 +84,8 @@ function showTable() {
                     "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
                   }
                 },
-                columns: [
-                      { "data" : "Id" },
+                columns: [                    
+                      { "data" : "TransactionId" },
                       { "data": "CustomerName" },
                       { "data": "Status" },
                       { "data": "Action" },
@@ -96,14 +96,18 @@ function showTable() {
                           "render": function (sdata, type, row) {
                               return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                           }
+                      },
+                      {
+                          "data": "Id",
+                          "visible": false
                       }
                   ],
 
-                columnDefs: [
+                columnDefs: [                   
                   { responsivePriority: 8, targets: -1 },
                   { width: "40px", targets: -1 },
                   { className: 'customer-cell', targets: 1},
-                  { className: 'id-cell', targets: 0},
+                  { className: 'id-cell', targets: 8},
                   { className: 'edit-cell', targets: -1},
                   { targets  : [-1], orderable: false}
                 ],
