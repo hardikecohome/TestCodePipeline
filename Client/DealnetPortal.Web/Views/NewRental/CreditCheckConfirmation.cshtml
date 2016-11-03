@@ -127,7 +127,7 @@
 
 		                <div class="dealnet-agrees form-group">
 		                    <label class="align-middle custom-checkbox">
-		                        @Html.CheckBox("additional@(i+1)-agrees", new {id = "additional@(i+1)-agrees" })
+		                        @Html.CheckBox("additional" + (i + 1) + "-agrees", new {id = "additional" + (i + 1) + "-agrees" })
 		                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 		                        <span>Agrees to send his/her personal data to credit check</span>
 		                    </label>
