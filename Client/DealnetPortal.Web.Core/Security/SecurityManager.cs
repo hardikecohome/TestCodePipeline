@@ -146,7 +146,7 @@ namespace DealnetPortal.Web.Core.Security
                   1,
                   identity.Name,
                   DateTime.Now,
-                  DateTime.Now.Add(TimeSpan.FromMinutes(60)),
+                  DateTime.Now.Add(TimeSpan.FromHours(5)),
                   isPersistent,
                   identity.Token,
                   FormsAuthentication.FormsCookiePath);
@@ -159,7 +159,7 @@ namespace DealnetPortal.Web.Core.Security
                     Value = encTicket,
                     HttpOnly = true,
                     //Secure = true, Uncomment after enabling https
-                    Expires = DateTime.Now.Add(TimeSpan.FromMinutes(60))
+                    Expires = DateTime.Now.Add(TimeSpan.FromHours(5))
                 };
                 HttpContext.Current?.Response?.Cookies?.Set(authCookie); // ??
             }
