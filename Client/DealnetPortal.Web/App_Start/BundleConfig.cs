@@ -46,17 +46,19 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/equipment-information").Include("~/Scripts/loan-calculator.js")
                 .Include("~/Scripts/equipment-information.js").Include("~/Scripts/datejs.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/contact-and-payment").Include("~/Scripts/custom-validation.js")
-                .Include("~/Scripts/contact-and-payment.js").Include("~/Scripts/camera-capturing.js")
+                .Include("~/Scripts/contact-and-payment-management.js").Include("~/Scripts/camera-capturing.js")
                 .Include("~/Scripts/vc-scanning.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation").Include("~/Scripts/custom-validation.js")
+                .Include("~/Scripts/contact-and-payment-management.js")
                 .Include("~/Scripts/summary-and-confirmation.js").Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/my-deals").Include("~/Scripts/datejs.js").Include("~/Scripts/my-deals.js"));
             bundles.Add(new ScriptBundle("~/bundles/reports").Include("~/Scripts/datejs.js").Include("~/Scripts/reports.js"));
             bundles.Add(new ScriptBundle("~/bundles/contract-edit").Include("~/Scripts/datejs.js").Include("~/Scripts/custom-validation.js")
-                        .Include("~/Scripts/jquery.form.js").Include("~/Scripts/general-address-autocomplete.js")
-                        .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/contract-edit.js"));
+                .Include("~/Scripts/contact-and-payment-management.js")
+                .Include("~/Scripts/jquery.form.js").Include("~/Scripts/general-address-autocomplete.js")
+                .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/contract-edit.js"));
 
             bundles.Add(new StyleBundle("~/bundles/data-tables-content").Include(
                       "~/Content/datatables/css/jquery.dataTables.css",
