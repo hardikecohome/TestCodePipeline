@@ -130,6 +130,7 @@ namespace DealnetPortal.Web.App_Start
                 src.Item2.Select(e => e.Header).ToList()));
 
             cfg.CreateMap<ContractDTO, DealItemOverviewViewModel>()
+                .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.Details?.TransactionId ?? $"Internal : {src.Id}"))
                 .ForMember(d => d.CustomerName, s => s.ResolveUsing(src =>
                 {
                     var customer = src.PrimaryCustomer;
@@ -139,7 +140,7 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.ContractState.GetEnumDescription()))
+                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? src.ContractState.GetEnumDescription()))
                 .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.Equipment?.AgreementType.GetEnumDescription()))
                 .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.GetEnumDescription()))
                 .ForMember(d => d.Action, s => s.Ignore())
