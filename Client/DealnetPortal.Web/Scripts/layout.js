@@ -113,6 +113,17 @@
       commonDataTablesSettings();
 });
 
+function inputDateFocus(input){
+  input.on('focus', function(){
+    if($('.ui-datepicker').length > 0){
+      $(this).addClass('focus');
+    }else{
+      $(this).removeClass('focus');
+    }
+    $(this).blur();
+  });
+}
+
 function documentsColHeight(){
   var columns = $('.report-documents-list .document-col');
   /*console.log(columns.find('.documents-inner').height());*/

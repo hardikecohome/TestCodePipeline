@@ -9,12 +9,16 @@
             });
 
 function assignDatepicker(input) {
+    inputDateFocus(input);
     input.datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         yearRange: '1900:2016',
         minDate: Date.parse("1900-01-01"),
-        maxDate: new Date()
+        maxDate: new Date(),
+        onSelect: function(){
+          $(this).removeClass('focus');
+        }
     });
 }
 
