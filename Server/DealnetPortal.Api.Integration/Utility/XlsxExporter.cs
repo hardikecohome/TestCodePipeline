@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -15,7 +16,7 @@ namespace DealnetPortal.Api.Integration.Utility
 {
     public static class XlsxExporter
     {
-        public static void Export(IEnumerable<Contract> contracts, Stream stream)
+        public static void Export(IEnumerable<ContractDTO> contracts, Stream stream)
         {
             using (var package = new ExcelPackage(stream))
             {

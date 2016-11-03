@@ -50,7 +50,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 if (contractResult.Item1.ContractState == ContractState.CreditContirmed)
                 {
-                    return RedirectToAction("EquipmentInformation", new { contractId = contractId });
+                    return RedirectToAction("EquipmentInformation", new { contractId });
                 }
                 if (contractResult.Item1.ContractState == ContractState.Completed)
                 {
@@ -61,7 +61,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("Error", "Info", new { alers = contractResult?.Item2 });
             }
-            return RedirectToAction("BasicInfo", new {id = contractId});
+            return RedirectToAction("BasicInfo", new { contractId });
         }
 
 
