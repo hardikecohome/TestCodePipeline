@@ -409,7 +409,7 @@
                 <div class="form-group">
                     <label for="postal_code">Postal Code</label>
                     <div class="control-group">                
-                        @Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code", placeholder = "12345" })
+                        @Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
                         @Html.ValidationMessageFor(m => m.AddressInformation.PostalCode, "", new { @class = "text-danger" })
                     </div>
                 </div> 
@@ -474,7 +474,7 @@
                     <div class="form-group">
                         <label for="mailing_postal_code">Postal Code</label>
                         <div class="control-group">                            
-                            @Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled" })
+                            @Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled" })
                             @Html.ValidationMessageFor(m => m.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
                         </div>
                     </div>

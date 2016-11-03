@@ -208,7 +208,7 @@
                                     @Html.LabelFor(m => m.BasicInfo.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                            @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
                                         </div>
                                     </div>
                                 </div>
@@ -270,7 +270,7 @@
                                         @Html.LabelFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
                                             </div>
                                         </div>
                                     </div>
@@ -851,7 +851,7 @@
 				                    @Html.LabelFor(m => m.BasicInfo.AddressInformation.PostalCode, new { @class = "dealnet-field-caption"})
 				                    <div class="dealnet-field-holder">
 					                    <div class="control-group">
-						                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code" })
+						                    @Html.TextBoxFor(m => m.BasicInfo.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code" })
 						                    @Html.ValidationMessageFor(m => m.BasicInfo.AddressInformation.PostalCode, "", new { @class = "text-danger" })
 					                    </div>
 				                    </div>
@@ -932,7 +932,7 @@
 				                        @Html.LabelFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption"})
 				                        <div class="dealnet-field-holder">
 					                        <div class="control-group">
-						                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "mailing_postal_code" })
+						                        @Html.TextBoxFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "mailing_postal_code" })
 						                        @Html.ValidationMessageFor(m => m.BasicInfo.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
 					                        </div>
 				                        </div>
@@ -1012,7 +1012,7 @@
 				                    @Html.LabelFor(m => m.ContactAndPaymentInfo.HouseSize, new { @class = "dealnet-field-caption"})
 				                    <div class="dealnet-field-holder">
 					                    <div class="control-group">
-						                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new {@class = "form-control dealnet-input", id = "postal_code"})
+						                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new {@class = "form-control dealnet-input postal-code", id = "postal_code"})
 						                    @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HouseSize, "", new {@class = "text-danger"})
 					                    </div>
 				                    </div>
@@ -1201,7 +1201,7 @@
 				                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "dealnet-field-caption"})
 				                    <div class="dealnet-field-holder">
 					                    <div class="control-group">
-						                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "form-control dealnet-input", id = "postal_code"})
+						                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "form-control dealnet-input postal-code", id = "postal_code"})
 						                    @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new {@class = "text-danger"})
 					                    </div>
 				                    </div>

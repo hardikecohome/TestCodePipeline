@@ -288,7 +288,7 @@
 						@Html.LabelFor(m => Model.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+								@Html.TextBoxFor(m => Model.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
 							</div>
 						</div>
 					</div>
@@ -349,7 +349,7 @@
 						@Html.LabelFor(m => Model.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6"})
 						<div class="dealnet-field-holder col-xs-6">
 							<div class="control-group">
-								@Html.TextBoxFor(m => Model.MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+								@Html.TextBoxFor(m => Model.MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
 							</div>
 						</div>
 					</div>
@@ -554,7 +554,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 									@Html.LabelFor(m => m.AddressInformation.PostalCode, new { @class = "dealnet-field-caption"})
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											@Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "postal_code" })
+											@Html.TextBoxFor(m => m.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code" })
 											@Html.ValidationMessageFor(m => m.AddressInformation.PostalCode, "", new { @class = "text-danger" })
 										</div>
 									</div>
@@ -635,7 +635,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 									@Html.LabelFor(m => m.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption"})
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											@Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "mailing_postal_code" })
+											@Html.TextBoxFor(m => m.MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "mailing_postal_code" })
 											@Html.ValidationMessageFor(m => m.MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
 										</div>
 									</div>
