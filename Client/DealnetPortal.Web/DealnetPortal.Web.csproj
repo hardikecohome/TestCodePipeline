@@ -568,7 +568,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\camera-capturing.js" />
-    <Content Include="Scripts\contact-and-payment.js" />
+    <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\datejs.js" />
