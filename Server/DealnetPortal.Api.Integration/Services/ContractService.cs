@@ -251,8 +251,12 @@ namespace DealnetPortal.Api.Integration.Services
                         _unitOfWork.Save();
                         break;
                     case CreditCheckState.Declined:
+                        _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditCheckDeclined);
+                        _unitOfWork.Save();
                         break;
                     case CreditCheckState.MoreInfoRequired:
+                        _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
+                        _unitOfWork.Save();
                         break;
                 }
             }
