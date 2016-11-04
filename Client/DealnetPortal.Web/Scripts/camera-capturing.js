@@ -48,12 +48,7 @@ $('#camera-modal').on('shown.bs.modal', function () {
         }
     };
     try {
-        navigator.getUserMedia(constraints, function (stream) {
-            video.src = window.URL.createObjectURL(stream);
-            localMediaStream = stream;
-        }, function (e) {
-            console.log(e);
-        });
+        launchVideoStreaming(constraints);
     } catch (err) {
         console.log(err);
         constraints = {
@@ -63,14 +58,18 @@ $('#camera-modal').on('shown.bs.modal', function () {
                 height: 9999
             }
         }
-        navigator.getUserMedia(constraints, function (stream) {
-            video.src = window.URL.createObjectURL(stream);
-            localMediaStream = stream;
-        }, function (e) {
-            console.log(e);
-        });
+        launchVideoStreaming(constraints);
     }
 });
+
+function launchVideoStreaming(constraints) {
+    navigator.getUserMedia(constraints, function (stream) {
+        video.src = window.URL.createObjectURL(stream);
+        localMediaStream = stream;
+    }, function (e) {
+        console.log(e);
+    });
+}
 
 $('#camera-modal').on('hidden.bs.modal', function () {
     if (video) {
