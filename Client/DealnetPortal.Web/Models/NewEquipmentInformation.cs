@@ -17,10 +17,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [StringLength(500)]
         public string Description { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$", ErrorMessage = "Cost is in incorrect format")]
         public double? Cost { get; set; }
         
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$", ErrorMessage = "Monthly Cost is in incorrect format")]
         [Display(Name = "Monthly Cost")]
         public double? MonthlyCost { get; set; }
 

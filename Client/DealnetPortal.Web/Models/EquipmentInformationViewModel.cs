@@ -11,18 +11,18 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$", ErrorMessage = "Total Monthly Payment is in incorrect format")]
         [Display(Name = "Total Monthly Payment")]
         public double? TotalMonthlyPayment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
 
         [Required]
-        [RegularExpression(@"^[0-9]+$")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Requested Term is in incorrect format")]
         [Display(Name = "Requested Term")]
         public int? RequestedTerm { get; set; }
         
-        [RegularExpression(@"^[0-9]+$")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Amortization Term is in incorrect format")]
         [Display(Name = "Amortization Term")]
         public int? AmortizationTerm { get; set; }
 
@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Required]
         [StringLength(50)]
         [Display(Name = "Sales Rep")]
-        [RegularExpression(@"^[^0-9]+$")]
+        [RegularExpression(@"^[^0-9]+$", ErrorMessage = "Sales Rep is in incorrect format")]
         public string SalesRep { get; set; }
 
         [StringLength(500)]
