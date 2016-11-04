@@ -12,7 +12,7 @@
         $('.select-filter').val($('.select-filter > option:first').val());
 		});
 function assignDatepicker(input) {
-    inputDateFocus(inputId);
+    inputDateFocus(input);
     input.datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
