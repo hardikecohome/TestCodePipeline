@@ -129,10 +129,14 @@ function resetFormValidator(formId) {
 }
 
 function assignDatepicker(inputId) {
+    inputDateFocus($(inputId));
     $(inputId).datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         yearRange: '1900:2200',
-        minDate: new Date()
+        minDate: new Date(),
+        onSelect: function(){
+          $(this).removeClass('focus');
+        }
     });
 }

@@ -38,13 +38,17 @@
 
 function assignDatepicker(input) {
     if (input == null) { return; }
+    inputDateFocus(input);
     input.datepicker({
         beforeShow: function (i) { if ($(i).attr('readonly')) { return false; } },
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         yearRange: '1900:2016',
         minDate: Date.parse("1900-01-01"),
-        maxDate: new Date()
+        maxDate: new Date(),
+        onSelect: function(){
+          $(this).removeClass('focus');
+        }
     });
 }
 

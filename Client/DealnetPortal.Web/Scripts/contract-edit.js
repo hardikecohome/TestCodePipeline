@@ -202,11 +202,16 @@ function expandReplies(button) {
 }
 
 function assignDatepicker() {
+    var input = $(this);
+    inputDateFocus(input);
     $(this).datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         yearRange: '1900:2200',
-        minDate: Date.parse("1900-01-01")
+        minDate: Date.parse("1900-01-01"),
+        onSelect: function(){
+            $(this).removeClass('focus');
+        }
     });
 }
 
