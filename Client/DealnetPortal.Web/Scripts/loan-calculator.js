@@ -1,31 +1,48 @@
 ﻿function calculateLoanValues() {
+    var hstLabel = $("#hst");
+    var totalCashPriceLabel = $("#total-cash-price");
+    var totalAmountFinancedLabel = $("#total-amount-financed");
+    var loanTotalMonthlyPaymentLabel = $("#loan-total-monthly-payment");
+    var loanTotalAllMonthlyPaymentsLabel = $("#loan-total-all-monthly-payments");
+    var residualBalanceLabel = $("#residual-balance");
+    var totalObligationLabel = $("#total-obligation");
+    var totalBorrowingCostLabel = $("#total-borrowing-cost");
+    hstLabel.text('-');
+    totalCashPriceLabel.text('-');
+    totalAmountFinancedLabel.text('-');
+    loanTotalMonthlyPaymentLabel.text('-');
+    loanTotalAllMonthlyPaymentsLabel.text('-');
+    residualBalanceLabel.text('-');
+    totalObligationLabel.text('-');
+    totalBorrowingCostLabel.text('-');
+    //
     var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
     var hst = taxRate / 100 * equipmentCashPrice;
-    $("#hst").text(hst);
+    hstLabel.text(hst);
     var totalCashPrice = equipmentCashPrice + hst;
-    $("#total-cash-price").text(totalCashPrice);
+    totalCashPriceLabel.text(totalCashPrice);
     var adminFee = parseFloat($("#admin-fee").val());
     var downPayment = parseFloat($("#down-payment").val());
     if (isNaN(adminFee) || isNaN(downPayment)){ return; }
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
-    $("#total-amount-financed").text(totalAmountFinanced);
+    totalAmountFinancedLabel.text(totalAmountFinanced);
     var loanTerm = parseInt($("#requested-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
     if (isNaN(loanTerm) || isNaN(amortizationTerm) || isNaN(customerRate)) { return; }
     var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
-    $("#loan-total-monthly-payment").text(totalMonthlyPayment.toFixed(2));
+    loanTotalMonthlyPaymentLabel.text(totalMonthlyPayment.toFixed(2));
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
-    $("#loan-total-all-monthly-payments").text(totalAllMonthlyPayments.toFixed(2));
+    loanTotalAllMonthlyPaymentsLabel.text(totalAllMonthlyPayments.toFixed(2));
     var residualBalance = 0;
     if (loanTerm !== amortizationTerm) {
         residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
-    $("#residual-balance").text(residualBalance.toFixed(2));
+    residualBalanceLabel.text(residualBalance.toFixed(2));
     var totalObligation = totalAllMonthlyPayments + residualBalance;
-    $("#total-obligation").text(totalObligation.toFixed(2));
+    totalObligationLabel.text(totalObligation.toFixed(2));
     var totalBorrowingCost = totalObligation - totalAmountFinanced;
-    $("#total-borrowing-cost").text(totalBorrowingCost.toFixed(2));
+    totalBorrowingCostLabel.text(totalBorrowingCost.toFixed(2));
 }
 
 function pmt(rate_per_period, number_of_payments, present_value, future_value, type) {

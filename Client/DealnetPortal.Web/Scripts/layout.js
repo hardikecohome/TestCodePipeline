@@ -247,7 +247,7 @@ function toggleClearInputIcon(fields){
     }
   });
   fieldParent.find('.clear-input').on('click', function(){
-    $(this).siblings('input, textarea').val('');
+    $(this).siblings('input, textarea').val('').change();
     $(this).hide();
   });
 
