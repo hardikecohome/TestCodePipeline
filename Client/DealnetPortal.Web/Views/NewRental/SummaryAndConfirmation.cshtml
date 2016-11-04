@@ -27,60 +27,6 @@
 </div>
 <div class="form-container summary-info-hold">
 <div class="form-section">
-    @using (Html.BeginForm("RentalAgreementSubmitSuccess", "NewRental", FormMethod.Post, new { id = "send-mails-form", @class = "clearfix" }))
-    {
-        @Html.HiddenFor(m => m.SendEmails.ContractId)
-        @Html.HiddenFor(m => m.SendEmails.HomeOwnerId)
-        @Html.HiddenFor(m => m.SendEmails.HomeOwnerFullName)
-        @Html.AntiForgeryToken()
-        <div class="well rental-summary-emails well-info">
-            <p class="summary-emails-header">
-                <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
-                You can use digital signature platform to sign the application. Please enter emails of applicants below and click Send Emails.
-            </p>
-            <p class="summary-emails-header2">Invites for digital signing of the application will be sent to the following e-mails</p>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="homeOwnerEmail">Home Owner Email</label>
-                        <div class="control-group">                            
-                            @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new {id = "homeOwnerEmail", @class = "dealnet-input form-control", type = "email"})
-                            @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                @if (Model?.BasicInfo?.AdditionalApplicants != null)
-                {
-                    for (var i = 0; i < Model.BasicInfo.AdditionalApplicants.Count; i++)
-                    {
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="addApplicantEmail@(i)">Additional Applicant #@i Email</label>
-                                <div class="control-group">
-                                    @Html.HiddenFor(m => m.SendEmails.AdditionalApplicantsEmails[i].CustomerId)
-                                    @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
-                                    @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-                <div class="col-md-4">
-                    <div class="form-group btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" id="send-email-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'), null);">
-                            Send Emails
-                        </button>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="sent-email-msg text-center" style="display: none;">
-                        <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Invites were sent to emails</h4>
-                        Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
     <div class="clearfix">
         <div class="row">
         @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "basic-info-form" }))
@@ -799,6 +745,64 @@
             </a>
             <button class="btn dealnet-button dealnet-success-button btn-finish" onclick="$('#send-mails-form').submit()">Finish</button>
         </div>
+</div>
+<div class="sent-contract-section">
+    <h2 class="dealnet-large-header">Send contract for e-signature</h2>
+    @using (Html.BeginForm("RentalAgreementSubmitSuccess", "NewRental", FormMethod.Post, new { id = "send-mails-form", @class = "clearfix" }))
+    {
+    @Html.HiddenFor(m => m.SendEmails.ContractId)
+    @Html.HiddenFor(m => m.SendEmails.HomeOwnerId)
+    @Html.HiddenFor(m => m.SendEmails.HomeOwnerFullName)
+    @Html.AntiForgeryToken()
+    <div class="well rental-summary-emails well-info">
+        <p class="summary-emails-header">
+            <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
+            Please enter emails of applicants below and click Send Emails.
+        </p>
+        <p class="summary-emails-header2">Invite(s) for digital signing of the contract will be sent to the following emails</p>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="homeOwnerEmail">Home Owner Email</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.SendEmails.HomeOwnerEmail, new {id = "homeOwnerEmail", @class = "dealnet-input form-control", type = "email"})
+                        @Html.ValidationMessageFor(m => m.SendEmails.HomeOwnerEmail, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+            @if (Model?.BasicInfo?.AdditionalApplicants != null)
+            {
+            for (var i = 0; i < Model.BasicInfo.AdditionalApplicants.Count; i++)
+            {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="addApplicantEmail@(i)">Additional Applicant #@i Email</label>
+                    <div class="control-group">
+                        @Html.HiddenFor(m => m.SendEmails.AdditionalApplicantsEmails[i].CustomerId)
+                        @Html.TextBoxFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
+                        @Html.ValidationMessageFor(m => m.SendEmails.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+            }
+            }
+            <div class="col-md-4">
+                <div class="form-group btn-container">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="send-email-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'), null);">
+                    Send Emails
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="sent-email-msg text-center" style="display: none;">
+                    <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Invites were sent to emails</h4>
+                    Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
 </div>
 </div>
 
