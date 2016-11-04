@@ -530,7 +530,7 @@
                                 SALES TAX
                             </div>
                             <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                $@(Math.Round(Model.EquipmentInfo.TotalMonthlyPayment ?? 0*Model.ProvinceTaxRate/100, 2))
+                                $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate/100, 2))
                             </div>
                         </div>
                     </div>
@@ -540,7 +540,7 @@
                                 TOTAL MONTHLY PAYMENT (TAX INCL.)
                             </div>
                             <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                $@(Math.Round(Model.EquipmentInfo.TotalMonthlyPayment ?? 0 + Model.EquipmentInfo.TotalMonthlyPayment ?? 0*Model.ProvinceTaxRate/100, 2))
+                                $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate/100, 2))
                             </div>
                         </div>
                     </div>
