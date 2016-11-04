@@ -117,6 +117,10 @@ function inputDateFocus(input){
   input.on('focus', function(){
     if($('.ui-datepicker').length > 0){
       $(this).addClass('focus');
+      var yPos = window.pageYOffset || $(document).scrollTop();
+      setTimeout(function() {
+        window.scrollTo(0, yPos);
+      },0);
     }else{
       $(this).removeClass('focus');
     }
