@@ -594,6 +594,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 contract.PaymentInfo.BlankNumber = newData.BlankNumber;
                 contract.PaymentInfo.TransitNumber = newData.TransitNumber;
                 contract.PaymentInfo.EnbridgeGasDistributionAccount = newData.EnbridgeGasDistributionAccount;
+                contract.PaymentInfo.MeterNumber = newData.MeterNumber;
             }
             else
             {
