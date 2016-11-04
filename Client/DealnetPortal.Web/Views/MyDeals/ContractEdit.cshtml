@@ -1364,7 +1364,7 @@ foreach (var comment in comments)
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.HouseSize, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new { @class = "form-control dealnet-input postal-code", id = "postal_code" })
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new { @class = "form-control dealnet-input"})
                                             @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HouseSize, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
