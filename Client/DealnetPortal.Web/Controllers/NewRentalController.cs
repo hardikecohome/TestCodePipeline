@@ -61,7 +61,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("Error", "Info", new { alers = contractResult?.Item2 });
             }
-            return RedirectToAction("BasicInfo", new { contractId });
+            return RedirectToAction("BasicInfo", new { contractId = contractId});
         }
 
 

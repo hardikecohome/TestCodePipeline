@@ -2,18 +2,11 @@
 		.ready(function() {
 
         $('.date-input').each(assignDatepicker);
-        $("#home-phone").rules("add", "required");
-        $("#cell-phone").rules("add", "required");
-        $("#bank-number").rules("add", "required");
-        $("#transit-number").rules("add", "required");
-        $("#account-number").rules("add", "required");
-        $("#enbridge-gas-distribution-account").rules("add", "required");
-        $("#meter-number").rules("add", "required");
-        //
-        setValidationRelation($("#home-phone"), $("#cell-phone"));
-        setValidationRelation($("#cell-phone"), $("#home-phone"));
-        setValidationRelation($("#enbridge-gas-distribution-account"), $("#meter-number"));
-        setValidationRelation($("#meter-number"), $("#enbridge-gas-distribution-account"));
+        var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
+        managePaymentFormElements(initPaymentTypeForm);
+        $("#payment-type-form").change(function () {
+            managePaymentFormElements($(this).find(":selected").val());
+        });
 
         $('.comment .show-comments-answers').on('click', function() {
             expandReplies(this);
@@ -133,6 +126,19 @@
             return false;
         });
     });
+
+function managePaymentFormElements(paymentType) {
+    switch (paymentType) {
+        case '0':
+            $(".pap-payment-form").hide();
+            $(".enbridge-payment-form").show();
+            break;
+        case '1':
+            $(".enbridge-payment-form").hide();
+            $(".pap-payment-form").show();
+            break;
+    }
+}
 
 function removeDocument(button, removeWholeLine) {
     $("#remove-document-form input[name='documentId']").val($(button).prev("input[name='documentId']").val());

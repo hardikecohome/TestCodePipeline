@@ -12,6 +12,8 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public interface IContractManager
     {
+        Task<DealItemOverviewViewModel> GetWorkItemsAsync();
+
         Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId);
 
         Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId);

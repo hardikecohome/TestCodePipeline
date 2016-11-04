@@ -28,55 +28,56 @@ function assignDatepicker(input) {
 function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
     .done(function (data) {
-        var table = $('#work-items-table')
-        .DataTable({
-            data: data,
-            responsive: {
-                details: {
-                    type: 'column',
-                    target: 1
-                }
-            },
-            oLanguage: {
-                "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
-                "oPaginate": {
-                    "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
-                    "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
-                }
-            },
-            columns: [
-                {
-                    "render": function (sdata, type, row) {
-                        return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+            var table = $('#work-items-table')
+                .DataTable({
+                    data: data,
+                    rowId: 'Id',
+                    responsive: {
+                        details: {
+                            type: 'column',
+                            target: 1
+                        }
                     },
-                    className: 'checkbox-cell'
-                },
-                { "data": "Id" },
-                { "data": "CustomerName" },
-                { "data": "Status" },
-                { "data": "Email" },
-                { "data": "Phone" },
-                { "data": "Date" },
-                { "data": "Equipment" },
-                { "data": "Value" },
-                {
-                    "data": "RemainingDescription",
-                    "visible": false
-                },
-                {
-                    "data": "AgreementType",
-                    "visible": false
-                },
-                {
-                    "data": "PaymentType",
-                    "visible": false
-                },
-                {// this is Actions Column
-                    "render": function (sdata, type, row) {
-                        return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+                    oLanguage: {
+                        "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                        "oPaginate": {
+                            "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
+                            "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
+                        }
                     },
-                    className: 'controls-cell'
-                }
+                    columns: [
+                    {
+                        "render": function(sdata, type, row) {
+                            return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                        },
+                        className: 'checkbox-cell'
+                    },                    
+                    { "data": "TransactionId" },
+                    { "data": "CustomerName" },
+                    { "data": "Status" },
+                    { "data": "Email" },
+                    { "data": "Phone" },
+                    { "data": "Date" },
+                    { "data": "Equipment" },
+                    { "data": "Value" },
+                    {
+                        "data": "RemainingDescription",
+                        "visible": false
+                    },
+                    {
+                        "data": "AgreementType",
+                        "visible": false
+                    },
+                    {
+                        "data": "PaymentType",
+                        "visible": false
+                    },
+                    {// this is Actions Column
+                        "render": function (sdata, type, row) {
+                            return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+                        },
+                        className: 'controls-cell'
+                    }
             ],
             columnDefs: [
                 {
@@ -89,7 +90,7 @@ function showTable() {
                 },
                 {
                     targets: [0, -1],
-                    orderable: false,
+                    orderable: false
                 }
             ],
             order: [[1, 'asc']],
@@ -116,26 +117,28 @@ function showTable() {
         });
         $('#export-excel').click(function () {
             var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
-                return $(tr).find(':nth-child(2)').text();
+                return $(tr)[0].id;
             });
             submitExportRequest(ids);
         });
         $('#export-all-excel').click(function () {
             var ids = $.map($('#work-items-table tbody tr'), function (tr) {
-                return $(tr).find(':nth-child(2)').text();
+                //return $(tr).find(':nth-child(2)').text();
+                return $(tr)[0].id;
             });
             submitExportRequest(ids);
         });
         $('.export-item').click(function () {
             var tr = $(this).parents('tr');
-            var id = $(tr).find(':nth-child(2)').text();
+            //var id = $(tr).find(':nth-child(2)').text();
+            var id = $(tr)[0].id;
             var arr = [];
             arr[0] = id;
             submitExportRequest(arr);
         });
         $('#preview-button').click(function () {
             var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
-                return $(tr).find(':nth-child(2)').text();
+                return $(tr)[0].id;
             });
             if (ids.length > 1) {
                 submitMultiplePreviewRequest(ids);
@@ -144,8 +147,8 @@ function showTable() {
             }
         });
         $('.preview-item').click(function () {
-            var tr = $(this).parents('tr');
-            var id = $(tr).find(':nth-child(2)').text();
+            var tr = $(this).parents('tr');                                   
+            var id = $(tr)[0].id;
             submitSinglePreviewRequest(id);
         });
     });
