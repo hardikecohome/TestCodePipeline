@@ -14,7 +14,7 @@ namespace DealnetPortal.Api.Common.Helpers
             {
                 return name;
             }
-            switch (name.ToUpper())
+            switch (name.Trim().ToUpper())
             {
                 case "AB":
                 case "ALBERTA":
@@ -39,6 +39,7 @@ namespace DealnetPortal.Api.Common.Helpers
                     return "NS";
                 case "NU":
                 case "NUNAVUT":
+                case "NUNAVUT TERRITORY":
                     return "NU";
                 case "ON":
                 case "ONTARIO":
@@ -54,6 +55,7 @@ namespace DealnetPortal.Api.Common.Helpers
                     return "SK";
                 case "YT":
                 case "YUKON":
+                case "YUKON TERRITORY":
                     return "YT";
                 default:
                     return name.ToUpper(); // in a case when code passed as parameter

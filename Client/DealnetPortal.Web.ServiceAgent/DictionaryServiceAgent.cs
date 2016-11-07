@@ -40,7 +40,7 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return await Client.GetAsync<Tuple<ProvinceTaxRateDTO, IList<Alert>>>(
-                            $"{_fullUri}/{province}/ProvinceTaxRate");
+                            $"{_fullUri}/{province.Trim()}/ProvinceTaxRate");
             }
             catch (Exception ex)
             {
