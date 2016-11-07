@@ -57,8 +57,28 @@ function showChart() {
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            beginAtZero: true
-                                        }
+                                            beginAtZero: true,                                            
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: '$',                                            
+                                        },
+                                        gridLines:
+                                            {
+                                                display: false,
+                                                lineWidth : 2
+                                            }                                        
+                                    }],
+                                    xAxes: [{                                        
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Time'
+                                        },
+                                        gridLines: 
+                                            {
+                                                display : false,
+                                                lineWidth : 2
+                                            }                                        
                                     }]
                                 }
                             }

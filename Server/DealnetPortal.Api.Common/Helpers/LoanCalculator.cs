@@ -25,6 +25,7 @@ namespace DealnetPortal.Api.Common.Helpers
             public double Hst { get; set; }
             public double TotalCashPrice { get; set; }
             public double TotalAmountFinanced { get; set; }
+            //TODO: why double, not decimal?
             public double TotalMonthlyPayment { get; set; }
             public double TotalAllMonthlyPayments { get; set; }
             public double ResidualBalance { get; set; }

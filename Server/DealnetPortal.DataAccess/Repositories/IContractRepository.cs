@@ -132,6 +132,9 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Tax Rate for particular Province</returns>
         ProvinceTaxRate GetProvinceTaxRate(string province);
 
+        //TODO: add db table field?
+        decimal GetContractTotalMonthlyPayment(int contractId);
+
         Comment TryAddComment(Comment comment, string contractOwnerId);
 
         bool TryRemoveComment(int commentId, string contractOwnerId);

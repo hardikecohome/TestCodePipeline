@@ -378,7 +378,8 @@ namespace DealnetPortal.Api.Integration.Services
                             decimal totalSum = 0;
                             contractsG?.ForEach(c =>
                             {
-                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0*(c.Equipment?.RequestedTerm ?? 0);
+                                var totalMp = _contractRepository.GetContractTotalMonthlyPayment(c.Id);
+                                totalSum += totalMp * (c.Equipment?.RequestedTerm ?? 0);
                             });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
@@ -404,7 +405,8 @@ namespace DealnetPortal.Api.Integration.Services
                             decimal totalSum = 0;
                             contractsW?.ForEach(c =>
                             {
-                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0* (c.Equipment?.RequestedTerm ?? 0);
+                                var totalMp = _contractRepository.GetContractTotalMonthlyPayment(c.Id);
+                                totalSum += totalMp * (c.Equipment?.RequestedTerm ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
@@ -423,7 +425,8 @@ namespace DealnetPortal.Api.Integration.Services
                             decimal totalSum = 0;
                             contractsM?.ForEach(c =>
                             {
-                                totalSum += c.Equipment?.TotalMonthlyPayment ?? 0* (c.Equipment?.RequestedTerm ?? 0);
+                                var totalMp = _contractRepository.GetContractTotalMonthlyPayment(c.Id);
+                                totalSum += totalMp * (c.Equipment?.RequestedTerm ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()

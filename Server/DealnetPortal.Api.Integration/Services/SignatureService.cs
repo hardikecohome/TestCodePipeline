@@ -571,8 +571,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract.Equipment != null)
             {
+                var totalMp = _contractRepository.GetContractTotalMonthlyPayment(contract.Id);
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalPayment, Value = contract.Equipment.TotalMonthlyPayment?.ToString(CultureInfo.CurrentCulture) });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalMonthlyPayment, Value = contract.Equipment.TotalMonthlyPayment?.ToString(CultureInfo.CurrentCulture) });                
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalMonthlyPayment, Value = totalMp.ToString(CultureInfo.CurrentCulture) });                
             }            
         }
 
