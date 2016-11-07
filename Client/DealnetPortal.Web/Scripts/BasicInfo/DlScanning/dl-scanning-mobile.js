@@ -7,7 +7,7 @@
             for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
             }
-            showLoader();
+            showLoader('Processing image...');
             $.ajax({
                 type: "POST",
                 url: uploadUrl,

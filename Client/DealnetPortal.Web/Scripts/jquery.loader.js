@@ -70,7 +70,11 @@ var jQueryLoaderOptions = null;
 			opacity:options.background.opacity
 		});
 
-		bgDiv.appendTo("body");
+		if(!$('#'+options.background.id).length){
+			bgDiv.appendTo("body");
+		}
+
+
 		if(jQuery.bgiframe){
 			bgDiv.bgiframe();
 		}
@@ -80,9 +84,14 @@ var jQueryLoaderOptions = null;
 			width:options.width,
 			height:options.height
 		});
-		div.appendTo('body');
+
+		if(!$('#'+options.id).length){
+			div.appendTo("body");
+		}
+
+		$('#'+options.id).html('<span class="loading-text">' + options.content + '</span>');
 		div.center();
-		div.html(options.content);
+
 		//$(options.content).appendTo(div);
 	};
 	$.fn.center = function () {
