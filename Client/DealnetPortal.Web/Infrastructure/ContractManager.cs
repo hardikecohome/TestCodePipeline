@@ -247,12 +247,20 @@ namespace DealnetPortal.Web.Infrastructure
                 alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
             }
 
+            if (contactAndPaymentInfo.HouseSize.HasValue)
+            {
+                contractData.Details = new ContractDetailsDTO()
+                {
+                    HouseSize = contactAndPaymentInfo.HouseSize
+                };
+            }
+
             if (contactAndPaymentInfo.PaymentInfo != null)
             {
                 var paymentInfo = AutoMapper.Mapper.Map<PaymentInfoDTO>(contactAndPaymentInfo.PaymentInfo);
-                contractData.PaymentInfo = paymentInfo;
-                alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
+                contractData.PaymentInfo = paymentInfo;                
             }
+            alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
             return alerts;
         }
 

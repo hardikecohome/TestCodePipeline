@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Policy;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
@@ -293,6 +294,45 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.Province == province);
         }
 
+        public decimal GetContractTotalMonthlyPayment(int contractId)
+        {
+            decimal totalMp = 0.0M;
+
+            var contract = _dbContext.Contracts.Find(contractId);
+            if (contract != null)
+            {
+                var rate =
+                    GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                            l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State);
+                if (rate != null && contract.Equipment != null)
+                {
+                    if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                    {
+                        var loanCalculatorInput = new LoanCalculator.Input
+                        {
+                            TaxRate = rate.Rate,
+                            LoanTerm = contract.Equipment.RequestedTerm,
+                            AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                            EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                            AdminFee = contract.Equipment.AdminFee ?? 0,
+                            DownPayment = contract.Equipment.DownPayment ?? 0,
+                            CustomerRate = contract.Equipment.CustomerRate ?? 0
+                        };
+                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                        totalMp = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                    }
+                    else
+                    {
+                        totalMp = (contract.Equipment.TotalMonthlyPayment ?? 0) + (contract.Equipment.TotalMonthlyPayment ?? 0)*(decimal) (rate.Rate / 100);
+                    }
+                }
+            }
+
+            return totalMp;
+        }
+
         public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
         {
             var contract = _dbContext.Contracts.Find(contractId);            
@@ -454,7 +494,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 contractData.Equipment = contract.Equipment;
             }
             return contractData;
-        }
+        }        
 
         public Comment TryAddComment(Comment comment, string contractOwnerId)
         {
@@ -570,18 +610,47 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private void AddOrUpdateContactDetails(Contract contract, ContractDetails contractDetails)
         {
-            contract.Details = contractDetails;
-            //if (contract.Details != null)
-            //{
-            //    if (contractDetails.)
-            //    contract.ContactInfo.EmailAddress = newData.EmailAddress;
-            //    contract.ContactInfo.HouseSize = newData.HouseSize;
-            //    contract.ContactInfo.Phones = newData.Phones;
-            //}
-            //else
-            //{                
-            //    contract.Details = contractDetails;
-            //}
+            if (contract.Details == null)
+            {
+                contract.Details = new ContractDetails();
+            }
+
+            if (contractDetails.AgreementType.HasValue)
+            {
+                contract.Details.AgreementType = contractDetails.AgreementType;
+            }
+            if (contractDetails.HouseSize.HasValue)
+            {
+                contract.Details.HouseSize = contractDetails.HouseSize;
+            }
+            if (contractDetails.SignatureDocumentId != null)
+            {
+                contract.Details.SignatureDocumentId = contractDetails.SignatureDocumentId;
+            }
+            if (contractDetails.SignatureTransactionId != null)
+            {
+                contract.Details.SignatureTransactionId = contractDetails.SignatureTransactionId;
+            }
+            if (contractDetails.Status != null)
+            {
+                contract.Details.Status = contractDetails.Status;
+            }
+            if (contractDetails.TransactionId != null)
+            {
+                contract.Details.TransactionId = contractDetails.TransactionId;
+            }
+            if (contractDetails.SignatureInitiatedTime.HasValue)
+            {
+                contract.Details.SignatureInitiatedTime = contractDetails.SignatureInitiatedTime;
+            }
+            if (contractDetails.SignatureStatus.HasValue)
+            {
+                contract.Details.SignatureStatus = contractDetails.SignatureStatus;
+            }
+            if (contractDetails.SignatureTime.HasValue)
+            {
+                contract.Details.SignatureTime = contractDetails.SignatureTime;
+            }           
         }
 
         private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)
