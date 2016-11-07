@@ -610,18 +610,47 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private void AddOrUpdateContactDetails(Contract contract, ContractDetails contractDetails)
         {
-            contract.Details = contractDetails;
-            //if (contract.Details != null)
-            //{
-            //    if (contractDetails.)
-            //    contract.ContactInfo.EmailAddress = newData.EmailAddress;
-            //    contract.ContactInfo.HouseSize = newData.HouseSize;
-            //    contract.ContactInfo.Phones = newData.Phones;
-            //}
-            //else
-            //{                
-            //    contract.Details = contractDetails;
-            //}
+            if (contract.Details == null)
+            {
+                contract.Details = new ContractDetails();
+            }
+
+            if (contractDetails.AgreementType.HasValue)
+            {
+                contract.Details.AgreementType = contractDetails.AgreementType;
+            }
+            if (contractDetails.HouseSize.HasValue)
+            {
+                contract.Details.HouseSize = contractDetails.HouseSize;
+            }
+            if (contractDetails.SignatureDocumentId != null)
+            {
+                contract.Details.SignatureDocumentId = contractDetails.SignatureDocumentId;
+            }
+            if (contractDetails.SignatureTransactionId != null)
+            {
+                contract.Details.SignatureTransactionId = contractDetails.SignatureTransactionId;
+            }
+            if (contractDetails.Status != null)
+            {
+                contract.Details.Status = contractDetails.Status;
+            }
+            if (contractDetails.TransactionId != null)
+            {
+                contract.Details.TransactionId = contractDetails.TransactionId;
+            }
+            if (contractDetails.SignatureInitiatedTime.HasValue)
+            {
+                contract.Details.SignatureInitiatedTime = contractDetails.SignatureInitiatedTime;
+            }
+            if (contractDetails.SignatureStatus.HasValue)
+            {
+                contract.Details.SignatureStatus = contractDetails.SignatureStatus;
+            }
+            if (contractDetails.SignatureTime.HasValue)
+            {
+                contract.Details.SignatureTime = contractDetails.SignatureTime;
+            }           
         }
 
         private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)
