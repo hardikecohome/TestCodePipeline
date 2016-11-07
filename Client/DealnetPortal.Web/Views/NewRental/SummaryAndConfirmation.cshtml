@@ -473,7 +473,7 @@
                                     <div class="row">
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input equipment-cost", id = ""})
                                         </div>
                                     </div>
                                 </div>
@@ -482,7 +482,7 @@
                                 <div class="row">
                                     @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input monthly-cost", id = ""})
                                     </div>
                                 </div>
                             </div>
@@ -517,7 +517,7 @@
                                 else
                                 {
                                     <text>$</text>
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                    @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "total-monthly-payment" })
                                 }
                             </div>
                         </div>
