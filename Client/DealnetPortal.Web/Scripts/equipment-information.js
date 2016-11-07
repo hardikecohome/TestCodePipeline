@@ -24,6 +24,10 @@
                     "Please enter a valid date!"
                 );
 
+                $("#admin-fee").rules("add", "required");
+                $("#down-payment").rules("add", "required");
+                $("#customer-rate").rules("add", "required");
+                $("#amortization-term").rules("add", "required");
                 var initAgreementType = $("#agreement-type").find(":selected").val();
                 manageAgreementElements(initAgreementType);
                 $("#agreement-type").change(function () {
@@ -43,7 +47,10 @@ function manageAgreementElements(agreementType) {
             });
             $(".monthly-cost").prop("disabled", true);
             $(".monthly-cost").each(function () {
-                $(this).rules("remove", "required");
+                var input = $(this);
+                input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
             });
             $('.loan-element').show();
             $('.rental-element').hide();
@@ -54,7 +61,10 @@ function manageAgreementElements(agreementType) {
         case '2':
             $(".equipment-cost").prop("disabled", true);
             $(".equipment-cost").each(function() {
-                $(this).rules("remove", "required");
+                var input = $(this);
+                input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
             });
             $(".monthly-cost").prop("disabled", false);
             $(".monthly-cost").each(function () {
