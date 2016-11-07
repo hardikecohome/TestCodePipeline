@@ -204,11 +204,11 @@ function expandReplies(button) {
 function assignDatepicker() {
     var input = $(this);
     inputDateFocus(input);
-    $(this).datepicker({
+    input.datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         yearRange: '1900:2200',
-        minDate: Date.parse("1900-01-01"),
+        minDate: new Date(),
         onSelect: function(){
             $(this).removeClass('focus');
         }

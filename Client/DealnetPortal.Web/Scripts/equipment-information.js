@@ -139,8 +139,9 @@ function resetFormValidator(formId) {
 }
 
 function assignDatepicker(inputId) {
-    inputDateFocus($(inputId));
-    $(inputId).datepicker({
+    var input = $(inputId);
+    inputDateFocus(input);
+    input.datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         yearRange: '1900:2200',
