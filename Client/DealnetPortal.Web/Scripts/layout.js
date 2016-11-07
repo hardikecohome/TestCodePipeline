@@ -114,17 +114,20 @@
 });
 
 function inputDateFocus(input){
-  input.on('focus', function(){
+  input.on('touchend', function(){
     if($('.ui-datepicker').length > 0){
-      $(this).addClass('focus');
       var yPos = window.pageYOffset || $(document).scrollTop();
       setTimeout(function() {
         window.scrollTo(0, yPos);
       },0);
+    }
+  }).on('focus', function(){
+    $(this).blur();
+    if($('.ui-datepicker').length > 0){
+      $(this).addClass('focus');
     }else{
       $(this).removeClass('focus');
     }
-    $(this).blur();
   });
 }
 
@@ -226,7 +229,6 @@ function addIconsToFields(fields){
   iconPassField.appendTo(fieldPassParent);
   setTimeout(function(){
     fields.each(function(){
-      console.log($(this).text());
       if($(this).val().length > 0){
         $(this).siblings('.clear-input').css('display', 'block');
       }else{
