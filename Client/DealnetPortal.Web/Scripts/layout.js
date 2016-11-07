@@ -161,6 +161,11 @@ function detectPageHeaight(){
 
 function commonDataTablesSettings(){
   $('#work-items-table, .total-info').hide();
+
+  $('#work-items-table').on( 'length.dt', function ( e, settings, len ) {
+    $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
+  });
+  
   $.extend( true, $.fn.dataTable.defaults, {
     "fnInitComplete": function(oSettings, json) {
       $('#work-items-table, .total-info').show();
