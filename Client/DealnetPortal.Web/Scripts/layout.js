@@ -175,10 +175,11 @@ function backToTop() {
   return false;
 };
 
-function showLoader() {
+function showLoader(loadingText) {
+  var classes = loadingText ? 'hasText loader' : 'loader';
     $.loader({
-        className: 'loader',
-        content: '',
+        className: classes,
+        content: loadingText,
         width: 101,
         height: 100
   });
