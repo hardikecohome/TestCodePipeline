@@ -650,7 +650,15 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contractDetails.SignatureTime.HasValue)
             {
                 contract.Details.SignatureTime = contractDetails.SignatureTime;
-            }           
+            }
+            if (contractDetails.ScorecardPoints.HasValue)
+            {
+                contract.Details.ScorecardPoints = contractDetails.ScorecardPoints;
+            }
+            if (contractDetails.CreditAmount.HasValue)
+            {
+                contract.Details.CreditAmount = contractDetails.CreditAmount;
+            }
         }
 
         private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)

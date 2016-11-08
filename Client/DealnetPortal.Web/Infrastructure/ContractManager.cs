@@ -77,6 +77,7 @@ namespace DealnetPortal.Web.Infrastructure
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(contractResult.Item1.PrimaryCustomer.Locations.First(
                         l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
             if (rate != null) { equipmentInfo.ProvinceTaxRate = rate.Rate; }
+            equipmentInfo.CreditAmount = contractResult.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
             return equipmentInfo;
         }

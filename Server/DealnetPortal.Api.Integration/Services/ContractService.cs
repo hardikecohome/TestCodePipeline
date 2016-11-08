@@ -244,6 +244,22 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (checkResult?.Item1 != null)
             {
+                var creditAmount = checkResult.Item1.CreditAmount > 0 ? checkResult.Item1.CreditAmount : (decimal?)null;
+                var scorecardPoints = checkResult.Item1.ScorecardPoints > 0 ? checkResult.Item1.ScorecardPoints : (int?)null;
+
+                if (creditAmount.HasValue || scorecardPoints.HasValue)
+                {
+                    _contractRepository.UpdateContractData(new ContractData()
+                    {
+                        Id = contractId,
+                        Details = new ContractDetails()
+                        {
+                            CreditAmount = creditAmount,
+                            ScorecardPoints = scorecardPoints
+                        }
+                    }, contractOwnerId);
+                }
+
                 switch (checkResult.Item1.CreditCheckState)
                 {
                     case CreditCheckState.Approved:

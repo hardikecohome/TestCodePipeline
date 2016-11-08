@@ -47,11 +47,14 @@
 <div class="form-section">
 <div class="row">
     <div class="col-md-12">
-        <p class="align-middle equipment-proceed-success">    
-            <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-            <span>Credit Check Processed Successfully!</span>
-        </p>   
-        <p class="text-semibold text-md-sm">Pre-Approved for $@($"{TempData["MaxCreditAmount"]:0,00}")</p>
+        @if ((decimal?)TempData["MaxCreditAmount"] != null)
+        {
+            <p class="align-middle equipment-proceed-success">
+                <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+                <span>Credit Check Processed Successfully!</span>
+            </p>
+        }
+        <p class="text-semibold text-md-sm">Pre-Approved for $@((decimal?)TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" :  $"{Model.CreditAmount:0,00}" )</p>
     </div>
 </div>
 

@@ -209,7 +209,9 @@ namespace DealnetPortal.Web.App_Start
                 cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
                 cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
                 cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
-                    .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id));
+                    .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
+                    .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
+                    .ForMember(x => x.CreditAmount, d => d.Ignore());
 
                 cfg.CreateMap<CommentDTO, CommentViewModel>();
                 cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()

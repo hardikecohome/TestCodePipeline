@@ -32,5 +32,9 @@ namespace DealnetPortal.Domain
         public SignatureStatus? SignatureStatus { get; set; }
 
         public DateTime? SignatureTime { get; set; }
+
+        public int? ScorecardPoints { get; set; }
+
+        public decimal? CreditAmount { get; set; }
     }
 }

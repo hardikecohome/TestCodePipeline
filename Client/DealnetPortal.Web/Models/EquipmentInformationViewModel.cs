@@ -53,5 +53,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double ProvinceTaxRate { get; set; }
 
         public bool IsAllInfoCompleted { get; set; }
+
+        public decimal? CreditAmount { get; set; }
     }
 }
