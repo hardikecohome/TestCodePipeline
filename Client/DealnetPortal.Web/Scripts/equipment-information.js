@@ -1,8 +1,6 @@
 ﻿$(document)
             .ready(function () {
-                sessionStorage.newEquipmets = 0;
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
-                sessionStorage.existingEquipmets = 0;
                 sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
                 $("#new-equipment-remove-0").hide();
                 $("#new-equipment-base .dealnet-middle-header").hide();
@@ -79,13 +77,13 @@ function manageAgreementElements(agreementType) {
 }
 
 function addNewEquipment() {
-    sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) + 1;
+    var nextNumber = Number(sessionStorage.newEquipmets) + 1;
     var newDiv = document.createElement('div');
     newDiv.className = 'new-equipment-wrap';
     newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
         .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
         .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
-        .replace("№1", "№" + (Number(sessionStorage.newEquipmets) + 1));
+        .replace("№1", "№" + (nextNumber));
     //console.log(newDiv.innerHTML);
     newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
     document.getElementById('new-equipments').appendChild(newDiv);
@@ -93,21 +91,21 @@ function addNewEquipment() {
     resetFormValidator("#equipment-form");
     manageAgreementElements($("#agreement-type").find(":selected").val());
     customizeSelect();
+    sessionStorage.newEquipmets = nextNumber;
 }
 
 function addExistingEquipment() {
-    sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) + 1;
+    var nextNumber = Number(sessionStorage.existingEquipmets) + 1;
     var newDiv = document.createElement('div');
     newDiv.innerHTML = sessionStorage.existingEquipmetTemplate.split("ExistingEquipment[0]").join("ExistingEquipment[" + sessionStorage.existingEquipmets + "]")
         .split("ExistingEquipment_0").join("ExistingEquipment_" + sessionStorage.existingEquipmets)
         .replace("#existing-equipment-0", "#existing-equipment-" + sessionStorage.existingEquipmets)
-        .replace("№1", "№" + (Number(sessionStorage.existingEquipmets) + 1));
+        .replace("№1", "№" + (nextNumber));
     newDiv.id = "existing-equipment-" + sessionStorage.existingEquipmets;
     document.getElementById('existing-equipments').appendChild(newDiv);
     resetFormValidator("#equipment-form");
-    sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) + 1;
-
     customizeSelect();
+    sessionStorage.existingEquipmets = nextNumber;
 }
 
 function recalculateTotalMonthlyPayment() {
