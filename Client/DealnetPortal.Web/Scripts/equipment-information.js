@@ -94,6 +94,7 @@ function addNewEquipment() {
 }
 
 function addExistingEquipment() {
+    sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) + 1;
     var newDiv = document.createElement('div');
     newDiv.innerHTML = sessionStorage.existingEquipmetTemplate.split("ExistingEquipment[0]").join("ExistingEquipment[" + sessionStorage.existingEquipmets + "]")
         .split("ExistingEquipment_0").join("ExistingEquipment_" + sessionStorage.existingEquipmets)
