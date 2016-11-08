@@ -221,6 +221,10 @@ namespace DealnetPortal.Web.Infrastructure
                 Id = equipmnetInfo.ContractId ?? 0,
                 Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
+            if (equipmnetInfo.ExistingEquipment == null)
+            {
+                contractData.Equipment.ExistingEquipment = new List<ExistingEquipmentDTO>();
+            }
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
