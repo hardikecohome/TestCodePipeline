@@ -81,6 +81,7 @@ function manageAgreementElements(agreementType) {
 function addNewEquipment() {
     sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) + 1;
     var newDiv = document.createElement('div');
+    newDiv.className = 'new-equipment-wrap';
     newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
         .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
         .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
@@ -91,6 +92,7 @@ function addNewEquipment() {
     assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
     resetFormValidator("#equipment-form");
     manageAgreementElements($("#agreement-type").find(":selected").val());
+    customizeSelect();
 }
 
 function addExistingEquipment() {
