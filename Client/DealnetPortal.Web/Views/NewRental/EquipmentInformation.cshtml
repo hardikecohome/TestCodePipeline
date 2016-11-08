@@ -132,7 +132,7 @@
         {
             for (var i = 1; i < Model.NewEquipment.Count; i++)
             {
-                <div id="new-equipment-@(i)" class="new-equipment">
+                <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
                     <div class="dealnet-middle-header owner-info-label">
                         №@(i+1)
                         <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove(); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
