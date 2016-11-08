@@ -1394,6 +1394,9 @@ foreach (var comment in comments)
                     <form id="new-equipment-info-section-modal">
                         @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
                         {
+                            <div class="dealnet-middle-header">
+                                ¹@(i+1)
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
