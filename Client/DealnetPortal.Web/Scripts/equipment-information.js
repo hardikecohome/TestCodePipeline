@@ -1,5 +1,42 @@
 ﻿$(document)
             .ready(function () {
+
+                jQuery.validator.unobtrusive.adapters.add(
+                    'checkcost', ['other'], function (options) {
+
+                        var getModelPrefix = function (fieldName) {
+                            return fieldName.substr(0, fieldName.lastIndexOf('.') + 1);
+                        }
+
+                        var appendModelPrefix = function (value, prefix) {
+                            if (value.indexOf('*.') === 0) {
+                                value = value.replace('*.', prefix);
+                            }
+                            return value;
+                        }
+
+                        var prefix = getModelPrefix(options.element.name),
+                            other = options.params.other,
+                            fullOtherName = appendModelPrefix(other, prefix),
+                            element = $(options.form).find(':input[name="' + fullOtherName + '"]')[0];
+
+                        options.rules['checkcost'] = element;
+                        if (options.message) {
+                            $("#proceed-error-message").show();
+                            options.messages['checkcost'] = options.message;
+                        }
+                    }
+                );
+
+                jQuery.validator.addMethod('checkcost', function (value, element, params) {
+                    var otherValue = $(params).val();
+                    if (otherValue != null && otherValue != '') {
+                        return true;
+                    }
+                    return value != null && value != '';
+                }, '');
+
+
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
                 sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
                 $("#new-equipment-remove-0").hide();

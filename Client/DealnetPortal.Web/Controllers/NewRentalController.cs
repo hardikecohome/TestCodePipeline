@@ -200,7 +200,8 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsAllInfoCompleted = false;
             if (!ModelState.IsValid)
             {
-                return View();
+                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
+                return View(equipmentInfo);
             }
             var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))

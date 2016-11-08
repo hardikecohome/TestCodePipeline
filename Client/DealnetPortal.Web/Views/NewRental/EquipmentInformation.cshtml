@@ -72,6 +72,9 @@
         </div>        
     </div>
 
+    @Html.HiddenFor(x => x.CreditAmount)
+       
+
     <div id="new-equipments">
         <h3 class="dealnet-middle-header">New Equipment Information</h3>
         <div id="new-equipment-base" class="new-equipment">
@@ -107,6 +110,7 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(x => x.NewEquipment, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
