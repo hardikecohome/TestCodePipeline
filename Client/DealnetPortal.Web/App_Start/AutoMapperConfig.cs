@@ -158,15 +158,6 @@ namespace DealnetPortal.Web.App_Start
                         }
                         return string.Empty;
                     }))
-                 .ForMember(d => d.Value, s => s.ResolveUsing(src =>
-                    {
-                        var equipment = src.Equipment;
-                        if (equipment != null)
-                        {
-                            return $"$ {equipment.TotalMonthlyPayment:0.00}";
-                        }
-                        return string.Empty;
-                    }))
                   .ForMember(d => d.RemainingDescription, s => s.ResolveUsing(src =>
                     {
                         var stb = new StringBuilder();

@@ -159,14 +159,19 @@ function (settings, data, dataIndex) {
     var status = $("#deal-status").val();
     var agreementType = $("#agreement-type").val();
     var paymentType = $("#payment-type").val();
+    var equipment = $("#equipment-input").val();
     var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
     var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-    var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
+    var date = Date.parseExact(data[6], "M/d/yyyy");
+    var value = parseFloat(data[8].replace(/[\$,]/g, ''));
+    var valueOfDeal = parseFloat($("#deal-value").val());
     if ((!status || status === data[3]) &&
-        (!dateTo || valueEntered <= dateTo) &&
-        (!dateFrom || valueEntered >= dateFrom) &&
+        (!dateTo || date <= dateTo) &&
+        (!dateFrom || date >= dateFrom) &&
         (!agreementType || agreementType === data[10]) &&
-        (!paymentType || paymentType === data[11])) {
+        (!paymentType || paymentType === data[11]) &&
+        (!equipment || data[7].match(new RegExp(equipment, "i"))) &&
+        (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {
         return true;
     }
     return false;
