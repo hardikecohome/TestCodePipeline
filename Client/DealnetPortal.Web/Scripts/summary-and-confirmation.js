@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $('.date-input').each(assignDatepicker);
     var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
     managePaymentFormElements(initPaymentTypeForm);
     $("#payment-type-form").change(function () {
@@ -17,6 +18,21 @@ function managePaymentFormElements(paymentType) {
             break;
     }
 }
+
+function assignDatepicker() {
+    var input = $(this);
+    inputDateFocus(input);
+    input.datepicker({
+        dateFormat: 'mm/dd/yy',
+        changeYear: true,
+        yearRange: '1900:2200',
+        minDate: new Date(),
+        onSelect: function () {
+            $(this).removeClass('focus');
+        }
+    });
+}
+
 function assignAutocompletes() {
     $(document)
         .ready(function () {

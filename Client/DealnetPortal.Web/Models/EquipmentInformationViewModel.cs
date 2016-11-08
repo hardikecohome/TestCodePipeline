@@ -11,7 +11,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][1-9]?)?$", ErrorMessage = "Total Monthly Payment is in incorrect format")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Total Monthly Payment is in incorrect format")]
         [Display(Name = "Total Monthly Payment")]
         public double? TotalMonthlyPayment { get; set; }
 
@@ -26,12 +26,15 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(Name = "Amortization Term")]
         public int? AmortizationTerm { get; set; }
 
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Customer Rate is in incorrect format")]
         [Display(Name = "Customer Rate (%)")]
         public double? CustomerRate { get; set; }
 
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Admin Fee is in incorrect format")]
         [Display(Name = "Admin Fee")]
         public double? AdminFee { get; set; }
 
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Down Payment is in incorrect format")]
         [Display(Name = "Down Payment")]
         public double? DownPayment { get; set; }
 

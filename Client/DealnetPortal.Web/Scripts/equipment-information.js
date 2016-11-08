@@ -24,6 +24,10 @@
                     "Please enter a valid date!"
                 );
 
+                $("#admin-fee").rules("add", "required");
+                $("#down-payment").rules("add", "required");
+                $("#customer-rate").rules("add", "required");
+                $("#amortization-term").rules("add", "required");
                 var initAgreementType = $("#agreement-type").find(":selected").val();
                 manageAgreementElements(initAgreementType);
                 $("#agreement-type").change(function () {
@@ -43,7 +47,10 @@ function manageAgreementElements(agreementType) {
             });
             $(".monthly-cost").prop("disabled", true);
             $(".monthly-cost").each(function () {
-                $(this).rules("remove", "required");
+                var input = $(this);
+                input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
             });
             $('.loan-element').show();
             $('.rental-element').hide();
@@ -54,7 +61,10 @@ function manageAgreementElements(agreementType) {
         case '2':
             $(".equipment-cost").prop("disabled", true);
             $(".equipment-cost").each(function() {
-                $(this).rules("remove", "required");
+                var input = $(this);
+                input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
             });
             $(".monthly-cost").prop("disabled", false);
             $(".monthly-cost").each(function () {
@@ -71,6 +81,7 @@ function manageAgreementElements(agreementType) {
 function addNewEquipment() {
     sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) + 1;
     var newDiv = document.createElement('div');
+    newDiv.className = 'new-equipment-wrap';
     newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
         .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
         .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
@@ -81,9 +92,11 @@ function addNewEquipment() {
     assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
     resetFormValidator("#equipment-form");
     manageAgreementElements($("#agreement-type").find(":selected").val());
+    customizeSelect();
 }
 
 function addExistingEquipment() {
+    sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) + 1;
     var newDiv = document.createElement('div');
     newDiv.innerHTML = sessionStorage.existingEquipmetTemplate.split("ExistingEquipment[0]").join("ExistingEquipment[" + sessionStorage.existingEquipmets + "]")
         .split("ExistingEquipment_0").join("ExistingEquipment_" + sessionStorage.existingEquipmets)
@@ -129,8 +142,9 @@ function resetFormValidator(formId) {
 }
 
 function assignDatepicker(inputId) {
-    inputDateFocus($(inputId));
-    $(inputId).datepicker({
+    var input = $(inputId);
+    inputDateFocus(input);
+    input.datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         yearRange: '1900:2200',

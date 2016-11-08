@@ -18,14 +18,14 @@
     //
     var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
     var hst = taxRate / 100 * equipmentCashPrice;
-    hstLabel.text(hst);
+    hstLabel.text(hst.toFixed(2));
     var totalCashPrice = equipmentCashPrice + hst;
-    totalCashPriceLabel.text(totalCashPrice);
+    totalCashPriceLabel.text(totalCashPrice.toFixed(2));
     var adminFee = parseFloat($("#admin-fee").val());
     var downPayment = parseFloat($("#down-payment").val());
     if (isNaN(adminFee) || isNaN(downPayment)){ return; }
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
-    totalAmountFinancedLabel.text(totalAmountFinanced);
+    totalAmountFinancedLabel.text(totalAmountFinanced.toFixed(2));
     var loanTerm = parseInt($("#requested-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
