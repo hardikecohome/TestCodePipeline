@@ -36,7 +36,7 @@
                     return value != null && value != '';
                 }, '');
 
-
+                $('#existing-notes-default').text("").attr("id", "");
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
                 sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
                 $("#new-equipment-remove-0").hide();
