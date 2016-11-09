@@ -160,4 +160,18 @@ namespace DealnetPortal.Web.Models
         public double ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
     }
+
+    public class SubmitContractViewModel
+    {
+        public int? ContractId { get; set; }
+    }
+
+    public class SubmitConfirmationViewModel
+    {
+        public int ContractId { get; set; }
+        public int CustomerId { get; set; }
+        public string HomeOwnerFullName { get; set; }
+        public string HomeOwnerEmail { get; set; }
+        public AgreementType AgreementType { get; set; }
+    }
 }
