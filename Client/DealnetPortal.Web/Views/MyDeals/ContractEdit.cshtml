@@ -143,15 +143,14 @@
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6">
 				<div class="dealnet-credit-check-section">
-				    @if (Model.EquipmentInfo != null && Model.EquipmentInfo.AgreementType != AgreementType.RentalApplication &&
-				         Model.EquipmentInfo.AgreementType != AgreementType.RentalApplicationHwt)
+				    @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
 				    {
 				        <div class="form-group">
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
 				                <div class="dealnet-field-holder col-xs-6">
 				                    <div class="control-group">
-				                        $ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
+				                        $ @($"{Model.LoanCalculatorOutput.TotalBorowingCost:0,00.00}")
 				                    </div>
 				                </div>
 				            </div>
