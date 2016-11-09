@@ -242,6 +242,14 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SummaryAndConfirmation(SubmitContractViewModel submitViewModel)
+        {
+            await _contractServiceAgent.SubmitContract(submitViewModel.ContractId.Value);
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitViewModel?.ContractId });            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public void SendContractEmails([Bind(Prefix = "SendEmails")] SendEmailsViewModel emails)
         {
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
@@ -263,13 +271,30 @@ namespace DealnetPortal.Web.Controllers
             _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
         }
 
+        public async Task<ActionResult> AgreementSubmitSuccess(int contractId)
+        {
+            var contract = await _contractServiceAgent.GetContract(contractId);
+            if (contract.Item1 == null || (contract.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+            {
+                return RedirectToAction("Error", "Info", new { alers = contract?.Item2 });
+            }
+            SubmitConfirmationViewModel vm = new SubmitConfirmationViewModel()
+            {
+                ContractId = contractId,
+                CustomerId = contract.Item1.PrimaryCustomer?.Id ?? 0,
+                AgreementType = contract.Item1.Equipment?.AgreementType ?? AgreementType.LoanApplication,
+                HomeOwnerFullName = $"{contract.Item1.PrimaryCustomer?.FirstName} {contract.Item1.PrimaryCustomer?.LastName}}}",
+                HomeOwnerEmail = contract.Item1.PrimaryCustomer?.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                    contract.Item1.PrimaryCustomer?.Emails.First().EmailAddress
+            };
+            return View(vm);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RentalAgreementSubmitSuccess([Bind(Prefix = "SendEmails")] SendEmailsViewModel emails)
+        public ActionResult AgreementSubmitSuccess([Bind(Prefix = "SendEmails")] SendEmailsViewModel emails)
         {
-            await _contractServiceAgent.SubmitContract(emails.ContractId);
-            ViewBag.HomeOwnerEmail = emails.HomeOwnerEmail;
-            return View(emails);
+            return RedirectToAction("Index", "Home");            
         }
 
         [HttpPost]

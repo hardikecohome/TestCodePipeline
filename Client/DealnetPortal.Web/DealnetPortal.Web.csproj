@@ -724,7 +724,7 @@
     <Content Include="Views\NewRental\CreditCheck.cshtml" />
     <Content Include="Views\NewRental\CreditRejected.cshtml" />
     <Content Include="Views\NewRental\SummaryAndConfirmation.cshtml" />
-    <Content Include="Views\NewRental\RentalAgreementSubmitSuccess.cshtml" />
+    <Content Include="Views\NewRental\AgreementSubmitSuccess.cshtml" />
     <Content Include="Views\MyDeals\Index.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\Contract.cshtml" />

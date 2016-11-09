@@ -187,6 +187,14 @@ namespace DealnetPortal.Web.App_Start
                         stb.AppendLine(src.PaymentInfo?.EnbridgeGasDistributionAccount);
                         stb.AppendLine(src.PaymentInfo?.AccountNumber);
                         return stb.ToString();
+                    }))
+                    .ForMember(d => d.Value, s => s.ResolveUsing(src =>
+                    {
+                        if (src.Equipment != null)
+                        {
+                            return $"$ {src.Equipment.ValueOfDeal}";
+                        }
+                        return string.Empty;
                     }));
 
                 cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()

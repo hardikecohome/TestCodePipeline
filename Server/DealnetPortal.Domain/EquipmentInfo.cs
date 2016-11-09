@@ -26,6 +26,8 @@ namespace DealnetPortal.Domain
         
         public double? DownPayment { get; set; }
 
+        public double ValueOfDeal { get; set; }
+
         public string SalesRep { get; set; }
         
         public string Notes { get; set; }

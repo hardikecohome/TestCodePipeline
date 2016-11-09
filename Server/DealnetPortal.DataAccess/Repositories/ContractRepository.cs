@@ -475,6 +475,28 @@ namespace DealnetPortal.DataAccess.Repositories
                         _dbContext.ExistingEquipment.AddOrUpdate(ee);
                     }
                 });
+            }
+
+            if (dbEquipment.AgreementType == AgreementType.LoanApplication)
+            {
+                var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
+                    l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
+                var taxRate = GetProvinceTaxRate(provinceCode);
+                var loanCalculatorInput = new LoanCalculator.Input
+                {
+                    TaxRate = taxRate.Rate,
+                    LoanTerm = contract.Equipment.RequestedTerm,
+                    AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                    EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                    AdminFee = contract.Equipment.AdminFee ?? 0,
+                    DownPayment = contract.Equipment.DownPayment ?? 0,
+                    CustomerRate = contract.Equipment.CustomerRate ?? 0
+                };
+                dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalBorowingCost;
+            }
+            else
+            {
+                dbEquipment.ValueOfDeal = (double)(dbEquipment.TotalMonthlyPayment*dbEquipment.RequestedTerm);
             }            
             
             return dbEquipment;
