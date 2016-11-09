@@ -16,7 +16,7 @@
         $('.comment .write-reply-link').on('click', addReplyFrom);
 
         $('.reply-button').on('click', function() {
-            var form = $(this).parents('form');
+            var form = $(this).parent().closest('form');
             submitComment(form, addBaseComment);
             return false;
         });
@@ -35,12 +35,12 @@
             newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-other-group'));
         });
         $('#upload-documents-modal .file-upload').on('click', function() {
-            $(this).parents('.form-group').addClass('file-uploaded');
+            $(this).parent().closest('.form-group').addClass('file-uploaded');
             $('.file-uploaded .progress-bar:last').width('0%');
             return true;
         });
         $('.progress-container .clear-data-link').on('click', function() {
-            $(this).parents('.form-group').removeClass('file-uploaded');
+            $(this).parent().closest('.form-group').removeClass('file-uploaded');
         });
 
         $('#main-documents .remove-link').on('click', function () {
@@ -157,7 +157,7 @@ function submitDocumentRemoval(removalLink, removeWholeLine) {
             } else {
                 if (json.isSuccess) {
                     if (removeWholeLine) {
-                        removalLink.parents('.document-row').remove();
+                        removalLink.parent().closest('.document-row').remove();
                     } else {
                         removalLink.hide();
                         removalLink.next(".dealnet-info-link").text("");
@@ -173,7 +173,7 @@ function submitDocumentRemoval(removalLink, removeWholeLine) {
 }
 
 function addReplyFrom() {
-    var currComment = $(this).parents('.comment');
+    var currComment = $(this).parent().closest('.comment');
     var existingForm = currComment.find('.comment-reply-form');
     if (existingForm.length) {
         existingForm.remove();
@@ -183,7 +183,7 @@ function addReplyFrom() {
         commentForm.attr("id", "");
         commentForm.appendTo(currComment);
         commentForm.find('.reply-button').on('click', function () {
-            var form = $(this).parents('form');
+            var form = $(this).parent().closest('form');
             submitComment(form, addChildComment);
             return false;
         });
@@ -193,12 +193,12 @@ function addReplyFrom() {
 
 function removeComment(button) {
     var commentId = $(button).siblings("input[name='comment-id']").val();
-    submitCommentRemoval($(button).parents('.comment'), commentId);
+    submitCommentRemoval($(button).parent().closest('.comment'), commentId);
 }
 
 function expandReplies(button) {
     $(button).toggleClass('active');
-    $(button).parents('.comment').toggleClass('active');
+    $(button).parent().closest('.comment').toggleClass('active');
 }
 
 function assignDatepicker() {
@@ -232,7 +232,7 @@ function submitComment(form, addComment) {
                 });
                 comment.find('.comment-remove-link').on('click', function () {
                     var commentId = $(this).siblings("input[name='comment-id']").val();
-                    submitCommentRemoval($(this).parents('.comment'), commentId);
+                    submitCommentRemoval($(this).parent().closest('.comment'), commentId);
                     return false;
                 });
             }
@@ -255,7 +255,7 @@ function submitCommentRemoval(comment, commentId) {
             if (json.isError) {
                 alert("An error occurred while removing comment");
             } else {
-                var parentComment = comment.parents('ul').prev('.comment');
+                var parentComment = comment.parent().closest('ul').prev('.comment');
                 var replies = comment.next('ul');
                 comment.remove();
                 replies.remove();
@@ -282,7 +282,7 @@ function addBaseComment(form, json) {
     var commentText = $('.base-comment-text');
     commentTemplate.find(".comment-body p").text(commentText.val());
     commentText.val("");
-    commentTemplate.find(".comment-user .comment-username").text(form.parents('.comments-widget').data('username'));
+    commentTemplate.find(".comment-user .comment-username").text(form.parent().closest('.comments-widget').data('username'));
     commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
     commentTemplate.attr("id", "");
     commentTemplate.insertAfter(currComments);
@@ -293,19 +293,19 @@ function addBaseComment(form, json) {
 }
 
 function addChildComment(form, json) {
-    var parentComment = form.parents('.comment');
+    var parentComment = form.parent().closest('.comment');
     var currComments = parentComment.next('ul').find('li:first');
     var commentTemplate = $('#comment-template').clone();
     commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
     commentTemplate.find(".comment-body p").text(form.find('.base-comment-text').val());
-    commentTemplate.find(".comment-user .comment-username").text(form.parents('.comments-widget').data('username'));
+    commentTemplate.find(".comment-user .comment-username").text(form.parent().closest('.comments-widget').data('username'));
     commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
     commentTemplate.attr("id", "");
     commentTemplate.appendTo(currComments);
     var replies = $('#replies-template').clone();
     replies.appendTo(currComments);
     replies.attr("id", "");
-    form.parents('.comment-reply-form').remove();
+    form.parent().closest('.comment-reply-form').remove();
     var prevQuantity = parentComment.find('.answers-quantity');
     var prevQuantityVal = Number(prevQuantity.text());
     prevQuantity.text(prevQuantityVal + 1);

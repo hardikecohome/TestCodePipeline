@@ -634,6 +634,7 @@
              {
                      @Html.AntiForgeryToken()
                      @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+                     @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
                      @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
                      @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
                      @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
