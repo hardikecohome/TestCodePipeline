@@ -18,14 +18,11 @@ namespace DealnetPortal.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IContractServiceAgent _contractServiceAgent;
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private readonly ILoggingService _loggingService;
 
-        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, ILoggingService loggingService)
+        public HomeController(IContractServiceAgent contractServiceAgent)
         {
             _contractServiceAgent = contractServiceAgent;
-            _dictionaryServiceAgent = dictionaryServiceAgent;
-            _loggingService = loggingService;
+
         }
 
         public ActionResult Index()
