@@ -278,14 +278,15 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("Error", "Info", new { alers = contract?.Item2 });
             }
+            var email = contract.Item1.PrimaryCustomer?.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                contract.Item1.PrimaryCustomer?.Emails?.FirstOrDefault()?.EmailAddress ?? string.Empty;
             SubmitConfirmationViewModel vm = new SubmitConfirmationViewModel()
             {
                 ContractId = contractId,
                 CustomerId = contract.Item1.PrimaryCustomer?.Id ?? 0,
                 AgreementType = contract.Item1.Equipment?.AgreementType ?? AgreementType.LoanApplication,
-                HomeOwnerFullName = $"{contract.Item1.PrimaryCustomer?.FirstName} {contract.Item1.PrimaryCustomer?.LastName}}}",
-                HomeOwnerEmail = contract.Item1.PrimaryCustomer?.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
-                    contract.Item1.PrimaryCustomer?.Emails.First().EmailAddress
+                HomeOwnerFullName = $"{contract.Item1.PrimaryCustomer?.FirstName} {contract.Item1.PrimaryCustomer?.LastName}",
+                HomeOwnerEmail = email
             };
             return View(vm);
         }
