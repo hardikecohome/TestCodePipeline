@@ -146,6 +146,10 @@ function addExistingEquipment() {
 }
 
 function recalculateTotalMonthlyPayment() {
+    var agreementType = $("#agreement-type").find(":selected").val();
+    if (agreementType === "0") {
+        return;
+    }
     var sum = 0;
     $(".monthly-cost").each(function() {
         var numberValue = parseFloat(this.value);
@@ -158,6 +162,10 @@ function recalculateTotalMonthlyPayment() {
 }
 
 function recalculateTotalCashPrice() {
+    var agreementType = $("#agreement-type").find(":selected").val();
+    if (agreementType !== "0") {
+        return;
+    }
     var sum = 0;
     $(".equipment-cost").each(function () {
         var numberValue = parseFloat(this.value);
