@@ -21,6 +21,13 @@
             return false;
         });
 
+        $('.base-comment-text').keypress(function(e) {
+            if(e.which == 13) {
+                var form = $(this).parent().closest('form');
+                submitComment(form, addBaseComment);
+            }
+        });
+
         $('.comment .comment-remove-link').on('click', function() {
             removeComment(this);
             return false;
@@ -186,6 +193,12 @@ function addReplyFrom() {
             var form = $(this).parent().closest('form');
             submitComment(form, addChildComment);
             return false;
+        });
+        commentForm.find('.base-comment-text').keypress(function (e) {
+            if (e.which == 13) {
+                var form = $(this).parent().closest('form');
+                submitComment(form, addChildComment);
+            }
         });
     }
     return false;
