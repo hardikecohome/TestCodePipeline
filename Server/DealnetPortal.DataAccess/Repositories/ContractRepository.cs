@@ -426,7 +426,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
-                dbEquipment = equipmentInfo;
+                dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
             }          
 
             if (newEquipments != null)

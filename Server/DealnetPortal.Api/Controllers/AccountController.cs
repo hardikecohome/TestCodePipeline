@@ -414,7 +414,7 @@ namespace DealnetPortal.Api.Controllers
             {
                 var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
 
-                string password = _authType == AuthType.AuthProviderOneStepRegister ? model.Password : oneTimePass;
+                string password = _authType == AuthType.AuthProviderOneStepRegister ? model.Password : oneTimePass;                
 
                 IdentityResult result = await this.UserManager.CreateAsync(user, password);
                 _loggingService.LogInfo("DB entry for an user created");
