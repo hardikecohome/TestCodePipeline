@@ -242,9 +242,43 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SummaryAndConfirmation(SubmitContractViewModel submitViewModel)
+        public async Task<ActionResult> SummaryAndConfirmation([Bind(Prefix = "SendEmails")] SendEmailsViewModel submitViewModel)
         {
-            await _contractServiceAgent.SubmitContract(submitViewModel.ContractId.Value);
+            // update home owner notification email
+            if (!string.IsNullOrEmpty(submitViewModel.HomeOwnerEmail))
+            {
+                var contractRes = await _contractServiceAgent.GetContract(submitViewModel.ContractId);
+                if (contractRes?.Item1 != null)
+                {
+                    var emails = contractRes.Item1.PrimaryCustomer?.Emails;
+                    if (emails?.Any(e => e.EmailType == EmailType.Notification) ?? false)
+                    {
+                        emails.First(e => e.EmailType == EmailType.Notification).EmailAddress =
+                            submitViewModel.HomeOwnerEmail;
+                    }
+                    else
+                    {
+                        if (emails == null)
+                        {
+                            emails = new List<EmailDTO>();
+                        }
+                        emails.Add(new EmailDTO()
+                        {
+                            CustomerId = submitViewModel.HomeOwnerId,
+                            EmailType = EmailType.Notification,
+                            EmailAddress = submitViewModel.HomeOwnerEmail
+                        });
+                    }
+                    var customer = new CustomerDataDTO()
+                    {
+                        Id = submitViewModel.HomeOwnerId,
+                        ContractId = submitViewModel.ContractId,
+                        Emails = emails
+                    };
+                    await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] {customer});
+                }
+            }
+            await _contractServiceAgent.SubmitContract(submitViewModel.ContractId);
             return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitViewModel?.ContractId });            
         }
 

@@ -11,8 +11,8 @@
         else
         {
             <div class="message-header text-center">Rental Agreement submitted successfully!</div>
-        }        
-        <div class="message-desc">Thank you, @Model.HomeOwnerFullName, for completing the rental agreement. You will receive an email shortly at <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> containing a copy of the completed agreement.
+        }
+        <div class="message-desc">Thank you, @Model.HomeOwnerFullName, for completing the @(Model.AgreementType==AgreementType.LoanApplication ? "loan" : "rental") agreement. You will receive an email shortly at <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> containing a copy of the completed agreement.
         </div>
 
         <div class="text-center">

@@ -763,21 +763,16 @@
     }
 }
 <div class="form-group btn-container-proceed">
-    @using (Html.BeginForm("SummaryAndConfirmation", "NewRental", FormMethod.Post, new { id = "summary-and-confirmation-form", @class = "clearfix" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.SendEmails.ContractId)
-        <a href="" class="print-link">
-            <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
-        </a>
-        <button class="btn dealnet-button dealnet-success-button btn-finish">Finish</button>
-    }    
+    <a href="" class="print-link">
+        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
+    </a>
+    <button class="btn dealnet-button dealnet-success-button btn-finish" onclick="$('#homeOwnerEmail').rules('remove', 'required'); $('#send-mails-form').submit()">Finish</button>
 </div>
 </div>
 
 <div class="sent-contract-section">
     <h2 class="dealnet-large-header">Send contract for e-signature</h2>
-    @using (Html.BeginForm("RentalAgreementSubmitSuccess", "NewRental", FormMethod.Post, new { id = "send-mails-form", @class = "clearfix" }))
+    @using (Html.BeginForm("SummaryAndConfirmation", "NewRental", FormMethod.Post, new { id = "send-mails-form", @class = "clearfix" }))
     {
     @Html.HiddenFor(m => m.SendEmails.ContractId)
     @Html.HiddenFor(m => m.SendEmails.HomeOwnerId)
