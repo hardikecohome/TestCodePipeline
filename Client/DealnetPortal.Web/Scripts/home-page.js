@@ -61,7 +61,9 @@ function showChart() {
                                         },
                                         scaleLabel: {
                                             display: true,
-                                            labelString: '$',                                            
+                                            labelString: '$',
+                                            fontSize: 14,
+                                            fontStyle: 'bold'
                                         },
                                         gridLines:
                                             {
@@ -72,7 +74,9 @@ function showChart() {
                                     xAxes: [{                                        
                                         scaleLabel: {
                                             display: true,
-                                            labelString: 'Time'
+                                            labelString: 'Time',
+                                            fontSize: 14,
+                                            fontStyle: 'bold'
                                         },
                                         gridLines: 
                                             {
