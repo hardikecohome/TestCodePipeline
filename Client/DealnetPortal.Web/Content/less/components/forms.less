@@ -86,10 +86,11 @@ input[type="password"]::-webkit-search-results-decoration { display: none; }
   select{
     width: 0;
     height: 0;
-    opacity: 0;
+    opacity: 0 !important;
     position: absolute;
     top: 0;
     left: 0;
+
   }
   .caret{
     display: none;
@@ -221,7 +222,9 @@ html.ie9{
   text-align: left;
   font: 11px @usual-font-family;
   color: @danger-color;
-  margin-top: 5px;
+  &:not(:empty){
+    margin-top: 5px;
+  }
   &.proceed-error-message{
     position: relative;
     font-size: 14px;
@@ -568,5 +571,14 @@ div.dataTables_wrapper div.dataTables_length {
     left: 0;
     transform: translateX(-50%);
     margin-left: 5px;
+  }
+}
+
+.control-disabled{
+  .form-control;
+  background-color: #eee;
+  text-align: left;
+  & ~ .clear-input{
+    display: none !important;
   }
 }

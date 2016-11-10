@@ -56,19 +56,27 @@
         $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
       }
 
-      $('.dealnet-disabled-input').each(function(){
+      $('.dealnet-disabled-input, input.control-disabled, textarea.control-disabled, select.control-disabled').each(function(){
         $(this).attr('type', 'hidden');
         var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).is('textarea')? $(this).text() : $(this).val();
-        $(this).after($('<div/>',{
-          class: "dealnet-disabled-input dealnet-disabled-input-value",
-          text: inpValue
-        }));
+        if($(this).is('.control-disabled')){
+          $(this).after($('<div/>',{
+            class: "control-disabled",
+            text: inpValue
+          }));
+        }else{
+          $(this).after($('<div/>',{
+            class: "dealnet-disabled-input dealnet-disabled-input-value",
+            text: inpValue
+          }));
+        }
       });
 
+
       $(window).on('scroll', function(){
-        detectPageHeaight()
+        detectPageHeight()
       }).on('resize', function(){
-        detectPageHeaight();
+        detectPageHeight();
         documentsColHeight();
       });
 
@@ -151,7 +159,7 @@ function navigateToStep(targetLink){
   });
 }
 
-function detectPageHeaight(){
+function detectPageHeight(){
   if($('.dealnet-body').height() > 1000){
     $('.back-to-top-hold').show();
   }else{
@@ -215,7 +223,7 @@ function hideLoader() {
 function customizeSelect(){
   setTimeout(function(){
     $('select').each(function(){
-      var selectClasses = $(this).hasClass("dealnet-disabled-input") ? "custom-select-disabled" : "custom-select";
+      var selectClasses = $(this).hasClass("dealnet-disabled-input") || $(this).hasClass("control-disabled") ? "custom-select-disabled" : "custom-select";
       if(!$(this).parents(".ui-datepicker").length && !$(this).parents(".custom-select").length && !$(this).parents(".custom-select-disabled").length){
         $(this).wrap('<div class='+selectClasses+'>');
         if(detectIE() === false){

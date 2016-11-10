@@ -65,7 +65,7 @@
                 $("#amortization-term").rules("add", "required");
                 var initAgreementType = $("#agreement-type").find(":selected").val();
                 manageAgreementElements(initAgreementType);
-                $("#agreement-type").change(function () {
+                $("#agreement-type").on('change', function () {
                     manageAgreementElements($(this).find(":selected").val());
                 });
                 if (initAgreementType === '0') {

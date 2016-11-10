@@ -1068,7 +1068,9 @@ foreach (var comment in comments)
 									<label class="dealnet-field-caption">TOTAL VALUE</label>
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-                                            $ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
+											<div class="form-control control-disabled">
+												$ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
+											</div>
 										</div>
 									</div>
 								</div>
@@ -1100,7 +1102,7 @@ foreach (var comment in comments)
 								    @Html.LabelFor(m => m.AdditionalInfo.ContractState, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.EnumDropDownListFor(m => m.AdditionalInfo.ContractState, null, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                            @Html.EnumDropDownListFor(m => m.AdditionalInfo.ContractState, null, new { @readonly = "readonly", @class = "form-control control-disabled" })
                                         </div>
                                     </div>
 								</div>
@@ -1110,7 +1112,7 @@ foreach (var comment in comments)
 									@Html.LabelFor(m => m.EquipmentInfo.AgreementType, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.EnumDropDownListFor(m => m.EquipmentInfo.AgreementType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                            @Html.EnumDropDownListFor(m => m.EquipmentInfo.AgreementType, null, new { @readonly = "readonly", @class = "form-control control-disabled" })
                                         </div>
                                     </div>
 								</div>
@@ -1120,7 +1122,7 @@ foreach (var comment in comments)
 									@Html.LabelFor(m => m.AdditionalInfo.LastUpdateTime, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.AdditionalInfo.LastUpdateTime, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "dealnet-disabled-input"})
+                                            @Html.TextBoxFor(m => m.AdditionalInfo.LastUpdateTime, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "form-control control-disabled"})
                                         </div>
                                     </div>
 								</div>
@@ -1130,7 +1132,9 @@ foreach (var comment in comments)
 									<label class="dealnet-field-caption">Type of Equipment</label>
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma())
+											<div class="form-control control-disabled">
+												@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma())
+											</div>
 										</div>
 									</div>
 								</div>
@@ -1395,7 +1399,7 @@ foreach (var comment in comments)
                         @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
                         {
                             <div class="dealnet-middle-header">
-                                ¹@(i+1)
+                                #@(i+1)
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
