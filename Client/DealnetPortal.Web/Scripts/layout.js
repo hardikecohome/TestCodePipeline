@@ -160,21 +160,23 @@ function detectPageHeaight(){
 }
 
 function commonDataTablesSettings(){
-  $('#work-items-table, .total-info').hide();
+  if($('#work-items-table').length){
+    $('#work-items-table, .total-info').hide();
 
-  $('#work-items-table').on( 'draw.dt', function () {
+    $('#work-items-table').on( 'draw.dt', function () {
       $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
       $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
       $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
-  });
-  
-  $.extend( true, $.fn.dataTable.defaults, {
-    "fnInitComplete": function() {
-      $('#work-items-table, .total-info').show();
-      $('#work-items-table_filter input[type="search"], .dataTables_length select').removeClass('input-sm');
-      customizeSelect();
-    }
-  } );
+    });
+
+    $.extend( true, $.fn.dataTable.defaults, {
+      "fnInitComplete": function() {
+        $('#work-items-table, .total-info').show();
+        $('#work-items-table_filter input[type="search"], .dataTables_length select').removeClass('input-sm');
+        customizeSelect();
+      }
+      });
+  }
 }
 
 function backToTop() {
