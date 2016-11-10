@@ -158,7 +158,7 @@ function recalculateTotalMonthlyPayment() {
         }
     });
     
-    $("#total-monthly-payment").val(sum);
+    $("#total-monthly-payment").val(sum.toFixed(2));
 }
 
 function recalculateTotalCashPrice() {
@@ -174,7 +174,7 @@ function recalculateTotalCashPrice() {
         }
     });
 
-    $("#equipment-cash-price").text(sum);
+    $("#equipment-cash-price").text(sum.toFixed(2));
     calculateLoanValues();
 }
 

@@ -508,8 +508,8 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=initGoogleServices" async defer></script>
     <script type="text/javascript">
         $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- not selected -</option>').prependTo($('#subdealers'));
-        if (Model.SubmittingDealerId == null) {
-            $('#subdealers').val($('#subdealers > option:first').val());
+        @if (Model.SubmittingDealerId == null) {
+            <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
         }
     </script>
 }
