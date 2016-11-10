@@ -185,7 +185,7 @@ function addReplyFrom() {
     if (existingForm.length) {
         existingForm.remove();
     } else {
-        var commentForm = $('#comment-reply-form').clone();
+        var commentForm = $('#comment-reply-form').clone(true);
         commentForm.find("input[name='ParentCommentId']").val(currComment.find("input[name='comment-id']").val());
         commentForm.attr("id", "");
         commentForm.appendTo(currComment);
