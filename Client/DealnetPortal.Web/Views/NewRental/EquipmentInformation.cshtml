@@ -85,9 +85,12 @@
                 <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
                     <div class="dealnet-middle-header owner-info-label">
                         №@(i+1)
-                        <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove(); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </div>
+                        @if (i != 0)
+                        {
+                            <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove(); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </div>
+                        }
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
@@ -607,8 +610,13 @@
     <script type="text/javascript">
         $(document)
             .ready(function () {
-                sessionStorage.newEquipmets = @(Model.NewEquipment == null || !Model.NewEquipment.Any() ? 1 : Model.NewEquipment.Count); //1 - 'cause at least 1 mandatory New equipment is already added
+                sessionStorage.newEquipmets = @(Model.NewEquipment == null || !Model.NewEquipment.Any() ? 0 : Model.NewEquipment.Count);
                 sessionStorage.existingEquipmets = @(Model.ExistingEquipment == null || !Model.ExistingEquipment.Any() ? 0 : Model.ExistingEquipment.Count);
+                if (sessionStorage.newEquipmets == 0) {
+                    addNewEquipment();
+                    $('#new-equipment-remove-0').remove();
+                    sessionStorage.newEquipmets = 1;
+                }
             });
     </script>
 }
