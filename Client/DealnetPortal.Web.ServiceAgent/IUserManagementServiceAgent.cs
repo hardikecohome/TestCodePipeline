@@ -18,5 +18,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<Alert>> ChangePassword(DealnetPortal.Api.Models.ChangePasswordBindingModel changePasswordModel);
 
         Task<IList<Alert>> ChangePasswordAnonymously(DealnetPortal.Api.Models.ChangePasswordAnonymouslyBindingModel changePasswordModel);
+
+        Task<IList<Alert>> ForgotPassword(DealnetPortal.Api.Models.ForgotPasswordBindingModel forgotPasswordModel);
     }
 }

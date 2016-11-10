@@ -174,6 +174,57 @@ namespace DealnetPortal.Api.Controllers
         }
 
         // POST api/Account/ChangePassword
+        [Route("ForgotPassword")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid user email.");
+                return BadRequest(ModelState);
+            }
+
+            var isAspireUser = !string.IsNullOrEmpty(user.AspirePassword) && !string.IsNullOrEmpty(user.AspireLogin);                        
+                        
+            if (isAspireUser)
+            {
+                await this.UserManager.SendEmailAsync(user.Id,
+                        "Your password",
+                        $"This is your password: {user.AspirePassword}\r\n Please use it to login the portal");
+                _loggingService.LogInfo($"Confirmation email with aspire password for user {user.UserName} was sent");
+            }
+            else
+            {
+                var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
+                await this.UserManager.SendEmailAsync(user.Id,
+                        "Your one-time password",
+                        $"This is your one-time password: {oneTimePass}\r\n Please use it to login the portal, and then you will be prompted to change the password.");
+                _loggingService.LogInfo($"Confirmation email with one-time for user {user.UserName} password sent");
+
+                var resetToken = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var result = await UserManager.ResetPasswordAsync(user.Id, resetToken, oneTimePass);
+
+                if (result.Succeeded)
+                {
+                    _loggingService.LogInfo($"Confirmation email with one-time for user {user.UserName} password sent");
+                }
+                else
+                {
+                    _loggingService.LogError($"Error occured during reset password for a user {user.UserName}");
+                    return this.GetErrorResult(result);
+                }
+            }
+            
+            return Ok();
+        }
+
+        // POST api/Account/ChangePassword
         [Route("ChangePasswordAnonymously")]
         [AllowAnonymous]
         public async Task<IHttpActionResult> ChangePasswordAnonymously(ChangePasswordAnonymouslyBindingModel model)

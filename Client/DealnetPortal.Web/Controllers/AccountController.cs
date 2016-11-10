@@ -95,6 +95,26 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await _userManagementServiceAgent.ForgotPassword(model);
+            if (result.Any(item => item.Type == AlertType.Error))
+            {
+                AddAlertsToModelErrors(result);
+                ViewBag.RegisterWithPassword = _authType == AuthType.AuthProviderOneStepRegister;
+                return View(model);
+            }
+
+            return RedirectToAction("Login", "Account");
+        }
+
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]

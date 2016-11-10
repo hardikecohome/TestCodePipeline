@@ -69,6 +69,20 @@ namespace DealnetPortal.Web.ServiceAgent
 
             return alerts;
         }
+
+        public async Task<IList<Alert>> ForgotPassword(DealnetPortal.Api.Models.ForgotPasswordBindingModel forgotPasswordModel)
+        {
+            var alerts = new List<Alert>();
+            var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ForgotPassword", forgotPasswordModel);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                var errorAlerts = await HttpResponseHelpers.GetModelStateErrorsAsync(result.Content);
+                alerts.AddRange(errorAlerts);
+            }
+
+            return alerts;
+        }
     }    
 }
 

@@ -38,14 +38,7 @@ namespace DealnetPortal.Web.Models
         public bool RememberBrowser { get; set; }
 
         public bool RememberMe { get; set; }
-    }
-
-    public class ForgotViewModel
-    {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
+    }    
 
     public class ResetPasswordViewModel
     {
@@ -66,13 +59,5 @@ namespace DealnetPortal.Web.Models
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
-    }
-
-    public class ForgotPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
     }
 }
