@@ -39,8 +39,8 @@
                 $('#existing-notes-default').text("").attr("id", "");
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
                 sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
-                $("#new-equipment-remove-0").hide();
-                $("#new-equipment-base .dealnet-middle-header").hide();
+                $("#new-equipment-base").remove();
+                $("#existing-equipment-base").remove();
 
                 assignDatepicker("#estimated-installation-date-0");
                 $.validator.addMethod(
