@@ -446,6 +446,9 @@
     @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
     @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
     @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
+
+    if (Model.EquipmentInfo.NewEquipment.Count != 0)
+    {
     <h3 class="dealnet-section-title">
         New Equipment <a href="#" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
     </h3>
@@ -517,6 +520,7 @@
         </div>
         <p class="summary-tax-notification">** Before taxes. Payments are subject to change over the course of the term upon at least thirty (30) days written notice. See the attached Terms and Conditions.</p>
     </div>
+    }
     <div class="form-group summary-payment-info">
         <div class="row">
             <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
