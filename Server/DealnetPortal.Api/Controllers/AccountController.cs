@@ -209,6 +209,8 @@ namespace DealnetPortal.Api.Controllers
 
                 var resetToken = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var result = await UserManager.ResetPasswordAsync(user.Id, resetToken, oneTimePass);
+                user.EmailConfirmed = false;
+                await UserManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
