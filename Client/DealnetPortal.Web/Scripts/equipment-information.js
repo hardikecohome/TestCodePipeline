@@ -114,21 +114,41 @@ function manageAgreementElements(agreementType) {
 }
 
 function addNewEquipment() {
-    var nextNumber = Number(sessionStorage.newEquipmets) + 1;
+/*    var nextNumber = Number(sessionStorage.newEquipmets) + 1;
     var newDiv = document.createElement('div');
     newDiv.className = 'new-equipment-wrap';
     newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
         .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
         .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
         .replace("№1", "№" + (nextNumber));
-    //console.log(newDiv.innerHTML);
     newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
     document.getElementById('new-equipments').appendChild(newDiv);
     assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
     resetFormValidator("#equipment-form");
     manageAgreementElements($("#agreement-type").find(":selected").val());
     customizeSelect();
+    sessionStorage.newEquipmets = nextNumber;*/
+
+    var nextNumber = Number(sessionStorage.newEquipmets) + 1;
+    var newDivText = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
+      .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
+      .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
+      .replace("№1", "№" + (nextNumber));
+
+    var newDiv = $('<div>', {
+      id: 'new-equipment-' + sessionStorage.newEquipmets,
+      class: 'new-equipment-wrap',
+      html: newDivText
+    });
+
+    newDiv.appendTo('#new-equipments');
+
+    assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
+    resetFormValidator("#equipment-form");
+    manageAgreementElements($("#agreement-type").find(":selected").val());
+    customizeSelect();
     sessionStorage.newEquipmets = nextNumber;
+    resetPlacehoder(newDiv.find('textarea, input'));
 }
 
 function addExistingEquipment() {

@@ -202,6 +202,13 @@ function showLoader(loadingText) {
   });
 }
 
+function resetPlacehoder(elems){
+  elems.removeClass('placeholder');
+  setTimeout(function(){
+    elems.placeholder();
+  }, 0);
+}
+
 function saveScrollPosition(){
   var $body = $('body');
   //if open one modal right after other one
