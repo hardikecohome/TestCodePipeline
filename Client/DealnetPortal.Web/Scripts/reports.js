@@ -253,7 +253,7 @@ function createTableFooter(row, data, start, end, display) {
 
     // Update footer
     $('.table-footer').html($('.reports-table-footer').detach());
-    $('.table-footer #reports-grand-total').html('$ ' + total);
+    $('.table-footer #reports-grand-total').html('$ ' + total.toFixed(2));
 }
 
 function getTotalForSelectedCheckboxes() {
@@ -262,14 +262,13 @@ function getTotalForSelectedCheckboxes() {
     $('#work-items-table tbody').on('click', ':checkbox', function () {
         var tr = $(this).parents('tr');
         tr.toggleClass('selected');
-        selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : '';
-
+        selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
         var val = parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
         var isSelected = tr.is(".selected");
         selectedSum = isSelected ? selectedSum + val : selectedSum - val;
-
-        $('#selectedTotal').html('$ ' + selectedSum);
+        
+        $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
         if (selectedSum !== 0 || isSelected) {
             $('.reports-table-footer').addClass('has-selected-items');
         } else {
