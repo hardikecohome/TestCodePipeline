@@ -185,10 +185,12 @@ function addReplyFrom() {
     if (existingForm.length) {
         existingForm.remove();
     } else {
-        var commentForm = $('#comment-reply-form').clone(true);
+        var commentForm = $('#comment-reply-form').clone();
         commentForm.find("input[name='ParentCommentId']").val(currComment.find("input[name='comment-id']").val());
         commentForm.attr("id", "");
         commentForm.appendTo(currComment);
+        commentForm.find('textarea').text('');
+        resetPlacehoder(commentForm.find('textarea'));
         commentForm.find('.reply-button').on('click', function () {
             var form = $(this).parent().closest('form');
             submitComment(form, addChildComment);
@@ -201,6 +203,7 @@ function addReplyFrom() {
             }
         });
     }
+
     return false;
 }
 

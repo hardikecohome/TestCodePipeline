@@ -54,7 +54,7 @@
                 <span>Credit Check Processed Successfully!</span>
             </p>
         }
-        <p class="text-semibold text-md-sm">Pre-Approved for $@((decimal?)TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" :  $"{Model.CreditAmount:0,00}" )</p>
+        <p class="text-semibold preapproved-text">Pre-Approved for $@((decimal?)TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" :  $"{Model.CreditAmount:0,00}" )</p>
     </div>
 </div>
 
