@@ -42,7 +42,7 @@
                 $("#new-equipment-base").remove();
                 $("#existing-equipment-base").remove();
 
-                assignDatepicker("#estimated-installation-date-0");
+                $('.date-input').each(assignDatepicker);
                 $.validator.addMethod(
                     "date",
                     function (value, element) {
@@ -119,12 +119,13 @@ function addNewEquipment() {
     newDiv.className = 'new-equipment-wrap';
     newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
         .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
-        .replace("#new-equipment-0", "#new-equipment-" + sessionStorage.newEquipmets)
+        .replace("removeNewEquipment(0)", "removeNewEquipment(" + sessionStorage.newEquipmets + ")")
+        .replace("new-equipment-remove-0", "new-equipment-remove-" + sessionStorage.newEquipmets)
         .replace("№1", "№" + (nextNumber));
     //console.log(newDiv.innerHTML);
     newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
     document.getElementById('new-equipments').appendChild(newDiv);
-    assignDatepicker("#estimated-installation-date-" + sessionStorage.newEquipmets);
+    assignDatepicker.call($("#estimated-installation-date-" + sessionStorage.newEquipmets));
     resetFormValidator("#equipment-form");
     manageAgreementElements($("#agreement-type").find(":selected").val());
     customizeSelect();
@@ -136,13 +137,78 @@ function addExistingEquipment() {
     var newDiv = document.createElement('div');
     newDiv.innerHTML = sessionStorage.existingEquipmetTemplate.split("ExistingEquipment[0]").join("ExistingEquipment[" + sessionStorage.existingEquipmets + "]")
         .split("ExistingEquipment_0").join("ExistingEquipment_" + sessionStorage.existingEquipmets)
-        .replace("#existing-equipment-0", "#existing-equipment-" + sessionStorage.existingEquipmets)
+        .replace("removeExistingEquipment(0)", "removeExistingEquipment(" + sessionStorage.existingEquipmets + ")")
+        .replace("existing-equipment-remove-0", "existing-equipment-remove-" + sessionStorage.existingEquipmets)
         .replace("№1", "№" + (nextNumber));
     newDiv.id = "existing-equipment-" + sessionStorage.existingEquipmets;
     document.getElementById('existing-equipments').appendChild(newDiv);
     resetFormValidator("#equipment-form");
     customizeSelect();
     sessionStorage.existingEquipmets = nextNumber;
+}
+
+function removeNewEquipment(id) {
+    $('#new-equipment-' + id).remove();
+    var nextNumber = Number(id);
+    while (true) {
+        nextNumber++;
+        var nextEquipment = $('#new-equipment-' + nextNumber);
+        if (!nextEquipment.length) { break; }
+        
+        var labels = nextEquipment.find('label');
+        labels.each(function() {
+            $(this).attr('for', $(this).attr('for').replace('NewEquipment_' + nextNumber, 'NewEquipment_' + nextNumber - 1));
+        });
+        var inputs = nextEquipment.find('input, select');
+        inputs.each(function () {
+            $(this).attr('id', $(this).attr('id').replace('NewEquipment_' + nextNumber, 'NewEquipment_' + (nextNumber - 1)));
+            $(this).attr('name', $(this).attr('name').replace('NewEquipment[' + nextNumber, 'NewEquipment[' + (nextNumber - 1)));
+        });
+        var spans = nextEquipment.find('span');
+        spans.each(function () {
+            var valFor = $(this).attr('data-valmsg-for');
+            if (valFor == null){ return; }
+            $(this).attr('data-valmsg-for', valFor.replace('NewEquipment[' + nextNumber, 'NewEquipment[' + (nextNumber - 1)));
+        });
+        nextEquipment.find('.equipment-number').text('№' + nextNumber);
+        var removeButton = nextEquipment.find('#new-equipment-remove-' + nextNumber);
+        removeButton.attr('onclick', removeButton.attr('onclick').replace('removeNewEquipment(' + nextNumber, 'removeNewEquipment(' + (nextNumber - 1)));
+        nextEquipment.attr('id', 'new-equipment-' + (nextNumber - 1));
+        resetFormValidator("#equipment-form");
+    }
+    sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) - 1;
+}
+
+function removeExistingEquipment(id) {
+    $('#existing-equipment-' + id).remove();
+    var nextNumber = Number(id);
+    while (true) {
+        nextNumber++;
+        var existingEquipment = $('#existing-equipment-' + nextNumber);
+        if (!existingEquipment.length) { break; }
+
+        var labels = existingEquipment.find('label');
+        labels.each(function () {
+            $(this).attr('for', $(this).attr('for').replace('ExistingEquipment_' + nextNumber, 'ExistingEquipment_' + nextNumber - 1));
+        });
+        var inputs = existingEquipment.find('input, select');
+        inputs.each(function () {
+            $(this).attr('id', $(this).attr('id').replace('ExistingEquipment_' + nextNumber, 'ExistingEquipment_' + (nextNumber - 1)));
+            $(this).attr('name', $(this).attr('name').replace('ExistingEquipment[' + nextNumber, 'ExistingEquipment[' + (nextNumber - 1)));
+        });
+        var spans = existingEquipment.find('span');
+        spans.each(function () {
+            var valFor = $(this).attr('data-valmsg-for');
+            if (valFor == null) { return; }
+            $(this).attr('data-valmsg-for', valFor.replace('ExistingEquipment[' + nextNumber, 'ExistingEquipment[' + (nextNumber - 1)));
+        });
+        existingEquipment.find('.equipment-number').text('№' + nextNumber);
+        var removeButton = existingEquipment.find('#existing-equipment-remove-' + nextNumber);
+        removeButton.attr('onclick', removeButton.attr('onclick').replace('removeExistingEquipment(' + nextNumber, 'removeExistingEquipment(' + (nextNumber - 1)));
+        existingEquipment.attr('id', 'existing-equipment-' + (nextNumber - 1));
+        resetFormValidator("#equipment-form");
+    }
+    sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) - 1;
 }
 
 function recalculateTotalMonthlyPayment() {
@@ -184,8 +250,8 @@ function resetFormValidator(formId) {
     $.validator.unobtrusive.parse(formId);
 }
 
-function assignDatepicker(inputId) {
-    var input = $(inputId);
+function assignDatepicker() {
+    var input = $(this);
     inputDateFocus(input);
     input.datepicker({
         dateFormat: 'mm/dd/yy',

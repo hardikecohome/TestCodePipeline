@@ -84,10 +84,10 @@
             {
                 <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
                     <div class="dealnet-middle-header owner-info-label">
-                        №@(i+1)
+                        <span class="equipment-number">№@(i + 1)</span>
                         @if (i != 0)
                         {
-                            <div id="new-equipment-remove-c" class="additional-remove" onclick="$('#new-equipment-@(i)').remove(); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
+                            <div id="new-equipment-remove-@(i)" class="additional-remove" onclick="removeNewEquipment(@(i)); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
                                 <i class="glyphicon glyphicon-remove"></i>
                             </div>
                         }
@@ -137,7 +137,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new { @for = "estimated-installation-date-" + i })
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "estimated-installation-date-" + i, placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date-" + i, placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today" })
                                     @Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedInstallationDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -262,8 +262,8 @@
             {
                 <div id="existing-equipment-@(i)">
                     <div class="dealnet-middle-header owner-info-label">
-                        №@(i+1)
-                        <div id="existing-equipment-remove-@(i)" class="additional-remove" onclick="$('#existing-equipment-@(i)').remove();">
+                        <span class="equipment-number">№@(i + 1)</span>
+                        <div id="existing-equipment-remove-@(i)" class="additional-remove" onclick="removeExistingEquipment(@(i));">
                             <i class="glyphicon glyphicon-remove"></i>
                         </div>
                     </div>
@@ -442,8 +442,8 @@
     <div class="hidden">
         <div id="new-equipment-base" class="new-equipment">
             <div class="dealnet-middle-header owner-info-label">
-                №1
-                <div id="new-equipment-remove-0" class="additional-remove" onclick="$('#new-equipment-0').remove(); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
+                <span class="equipment-number">№1</span>
+                <div id="new-equipment-remove-0" class="additional-remove" onclick="removeNewEquipment(0); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
                     <i class="glyphicon glyphicon-remove"></i>
                 </div>
             </div>
@@ -493,7 +493,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate, new {@for = "estimated-installation-date-0"})
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "estimated-installation-date-0", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today", @Value = ""})
+                            @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date-0", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today", @Value = ""})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedInstallationDate, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -505,15 +505,15 @@
     <div class="hidden">
         <div id="existing-equipment-base">
             <div class="dealnet-middle-header owner-info-label">
-                №1
-                <div id="existing-equipment-remove-0" class="additional-remove" onclick="$('#existing-equipment-0').remove();">
+                <span class="equipment-number">№1</span>
+                <div id="existing-equipment-remove-0" class="additional-remove" onclick="removeExistingEquipment(0);">
                     <i class="glyphicon glyphicon-remove"></i>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4 col-md-2 col-lg-2">
                     <div class="form-group">
-                        @Html.Label("payment-type", "Is Rental?", new {@class = ""})
+                        @Html.LabelFor(m => m.ExistingEquipment[0].IsRental)
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
                                 new[]
