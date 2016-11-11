@@ -22,7 +22,7 @@
         });
 
         $('.base-comment-text').keypress(function(e) {
-            if(e.which == 13) {
+            if(e.which == 13 && !e.shiftKey) {
                 var form = $(this).parent().closest('form');
                 submitComment(form, addBaseComment);
             }
@@ -197,7 +197,7 @@ function addReplyFrom() {
             return false;
         });
         commentForm.find('.base-comment-text').keypress(function (e) {
-            if (e.which == 13) {
+            if (e.which == 13 && !e.shiftKey) {
                 var form = $(this).parent().closest('form');
                 submitComment(form, addChildComment);
             }
@@ -232,6 +232,7 @@ function assignDatepicker() {
 }
 
 function submitComment(form, addComment) {
+    if (!form.find('.base-comment-text').val().trim()) { return; }
     showLoader();
     form.ajaxSubmit({
         type: "POST",
@@ -281,6 +282,9 @@ function submitCommentRemoval(comment, commentId) {
                 if (prevQuantityVal === 1) {
                     parentComment.find('.show-comments-answers').toggleClass('active');
                     parentComment.toggleClass('active');
+                    if (parentComment.find('.owner-comment').length) {
+                        parentComment.find('.comment-remove-link').show();
+                    }
                 }
             }
         },
@@ -328,6 +332,7 @@ function addChildComment(form, json) {
     if (prevQuantityVal === 0) {
         parentComment.find('.show-comments-answers').toggleClass('active');
         parentComment.toggleClass('active');
+        parentComment.find('.comment-remove-link').hide();
     }
     return commentTemplate;
 }
