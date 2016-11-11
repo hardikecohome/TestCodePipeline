@@ -269,6 +269,54 @@ namespace DealnetPortal.Web.Infrastructure
             return alerts;
         }
 
+        public async Task<Tuple<int?, IList<Alert>>> CreateNewCustomerContract(int contractId)
+        {
+            int? newContractId = null;
+            var alerts = new List<Alert>();
+
+            var contractRes = await _contractServiceAgent.GetContract(contractId);
+            if (contractRes.Item2.Any())
+            {
+                alerts.AddRange(contractRes.Item2);
+            }
+            if (contractRes.Item1 != null && contractRes.Item2.All(a => a.Type != AlertType.Error))
+            {
+                var customer = contractRes.Item1.PrimaryCustomer;
+
+                var newContractRes = await _contractServiceAgent.CreateContract();
+                if (newContractRes.Item2.Any())
+                {
+                    alerts.AddRange(newContractRes.Item2);
+                }
+                if (newContractRes.Item1 != null && newContractRes.Item2.All(a => a.Type != AlertType.Error))
+                {
+                    newContractId = newContractRes.Item1.Id;
+                    var contractData = new ContractDataDTO()
+                    {
+                        Id = newContractRes.Item1.Id,
+                        PrimaryCustomer = customer,
+                        PaymentInfo = new PaymentInfoDTO()
+                        {
+                            AccountNumber = contractRes.Item1.PaymentInfo.AccountNumber,
+                            BlankNumber = contractRes.Item1.PaymentInfo.BlankNumber,
+                            EnbridgeGasDistributionAccount = contractRes.Item1.PaymentInfo.EnbridgeGasDistributionAccount,
+                            MeterNumber = contractRes.Item1.PaymentInfo.MeterNumber,
+                            PaymentType = contractRes.Item1.PaymentInfo.PaymentType,
+                            PrefferedWithdrawalDate = contractRes.Item1.PaymentInfo.PrefferedWithdrawalDate,
+                            TransitNumber = contractRes.Item1.PaymentInfo.TransitNumber
+                        }
+                    };
+                    var updateRes = await _contractServiceAgent.UpdateContractData(contractData);
+                    if (updateRes.Any())
+                    {
+                        alerts.AddRange(updateRes);
+                    }
+                }
+            }
+
+            return new Tuple<int?, IList<Alert>>(newContractId, alerts);
+        }
+
         private async Task MapSummary(SummaryAndConfirmationViewModel summary, ContractDTO contract, int contractId)
         {
             summary.BasicInfo = new BasicInfoViewModel();

@@ -388,7 +388,7 @@ namespace DealnetPortal.Api.Integration.Services
                     case FlowingSummaryType.Month:
                         var grDaysM = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day)).GroupBy(c => c.CreationTime.Day);
 
-                        for (int i = 1; i < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+                        for (int i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
                         {
                             var contractsG = grDaysM.FirstOrDefault(g => g.Key == i);
                             decimal totalSum = 0;
@@ -447,7 +447,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                             summary.Add(new FlowingSummaryItemDTO()
                             {
-                                ItemLabel = DateTimeFormatInfo.CurrentInfo.MonthNames[i], ItemCount = contractsM?.Count() ?? 0, ItemData = totalSum
+                                ItemLabel = DateTimeFormatInfo.InvariantInfo.MonthNames[i], ItemCount = contractsM?.Count() ?? 0, ItemData = totalSum
                             });
                         }
                         break;

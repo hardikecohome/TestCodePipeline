@@ -332,6 +332,19 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("Index", "Home");            
         }
 
+        public async Task<ActionResult> CreateNewApplication(int contractId)
+        {
+            var result = await _contractManager.CreateNewCustomerContract(contractId);
+            if (result.Item1.HasValue && result.Item2.All(a => a.Type != AlertType.Error))
+            {
+                return RedirectToAction("BasicInfo", new { contractId = result.Item1 });
+            }
+            else
+            {
+                return RedirectToAction("Error", "Info", new { alers = result?.Item2 });
+            }
+        }
+
         [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
         {
