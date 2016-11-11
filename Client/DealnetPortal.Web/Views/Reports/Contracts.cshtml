@@ -608,7 +608,7 @@
                         </div>
                     </div>
                 }
-				@if (contract.EquipmentInfo?.ExistingEquipment != null)
+				@if (contract.EquipmentInfo?.ExistingEquipment != null && contract.EquipmentInfo.ExistingEquipment.Any())
                 {
                     <div class="row">
                         <div class="col-md-12">
