@@ -192,7 +192,7 @@ namespace DealnetPortal.Web.App_Start
                     {
                         if (src.Equipment != null)
                         {
-                            return $"$ {src.Equipment.ValueOfDeal}";
+                            return $"$ {src.Equipment.ValueOfDeal:0,00.00}";
                         }
                         return string.Empty;
                     }));
