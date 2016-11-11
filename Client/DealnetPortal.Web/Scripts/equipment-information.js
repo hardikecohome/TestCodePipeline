@@ -36,7 +36,7 @@
                     return value != null && value != '';
                 }, '');
 
-                $('#existing-notes-default').text("").attr("id", "");
+                $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
                 sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
                 $("#new-equipment-base").remove();
@@ -161,7 +161,7 @@ function removeNewEquipment(id) {
         labels.each(function() {
             $(this).attr('for', $(this).attr('for').replace('NewEquipment_' + nextNumber, 'NewEquipment_' + nextNumber - 1));
         });
-        var inputs = nextEquipment.find('input, select');
+        var inputs = nextEquipment.find('input, select, textarea');
         inputs.each(function () {
             $(this).attr('id', $(this).attr('id').replace('NewEquipment_' + nextNumber, 'NewEquipment_' + (nextNumber - 1)));
             $(this).attr('name', $(this).attr('name').replace('NewEquipment[' + nextNumber, 'NewEquipment[' + (nextNumber - 1)));
@@ -193,7 +193,7 @@ function removeExistingEquipment(id) {
         labels.each(function () {
             $(this).attr('for', $(this).attr('for').replace('ExistingEquipment_' + nextNumber, 'ExistingEquipment_' + nextNumber - 1));
         });
-        var inputs = existingEquipment.find('input, select');
+        var inputs = existingEquipment.find('input, select, textarea');
         inputs.each(function () {
             $(this).attr('id', $(this).attr('id').replace('ExistingEquipment_' + nextNumber, 'ExistingEquipment_' + (nextNumber - 1)));
             $(this).attr('name', $(this).attr('name').replace('ExistingEquipment[' + nextNumber, 'ExistingEquipment[' + (nextNumber - 1)));
