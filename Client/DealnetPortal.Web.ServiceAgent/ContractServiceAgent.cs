@@ -191,6 +191,22 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> GetContractAgreement(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsync<IList<Alert>>(
+                            $"{_fullUri}/GetContractAgreement?contractId={contractId}");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contract print agreement", ex);
+                throw;
+            }
+        }
+
         public async Task<IList<FlowingSummaryItemDTO>> GetContractsSummary(string summaryType)
         {
             try

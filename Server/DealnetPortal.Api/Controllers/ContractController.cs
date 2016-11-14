@@ -192,13 +192,13 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCreditCheckResult")]
+        [Route("GetContractAgreement")]
         [HttpGet]
-        public IHttpActionResult GetPrintAgreement(int contractId)
+        public IHttpActionResult GetContractAgreement(int contractId)
         {
             try
             {
-                //var result = ContractService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
+                var result = ContractService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
                 return Ok();
             }
             catch (Exception ex)

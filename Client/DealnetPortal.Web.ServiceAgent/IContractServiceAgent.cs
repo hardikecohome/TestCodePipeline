@@ -70,6 +70,13 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId);
 
         /// <summary>
+        /// Get contract print (pdf) agreement
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns></returns>
+        Task<IList<Alert>> GetContractAgreement(int contractId);
+
+        /// <summary>
         /// Reports info about deals flowing
         /// </summary>
         /// <param name="summaryType"></param>
