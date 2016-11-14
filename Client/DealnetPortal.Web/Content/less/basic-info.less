@@ -314,9 +314,9 @@
     display: block;
   }
   @media @mobile {
-    display: block;
-    width:  20px;
-    margin: 20px auto 0;
+    display: none;
+/*    width:  20px;
+    margin: 20px auto 0;*/
   }
   &.active{
     &+.scanlicence-info-text{
@@ -326,6 +326,7 @@
 }
 .scanlicence-info-text{
   display: none;
+
   @media @desktop-up {
     position: absolute;
     left: 310px;
@@ -333,8 +334,16 @@
     top: 50%;
     margin: -31px 0 0 0;
   }
-  @media @tablet-down {
+
+  @media @tablet-down{
     text-align: center;
-    margin:  20px 0 5px;
+    margin: 20px 0 5px;
+  }
+
+  @media @mobile {
+    display: block;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 13px;
   }
 }
