@@ -344,6 +344,17 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("Error", "Info", new { alers = result?.Item2 });
             }
         }
+        
+        public ActionResult PrintContract(int contractId)
+        {
+            var response = new FileContentResult(new byte[] {}, "application/pdf")
+            {
+                FileDownloadName = "loremIpsum.pdf"
+            };
+
+            return response;
+            //return RedirectToAction("SummaryAndConfirmation", new {contractId });
+        }
 
         [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)

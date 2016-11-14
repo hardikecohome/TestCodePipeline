@@ -23,7 +23,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <returns></returns>
         Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
 
-        IList<Alert> GetContractAgreement(int contractId, string ownerUserId);
+        Task<IList<Alert>> GetContractAgreement(int contractId, string ownerUserId);
 
         IList<Alert> GetSignatureResults(int contractId, string ownerUserId);
 

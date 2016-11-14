@@ -26,9 +26,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         public string AccountId { get; private set; }        
 
-        public string TransactionId { get; private set; }
+        public string TransactionId { get; set; }
 
-        public string DocumentId { get; private set; }
+        public string DocumentId { get; set; }
 
         private Document _document { get; set; }
 
@@ -111,7 +111,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> StartNewTransaction(Contract contract, AgreementTemplate agreementTemplate)
+        public async Task<IList<Alert>> InitiateTransaction(Contract contract, AgreementTemplate agreementTemplate)
         {
             var alerts = new List<Alert>();
 
@@ -189,6 +189,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 if (signatureUsers?.Any() ?? false)
                 {
                     int signN = 1;
+                    _signers?.Clear();
                     signatureUsers.Where(s => s.Role == SignatureRole.Signer).ForEach(s =>
                     {
                         _signers.Add(CreateSigner(s, signN++));
@@ -197,6 +198,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     {
                         _signers.Add(CreateSigner(s, signN++));
                     });
+                    _copyViewers?.Clear();
                     signatureUsers.Where(s => s.Role == SignatureRole.CopyViewer).ForEach(s =>
                     {
                         _copyViewers.Add(new CarbonCopy()
@@ -218,63 +220,197 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         public async Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();
+            
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            bool recreateEnvelope = false;
+            bool recreateRecipients = false;
 
-            var tskAlerts = await Task.Run(() =>
+            if (!string.IsNullOrEmpty(TransactionId))
             {
-                var sendAlerts = new List<Alert>();
-
-                _envelopeDefinition = PrepareEnvelope();
-
-                //_envelopeDefinition.EmailSubject = EmailSubject;
-                //_envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
-                //{
-                //    new CompositeTemplate()
-                //    {
-                //        InlineTemplates = new List<InlineTemplate>()
-                //        {
-                //            new InlineTemplate()
-                //            {
-                //                Sequence = "1",
-                //                Recipients = new Recipients()
-                //                {
-                //                    Signers = _signers,
-                //                    CarbonCopies = _copyViewers
-                //                }
-                //            }
-                //        },
-                //        Document = _document
-                //    },
-                //};
-                //_envelopeDefinition.Status = "sent";
-
-                EnvelopesApi envelopesApi = new EnvelopesApi();
-                EnvelopeSummary envelopeSummary = envelopesApi.CreateEnvelope(AccountId, _envelopeDefinition);
-
-                if (!string.IsNullOrEmpty(envelopeSummary?.EnvelopeId))
+                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+                if (envelope != null)
                 {
-                    EnvelopeDocumentsResult docsList = envelopesApi.ListDocuments(AccountId, envelopeSummary.EnvelopeId);
-
-                    TransactionId = envelopeSummary.EnvelopeId;
-                    _loggingService.LogInfo($"DocuSign document was successfully created: envelope {TransactionId}, document {docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId}");
-                    DocumentId = docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId;
+                    var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, TransactionId);
+                    await InsertSignatures(signatureUsers);
+                    recreateRecipients = !AreRecipientsEqual(reciepents);
+                    if (envelope.Status == "sent" && recreateRecipients)
+                    {
+                        recreateEnvelope = true;
+                    }
                 }
                 else
                 {
-                    _loggingService.LogError("DocuSign document wasn't created");
-                    sendAlerts.Add(new Alert()
+                    recreateEnvelope = true;
+                }
+                if (!recreateEnvelope)
+                {
+                    if (recreateRecipients)
                     {
-                        Type = AlertType.Error,
-                        Header = "DocuSign error",
-                        Message = "DocuSign document wasn't created"
-                    });
-                    
-                }                
-                return sendAlerts;                
+                        var recipients = new Recipients()
+                        {
+                            Signers = _signers,
+                            CarbonCopies = _copyViewers
+                        };
+                        var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, recipients);
+                    }
+                    envelope.Status = "sent";
+                    var updateEnvelopeRes = await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
+                }
+            }
+            else
+            {
+                recreateEnvelope = true;
+            }
+
+            if (recreateEnvelope)
+            {
+                _envelopeDefinition = PrepareEnvelope();
+                var envAlerts = CreateEnvelope(_envelopeDefinition);
+                if (envAlerts.Any())
+                {
+                    alerts.AddRange(envAlerts);
+                }
+            }            
+
+            //_envelopeDefinition.EmailSubject = EmailSubject;
+            //_envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
+            //{
+            //    new CompositeTemplate()
+            //    {
+            //        InlineTemplates = new List<InlineTemplate>()
+            //        {
+            //            new InlineTemplate()
+            //            {
+            //                Sequence = "1",
+            //                Recipients = new Recipients()
+            //                {
+            //                    Signers = _signers,
+            //                    CarbonCopies = _copyViewers
+            //                }
+            //            }
+            //        },
+            //        Document = _document
+            //    },
+            //};
+            //_envelopeDefinition.Status = "sent";                
+
+            //EnvelopeSummary envelopeSummary = envelopesApi.CreateEnvelope(AccountId, _envelopeDefinition);
+
+            //if (!string.IsNullOrEmpty(envelopeSummary?.EnvelopeId))
+            //{
+            //    EnvelopeDocumentsResult docsList = envelopesApi.ListDocuments(AccountId, envelopeSummary.EnvelopeId);
+
+            //    TransactionId = envelopeSummary.EnvelopeId;
+            //    _loggingService.LogInfo($"DocuSign document was successfully created: envelope {TransactionId}, document {docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId}");
+            //    DocumentId = docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId;
+            //}
+            //else
+            //{
+            //    _loggingService.LogError("DocuSign document wasn't created");
+            //    sendAlerts.Add(new Alert()
+            //    {
+            //        Type = AlertType.Error,
+            //        Header = "DocuSign error",
+            //        Message = "DocuSign document wasn't created"
+            //    });
+
+            //}                           
+
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
+        {
+            var alerts = new List<Alert>();
+
+            var tskAlerts = await Task.Run(() =>
+            {                
+                _envelopeDefinition = PrepareEnvelope();
+                _envelopeDefinition.Status = "created";
+
+                var sendAlerts = CreateEnvelope(_envelopeDefinition);                
+
+                return sendAlerts;
             }).ConfigureAwait(false);
 
             if (tskAlerts.Any())
             {
                 alerts.AddRange(tskAlerts);
+            }
+
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> GetDocument(DocumentVersion documentVersion)
+        {
+            var alerts = new List<Alert>();
+
+            var tskAlerts = await Task.Run(() =>
+            {
+                var sendAlerts = new List<Alert>();
+
+                if (!string.IsNullOrEmpty(TransactionId))
+                {
+                    EnvelopesApi envelopesApi = new EnvelopesApi();
+                    EnvelopeDocumentsResult docsList = envelopesApi.ListDocuments(AccountId, TransactionId);
+                    
+                }                
+                
+
+                return sendAlerts;
+            }).ConfigureAwait(false);
+
+            if (tskAlerts.Any())
+            {
+                alerts.AddRange(tskAlerts);
+            }            
+
+            return alerts;
+        }
+
+        private bool AreRecipientsEqual(Recipients recipients)
+        {            
+            bool areEqual = false;
+
+            if (recipients != null && _signers != null)
+            {
+                if (recipients.Signers.Count == _signers.Count)
+                {
+                    areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email));
+                    if (areEqual && recipients.CarbonCopies.Count == _copyViewers.Count)
+                    {
+                        areEqual = _copyViewers.All(s => recipients.CarbonCopies.Any(r => r.Email == s.Email));
+                    }
+                }
+            }
+
+            return areEqual;
+        }
+
+        private List<Alert> CreateEnvelope(EnvelopeDefinition envelopeDefinition)
+        {
+            List<Alert> alerts = new List<Alert>();
+
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            EnvelopeSummary envelopeSummary = envelopesApi.CreateEnvelope(AccountId, envelopeDefinition);
+
+            if (!string.IsNullOrEmpty(envelopeSummary?.EnvelopeId))
+            {
+                EnvelopeDocumentsResult docsList = envelopesApi.ListDocuments(AccountId, envelopeSummary.EnvelopeId);
+
+                TransactionId = envelopeSummary.EnvelopeId;
+                _loggingService.LogInfo($"DocuSign document was successfully created: envelope {TransactionId}, document {docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId}");
+                DocumentId = docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId;
+            }
+            else
+            {
+                _loggingService.LogError("DocuSign document wasn't created");
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "DocuSign error",
+                    Message = "DocuSign document wasn't created"
+                });
             }
 
             return alerts;

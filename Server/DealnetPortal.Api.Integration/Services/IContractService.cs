@@ -29,6 +29,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);
 
+        IList<Alert> GetPrintAgreement(int contractId, string contractOwnerId);
+
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
 
         IList<Alert> SubmitContract(int contractId, string contractOwnerId);
@@ -39,7 +41,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> RemoveContractDocument(int documentId, string contractOwnerId);
 
-        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();
+        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();        
 
         //IList<EquipmentTypeDTO> GetDocumentTypes();
 

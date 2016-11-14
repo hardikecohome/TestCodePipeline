@@ -234,6 +234,12 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public IList<Alert> GetPrintAgreement(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            return alerts;
+        }
+
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)
         {
             //stub for future Aspire request

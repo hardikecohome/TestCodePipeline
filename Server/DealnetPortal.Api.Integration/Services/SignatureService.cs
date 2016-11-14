@@ -84,7 +84,7 @@ namespace DealnetPortal.Api.Integration.Services
                     return alerts;
                 }
 
-                var trRes = await _signatureEngine.StartNewTransaction(contract, agreementTemplate);
+                var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
 
                 if (trRes?.Any() ?? false)
                 {
@@ -163,9 +163,44 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public IList<Alert> GetContractAgreement(int contractId, string ownerUserId)
+        public async Task<IList<Alert>> GetContractAgreement(int contractId, string ownerUserId)
         {
             List<Alert> alerts = new List<Alert>();
+
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                //check need to recreate agreement
+                if (!string.IsNullOrEmpty(contract.Details.TransactionId))
+                {
+                    var doc = await _signatureEngine.GetDocument(DocumentVersion.Draft);
+                }
+                else
+                {
+                    var docAlerts = await _signatureEngine.CreateDraftDocument(null);
+                    if (docAlerts.Any())
+                    {
+                        alerts.AddRange(docAlerts);
+                    }
+
+                    var doc = await _signatureEngine.GetDocument(DocumentVersion.Draft);
+                }
+
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+            LogAlerts(alerts);
+            return alerts;
 
             //var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
             //if (contract != null)
@@ -236,7 +271,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             return status;
         }
-
+        
         private void UpdateContractDetails(int contractId, string ownerUserId, string transactionId, string dpId, SignatureStatus? status)
         {
             try
@@ -265,6 +300,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (updated)
                     {
+                        contract.Details.SignatureInitiatedTime = DateTime.Now;
                         contract.Details.SignatureTime = DateTime.Now;                        
                         _unitOfWork.Save();
                     }

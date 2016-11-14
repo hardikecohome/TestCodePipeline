@@ -190,7 +190,22 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }        
+        }
+
+        [Route("GetCreditCheckResult")]
+        [HttpGet]
+        public IHttpActionResult GetPrintAgreement(int contractId)
+        {
+            try
+            {
+                //var result = ContractService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
         [Route("{summaryType}/ContractsSummary")]
         [HttpGet]

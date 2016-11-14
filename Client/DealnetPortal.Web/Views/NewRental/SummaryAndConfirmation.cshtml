@@ -760,8 +760,8 @@
         </div>
     }
 }
-<div class="form-group btn-container-proceed">
-    <a href="" class="print-link">
+<div class="form-group btn-container-proceed">    
+    <a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.SendEmails.ContractId})" class="print-link">
         <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
     </a>
     <button class="btn dealnet-button dealnet-success-button btn-finish" onclick="$('#homeOwnerEmail').rules('remove', 'required'); $('#send-mails-form').submit()">Finish</button>
