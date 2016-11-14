@@ -76,15 +76,12 @@ namespace DealnetPortal.Api.Tests.Aspire
         [TestMethod]
         public void TestAspireCustomerUpdate()
         {
-            DealUploadRequest request = new DealUploadRequest();
+            CustomerRequest request = new CustomerRequest();
 
             request.Header = new Header()
             {
-                From = new From()
-                {
-                    AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
-                    Password = ConfigurationManager.AppSettings["AspirePassword"]
-                }
+                UserId = ConfigurationManager.AppSettings["AspireUser"],
+                Password = ConfigurationManager.AppSettings["AspirePassword"]
             };
 
             var response = _aspireServiceAgent.CustomerUploadSubmission(request).GetAwaiter().GetResult();

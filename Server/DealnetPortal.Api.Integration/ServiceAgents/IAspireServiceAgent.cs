@@ -18,9 +18,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
         /// <summary>
         /// Customer information update to Aspire
         /// </summary>
-        /// <param name="dealUploadRequest"></param>
+        /// <param name="customerRequest"></param>
         /// <returns></returns>
-        Task<DecisionCustomerResponse> CustomerUploadSubmission(DealUploadRequest dealUploadRequest);
+        Task<DecisionCustomerResponse> CustomerUploadSubmission(CustomerRequest customerRequest);
 
         /// <summary>
         /// Credit Check Submission

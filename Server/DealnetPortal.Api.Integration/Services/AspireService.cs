@@ -47,17 +47,27 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract != null)
             {
-                DealUploadRequest request = new DealUploadRequest();
+                CustomerRequest request = new CustomerRequest();
 
-                var uAlerts = GetAspireUser(request, contractOwnerId);
-                if (uAlerts.Any())
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
                 {
-                    alerts.AddRange(uAlerts);
+                    alerts.AddRange(userResult.Item2);
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    FillTransactionId(request, contract);
-                    FillCustomerInfo(request, contract);
+                    request.Header = userResult.Item1;
+                    request.Payload = new Payload
+                    {
+                        Lease = new Lease()
+                        {
+                            Application = new Application()
+                            {
+                                TransactionId = GetTransactionId(contract)
+                            },
+                            Accounts = GetCustomersInfo(contract)
+                        }
+                    };                    
 
                     try
                     {
@@ -112,17 +122,15 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 CreditCheckRequest request = new CreditCheckRequest();
 
-                var uAlerts = GetAspireUser(request, contractOwnerId);
-                if (uAlerts.Any())
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
                 {
-                    alerts.AddRange(uAlerts);
+                    alerts.AddRange(userResult.Item2);
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    request.Header.UserId = request.Header.From.AccountNumber;
-                    request.Header.Password = request.Header.From.Password;
-                    request.Header.From = null;
-
+                    request.Header = userResult.Item1;
+                    
                     request.Payload = new Payload()
                     {
                         TransactionId = contract.Details?.TransactionId
@@ -232,9 +240,10 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private IList<Alert> GetAspireUser(DealUploadRequest request, string contractOwnerId)
+        private Tuple<Header, IList<Alert>> GetAspireUser(string contractOwnerId)
         {
             var alerts = new List<Alert>();
+            var header = new Header();            
 
             try
             {
@@ -242,24 +251,28 @@ namespace DealnetPortal.Api.Integration.Services
                 if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) &&
                     !string.IsNullOrEmpty(dealer.AspirePassword))
                 {
-                    request.Header = new Header()
+                    header = new Header()
                     {
-                        From = new From()
-                        {
-                            AccountNumber = dealer.AspireLogin,
-                            Password = dealer.AspirePassword
-                        }
+                        UserId = dealer.AspireLogin,
+                        Password = dealer.AspirePassword
+                        //From = new From()
+                        //{
+                        //    AccountNumber = dealer.AspireLogin,
+                        //    Password = dealer.AspirePassword
+                        //}
                     };
                 }
                 else
                 {
-                    request.Header = new Header()
+                    header = new Header()
                     {
-                        From = new From()
-                        {
-                            AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
-                            Password = ConfigurationManager.AppSettings["AspirePassword"]
-                        }
+                        UserId = ConfigurationManager.AppSettings["AspireUser"],
+                        Password = ConfigurationManager.AppSettings["AspirePassword"]
+                        //From = new From()
+                        //{
+                        //    AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
+                        //    Password = ConfigurationManager.AppSettings["AspirePassword"]
+                        //}
                     };
                 }
             }
@@ -275,7 +288,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError(errorMsg);
             }
 
-            return alerts;
+            return new Tuple<Header, IList<Alert>>(header, alerts);
         }
 
         private void InitRequestPayload(DealUploadRequest request)
@@ -298,26 +311,28 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillTransactionId(DealUploadRequest request, Domain.Contract contract)
+        private string GetTransactionId(Domain.Contract contract)
         {
-            InitRequestPayload(request);
+            return contract?.Details?.TransactionId;
 
-            if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
-            {
-                if (request.Payload.Lease.Application == null)
-                {
-                    request.Payload.Lease.Application = new Application();
-                }
-                request.Payload.Lease.Application.TransactionId = contract.Details.TransactionId;
-            }
+            //InitRequestPayload(request);
+            //if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
+            //{
+            //    if (request.Payload.Lease.Application == null)
+            //    {
+            //        request.Payload.Lease.Application = new Application();
+            //    }
+            //    request.Payload.Lease.Application.TransactionId = contract.Details.TransactionId;
+            //}
         }
 
-        private void FillCustomerInfo(DealUploadRequest request, Domain.Contract contract)
+        private List<Account> GetCustomersInfo(Domain.Contract contract)
         {
             const string CustRole = "CUST";
             const string GuarRole = "GUAR";
 
-            InitRequestPayload(request);            
+            var accounts = new List<Account>();
+            //InitRequestPayload(request);            
 
             Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
             {
@@ -382,10 +397,11 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var acc = fillAccount(contract.PrimaryCustomer, CustRole);
                 acc.IsPrimary = true;                
-                request.Payload.Lease.Accounts.Add(acc);
+                accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.ForEach(c => request.Payload.Lease.Accounts.Add(fillAccount(c, GuarRole)));
+            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, GuarRole)));
+            return accounts;
         }
 
         private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract)

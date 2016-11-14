@@ -66,6 +66,10 @@ namespace DealnetPortal.Api.Models.Aspire
 
         public bool IsIndividualSpecified => IsIndividual.HasValue;
 
+        public bool? CreditReleaseObtained { get; set; }
+
+        public bool CreditReleaseObtainedSpecified => CreditReleaseObtained.HasValue;
+
         public string EmailAddress { get; set; }
 
         public Personal Personal { get; set; }
@@ -73,6 +77,9 @@ namespace DealnetPortal.Api.Models.Aspire
         public Address Address { get; set; }
 
         public Telecomm Telecomm { get; set; }
+
+        [XmlElement("UDF")]
+        public List<UDF> UDFs { get; set; }
     }
 
     [Serializable]
@@ -171,5 +178,13 @@ namespace DealnetPortal.Api.Models.Aspire
 
         [XmlText]
         public string Text { get; set; }
+    }
+
+    [Serializable]
+    public class UDF
+    {
+        public string Name { get; set; }
+
+        public string Value { get; set; }
     }
 }

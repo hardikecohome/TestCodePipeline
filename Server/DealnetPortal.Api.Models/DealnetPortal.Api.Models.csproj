@@ -44,6 +44,7 @@
     <Compile Include="AccountBindingModels.cs" />
     <Compile Include="Alert.cs" />
     <Compile Include="Aspire\CreditCheckRequest.cs" />
+    <Compile Include="Aspire\CustomerRequest.cs" />
     <Compile Include="Aspire\DealUploadRequest.cs" />
     <Compile Include="Aspire\DealUploadResponse.cs" />
     <Compile Include="Aspire\DecisionCustomerResponse.cs" />

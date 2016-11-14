@@ -24,12 +24,12 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponse>($"{_fullUri}/dealuploader/DealUploadSubmission.aspx", dealUploadRequest, cancellationToken);
         }
 
-        public async Task<DecisionCustomerResponse> CustomerUploadSubmission(DealUploadRequest dealUploadRequest)
+        public async Task<DecisionCustomerResponse> CustomerUploadSubmission(CustomerRequest customerRequest)
         {
             CancellationToken cancellationToken = new CancellationToken();
 
             //api//DealUploadWeb/CustomerUploadSubmission.aspx
-            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DecisionCustomerResponse>($"{_fullUri}/DealUploadWeb/CustomerUploadSubmission.aspx", dealUploadRequest, cancellationToken).ConfigureAwait(false);
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<CustomerRequest, DecisionCustomerResponse>($"{_fullUri}/DealUploadWeb/CustomerUploadSubmission.aspx", customerRequest, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<DealUploadResponse> CreditCheckSubmission(CreditCheckRequest dealUploadRequest)
