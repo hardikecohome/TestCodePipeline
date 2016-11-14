@@ -68,18 +68,18 @@
     {
         <div class="row scanlicence-button">
             <div class="col-md-12">
-                <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
-                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                    <span>Scan Licence</span>
-                </button>
-                <a href="#" class="scanlicence-info-link">
-                    <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                </a>
-                <div class="scanlicence-info-text well well-info">
-                    Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                <div class="scanlicence-hold">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>Scan Licence</span>
+                    </button>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-12">
                 <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
             </div>
         </div>
@@ -88,11 +88,20 @@
     {
         <div class="row scanlicence-button">
             <div class="col-md-12">
-                <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
-                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                    <span>Scan Licence</span>
-                    <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', true)"/>
+                <div class="scanlicence-hold">
+                    <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>Scan Licence</span>
+                        <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', true)"/>
+                    </div>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    </div>
                 </div>
+                <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
             </div>
         </div>
     }
@@ -183,18 +192,18 @@
         {
             <div class="row scanlicence-button">
                 <div class="col-md-12">
-                    <button type="button" class="btn dealnet-button dealnet-success-button" id="additional1-scan-button" data-toggle="modal" data-target="#camera-modal">
-                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                        <span>Scan Licence</span>
-                    </button>
-                    <a href="#" class="scanlicence-info-link">
-                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                    </a>
-                    <div class="scanlicence-info-text well well-info">
-                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    <div class="scanlicence-hold">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" id="additional1-scan-button" data-toggle="modal" data-target="#camera-modal">
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                            <span>Scan Licence</span>
+                        </button>
+                        <a href="#" class="scanlicence-info-link">
+                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                        </a>
+                        <div class="scanlicence-info-text well well-info">
+                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12">
                     <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
                 </div>
             </div>
@@ -203,11 +212,20 @@
         {
             <div class="row scanlicence-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div class="file-upload btn dealnet-button dealnet-success-button">
-                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                        <span>Scan Licence</span>
-                        <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-1', 'additional-last-name-1', 'additional-birth-date-1', false)" />
+                    <div class="scanlicence-hold">
+                        <div class="file-upload btn dealnet-button dealnet-success-button">
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                            <span>Scan Licence</span>
+                            <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-1', 'additional-last-name-1', 'additional-birth-date-1', false)" />
+                        </div>
+                        <a href="#" class="scanlicence-info-link">
+                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                        </a>
+                        <div class="scanlicence-info-text well well-info">
+                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                        </div>
                     </div>
+                    <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
                 </div>
             </div>
         }
@@ -251,18 +269,18 @@
         {
             <div class="row scanlicence-button">
                 <div class="col-md-12">
-                    <button type="button" class="btn dealnet-button dealnet-success-button" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
-                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                        <span>Scan Licence</span>
-                    </button>
-                    <a href="#" class="scanlicence-info-link">
-                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                    </a>
-                    <div class="scanlicence-info-text well well-info">
-                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    <div class="scanlicence-hold">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                            <span>Scan Licence</span>
+                        </button>
+                        <a href="#" class="scanlicence-info-link">
+                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                        </a>
+                        <div class="scanlicence-info-text well well-info">
+                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12">
                     <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
                 </div>
             </div>
@@ -271,11 +289,20 @@
         {
             <div class="row scanlicence-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div class="file-upload btn dealnet-button dealnet-success-button">
-                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                        <span>Scan Licence</span>
-                        <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-2', 'additional-last-name-2', 'additional-birth-date-2', false)" />
+                    <div class="scanlicence-hold">
+                        <div class="file-upload btn dealnet-button dealnet-success-button">
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                            <span>Scan Licence</span>
+                            <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-2', 'additional-last-name-2', 'additional-birth-date-2', false)" />
+                        </div>
+                        <a href="#" class="scanlicence-info-link">
+                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                        </a>
+                        <div class="scanlicence-info-text well well-info">
+                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                        </div>
                     </div>
+                    <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
                 </div>
             </div>
         }
@@ -319,18 +346,18 @@
         {
             <div class="row scanlicence-button">
                 <div class="col-md-12">
-                    <button type="button" class="btn dealnet-button dealnet-success-button" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
-                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                        <span>Scan Licence</span>
-                    </button>
-                    <a href="#" class="scanlicence-info-link">
-                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                    </a>
-                    <div class="scanlicence-info-text well well-info">
-                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    <div class="scanlicence-hold">
+                        <button type="button" class="btn dealnet-button dealnet-success-button" id="additional2-scan-button" data-toggle="modal" data-target="#camera-modal">
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                            <span>Scan Licence</span>
+                        </button>
+                        <a href="#" class="scanlicence-info-link">
+                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                        </a>
+                        <div class="scanlicence-info-text well well-info">
+                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12">
                     <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
                 </div>
             </div>
@@ -339,11 +366,20 @@
         {
             <div class="row scanlicence-button">
                 <div class="col-xs-12 col-md-3 col-lg-3">
-                    <div class="file-upload btn dealnet-button dealnet-success-button">
-                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                        <span>Scan Licence</span>
-                        <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-3', 'additional-last-name-3', 'additional-birth-date-3', false)" />
+                    <div class="scanlicence-hold">
+                        <div class="file-upload btn dealnet-button dealnet-success-button">
+                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                            <span>Scan Licence</span>
+                            <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-3', 'additional-last-name-3', 'additional-birth-date-3', false)" />
+                        </div>
+                        <a href="#" class="scanlicence-info-link">
+                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                        </a>
+                        <div class="scanlicence-info-text well well-info">
+                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                        </div>
                     </div>
+                    <span class="scanlicence-notify">Scan licence and this info will be filled out automatically</span>
                 </div>
             </div>
         }
