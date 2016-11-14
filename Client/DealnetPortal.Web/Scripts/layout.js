@@ -115,6 +115,11 @@
         });
       }, 500);
 
+      $('.scanlicence-info-link').on('click', function(){
+        $(this).toggleClass('active');
+        return false;
+      });
+
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();

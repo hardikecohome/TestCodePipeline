@@ -1,6 +1,9 @@
 .owner-info {
   margin-top: 27px;
 }
+.basic-info-form .owner-info{
+  margin-top: 15px;
+}
 
 #label-steps {
   display: inline-block;
@@ -35,7 +38,8 @@
 .scanlicense-notify,
 .scanlicence-notify{
   color: #989897;
-  margin-left: 20px;
+  display: block;
+  margin: 25px 0 0 0;
   @media ( max-width: 1023px ){
     display: block;
     margin: 10px 0 0;
@@ -298,4 +302,39 @@
 }
 .additional-remove{
   font-size: 14px;
+}
+
+.scanlicence-info-link{
+  margin: 0 0 0 17px;
+  @media @tablet-only {
+    position: absolute;
+    left: 50%;
+    top: 15px;
+    margin-left: 197px;
+    display: block;
+  }
+  @media @mobile {
+    display: block;
+    width:  20px;
+    margin: 20px auto 0;
+  }
+  &.active{
+    &+.scanlicence-info-text{
+      display: block;
+    }
+  }
+}
+.scanlicence-info-text{
+  display: none;
+  @media @desktop-up {
+    position: absolute;
+    left: 310px;
+    right: 15px;
+    top: 50%;
+    margin: -31px 0 0 0;
+  }
+  @media @tablet-down {
+    text-align: center;
+    margin:  20px 0 5px;
+  }
 }
