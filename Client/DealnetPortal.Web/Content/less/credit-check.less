@@ -392,35 +392,6 @@ select.dealnet-disabled-input{
   }
 }
 
-.equipment-form-container{
-  margin-top: 30px;
-  max-width: 100% !important;
-  .form-section{
-    max-width: 100% !important;
-  }
-  .equipment-proceed-success{
-    font-weight: bold;
-    font-size: 16px;
-    @media @mobile {
-      font-size: 14px;
-    }
-  }
-  .owner-info-label{
-    margin: 15px 0 10px;
-  }
-  .add-equip-link{
-    margin: 10px 0 0;
-  }
-  @media @desktop-only {
-    .row{
-      margin-left: -10px;
-      margin-right: -10px;
-      & > div[class^="col-"]{
-        padding: 0 10px;
-      }
-    }
-  }
-}
 .new-equipment-wrap{
   &+.new-equipment-wrap{
     padding-top: 20px;
@@ -641,18 +612,56 @@ select.dealnet-disabled-input{
   }
 }
 
-.equipment-editable-section{
-  @media @desktop-up {
-    padding-right: 50px;
-  }
-  & > hr{
-    @media @desktop-up {
-      margin-right: -50px;
+.equipment-form-container{
+    margin-top: 30px;
+    .equipment-proceed-success{
+      font-weight: bold;
+      font-size: 16px;
+      @media @mobile {
+        font-size: 14px;
+      }
+    }
+    .owner-info-label{
+      margin: 15px 0 10px;
+    }
+    .add-equip-link{
+      margin: 10px 0 0;
+    }
+    @media @desktop-only {
+      .row{
+        margin-left: -10px;
+        margin-right: -10px;
+        & > div[class^="col-"]{
+          padding: 0 10px;
+        }
+      }
+    }
+  &:not(.has-loan-calc){
+    .equipment-editable-section{
+      width: 100% !important;
     }
   }
-}
-.equipment-editable-parent{
-  position: relative;
+
+  &.has-loan-calc{
+    max-width: 100% !important;
+    .form-section{
+      max-width: 100% !important;
+    }
+
+    .equipment-editable-section div[class^="col-"]{
+      width: 100% !important;
+    }
+    .equipment-editable-section{
+      @media @desktop-up {
+        padding-right: 50px;
+      }
+      & > hr{
+        @media @desktop-up {
+          margin-right: -35px;
+        }
+      }
+    }
+  }
 }
 
 .sticker{

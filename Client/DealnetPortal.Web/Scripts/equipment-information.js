@@ -88,6 +88,7 @@ function manageAgreementElements(agreementType) {
                 input.next('.text-danger').empty();
             });
             $('.loan-element').show();
+            $('.equipment-form-container').addClass('has-loan-calc');
             $('.rental-element').hide();
             $('#total-monthly-payment').rules("remove", "required");
             $('#requested-term-label').text("Loan Term");
@@ -106,6 +107,7 @@ function manageAgreementElements(agreementType) {
                 $(this).rules("add", "required");
             });
             $('.loan-element').hide();
+            $('.equipment-form-container').removeClass('has-loan-calc');
             $('.rental-element').show();
             $('#total-monthly-payment').rules("add", "required");
             $('#requested-term-label').text("Requested Term");

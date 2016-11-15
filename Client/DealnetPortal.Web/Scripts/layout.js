@@ -146,7 +146,7 @@ function stickySection(elem){
         stikerTopPos = 0;
       }
 
-      $('.sticker').css({
+      $('.equipment-form-container.has-loan-calc .sticker').css({
         top: stikerTopPos + 'px',
         width: stickerWidth + 'px'
       });
