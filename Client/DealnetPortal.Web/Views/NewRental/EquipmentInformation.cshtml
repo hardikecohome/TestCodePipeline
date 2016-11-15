@@ -449,8 +449,8 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].Type)
                         @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[0]?.Type == x.Type }),
-                            new { @class = "form-control", @Value = "" })
+                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                            new { @class = "form-control", @Value = 0 })
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
