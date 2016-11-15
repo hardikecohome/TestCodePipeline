@@ -223,7 +223,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         {
             var alerts = new List<Alert>();
 
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 EnvelopesApi envelopesApi = new EnvelopesApi();
                 bool recreateEnvelope = false;
@@ -234,7 +234,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     var envelope = envelopesApi.GetEnvelope(AccountId, TransactionId);
                     var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
                     if (envelope != null)
-                    {                        
+                    {
+                        if (envelope.Status == "created")
+                        {
+                            recreateEnvelope = true;
+                        }                  
                         //await InsertSignatures(signatureUsers);// ??
                         recreateRecipients = !AreRecipientsEqual(reciepents);
                         if (envelope.Status == "sent" && recreateRecipients)
@@ -252,36 +256,35 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {                        
                             if (recreateRecipients)
                             {
-
-                                //_signers.ForEach(s =>
-                                //{
-                                //    s.RoleName = $"Signer{s.RoutingOrder}";
-                                //    var recipient = reciepents.Signers.FirstOrDefault(ts => ts.RoleName == s.RoleName);
-                                //    if (recipient != null)
-                                //    {
-                                //        recipient.Name = s.Name;
-                                //        recipient.Email = s.Email;
-                                //        recipient.RoutingOrder = s.RoutingOrder;
-                                //        recipient.Tabs = s.Tabs;                                        
-                                //    }
-                                //});
-                                //var recipients = new Recipients()
-                                //{
-                                //    Signers = _signers,
-                                //    CarbonCopies = _copyViewers
-                                //};
-                                var delRec = envelopesApi.DeleteRecipients(AccountId, TransactionId, reciepents);
+                                if (reciepents.Signers.Any() || reciepents.CarbonCopies.Any())
+                                {
+                                    var delRec = envelopesApi.DeleteRecipients(AccountId, TransactionId, reciepents);
+                                }
                                 reciepents = new Recipients()
                                 {
                                     Signers = _signers,
                                     CarbonCopies = _copyViewers
                                 };
-                                var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);
+                                var updateRes = envelopesApi.UpdateRecipients(AccountId, TransactionId, reciepents);
                             }
-                            envelope = new Envelope();
-                            envelope.Status = "sent";
-                            //envelope.PurgeState = "documents_and_metadata_queued";
-                            var updateEnvelopeRes = await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, new EnvelopesApi.UpdateOptions() {resendEnvelope = "true"});
+                            if (envelope.Status == "created")
+                            {
+                                envelope = new Envelope();
+                                envelope.Status = "sent";
+                                //envelope.PurgeState = "documents_and_metadata_queued";
+                                var updateEnvelopeRes =                                    
+                                        envelopesApi.Update(AccountId, TransactionId, envelope,
+                                            new EnvelopesApi.UpdateOptions() {resendEnvelope = "true"});
+                            }
+                            else
+                            {
+                                alerts.Add(new Alert()
+                                {
+                                    Type = AlertType.Warning,
+                                    Header = "eSignature Warning",
+                                    Message = "Agreement has been sent for signature already"
+                                });
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -291,7 +294,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                 Header = "eSignature error",
                                 Message = ex.ToString()
                             });
-                            throw;
+                            //throw;
                         }
                     }
                 }
@@ -301,23 +304,24 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 }
 
                 if (recreateEnvelope)
-                {
-                    _envelopeDefinition = PrepareEnvelope();
+                {                    
                     if (!_signers.Any() && !_copyViewers.Any())
                     {
-                        _envelopeDefinition.Status = "created";
-                        _envelopeDefinition.Recipients.Signers = new List<Signer>()
+                        _signers.Add(new Signer()
                         {
-                            new Signer()
+                            RoutingOrder = "1",
+                            Tabs = new Tabs()
                             {
-                                Tabs = new Tabs()
-                                {
-                                    TextTabs = _textTabs,
-                                    CheckboxTabs = _checkboxTabs
-                                }
+                                TextTabs = _textTabs,
+                                CheckboxTabs = _checkboxTabs
                             }
-                        };
+                        });
+                        _envelopeDefinition = PrepareEnvelope("created");
                     }
+                    else
+                    {
+                        _envelopeDefinition = PrepareEnvelope();
+                    }                    
 
                     var envAlerts = CreateEnvelope(_envelopeDefinition);
                     if (envAlerts.Any())
@@ -420,7 +424,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        private EnvelopeDefinition PrepareEnvelope()
+        private EnvelopeDefinition PrepareEnvelope(string statusOnCreation = "sent")
         {
             EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition()
             {
@@ -453,7 +457,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     },
                 };
             }
-            envelopeDefinition.Status = "sent";
+            envelopeDefinition.Status = statusOnCreation;
 
             return envelopeDefinition;
         }
