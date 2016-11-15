@@ -76,11 +76,11 @@
 function manageAgreementElements(agreementType) {
     switch (agreementType) {
         case '0':
-            $(".equipment-cost").prop("disabled", false);
+            $(".equipment-cost").prop("disabled", false).parents('.form-group').show();
             $(".equipment-cost").each(function () {
                 $(this).rules("add", "required");
             });
-            $(".monthly-cost").prop("disabled", true);
+            $(".monthly-cost").prop("disabled", true).parents('.form-group').hide();
             $(".monthly-cost").each(function () {
                 var input = $(this);
                 input.rules("remove", "required");
@@ -88,24 +88,26 @@ function manageAgreementElements(agreementType) {
                 input.next('.text-danger').empty();
             });
             $('.loan-element').show();
+            $('.equipment-form-container').addClass('has-loan-calc');
             $('.rental-element').hide();
             $('#total-monthly-payment').rules("remove", "required");
             $('#requested-term-label').text("Loan Term");
             break;
         case '1':
         case '2':
-            $(".equipment-cost").prop("disabled", true);
+            $(".equipment-cost").prop("disabled", true).parents('.form-group').hide();
             $(".equipment-cost").each(function() {
                 var input = $(this);
                 input.rules("remove", "required");
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
-            $(".monthly-cost").prop("disabled", false);
+            $(".monthly-cost").prop("disabled", false).parents('.form-group').show();
             $(".monthly-cost").each(function () {
                 $(this).rules("add", "required");
             });
             $('.loan-element').hide();
+            $('.equipment-form-container').removeClass('has-loan-calc');
             $('.rental-element').show();
             $('#total-monthly-payment').rules("add", "required");
             $('#requested-term-label').text("Requested Term");
