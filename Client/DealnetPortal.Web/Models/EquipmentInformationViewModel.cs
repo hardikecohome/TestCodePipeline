@@ -115,10 +115,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         {
             var rule = new ModelClientValidationRule
             {
-                ErrorMessage = FormatErrorMessage(metadata.GetDisplayName()),
+                ErrorMessage = "Total equipments cost cannot be greater than Credit Amount",
                 ValidationType = "checkcost",
             };
-            rule.ValidationParameters.Add("other", _costProperty);
             yield return rule;
         }
     }

@@ -325,6 +325,7 @@ namespace DealnetPortal.Web.Infrastructure
             summary.EquipmentInfo = new EquipmentInformationViewModel();
             summary.EquipmentInfo.ContractId = contractId;
             summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
+            summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);

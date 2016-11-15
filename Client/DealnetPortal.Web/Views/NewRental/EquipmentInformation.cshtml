@@ -357,7 +357,7 @@
                     </div>
                 </div>
 
-
+            @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
 
                 <div class="row">
                     <div class="col-md-12">
@@ -472,7 +472,6 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();", @Value = "" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new { @class = "text-danger" })
-                            @Html.ValidationMessageFor(x => x.NewEquipment, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -598,6 +597,7 @@
 {
     <script type="text/javascript">
         var taxRate = @Model.ProvinceTaxRate;
+        var creditAmount = @Model.CreditAmount;
     </script>
 
     @Scripts.Render("~/bundles/jqueryval")
