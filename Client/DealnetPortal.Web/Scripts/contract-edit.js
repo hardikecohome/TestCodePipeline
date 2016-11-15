@@ -223,10 +223,11 @@ function assignDatepicker() {
     input.datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
+        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
         minDate: new Date(),
-        onSelect: function(){
-            $(this).removeClass('focus');
+        onClose: function(){
+            onDateSelect($(this));
         }
     });
 }

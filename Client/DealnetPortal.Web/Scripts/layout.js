@@ -127,6 +127,7 @@
       toggleClearInputIcon();
       customizeSelect();
       commonDataTablesSettings();
+
 });
 
 function stickySection(elem){
@@ -158,7 +159,7 @@ function stickySection(elem){
     });
 }
 
-function inputDateFocus(input){
+/*function inputDateFocus(input){
   input.on('touchend', function(){
     if($('.ui-datepicker').length > 0){
       var yPos = window.pageYOffset || $(document).scrollTop();
@@ -174,6 +175,28 @@ function inputDateFocus(input){
       $(this).removeClass('focus');
     }
   });
+}*/
+function inputDateFocus(input){
+  input.on('click touchend', function(){
+    if(navigator.userAgent.match(/(iPod|iPhone|iPad)/) && (viewport().width < 768))
+    {
+      if($('body').not('.hasDatepicker')){
+        $('body').addClass('hasDatepicker');
+      }
+    }
+  }).on('focus', function(){
+    if(viewport().width < 768){
+      customDPSelect();
+    }
+    $(this).blur()
+      .addClass('focus');
+  });
+}
+
+function onDateSelect(input){
+  input
+    .removeClass('focus');
+  $('body').removeClass('hasDatepicker');
 }
 
 function documentsColHeight(){
@@ -360,3 +383,33 @@ function toggleClearInputIcon(fields){
     // other browser
     return false;
   }
+
+
+function viewport() {
+  var e = window, a = 'inner';
+  if (!('innerWidth' in window )) {
+    a = 'client';
+    e = document.documentElement || document.body;
+  }
+  return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+}
+
+function customDPSelect(){
+  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
+  var inp = $(this);
+  var selectClasses = "custom-select datepicker-select";
+  if(!$('.ui-datepicker-month').parents('.custom-select').length){
+    $('.ui-datepicker-month')
+      .wrap($('<div>', {
+        class: selectClasses
+      })).after('<span class="caret">');
+  }
+  if(!$('.ui-datepicker-year').parents('.custom-select').length){
+    $('.ui-datepicker-year')
+      .wrap($('<div>', {
+        class: selectClasses
+      })).after('<span class="caret">');
+  }
+  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
+
+}
