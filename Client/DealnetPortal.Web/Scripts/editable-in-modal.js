@@ -40,9 +40,10 @@ function copyFormData(form1, form2, validate) {
     return true;
 }
 
-function saveChanges(form1, form2, url, mainform) {
+function saveChanges(form1, form2, url, mainform, afterCopy) {
 
     if (copyFormData(form1, form2, true)) {
+        if (afterCopy) {afterCopy();}
         submitChanges(url, mainform);
         return true;
     }

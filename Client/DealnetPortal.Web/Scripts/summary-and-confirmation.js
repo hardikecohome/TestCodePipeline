@@ -19,6 +19,38 @@ function managePaymentFormElements(paymentType) {
     }
 }
 
+function recalculateTotalMonthlyPayment() {
+    var sum = 0;
+    $(".monthly-cost").each(function () {
+        var numberValue = parseFloat(this.value);
+        if (!isNaN(numberValue)) {
+            sum += numberValue;
+        }
+    });
+
+    $(".total-monthly-payment").each(function () {
+        var sumStr = sum.toFixed(2);
+        $(this).val(sumStr);
+        $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').text(sumStr);
+    });
+    var salesTax = sum * taxRate / 100;
+    $("#salex-tax").text(salesTax.toFixed(2));
+    $("#total-monthly-payment-wtaxes").text((sum + salesTax).toFixed(2));
+}
+
+function recalculateTotalCashPrice() {
+    var sum = 0;
+    $(".equipment-cost").each(function () {
+        var numberValue = parseFloat(this.value);
+        if (!isNaN(numberValue)) {
+            sum += numberValue;
+        }
+    });
+
+    $("#equipment-cash-price").text(sum.toFixed(2));
+    calculateLoanValues();
+}
+
 function assignDatepicker() {
     var input = $(this);
     inputDateFocus(input);

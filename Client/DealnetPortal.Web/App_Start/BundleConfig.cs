@@ -49,8 +49,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/contact-and-payment-management.js").Include("~/Scripts/camera-capturing.js")
                 .Include("~/Scripts/vc-scanning.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation").Include("~/Scripts/custom-validation.js")
-                .Include("~/Scripts/contact-and-payment-management.js")
-                .Include("~/Scripts/equipment-information.js")
+                .Include("~/Scripts/loan-calculator.js").Include("~/Scripts/contact-and-payment-management.js")
                 .Include("~/Scripts/summary-and-confirmation.js").Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/navigation-with-warning.js"));

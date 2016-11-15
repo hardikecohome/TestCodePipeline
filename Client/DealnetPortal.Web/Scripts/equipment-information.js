@@ -1,40 +1,23 @@
-﻿$(document)
+﻿
+$(document)
             .ready(function () {
-
-                jQuery.validator.unobtrusive.adapters.add(
-                    'checkcost', ['other'], function (options) {
-
-                        var getModelPrefix = function (fieldName) {
-                            return fieldName.substr(0, fieldName.lastIndexOf('.') + 1);
-                        }
-
-                        var appendModelPrefix = function (value, prefix) {
-                            if (value.indexOf('*.') === 0) {
-                                value = value.replace('*.', prefix);
+                $('#equipment-form').submit(function (event) {
+                    var agreementType = $("#agreement-type").find(":selected").val();
+                    if (agreementType === "0") {
+                        var sum = 0;
+                        $(".equipment-cost").each(function () {
+                            var numberValue = parseFloat(this.value);
+                            if (!isNaN(numberValue)) {
+                                sum += numberValue;
                             }
-                            return value;
-                        }
-
-                        var prefix = getModelPrefix(options.element.name),
-                            other = options.params.other,
-                            fullOtherName = appendModelPrefix(other, prefix),
-                            element = $(options.form).find(':input[name="' + fullOtherName + '"]')[0];
-
-                        options.rules['checkcost'] = element;
-                        if (options.message) {
-                            $("#proceed-error-message").show();
-                            options.messages['checkcost'] = options.message;
+                        });
+                        if (sum > creditAmount) {
+                            event.preventDefault();
+                            $('#total-cost-validation-message').show();
                         }
                     }
-                );
-
-                jQuery.validator.addMethod('checkcost', function (value, element, params) {
-                    var otherValue = $(params).val();
-                    if (otherValue != null && otherValue != '') {
-                        return true;
-                    }
-                    return value != null && value != '';
-                }, '');
+                });
+                
 
                 $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;

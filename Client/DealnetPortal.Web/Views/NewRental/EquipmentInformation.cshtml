@@ -148,7 +148,7 @@
         }
     </div>
     <div class="row">
-        <div class="col-md-12">            
+        <div class="col-md-12">
             <div class="align-middle dealnet-info-link add-equip-link" onclick="addNewEquipment(); recalculateTotalMonthlyPayment();">
                 <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
                 <span>Add additional equipment</span>
@@ -425,7 +425,7 @@
         </div>
     </div>
 
-
+    <span style="display: none;" class="text-danger" id="total-cost-validation-message">Total equipments cost cannot be greater than Credit Amount</span>
 
     <div class="row">
         <div class="col-md-12">
@@ -475,7 +475,6 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new {@class = "form-control dealnet-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();", @Value = ""})
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new {@class = "text-danger"})
-                            @Html.ValidationMessageFor(x => x.NewEquipment, "", new {@class = "text-danger"})
                         </div>
                     </div>
                 </div>
@@ -601,10 +600,10 @@
 {
     <script type="text/javascript">
         var taxRate = @Model.ProvinceTaxRate;
+        var creditAmount = @Model.CreditAmount;
     </script>
 
     @Scripts.Render("~/bundles/jqueryval")
-
     @Scripts.Render("~/bundles/equipment-information")
 
     <script type="text/javascript">
