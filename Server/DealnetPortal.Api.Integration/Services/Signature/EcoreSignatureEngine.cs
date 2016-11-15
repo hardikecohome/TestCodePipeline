@@ -274,10 +274,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private async Task<Tuple<long, IList<Alert>>> CreateTransaction(Contract contract)
         {

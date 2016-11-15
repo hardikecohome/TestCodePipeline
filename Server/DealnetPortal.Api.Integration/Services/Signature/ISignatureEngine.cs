@@ -27,7 +27,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers);
 
-        Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers);
+        //Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers);
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion);
 

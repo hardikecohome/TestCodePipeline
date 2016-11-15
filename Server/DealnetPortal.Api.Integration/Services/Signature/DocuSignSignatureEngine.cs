@@ -207,7 +207,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             Email = s.EmailAddress,
                             Name = $"{s.FirstName} {s.LastName}",
                             RoutingOrder = signN.ToString(),
-                            RecipientId = signN.ToString(),                            
+                            RecipientId = signN.ToString(),  
+                            RoleName = "Viewer"
                         });
                         signN++;
                     });
@@ -251,23 +252,30 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {                        
                             if (recreateRecipients)
                             {
-                                _signers.ForEach(s =>
-                                {
-                                    var recipient = reciepents.Signers.FirstOrDefault(ts => ts.RoleName == s.RoleName);
-                                    if (recipient != null)
-                                    {
-                                        recipient.Name = s.Name;
-                                        recipient.Email = s.Email;
-                                        recipient.RoutingOrder = s.RoutingOrder;
-                                        recipient.Tabs = s.Tabs;
-                                    }
-                                });
+
+                                //_signers.ForEach(s =>
+                                //{
+                                //    s.RoleName = $"Signer{s.RoutingOrder}";
+                                //    var recipient = reciepents.Signers.FirstOrDefault(ts => ts.RoleName == s.RoleName);
+                                //    if (recipient != null)
+                                //    {
+                                //        recipient.Name = s.Name;
+                                //        recipient.Email = s.Email;
+                                //        recipient.RoutingOrder = s.RoutingOrder;
+                                //        recipient.Tabs = s.Tabs;                                        
+                                //    }
+                                //});
                                 //var recipients = new Recipients()
                                 //{
                                 //    Signers = _signers,
                                 //    CarbonCopies = _copyViewers
                                 //};
-
+                                var delRec = envelopesApi.DeleteRecipients(AccountId, TransactionId, reciepents);
+                                reciepents = new Recipients()
+                                {
+                                    Signers = _signers,
+                                    CarbonCopies = _copyViewers
+                                };
                                 var updateRes = envelopesApi.UpdateRecipients(AccountId, TransactionId, reciepents);
                             }
                             envelope = new Envelope();
@@ -367,27 +375,27 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
-        {
-            var alerts = new List<Alert>();
+        //public async Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
+        //{
+        //    var alerts = new List<Alert>();
 
-            var tskAlerts = await Task.Run(() =>
-            {                
-                _envelopeDefinition = PrepareEnvelope();
-                _envelopeDefinition.Status = "created";
+        //    var tskAlerts = await Task.Run(() =>
+        //    {                
+        //        _envelopeDefinition = PrepareEnvelope();
+        //        _envelopeDefinition.Status = "created";
 
-                var sendAlerts = CreateEnvelope(_envelopeDefinition);                
+        //        var sendAlerts = CreateEnvelope(_envelopeDefinition);                
 
-                return sendAlerts;
-            }).ConfigureAwait(false);
+        //        return sendAlerts;
+        //    }).ConfigureAwait(false);
 
-            if (tskAlerts.Any())
-            {
-                alerts.AddRange(tskAlerts);
-            }
+        //    if (tskAlerts.Any())
+        //    {
+        //        alerts.AddRange(tskAlerts);
+        //    }
 
-            return alerts;
-        }
+        //    return alerts;
+        //}
 
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
@@ -565,6 +573,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 Name = $"{signatureUser.FirstName} {signatureUser.LastName}",
                 RecipientId = routingOrder.ToString(),
                 RoutingOrder = routingOrder.ToString(),
+                RoleName = $"Signer{routingOrder}",
                 Tabs = new Tabs()
                 {
                     SignHereTabs = new List<SignHere>()
