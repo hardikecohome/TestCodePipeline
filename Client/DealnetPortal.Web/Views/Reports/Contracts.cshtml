@@ -23,7 +23,7 @@
 							<div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL MONTHLY PAYMENT (TAX INCL.)</div>
 							<div class="col-xs-12 col-sm-3 dealnet-field-holder">
 								<div class="control-group">
-                                    $ @($"{Model.Sum(c => c.EquipmentInfo == null ? 0 : c.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? c.LoanCalculatorOutput.TotalMonthlyPayment : (c.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (c.EquipmentInfo?.TotalMonthlyPayment ?? 0)*c.ProvinceTaxRate/100 ):0,00.00}")
+                                    $ @($"{Model.Sum(c => c.EquipmentInfo == null ? 0 : c.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? c.LoanCalculatorOutput.TotalMonthlyPayment : (c.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (c.EquipmentInfo?.TotalMonthlyPayment ?? 0)*c.ProvinceTaxRate/100 ):0.00")
 								</div>
 							</div>
 						</div>
@@ -35,7 +35,7 @@
 				                <div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL VALUE</div>
 				                <div class="col-xs-12 col-sm-3 dealnet-field-holder">
 				                    <div class="control-group">
-				                        $ @($"{Model.Where(x => x.EquipmentInfo != null && x.EquipmentInfo.AgreementType == AgreementType.LoanApplication).Sum(c => c.LoanCalculatorOutput.TotalBorowingCost):0,00.00}")
+				                        $ @($"{Model.Where(x => x.EquipmentInfo != null && x.EquipmentInfo.AgreementType == AgreementType.LoanApplication).Sum(c => c.LoanCalculatorOutput.TotalBorowingCost):0.00}")
 				                    </div>
 				                </div>
 				            </div>
@@ -79,7 +79,7 @@
 					                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
 					                <div class="dealnet-field-holder col-xs-6">
 					                    <div class="control-group">
-					                        $ @($"{contract.LoanCalculatorOutput.TotalBorowingCost:0,00.00}")
+					                        $ @($"{contract.LoanCalculatorOutput.TotalBorowingCost:0.00}")
 					                    </div>
 					                </div>
 					            </div>

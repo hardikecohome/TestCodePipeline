@@ -150,7 +150,7 @@
 				                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
 				                <div class="dealnet-field-holder col-xs-6">
 				                    <div class="control-group">
-				                        $ @($"{Model.LoanCalculatorOutput.TotalBorowingCost:0,00.00}")
+				                        $ @($"{Model.LoanCalculatorOutput.TotalBorowingCost:0.00}")
 				                    </div>
 				                </div>
 				            </div>
@@ -1069,7 +1069,7 @@ foreach (var comment in comments)
 									<div class="dealnet-field-holder">
 										<div class="control-group">
 											<div class="form-control control-disabled">
-												$ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0,00.00}")
+												$ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0.00}")
 											</div>
 										</div>
 									</div>
