@@ -10,10 +10,10 @@
      });*/
   });
 
-function copyFormData(form1, form2, validate) {
+function copyFormData(form1, form2, validate, additionalValidation) {
     if (validate) {
         form1.validate();
-        if (!form1.valid()) {
+        if (!form1.valid() || (typeof additionalValidation == 'function' && !additionalValidation())) {
             return false;
         };
     }
@@ -26,7 +26,6 @@ function copyFormData(form1, form2, validate) {
         }
         return sourceInput.val();
     });
-
     $('.text-danger span', form2).remove();
     $(':input[name]', form2).removeClass('input-validation-error');
 
@@ -40,10 +39,10 @@ function copyFormData(form1, form2, validate) {
     return true;
 }
 
-function saveChanges(form1, form2, url, mainform, afterCopy) {
+function saveChanges(form1, form2, url, mainform, afterCopy, additionalValidation) {
 
-    if (copyFormData(form1, form2, true)) {
-        if (afterCopy) {afterCopy();}
+    if (copyFormData(form1, form2, true, additionalValidation)) {
+        if (typeof afterCopy == 'function') { afterCopy(); }
         submitChanges(url, mainform);
         return true;
     }

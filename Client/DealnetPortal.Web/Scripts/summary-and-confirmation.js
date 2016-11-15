@@ -51,6 +51,21 @@ function recalculateTotalCashPrice() {
     calculateLoanValues();
 }
 
+function checkTotalEquipmentCost() {
+    var sum = 0;
+    $(".equipment-cost").each(function () {
+        var numberValue = parseFloat(this.value);
+        if (!isNaN(numberValue)) {
+            sum += numberValue;
+        }
+    });
+    if (sum > creditAmount) {
+        $('#new-equipment-validation-message').html('<span>Total equipments cost cannot be greater than Credit Amount</span>');
+        return false;
+    }
+    return true;
+}
+
 function assignDatepicker() {
     var input = $(this);
     inputDateFocus(input);

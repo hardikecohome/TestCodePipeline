@@ -425,7 +425,7 @@
         </div>
     </div>
 
-    <span style="display: none;" class="text-danger" id="total-cost-validation-message">Total equipments cost cannot be greater than Credit Amount</span>
+    @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id= "new-equipment-validation-message" })
 
     <div class="row">
         <div class="col-md-12">

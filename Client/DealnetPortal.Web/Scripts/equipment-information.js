@@ -13,7 +13,7 @@ $(document)
                         });
                         if (sum > creditAmount) {
                             event.preventDefault();
-                            $('#total-cost-validation-message').show();
+                            $('#new-equipment-validation-message').text("Total equipments cost cannot be greater than Credit Amount");
                         }
                     }
                 });
