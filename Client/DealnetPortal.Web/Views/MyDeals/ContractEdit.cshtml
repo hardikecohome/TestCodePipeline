@@ -1080,8 +1080,7 @@ foreach (var comment in comments)
 							        @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.RequestedTerm, new { @class = "form-control dealnet-input" })
-                                            @Html.ValidationMessageFor(m => m.EquipmentInfo.RequestedTerm, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.RequestedTerm, new { @readonly = "readonly", @class = "form-control control-disabled" })
                                         </div>
                                     </div>
 							    </div>
