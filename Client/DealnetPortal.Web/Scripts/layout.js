@@ -74,7 +74,7 @@
 
 
       $(window).on('scroll', function(){
-        detectPageHeight()
+        detectPageHeight();
       }).on('resize', function(){
         detectPageHeight();
         documentsColHeight();
@@ -115,11 +115,43 @@
         });
       }, 500);
 
+
+
+      stickySection($('.sticker'));
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();
       commonDataTablesSettings();
 });
+
+function stickySection(elem){
+    var fixedHeaderHeight;
+    var s = elem;
+    var windowpos;
+    var parentOffsetTop;
+    var parentOffsetLeft;
+    var stikerTopPos;
+    var stickerWidth;
+    $(window).on('scroll resize', function(){
+      fixedHeaderHeight = $('.navbar-header').height();
+      windowpos = $(window).scrollTop() + fixedHeaderHeight;
+      parentOffsetTop = s.parent().offset().top;
+      parentOffsetLeft = s.parent().offset().left;
+      stickerWidth = s.parent().width();
+      if (windowpos >= parentOffsetTop) {
+        s.addClass("stick");
+        stikerTopPos = fixedHeaderHeight+10;
+      } else {
+        s.removeClass("stick");
+        stikerTopPos = 0;
+      }
+
+      $('.sticker').css({
+        top: stikerTopPos + 'px',
+        width: stickerWidth + 'px'
+      });
+    });
+}
 
 function inputDateFocus(input){
   input.on('touchend', function(){
