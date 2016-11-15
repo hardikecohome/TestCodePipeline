@@ -193,7 +193,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
+        public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();
 

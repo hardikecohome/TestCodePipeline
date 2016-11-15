@@ -219,7 +219,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }        
 
-        public async Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
+        public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();
 
@@ -235,7 +235,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
                     if (envelope != null)
                     {                        
-                        await InsertSignatures(signatureUsers);
+                        //await InsertSignatures(signatureUsers);// ??
                         recreateRecipients = !AreRecipientsEqual(reciepents);
                         if (envelope.Status == "sent" && recreateRecipients)
                         {
@@ -276,12 +276,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                     Signers = _signers,
                                     CarbonCopies = _copyViewers
                                 };
-                                var updateRes = envelopesApi.UpdateRecipients(AccountId, TransactionId, reciepents);
+                                var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);
                             }
                             envelope = new Envelope();
                             envelope.Status = "sent";
                             //envelope.PurgeState = "documents_and_metadata_queued";
-                            var updateEnvelopeRes = envelopesApi.Update(AccountId, TransactionId, envelope, new EnvelopesApi.UpdateOptions() {resendEnvelope = "true"});
+                            var updateEnvelopeRes = await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, new EnvelopesApi.UpdateOptions() {resendEnvelope = "true"});
                         }
                         catch (Exception ex)
                         {
@@ -327,75 +327,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 }
 
             });
-
-            //_envelopeDefinition.EmailSubject = EmailSubject;
-            //_envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
-            //{
-            //    new CompositeTemplate()
-            //    {
-            //        InlineTemplates = new List<InlineTemplate>()
-            //        {
-            //            new InlineTemplate()
-            //            {
-            //                Sequence = "1",
-            //                Recipients = new Recipients()
-            //                {
-            //                    Signers = _signers,
-            //                    CarbonCopies = _copyViewers
-            //                }
-            //            }
-            //        },
-            //        Document = _document
-            //    },
-            //};
-            //_envelopeDefinition.Status = "sent";                
-
-            //EnvelopeSummary envelopeSummary = envelopesApi.CreateEnvelope(AccountId, _envelopeDefinition);
-
-            //if (!string.IsNullOrEmpty(envelopeSummary?.EnvelopeId))
-            //{
-            //    EnvelopeDocumentsResult docsList = envelopesApi.ListDocuments(AccountId, envelopeSummary.EnvelopeId);
-
-            //    TransactionId = envelopeSummary.EnvelopeId;
-            //    _loggingService.LogInfo($"DocuSign document was successfully created: envelope {TransactionId}, document {docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId}");
-            //    DocumentId = docsList?.EnvelopeDocuments?.FirstOrDefault()?.DocumentId;
-            //}
-            //else
-            //{
-            //    _loggingService.LogError("DocuSign document wasn't created");
-            //    sendAlerts.Add(new Alert()
-            //    {
-            //        Type = AlertType.Error,
-            //        Header = "DocuSign error",
-            //        Message = "DocuSign document wasn't created"
-            //    });
-
-            //}                           
-
+                                  
             return alerts;
-        }
-
-        //public async Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
-        //{
-        //    var alerts = new List<Alert>();
-
-        //    var tskAlerts = await Task.Run(() =>
-        //    {                
-        //        _envelopeDefinition = PrepareEnvelope();
-        //        _envelopeDefinition.Status = "created";
-
-        //        var sendAlerts = CreateEnvelope(_envelopeDefinition);                
-
-        //        return sendAlerts;
-        //    }).ConfigureAwait(false);
-
-        //    if (tskAlerts.Any())
-        //    {
-        //        alerts.AddRange(tskAlerts);
-        //    }
-
-        //    return alerts;
-        //}
+        }        
 
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
@@ -441,14 +375,17 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             if (recipients != null && _signers != null)
             {
-                if (recipients.Signers.Count == _signers.Count)
-                {
-                    areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email));
-                    if (areEqual && recipients.CarbonCopies.Count == _copyViewers.Count)
-                    {
-                        areEqual = _copyViewers.All(s => recipients.CarbonCopies.Any(r => r.Email == s.Email));
-                    }
-                }
+                areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email))
+                                && (_copyViewers?.All(s => recipients.CarbonCopies?.Any(r => r.Email == s.Email) ?? true) ?? true);
+                
+                //if (recipients.Signers.Count == _signers.Count)
+                //{
+                //    areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email));
+                //    if (areEqual && recipients.CarbonCopies.Count == _copyViewers.Count)
+                //    {
+                //        areEqual = _copyViewers.All(s => recipients.CarbonCopies.Any(r => r.Email == s.Email));
+                //    }
+                //}
             }
 
             return areEqual;

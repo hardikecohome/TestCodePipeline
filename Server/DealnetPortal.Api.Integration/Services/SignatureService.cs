@@ -94,10 +94,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(trRes);
                 }
-                //TODO: !!!
-                //var docId = docRes.Item1;
-                //_loggingService.LogInfo($"eSignature document profile [{docId}] was created and uploaded successefully");
-                //UpdateContractDetails(contractId, ownerUserId, transId.ToString(), docId.ToString(), SignatureStatus.ProfileCreated);
 
                 var insertRes = await _signatureEngine.InsertDocumentFields(fields);
                     //InsertAgreementFields(docId, fields);
@@ -136,7 +132,7 @@ namespace DealnetPortal.Api.Integration.Services
                         $"Signature fields inserted into agreement document form successefully");
                 }
 
-                insertRes = await _signatureEngine.SendInvitations(signatureUsers);
+                insertRes = await _signatureEngine.SubmitDocument(signatureUsers);
                     
                 if (insertRes?.Any() ?? false)
                 {
@@ -178,7 +174,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
             if (contract != null)
             {
-                //check need to recreate agreement
+                //check is agreement created
                 if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
                 {
                     var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
@@ -193,6 +189,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
+                    // create draft agreement
                     var createAlerts = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
                     //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
                     if (createAlerts.Any())
@@ -220,51 +217,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError(errorMsg);
             }
             LogAlerts(alerts);
-            return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
-
-            //var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-            //if (contract != null)
-            //{
-            //    if (!string.IsNullOrEmpty(contract.Details.SignatureDocumentId) ||
-            //        !contract.Details.SignatureStatus.HasValue)
-            //    {
-            //        var logRes = LoginToService();
-            //        if (logRes.Any(a => a.Type == AlertType.Error))
-            //        {
-            //            LogAlerts(alerts);
-            //            return alerts;
-            //        }
-            //        long docId = 0;
-            //        long.TryParse(contract.Details.SignatureDocumentId, out docId);
-            //        var getRes = _signatureServiceAgent.GetCopy(docId).GetAwaiter().GetResult();
-            //        if (getRes?.Item2?.Any() ?? false)
-            //        {
-            //            alerts.AddRange(getRes.Item2);
-            //        }
-            //        //TODO: add return of document
-
-            //    }
-            //    else
-            //    {
-            //        alerts.Add(new Alert()
-            //        {
-            //            Type = AlertType.Error,
-            //            Message = $"Digital signature for contract with id {contractId} doesn't complete",
-            //            Header = "Can't get contract agreement"
-            //        });
-            //    }
-            //}
-            //else
-            //{
-            //    alerts.Add(new Alert()
-            //    {
-            //        Type = AlertType.Error,
-            //        Message = $"Can't get contract with id {contractId}",
-            //        Header = "Can't get contract"
-            //    });
-            //}
-
-            //return alerts;
+            return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);            
         }
 
         public IList<Alert> GetSignatureResults(int contractId, string ownerUserId)
