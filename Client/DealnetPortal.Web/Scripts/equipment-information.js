@@ -160,6 +160,7 @@ function removeNewEquipment(id) {
         nextEquipment.find('.equipment-number').text('№' + nextNumber);
         var removeButton = nextEquipment.find('#new-equipment-remove-' + nextNumber);
         removeButton.attr('onclick', removeButton.attr('onclick').replace('removeNewEquipment(' + nextNumber, 'removeNewEquipment(' + (nextNumber - 1)));
+        removeButton.attr('id', 'new-equipment-remove-' + (nextNumber - 1));
         nextEquipment.attr('id', 'new-equipment-' + (nextNumber - 1));
         resetFormValidator("#equipment-form");
     }
@@ -192,6 +193,7 @@ function removeExistingEquipment(id) {
         existingEquipment.find('.equipment-number').text('№' + nextNumber);
         var removeButton = existingEquipment.find('#existing-equipment-remove-' + nextNumber);
         removeButton.attr('onclick', removeButton.attr('onclick').replace('removeExistingEquipment(' + nextNumber, 'removeExistingEquipment(' + (nextNumber - 1)));
+        removeButton.attr('id', 'existing-equipment-remove-' + (nextNumber - 1));
         existingEquipment.attr('id', 'existing-equipment-' + (nextNumber - 1));
         resetFormValidator("#equipment-form");
     }
