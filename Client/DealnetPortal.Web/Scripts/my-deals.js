@@ -13,11 +13,12 @@ function assignDatepicker(input) {
     input.datepicker({
         dateFormat: 'mm/dd/yy',
         changeYear: true,
+        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2016',
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(),
-        onSelect: function(){
-          $(this).removeClass('focus');
+        onClose: function(){
+          onDateSelect($(this));
         }
     });
 }
