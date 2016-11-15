@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using DocuSign.eSign.Api;
@@ -220,57 +221,91 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         public async Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();
-            
-            EnvelopesApi envelopesApi = new EnvelopesApi();
-            bool recreateEnvelope = false;
-            bool recreateRecipients = false;
 
-            if (!string.IsNullOrEmpty(TransactionId))
+            await Task.Run(async () =>
             {
-                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
-                if (envelope != null)
+                EnvelopesApi envelopesApi = new EnvelopesApi();
+                bool recreateEnvelope = false;
+                bool recreateRecipients = false;
+
+                if (!string.IsNullOrEmpty(TransactionId))
                 {
-                    var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, TransactionId);
-                    await InsertSignatures(signatureUsers);
-                    recreateRecipients = !AreRecipientsEqual(reciepents);
-                    if (envelope.Status == "sent" && recreateRecipients)
+                    var envelope = envelopesApi.GetEnvelope(AccountId, TransactionId);
+                    if (envelope != null)
+                    {
+                        var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
+                        await InsertSignatures(signatureUsers);
+                        recreateRecipients = !AreRecipientsEqual(reciepents);
+                        if (envelope.Status == "sent" && recreateRecipients)
+                        {
+                            recreateEnvelope = true;
+                        }
+                    }
+                    else
                     {
                         recreateEnvelope = true;
+                    }
+                    if (!recreateEnvelope)
+                    {
+                        try
+                        {                        
+                            if (recreateRecipients)
+                            {
+                                var recipients = new Recipients()
+                                {
+                                    Signers = _signers,
+                                    CarbonCopies = _copyViewers
+                                };
+                                var updateRes = envelopesApi.UpdateRecipients(AccountId, TransactionId, recipients);
+                            }
+                            envelope.Status = "sent";
+                            //envelope.PurgeState = "documents_and_metadata_queued";
+                            var updateEnvelopeRes = envelopesApi.Update(AccountId, TransactionId, envelope, new EnvelopesApi.UpdateOptions() {resendEnvelope = "true"});
+                        }
+                        catch (Exception ex)
+                        {
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Header = "eSignature error",
+                                Message = ex.ToString()
+                            });
+                            throw;
+                        }
                     }
                 }
                 else
                 {
                     recreateEnvelope = true;
                 }
-                if (!recreateEnvelope)
-                {
-                    if (recreateRecipients)
-                    {
-                        var recipients = new Recipients()
-                        {
-                            Signers = _signers,
-                            CarbonCopies = _copyViewers
-                        };
-                        var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, recipients);
-                    }
-                    envelope.Status = "sent";
-                    var updateEnvelopeRes = await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
-                }
-            }
-            else
-            {
-                recreateEnvelope = true;
-            }
 
-            if (recreateEnvelope)
-            {
-                _envelopeDefinition = PrepareEnvelope();
-                var envAlerts = CreateEnvelope(_envelopeDefinition);
-                if (envAlerts.Any())
+                if (recreateEnvelope)
                 {
-                    alerts.AddRange(envAlerts);
+                    _envelopeDefinition = PrepareEnvelope();
+                    if (!_signers.Any() && !_copyViewers.Any())
+                    {
+                        _envelopeDefinition.Status = "created";
+                        _envelopeDefinition.Recipients.Signers = new List<Signer>()
+                        {
+                            new Signer()
+                            {
+                                Tabs = new Tabs()
+                                {
+                                    TextTabs = _textTabs,
+                                    CheckboxTabs = _checkboxTabs
+                                }
+                            }
+                        };
+                    }
+
+                    var envAlerts = CreateEnvelope(_envelopeDefinition);
+                    if (envAlerts.Any())
+                    {
+                        alerts.AddRange(envAlerts);
+                    }
                 }
-            }            
+
+            });
 
             //_envelopeDefinition.EmailSubject = EmailSubject;
             //_envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
@@ -341,11 +376,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> GetDocument(DocumentVersion documentVersion)
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
             var alerts = new List<Alert>();
+            AgreementDocument document = null;
 
-            var tskAlerts = await Task.Run(() =>
+            var tskAlerts = await Task.Run(async () =>
             {
                 var sendAlerts = new List<Alert>();
 
@@ -353,19 +389,29 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     EnvelopesApi envelopesApi = new EnvelopesApi();
                     EnvelopeDocumentsResult docsList = envelopesApi.ListDocuments(AccountId, TransactionId);
-                    
-                }                
-                
-
+                    if (docsList.EnvelopeDocuments.Any())
+                    {
+                        var doc = docsList.EnvelopeDocuments.First();
+                        document = new AgreementDocument()
+                        {
+                            DocumentId = doc.DocumentId,
+                            Type = doc.Type,
+                            Name = doc.Name
+                        };
+                        var docStream = envelopesApi.GetDocument(AccountId, TransactionId, doc.DocumentId);
+                        document.DocumentRaw = new byte[docStream.Length];
+                        await docStream.ReadAsync(document.DocumentRaw, 0, (int)docStream.Length);
+                    }                    
+                }                               
                 return sendAlerts;
-            }).ConfigureAwait(false);
+            });
 
             if (tskAlerts.Any())
             {
                 alerts.AddRange(tskAlerts);
             }            
 
-            return alerts;
+            return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
         private bool AreRecipientsEqual(Recipients recipients)
@@ -437,7 +483,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             new InlineTemplate()
                             {
-                                Sequence = "1",
+                                Sequence = "1",                                
                                 Recipients = new Recipients()
                                 {
                                     Signers = _signers,

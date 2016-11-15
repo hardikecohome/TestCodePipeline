@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -23,7 +24,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <returns></returns>
         Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
 
-        Task<IList<Alert>> GetContractAgreement(int contractId, string ownerUserId);
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId);
 
         IList<Alert> GetSignatureResults(int contractId, string ownerUserId);
 

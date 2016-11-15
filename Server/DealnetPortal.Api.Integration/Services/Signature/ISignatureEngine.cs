@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
@@ -27,7 +29,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers);
 
-        Task<IList<Alert>> GetDocument(DocumentVersion documentVersion);
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion);
 
         string TransactionId { get; set; }
 

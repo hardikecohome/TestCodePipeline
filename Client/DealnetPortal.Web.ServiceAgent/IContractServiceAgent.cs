@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -74,7 +75,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
-        Task<IList<Alert>> GetContractAgreement(int contractId);
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId);
 
         /// <summary>
         /// Reports info about deals flowing

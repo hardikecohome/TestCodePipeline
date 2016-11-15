@@ -12,6 +12,7 @@ using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -234,10 +235,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public IList<Alert> GetPrintAgreement(int contractId, string contractOwnerId)
+        public Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId)
         {
-            var alerts = new List<Alert>();
-            return alerts;
+            return _signatureService.GetContractAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
         }
 
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)

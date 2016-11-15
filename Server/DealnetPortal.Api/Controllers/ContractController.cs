@@ -199,7 +199,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = ContractService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
-                return Ok();
+                return Ok(result);
             }
             catch (Exception ex)
             {

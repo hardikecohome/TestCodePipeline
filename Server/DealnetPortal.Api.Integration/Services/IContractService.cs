@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -29,7 +30,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);
 
-        IList<Alert> GetPrintAgreement(int contractId, string contractOwnerId);
+        Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId);
 
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
 

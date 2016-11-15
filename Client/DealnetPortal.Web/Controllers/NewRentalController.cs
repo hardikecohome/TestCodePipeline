@@ -345,14 +345,20 @@ namespace DealnetPortal.Web.Controllers
             }
         }
         
-        public ActionResult PrintContract(int contractId)
+        public async Task<ActionResult> PrintContract(int contractId)
         {
-            var response = new FileContentResult(new byte[] {}, "application/pdf")
-            {
-                FileDownloadName = "loremIpsum.pdf"
-            };
+            var result = await _contractServiceAgent.GetContractAgreement(contractId);
 
-            return response;
+            if (result.Item1 != null)
+            {
+                var response = new FileContentResult(result.Item1.DocumentRaw, "application/pdf")
+                {
+                    FileDownloadName = result.Item1.Name
+                };
+                return response;
+            }            
+
+            return new EmptyResult();
             //return RedirectToAction("SummaryAndConfirmation", new {contractId });
         }
 

@@ -12,6 +12,7 @@ using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Tran
 using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
@@ -34,7 +35,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<string> _signatureFields = new List<string>() { "Signature1", "Signature2", "Signature3"};
         private List<string> _signatureRoles = new List<string>();
 
-        public Task<IList<Alert>> GetDocument(DocumentVersion documentVersion)
+        public Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
             throw new NotImplementedException();
         }
