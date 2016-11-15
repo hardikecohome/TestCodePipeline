@@ -72,8 +72,8 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"{fields.Count} fields collected");
 
                 var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
-                //_signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
-                //_signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
+                _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
+                _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
 
                 if (logRes.Any(a => a.Type == AlertType.Error))
                 {

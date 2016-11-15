@@ -231,9 +231,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 if (!string.IsNullOrEmpty(TransactionId))
                 {
                     var envelope = envelopesApi.GetEnvelope(AccountId, TransactionId);
+                    var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
                     if (envelope != null)
-                    {
-                        var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
+                    {                        
                         await InsertSignatures(signatureUsers);
                         recreateRecipients = !AreRecipientsEqual(reciepents);
                         if (envelope.Status == "sent" && recreateRecipients)
@@ -251,13 +251,26 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {                        
                             if (recreateRecipients)
                             {
-                                var recipients = new Recipients()
+                                _signers.ForEach(s =>
                                 {
-                                    Signers = _signers,
-                                    CarbonCopies = _copyViewers
-                                };
-                                var updateRes = envelopesApi.UpdateRecipients(AccountId, TransactionId, recipients);
+                                    var recipient = reciepents.Signers.FirstOrDefault(ts => ts.RoleName == s.RoleName);
+                                    if (recipient != null)
+                                    {
+                                        recipient.Name = s.Name;
+                                        recipient.Email = s.Email;
+                                        recipient.RoutingOrder = s.RoutingOrder;
+                                        recipient.Tabs = s.Tabs;
+                                    }
+                                });
+                                //var recipients = new Recipients()
+                                //{
+                                //    Signers = _signers,
+                                //    CarbonCopies = _copyViewers
+                                //};
+
+                                var updateRes = envelopesApi.UpdateRecipients(AccountId, TransactionId, reciepents);
                             }
+                            envelope = new Envelope();
                             envelope.Status = "sent";
                             //envelope.PurgeState = "documents_and_metadata_queued";
                             var updateEnvelopeRes = envelopesApi.Update(AccountId, TransactionId, envelope, new EnvelopesApi.UpdateOptions() {resendEnvelope = "true"});
