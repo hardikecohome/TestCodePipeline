@@ -46,6 +46,9 @@ namespace DealnetPortal.Api
 
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
+
+            container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
+                new InjectionConstructor(System.Configuration.ConfigurationManager.ConnectionStrings["AspireConnection"]));
             container.RegisterType<IAspireStorageService, AspireStorageService>();
 
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));
