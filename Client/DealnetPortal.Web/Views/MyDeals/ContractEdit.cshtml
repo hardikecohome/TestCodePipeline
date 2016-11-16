@@ -1909,6 +1909,9 @@ foreach (var comment in comments)
 
 @section scripts
 {
+    <script type="text/javascript">
+        var isMobileBrowser = @(ViewBag.IsMobileRequest ? "true" : "false");
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/contract-edit")
 }
