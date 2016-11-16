@@ -215,13 +215,14 @@ body.hasDatepicker{
 }
 body.hasDatepicker .navbar-fixed-side{
   position: absolute;
+  .ui-datepicker-title{
+    padding: 0 !important;
+  }
+  .ui-datepicker-title:after{
+    display: none !important;
+  }
 }
-.ui-datepicker-title{
-  padding: 0 !important;
-}
-.ui-datepicker-title:after{
-  display: none !important;
-}
+
 .datepicker-select{
   position: relative;
   width: 46%;
