@@ -67,7 +67,7 @@ namespace DealnetPortal.Api.Common.Helpers
                     return "SK";
                 case "YT":
                 case "YUKON":
-                case "THE Yukon":
+                case "THE YUKON":
                 case "YUKON TERRITORY":
                 case "TERRITOIRE DU YUKON":
                     return "YT";
