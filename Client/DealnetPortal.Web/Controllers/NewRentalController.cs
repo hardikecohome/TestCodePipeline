@@ -345,7 +345,7 @@ namespace DealnetPortal.Web.Controllers
             }
         }
         
-        public async Task<ActionResult> PrintContract(int contractId)
+        public async Task<FileResult> PrintContract(int contractId)
         {
             var result = await _contractServiceAgent.GetContractAgreement(contractId);
 
@@ -358,8 +358,7 @@ namespace DealnetPortal.Web.Controllers
                 return response;
             }            
 
-            return new EmptyResult();
-            //return RedirectToAction("SummaryAndConfirmation", new {contractId });
+            return new FileContentResult(new byte[] {}, "application/pdf");
         }
 
         [HttpPost]

@@ -235,10 +235,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
                     if (envelope != null)
                     {
+                        //TODO: can't sign a draft - have to deal with it
                         if (envelope.Status == "created")
                         {
                             recreateEnvelope = true;
-                        }                  
+                        }
                         //await InsertSignatures(signatureUsers);// ??
                         recreateRecipients = !AreRecipientsEqual(reciepents);
                         if (envelope.Status == "sent" && recreateRecipients)
@@ -270,11 +271,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             if (envelope.Status == "created")
                             {
                                 envelope = new Envelope();
-                                envelope.Status = "sent";
-                                //envelope.PurgeState = "documents_and_metadata_queued";
+                                envelope.Status = "sent";                                
                                 var updateEnvelopeRes =                                    
-                                        envelopesApi.Update(AccountId, TransactionId, envelope,
-                                            new EnvelopesApi.UpdateOptions() {resendEnvelope = "true"});
+                                        envelopesApi.Update(AccountId, TransactionId, envelope);
                             }
                             else
                             {
@@ -294,7 +293,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                 Header = "eSignature error",
                                 Message = ex.ToString()
                             });
-                            //throw;
                         }
                     }
                 }
@@ -306,16 +304,15 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 if (recreateEnvelope)
                 {                    
                     if (!_signers.Any() && !_copyViewers.Any())
-                    {
-                        _signers.Add(new Signer()
+                    {                        
+                        var tempSignatures = new List<SignatureUser>
                         {
-                            RoutingOrder = "1",
-                            Tabs = new Tabs()
+                            new SignatureUser()
                             {
-                                TextTabs = _textTabs,
-                                CheckboxTabs = _checkboxTabs
+                                Role = SignatureRole.Signer
                             }
-                        });
+                        };
+                        InsertSignatures(tempSignatures).GetAwaiter().GetResult();
                         _envelopeDefinition = PrepareEnvelope("created");
                     }
                     else
@@ -356,7 +353,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             DocumentId = doc.DocumentId,
                             Type = doc.Type,
                             Name = doc.Name
-                        };
+                        };                        
                         var docStream = envelopesApi.GetDocument(AccountId, TransactionId, doc.DocumentId);
                         document.DocumentRaw = new byte[docStream.Length];
                         await docStream.ReadAsync(document.DocumentRaw, 0, (int)docStream.Length);
