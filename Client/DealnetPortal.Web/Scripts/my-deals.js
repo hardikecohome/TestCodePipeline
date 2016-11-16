@@ -91,6 +91,11 @@ function showTable() {
             $("#filter-button").click(function () {
                 table.draw();
             });
+
+            table.on('draw.dt', function(){
+              redrawDataTablesSvgIcons();
+              resetDataTablesExpandedRows(table);
+            });
         });
 };
 

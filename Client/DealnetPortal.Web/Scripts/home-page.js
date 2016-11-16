@@ -93,7 +93,7 @@ function showChart() {
 function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
     .done(function (data) {
-        $('#work-items-table')
+      var table = $('#work-items-table')
             .DataTable({
                 responsive: {
                     details: {
@@ -143,6 +143,11 @@ function showTable() {
                 "<'row'<'col-md-12'i>>",
                 renderer: 'bootstrap',
             });
+
+        table.on('draw.dt', function(){
+          redrawDataTablesSvgIcons();
+        });
+
         var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
         $('#table-title').html('My Work Items  <div class="filter-controls hidden">'+ iconSearch +'</div></div>');
         $('#table-title .icon-search-control').on('click', function(){
