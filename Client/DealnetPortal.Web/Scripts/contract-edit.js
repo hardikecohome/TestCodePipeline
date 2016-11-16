@@ -21,12 +21,14 @@
             return false;
         });
 
-        $('.base-comment-text').keypress(function(e) {
-            if(e.which == 13 && !e.shiftKey) {
-                var form = $(this).parent().closest('form');
-                submitComment(form, addBaseComment);
-            }
-        });
+        if (!isMobileBrowser) {
+            $('.base-comment-text').keypress(function(e) {
+                if (e.which == 13 && !e.shiftKey) {
+                    var form = $(this).parent().closest('form');
+                    submitComment(form, addBaseComment);
+                }
+            });
+        }
 
         $('.comment .comment-remove-link').on('click', function() {
             removeComment(this);
@@ -196,12 +198,14 @@ function addReplyFrom() {
             submitComment(form, addChildComment);
             return false;
         });
-        commentForm.find('.base-comment-text').keypress(function (e) {
-            if (e.which == 13 && !e.shiftKey) {
-                var form = $(this).parent().closest('form');
-                submitComment(form, addChildComment);
-            }
-        });
+        if (!isMobileBrowser) {
+            commentForm.find('.base-comment-text').keypress(function(e) {
+                if (e.which == 13 && !e.shiftKey) {
+                    var form = $(this).parent().closest('form');
+                    submitComment(form, addChildComment);
+                }
+            });
+        }
     }
 
     return false;
