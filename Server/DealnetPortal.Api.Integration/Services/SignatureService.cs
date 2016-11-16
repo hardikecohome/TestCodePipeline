@@ -81,12 +81,16 @@ namespace DealnetPortal.Api.Integration.Services
                     return alerts;
                 }
 
-                var agreementTemplate = SelectAgreementTemplate(contract, ownerUserId);
-                if (agreementTemplate == null)
+                var agrRes = SelectAgreementTemplate(contract, ownerUserId);
+                
+                if (agrRes.Item1 == null || agrRes.Item2.Any(a => a.Type == AlertType.Error))
                 {
+                    alerts.AddRange(agrRes.Item2);
                     LogAlerts(alerts);
                     return alerts;
                 }
+
+                var agreementTemplate = agrRes.Item1;
 
                 var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
 
@@ -317,8 +321,9 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
 
-        private AgreementTemplate SelectAgreementTemplate(Contract contract, string contractOwnerId)
+        private Tuple<AgreementTemplate, IList<Alert>>  SelectAgreementTemplate(Contract contract, string contractOwnerId)
         {
+            var alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
             var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
 
@@ -379,15 +384,15 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var errorMsg =
                     $"Can't find agreement template for a dealer contract {contractOwnerId} with province = {province} and type = {agreementType}";
-                //alerts.Add(new Alert()
-                //{
-                //    Type = AlertType.Error,
-                //    Header = "Can't find agreement template",
-                //    Message = errorMsg
-                //});
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Can't find agreement template",
+                    Message = errorMsg
+                });
             }
 
-            return agreementTemplate;
+            return new Tuple<AgreementTemplate, IList<Alert>>(agreementTemplate, alerts);
         }
 
         private bool LogoutFromService()
