@@ -232,11 +232,11 @@ function commonDataTablesSettings(){
   if($('#work-items-table').length){
     $('#work-items-table, .total-info').hide();
 
-    $('#work-items-table').on( 'draw.dt', function () {
+    /*$('#work-items-table').on( 'draw.dt', function () {
       $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
       $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
       $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
-    });
+    });*/
 
     $.extend( true, $.fn.dataTable.defaults, {
       "fnInitComplete": function() {
@@ -246,6 +246,23 @@ function commonDataTablesSettings(){
       }
       });
   }
+}
+
+function resetDataTablesExpandedRows(table){
+  table.rows().every( function (i) {
+    var child = this.child;
+    var row = this.node();
+    if ( child.isShown() ) {
+      child.hide();
+      $(row).removeClass('parent');
+    }
+  } );
+}
+
+function redrawDataTablesSvgIcons(){
+  $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
+  $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
+  $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
 }
 
 function backToTop() {

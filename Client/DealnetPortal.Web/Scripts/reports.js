@@ -107,6 +107,12 @@ function showTable() {
             footerCallback: createTableFooter
         });
 
+        table.on('draw.dt', function(){
+          redrawDataTablesSvgIcons();
+          resetDataTablesExpandedRows(table);
+        });
+
+
         getTotalForSelectedCheckboxes();
         createFilter();
         $(".filter-button").click(function () {
