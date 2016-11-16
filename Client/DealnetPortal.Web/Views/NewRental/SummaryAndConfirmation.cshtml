@@ -452,7 +452,7 @@
         New Equipment <a href="#" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
     </h3>
     <div id="new-equipment-info-section">
-        <div class="row credit-check-info-hold  equipment-info cols-no-titles">
+        <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
             @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
             {
                 <div class="col-md-6">
@@ -519,31 +519,92 @@
         <p class="summary-tax-notification">** Before taxes. Payments are subject to change over the course of the term upon at least thirty (30) days written notice. See the attached Terms and Conditions.</p>
     </div>
     <div class="form-group summary-payment-info">
-        <div class="row">
-            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
-                <div class="row">
-                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                        MONTHLY PAYMENT
+        @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+        {
+            <div class="row credit-check-info-hold no-top-margin">
+                <div class="col-md-6">
+                    <div class="dealnet-credit-check-section">
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">Cash Price of Equipment</div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="equipment-cash-price">-</span></div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">HST</div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">Total Cash Price</div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="total-cash-price">-</span></div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">Total Amount Financed</div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="total-amount-financed">-</span></div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                Total Monthly Payment
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="loan-total-monthly-payment">@($"{Model.LoanCalculatorOutput.TotalMonthlyPayment:0.00}")</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                        <div class="inline-children">
-                            @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                            {
-                                <text>$</text>
-                                <div class="hidden"><span id="equipment-cash-price"></span></div>
-                                <span id="loan-total-monthly-payment">@($"{Model.LoanCalculatorOutput.TotalMonthlyPayment:0.00}")</span>
-                            }
-                            else
-                            {
-                                <text>$</text>
-                                @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, @"{0:0.00}", new {@readonly = "readonly", @class = "dealnet-disabled-input total-monthly-payment"})
-                            }
+                </div>
+                <div class="col-md-6">
+                    <div class="dealnet-credit-check-section">
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                Total of All Monthly Payments
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="loan-total-all-monthly-payments">-</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                Balance Owing at the End of Monthly Payments (Residual)
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="residual-balance">-</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                Total Obligation
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="total-obligation">-</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                Total Cost of Borrowing
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="total-borrowing-cost">-</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @if (Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
-            {
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                    <div class="row">
+                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                            MONTHLY PAYMENT
+                        </div>
+                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                            <div class="inline-children">
+                                <span>$</span>
+                                @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, @"{0:0.00}", new {@readonly = "readonly", @class = "dealnet-disabled-input total-monthly-payment"})
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                     <div class="row">
                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
@@ -564,8 +625,8 @@
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
 }
 <p>A one-time administration fee of $35.00 plus HST applies.</p>
