@@ -190,7 +190,22 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }        
+        }
+
+        [Route("GetContractAgreement")]
+        [HttpGet]
+        public IHttpActionResult GetContractAgreement(int contractId)
+        {
+            try
+            {
+                var result = ContractService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
         [Route("{summaryType}/ContractsSummary")]
         [HttpGet]

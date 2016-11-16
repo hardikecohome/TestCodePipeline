@@ -12,6 +12,7 @@ using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Tran
 using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
@@ -32,11 +33,16 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _eCoreCustomerSecurityCode;
 
         private List<string> _signatureFields = new List<string>() { "Signature1", "Signature2", "Signature3"};
-        private List<string> _signatureRoles = new List<string>();        
+        private List<string> _signatureRoles = new List<string>();
 
-        public string TransactionId { get; private set; }
+        public Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
+        {
+            throw new NotImplementedException();
+        }
 
-        public string DocumentId { get; private set; }
+        public string TransactionId { get; set; }
+
+        public string DocumentId { get; set; }
 
         private Contract _contract { get; set; }
 
@@ -69,7 +75,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> StartNewTransaction(Contract contract, AgreementTemplate agreementTemplate)
+        public async Task<IList<Alert>> InitiateTransaction(Contract contract, AgreementTemplate agreementTemplate)
         {
             var alerts = new List<Alert>();
 
@@ -187,7 +193,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendInvitations(IList<SignatureUser> signatureUsers)
+        public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();
 
@@ -267,6 +273,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             return alerts;
         }
+
+        //public Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private async Task<Tuple<long, IList<Alert>>> CreateTransaction(Contract contract)
         {

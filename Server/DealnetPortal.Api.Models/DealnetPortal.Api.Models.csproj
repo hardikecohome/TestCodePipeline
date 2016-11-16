@@ -79,6 +79,7 @@
     <Compile Include="Signature\FormField.cs" />
     <Compile Include="Signature\SignatureUser.cs" />
     <Compile Include="Signature\SignatureUsersDTO.cs" />
+    <Compile Include="Storage\AgreementDocument.cs" />
     <Compile Include="Storage\AgreementTemplateDTO.cs" />
   </ItemGroup>
   <ItemGroup>

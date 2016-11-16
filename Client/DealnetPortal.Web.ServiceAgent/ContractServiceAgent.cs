@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Web.ServiceAgent
@@ -187,6 +188,22 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError($"Can't get credit check result for contract {contractId}", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsync<Tuple<AgreementDocument, IList<Alert>>>(
+                            $"{_fullUri}/GetContractAgreement?contractId={contractId}");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contract print agreement", ex);
                 throw;
             }
         }

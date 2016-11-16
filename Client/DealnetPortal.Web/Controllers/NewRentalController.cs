@@ -344,6 +344,22 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("Error", "Info", new { alers = result?.Item2 });
             }
         }
+        
+        public async Task<FileResult> PrintContract(int contractId)
+        {
+            var result = await _contractServiceAgent.GetContractAgreement(contractId);
+
+            if (result.Item1 != null)
+            {
+                var response = new FileContentResult(result.Item1.DocumentRaw, "application/pdf")
+                {
+                    FileDownloadName = result.Item1.Name
+                };
+                return response;
+            }            
+
+            return new FileContentResult(new byte[] {}, "application/pdf");
+        }
 
         [HttpPost]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)

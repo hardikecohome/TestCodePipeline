@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Api.Models.Storage;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -68,6 +69,13 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="contractId">Contract Id</param>
         /// <returns>Credit check result and list of alerts in a tuple</returns>
         Task<Tuple<CreditCheckDTO, IList<Alert>>> GetCreditCheckResult(int contractId);
+
+        /// <summary>
+        /// Get contract print (pdf) agreement
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns></returns>
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId);
 
         /// <summary>
         /// Reports info about deals flowing
