@@ -121,8 +121,9 @@
       });
 
 
-
-      stickySection($('.sticker'));
+      if($('.sticker').length){
+        stickySection($('.sticker'));
+      }
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();

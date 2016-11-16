@@ -59,11 +59,11 @@ $(document)
 function manageAgreementElements(agreementType) {
     switch (agreementType) {
         case '0':
-            $(".equipment-cost").prop("disabled", false).parents('.form-group').show();
+            $(".equipment-cost").prop("disabled", false).parents('.equipment-cost-col').show();
             $(".equipment-cost").each(function () {
                 $(this).rules("add", "required");
             });
-            $(".monthly-cost").prop("disabled", true).parents('.form-group').hide();
+            $(".monthly-cost").prop("disabled", true).parents('.monthly-cost-col').hide();
             $(".monthly-cost").each(function () {
                 var input = $(this);
                 input.rules("remove", "required");
@@ -78,14 +78,14 @@ function manageAgreementElements(agreementType) {
             break;
         case '1':
         case '2':
-            $(".equipment-cost").prop("disabled", true).parents('.form-group').hide();
+            $(".equipment-cost").prop("disabled", true).parents('.equipment-cost-col').hide();
             $(".equipment-cost").each(function() {
                 var input = $(this);
                 input.rules("remove", "required");
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
-            $(".monthly-cost").prop("disabled", false).parents('.form-group').show();
+            $(".monthly-cost").prop("disabled", false).parents('.monthly-cost-col').show();
             $(".monthly-cost").each(function () {
                 $(this).rules("add", "required");
             });
