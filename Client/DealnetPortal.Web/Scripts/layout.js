@@ -130,6 +130,18 @@
       commonDataTablesSettings();
       recoverPassword();
 
+
+      /*Settings for propper work of datepicker inside bootstrap modal*/
+
+            var enforceModalFocusFn = $.fn.modal.Constructor.prototype.enforceFocus;
+            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            $confModal.on('hidden', function() {
+              $.fn.modal.Constructor.prototype.enforceFocus = enforceModalFocusFn;
+            });
+            $confModal.modal({ backdrop : false });
+
+      /*END Settings for propper work of datepicker inside bootstrap modal*/
+
 });
 
 function stickySection(elem){
@@ -159,38 +171,6 @@ function stickySection(elem){
         width: stickerWidth + 'px'
       });
     });
-}
-
-/*function inputDateFocus(input){
-  input.on('touchend', function(){
-    if($('.ui-datepicker').length > 0){
-      var yPos = window.pageYOffset || $(document).scrollTop();
-      setTimeout(function() {
-        window.scrollTo(0, yPos);
-      },0);
-    }
-  }).on('focus', function(){
-    $(this).blur();
-    if($('.ui-datepicker').length > 0){
-      $(this).addClass('focus');
-    }else{
-      $(this).removeClass('focus');
-    }
-  });
-}*/
-
-function beforeShowDatePicker(input) {
-  if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
-    showDatepickerBottom(input);
-  }
-}
-
-function showDatepickerBottom(input){
-  var offset = $(input).offset();
-  var height = $(input).height();
-  window.setTimeout(function () {
-    inst.dpDiv.css({ top: (offset.top + height + 14) + 'px', left: offset.left + 'px' })
-  }, 1);
 }
 
 function inputDateFocus(input){
