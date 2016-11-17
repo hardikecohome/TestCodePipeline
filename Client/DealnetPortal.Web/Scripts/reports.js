@@ -120,7 +120,7 @@ function showTable() {
         });
         $('#clear-filters').click(function () {
             $('.filter-input').val("");
-            table.draw();
+            table.search('').draw();
         });
         $('#export-excel').click(function () {
             var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
