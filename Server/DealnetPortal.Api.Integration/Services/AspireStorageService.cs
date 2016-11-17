@@ -34,6 +34,7 @@ namespace DealnetPortal.Api.Integration.Services
                                       and b.active = 1 and a.active = 1                                      
                                       ORDER BY 3, 5";
 
+            _databaseService.ExecuteReader(sqlStatement);
         }        
     }
 }
