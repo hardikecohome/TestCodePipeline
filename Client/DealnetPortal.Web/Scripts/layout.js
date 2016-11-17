@@ -128,6 +128,7 @@
       toggleClearInputIcon();
       customizeSelect();
       commonDataTablesSettings();
+      recoverPassword();
 
 });
 
@@ -177,20 +178,35 @@ function stickySection(elem){
     }
   });
 }*/
+
+function beforeShowDatePicker(input) {
+  if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
+    showDatepickerBottom(input);
+  }
+}
+
+function showDatepickerBottom(input){
+  var offset = $(input).offset();
+  var height = $(input).height();
+  window.setTimeout(function () {
+    inst.dpDiv.css({ top: (offset.top + height + 14) + 'px', left: offset.left + 'px' })
+  }, 1);
+}
+
 function inputDateFocus(input){
   input.on('click touchend', function(){
-    if(navigator.userAgent.match(/(iPod|iPhone|iPad)/) && (viewport().width < 768))
+    if((viewport().width < 768))
     {
       if($('body').not('.hasDatepicker')){
         $('body').addClass('hasDatepicker');
       }
     }
   }).on('focus', function(){
-    if(viewport().width < 768){
-      customDPSelect();
+    customDPSelect();
+    if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
+      $(this).blur()
+        .addClass('focus');
     }
-    $(this).blur()
-      .addClass('focus');
   });
 }
 
@@ -326,7 +342,7 @@ function addIconsToFields(fields){
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
   var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
   var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
-  var iconPassField = $('<svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg>');
+  var iconPassField = $('<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>');
   iconCalendar.appendTo(fieldDateParent);
   iconClearField.appendTo(fieldParent);
   iconPassField.appendTo(fieldPassParent);
@@ -356,6 +372,18 @@ function toggleClearInputIcon(fields){
     $(this).hide();
   });
 
+}
+
+function recoverPassword(){
+  var pass = $("#Password");
+  $('.recover-pass-link').on('click', function(){
+    if(pass.prop('type') == "password"){
+      pass.prop('type', 'text');
+    }else{
+      pass.prop('type', 'password');
+    }
+    return false;
+  });
 }
 
   /**
@@ -413,21 +441,24 @@ function viewport() {
 }
 
 function customDPSelect(){
-  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
   var inp = $(this);
   var selectClasses = "custom-select datepicker-select";
-  if(!$('.ui-datepicker-month').parents('.custom-select').length){
+  if($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length){
     $('.ui-datepicker-month')
       .wrap($('<div>', {
         class: selectClasses
       })).after('<span class="caret">');
   }
-  if(!$('.ui-datepicker-year').parents('.custom-select').length){
+  if($('select.ui-datepicker-year').length && !$('.ui-datepicker-year').parents('.custom-select').length){
     $('.ui-datepicker-year')
       .wrap($('<div>', {
         class: selectClasses
       })).after('<span class="caret">');
   }
-  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
-
+  if($('select.ui-datepicker-month').length){
+    $('.ui-datepicker-prev, .ui-datepicker-next').hide();
+    console.log('1')
+  }else{
+    console.log(12)
+  }
 }

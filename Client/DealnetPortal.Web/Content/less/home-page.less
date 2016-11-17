@@ -107,6 +107,18 @@
     }
 }
 
+a[href^=tel]{
+    color:inherit;
+    text-decoration:inherit;
+    font-size:inherit;
+    font-style:inherit;
+    font-weight:inherit;
+    @media @desktop-up {
+        cursor: default;
+        pointer-events: none;
+    }
+}
+
 .about-page{
     max-width: 590px;
     @media @tablet-down {
