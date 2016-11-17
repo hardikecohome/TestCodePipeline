@@ -549,7 +549,7 @@
                                 Total Monthly Payment
                             </div>
                             <div class="col-xs-4 col-sm-3 text-right text-semibold">
-                                $ <span id="loan-total-monthly-payment">@($"{Model.LoanCalculatorOutput.TotalMonthlyPayment:0.00}")</span>
+                                $ <span id="loan-total-monthly-payment">-</span>
                             </div>
                         </div>
                     </div>
@@ -1630,4 +1630,12 @@
         });
     </script>
     @Scripts.Render("~/bundles/summary-and-confirmation")
+    @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+    {
+        <script>
+            $(document).ready(function () {
+                recalculateTotalCashPrice();
+            });
+        </script>
+    }
 }
