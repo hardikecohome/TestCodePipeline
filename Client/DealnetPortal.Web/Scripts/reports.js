@@ -9,7 +9,7 @@
 		        $(this).val($(this).text());
 		    });
 		    $('<option selected value="">- not selected -</option>').prependTo($('.select-filter'));
-        $('.select-filter').val($('.select-filter > option:first').val());
+            $('.select-filter').val($('.select-filter > option:first').val());
 		});
 function assignDatepicker(input) {
     inputDateFocus(input);
