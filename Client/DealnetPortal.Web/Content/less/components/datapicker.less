@@ -211,10 +211,13 @@ html.ie9{
 
 /*Datepicker for mobile devices*/
 body.hasDatepicker{
-  position: relative
+  position: relative;
 }
 body.hasDatepicker .navbar-fixed-side{
   position: absolute;
+}
+
+@media @mobile {
   .ui-datepicker-title{
     padding: 0 !important;
   }
@@ -222,7 +225,6 @@ body.hasDatepicker .navbar-fixed-side{
     display: none !important;
   }
 }
-
 .datepicker-select{
   position: relative;
   width: 46%;

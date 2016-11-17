@@ -180,7 +180,7 @@ function stickySection(elem){
 }*/
 function inputDateFocus(input){
   input.on('click touchend', function(){
-    if(navigator.userAgent.match(/(iPod|iPhone|iPad)/) && (viewport().width < 768))
+    if((viewport().width < 768))
     {
       if($('body').not('.hasDatepicker')){
         $('body').addClass('hasDatepicker');
