@@ -204,6 +204,9 @@ function assignDatepicker(input) {
         yearRange: '1900:2016',
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(),
+        beforeShow: function (input, inst) {
+            beforeShowDatePicker(input);
+        },
         onClose: function(){
             onDateSelect($(this));
         }

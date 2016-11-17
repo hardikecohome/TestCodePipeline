@@ -178,6 +178,21 @@ function stickySection(elem){
     }
   });
 }*/
+
+function beforeShowDatePicker(input) {
+  if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
+    showDatepickerBottom(input);
+  }
+}
+
+function showDatepickerBottom(input){
+  var offset = $(input).offset();
+  var height = $(input).height();
+  window.setTimeout(function () {
+    inst.dpDiv.css({ top: (offset.top + height + 14) + 'px', left: offset.left + 'px' })
+  }, 1);
+}
+
 function inputDateFocus(input){
   input.on('click touchend', function(){
     if((viewport().width < 768))
@@ -187,11 +202,11 @@ function inputDateFocus(input){
       }
     }
   }).on('focus', function(){
-    if(viewport().width < 768){
-      customDPSelect();
+    customDPSelect();
+    if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
+      $(this).blur()
+        .addClass('focus');
     }
-    $(this).blur()
-      .addClass('focus');
   });
 }
 
@@ -426,21 +441,24 @@ function viewport() {
 }
 
 function customDPSelect(){
-  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
   var inp = $(this);
   var selectClasses = "custom-select datepicker-select";
-  if(!$('.ui-datepicker-month').parents('.custom-select').length){
+  if($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length){
     $('.ui-datepicker-month')
       .wrap($('<div>', {
         class: selectClasses
       })).after('<span class="caret">');
   }
-  if(!$('.ui-datepicker-year').parents('.custom-select').length){
+  if($('select.ui-datepicker-year').length && !$('.ui-datepicker-year').parents('.custom-select').length){
     $('.ui-datepicker-year')
       .wrap($('<div>', {
         class: selectClasses
       })).after('<span class="caret">');
   }
-  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
-
+  if($('select.ui-datepicker-month').length){
+    $('.ui-datepicker-prev, .ui-datepicker-next').hide();
+    console.log('1')
+  }else{
+    console.log(12)
+  }
 }
