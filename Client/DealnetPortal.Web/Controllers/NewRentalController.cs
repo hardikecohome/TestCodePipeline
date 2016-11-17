@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
@@ -149,7 +150,12 @@ namespace DealnetPortal.Web.Controllers
                 await Task.Delay(timeOut);
             }
 
-            //TODO: Anylyze result and show user notification
+            if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && a.Code == ErrorCodes.AspireConnectionFailed) ?? false))
+            {
+                TempData["CreditCheckErrorMessage"] = "Can't connect to Aspire for Credit Check. Try to perform Credit Check later.";
+                return RedirectToAction("CreditCheckConfirmation", new { contractId });
+            }
+
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
                 return View("~/Views/Shared/Error.cshtml");
