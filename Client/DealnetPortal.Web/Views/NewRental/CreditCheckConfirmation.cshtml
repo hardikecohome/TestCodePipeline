@@ -1,6 +1,5 @@
 ﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
 
-@TempData["CreditCheckErrorMessage"]
 <div id="label-steps">
 	<div class="dealnet-action-link">New Application</div> >
 </div>
@@ -29,11 +28,18 @@
 		<div id="step5" class="step-item">5</div>
 	</div>
 </div>
-<div class="well danger-well error-descr">
-	<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-	Lorem ipsum dolor sit amet.
-</div>
-<div class="form-container">
+    {
+        var creditCheckError = TempData["CreditCheckErrorMessage"];
+        if (creditCheckError != null)
+        {
+            <div class="well danger-well error-descr">
+                <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                @creditCheckError
+            </div>
+        }
+    }
+
+    <div class="form-container">
 	<div class="form-section">
 	<div class="row credit-check-info-hold">
 		<div class="col-md-6">

@@ -150,7 +150,7 @@ namespace DealnetPortal.Web.Controllers
                 await Task.Delay(timeOut);
             }
 
-            if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && a.Code == ErrorCodes.AspireConnectionFailed) ?? false))
+            if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
                 TempData["CreditCheckErrorMessage"] = "Can't connect to Aspire for Credit Check. Try to perform Credit Check later.";
                 return RedirectToAction("CreditCheckConfirmation", new { contractId });
