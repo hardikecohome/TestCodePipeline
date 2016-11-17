@@ -131,7 +131,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CheckCreditStatus(int contractId)
         {
             //Initiate credit status check
-            const int numOfAttempts = 3;
+            const int numOfAttempts = 2;
             TimeSpan timeOut = TimeSpan.FromSeconds(10);
 
             Tuple<CreditCheckDTO, IList<Alert>> checkResult = null;
@@ -149,6 +149,7 @@ namespace DealnetPortal.Web.Controllers
                 await Task.Delay(timeOut);
             }
 
+            //TODO: Anylyze result and show user notification
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
                 return View("~/Views/Shared/Error.cshtml");

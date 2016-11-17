@@ -28,6 +28,8 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly TimeSpan _aspireRequestTimeout;
+
         //Aspire codes
         private const string CodeSuccess = "T000";
 
@@ -38,6 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _aspireRequestTimeout = TimeSpan.FromSeconds(90);
         }
 
         public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId)
@@ -71,7 +74,21 @@ namespace DealnetPortal.Api.Integration.Services
 
                     try
                     {
-                        var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
+                        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                        var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
+                        DecisionCustomerResponse response = null;
+
+                        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                        {
+                            response = await aspireRequestTask.ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            throw new TimeoutException("The Aspire operation has timed out.");
+                        }
+
+                        //var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
+
                         var rAlerts = AnalyzeResponse(response, contract);
                         if (rAlerts.Any())
                         {
@@ -82,6 +99,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {                        
                         alerts.Add(new Alert()
                         {
+                            Code = ErrorCodes.AspireConnectionFailed,
                             Header = ErrorConstants.AspireConnectionFailed,
                             Type = AlertType.Error,
                             Message = ex.ToString()
@@ -116,10 +134,17 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            CreditCheckDTO creditCheckResult = null;
+            CreditCheckDTO creditCheckResult = null;            
 
             if (contract != null)
             {
+                if (string.IsNullOrEmpty(contract.Details?.TransactionId))
+                {
+                    _loggingService.LogWarning($"Aspire transaction wasn't created for contract {contractId} before credit check. Try to create Aspire transaction");
+                    //try to call Customer Update for create aspire transaction
+                    await UpdateContractCustomer(contractId, contractOwnerId).ConfigureAwait(false);
+                }
+
                 if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
                 {
                     CreditCheckRequest request = new CreditCheckRequest();
@@ -140,8 +165,22 @@ namespace DealnetPortal.Api.Integration.Services
 
                         try
                         {
-                            var response =
-                                await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
+                            Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                            var aspireRequestTask = _aspireServiceAgent.CreditCheckSubmission(request);
+                            DealUploadResponse response = null;
+
+                            if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                            {
+                                response = await aspireRequestTask.ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                throw new TimeoutException("The Aspire operation has timed out.");
+                            }
+
+                            //var response =
+                            //    await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
+
                             var rAlerts = AnalyzeResponse(response, contract);
                             if (rAlerts.Any())
                             {
@@ -171,6 +210,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             alerts.Add(new Alert()
                             {
+                                Code = ErrorCodes.AspireConnectionFailed,
                                 Header = ErrorConstants.AspireConnectionFailed,
                                 Type = AlertType.Error,
                                 Message = ex.ToString()
@@ -183,6 +223,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.Add(new Alert()
                     {
+                        Code = ErrorCodes.AspireTransactionNotCreated,
                         Header = "Aspire error",
                         Message = $"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first",
                         Type = AlertType.Error
@@ -194,6 +235,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 alerts.Add(new Alert()
                 {
+                    Code = ErrorCodes.CantGetContractFromDb,
                     Header = "Can't get contract",
                     Message = $"Can't get contract with id {contractId}",
                     Type = AlertType.Error
