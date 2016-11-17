@@ -75,7 +75,7 @@ function showTable() {
                     },
                     {// this is Actions Column
                         "render": function (sdata, type, row) {
-                            return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+                            return '<div class="contract-controls"><a class="icon-link preview-item" onclick="previewItem.call(this);"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-preview"></use></a><a class="icon-link export-item" onclick="exportItem.call(this);"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
                         },
                         className: 'controls-cell'
                     }
@@ -135,14 +135,6 @@ function showTable() {
             });
             submitExportRequest(ids);
         });
-        $('.export-item').click(function () {
-            var tr = $(this).parents('tr');
-            //var id = $(tr).find(':nth-child(2)').text();
-            var id = $(tr)[0].id;
-            var arr = [];
-            arr[0] = id;
-            submitExportRequest(arr);
-        });
         $('#preview-button').click(function () {
             var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
                 return $(tr)[0].id;
@@ -153,12 +145,23 @@ function showTable() {
                 submitSinglePreviewRequest(ids[0]);
             }
         });
-        $('.preview-item').click(function () {
-            var tr = $(this).parents('tr');                                   
-            var id = $(tr)[0].id;
-            submitSinglePreviewRequest(id);
-        });
     });
+};
+
+function exportItem() {
+    var tr = $(this).parents('tr');
+    //var id = $(tr).find(':nth-child(2)').text();
+    var id = $(tr)[0].id;
+    var arr = [];
+    arr[0] = id;
+    submitExportRequest(arr);
+};
+
+
+function previewItem() {
+    var tr = $(this).parents('tr');
+    var id = $(tr)[0].id;
+    submitSinglePreviewRequest(id);
 };
 
 $.fn.dataTable.ext.search.push(
