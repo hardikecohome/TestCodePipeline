@@ -120,60 +120,74 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract != null)
             {
-                CreditCheckRequest request = new CreditCheckRequest();
-
-                var userResult = GetAspireUser(contractOwnerId);
-                if (userResult.Item2.Any())
+                if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
                 {
-                    alerts.AddRange(userResult.Item2);
-                }
-                if (alerts.All(a => a.Type != AlertType.Error))
-                {
-                    request.Header = userResult.Item1;
-                    
-                    request.Payload = new Payload()
-                    {
-                        TransactionId = contract.Details?.TransactionId
-                    };
+                    CreditCheckRequest request = new CreditCheckRequest();
 
-                    try
+                    var userResult = GetAspireUser(contractOwnerId);
+                    if (userResult.Item2.Any())
                     {
-                        var response = await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeResponse(response, contract);                        
-                        if (rAlerts.Any())
+                        alerts.AddRange(userResult.Item2);
+                    }
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        request.Header = userResult.Item1;
+
+                        request.Payload = new Payload()
                         {
-                            alerts.AddRange(rAlerts);
-                        }
-                        if (rAlerts.All(a => a.Type != AlertType.Error))
+                            TransactionId = contract.Details.TransactionId
+                        };
+
+                        try
                         {
-                            creditCheckResult = GetCreditCheckResult(response);
-                            if (creditCheckResult != null)
+                            var response =
+                                await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
+                            var rAlerts = AnalyzeResponse(response, contract);
+                            if (rAlerts.Any())
                             {
-                                creditCheckResult.ContractId = contractId;
+                                alerts.AddRange(rAlerts);
+                            }
+                            if (rAlerts.All(a => a.Type != AlertType.Error))
+                            {
+                                creditCheckResult = GetCreditCheckResult(response);
+                                if (creditCheckResult != null)
+                                {
+                                    creditCheckResult.ContractId = contractId;
+                                }
+                            }
+                            else
+                            {
+                                //TODO: Only for test. Remove in the future
+                                creditCheckResult = new CreditCheckDTO()
+                                {
+                                    CreditCheckState = CreditCheckState.Approved,
+                                    ScorecardPoints = 150,
+                                    CreditAmount = 10000,
+                                    ContractId = contractId
+                                };
                             }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            //TODO: Only for test. Remove in the future
-                            creditCheckResult = new CreditCheckDTO()
+                            alerts.Add(new Alert()
                             {
-                                CreditCheckState = CreditCheckState.Approved,
-                                ScorecardPoints = 150,
-                                CreditAmount = 10000,
-                                ContractId = contractId
-                            };
+                                Header = ErrorConstants.AspireConnectionFailed,
+                                Type = AlertType.Error,
+                                Message = ex.ToString()
+                            });
+                            _loggingService.LogError("Failed to communicate with Aspire", ex);
                         }
                     }
-                    catch (Exception ex)
+                }
+                else
+                {
+                    alerts.Add(new Alert()
                     {
-                        alerts.Add(new Alert()
-                        {
-                            Header = ErrorConstants.AspireConnectionFailed,
-                            Type = AlertType.Error,
-                            Message = ex.ToString()
-                        });
-                        _loggingService.LogError("Failed to communicate with Aspire", ex);
-                    }
+                        Header = "Aspire error",
+                        Message = $"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first",
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first");
                 }
             }
             else
