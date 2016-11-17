@@ -128,6 +128,7 @@
       toggleClearInputIcon();
       customizeSelect();
       commonDataTablesSettings();
+      recoverPassword();
 
 });
 
@@ -326,7 +327,7 @@ function addIconsToFields(fields){
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
   var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
   var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
-  var iconPassField = $('<svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg>');
+  var iconPassField = $('<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>');
   iconCalendar.appendTo(fieldDateParent);
   iconClearField.appendTo(fieldParent);
   iconPassField.appendTo(fieldPassParent);
@@ -356,6 +357,18 @@ function toggleClearInputIcon(fields){
     $(this).hide();
   });
 
+}
+
+function recoverPassword(){
+  var pass = $("#Password");
+  $('.recover-pass-link').on('click', function(){
+    if(pass.prop('type') == "password"){
+      pass.prop('type', 'text');
+    }else{
+      pass.prop('type', 'password');
+    }
+    return false;
+  });
 }
 
   /**
