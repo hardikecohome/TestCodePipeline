@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Models.Aspire.AspireDb;
 using DealnetPortal.DataAccess;
 using DealnetPortal.Utilities;
 
@@ -34,7 +35,29 @@ namespace DealnetPortal.Api.Integration.Services
                                       and b.active = 1 and a.active = 1                                      
                                       ORDER BY 3, 5";
 
-            _databaseService.ExecuteReader(sqlStatement);
-        }        
+            var list = GetListFromQuery(sqlStatement, _databaseService, ReadDropDownItem);
+        }
+
+        private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
+        {
+            //Define list
+            var resultList = new List<T>();
+
+            //Execute query and populate data 
+            using (IDataReader reader = ds.ExecuteReader(query))
+            {                
+                while (reader.Read())
+                {
+                    resultList.Add(func(reader));
+                }
+            }
+
+            return resultList;
+        }
+
+        private DropDownItem ReadDropDownItem(IDataReader dr)
+        {
+            return null;
+        }
     }
 }
