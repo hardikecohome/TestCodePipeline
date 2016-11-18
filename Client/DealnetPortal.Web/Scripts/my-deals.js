@@ -18,6 +18,15 @@ function assignDatepicker(input) {
         yearRange: '1900:2016',
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(),
+        beforeShow: function (input, inst) {
+          if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
+            var offset = $(input).offset();
+            var height = $(input).height();
+            window.setTimeout(function () {
+              inst.dpDiv.css({ top: (offset.top + height + 14) + 'px', left: offset.left + 'px' })
+            }, 1);
+          }
+        },
         onClose: function(){
           onDateSelect($(this));
         }
