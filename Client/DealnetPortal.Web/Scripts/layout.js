@@ -131,16 +131,11 @@
       recoverPassword();
 
 
-      /*Settings for propper work of datepicker inside bootstrap modal*/
+        /*Settings for propper work of datepicker inside bootstrap modal*/
 
-            var enforceModalFocusFn = $.fn.modal.Constructor.prototype.enforceFocus;
-            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
-            $confModal.on('hidden', function() {
-              $.fn.modal.Constructor.prototype.enforceFocus = enforceModalFocusFn;
-            });
-            $confModal.modal({ backdrop : false });
+        $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 
-      /*END Settings for propper work of datepicker inside bootstrap modal*/
+        /*END Settings for propper work of datepicker inside bootstrap modal*/
 
 });
 
