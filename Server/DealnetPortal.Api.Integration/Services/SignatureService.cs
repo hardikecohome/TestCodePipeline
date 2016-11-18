@@ -406,7 +406,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 formFields.Add(new FormField() {FieldType = FieldType.Text, Name = PdfFormFields.FirstName, Value = contract.PrimaryCustomer.FirstName });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LastName, Value = contract.PrimaryCustomer.LastName });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DateOfBirth, Value = contract.PrimaryCustomer.DateOfBirth.ToShortDateString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DateOfBirth, Value = contract.PrimaryCustomer.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
                 if (contract.PrimaryCustomer.Locations?.Any() ?? false)
                 {
                     var mainAddress =
@@ -585,9 +585,12 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract.Equipment != null)
             {
-                var totalMp = _contractRepository.GetContractTotalMonthlyPayment(contract.Id);
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalPayment, Value = contract.Equipment.TotalMonthlyPayment?.ToString(CultureInfo.CurrentCulture) });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalMonthlyPayment, Value = totalMp.ToString(CultureInfo.CurrentCulture) });                
+                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id);
+
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalPayment, Value = paySummary.TotalPayment?.ToString("F", CultureInfo.InvariantCulture) });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalMonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Hst, Value = paySummary.Hst?.ToString("F",CultureInfo.InvariantCulture) });
             }            
         }
 

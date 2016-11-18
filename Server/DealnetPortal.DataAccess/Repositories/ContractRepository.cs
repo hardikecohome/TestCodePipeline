@@ -333,6 +333,47 @@ namespace DealnetPortal.DataAccess.Repositories
             return totalMp;
         }
 
+        public PaymentSummary GetContractPaymentsSummary(int contractId)
+        {
+            PaymentSummary paymentSummary = new PaymentSummary();
+
+            var contract = _dbContext.Contracts.Find(contractId);
+            if (contract != null)
+            {
+                var rate =
+                    GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                            l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State);
+
+                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                {
+                    var loanCalculatorInput = new LoanCalculator.Input
+                    {
+                        TaxRate = rate.Rate,
+                        LoanTerm = contract.Equipment.RequestedTerm,
+                        AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                        EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                        AdminFee = contract.Equipment.AdminFee ?? 0,
+                        DownPayment = contract.Equipment.DownPayment ?? 0,
+                        CustomerRate = contract.Equipment.CustomerRate ?? 0
+                    };
+                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
+                    paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                }
+                else
+                {
+                    paymentSummary.MonthlyPayment = contract.Equipment.TotalMonthlyPayment;
+                    paymentSummary.Hst = (contract.Equipment.TotalMonthlyPayment ?? 0)*(decimal) (rate.Rate/100);
+                    paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) + (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(rate.Rate / 100);
+                }
+            }
+
+            return paymentSummary;
+        }
+
         public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
         {
             var contract = _dbContext.Contracts.Find(contractId);            

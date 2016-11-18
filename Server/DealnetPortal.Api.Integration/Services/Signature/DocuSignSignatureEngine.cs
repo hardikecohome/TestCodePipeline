@@ -301,6 +301,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     recreateEnvelope = true;
                 }
 
+                recreateEnvelope = true;
+
                 if (recreateEnvelope)
                 {                    
                     if (!_signers.Any() && !_copyViewers.Any())
