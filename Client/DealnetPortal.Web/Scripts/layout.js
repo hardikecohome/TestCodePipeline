@@ -20,6 +20,18 @@
 
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
+
+        /*Settings for propper work of datepicker inside bootstrap modal*/
+
+        var enforceModalFocusFn = $.fn.modal.Constructor.prototype.enforceFocus;
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+        $confModal.on('hidden', function() {
+          $.fn.modal.Constructor.prototype.enforceFocus = enforceModalFocusFn;
+        });
+        $confModal.modal({ backdrop : false });
+
+        /*END Settings for propper work of datepicker inside bootstrap modal*/
+
       }).on('hidden.bs.modal', function () {
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
@@ -131,16 +143,7 @@
       recoverPassword();
 
 
-      /*Settings for propper work of datepicker inside bootstrap modal*/
 
-            var enforceModalFocusFn = $.fn.modal.Constructor.prototype.enforceFocus;
-            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
-            $confModal.on('hidden', function() {
-              $.fn.modal.Constructor.prototype.enforceFocus = enforceModalFocusFn;
-            });
-            $confModal.modal({ backdrop : false });
-
-      /*END Settings for propper work of datepicker inside bootstrap modal*/
 
 });
 
