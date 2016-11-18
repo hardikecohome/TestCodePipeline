@@ -249,6 +249,7 @@
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName)
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].LastName)
 		            @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate)
+                    @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].Sin)
                 }
             }
             @Html.HiddenFor(m => m.BasicInfo.SubmittingDealerId)
@@ -279,12 +280,23 @@
                         </div>
                     </div>
 
+		            <div class="form-group">
+		                <div class="row">
+		                    @Html.Label("", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
+		                    <div class="dealnet-field-holder col-xs-6">
+		                        <div class="control-group date-group">
+		                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = ""})
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+
                     <div class="form-group">
                         <div class="row">
-                            @Html.Label("", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
+                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.Sin, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group date-group">
-                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = "" })
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.Sin, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                 </div>
                             </div>
                         </div>
@@ -564,6 +576,17 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].Sin, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].Sin, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

@@ -130,6 +130,7 @@ function hideAditional1Section() {
     $("#additional-first-name-1").prop("disabled", true);
     $("#additional-last-name-1").prop("disabled", true);
     $("#additional-birth-date-1").prop("disabled", true);
+    $("#additional-sin-number-1").prop("disabled", true);
     addAdditionalButton.show();
 }
 function hideAditional2Section() {
@@ -139,6 +140,7 @@ function hideAditional2Section() {
     $("#additional-first-name-2").prop("disabled", true);
     $("#additional-last-name-2").prop("disabled", true);
     $("#additional-birth-date-2").prop("disabled", true);
+    $("#additional-sin-number-2").prop("disabled", true);
     addAdditionalButton.show();
 }
 function hideAditional3Section() {
@@ -148,6 +150,7 @@ function hideAditional3Section() {
     $("#additional-first-name-3").prop("disabled", true);
     $("#additional-last-name-3").prop("disabled", true);
     $("#additional-birth-date-3").prop("disabled", true);
+    $("#additional-sin-number-3").prop("disabled", true);
     addAdditionalButton.show();
 }
 function enableMailingAddress() {
@@ -172,6 +175,7 @@ function showAditional1Section() {
     $("#additional-first-name-1").prop("disabled", false);
     $("#additional-last-name-1").prop("disabled", false);
     $("#additional-birth-date-1").prop("disabled", false);
+    $("#additional-sin-number-1").prop("disabled", false);
     if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
         addAdditionalButton.hide();
     }
@@ -182,6 +186,7 @@ function showAditional2Section() {
     $("#additional-first-name-2").prop("disabled", false);
     $("#additional-last-name-2").prop("disabled", false);
     $("#additional-birth-date-2").prop("disabled", false);
+    $("#additional-sin-number-2").prop("disabled", false);
     if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
         addAdditionalButton.hide();
     }
@@ -192,6 +197,7 @@ function showAditional3Section() {
     $("#additional-first-name-3").prop("disabled", false);
     $("#additional-last-name-3").prop("disabled", false);
     $("#additional-birth-date-3").prop("disabled", false);
+    $("#additional-sin-number-3").prop("disabled", false);
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {

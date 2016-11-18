@@ -716,6 +716,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.FirstName = customer.FirstName;
                 dbCustomer.LastName = customer.LastName;
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
+                dbCustomer.Sin = customer.Sin;
             }
             //if (dbCustomer.Locations == null)
             //{

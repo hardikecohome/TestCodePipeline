@@ -205,16 +205,26 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Date of Birth</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@(contract.BasicInfo?.HomeOwner?.BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
-										</div>
-									</div>
-								</div>
-							</div>
+						    <div class="form-group">
+						        <div class="row">
+						            <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
+						            <div class="dealnet-field-holder col-xs-6">
+						                <div class="control-group">
+						                    @(contract.BasicInfo?.HomeOwner?.BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Sin</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(contract.BasicInfo?.HomeOwner?.Sin)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				@if (contract.BasicInfo?.AdditionalApplicants != null)
@@ -244,16 +254,26 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Date of Birth</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@(applicant.BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
-										</div>
-									</div>
-								</div>
-							</div>
+						    <div class="form-group">
+						        <div class="row">
+						            <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
+						            <div class="dealnet-field-holder col-xs-6">
+						                <div class="control-group">
+						                    @(applicant.BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Sin</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @applicant.Sin
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
                     }

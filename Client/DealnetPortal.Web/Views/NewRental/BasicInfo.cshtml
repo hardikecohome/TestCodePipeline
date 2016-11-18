@@ -183,6 +183,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="sin-number">SIN</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.Sin, new { @class = "form-control dealnet-input", id = "sin-number", placeholder = "SIN" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="additional1-section"@if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[0]?.FirstName != null) { <text>data-initialized="true"</text> }>
@@ -256,6 +265,15 @@
                     <div class="control-group date-group">
                         @Html.TextBoxFor(m => m.AdditionalApplicants[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional-birth-date-1", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today"})
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].BirthDate, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="additional-sin-number-1">SIN</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[0].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-1", placeholder = "SIN" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[0].Sin, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -336,6 +354,15 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="additional-sin-number-2">SIN</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[1].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-2", placeholder = "SIN" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[1].Sin, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -410,6 +437,15 @@
                     <div class="control-group date-group">
                         @Html.TextBoxFor(m => m.AdditionalApplicants[2].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional-birth-date-3", placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today"})
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].BirthDate, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label for="additional-sin-number-3">SIN</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[2].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-3", placeholder = "SIN" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[2].Sin, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
