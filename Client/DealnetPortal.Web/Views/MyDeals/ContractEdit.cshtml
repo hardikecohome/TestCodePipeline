@@ -505,10 +505,20 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
+                                @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new {@class = "dealnet-field-caption col-xs-6"})
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", type = "email" })
+                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", type = "email"})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.DriverLicenseNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                     </div>
                                 </div>
                             </div>
@@ -632,6 +642,15 @@
                                             <div class="dealnet-field-holder col-xs-6">
                                                 @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress,
                                                     new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].DriverLicenseNumber,
+                                                    new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                             </div>
                                         </div>
                                     </div>
@@ -1376,11 +1395,22 @@ foreach (var comment in comments)
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @class = "dealnet-field-caption" })
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new {@class = "dealnet-field-caption"})
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", type = "email" })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", type = "email"})
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.DriverLicenseNumber, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.DriverLicenseNumber, new { @class = "form-control dealnet-input" })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.DriverLicenseNumber, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -1805,11 +1835,24 @@ foreach (var comment in comments)
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
+                                                @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new {@class = "dealnet-field-caption col-xs-6"})
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
-                                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", type = "email" })
-                                                        @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
+                                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", type = "email"})
+                                                        @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, "", new {@class = "text-danger"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    <div class="control-group">
+                                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].DriverLicenseNumber, new { @class = "form-control dealnet-input" })
+                                                        @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].DriverLicenseNumber, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
                                             </div>

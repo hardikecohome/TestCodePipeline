@@ -125,7 +125,9 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Email Address")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
-        //[RegularExpression(@"^[0-9\.,]+$", ErrorMessage = "House Size is in incorrect format")]        
+
+        [Display(Name = "Driver License Number")]
+        public string DriverLicenseNumber { get; set; }
 
         public string FirstName { get; set; }
 

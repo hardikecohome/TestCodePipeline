@@ -369,16 +369,26 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Email Address</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.EmailAddress)
-								</div>
-							</div>
-						</div>
-					</div>
+				    <div class="form-group">
+				        <div class="row">
+				            <label class="dealnet-field-caption col-xs-6">Email Address</label>
+				            <div class="dealnet-field-holder col-xs-6">
+				                <div class="control-group">
+				                    @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.EmailAddress)
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.DriverLicenseNumber)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
 		</div>

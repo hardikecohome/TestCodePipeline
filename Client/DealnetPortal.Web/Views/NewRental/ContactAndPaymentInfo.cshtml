@@ -76,6 +76,15 @@
             </div>
             <div class="col-md-6 col-lg-6">
                 <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwnerContactInfo.DriverLicenseNumber)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.DriverLicenseNumber, new { @class = "form-control dealnet-input", placeholder = "Driver License" })
+                        @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.DriverLicenseNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="form-group">
                     @Html.LabelFor(m => m.HouseSize)
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.HouseSize, new {@class = "form-control dealnet-input", id = "house-size", placeholder = "House Size"})
@@ -126,8 +135,17 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address", type = "email" })
-                                @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address", type = "email"})
+                                @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.CoBorrowersContactInfo[i].DriverLicenseNumber)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].DriverLicenseNumber, new { @class = "form-control dealnet-input", placeholder = "Driver License" })
+                                @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].DriverLicenseNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
