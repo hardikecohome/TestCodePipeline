@@ -1408,7 +1408,7 @@ foreach (var comment in comments)
                                             <div class="control-group">
                                                 @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
                                             ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type }),
-                                            new { @class = "form-control" })
+                                            new { @readonly = "readonly", @class = "form-control control-disabled" })
                                             </div>
                                         </div>
                                     </div>
@@ -1426,12 +1426,12 @@ foreach (var comment in comments)
                                 </div>
                                 @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                                 {
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "form-control dealnet-input"})
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @readonly = "readonly", @class = "form-control control-disabled" })
                                                     @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Cost, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1445,7 +1445,7 @@ foreach (var comment in comments)
                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "form-control dealnet-input"})
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @readonly = "readonly", @class = "form-control control-disabled" })
                                                     @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>

@@ -1,4 +1,5 @@
-﻿$(document)
+﻿var table;
+$(document)
 		.ready(function () {
 		    showTable();
 		    assignDatepicker($(".date-control"));
@@ -29,7 +30,7 @@ function assignDatepicker(input) {
 function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
     .done(function (data) {
-            var table = $('#work-items-table')
+            table = $('#work-items-table')
                 .DataTable({
                     data: data,
                     rowId: 'Id',
@@ -75,7 +76,7 @@ function showTable() {
                     },
                     {// this is Actions Column
                         "render": function (sdata, type, row) {
-                            return '<div class="contract-controls"><a href="#" class="icon-link preview-item"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></a><a href="#" class="icon-link export-item"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+                            return '<div class="contract-controls"><a class="icon-link preview-item" onclick="previewItem.call(this);"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-preview"></use></a><a class="icon-link export-item" onclick="exportItem.call(this);"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
                         },
                         className: 'controls-cell'
                     }
@@ -120,32 +121,24 @@ function showTable() {
         });
         $('#clear-filters').click(function () {
             $('.filter-input').val("");
-            table.draw();
+            table.search('').draw();
         });
         $('#export-excel').click(function () {
-            var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
-                return $(tr)[0].id;
+            var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                return tr.id;
             });
             submitExportRequest(ids);
         });
         $('#export-all-excel').click(function () {
-            var ids = $.map($('#work-items-table tbody tr'), function (tr) {
+            var ids = $.map(table.rows('tr', { search: 'applied' }).nodes(), function (tr) {
                 //return $(tr).find(':nth-child(2)').text();
-                return $(tr)[0].id;
+                return tr.id;
             });
             submitExportRequest(ids);
         });
-        $('.export-item').click(function () {
-            var tr = $(this).parents('tr');
-            //var id = $(tr).find(':nth-child(2)').text();
-            var id = $(tr)[0].id;
-            var arr = [];
-            arr[0] = id;
-            submitExportRequest(arr);
-        });
         $('#preview-button').click(function () {
-            var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
-                return $(tr)[0].id;
+            var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                return tr.id;
             });
             if (ids.length > 1) {
                 submitMultiplePreviewRequest(ids);
@@ -153,12 +146,23 @@ function showTable() {
                 submitSinglePreviewRequest(ids[0]);
             }
         });
-        $('.preview-item').click(function () {
-            var tr = $(this).parents('tr');                                   
-            var id = $(tr)[0].id;
-            submitSinglePreviewRequest(id);
-        });
     });
+};
+
+function exportItem() {
+    var tr = $(this).parents('tr');
+    //var id = $(tr).find(':nth-child(2)').text();
+    var id = $(tr)[0].id;
+    var arr = [];
+    arr[0] = id;
+    submitExportRequest(arr);
+};
+
+
+function previewItem() {
+    var tr = $(this).parents('tr');
+    var id = $(tr)[0].id;
+    submitSinglePreviewRequest(id);
 };
 
 $.fn.dataTable.ext.search.push(
