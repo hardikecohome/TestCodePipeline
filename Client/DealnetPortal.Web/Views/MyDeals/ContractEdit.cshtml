@@ -714,11 +714,11 @@
 	                        <div class="inline-children">
 	                            @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                                 {
-                                    <span>$</span>@(Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment, 2))
+                                    <text>$</text>@(Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment, 2))
                                 }
                                 else
                                 {
-                                    <span>$</span>@Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    <text>$</text>@Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                 }
 	                        </div>
 	                    </div>
@@ -964,7 +964,7 @@
 if (comments == null) { return; }
 foreach (var comment in comments)
 {
-    <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <span>active</span> }" >
+    <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }" >
         <div class="commetn-header">
             <span class="comment-user">
                 <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
@@ -980,12 +980,12 @@ foreach (var comment in comments)
         </div>
         <div class="comment-body">
             <input hidden name="comment-id" value="@comment.Id"/>
-            <p>@comment.Text</p>
-            <a href="#" class="comment-remove-link" @if (!comment.IsOwn || (comment.Replies != null && comment.Replies.Any())) { <span>style="display:none;"</span> }><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+            <p style="white-space: pre-wrap;">@comment.Text</p>
+            <a href="#" class="comment-remove-link" @if (!comment.IsOwn || (comment.Replies != null && comment.Replies.Any())) { <text>style="display:none;"</text> }><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
         </div>
         <div class="comment-footer">
             <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> answer(s)</a>
-            <a href="#" class="dealnet-success-link write-reply-link @if (comment.Replies != null && comment.Replies.Any()) { <span>active</span> }">Write a reply</a>
+            <a href="#" class="dealnet-success-link write-reply-link @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">Write a reply</a>
         </div>
 
     </div>
