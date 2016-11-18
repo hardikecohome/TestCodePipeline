@@ -67,7 +67,7 @@
         }else{
           $(this).after($('<div/>',{
             class: "dealnet-disabled-input dealnet-disabled-input-value",
-            text: inpValue
+            html: inpValue.replace(/\r?\n/g, '<br />')
           }));
         }
       });

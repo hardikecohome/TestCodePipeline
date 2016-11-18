@@ -32,7 +32,7 @@ function copyFormData(form1, form2, validate, additionalValidation) {
     setTimeout(function(){
         $('input, select, textarea', form2).each(function(){
             var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).val();
-            $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').text(inpValue);
+            $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').html(inpValue.replace(/\r?\n/g, '<br />'));
         });
     }, 300);
 
