@@ -472,7 +472,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var addApplicant = contract.SecondaryCustomers.First();
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.FirstName2, Value = addApplicant.FirstName });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LastName2, Value = addApplicant.LastName });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DateOfBirth2, Value = addApplicant.DateOfBirth.ToShortDateString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DateOfBirth2, Value = addApplicant.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
             }
         }
 
@@ -486,7 +486,7 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = "1" });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description.ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = fstEq.Cost.ToString() });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString(CultureInfo.CurrentCulture) });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
 
                 var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)
@@ -496,12 +496,12 @@ namespace DealnetPortal.Api.Integration.Services
                         case "ECO1": // Air Conditioner
                             formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsAirConditioner, Value = "true" });
                             formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AirConditionerDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AirConditionerMonthlyRental, Value = eq.MonthlyCost?.ToString(CultureInfo.CurrentCulture) });
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AirConditionerMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
                             break;
                         case "ECO2": // Boiler
                             formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsBoiler, Value = "true" });
                             formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BoilerDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BoilerMonthlyRental, Value = eq.MonthlyCost?.ToString(CultureInfo.CurrentCulture) });
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BoilerMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
                             break;
                         case "ECO3": // Doors
                             othersEq.Add(eq);
@@ -512,7 +512,7 @@ namespace DealnetPortal.Api.Integration.Services
                         case "ECO5": // Furnace
                             formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsFurnace, Value = "true" });
                             formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.FurnaceDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.FurnaceMonthlyRental, Value = eq.MonthlyCost?.ToString(CultureInfo.CurrentCulture) });
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.FurnaceMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
                             break;
                         case "ECO6": // HWT
                             othersEq.Add(eq);
@@ -547,7 +547,7 @@ namespace DealnetPortal.Api.Integration.Services
                         case "ECO44": // Water Treatment System
                             formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsWaterFiltration, Value = "true" });
                             formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.WaterFiltrationDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.WaterFiltrationMonthlyRental, Value = eq.MonthlyCost?.ToString(CultureInfo.CurrentCulture) });
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.WaterFiltrationMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
                             break;
                         case "ECO45": // Heat Pump
                             othersEq.Add(eq);
@@ -579,7 +579,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsOther1, Value = "true" });
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.OtherDetails1, Value = othersEq.First().Description });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.OtherMonthlyRental1, Value = othersEq.First().MonthlyCost?.ToString(CultureInfo.CurrentCulture) });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.OtherMonthlyRental1, Value = othersEq.First().MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
                 }
 
             }
