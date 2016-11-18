@@ -314,7 +314,7 @@ function addBaseComment(form, json) {
     var commentTemplate = $('#comment-template').clone();
     commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
     var commentText = $('.base-comment-text');
-    commentTemplate.find(".comment-body p").text(commentText.val());
+    commentTemplate.find(".comment-body p").html(commentText.val().replace(/\r?\n/g, '<br />'));
     commentText.val("");
     commentTemplate.find(".comment-user .comment-username").text(form.parent().closest('.comments-widget').data('username'));
     commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
@@ -331,7 +331,7 @@ function addChildComment(form, json) {
     var currComments = parentComment.next('ul').find('li:first');
     var commentTemplate = $('#comment-template').clone();
     commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
-    commentTemplate.find(".comment-body p").text(form.find('.base-comment-text').val());
+    commentTemplate.find(".comment-body p").html(form.find('.base-comment-text').val().replace(/\r?\n/g, '<br />'));
     commentTemplate.find(".comment-user .comment-username").text(form.parent().closest('.comments-widget').data('username'));
     commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
     commentTemplate.attr("id", "");
