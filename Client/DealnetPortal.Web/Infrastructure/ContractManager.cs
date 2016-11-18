@@ -324,8 +324,11 @@ namespace DealnetPortal.Web.Infrastructure
             await MapBasicInfo(summary.BasicInfo, contract);
             summary.EquipmentInfo = new EquipmentInformationViewModel();
             summary.EquipmentInfo.ContractId = contractId;
-            summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
             summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
+            if (summary.EquipmentInfo != null)
+            {
+                summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
+            }
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
