@@ -1,4 +1,5 @@
-﻿$(document)
+﻿var table;
+$(document)
 		.ready(function () {
 		    showTable();
 		    assignDatepicker($(".date-control"));
@@ -29,7 +30,7 @@ function assignDatepicker(input) {
 function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
     .done(function (data) {
-            var table = $('#work-items-table')
+            table = $('#work-items-table')
                 .DataTable({
                     data: data,
                     rowId: 'Id',
@@ -123,21 +124,21 @@ function showTable() {
             table.search('').draw();
         });
         $('#export-excel').click(function () {
-            var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
-                return $(tr)[0].id;
+            var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                return tr.id;
             });
             submitExportRequest(ids);
         });
         $('#export-all-excel').click(function () {
-            var ids = $.map($('#work-items-table tbody tr'), function (tr) {
+            var ids = $.map(table.rows('tr', { search: 'applied' }).nodes(), function (tr) {
                 //return $(tr).find(':nth-child(2)').text();
-                return $(tr)[0].id;
+                return tr.id;
             });
             submitExportRequest(ids);
         });
         $('#preview-button').click(function () {
-            var ids = $.map($('#work-items-table tbody tr.selected'), function (tr) {
-                return $(tr)[0].id;
+            var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                return tr.id;
             });
             if (ids.length > 1) {
                 submitMultiplePreviewRequest(ids);
