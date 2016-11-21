@@ -359,7 +359,18 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<Alert> SubmitContract(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
-            //stub for future Aspire submit
+
+            var aspireAlerts = _aspireService.SubmitDeal(contractId, contractOwnerId).GetAwaiter().GetResult();
+            if (aspireAlerts?.Any() ?? false)
+            {
+                alerts.AddRange(aspireAlerts);
+            }
+
+            if (aspireAlerts?.All(ae => ae.Type != AlertType.Error) ?? false)
+            {
+                //TODO: do aspire credit check after call of submit deal
+            }
+
             var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
             if (contract != null)
             {

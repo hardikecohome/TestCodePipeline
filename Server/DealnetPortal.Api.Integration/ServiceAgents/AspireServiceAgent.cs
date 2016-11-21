@@ -20,8 +20,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
         {
             CancellationToken cancellationToken = new CancellationToken();
 
-            //api/dealuploader/DealUploadSubmission.aspx
-            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponse>($"{_fullUri}/dealuploader/DealUploadSubmission.aspx", dealUploadRequest, cancellationToken);
+            //api/dealuploader/DealUploadSubmission.aspx - old
+            //api//DealUploadWeb/ODDealUploadSubmission.aspx - new
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DealUploadResponse>($"{_fullUri}/DealUploadWeb/ODDealUploadSubmission.aspx", dealUploadRequest, cancellationToken);
         }
 
         public async Task<DecisionCustomerResponse> CustomerUploadSubmission(CustomerRequest customerRequest)
