@@ -90,7 +90,7 @@ namespace DealnetPortal.Api.Models.Aspire
         public string Cost { get; set; }
         [XmlElement(ElementName = "SerialNumber")]
         public string SerialNumber { get; set; }
-        [XmlElement(ElementName = "Equip_Cost")]
+        [XmlElement(ElementName = "Asset_Class")]
         public AssetClass AssetClass { get; set; }
    
         [XmlElement("UDF")]
