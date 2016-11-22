@@ -27,6 +27,10 @@ namespace DealnetPortal.Domain
         public string LastName { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
+
+        [StringLength(9, MinimumLength = 9)]
+        public string Sin { get; set; }
+        public string DriverLicenseNumber { get; set; }
         
         public virtual ICollection<Location> Locations { get; set; }
 

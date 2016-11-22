@@ -151,15 +151,6 @@ namespace DealnetPortal.Web.Infrastructure
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
 
-            basicInfo.AddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MainAddress));
-            basicInfo.MailingAddressInformation =
-                AutoMapper.Mapper.Map<AddressInformation>(
-                    contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                        l => l.AddressType == AddressType.MailAddress));
-
             basicInfo.SubmittingDealerId = contract.DealerId;
             basicInfo.SubDealers = new List<SubDealer>();
             var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
@@ -194,23 +185,38 @@ namespace DealnetPortal.Web.Infrastructure
                 contractData.DealerId = basicInfo.SubmittingDealerId;
             }            
             contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
+            contractData.PrimaryCustomer.Locations = new List<LocationDTO>();
+            var mainAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.AddressInformation);
+            mainAddress.AddressType = AddressType.MainAddress;
+            contractData.PrimaryCustomer.Locations.Add(mainAddress);
+            if (basicInfo.HomeOwner.MailingAddressInformation != null)
+            {
+                var mailAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.MailingAddressInformation);
+                mailAddress.AddressType = AddressType.MailAddress;
+                contractData.PrimaryCustomer.Locations.Add(mailAddress);
+            }
+
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             if (basicInfo.AdditionalApplicants != null)
             {
                 basicInfo.AdditionalApplicants.ForEach(a =>
                 {
-                    contractData.SecondaryCustomers.Add(AutoMapper.Mapper.Map<CustomerDTO>(a));
+                    var customer = AutoMapper.Mapper.Map<CustomerDTO>(a);
+                    customer.Locations = new List<LocationDTO>();
+                    if (a.AddressInformation != null)
+                    {
+                        var address = Mapper.Map<LocationDTO>(a.AddressInformation);
+                        address.AddressType = AddressType.MainAddress;
+                        customer.Locations.Add(address);
+                    }
+                    if (a.MailingAddressInformation != null)
+                    {
+                        var mailAddress = Mapper.Map<LocationDTO>(a.MailingAddressInformation);
+                        mailAddress.AddressType = AddressType.MailAddress;
+                        customer.Locations.Add(mailAddress);
+                    }
+                    contractData.SecondaryCustomers.Add(customer);
                 });
-            }
-            contractData.Locations = new List<LocationDTO>();
-            var address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.AddressInformation);
-            address.AddressType = AddressType.MainAddress;
-            contractData.Locations.Add(address);
-            if (basicInfo.MailingAddressInformation != null)
-            {
-                address = AutoMapper.Mapper.Map<LocationDTO>(basicInfo.MailingAddressInformation);
-                address.AddressType = AddressType.MailAddress;
-                contractData.Locations.Add(address);
             }
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
@@ -333,8 +339,8 @@ namespace DealnetPortal.Web.Infrastructure
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
             summary.SendEmails = new SendEmailsViewModel();
-            if (summary.BasicInfo.AddressInformation != null) { 
-                var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.AddressInformation.Province.ToProvinceCode())).Item1;
+            if (summary.BasicInfo.HomeOwner.AddressInformation != null) { 
+                var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.HomeOwner.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
             }
 

@@ -199,7 +199,9 @@ namespace DealnetPortal.Web.App_Start
 
                 cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                     .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
-                    .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id));
+                    .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
+                    .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
+                    .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)));
                 cfg.CreateMap<LocationDTO, AddressInformation>()
                     .ForMember(x => x.InstallationAddress, d => d.MapFrom(src => src.Street))
                     .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))

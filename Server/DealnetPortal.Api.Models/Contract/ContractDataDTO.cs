@@ -18,9 +18,6 @@ namespace DealnetPortal.Api.Models.Contract
 
         public ContractDetailsDTO Details { get; set; }
 
-        // Here is locations for a primary customer
-        public IList<LocationDTO> Locations { get; set; }
-
         public PaymentInfoDTO PaymentInfo { get; set; }
         public EquipmentInfoDTO Equipment { get; set; }
     }

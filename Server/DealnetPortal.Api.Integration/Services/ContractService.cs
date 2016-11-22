@@ -113,8 +113,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
                     //update customers on aspire
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null ||
-                        contract.Locations != null)
+                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
                     {                        
                         var aspireAlerts =
                             _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
@@ -542,7 +541,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 if (customers?.Any() ?? false)
                 {
-                    customers.ForEach(c => { _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails)); });
+                    customers.ForEach(c => { _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails), c.DriverLicenseNumber); });
                 }
                 _unitOfWork.Save();
 
