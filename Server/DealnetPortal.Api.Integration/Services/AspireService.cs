@@ -172,7 +172,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                             var aspireRequestTask = _aspireServiceAgent.CreditCheckSubmission(request);
-                            DealUploadResponse response = null;
+                            CreditCheckResponse response = null;
 
                             if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
                             {
@@ -290,7 +290,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Application = GetContractApplication(contract)
                         }
-                    };
+                    };                   
 
                     try
                     {
@@ -344,7 +344,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (alerts.All(a => a.Type != AlertType.Error))
             {
                 _loggingService.LogInfo($"Contract [{contractId}] submitted to Aspire successfully with transaction Id [{contract?.Details.TransactionId}]");
-            }
+            }       
 
             return alerts;
         }

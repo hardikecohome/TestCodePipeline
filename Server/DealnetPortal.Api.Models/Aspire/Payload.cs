@@ -54,9 +54,7 @@ namespace DealnetPortal.Api.Models.Aspire
 
     [Serializable]
     public class Application
-    {
-        public string TransactionId { get; set; }
-
+    {        
         [XmlElement("Equipment")]
         public List<Equipment> Equipments { get; set; }
 
@@ -65,10 +63,9 @@ namespace DealnetPortal.Api.Models.Aspire
 
         [XmlElement(ElementName = "Term_Requested")]
         public string TermRequested { get; set; }
-
-        public string FinanceProgram { get; set; }
-
         public string Notes { get; set; }
+        public string FinanceProgram { get; set; }        
+        public string TransactionId { get; set; }
 
         [XmlElement("UDF")]
         public List<UDF> UDFs { get; set; }

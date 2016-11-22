@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace DealnetPortal.Api.Models.Aspire
 {
     [Serializable]
-    [XmlRoot(ElementName = "DecisionXML")]
+    [XmlRoot(ElementName = "DecisionUploadXML")]
     public class DealUploadResponse
     {
         [XmlAttribute("version")]

@@ -368,7 +368,11 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (aspireAlerts?.All(ae => ae.Type != AlertType.Error) ?? false)
             {
-                //TODO: do aspire credit check after call of submit deal
+                var creditCheckRes = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
+                if (creditCheckRes?.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(creditCheckRes.Item2);
+                }
             }
 
             var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
