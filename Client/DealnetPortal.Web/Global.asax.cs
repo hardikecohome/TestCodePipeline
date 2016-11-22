@@ -28,7 +28,7 @@ namespace DealnetPortal.Web
         {
             Exception exception = Server.GetLastError();
             Server.ClearError();
-            Response.Redirect("/Account/Login");
+            Response.RedirectToRoute(new RouteValueDictionary(new { controller = "Account", action = "Login" }));
         }
     }
 }
