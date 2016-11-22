@@ -23,5 +23,12 @@ namespace DealnetPortal.Web
             AutoMapperConfig.Configure();
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            Server.ClearError();
+            Response.Redirect("/Account/Login");
+        }
     }
 }
