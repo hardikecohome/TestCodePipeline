@@ -42,8 +42,6 @@ $(document)
                     "Please enter a valid date!"
                 );
 
-                $("#admin-fee").rules("add", "required");
-                $("#down-payment").rules("add", "required");
                 $("#customer-rate").rules("add", "required");
                 $("#amortization-term").rules("add", "required");
                 var initAgreementType = $("#agreement-type").find(":selected").val();
@@ -239,6 +237,8 @@ function resetFormValidator(formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');
     $.validator.unobtrusive.parse(formId);
+    $("#customer-rate").rules("add", "required");
+    $("#amortization-term").rules("add", "required");
 }
 
 function assignDatepicker() {
