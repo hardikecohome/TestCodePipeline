@@ -17,19 +17,25 @@
     totalBorrowingCostLabel.text('-');
     //
     var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
+    if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) { return; }
     var hst = taxRate / 100 * equipmentCashPrice;
     hstLabel.text(hst.toFixed(2));
     var totalCashPrice = equipmentCashPrice + hst;
     totalCashPriceLabel.text(totalCashPrice.toFixed(2));
     var adminFee = parseFloat($("#admin-fee").val());
+    if (isNaN(adminFee) || adminFee < 0) {
+        adminFee = 0;
+    }
     var downPayment = parseFloat($("#down-payment").val());
-    if (isNaN(adminFee) || isNaN(downPayment)){ return; }
+    if (isNaN(downPayment) || downPayment < 0) {
+        downPayment = 0;
+    }
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
     totalAmountFinancedLabel.text(totalAmountFinanced.toFixed(2));
     var loanTerm = parseInt($("#requested-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
-    if (isNaN(loanTerm) || isNaN(amortizationTerm) || isNaN(customerRate)) { return; }
+    if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate <= 0) { return; }
     var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
     loanTotalMonthlyPaymentLabel.text(totalMonthlyPayment.toFixed(2));
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;

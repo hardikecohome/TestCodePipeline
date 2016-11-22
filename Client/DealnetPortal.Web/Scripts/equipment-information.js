@@ -221,14 +221,16 @@ function recalculateTotalCashPrice() {
     if (agreementType !== "0") {
         return;
     }
-    var sum = 0;
+    var sum;
     $(".equipment-cost").each(function () {
         var numberValue = parseFloat(this.value);
         if (!isNaN(numberValue)) {
+            if (!sum) { sum = 0; }
             sum += numberValue;
         }
     });
 
+    if (!sum) { return; }
     $("#equipment-cash-price").text(sum.toFixed(2));
     calculateLoanValues();
 }
