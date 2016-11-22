@@ -34,6 +34,9 @@ namespace DealnetPortal.Web.Models
         [StringLength(9, MinimumLength = 9, ErrorMessage = "SIN must be 9 digits long")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "SIN is in incorrect format")]
         public string Sin { get; set; }
+
+        public AddressInformation AddressInformation { get; set; }
+        public AddressInformation MailingAddressInformation { get; set; }
     }
 
     public class AddressInformation
@@ -73,8 +76,6 @@ namespace DealnetPortal.Web.Models
         public string SubmittingDealerId { get; set; }
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
-        public AddressInformation AddressInformation { get; set; }
-        public AddressInformation MailingAddressInformation { get; set; }
         public List<SubDealer> SubDealers { get; set; }
         public int? ContractId { get; set; }
     }

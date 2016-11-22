@@ -166,11 +166,13 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             contractData.PrimaryCustomer.Id = contract.PrimaryCustomer.Id;
                         }
-                                                
+
+                        var homeOwnerLocations = contractData.PrimaryCustomer.Locations;
                         var homeOwner = AddOrUpdateCustomer(contractData.PrimaryCustomer);
                         if (homeOwner != null)
                         {                            
                             contract.PrimaryCustomer = homeOwner;
+                            AddOrUpdateCustomerLocations(contract.PrimaryCustomer, homeOwnerLocations);
                             contract.ContractState = ContractState.CustomerInfoInputted;
                             contract.LastUpdateTime = DateTime.Now;
                         }
@@ -179,13 +181,6 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
-                        contract.LastUpdateTime = DateTime.Now;
-                    }
-
-                    if (contractData.Locations != null && contract.PrimaryCustomer != null)
-                    {
-                        AddOrUpdateCustomerLocations(contract.PrimaryCustomer, contractData.Locations);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
@@ -512,7 +507,6 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = GetContractAsUntracked(contractId, contractOwnerId);
             if (contract != null)
             {
-                contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
                 contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
                 contractData.Equipment = contract.Equipment;
             }
@@ -543,9 +537,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Any(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
-        private Customer AddOrUpdateCustomerLocations(Customer customer, IList<Location> locations)
+        private Customer AddOrUpdateCustomerLocations(Customer customer, IEnumerable<Location> locations)
         {
             //??
+            locations = locations.ToList();
             var existingEntities =
                 customer.Locations.Where(
                     a => locations.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
@@ -748,7 +743,9 @@ namespace DealnetPortal.DataAccess.Repositories
             //_dbContext.Entry(e).State = EntityState.Deleted);
             customers.ForEach(ho =>
             {
+                var customerLocations = ho.Locations;
                 var customer = AddOrUpdateCustomer(ho);
+                AddOrUpdateCustomerLocations(customer, customerLocations);
                 if (existingEntities.Find(e => e.Id == customer.Id) == null)
                 {
                     contract.SecondaryCustomers.Add(ho);

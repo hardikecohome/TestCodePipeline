@@ -113,8 +113,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
                     //update customers on aspire
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null ||
-                        contract.Locations != null)
+                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
                     {                        
                         var aspireAlerts =
                             _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
