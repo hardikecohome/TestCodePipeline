@@ -103,7 +103,7 @@ namespace DealnetPortal.Web.Controllers
                 var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
                 if (updateResult.Any(r => r.Type == AlertType.Error))
                 {
-                    return View("~/Views/Shared/Error.cshtml");
+                    return RedirectToAction("Error", "Info", new { alers = updateResult });
                 }
             }
             return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
@@ -158,7 +158,7 @@ namespace DealnetPortal.Web.Controllers
 
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
-                return View("~/Views/Shared/Error.cshtml");
+                return RedirectToAction("Error", "Info", new { alers = checkResult.Item2 });
             }
 
             switch (checkResult?.Item1.CreditCheckState)
@@ -213,7 +213,7 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return View("~/Views/Shared/Error.cshtml");
+                return RedirectToAction("Error", "Info", new { alers = updateResult });
             }
             return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
         }
@@ -236,7 +236,7 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await _contractManager.UpdateContractAsync(contactAndPaymentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return View("~/Views/Shared/Error.cshtml");
+                return RedirectToAction("Error", "Info", new { alers = updateResult });
             }
             return RedirectToAction("SummaryAndConfirmation", new {contractId = contactAndPaymentInfo.ContractId});
         }
