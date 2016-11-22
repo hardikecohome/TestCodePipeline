@@ -305,7 +305,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     GetProvinceTaxRate(
                         (contract.PrimaryCustomer?.Locations.FirstOrDefault(
                             l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State);
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
                 if (rate != null && contract.Equipment != null)
                 {
                     if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
@@ -344,30 +344,34 @@ namespace DealnetPortal.DataAccess.Repositories
                     GetProvinceTaxRate(
                         (contract.PrimaryCustomer?.Locations.FirstOrDefault(
                             l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State);
-
-                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                if (rate != null)
                 {
-                    var loanCalculatorInput = new LoanCalculator.Input
+                    if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                     {
-                        TaxRate = rate.Rate,
-                        LoanTerm = contract.Equipment.RequestedTerm,
-                        AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                        EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                        AdminFee = contract.Equipment.AdminFee ?? 0,
-                        DownPayment = contract.Equipment.DownPayment ?? 0,
-                        CustomerRate = contract.Equipment.CustomerRate ?? 0
-                    };
-                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
-                    paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                }
-                else
-                {
-                    paymentSummary.MonthlyPayment = contract.Equipment.TotalMonthlyPayment;
-                    paymentSummary.Hst = (contract.Equipment.TotalMonthlyPayment ?? 0)*(decimal) (rate.Rate/100);
-                    paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) + (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(rate.Rate / 100);
+                        var loanCalculatorInput = new LoanCalculator.Input
+                        {
+                            TaxRate = rate.Rate,
+                            LoanTerm = contract.Equipment.RequestedTerm,
+                            AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                            EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                            AdminFee = contract.Equipment.AdminFee ?? 0,
+                            DownPayment = contract.Equipment.DownPayment ?? 0,
+                            CustomerRate = contract.Equipment.CustomerRate ?? 0
+                        };
+                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                        paymentSummary.Hst = (decimal) loanCalculatorOutput.Hst;
+                        paymentSummary.TotalPayment = (decimal) loanCalculatorOutput.TotalAllMonthlyPayments;
+                        paymentSummary.MonthlyPayment = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
+                    }
+                    else
+                    {
+                        paymentSummary.MonthlyPayment = contract.Equipment.TotalMonthlyPayment;
+                        paymentSummary.Hst = (contract.Equipment.TotalMonthlyPayment ?? 0)*(decimal) (rate.Rate/100);
+                        paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                      (contract.Equipment.TotalMonthlyPayment ?? 0)*
+                                                      (decimal) (rate.Rate/100);
+                    }
                 }
             }
 
