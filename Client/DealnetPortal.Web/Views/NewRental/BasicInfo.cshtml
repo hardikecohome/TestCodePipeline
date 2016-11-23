@@ -258,6 +258,21 @@
                 <a href="#" class="dealnet-disabled-text clear-address">
                     <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
                 </a>
+                <!--<div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Residence</label>
+                            <div class="control-group">
+                                <input type="text" placeholder="Driver License Number" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="dealnet-disabled-text clear-address">
+                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                        </a>
+                    </div>
+                </div>-->
             </div>
         </div>
 
@@ -409,6 +424,14 @@
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.AdditionalApplicants[i].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-" + (i + 1), placeholder = "SIN" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].Sin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="">Driver License Number</label>
+                        <div class="control-group">
+                            <input type="text" placeholder="Driver License Number" class="form-control dealnet-input">
                         </div>
                     </div>
                 </div>
