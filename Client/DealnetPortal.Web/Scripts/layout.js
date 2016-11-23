@@ -177,7 +177,7 @@ function inputDateFocus(input){
       }
     }
   }).on('focus', function(){
-    customDPSelect();
+    setTimeout(customDPSelect, 0);
     if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
       $(this).blur()
         .addClass('focus');
