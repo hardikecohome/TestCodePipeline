@@ -199,6 +199,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     {
                         _signers.Add(CreateSigner(s, signN++));
                     });
+                    signatureUsers.Where(s => s.Role == SignatureRole.Dealer).ForEach(s =>
+                    {
+                        _signers.Add(CreateSigner(s, signN++, true));
+                    });
                     _copyViewers?.Clear();
                     signatureUsers.Where(s => s.Role == SignatureRole.CopyViewer).ForEach(s =>
                     {
@@ -471,8 +475,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     Name = signer.Name,
                     Email = signer.Email,
-                    RoutingOrder = signer.RoutingOrder,
-                    RoleName = $"Signer{signer.RoutingOrder}",
+                    //RoutingOrder = signer.RoutingOrder,
+                    RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}",
                     Tabs = signer.Tabs
                 });
             });            
@@ -484,7 +488,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     Email = viewer.Email,
                     Name = viewer.Name,
                     RoutingOrder = viewer.RoutingOrder,
-                    RoleName = "Viewer",                    
+                    RoleName = viewer.RoleName//"Viewer",                    
                 });
             });
 
@@ -505,27 +509,27 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return authHeader;
         }
 
-        private Signer CreateSigner(SignatureUser signatureUser, int routingOrder)
+        private Signer CreateSigner(SignatureUser signatureUser, int routingOrder, bool isDealer = false)
         {
             var signer = new Signer()
             {
                 Email = signatureUser.EmailAddress,
                 Name = $"{signatureUser.FirstName} {signatureUser.LastName}",
                 RecipientId = routingOrder.ToString(),
-                RoutingOrder = routingOrder.ToString(),
-                RoleName = $"Signer{routingOrder}",
+                RoutingOrder = "1",//routingOrder.ToString(),
+                RoleName = !isDealer ? $"Signer{routingOrder}" : "SignerD",
                 Tabs = new Tabs()
                 {
                     SignHereTabs = new List<SignHere>()
                     {
                         new SignHere()
                         {
-                            TabLabel = $"Signature{routingOrder}"
+                            TabLabel = !isDealer ? $"Signature{routingOrder}" : "SignatureD"
                         }
                     }
                 }
             };
-            if (routingOrder == 1)
+            //if (routingOrder == 1)
             {
                 if (_textTabs?.Any() ?? false)
                 {

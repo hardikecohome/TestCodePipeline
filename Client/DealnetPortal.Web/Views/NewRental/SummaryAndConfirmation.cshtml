@@ -919,6 +919,16 @@
             }
             }
             <div class="col-md-4">
+                <div class="form-group">
+                    <label for="homeOwnerEmail">Sales Rep Email</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.SendEmails.SalesRepEmail, new {id = "salesRepEmail", @class = "dealnet-input form-control", type = "email"})
+                        @Html.ValidationMessageFor(m => m.SendEmails.SalesRepEmail, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
                 <div class="form-group btn-container">
                     <button type="button" class="btn dealnet-button dealnet-success-button" id="send-email-button" onclick="submitAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'), null);">
                     Send Emails

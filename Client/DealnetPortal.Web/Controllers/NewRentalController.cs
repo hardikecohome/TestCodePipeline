@@ -308,6 +308,14 @@ namespace DealnetPortal.Web.Controllers
                     EmailAddress = us.Email, Role = SignatureRole.AdditionalApplicant
                 });
             });
+            if (!string.IsNullOrEmpty(emails.SalesRepEmail))
+            {
+                signatureUsers.Users.Add(new SignatureUser()
+                {
+                    EmailAddress = emails.SalesRepEmail,
+                    Role = SignatureRole.Dealer
+                });
+            }
 
             _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
         }

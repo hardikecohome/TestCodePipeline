@@ -224,6 +224,17 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
+                var dealerUser = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.Dealer);
+                if (dealerUser != null)
+                {
+                    var dealer = _contractRepository.GetDealer(contractOwnerId);
+                    if (dealer != null)
+                    {
+                        dealerUser.LastName = dealer.UserName;
+                        usersForProcessing.Add(dealerUser);
+                    }
+                }
+
                 var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray()).GetAwaiter().GetResult();
                 return alerts;
             }

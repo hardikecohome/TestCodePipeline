@@ -361,6 +361,12 @@ namespace DealnetPortal.Web.Infrastructure
                                         c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
                         }).ToArray();
             }
+
+            var dealer = await _dictionaryServiceAgent.GetDealerInfo();
+            if (!string.IsNullOrEmpty(dealer?.Email))
+            {
+                summary.SendEmails.SalesRepEmail = dealer.Email;
+            }
                         
             summary.AdditionalInfo = new AdditionalInfoViewModel();
             summary.AdditionalInfo.ContractState = contract.ContractState;

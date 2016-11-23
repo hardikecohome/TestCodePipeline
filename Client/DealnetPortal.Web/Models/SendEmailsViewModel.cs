@@ -31,6 +31,11 @@ namespace DealnetPortal.Web.Models
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string HomeOwnerEmail { get; set; }
 
+        [Required]
+        [Display(Name = "Sales Rep Email")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string SalesRepEmail { get; set; }
+
         public CustomerEmail[] AdditionalApplicantsEmails { get; set; }
     }
 }
