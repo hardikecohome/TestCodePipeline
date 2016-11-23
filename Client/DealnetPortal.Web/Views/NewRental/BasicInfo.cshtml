@@ -114,7 +114,7 @@
                     <div class="modal-body">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <div class="dealnet-middle-header">Scan License</div>
-                        <div class="dealnet-middle-header-2" id="you-want">How do you want to do this?</div>
+                        <div class="dealnet-middle-header-2" id="you-want">Select scanning method</div>
 
                         <ul class="nav nav-tabs" role="tablist">
                             <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Use Camera</a></li>
@@ -192,6 +192,15 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="">Driver License Number</label>
+                <div class="control-group">
+                    <input type="text" placeholder="Driver License Number" class="form-control dealnet-input">
+                </div>
+            </div>
+        </div>
     </div>
 
     <p class="dealnet-middle-header address-info-label">Address Information</p>
@@ -255,9 +264,21 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4">
-                <a href="#" class="dealnet-disabled-text clear-address">
-                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
-                </a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Residence</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">Own or rental</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="dealnet-disabled-text clear-address">
+                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -412,8 +433,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="">Driver License Number</label>
+                        <div class="control-group">
+                            <input type="text" placeholder="Driver License Number" class="form-control dealnet-input">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="dealnet-middle-header address-info-label">Address Information</p>
+            <div class="owner-info">
+                <a href="#" class="dealnet-info-link">Use Home Owner address information</a>
+            </div>
+            <p class="dealnet-middle-header address-info-label">Additional Applicant Mailing Address Information</p>
 
             <div class="row address-info1">
                 <div class="col-md-6 col-lg-6">
@@ -465,9 +497,21 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <a href="#" class="dealnet-disabled-text clear-address">
-                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
-                    </a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Residence</label>
+                                <select name="" id="" class="form-control">
+                                    <option value="">Own or rental</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#" class="dealnet-disabled-text clear-address">
+                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
