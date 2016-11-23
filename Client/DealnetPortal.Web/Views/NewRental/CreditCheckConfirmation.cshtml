@@ -80,16 +80,17 @@
 			        </div>
 			    </div>
 
-                <div class="form-group">
-                    <div class="row">
-                        @Html.LabelFor(m => Model.HomeOwner.Sin, new { @class = "dealnet-field-caption col-xs-6" })
-                        <div class="dealnet-field-holder col-xs-6">
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => Model.HomeOwner.Sin, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				@Html.HiddenFor(m => Model.HomeOwner.Sin, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+				<div class="form-group">
+					<div class="row">
+						<label class = "dealnet-field-caption col-xs-6">Driver's license number</label>
+						<div class="dealnet-field-holder col-xs-6">
+							<div class="control-group">
+								<input type="text" readonly = "readonly" class = "dealnet-disabled-input" value="12314214234">
+							</div>
+						</div>
+					</div>
+				</div>
 
 			    <div class="dealnet-agrees form-group">
 					<label class="align-middle custom-checkbox">
@@ -223,7 +224,9 @@
             </div>
 
         }
-
+		</div>
+		<hr>
+		<div class="row credit-check-info-hold">
 	    @if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
         {
             for (int i = 0; i < Model.AdditionalApplicants.Count; i++)
@@ -267,12 +270,15 @@
                                 </div>
                             </div>
                         </div>
+
+	                    @Html.HiddenFor(m => Model.AdditionalApplicants[i].Sin, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+
                         <div class="form-group">
                             <div class="row">
-                                @Html.LabelFor(m => Model.AdditionalApplicants[i].Sin, new { @class = "dealnet-field-caption col-xs-6" })
+                                <label class = "dealnet-field-caption col-xs-6">Driver's license number</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].Sin, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+	                                    <input type="text" readonly = "readonly" class = "dealnet-disabled-input" value="12314214234">
                                     </div>
                                 </div>
                             </div>
@@ -411,11 +417,10 @@
 					        </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(m => Model.HomeOwner.Sin, new { @class = "dealnet-field-caption" })
+	                                <label for="">Driver's license number</label>
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => Model.HomeOwner.Sin, new { @class = "form-control dealnet-input" })
-                                            @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new { @class = "text-danger" })
+	                                        <input type="text" class = "form-control dealnet-input" value="12314214234">
                                         </div>
                                     </div>
                                 </div>
@@ -482,13 +487,12 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 					        </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.AdditionalApplicants[i].Sin, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].Sin, new { @class = "form-control dealnet-input" })
-                                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].Sin, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
+	                                <label for="">Driver's license number</label>
+	                                <div class="dealnet-field-holder">
+		                                <div class="control-group">
+			                                <input type="text" class = "form-control dealnet-input" value="12314214234">
+		                                </div>
+	                                </div>
                                 </div>
                             </div>
 					    </div>
