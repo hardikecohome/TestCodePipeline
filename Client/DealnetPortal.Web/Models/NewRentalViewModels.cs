@@ -30,7 +30,7 @@ namespace DealnetPortal.Web.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
-        [Display(Name = "SIN")]
+        [Display(Name = "SIN (Social insurance number)")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "SIN must be 9 digits long")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "SIN is in incorrect format")]
         public string Sin { get; set; }
