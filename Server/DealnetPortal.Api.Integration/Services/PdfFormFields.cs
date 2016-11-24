@@ -35,7 +35,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string FurnaceDetails = "FurnaceDetails";
         public static string AirConditionerDetails = "AirConditionerDetails";
         public static string BoilerDetails = "BoilerDetails";
-        public static string WaterFiltrationDetails = "WaterFiltrationDetails";
+        public static string WaterFiltrationDetails = "BoilerDetails";
         public static string OtherDetails1 = "OtherDetails1";
         public static string OtherDetails2 = "OtherDetails2";
         public static string FurnaceMonthlyRental = "FurnaceMonthlyRental";
