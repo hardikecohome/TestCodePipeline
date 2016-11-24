@@ -170,11 +170,11 @@ function initGoogleServices() {
         }
     });
 
-    for (let j = 1; j <= 3; j++) {
+    for (var j = 1; j <= 3; j++) {
         var streetAutocomplete = new google.maps.places.Autocomplete(document.getElementById('additional-street-' + j), streetsOptions);
         var cityAutocomplete = new google.maps.places.Autocomplete(document.getElementById('additional-locality-' + j), citiesOptions);
         var provenceAutocomplete = new google.maps.places.Autocomplete(document.getElementById('additional-administrative_area_level_1-' + j), provencesOptions);
-        google.maps.event.addListener(cityAutocomplete, 'place_changed', function (cityAutocomplete) {
+        google.maps.event.addListener(cityAutocomplete, 'place_changed', function (cityAutocomplete, j) {
             var place = cityAutocomplete.getPlace();
             for (var i = 0; i < place.address_components.length; i++) {
                 var addressType = place.address_components[i].types[0];
@@ -184,8 +184,8 @@ function initGoogleServices() {
                     break;
                 }
             }
-        }.bind(this, cityAutocomplete));
-        google.maps.event.addListener(provenceAutocomplete, 'place_changed', function (provenceAutocomplete) {
+        }.bind(this, cityAutocomplete, j));
+        google.maps.event.addListener(provenceAutocomplete, 'place_changed', function (provenceAutocomplete, j) {
             var place = provenceAutocomplete.getPlace();
             for (var i = 0; i < place.address_components.length; i++) {
                 var addressType = place.address_components[i].types[0];
@@ -195,8 +195,8 @@ function initGoogleServices() {
                     break;
                 }
             }
-        }.bind(this, provenceAutocomplete));
-        google.maps.event.addListener(streetAutocomplete, 'place_changed', function (streetAutocomplete) {
+        }.bind(this, provenceAutocomplete, j));
+        google.maps.event.addListener(streetAutocomplete, 'place_changed', function (streetAutocomplete, j) {
             var place = streetAutocomplete.getPlace();
             var street;
             for (var i = 0; i < place.address_components.length; i++) {
@@ -247,7 +247,7 @@ function initGoogleServices() {
                 streetInput.val('');
                 streetInput.placeholder();
             }
-        }.bind(this, streetAutocomplete));
+        }.bind(this, streetAutocomplete, j));
     }
 }
 function autodetectAddress() {
