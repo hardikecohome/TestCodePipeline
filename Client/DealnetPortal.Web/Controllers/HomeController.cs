@@ -68,7 +68,7 @@ namespace DealnetPortal.Web.Controllers
 
             if (docTypes?.Item1 != null)
             {
-                contracts.ForEach(c =>
+                contracts.Where(c => c.ContractState == ContractState.Completed).ForEach(c =>
                 {
                     var absentDocs = docTypes.Item1.Where(dt => c.Documents.All(d => dt.Id != d.DocumentTypeId) && !string.IsNullOrEmpty(dt.Prefix)).ToList();
                     if (absentDocs.Any())
