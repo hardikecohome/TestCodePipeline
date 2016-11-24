@@ -20,6 +20,11 @@
 
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
+      }).on('shown.bs.modal', function(){
+
+          $('textarea').each(function(){
+            has_scrollbar($(this), 'textarea-has-scroll');
+          });
       }).on('hidden.bs.modal', function () {
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
@@ -137,6 +142,28 @@
 
         /*END Settings for propper work of datepicker inside bootstrap modal*/
 
+      var resizeInt = null;
+      $('textarea').each(function(){
+        var textField = $(this);
+        has_scrollbar(textField, 'textarea-has-scroll');
+
+        textField.on("mousedown", function(e) {
+          resizeInt = setInterval(function(){
+            console.log('asdf');
+           has_scrollbar(textField, 'textarea-has-scroll');
+         }, 1000/15);
+        });
+      });
+
+      $('textarea').on('keyup', function(){
+        has_scrollbar($(this), 'textarea-has-scroll');
+      });
+      $(window).on("mouseup", function(e) {
+        if (resizeInt !== null) {
+          clearInterval(resizeInt);
+        }
+        //resizeEvent();
+      });
 });
 
 function stickySection(elem){
@@ -166,6 +193,15 @@ function stickySection(elem){
         width: stickerWidth + 'px'
       });
     });
+}
+
+function has_scrollbar(elem, className)
+{
+  elem_id = elem.attr('id');
+  if (elem[0].clientHeight < elem[0].scrollHeight)
+    elem.parents('.control-group').addClass(className);
+  else
+    elem.parents('.control-group').removeClass(className);
 }
 
 function inputDateFocus(input){
