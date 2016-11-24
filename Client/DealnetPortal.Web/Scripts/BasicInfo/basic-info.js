@@ -88,28 +88,44 @@ $(document).ready(function () {
         modal.setAttribute('data-fnToFill', 'first-name');
         modal.setAttribute('data-lnToFill', 'last-name');
         modal.setAttribute('data-bdToFill', 'birth-date');
-        modal.setAttribute('data-fillAddress', "true");
+        modal.setAttribute('data-dlToFill', 'dl-number');
+        modal.setAttribute('data-stToFill', 'street');
+        modal.setAttribute('data-ctToFill', 'locality');
+        modal.setAttribute('data-prToFill', "administrative_area_level_1");
+        modal.setAttribute('data-pcToFill', "postal_code");
     });
     $("#additional1-scan-button").click(function () {
         var modal = document.getElementById('camera-modal');
         modal.setAttribute('data-fnToFill', 'additional-first-name-1');
         modal.setAttribute('data-lnToFill', 'additional-last-name-1');
         modal.setAttribute('data-bdToFill', 'additional-birth-date-1');
-        modal.setAttribute('data-fillAddress', "false");
+        modal.setAttribute('data-dlToFill', 'additional-dl-number-1');
+        modal.setAttribute('data-stToFill', 'additional-street-1');
+        modal.setAttribute('data-ctToFill', 'additional-locality-1');
+        modal.setAttribute('data-prToFill', "additional-administrative_area_level_1-1");
+        modal.setAttribute('data-pcToFill', "additional-postal_code-1");
     });
     $("#additional2-scan-button").click(function () {
         var modal = document.getElementById('camera-modal');
         modal.setAttribute('data-fnToFill', 'additional-first-name-2');
         modal.setAttribute('data-lnToFill', 'additional-last-name-2');
         modal.setAttribute('data-bdToFill', 'additional-birth-date-2');
-        modal.setAttribute('data-fillAddress', "false");
+        modal.setAttribute('data-dlToFill', 'additional-dl-number-2');
+        modal.setAttribute('data-stToFill', 'additional-street-2');
+        modal.setAttribute('data-ctToFill', 'additional-locality-2');
+        modal.setAttribute('data-prToFill', "additional-administrative_area_level_1-2");
+        modal.setAttribute('data-pcToFill', "additional-postal_code-2");
     });
     $("#additional3-scan-button").click(function () {
         var modal = document.getElementById('camera-modal');
         modal.setAttribute('data-fnToFill', 'additional-first-name-3');
         modal.setAttribute('data-lnToFill', 'additional-last-name-3');
         modal.setAttribute('data-bdToFill', 'additional-birth-date-3');
-        modal.setAttribute('data-fillAddress', "false");
+        modal.setAttribute('data-dlToFill', 'additional-dl-number-3');
+        modal.setAttribute('data-stToFill', 'additional-street-3');
+        modal.setAttribute('data-ctToFill', 'additional-locality-3');
+        modal.setAttribute('data-prToFill', "additional-administrative_area_level_1-3");
+        modal.setAttribute('data-pcToFill', "additional-postal_code-3");
     });
     $("#add-additional-applicant").click(function () {
         if (!aditional1Section.is(':visible')) {

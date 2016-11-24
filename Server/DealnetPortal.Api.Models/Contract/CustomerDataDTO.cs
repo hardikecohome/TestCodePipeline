@@ -8,8 +8,6 @@ namespace DealnetPortal.Api.Models.Contract
 
         public int? ContractId { get; set; }
 
-        public string DriverLicenseNumber { get; set; }
-
         public CustomerInfoDTO CustomerInfo { get; set; }
 
         public List<LocationDTO> Locations { get; set; }

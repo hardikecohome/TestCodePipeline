@@ -65,6 +65,13 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<CommentViewModel, CommentDTO>()
                 .ForMember(x => x.DealerId, d => d.Ignore());
 
+            cfg.CreateMap<ApplicantPersonalInfo, CustomerDataDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId))
+                .ForMember(x => x.CustomerInfo, d => d.Ignore())
+                .ForMember(x => x.Phones, d => d.Ignore())
+                .ForMember(x => x.Emails, d => d.Ignore())
+                .ForMember(x => x.Locations, d => d.Ignore());
+
             cfg.CreateMap<ContactInfoViewModel, CustomerDataDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId))
                 .ForMember(x => x.CustomerInfo, d => d.Ignore())

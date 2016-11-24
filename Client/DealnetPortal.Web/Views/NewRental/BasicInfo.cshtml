@@ -92,7 +92,7 @@
                     <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
                         <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                         <span>Scan License</span>
-                        <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', true)"/>
+                        <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
                     </div>
                     <a href="#" class="scanlicence-info-link">
                         <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
@@ -108,7 +108,7 @@
 
     if (!ViewBag.IsMobileRequest)
     {
-        <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-fillAddress="true">
+        <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -195,9 +195,10 @@
 
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label for="">Driver License Number</label>
+                <label for="dl-number">Driver License Number</label>
                 <div class="control-group">
-                    <input type="text" placeholder="Driver License Number" class="form-control dealnet-input">
+                    @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "dl-number", placeholder = "Driver License Number" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -381,7 +382,7 @@
                             <div class="file-upload btn dealnet-button dealnet-success-button">
                                 <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                                 <span>Scan License</span>
-                                <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-@(i+1)', 'additional-last-name-@(i+1)', 'additional-birth-date-@(i+1)', false)" />
+                                <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-@(i+1)', 'additional-last-name-@(i+1)', 'additional-birth-date-@(i+1)', 'additional-dl-number-@(i+1)', 'additional-street-@(i+1)', 'additional-locality-@(i+1)', 'additional-administrative_area_level_1-@(i+1)', 'additional-postal_code-@(i+1)')" />
                             </div>
                             <a href="#" class="scanlicence-info-link">
                                 <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
@@ -435,9 +436,10 @@
                 </div>
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
-                        <label for="">Driver License Number</label>
+                        <label for="dl-number">Driver License Number</label>
                         <div class="control-group">
-                            <input type="text" placeholder="Driver License Number" class="form-control dealnet-input">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "additional-dl-number-" + (i + 1), placeholder = "Driver License Number" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -452,8 +454,8 @@
                     <div class="form-group">
                         <label for="additional-street-@(i+1)">Installation Address</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = "St." })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = "St." })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -461,8 +463,8 @@
                     <div class="form-group">
                         <label for="additional-unit_number-@(i+1)">Unit #</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -470,8 +472,8 @@
                     <div class="form-group">
                         <label for="additional-locality-@(i+1)">City</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = "Ottawa" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.City, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = "Ottawa" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -482,8 +484,8 @@
                     <div class="form-group">
                         <label for="additional-administrative_area_level_1-@(i+1)">Province</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.Province, new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1), placeholder = "Nepean" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1), placeholder = "Nepean" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -491,8 +493,8 @@
                     <div class="form-group">
                         <label for="additional-postal_code-@(i+1)">Postal Code</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1), placeholder = "12345" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1), placeholder = "12345" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>

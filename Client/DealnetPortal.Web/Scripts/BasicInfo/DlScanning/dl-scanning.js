@@ -15,8 +15,14 @@
                 var modal = document.getElementById('camera-modal');
                 document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
                 document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
-                var date = new Date(parseInt(json.DateOfBirth.substr(6)));
-                document.getElementById(modal.getAttribute('data-bdToFill')).value = date;
+                var date = new Date(json.DateOfBirthStr);
+                date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+                $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
+                document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
+                document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
+                document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;
+                document.getElementById(modal.getAttribute('data-prToFill')).value = json.State;
+                document.getElementById(modal.getAttribute('data-pcToFill')).value = json.PostalCode;
                 $('#camera-modal').modal('hide');
             }
         },
@@ -56,13 +62,11 @@ function submitUpload(sender, uploadUrl) {
                         //date = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
                         //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
-                        var fillAddress = modal.getAttribute('data-fillAddress');
-                        if (fillAddress == "true") {
-                            document.getElementById('street').value = json.Street;
-                            document.getElementById('locality').value = json.City;
-                            document.getElementById('administrative_area_level_1').value = json.State;
-                            document.getElementById('postal_code').value = json.PostalCode;
-                        }
+                        document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
+                        document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
+                        document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;
+                        document.getElementById(modal.getAttribute('data-prToFill')).value = json.State;
+                        document.getElementById(modal.getAttribute('data-pcToFill')).value = json.PostalCode;
                         $('#camera-modal').modal('hide');
                     }
                 },

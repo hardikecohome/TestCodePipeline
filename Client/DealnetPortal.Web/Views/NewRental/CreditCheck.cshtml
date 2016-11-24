@@ -32,11 +32,8 @@
 {
     <script type="text/javascript">
         $(document)
-            .ready(function() {
-                setTimeout(function(){
-                    window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";
-                }, 3000);
-
+            .ready(function () {
+                window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";
             });
     </script>
 }
