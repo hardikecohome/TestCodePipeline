@@ -15,8 +15,8 @@ select{
 
 textarea, textarea.form-control{
   resize: vertical;
-  padding-right: 30px;
 }
+
 
 ::-ms-clear {
     display: none;
@@ -264,6 +264,16 @@ html.ie9{
   input.form-control{
     padding-right: 28px;
   }
+
+  &.textarea-has-scroll{
+    textarea, textarea.form-control{
+      padding-right: 30px;
+    }
+    .clear-input{
+      right: 25px;
+    }
+  }
+
   &.has-addon-left{
     input.form-control{
       padding-left: 24px;

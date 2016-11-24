@@ -10,7 +10,7 @@
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("Can't recognize driver licence");
+                alert("Can't recognize driver license");
             } else {
                 var modal = document.getElementById('camera-modal');
                 document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
@@ -46,7 +46,7 @@ function submitUpload(sender, uploadUrl) {
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize driver licence");
+                        alert("Can't recognize driver license");
                     } else {
                         var modal = document.getElementById('camera-modal');
                         document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
