@@ -197,27 +197,18 @@ namespace DealnetPortal.Web.Infrastructure
             }
 
             contractData.SecondaryCustomers = new List<CustomerDTO>();
-            if (basicInfo.AdditionalApplicants != null)
+            basicInfo.AdditionalApplicants?.ForEach(a =>
             {
-                basicInfo.AdditionalApplicants.ForEach(a =>
+                var customer = AutoMapper.Mapper.Map<CustomerDTO>(a);
+                customer.Locations = new List<LocationDTO>();
+                if (a.MailingAddressInformation != null)
                 {
-                    var customer = AutoMapper.Mapper.Map<CustomerDTO>(a);
-                    customer.Locations = new List<LocationDTO>();
-                    if (a.AddressInformation != null)
-                    {
-                        var address = Mapper.Map<LocationDTO>(a.AddressInformation);
-                        address.AddressType = AddressType.MainAddress;
-                        customer.Locations.Add(address);
-                    }
-                    if (a.MailingAddressInformation != null)
-                    {
-                        var mailAddress = Mapper.Map<LocationDTO>(a.MailingAddressInformation);
-                        mailAddress.AddressType = AddressType.MailAddress;
-                        customer.Locations.Add(mailAddress);
-                    }
-                    contractData.SecondaryCustomers.Add(customer);
-                });
-            }
+                    var mailAddress = Mapper.Map<LocationDTO>(a.MailingAddressInformation);
+                    mailAddress.AddressType = AddressType.MailAddress;
+                    customer.Locations.Add(mailAddress);
+                }
+                contractData.SecondaryCustomers.Add(customer);
+            });
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
@@ -273,6 +264,37 @@ namespace DealnetPortal.Web.Infrastructure
             }
             alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
             return alerts;
+        }
+
+        public async Task<IList<Alert>> UpdateApplicants(BasicInfoViewModel basicInfo)
+        {
+            var customers = new List<CustomerDataDTO>();
+            if (basicInfo.HomeOwner != null)
+            {
+                var customerDTO = Mapper.Map<CustomerDataDTO>(basicInfo.HomeOwner);
+                customerDTO.Locations = new List<LocationDTO>();
+                var mainAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.AddressInformation);
+                mainAddress.AddressType = AddressType.MainAddress;
+                customerDTO.Locations.Add(mainAddress);
+                if (basicInfo.HomeOwner.MailingAddressInformation != null)
+                {
+                    var mailAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.MailingAddressInformation);
+                    mailAddress.AddressType = AddressType.MailAddress;
+                    customerDTO.Locations.Add(mailAddress);
+                }
+                customers.Add(customerDTO);
+            }
+            basicInfo.AdditionalApplicants?.ForEach(applicant =>
+            {
+                var customerDTO = Mapper.Map<CustomerDataDTO>(applicant);
+                customerDTO.Locations = new List<LocationDTO>();
+                var mailAddress = Mapper.Map<LocationDTO>(applicant.MailingAddressInformation);
+                mailAddress.AddressType = AddressType.MailAddress;
+                customerDTO.Locations.Add(mailAddress);
+                customers.Add(customerDTO);
+            });
+            customers.ForEach(c => c.ContractId = basicInfo.ContractId);
+            return await _contractServiceAgent.UpdateCustomerData(customers.ToArray());
         }
 
         public async Task<Tuple<int?, IList<Alert>>> CreateNewCustomerContract(int contractId)

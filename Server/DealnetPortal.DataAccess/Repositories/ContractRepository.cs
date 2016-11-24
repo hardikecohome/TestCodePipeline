@@ -243,7 +243,7 @@ namespace DealnetPortal.DataAccess.Repositories
         }
 
         public Customer UpdateCustomerData(int customerId, IList<Location> locations,
-            IList<Phone> phones, IList<Email> emails, string driverLicenseNumber)
+            IList<Phone> phones, IList<Email> emails)
         {
             var dbCustomer = GetCustomer(customerId);
             if (dbCustomer != null)
@@ -260,7 +260,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     AddOrUpdateCustomerEmails(dbCustomer, emails.ToList());
                 }
-                dbCustomer.DriverLicenseNumber = driverLicenseNumber;
                 return dbCustomer;
             }
             return null;
@@ -758,6 +757,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.LastName = customer.LastName;
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
                 dbCustomer.Sin = customer.Sin;
+                dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
             }
             //if (dbCustomer.Locations == null)
             //{

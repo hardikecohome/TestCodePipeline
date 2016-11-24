@@ -33,10 +33,13 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "SIN (Social insurance number)")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "SIN must be 9 digits long")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "SIN is in incorrect format")]
-        public string Sin { get; set; }
+        public string Sin { get; set; } 
+        [Display(Name = "Driver License Number")]
+        public string DriverLicenseNumber { get; set; }
 
         public AddressInformation AddressInformation { get; set; }
         public AddressInformation MailingAddressInformation { get; set; }
+        public int? ContractId { get; set; }
     }
 
     public class AddressInformation
@@ -127,16 +130,9 @@ namespace DealnetPortal.Web.Models
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
 
-        [Display(Name = "Driver License Number")]
-        public string DriverLicenseNumber { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public DateTime DateOfBirth { get; set; }
-
-        public string Sin { get; set; }
 
         public int CustomerId { get; set; }
     }

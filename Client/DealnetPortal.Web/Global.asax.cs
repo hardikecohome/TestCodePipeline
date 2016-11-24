@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -26,6 +27,7 @@ namespace DealnetPortal.Web
 
         protected void Application_Error(object sender, EventArgs e)
         {
+            if (Debugger.IsAttached) { return; }
             Exception exception = Server.GetLastError();
             Server.ClearError();
 
