@@ -15,18 +15,20 @@ namespace DealnetPortal.Web.Tests.Controllers
     public class HomeControllerTest
     {
         private Mock<IContractServiceAgent> _contractServiceAgentMock;
+        private Mock<IDictionaryServiceAgent> _dictionaryServiceAgentMock;
 
         [TestInitialize]
         public void Intialize()
         {
             _contractServiceAgentMock = new Mock<IContractServiceAgent>();
+            _dictionaryServiceAgentMock = new Mock<IDictionaryServiceAgent>();
         }
 
         [TestMethod]
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -39,7 +41,7 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object);
 
             // Act
             ViewResult result = controller.About() as ViewResult;
@@ -52,7 +54,7 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void Contact()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object);
 
             // Act
             ViewResult result = controller.Contact() as ViewResult;
