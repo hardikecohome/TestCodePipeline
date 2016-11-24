@@ -149,7 +149,6 @@
 
         textField.on("mousedown", function(e) {
           resizeInt = setInterval(function(){
-            console.log('asdf');
            has_scrollbar(textField, 'textarea-has-scroll');
          }, 1000/15);
         });
