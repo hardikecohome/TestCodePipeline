@@ -30,5 +30,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
         Task<CreditCheckResponse> CreditCheckSubmission(CreditCheckRequest dealUploadRequest);
 
         Task<DecisionLoginResponse> LoginSubmission(DealUploadRequest dealUploadRequest);
+
+        Task<DocumentUploadResponse> DocumentUploadSubmission(DocumentUploadRequest docUploadRequest);
     }
 }

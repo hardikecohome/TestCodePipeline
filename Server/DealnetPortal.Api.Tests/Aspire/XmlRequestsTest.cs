@@ -32,7 +32,7 @@ namespace DealnetPortal.Api.Tests.Aspire
         {
             DealUploadRequest request = new DealUploadRequest();
 
-            request.Header = new Header()
+            request.Header = new RequestHeader()
             {
                 From = new From()
                 {
@@ -78,7 +78,7 @@ namespace DealnetPortal.Api.Tests.Aspire
         {
             CustomerRequest request = new CustomerRequest();
 
-            request.Header = new Header()
+            request.Header = new RequestHeader()
             {
                 UserId = ConfigurationManager.AppSettings["AspireUser"],
                 Password = ConfigurationManager.AppSettings["AspirePassword"]

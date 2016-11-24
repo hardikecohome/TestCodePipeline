@@ -276,7 +276,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    request.Header = new Header()
+                    request.Header = new RequestHeader()
                     {
                         From = new From()
                         {
@@ -349,13 +349,84 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document,
+            string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract != null && document != null && document.DocumentBytes != null)
+            {
+                var request = new DocumentUploadRequest();
+
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = userResult.Item1;
+
+                    try
+                    {                    
+                        request.Payload = new DocumentUploadPayload()
+                        {
+                            TransactionId = contract.Details.TransactionId,
+                            DocumentName = document.DocumentName,
+                            DocumentData = Convert.ToBase64String(document.DocumentBytes),
+                            //TODO: insert correct status
+                            Status = "35-Dead Deal"
+                        };
+
+                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+                        var rAlerts = AnalyzeResponse(docUploadResponse, contract);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
+
+                        if (rAlerts.All(a => a.Type != AlertType.Error))
+                        {
+                            _loggingService.LogInfo($"Document {document.DocumentName} to Aspire for contract {contractId} was uploaded successfully");
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Can't upload document to Aspire",
+                            Message = ex.ToString(),
+                            Type = AlertType.Error
+                        });
+                        _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            return alerts;
+        }
+
         public async Task<IList<Alert>> LoginUser(string userName, string password)
         {
             var alerts = new List<Alert>();
 
             DealUploadRequest request = new DealUploadRequest()
             {
-                Header = new Header()
+                Header = new RequestHeader()
                 {
                     UserId = userName,
                     Password = password
@@ -391,10 +462,10 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }        
 
-        private Tuple<Header, IList<Alert>> GetAspireUser(string contractOwnerId)
+        private Tuple<RequestHeader, IList<Alert>> GetAspireUser(string contractOwnerId)
         {
             var alerts = new List<Alert>();
-            var header = new Header();            
+            RequestHeader header = null;            
 
             try
             {
@@ -402,7 +473,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) &&
                     !string.IsNullOrEmpty(dealer.AspirePassword))
                 {
-                    header = new Header()
+                    header = new RequestHeader()
                     {
                         UserId = dealer.AspireLogin,
                         Password = dealer.AspirePassword
@@ -415,7 +486,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    header = new Header()
+                    header = new RequestHeader()
                     {
                         UserId = ConfigurationManager.AppSettings["AspireUser"],
                         Password = ConfigurationManager.AppSettings["AspirePassword"]
@@ -439,7 +510,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError(errorMsg);
             }
 
-            return new Tuple<Header, IList<Alert>>(header, alerts);
+            return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
         }
 
         private void InitRequestPayload(DealUploadRequest request)

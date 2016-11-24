@@ -50,6 +50,8 @@
     <Compile Include="Aspire\DealUploadResponse.cs" />
     <Compile Include="Aspire\DecisionCustomerResponse.cs" />
     <Compile Include="Aspire\DecisionLoginResponse.cs" />
+    <Compile Include="Aspire\DocumentUploadRequest.cs" />
+    <Compile Include="Aspire\DocumentUploadResponse.cs" />
     <Compile Include="Aspire\Header.cs" />
     <Compile Include="Aspire\Payload.cs" />
     <Compile Include="Contract\ApplicationUserDTO.cs" />

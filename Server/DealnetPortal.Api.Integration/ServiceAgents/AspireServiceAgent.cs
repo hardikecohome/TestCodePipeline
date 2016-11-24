@@ -47,5 +47,12 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             //api//DealUploadWeb/LoginSubmission.aspx
             return await AspireApiClient.PostAsyncXmlWithXmlResponce<DealUploadRequest, DecisionLoginResponse>($"{_fullUri}/DealUploadWeb/LoginSubmission.aspx", dealUploadRequest, cancellationToken).ConfigureAwait(false);
         }
+
+        public async Task<DocumentUploadResponse> DocumentUploadSubmission(DocumentUploadRequest docUploadRequest)
+        {
+            CancellationToken cancellationToken = new CancellationToken();
+            //api//DealUploadWeb/DocumentUploadSubmission.aspx
+            return await AspireApiClient.PostAsyncXmlWithXmlResponce<DocumentUploadRequest, DocumentUploadResponse>($"{_fullUri}/DealUploadWeb/DocumentUploadSubmission.aspx", docUploadRequest, cancellationToken).ConfigureAwait(false);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace DealnetPortal.Api.Models.Aspire
     {
         public string TransactionId { get; set; }
         public Lease Lease { get; set; }
-        public LeaseDecision LeaseDecision { get; set; }
+        //public LeaseDecision LeaseDecision { get; set; }
     }
 
     [Serializable]
@@ -28,6 +28,9 @@ namespace DealnetPortal.Api.Models.Aspire
         public string CreditDecision { get; set; }        
         public string ScorecardPoints { get; set; }
         public string ScorecardPassFail { get; set; }
+
+        public string DocumentName { get; set; }
+
         public Asset Asset { get; set; }
         [XmlElement("Account")]
         public List<AccountResponse> Accounts { get; set; }
@@ -144,8 +147,11 @@ namespace DealnetPortal.Api.Models.Aspire
     [Serializable]
     public class Personal
     {
+        public string AccountID { get; set; }
         public string Firstname { get; set; }
+        public string Middlename { get; set; }
         public string Lastname { get; set; }
+        public string Sin { get; set; }
         public string Dob { get; set; }
     }
 
@@ -209,6 +215,10 @@ namespace DealnetPortal.Api.Models.Aspire
     public class Telecomm
     {
         public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string Website { get; set; }
+        public string Name { get; set; }
     }
 
     [Serializable]
@@ -227,8 +237,8 @@ namespace DealnetPortal.Api.Models.Aspire
         [XmlAttribute]
         public string Abbrev { get; set; }
 
-        [XmlText]
-        public string Text { get; set; }
+        //[XmlText]
+        //public string Text { get; set; }
     }
 
     [Serializable]

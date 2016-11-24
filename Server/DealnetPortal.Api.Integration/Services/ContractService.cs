@@ -676,6 +676,14 @@ namespace DealnetPortal.Api.Integration.Services
                 doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
                     contractOwnerId);
                 _unitOfWork.Save();
+
+                //run aspire upload async
+                _aspireService.UploadDocument(document.ContractId, document, contractOwnerId);
+                //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
+                //if (aspireAlerts?.Any() ?? false)
+                //{
+                //    alerts.AddRange(aspireAlerts);
+                //}
             }
             catch (Exception ex)
             {

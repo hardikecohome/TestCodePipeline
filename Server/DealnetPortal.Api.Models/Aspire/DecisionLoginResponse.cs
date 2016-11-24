@@ -11,6 +11,6 @@ namespace DealnetPortal.Api.Models.Aspire
     [XmlRoot(ElementName = "DecisionLoginXML")]
     public class DecisionLoginResponse
     {
-        public Header Header { set; get; }
+        public ResponseHeader Header { set; get; }
     }
 }
