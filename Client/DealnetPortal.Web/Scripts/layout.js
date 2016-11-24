@@ -350,8 +350,9 @@ function toggleClearInputIcon(fields){
 }
 
 function recoverPassword(){
-  var pass = $('input[type="password"]');
+  var pass;
   $('.recover-pass-link').on('click', function(){
+    pass = $(this).parents('.control-group-pass').find('input');
     if(pass.prop('type') == "password"){
       pass.prop('type', 'text');
     }else{
