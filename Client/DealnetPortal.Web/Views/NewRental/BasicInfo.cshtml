@@ -354,7 +354,7 @@
     {
         <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text>  }>
             <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
-
+            <input type="hidden" name="AdditionalApplicants.Index" value="@i" />
             @if (!ViewBag.IsMobileRequest)
             {
                 <div class="row scanlicence-button">
