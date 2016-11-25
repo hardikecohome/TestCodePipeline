@@ -56,6 +56,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         //Payment Fields
         public static string EnbridgeAccountNumber = "Enbridge Account Number";
+        public static string Ean = "EAN";
         public static string IsEnbridge = "IsEnbridge";
         public static string IsPAD = "IsPAD";
         public static string IsPAD1 = "IsPAD1";

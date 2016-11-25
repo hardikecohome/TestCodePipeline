@@ -601,7 +601,16 @@ namespace DealnetPortal.Api.Integration.Services
                 if (contract.PaymentInfo.PaymentType == PaymentType.Enbridge)
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsEnbridge, Value = "true" });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EnbridgeAccountNumber, Value = contract.PaymentInfo.EnbridgeGasDistributionAccount });                  
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EnbridgeAccountNumber, Value = contract.PaymentInfo.EnbridgeGasDistributionAccount });
+                    if (string.IsNullOrEmpty(contract.PaymentInfo.EnbridgeGasDistributionAccount))
+                    {
+                        for (int ch = 1;
+                            ch <= Math.Max(contract.PaymentInfo.EnbridgeGasDistributionAccount.Length, 12);
+                            ch++)
+                        {
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Ean}{ch}", Value = $"{contract.PaymentInfo.EnbridgeGasDistributionAccount[ch-1]}" });
+                        }                        
+                    }
                 }
                 else
                 {
