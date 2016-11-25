@@ -145,7 +145,9 @@
       var resizeInt = null;
       $('textarea').each(function(){
         var textField = $(this);
-        has_scrollbar(textField, 'textarea-has-scroll');
+        setTimeout(function(){
+          has_scrollbar(textField, 'textarea-has-scroll');
+        }, 100);
 
         textField.on("mousedown", function(e) {
           resizeInt = setInterval(function(){
