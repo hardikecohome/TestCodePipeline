@@ -238,13 +238,13 @@
 	<div class="form-section">
 		<div class="row">
 
-		@using (Html.BeginForm(null, null, FormMethod.Post, new {id = "basic-info-form"}))
+		@using (Html.BeginForm(null, null, FormMethod.Post, new {id = "basic-info-form", @class="grid-parent"}))
 		{
 		    @Html.AntiForgeryToken()
 		    @Html.HiddenFor(m => m.BasicInfo.ContractId)
             @Html.HiddenFor(m => m.BasicInfo.HomeOwner.CustomerId)
             @Html.HiddenFor(m => m.BasicInfo.SubmittingDealerId)
-			<div class="credit-check-info-hold">
+			<div class="credit-check-info-hold fit-to-next-grid">
 		    <div class="col-md-6 grid-column">
 		        <div class="dealnet-credit-check-section" id="home-owner-section">
 		            <h3 class="dealnet-section-title">Home Owner Information</h3>
@@ -450,11 +450,10 @@
 		    }
 			</div>
 		}
-
+		<div class="credit-check-info-hold">
+			<div class="col-md-6 grid-column">
             @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "contact-info-form" }))
             {
-			<div class="credit-check-info-hold">
-                <div class="col-md-6 grid-column">
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
                     <div class="dealnet-credit-check-section" id="contact-info-section">
@@ -514,9 +513,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
-			</div>
             }
+			</div>
+		</div>
         </div>
 	</div>
 
