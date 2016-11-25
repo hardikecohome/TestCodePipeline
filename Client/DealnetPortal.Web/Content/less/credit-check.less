@@ -224,6 +224,9 @@ select.dealnet-disabled-input{
     padding-right: 23px;
     display: inline-block;
     position: relative;
+    &.block-item{
+      display: block;
+    }
     .remove-link{
       position: absolute;
       left: 0;
@@ -231,6 +234,7 @@ select.dealnet-disabled-input{
       color: @heading-text-color;
     }
   }
+
   .dealnet-field-caption{
     @media @mobile {
       width: 100%;
