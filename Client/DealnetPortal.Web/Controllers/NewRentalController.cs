@@ -370,6 +370,10 @@ namespace DealnetPortal.Web.Controllers
                 {
                     FileDownloadName = result.Item1.Name
                 };
+                if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
+                {
+                    response.FileDownloadName += ".pdf";
+                }
                 return response;
             }            
 
