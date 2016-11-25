@@ -42,7 +42,7 @@
     <div class="form-container">
 	<div class="form-section">
 	<div class="row credit-check-info-hold">
-		<div class="col-md-6">
+		<div class="col-md-6 grid-column">
 			<div class="dealnet-credit-check-section" id="home-owner-section">
 			    <h3 class="dealnet-section-title">Home Owner Information<a href="#" onclick="copyFormData($('#home-owner-section'), $('#home-owner-section-modal'), false); $('#home-owner-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
 			    </h3>
@@ -114,7 +114,7 @@
 
 		</div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 grid-column">
             <div class="dealnet-credit-check-section" id="address-section">
                 <h3 class="dealnet-section-title">Address Information <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                 <div class="form-group">
@@ -174,7 +174,7 @@
         @if (Model.HomeOwner.MailingAddressInformation != null)
         {
 
-            <div class="col-md-6">
+            <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section" id="mailing-address-section">
                     <h3 class="dealnet-section-title">Mailing Address <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                     <div class="form-group">
@@ -242,7 +242,7 @@
             for (int i = 0; i < Model.AdditionalApplicants.Count; i++)
             {
 
-                <div class="col-md-6">
+                <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="additional@(i+1)-section">
                         <h3 class="dealnet-section-title">
                             Additional Applicant #@(i + 1) <a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
@@ -312,7 +312,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="additional-address-section-@(i+1)">
                         <h3 class="dealnet-section-title">Address Information <a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
                         <div class="form-group">

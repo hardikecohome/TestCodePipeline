@@ -57,9 +57,14 @@
         }, 400);
       });
 
-      if($('.basic-info-cols.credit-check-info-hold .col-md-6').length % 2 !== 0){
-        $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
-      }
+      $('.credit-check-info-hold.fit-to-next-grid').each(function(){
+
+        if($(this).find('.grid-column').length % 2 !== 0){
+          $(this).parents('.grid-parent').next('.credit-check-info-hold').addClass('shift-to-basic-info');
+          $(this).parents('.grid-parent').next('.grid-parent').find('.credit-check-info-hold').addClass('shift-to-basic-info');
+        }
+
+      });
 
       $('.dealnet-disabled-input, input.control-disabled, textarea.control-disabled, select.control-disabled').each(function(){
         $(this).attr('type', 'hidden');
