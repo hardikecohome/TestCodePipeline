@@ -661,7 +661,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 else
                 {
                     email.Customer = customer;
-                    email.Id = email.Id;
+                    email.Id = curEmail.Id;
                     _dbContext.Emails.AddOrUpdate(email);
                     //_dbContext.Entry<Email>(email).State = EntityState.Modified;
                 }
