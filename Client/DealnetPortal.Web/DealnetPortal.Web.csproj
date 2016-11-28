@@ -353,6 +353,13 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\dataTables\details_close.png" />
+    <Content Include="Content\images\dataTables\details_open.png" />
+    <Content Include="Content\images\dataTables\sort_asc.png" />
+    <Content Include="Content\images\dataTables\sort_asc_disabled.png" />
+    <Content Include="Content\images\dataTables\sort_both.png" />
+    <Content Include="Content\images\dataTables\sort_desc.png" />
+    <Content Include="Content\images\dataTables\sort_desc_disabled.png" />
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo-one-dealer%402x.png" />
     <Content Include="Content\images\logo-one-dealer%403x.png" />
