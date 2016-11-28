@@ -17,6 +17,9 @@ namespace DealnetPortal.Api.Models.Contract
         [Required]
         public DateTime DateOfBirth { get; set; }
 
+        public string Sin { get; set; }
+        public string DriverLicenseNumber { get; set; }
+
         public List<LocationDTO> Locations { get; set; }
 
         public List<PhoneDTO> Phones { get; set; }

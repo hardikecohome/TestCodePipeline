@@ -11,6 +11,7 @@ namespace DealnetPortal.Api.Common.Enumeration
         Signer = 0,
         HomeOwner = 0,
         AdditionalApplicant = 1,
-        CopyViewer = 2
+        Dealer = 2,
+        CopyViewer = 3
     }
 }

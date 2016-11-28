@@ -31,7 +31,7 @@ function recalculateTotalMonthlyPayment() {
     $(".total-monthly-payment").each(function () {
         var sumStr = sum.toFixed(2);
         $(this).val(sumStr);
-        $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').text(sumStr);
+        $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').text(sumStr.replace(/\r?\n/g, '<br />'));
     });
     var salesTax = sum * taxRate / 100;
     $("#salex-tax").text(salesTax.toFixed(2));
@@ -86,6 +86,9 @@ function assignAutocompletes() {
         .ready(function () {
             initGoogleServices("street", "locality", "administrative_area_level_1", "postal_code");
             initGoogleServices("mailing_street", "mailing_locality", "mailing_administrative_area_level_1", "mailing_postal_code");
+            for (var i = 1; i <= 3; i++) {
+                initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
+            }
         });
 }
 

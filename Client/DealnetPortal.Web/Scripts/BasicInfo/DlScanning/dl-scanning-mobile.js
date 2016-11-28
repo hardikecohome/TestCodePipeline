@@ -1,4 +1,4 @@
-﻿function submitUpload(sender, uploadUrl, fnToFill, lnToFill, bdToFill, fillAddress) {
+﻿function submitUpload(sender, uploadUrl, fnToFill, lnToFill, bdToFill, dlToFill, stToFill, ctToFill, prToFill, pcToFill) {
     
     var files = sender.files;
     if (files.length > 0) {
@@ -17,7 +17,7 @@
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize driver licence");
+                        alert("Can't recognize driver license");
                     } else {
                         document.getElementById(fnToFill).value = json.FirstName;
                         document.getElementById(lnToFill).value = json.LastName;
@@ -25,12 +25,11 @@
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
                         $("#" + bdToFill).datepicker("setDate", date);
-                        if (fillAddress) {
-                            document.getElementById('street').value = json.Street;
-                            document.getElementById('locality').value = json.City;
-                            document.getElementById('administrative_area_level_1').value = json.State;
-                            document.getElementById('postal_code').value = json.PostalCode;
-                        }
+                        document.getElementById(dlToFill).value = json.Id;
+                        document.getElementById(stToFill).value = json.Street;
+                        document.getElementById(ctToFill).value = json.City;
+                        document.getElementById(prToFill).value = json.State;
+                        document.getElementById(pcToFill).value = json.PostalCode;
                     }
                 },
                 error: function (xhr, status, p3) {

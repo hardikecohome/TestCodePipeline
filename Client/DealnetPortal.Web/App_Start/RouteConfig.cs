@@ -15,7 +15,7 @@ namespace DealnetPortal.Web
 
             routes.MapRoute(
                name: "",
-               url: "NewRental/{action}/{contractId}",
+               url: "NewApplication/{action}/{contractId}",
                defaults: new { controller = "NewRental", contractId = UrlParameter.Optional }
            );
 

@@ -7,10 +7,19 @@ using System.Threading.Tasks;
 namespace DealnetPortal.Api.Models.Aspire
 {
     [Serializable]
-    public class Header
+    public class RequestHeader
     {
         public From From { get; set; }
 
+        public string UserId { get; set; }
+        public string Password { get; set; }
+
+        public string Status { get; set; }        
+    }
+
+    [Serializable]
+    public class ResponseHeader
+    {        
         public To To { get; set; }
 
         public string UserId { get; set; }

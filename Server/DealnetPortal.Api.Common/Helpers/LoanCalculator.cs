@@ -26,6 +26,7 @@ namespace DealnetPortal.Api.Common.Helpers
             public double TotalCashPrice { get; set; }
             public double TotalAmountFinanced { get; set; }
             //TODO: why double, not decimal?
+            //TODO: because methods from Financial class outputs value in double
             public double TotalMonthlyPayment { get; set; }
             public double TotalAllMonthlyPayments { get; set; }
             public double ResidualBalance { get; set; }

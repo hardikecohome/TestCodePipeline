@@ -131,7 +131,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 LastName = "LstName",
                 DateOfBirth = DateTime.Today
             };
-            contractData.Locations = new List<Location> {address};
+            //contractData.Locations = new List<Location> {address};
 
             _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
@@ -148,7 +148,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             };
 
             contractData.PrimaryCustomer = null;
-            contractData.Locations = new List<Location>() {address, address2};
+            //contractData.Locations = new List<Location>() {address, address2};
 
             _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
@@ -175,7 +175,6 @@ namespace DealnetPortal.Api.Tests.Repositories
                     DateOfBirth = DateTime.Today
                 }
             };
-            contractData.Locations = null;
             contractData.PrimaryCustomer = null;
             contractData.SecondaryCustomers = customers;
             _contractRepository.UpdateContractData(contractData, _user.Id);

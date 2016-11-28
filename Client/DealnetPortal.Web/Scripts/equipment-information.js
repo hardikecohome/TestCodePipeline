@@ -42,8 +42,6 @@ $(document)
                     "Please enter a valid date!"
                 );
 
-                $("#admin-fee").rules("add", "required");
-                $("#down-payment").rules("add", "required");
                 $("#customer-rate").rules("add", "required");
                 $("#amortization-term").rules("add", "required");
                 var initAgreementType = $("#agreement-type").find(":selected").val();
@@ -221,14 +219,16 @@ function recalculateTotalCashPrice() {
     if (agreementType !== "0") {
         return;
     }
-    var sum = 0;
+    var sum;
     $(".equipment-cost").each(function () {
         var numberValue = parseFloat(this.value);
         if (!isNaN(numberValue)) {
+            if (!sum) { sum = 0; }
             sum += numberValue;
         }
     });
 
+    if (!sum) { return; }
     $("#equipment-cash-price").text(sum.toFixed(2));
     calculateLoanValues();
 }
@@ -237,6 +237,8 @@ function resetFormValidator(formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');
     $.validator.unobtrusive.parse(formId);
+    $("#customer-rate").rules("add", "required");
+    $("#amortization-term").rules("add", "required");
 }
 
 function assignDatepicker() {

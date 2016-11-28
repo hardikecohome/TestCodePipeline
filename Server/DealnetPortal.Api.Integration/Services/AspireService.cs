@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Api.Models.Contract;
@@ -16,6 +20,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity;
 using Microsoft.Practices.ObjectBuilder2;
 using Application = DealnetPortal.Api.Models.Aspire.Application;
 
@@ -28,6 +33,8 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly TimeSpan _aspireRequestTimeout;
+
         //Aspire codes
         private const string CodeSuccess = "T000";
 
@@ -38,6 +45,7 @@ namespace DealnetPortal.Api.Integration.Services
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _aspireRequestTimeout = TimeSpan.FromSeconds(90);
         }
 
         public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId)
@@ -67,11 +75,25 @@ namespace DealnetPortal.Api.Integration.Services
                             },
                             Accounts = GetCustomersInfo(contract)
                         }
-                    };                    
+                    };
 
                     try
                     {
-                        var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
+                        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                        var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
+                        DecisionCustomerResponse response = null;
+
+                        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                        {
+                            response = await aspireRequestTask.ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            throw new TimeoutException("The Aspire operation has timed out.");
+                        }
+
+                        //var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
+
                         var rAlerts = AnalyzeResponse(response, contract);
                         if (rAlerts.Any())
                         {
@@ -82,6 +104,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {                        
                         alerts.Add(new Alert()
                         {
+                            Code = ErrorCodes.AspireConnectionFailed,
                             Header = ErrorConstants.AspireConnectionFailed,
                             Type = AlertType.Error,
                             Message = ex.ToString()
@@ -116,70 +139,108 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            CreditCheckDTO creditCheckResult = null;
+            CreditCheckDTO creditCheckResult = null;            
 
             if (contract != null)
             {
-                CreditCheckRequest request = new CreditCheckRequest();
-
-                var userResult = GetAspireUser(contractOwnerId);
-                if (userResult.Item2.Any())
+                if (string.IsNullOrEmpty(contract.Details?.TransactionId))
                 {
-                    alerts.AddRange(userResult.Item2);
+                    _loggingService.LogWarning($"Aspire transaction wasn't created for contract {contractId} before credit check. Try to create Aspire transaction");
+                    //try to call Customer Update for create aspire transaction
+                    await UpdateContractCustomer(contractId, contractOwnerId).ConfigureAwait(false);
                 }
-                if (alerts.All(a => a.Type != AlertType.Error))
-                {
-                    request.Header = userResult.Item1;
-                    
-                    request.Payload = new Payload()
-                    {
-                        TransactionId = contract.Details?.TransactionId
-                    };
 
-                    try
+                if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
+                {
+                    CreditCheckRequest request = new CreditCheckRequest();
+
+                    var userResult = GetAspireUser(contractOwnerId);
+                    if (userResult.Item2.Any())
                     {
-                        var response = await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeResponse(response, contract);                        
-                        if (rAlerts.Any())
+                        alerts.AddRange(userResult.Item2);
+                    }
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        request.Header = userResult.Item1;
+
+                        request.Payload = new Payload()
                         {
-                            alerts.AddRange(rAlerts);
-                        }
-                        if (rAlerts.All(a => a.Type != AlertType.Error))
+                            TransactionId = contract.Details.TransactionId
+                        };
+
+                        try
                         {
-                            creditCheckResult = GetCreditCheckResult(response);
-                            if (creditCheckResult != null)
+                            Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                            var aspireRequestTask = _aspireServiceAgent.CreditCheckSubmission(request);
+                            CreditCheckResponse response = null;
+
+                            if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
                             {
-                                creditCheckResult.ContractId = contractId;
+                                response = await aspireRequestTask.ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                throw new TimeoutException("The Aspire operation has timed out.");
+                            }
+
+                            //var response =
+                            //    await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
+
+                            var rAlerts = AnalyzeResponse(response, contract);
+                            if (rAlerts.Any())
+                            {
+                                alerts.AddRange(rAlerts);
+                            }
+                            if (rAlerts.All(a => a.Type != AlertType.Error))
+                            {
+                                creditCheckResult = GetCreditCheckResult(response);
+                                if (creditCheckResult != null)
+                                {
+                                    creditCheckResult.ContractId = contractId;
+                                }
+                            }
+                            else
+                            {
+                                //TODO: Only for test. Remove in the future
+                                creditCheckResult = new CreditCheckDTO()
+                                {
+                                    CreditCheckState = CreditCheckState.Approved,
+                                    ScorecardPoints = 150,
+                                    CreditAmount = 10000,
+                                    ContractId = contractId
+                                };
                             }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            //TODO: Only for test. Remove in the future
-                            creditCheckResult = new CreditCheckDTO()
+                            alerts.Add(new Alert()
                             {
-                                CreditCheckState = CreditCheckState.Approved,
-                                ScorecardPoints = 150,
-                                CreditAmount = 10000,
-                                ContractId = contractId
-                            };
+                                Code = ErrorCodes.AspireConnectionFailed,
+                                Header = ErrorConstants.AspireConnectionFailed,
+                                Type = AlertType.Error,
+                                Message = ex.ToString()
+                            });
+                            _loggingService.LogError("Failed to communicate with Aspire", ex);
                         }
                     }
-                    catch (Exception ex)
+                }
+                else
+                {
+                    alerts.Add(new Alert()
                     {
-                        alerts.Add(new Alert()
-                        {
-                            Header = ErrorConstants.AspireConnectionFailed,
-                            Type = AlertType.Error,
-                            Message = ex.ToString()
-                        });
-                        _loggingService.LogError("Failed to communicate with Aspire", ex);
-                    }
+                        Code = ErrorCodes.AspireTransactionNotCreated,
+                        Header = "Aspire error",
+                        Message = $"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first",
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first");
                 }
             }
             else
             {
                 alerts.Add(new Alert()
                 {
+                    Code = ErrorCodes.CantGetContractFromDb,
                     Header = "Can't get contract",
                     Message = $"Can't get contract with id {contractId}",
                     Type = AlertType.Error
@@ -198,13 +259,186 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheckResult, alerts);
         }
 
+        public async Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract != null)
+            {
+                DealUploadRequest request = new DealUploadRequest();
+
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = new RequestHeader()
+                    {
+                        From = new From()
+                        {
+                            AccountNumber = userResult.Item1.UserId,
+                            Password = userResult.Item1.Password
+                        }
+                    };
+                    request.Payload = new Payload()
+                    {
+                        Lease = new Lease()
+                        {
+                            Application = GetContractApplication(contract)
+                        }
+                    };                   
+
+                    try
+                    {
+                        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                        var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
+                        DealUploadResponse response = null;
+
+                        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                        {
+                            response = await aspireRequestTask.ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            throw new TimeoutException("The Aspire operation has timed out.");
+                        }
+
+                        var rAlerts = AnalyzeResponse(response, contract);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = ErrorConstants.AspireConnectionFailed,
+                            Type = AlertType.Error,
+                            Message = ex.ToString()
+                        });
+                        _loggingService.LogError("Failed to communicate with Aspire", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Contract [{contractId}] submitted to Aspire successfully with transaction Id [{contract?.Details.TransactionId}]");
+            }       
+
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document,
+            string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract != null && document?.DocumentBytes != null)
+            {                
+                var docTypeId = document.DocumentTypeId;
+                var docTypes = _contractRepository.GetDocumentTypes();
+
+                var docType = docTypes?.FirstOrDefault(t => t.Id == docTypeId);
+                if (!string.IsNullOrEmpty(docType?.Prefix))
+                {
+                    if (string.IsNullOrEmpty(document.DocumentName) || !document.DocumentName.StartsWith(docType.Prefix))
+                    {
+                        document.DocumentName = docType.Prefix + document.DocumentName;
+                    }
+                }
+
+                var request = new DocumentUploadRequest();
+
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = userResult.Item1;
+
+                    try
+                    {                    
+                        request.Payload = new DocumentUploadPayload()
+                        {
+                            TransactionId = contract.Details.TransactionId,
+                            DocumentName = document.DocumentName, //ext ?
+                            DocumentData = Convert.ToBase64String(document.DocumentBytes),
+                            //TODO: insert correct status
+                            Status = "35-Dead Deal"
+                        };
+
+                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+                        var rAlerts = AnalyzeResponse(docUploadResponse, contract);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
+
+                        if (rAlerts.All(a => a.Type != AlertType.Error))
+                        {
+                            _loggingService.LogInfo($"Document {document.DocumentName} to Aspire for contract {contractId} was uploaded successfully");
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Can't upload document to Aspire",
+                            Message = ex.ToString(),
+                            Type = AlertType.Error
+                        });
+                        _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            return alerts;
+        }
+
         public async Task<IList<Alert>> LoginUser(string userName, string password)
         {
             var alerts = new List<Alert>();
 
             DealUploadRequest request = new DealUploadRequest()
             {
-                Header = new Header()
+                Header = new RequestHeader()
                 {
                     UserId = userName,
                     Password = password
@@ -238,12 +472,12 @@ namespace DealnetPortal.Api.Integration.Services
 
 
             return alerts;
-        }
+        }        
 
-        private Tuple<Header, IList<Alert>> GetAspireUser(string contractOwnerId)
+        private Tuple<RequestHeader, IList<Alert>> GetAspireUser(string contractOwnerId)
         {
             var alerts = new List<Alert>();
-            var header = new Header();            
+            RequestHeader header = null;            
 
             try
             {
@@ -251,7 +485,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) &&
                     !string.IsNullOrEmpty(dealer.AspirePassword))
                 {
-                    header = new Header()
+                    header = new RequestHeader()
                     {
                         UserId = dealer.AspireLogin,
                         Password = dealer.AspirePassword
@@ -264,7 +498,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    header = new Header()
+                    header = new RequestHeader()
                     {
                         UserId = ConfigurationManager.AppSettings["AspireUser"],
                         Password = ConfigurationManager.AppSettings["AspirePassword"]
@@ -288,7 +522,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError(errorMsg);
             }
 
-            return new Tuple<Header, IList<Alert>>(header, alerts);
+            return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
         }
 
         private void InitRequestPayload(DealUploadRequest request)
@@ -339,6 +573,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var account = new Account
                 {
                     IsIndividual = true,
+                    IsPrimary = true,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
                     Personal = new Personal()
@@ -396,12 +631,87 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract.PrimaryCustomer != null)
             {
                 var acc = fillAccount(contract.PrimaryCustomer, CustRole);
-                acc.IsPrimary = true;                
+                //acc.IsPrimary = true;                
                 accounts.Add(acc);
             }
 
             contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, GuarRole)));
             return accounts;
+        }
+
+        private Application GetContractApplication(Domain.Contract contract)
+        {
+            var application = new Application()
+            {
+                TransactionId = contract.Details?.TransactionId
+            };
+            if (contract.Equipment != null)
+            {
+                contract.Equipment.NewEquipment?.ForEach(eq =>
+                {
+                    if (application.Equipments == null)
+                    {
+                        application.Equipments = new List<Equipment>();
+                    }
+                    application.Equipments.Add(new Equipment()
+                    {
+                        Quantity = "1",
+                        Cost = eq.Cost?.ToString(),
+                        Description = eq.Description
+                    });
+                });
+                application.AmtRequested = contract.Equipment.AmortizationTerm?.ToString();
+                application.TermRequested = contract.Equipment.RequestedTerm.ToString();
+                application.Notes = contract.Equipment.Notes;
+                //TODO: Implement finance program selection
+                application.FinanceProgram = "EcoHome Finance Program";
+
+                application.UDFs = new List<UDF>()
+                {
+                    new UDF()
+                    {
+                        Name = "Requested Term",
+                        Value = contract.Equipment.RequestedTerm.ToString()
+                    }
+                };
+
+            }
+            if (contract.PaymentInfo != null)
+            {
+                var udfs = new List<UDF>();
+                udfs.Add(new UDF()
+                {
+                    Name = "Contract Type",
+                    Value = contract.Equipment?.AgreementType == AgreementType.LoanApplication ? "LOAN" : "RENTAL"
+                });
+                udfs.Add(new UDF()
+                {
+                    Name = "Payment Type",
+                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "Pre-Authorized Debit"
+                });
+                //udfs.Add(new UDF()
+                //{
+                //    Name = "Payment Type",
+                //    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge Bill" : "Pre-Authorized Debit"
+                //});                
+                if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
+                    !string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount))
+                {
+                    udfs.Add(new UDF()
+                    {
+                        Name = "Enbridge Gas Account Number",
+                        Value = contract.PaymentInfo.EnbridgeGasDistributionAccount
+                    });
+                }
+
+                if (application.UDFs == null)
+                {
+                    application.UDFs = new List<UDF>();
+                }
+                application.UDFs.AddRange(udfs);
+            }
+
+            return application;
         }
 
         private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract)
@@ -464,6 +774,11 @@ namespace DealnetPortal.Api.Integration.Services
                             _unitOfWork.Save();
                             _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} customers");
                         }
+                    }
+
+                    if (response.Payload.Asset != null)
+                    {
+                        
                     }
                 }
             }      

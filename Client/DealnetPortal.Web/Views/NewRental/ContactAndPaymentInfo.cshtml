@@ -126,8 +126,8 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address", type = "email" })
-                                @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = "Email Address", type = "email"})
+                                @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new {@class = "text-danger"})
                             </div>
                         </div>
                     </div>
@@ -254,7 +254,7 @@
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div class="dealnet-middle-header">Scan Void Cheque</div>
-                    <div class="dealnet-middle-header-2" id="you-want">How do you want to do this?</div>
+                    <div class="dealnet-middle-header-2" id="you-want">Select scanning method</div>
 
                     <ul class="nav nav-tabs" role="tablist">
                         <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Use Camera</a></li>

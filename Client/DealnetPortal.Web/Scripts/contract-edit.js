@@ -21,12 +21,14 @@
             return false;
         });
 
-        $('.base-comment-text').keypress(function(e) {
-            if(e.which == 13 && !e.shiftKey) {
-                var form = $(this).parent().closest('form');
-                submitComment(form, addBaseComment);
-            }
-        });
+        if (!isMobileBrowser) {
+            $('.base-comment-text').keypress(function(e) {
+                if (e.which == 13 && !e.shiftKey) {
+                    var form = $(this).parent().closest('form');
+                    submitComment(form, addBaseComment);
+                }
+            });
+        }
 
         $('.comment .comment-remove-link').on('click', function() {
             removeComment(this);
@@ -196,12 +198,14 @@ function addReplyFrom() {
             submitComment(form, addChildComment);
             return false;
         });
-        commentForm.find('.base-comment-text').keypress(function (e) {
-            if (e.which == 13 && !e.shiftKey) {
-                var form = $(this).parent().closest('form');
-                submitComment(form, addChildComment);
-            }
-        });
+        if (!isMobileBrowser) {
+            commentForm.find('.base-comment-text').keypress(function(e) {
+                if (e.which == 13 && !e.shiftKey) {
+                    var form = $(this).parent().closest('form');
+                    submitComment(form, addChildComment);
+                }
+            });
+        }
     }
 
     return false;
@@ -301,7 +305,7 @@ function addBaseComment(form, json) {
     var commentTemplate = $('#comment-template').clone();
     commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
     var commentText = $('.base-comment-text');
-    commentTemplate.find(".comment-body p").text(commentText.val());
+    commentTemplate.find(".comment-body p").html(commentText.val().replace(/\r?\n/g, '<br />'));
     commentText.val("");
     commentTemplate.find(".comment-user .comment-username").text(form.parent().closest('.comments-widget').data('username'));
     commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
@@ -318,7 +322,7 @@ function addChildComment(form, json) {
     var currComments = parentComment.next('ul').find('li:first');
     var commentTemplate = $('#comment-template').clone();
     commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
-    commentTemplate.find(".comment-body p").text(form.find('.base-comment-text').val());
+    commentTemplate.find(".comment-body p").html(form.find('.base-comment-text').val().replace(/\r?\n/g, '<br />'));
     commentTemplate.find(".comment-user .comment-username").text(form.parent().closest('.comments-widget').data('username'));
     commentTemplate.find(".comment-update-time").text(new Date().toString("hh:mm tt M/d/yyyy"));
     commentTemplate.attr("id", "");
@@ -336,4 +340,15 @@ function addChildComment(form, json) {
         parentComment.find('.comment-remove-link').hide();
     }
     return commentTemplate;
+}
+
+function assignAutocompletes() {
+    $(document)
+        .ready(function () {
+            initGoogleServices("street", "locality", "administrative_area_level_1", "postal_code");
+            initGoogleServices("mailing_street", "mailing_locality", "mailing_administrative_area_level_1", "mailing_postal_code");
+            for (var i = 1; i <= 3; i++) {
+                initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
+            }
+        });
 }

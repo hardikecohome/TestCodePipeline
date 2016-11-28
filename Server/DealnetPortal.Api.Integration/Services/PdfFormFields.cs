@@ -35,19 +35,20 @@ namespace DealnetPortal.Api.Integration.Services
         public static string FurnaceDetails = "FurnaceDetails";
         public static string AirConditionerDetails = "AirConditionerDetails";
         public static string BoilerDetails = "BoilerDetails";
-        public static string WaterFiltrationDetails = "BoilerDetails";
+        public static string WaterFiltrationDetails = "WaterFiltrationDetails";
         public static string OtherDetails1 = "OtherDetails1";
         public static string OtherDetails2 = "OtherDetails2";
         public static string FurnaceMonthlyRental = "FurnaceMonthlyRental";
         public static string AirConditionerMonthlyRental = "AirConditionerMonthlyRental";
         public static string BoilerMonthlyRental = "BoilerMonthlyRental";
-        public static string WaterFiltrationMonthlyRental = "BoilerMonthlyRental";
+        public static string WaterFiltrationMonthlyRental = "WaterFiltrationMonthlyRental";
         public static string OtherMonthlyRental1 = "OtherMonthlyRental1";
         public static string OtherMonthlyRental2 = "OtherMonthlyRental2";
 
         public static string MonthlyPayment = "Monthly Payment";
         public static string TotalPayment = "Total Payment";
         public static string TotalMonthlyPayment = "Total Monthly Payment";
+        public static string Hst = "HST";
 
         public static string EquipmentQuantity = "Equipment Quantity";
         public static string EquipmentDescription = "Equipment Description";
@@ -55,6 +56,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         //Payment Fields
         public static string EnbridgeAccountNumber = "Enbridge Account Number";
+        public static string Ean = "EAN";
         public static string IsEnbridge = "IsEnbridge";
         public static string IsPAD = "IsPAD";
         public static string IsPAD1 = "IsPAD1";

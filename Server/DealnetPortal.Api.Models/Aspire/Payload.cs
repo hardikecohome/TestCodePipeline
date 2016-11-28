@@ -14,7 +14,7 @@ namespace DealnetPortal.Api.Models.Aspire
     {
         public string TransactionId { get; set; }
         public Lease Lease { get; set; }
-        public LeaseDecision LeaseDecision { get; set; }
+        //public LeaseDecision LeaseDecision { get; set; }
     }
 
     [Serializable]
@@ -29,10 +29,20 @@ namespace DealnetPortal.Api.Models.Aspire
         public string ScorecardPoints { get; set; }
         public string ScorecardPassFail { get; set; }
 
+        public string DocumentName { get; set; }
+
+        public Asset Asset { get; set; }
         [XmlElement("Account")]
         public List<AccountResponse> Accounts { get; set; }
         //public string EntityId { get; set; }    
         //public string EntityName { get; set; }
+    }
+
+    [Serializable]
+    public class Asset
+    {
+        public string Number { get; set; }
+        public string Name { get; set; }
     }
 
     [Serializable]
@@ -47,8 +57,52 @@ namespace DealnetPortal.Api.Models.Aspire
 
     [Serializable]
     public class Application
-    {
+    {        
+        [XmlElement("Equipment")]
+        public List<Equipment> Equipments { get; set; }
+
+        [XmlElement(ElementName = "Amt_Requested")]
+        public string AmtRequested { get; set; }
+
+        [XmlElement(ElementName = "Term_Requested")]
+        public string TermRequested { get; set; }
+        public string Notes { get; set; }
+        public string FinanceProgram { get; set; }        
         public string TransactionId { get; set; }
+
+        [XmlElement("UDF")]
+        public List<UDF> UDFs { get; set; }
+    }
+
+    [Serializable]
+    public class Equipment
+    {
+        [XmlElement(ElementName = "Equipment_Description")]
+        public string Description { get; set; }
+        public string Quantity { get; set; }
+        [XmlElement(ElementName = "Equip_Model")]
+        public string Model { get; set; }
+        [XmlElement(ElementName = "Equip_Model_Year")]
+        public string ModelYear { get; set; }
+        [XmlElement(ElementName = "Equip_Manufacturer")]
+        public string Manufacturer { get; set; }
+        [XmlElement(ElementName = "Equip_Cost")]
+        public string Cost { get; set; }
+        [XmlElement(ElementName = "SerialNumber")]
+        public string SerialNumber { get; set; }
+        [XmlElement(ElementName = "Asset_Class")]
+        public AssetClass AssetClass { get; set; }
+   
+        [XmlElement("UDF")]
+        public List<UDF> UDFs { get; set; }        
+    }
+
+    [Serializable]
+    [System.Xml.Serialization.XmlRoot(ElementName = "Asset_Class")]
+    public class AssetClass
+    {
+        [XmlAttribute("AssetCode")]
+        public string AssetCode { get;set; }
     }
 
     [Serializable]
@@ -93,8 +147,11 @@ namespace DealnetPortal.Api.Models.Aspire
     [Serializable]
     public class Personal
     {
+        public string AccountID { get; set; }
         public string Firstname { get; set; }
+        public string Middlename { get; set; }
         public string Lastname { get; set; }
+        public string Sin { get; set; }
         public string Dob { get; set; }
     }
 
@@ -158,6 +215,10 @@ namespace DealnetPortal.Api.Models.Aspire
     public class Telecomm
     {
         public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string Website { get; set; }
+        public string Name { get; set; }
     }
 
     [Serializable]
@@ -176,8 +237,8 @@ namespace DealnetPortal.Api.Models.Aspire
         [XmlAttribute]
         public string Abbrev { get; set; }
 
-        [XmlText]
-        public string Text { get; set; }
+        //[XmlText]
+        //public string Text { get; set; }
     }
 
     [Serializable]

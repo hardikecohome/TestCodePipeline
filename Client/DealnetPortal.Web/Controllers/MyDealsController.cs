@@ -13,6 +13,7 @@ using DealnetPortal.Web.ServiceAgent;
 using System.IO;
 using System.Threading;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
@@ -39,6 +40,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> ContractEdit(int id)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
             return View(await _contractManager.GetContractEditAsync(id));
         }

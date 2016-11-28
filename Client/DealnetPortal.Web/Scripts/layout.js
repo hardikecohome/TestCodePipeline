@@ -20,6 +20,11 @@
 
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
+      }).on('shown.bs.modal', function(){
+
+          $('textarea').each(function(){
+            has_scrollbar($(this), 'textarea-has-scroll');
+          });
       }).on('hidden.bs.modal', function () {
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
@@ -52,9 +57,14 @@
         }, 400);
       });
 
-      if($('.basic-info-cols.credit-check-info-hold .col-md-6').length % 2 !== 0){
-        $('.summary-info-hold #contact-info-form.credit-check-info-hold').addClass('shift-to-basic-info');
-      }
+      $('.credit-check-info-hold.fit-to-next-grid').each(function(){
+
+        if($(this).find('.grid-column').length % 2 !== 0){
+          $(this).parents('.grid-parent').next('.credit-check-info-hold').addClass('shift-to-basic-info');
+          $(this).parents('.grid-parent').next('.grid-parent').find('.credit-check-info-hold').addClass('shift-to-basic-info');
+        }
+
+      });
 
       $('.dealnet-disabled-input, input.control-disabled, textarea.control-disabled, select.control-disabled').each(function(){
         $(this).attr('type', 'hidden');
@@ -67,7 +77,7 @@
         }else{
           $(this).after($('<div/>',{
             class: "dealnet-disabled-input dealnet-disabled-input-value",
-            text: inpValue
+            html: inpValue.replace(/\r?\n/g, '<br />')
           }));
         }
       });
@@ -128,7 +138,38 @@
       toggleClearInputIcon();
       customizeSelect();
       commonDataTablesSettings();
+      recoverPassword();
 
+
+        /*Settings for propper work of datepicker inside bootstrap modal*/
+
+        $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+
+        /*END Settings for propper work of datepicker inside bootstrap modal*/
+
+      var resizeInt = null;
+      $('textarea').each(function(){
+        var textField = $(this);
+        setTimeout(function(){
+          has_scrollbar(textField, 'textarea-has-scroll');
+        }, 100);
+
+        textField.on("mousedown", function(e) {
+          resizeInt = setInterval(function(){
+           has_scrollbar(textField, 'textarea-has-scroll');
+         }, 1000/15);
+        });
+      });
+
+      $('textarea').on('keyup', function(){
+        has_scrollbar($(this), 'textarea-has-scroll');
+      });
+      $(window).on("mouseup", function(e) {
+        if (resizeInt !== null) {
+          clearInterval(resizeInt);
+        }
+        //resizeEvent();
+      });
 });
 
 function stickySection(elem){
@@ -160,37 +201,29 @@ function stickySection(elem){
     });
 }
 
-/*function inputDateFocus(input){
-  input.on('touchend', function(){
-    if($('.ui-datepicker').length > 0){
-      var yPos = window.pageYOffset || $(document).scrollTop();
-      setTimeout(function() {
-        window.scrollTo(0, yPos);
-      },0);
-    }
-  }).on('focus', function(){
-    $(this).blur();
-    if($('.ui-datepicker').length > 0){
-      $(this).addClass('focus');
-    }else{
-      $(this).removeClass('focus');
-    }
-  });
-}*/
+function has_scrollbar(elem, className)
+{
+  elem_id = elem.attr('id');
+  if (elem[0].clientHeight < elem[0].scrollHeight)
+    elem.parents('.control-group').addClass(className);
+  else
+    elem.parents('.control-group').removeClass(className);
+}
+
 function inputDateFocus(input){
   input.on('click touchend', function(){
-    if(navigator.userAgent.match(/(iPod|iPhone|iPad)/) && (viewport().width < 768))
+    if((viewport().width < 768))
     {
       if($('body').not('.hasDatepicker')){
         $('body').addClass('hasDatepicker');
       }
     }
   }).on('focus', function(){
-    if(viewport().width < 768){
-      customDPSelect();
+    setTimeout(customDPSelect, 0);
+    if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
+      $(this).blur()
+        .addClass('focus');
     }
-    $(this).blur()
-      .addClass('focus');
   });
 }
 
@@ -326,7 +359,7 @@ function addIconsToFields(fields){
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
   var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
   var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
-  var iconPassField = $('<svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg>');
+  var iconPassField = $('<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>');
   iconCalendar.appendTo(fieldDateParent);
   iconClearField.appendTo(fieldParent);
   iconPassField.appendTo(fieldPassParent);
@@ -356,6 +389,19 @@ function toggleClearInputIcon(fields){
     $(this).hide();
   });
 
+}
+
+function recoverPassword(){
+  var pass;
+  $('.recover-pass-link').on('click', function(){
+    pass = $(this).parents('.control-group-pass').find('input');
+    if(pass.prop('type') == "password"){
+      pass.prop('type', 'text');
+    }else{
+      pass.prop('type', 'password');
+    }
+    return false;
+  });
 }
 
   /**
@@ -413,21 +459,24 @@ function viewport() {
 }
 
 function customDPSelect(){
-  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
   var inp = $(this);
   var selectClasses = "custom-select datepicker-select";
-  if(!$('.ui-datepicker-month').parents('.custom-select').length){
+  if($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length){
     $('.ui-datepicker-month')
       .wrap($('<div>', {
         class: selectClasses
       })).after('<span class="caret">');
   }
-  if(!$('.ui-datepicker-year').parents('.custom-select').length){
+  if($('select.ui-datepicker-year').length && !$('.ui-datepicker-year').parents('.custom-select').length){
     $('.ui-datepicker-year')
       .wrap($('<div>', {
         class: selectClasses
       })).after('<span class="caret">');
   }
-  $('.ui-datepicker-prev, .ui-datepicker-next').hide();
-
+  if($('select.ui-datepicker-month').length){
+    $('.ui-datepicker-prev, .ui-datepicker-next').hide();
+    console.log('1')
+  }else{
+    console.log(12)
+  }
 }

@@ -111,12 +111,13 @@ function initGoogleServices() {
                 }
             }
         }
+        var streetInput = $('#street');
         if (street) {
-            document.getElementById('street').value = street;
-            $('#street').removeClass('pac-placeholder').removeClass('placeholder');
+            streetInput.val(street);
+            streetInput.removeClass('pac-placeholder').removeClass('placeholder');
         } else {
-            document.getElementById('street').value = '';
-            $('#street').placeholder();
+            streetInput.val('');
+            streetInput.placeholder();
         }
     });
     google.maps.event.addListener(streetAutocomplete2, 'place_changed', function () {
@@ -159,14 +160,95 @@ function initGoogleServices() {
                 }
             }
         }
+        var streetInput = $('#mailing_street');
         if (street) {
-            document.getElementById('mailing_street').value = street;
-            $('#mailing_postal_code').removeClass('pac-placeholder').removeClass('placeholder');
+            streetInput.val(street);
+            streetInput.removeClass('pac-placeholder').removeClass('placeholder');
         } else {
-            document.getElementById('mailing_street').value = '';
-            $('#mailing_street').placeholder();
+            streetInput.val('');
+            streetInput.placeholder();
         }
     });
+
+    for (var j = 1; j <= 3; j++) {
+        var streetAutocomplete = new google.maps.places.Autocomplete(document.getElementById('additional-street-' + j), streetsOptions);
+        var cityAutocomplete = new google.maps.places.Autocomplete(document.getElementById('additional-locality-' + j), citiesOptions);
+        var provenceAutocomplete = new google.maps.places.Autocomplete(document.getElementById('additional-administrative_area_level_1-' + j), provencesOptions);
+        google.maps.event.addListener(cityAutocomplete, 'place_changed', function (cityAutocomplete, j) {
+            var place = cityAutocomplete.getPlace();
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressType = place.address_components[i].types[0];
+                if (addressType == 'locality') {
+                    document.getElementById('additional-locality-' + j).value = place.address_components[i][addressForm[addressType]];
+                    $('#additional-locality-' + j).removeClass('pac-placeholder').removeClass('placeholder');
+                    break;
+                }
+            }
+        }.bind(this, cityAutocomplete, j));
+        google.maps.event.addListener(provenceAutocomplete, 'place_changed', function (provenceAutocomplete, j) {
+            var place = provenceAutocomplete.getPlace();
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressType = place.address_components[i].types[0];
+                if (addressType == 'administrative_area_level_1') {
+                    document.getElementById('additional-administrative_area_level_1-' + j).value = place.address_components[i][addressForm[addressType]];
+                    $('#additional-administrative_area_level_1-' + j).removeClass('pac-placeholder').removeClass('placeholder');
+                    break;
+                }
+            }
+        }.bind(this, provenceAutocomplete, j));
+        google.maps.event.addListener(streetAutocomplete, 'place_changed', function (streetAutocomplete, j) {
+            var place = streetAutocomplete.getPlace();
+            var street;
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressType = place.address_components[i].types[0];
+                if (addressForm[addressType]) {
+                    var val = place.address_components[i][addressForm[addressType]];
+                    if (addressType == 'street_number') {
+                        if (!street) {
+                            street = val;
+                        } else {
+                            street = val + " " + street;
+                        }
+                        continue;
+                    }
+                    if (addressType == 'route') {
+                        if (!street) {
+                            street = val;
+                        } else {
+                            street += " " + val;
+                        }
+                        continue;
+                    }
+                    if (addressType == 'locality') {
+                        var localityInput = $('#additional-locality-' + j);
+                        localityInput.val(val);
+                        localityInput.removeClass('pac-placeholder').removeClass('placeholder');
+                        continue;
+                    }
+                    if (addressType == 'administrative_area_level_1') {
+                        var admAreaInput = $('#additional-administrative_area_level_1-' + j);
+                        admAreaInput.val(val);
+                        admAreaInput.removeClass('pac-placeholder').removeClass('placeholder');
+                        continue;
+                    }
+                    if (addressType == 'postal_code') {
+                        var postalCodeInput = $('#additional-postal_code-' + j);
+                        postalCodeInput.val(val);
+                        postalCodeInput.removeClass('pac-placeholder').removeClass('placeholder');
+                        continue;
+                    }
+                }
+            }
+            var streetInput = $('#additional-street-' + j);
+            if (street) {
+                streetInput.val(street);
+                streetInput.removeClass('pac-placeholder').removeClass('placeholder');
+            } else {
+                streetInput.val('');
+                streetInput.placeholder();
+            }
+        }.bind(this, streetAutocomplete, j));
+    }
 }
 function autodetectAddress() {
     if (geocoder) {

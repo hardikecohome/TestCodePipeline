@@ -6,6 +6,7 @@
                     $(this).val($(this).text());
                 });
                 $('<option selected value="">- not selected -</option>').prependTo($('#deal-status'));
+                $('#deal-status').val($('#deal-status > option:first').val());
             });
 
 function assignDatepicker(input) {

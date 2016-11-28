@@ -247,9 +247,9 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var writer = XmlWriter.Create(ms, settings);
                 x.Serialize(writer, ts);
 
-                var xmlWriter = XmlWriter.Create("testForm.xml", settings);
-                x.Serialize(xmlWriter, ts);
-                xmlWriter.Flush();
+                //var xmlWriter = XmlWriter.Create("testForm.xml", settings);
+                //x.Serialize(xmlWriter, ts);
+                //xmlWriter.Flush();
 
                 ms.Position = 0;
 

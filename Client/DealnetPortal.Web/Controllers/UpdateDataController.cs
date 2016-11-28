@@ -48,6 +48,18 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<JsonResult> UpdateApplicants(BasicInfoViewModel basicInfo)
+        {
+            if (!ModelState.IsValid || basicInfo.ContractId == null)
+            {
+                return GetErrorJson();
+            }
+            var updateResult = await _contractManager.UpdateApplicants(basicInfo);
+            return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateEquipmentInfo(EquipmentInformationViewModel equipmentInfo)
         {
             if (!ModelState.IsValid || equipmentInfo.ContractId == null)

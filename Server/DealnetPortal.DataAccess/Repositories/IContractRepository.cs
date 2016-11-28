@@ -135,6 +135,8 @@ namespace DealnetPortal.DataAccess.Repositories
         //TODO: add db table field?
         decimal GetContractTotalMonthlyPayment(int contractId);
 
+        PaymentSummary GetContractPaymentsSummary(int contractId);
+
         Comment TryAddComment(Comment comment, string contractOwnerId);
 
         bool TryRemoveComment(int commentId, string contractOwnerId);

@@ -23,7 +23,7 @@ namespace DealnetPortal.Api.Models.Aspire
         [XmlAttribute("timestamp")]
         public string Timestamp { get; set; }
 
-        public Header Header { set; get; }
+        public RequestHeader Header { set; get; }
         public Payload Payload { set; get; }
     }
 }

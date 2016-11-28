@@ -14,7 +14,7 @@ namespace DealnetPortal.Api.Models.Aspire
     [XmlRoot(ElementName = "CustomerXML")]
     public class CustomerRequest
     {
-        public Header Header { set; get; }
+        public RequestHeader Header { set; get; }
 
         public Payload Payload { set; get; }
     }

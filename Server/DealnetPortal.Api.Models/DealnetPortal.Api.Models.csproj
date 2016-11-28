@@ -44,11 +44,14 @@
     <Compile Include="AccountBindingModels.cs" />
     <Compile Include="Alert.cs" />
     <Compile Include="Aspire\CreditCheckRequest.cs" />
+    <Compile Include="Aspire\CreditCheckResponse.cs" />
     <Compile Include="Aspire\CustomerRequest.cs" />
     <Compile Include="Aspire\DealUploadRequest.cs" />
     <Compile Include="Aspire\DealUploadResponse.cs" />
     <Compile Include="Aspire\DecisionCustomerResponse.cs" />
     <Compile Include="Aspire\DecisionLoginResponse.cs" />
+    <Compile Include="Aspire\DocumentUploadRequest.cs" />
+    <Compile Include="Aspire\DocumentUploadResponse.cs" />
     <Compile Include="Aspire\AspireDb\DropDownItem.cs" />
     <Compile Include="Aspire\Header.cs" />
     <Compile Include="Aspire\Payload.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Contract\EquipmentInformation\NewEquipmentDTO.cs" />
     <Compile Include="Contract\FlowingSummaryItemDTO.cs" />
     <Compile Include="Contract\PaymentInfoDTO.cs" />
+    <Compile Include="Contract\PaymentSummary.cs" />
     <Compile Include="Contract\PhoneDTO.cs" />
     <Compile Include="Contract\ProvinceTaxRateDTO.cs" />
     <Compile Include="Contract\CustomerDataDTO.cs" />

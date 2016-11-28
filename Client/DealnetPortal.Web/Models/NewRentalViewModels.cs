@@ -30,6 +30,16 @@ namespace DealnetPortal.Web.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
+        [Display(Name = "SIN (Social insurance number)")]
+        [StringLength(9, MinimumLength = 9, ErrorMessage = "SIN must be 9 digits long")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "SIN is in incorrect format")]
+        public string Sin { get; set; } 
+        [Display(Name = "Driver License Number")]
+        public string DriverLicenseNumber { get; set; }
+
+        public AddressInformation AddressInformation { get; set; }
+        public AddressInformation MailingAddressInformation { get; set; }
+        public int? ContractId { get; set; }
     }
 
     public class AddressInformation
@@ -69,8 +79,6 @@ namespace DealnetPortal.Web.Models
         public string SubmittingDealerId { get; set; }
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
-        public AddressInformation AddressInformation { get; set; }
-        public AddressInformation MailingAddressInformation { get; set; }
         public List<SubDealer> SubDealers { get; set; }
         public int? ContractId { get; set; }
     }
@@ -121,13 +129,10 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Email Address")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
-        //[RegularExpression(@"^[0-9\.,]+$", ErrorMessage = "House Size is in incorrect format")]        
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public DateTime DateOfBirth { get; set; }
 
         public int CustomerId { get; set; }
     }

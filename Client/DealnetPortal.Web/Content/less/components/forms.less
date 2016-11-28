@@ -13,9 +13,10 @@ select{
   box-shadow: none !important;
 }
 
-textarea{
+textarea, textarea.form-control{
   resize: vertical;
 }
+
 
 ::-ms-clear {
     display: none;
@@ -263,6 +264,16 @@ html.ie9{
   input.form-control{
     padding-right: 28px;
   }
+
+  &.textarea-has-scroll{
+    textarea, textarea.form-control{
+      padding-right: 30px;
+    }
+    .clear-input{
+      right: 25px;
+    }
+  }
+
   &.has-addon-left{
     input.form-control{
       padding-left: 24px;
@@ -290,22 +301,21 @@ html.ie9{
     }
   }
 
-    .icon-calendar,
-    .icon-eye{
+    .icon-calendar{
       position: absolute;
       right: 5px;
       top: 12px;
       display: inline-block;
-      pointer-events: none;
       width: 20px;
       height: 20px;
       color: #979797;
     }
-  .icon-eye{
-    right: 8px;
+  .icon-calendar{
+    pointer-events: none;
   }
 
-  .clear-input{
+  .clear-input,
+  .recover-pass-link{
     display: none;
     position: absolute;
     right: 5px;
@@ -319,6 +329,27 @@ html.ie9{
       color: #cacaca;
     }
   }
+  .recover-pass-link{
+    display: block;
+    right: 8px;
+    color: #979797;
+    opacity: 0.8;
+    &:after{
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: -5px;
+    }
+    &:hover,
+    &:focus{
+      color: #979797;
+      opacity: 1;
+    }
+  }
+
 
   input:not(:placeholder-shown) ~ .clear-input{
     display: block;

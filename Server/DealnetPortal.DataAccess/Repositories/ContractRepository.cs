@@ -166,11 +166,13 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             contractData.PrimaryCustomer.Id = contract.PrimaryCustomer.Id;
                         }
-                                                
+
+                        var homeOwnerLocations = contractData.PrimaryCustomer.Locations;
                         var homeOwner = AddOrUpdateCustomer(contractData.PrimaryCustomer);
                         if (homeOwner != null)
                         {                            
                             contract.PrimaryCustomer = homeOwner;
+                            AddOrUpdateCustomerLocations(contract.PrimaryCustomer, homeOwnerLocations);
                             contract.ContractState = ContractState.CustomerInfoInputted;
                             contract.LastUpdateTime = DateTime.Now;
                         }
@@ -179,13 +181,6 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
-                        contract.LastUpdateTime = DateTime.Now;
-                    }
-
-                    if (contractData.Locations != null && contract.PrimaryCustomer != null)
-                    {
-                        AddOrUpdateCustomerLocations(contract.PrimaryCustomer, contractData.Locations);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
@@ -305,7 +300,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     GetProvinceTaxRate(
                         (contract.PrimaryCustomer?.Locations.FirstOrDefault(
                             l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State);
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
                 if (rate != null && contract.Equipment != null)
                 {
                     if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
@@ -331,6 +326,51 @@ namespace DealnetPortal.DataAccess.Repositories
             }
 
             return totalMp;
+        }
+
+        public PaymentSummary GetContractPaymentsSummary(int contractId)
+        {
+            PaymentSummary paymentSummary = new PaymentSummary();
+
+            var contract = _dbContext.Contracts.Find(contractId);
+            if (contract != null)
+            {
+                var rate =
+                    GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                            l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                if (rate != null)
+                {
+                    if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                    {
+                        var loanCalculatorInput = new LoanCalculator.Input
+                        {
+                            TaxRate = rate.Rate,
+                            LoanTerm = contract.Equipment.RequestedTerm,
+                            AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                            EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                            AdminFee = contract.Equipment.AdminFee ?? 0,
+                            DownPayment = contract.Equipment.DownPayment ?? 0,
+                            CustomerRate = contract.Equipment.CustomerRate ?? 0
+                        };
+                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                        paymentSummary.Hst = (decimal) loanCalculatorOutput.Hst;
+                        paymentSummary.TotalPayment = (decimal) loanCalculatorOutput.TotalAllMonthlyPayments;
+                        paymentSummary.MonthlyPayment = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
+                    }
+                    else
+                    {
+                        paymentSummary.MonthlyPayment = contract.Equipment.TotalMonthlyPayment;
+                        paymentSummary.Hst = (contract.Equipment.TotalMonthlyPayment ?? 0)*(decimal) (rate.Rate/100);
+                        paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                      (contract.Equipment.TotalMonthlyPayment ?? 0)*
+                                                      (decimal) (rate.Rate/100);
+                    }
+                }
+            }
+
+            return paymentSummary;
         }
 
         public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
@@ -511,7 +551,6 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = GetContractAsUntracked(contractId, contractOwnerId);
             if (contract != null)
             {
-                contractData.Locations = contract.PrimaryCustomer?.Locations?.ToList();
                 contractData.SecondaryCustomers = contract.SecondaryCustomers?.ToList();
                 contractData.Equipment = contract.Equipment;
             }
@@ -542,9 +581,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Any(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
-        private Customer AddOrUpdateCustomerLocations(Customer customer, IList<Location> locations)
+        private Customer AddOrUpdateCustomerLocations(Customer customer, IEnumerable<Location> locations)
         {
             //??
+            locations = locations.ToList();
             var existingEntities =
                 customer.Locations.Where(
                     a => locations.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
@@ -621,7 +661,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 else
                 {
                     email.Customer = customer;
-                    email.Id = email.Id;
+                    email.Id = curEmail.Id;
                     _dbContext.Emails.AddOrUpdate(email);
                     //_dbContext.Entry<Email>(email).State = EntityState.Modified;
                 }
@@ -716,6 +756,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.FirstName = customer.FirstName;
                 dbCustomer.LastName = customer.LastName;
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
+                dbCustomer.Sin = customer.Sin;
+                dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
             }
             //if (dbCustomer.Locations == null)
             //{
@@ -746,7 +788,9 @@ namespace DealnetPortal.DataAccess.Repositories
             //_dbContext.Entry(e).State = EntityState.Deleted);
             customers.ForEach(ho =>
             {
+                var customerLocations = ho.Locations;
                 var customer = AddOrUpdateCustomer(ho);
+                AddOrUpdateCustomerLocations(customer, customerLocations);
                 if (existingEntities.Find(e => e.Id == customer.Id) == null)
                 {
                     contract.SecondaryCustomers.Add(ho);

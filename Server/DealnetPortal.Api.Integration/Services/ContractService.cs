@@ -113,8 +113,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
                     //update customers on aspire
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null ||
-                        contract.Locations != null)
+                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
                     {                        
                         var aspireAlerts =
                             _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
@@ -223,6 +222,17 @@ namespace DealnetPortal.Api.Integration.Services
                             i++;
                         }                        
                     });
+                }
+
+                var dealerUser = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.Dealer);
+                if (dealerUser != null)
+                {
+                    var dealer = _contractRepository.GetDealer(contractOwnerId);
+                    if (dealer != null)
+                    {
+                        dealerUser.LastName = dealer.UserName;
+                        usersForProcessing.Add(dealerUser);
+                    }
                 }
 
                 var alerts = _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray()).GetAwaiter().GetResult();
@@ -359,7 +369,22 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<Alert> SubmitContract(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
-            //stub for future Aspire submit
+
+            var aspireAlerts = _aspireService.SubmitDeal(contractId, contractOwnerId).GetAwaiter().GetResult();
+            if (aspireAlerts?.Any() ?? false)
+            {
+                alerts.AddRange(aspireAlerts);
+            }
+
+            if (aspireAlerts?.All(ae => ae.Type != AlertType.Error) ?? false)
+            {
+                var creditCheckRes = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
+                if (creditCheckRes?.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(creditCheckRes.Item2);
+                }
+            }
+
             var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
             if (contract != null)
             {
@@ -651,6 +676,14 @@ namespace DealnetPortal.Api.Integration.Services
                 doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
                     contractOwnerId);
                 _unitOfWork.Save();
+
+                //run aspire upload async
+                _aspireService.UploadDocument(document.ContractId, document, contractOwnerId);
+                //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
+                //if (aspireAlerts?.Any() ?? false)
+                //{
+                //    alerts.AddRange(aspireAlerts);
+                //}
             }
             catch (Exception ex)
             {

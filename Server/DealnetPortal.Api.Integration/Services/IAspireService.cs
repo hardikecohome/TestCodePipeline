@@ -21,5 +21,15 @@ namespace DealnetPortal.Api.Integration.Services
         Task<Tuple<CreditCheckDTO, IList<Alert>>> InitiateCreditCheck(int contractId, string contractOwnerId);
 
         Task<IList<Alert>> LoginUser(string userName, string password);
+
+        /// <summary>
+        /// Submit deal with equipment and payment information
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <param name="contractOwnerId"></param>
+        /// <returns></returns>
+        Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId);
+
+        Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
@@ -102,7 +103,7 @@ namespace DealnetPortal.Web.Controllers
                 var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
                 if (updateResult.Any(r => r.Type == AlertType.Error))
                 {
-                    return View("~/Views/Shared/Error.cshtml");
+                    return RedirectToAction("Error", "Info", new { alers = updateResult });
                 }
             }
             return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
@@ -131,7 +132,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CheckCreditStatus(int contractId)
         {
             //Initiate credit status check
-            const int numOfAttempts = 3;
+            const int numOfAttempts = 2;
             TimeSpan timeOut = TimeSpan.FromSeconds(10);
 
             Tuple<CreditCheckDTO, IList<Alert>> checkResult = null;
@@ -149,9 +150,15 @@ namespace DealnetPortal.Web.Controllers
                 await Task.Delay(timeOut);
             }
 
+            if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
+            {
+                TempData["CreditCheckErrorMessage"] = "Can't connect to Aspire for Credit Check. Try to perform Credit Check later.";
+                return RedirectToAction("CreditCheckConfirmation", new { contractId });
+            }
+
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
-                return View("~/Views/Shared/Error.cshtml");
+                return RedirectToAction("Error", "Info", new { alers = checkResult.Item2 });
             }
 
             switch (checkResult?.Item1.CreditCheckState)
@@ -206,7 +213,7 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return View("~/Views/Shared/Error.cshtml");
+                return RedirectToAction("Error", "Info", new { alers = updateResult });
             }
             return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
         }
@@ -229,7 +236,7 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await _contractManager.UpdateContractAsync(contactAndPaymentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return View("~/Views/Shared/Error.cshtml");
+                return RedirectToAction("Error", "Info", new { alers = updateResult });
             }
             return RedirectToAction("SummaryAndConfirmation", new {contractId = contactAndPaymentInfo.ContractId});
         }
@@ -301,6 +308,14 @@ namespace DealnetPortal.Web.Controllers
                     EmailAddress = us.Email, Role = SignatureRole.AdditionalApplicant
                 });
             });
+            if (!string.IsNullOrEmpty(emails.SalesRepEmail))
+            {
+                signatureUsers.Users.Add(new SignatureUser()
+                {
+                    EmailAddress = emails.SalesRepEmail,
+                    Role = SignatureRole.Dealer
+                });
+            }
 
             _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
         }
@@ -355,6 +370,10 @@ namespace DealnetPortal.Web.Controllers
                 {
                     FileDownloadName = result.Item1.Name
                 };
+                if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
+                {
+                    response.FileDownloadName += ".pdf";
+                }
                 return response;
             }            
 

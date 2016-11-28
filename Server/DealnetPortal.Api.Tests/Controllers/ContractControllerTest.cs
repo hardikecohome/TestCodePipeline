@@ -93,7 +93,6 @@ namespace DealnetPortal.Api.Tests.Controllers
             ContractDataDTO contract = new ContractDataDTO()
             {
                 Id = 1,
-                Locations = new List<LocationDTO>(),
                 SecondaryCustomers = new List<CustomerDTO>()
             };
             var responseRes = _contractController.UpdateContractData(contract);
