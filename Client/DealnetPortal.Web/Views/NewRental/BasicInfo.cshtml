@@ -269,9 +269,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Residence</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Own</option>
-                                <option value="">Rental</option>
+                            <select name="" id="residence" class="form-control">
+                                <option value="0">Own</option>
+                                <option value="1">Rental</option>
                             </select>
                         </div>
                     </div>
@@ -446,7 +446,7 @@
                 </div>
             </div>
             <div class="owner-info">
-                <a href="#" class="dealnet-info-link">Use Home Owner address information</a>
+                <a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">Use Home Owner address information</a>
             </div>
             <p class="dealnet-middle-header address-info-label">Additional Applicant Mailing Address Information</p>
 
@@ -504,9 +504,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Residence</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">Own</option>
-                                    <option value="">Rental</option>
+                                <select name="" id="additional-residence-@(i+1)" class="form-control">
+                                    <option value="0">Own</option>
+                                    <option value="1">Rental</option>
                                 </select>
                             </div>
                         </div>

@@ -226,3 +226,12 @@ function assignDatepicker(input) {
         }
     });
 }
+
+function useHomeOwnerAddress(i) {
+    $('#additional-street-' + i).val($('#street').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-unit_number-' + i).val($('#unit_number').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-locality-' + i).val($('#locality').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-administrative_area_level_1-' + i).val($('#administrative_area_level_1').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-postal_code-' + i).val($('#postal_code').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-residence-' + i).val($('#residence').val());
+}
