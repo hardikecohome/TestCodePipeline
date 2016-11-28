@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace DealnetPortal.Api.Models.Aspire
 {
     [Serializable]
-    [XmlRoot(ElementName = "DecisionDocumentXML ")]
+    [XmlRoot(ElementName = "DecisionDocumentXML")]
     public class DocumentUploadResponse : DealUploadResponse
     {
         //public ResponseHeader Header { set; get; }

@@ -75,7 +75,7 @@ namespace DealnetPortal.Api.Integration.Services
                             },
                             Accounts = GetCustomersInfo(contract)
                         }
-                    };                    
+                    };
 
                     try
                     {
@@ -573,6 +573,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var account = new Account
                 {
                     IsIndividual = true,
+                    IsPrimary = true,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
                     Personal = new Personal()
@@ -630,7 +631,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract.PrimaryCustomer != null)
             {
                 var acc = fillAccount(contract.PrimaryCustomer, CustRole);
-                acc.IsPrimary = true;                
+                //acc.IsPrimary = true;                
                 accounts.Add(acc);
             }
 
