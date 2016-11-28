@@ -105,21 +105,14 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return phones.Any() ? phones : null;
                 }))
-                .ForMember(x => x.Emails, d => d.ResolveUsing(src =>
+                .ForMember(x => x.Emails, d => d.ResolveUsing(src => new List<EmailDTO>()
                 {
-                    if (!string.IsNullOrEmpty(src.EmailAddress))
+                    new EmailDTO()
                     {
-                        return new List<EmailDTO>()
-                        {
-                            new EmailDTO()
-                            {
-                                CustomerId = src.CustomerId,
-                                EmailType = EmailType.Main,
-                                EmailAddress = src.EmailAddress
-                            }
-                        };
+                        CustomerId = src.CustomerId,
+                        EmailType = EmailType.Main,
+                        EmailAddress = src.EmailAddress
                     }
-                    return null;
                 }));
         }
 
