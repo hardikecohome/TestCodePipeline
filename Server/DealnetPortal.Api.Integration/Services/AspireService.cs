@@ -75,7 +75,7 @@ namespace DealnetPortal.Api.Integration.Services
                             },
                             Accounts = GetCustomersInfo(contract)
                         }
-                    };                    
+                    };
 
                     try
                     {
@@ -356,8 +356,20 @@ namespace DealnetPortal.Api.Integration.Services
 
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
-            if (contract != null && document != null && document.DocumentBytes != null)
-            {
+            if (contract != null && document?.DocumentBytes != null)
+            {                
+                var docTypeId = document.DocumentTypeId;
+                var docTypes = _contractRepository.GetDocumentTypes();
+
+                var docType = docTypes?.FirstOrDefault(t => t.Id == docTypeId);
+                if (!string.IsNullOrEmpty(docType?.Prefix))
+                {
+                    if (string.IsNullOrEmpty(document.DocumentName) || !document.DocumentName.StartsWith(docType.Prefix))
+                    {
+                        document.DocumentName = docType.Prefix + document.DocumentName;
+                    }
+                }
+
                 var request = new DocumentUploadRequest();
 
                 var userResult = GetAspireUser(contractOwnerId);
@@ -374,7 +386,7 @@ namespace DealnetPortal.Api.Integration.Services
                         request.Payload = new DocumentUploadPayload()
                         {
                             TransactionId = contract.Details.TransactionId,
-                            DocumentName = document.DocumentName,
+                            DocumentName = document.DocumentName, //ext ?
                             DocumentData = Convert.ToBase64String(document.DocumentBytes),
                             //TODO: insert correct status
                             Status = "35-Dead Deal"
@@ -561,6 +573,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var account = new Account
                 {
                     IsIndividual = true,
+                    IsPrimary = true,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
                     Personal = new Personal()
@@ -618,7 +631,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract.PrimaryCustomer != null)
             {
                 var acc = fillAccount(contract.PrimaryCustomer, CustRole);
-                acc.IsPrimary = true;                
+                //acc.IsPrimary = true;                
                 accounts.Add(acc);
             }
 
@@ -657,7 +670,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     new UDF()
                     {
-                        Name = "Requested Termr",
+                        Name = "Requested Term",
                         Value = contract.Equipment.RequestedTerm.ToString()
                     }
                 };
@@ -674,13 +687,13 @@ namespace DealnetPortal.Api.Integration.Services
                 udfs.Add(new UDF()
                 {
                     Name = "Payment Type",
-                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge Bill" : "Pre-Authorized Debit"
+                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "Pre-Authorized Debit"
                 });
-                udfs.Add(new UDF()
-                {
-                    Name = "Payment Type",
-                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge Bill" : "Pre-Authorized Debit"
-                });                
+                //udfs.Add(new UDF()
+                //{
+                //    Name = "Payment Type",
+                //    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge Bill" : "Pre-Authorized Debit"
+                //});                
                 if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
                     !string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount))
                 {
