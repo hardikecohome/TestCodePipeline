@@ -21,7 +21,7 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
         }
 
-        public void GetGenericFieldValues()
+        public IList<DropDownItem> GetGenericFieldValues()
         {
             string sqlStatement =
                 @"SELECT a.ref_type,a.ShowInAllRoles,a.field_size,a.UseInWorkQueues,a.OID,A.SEQ_NUM,A.DESCR AS UDF_COLUMN_NAME,
@@ -36,6 +36,7 @@ namespace DealnetPortal.Api.Integration.Services
                                       ORDER BY 3, 5";
 
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadDropDownItem);
+            return list;
         }
 
         private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
@@ -57,7 +58,36 @@ namespace DealnetPortal.Api.Integration.Services
 
         private DropDownItem ReadDropDownItem(IDataReader dr)
         {
-            return null;
+            try
+            {            
+                var row = new DropDownItem();
+
+                row.Oid = (int)(long) dr["OID"];
+                row.Name = (string) dr["UDF_COLUMN_NAME"];
+                row.Description = ConvertFromDbVal<string>(dr["Field_Description"]);
+                row.FieldNum = ConvertFromDbVal<long>(dr["Field_Oid"]);
+                row.RefType = ConvertFromDbVal<string>(dr["ref_type"]);
+                row.SeqNum = ConvertFromDbVal<int>(dr["SEQ_NUM"]);
+                row.SubmissionValue = ConvertFromDbVal<string>(dr["SubmissionValue"]);
+
+                return row;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static T ConvertFromDbVal<T>(object obj)
+        {
+            if (obj == null || obj == DBNull.Value)
+            {
+                return default(T); // returns the default value for the type
+            }
+            else
+            {
+                return (T)obj;
+            }
         }
     }
 }

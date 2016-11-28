@@ -20,6 +20,7 @@ namespace DealnetPortal.DataAccess
         public IDataReader ExecuteReader(string query)
         {
             var connection = GetConnection();
+            connection.Open();
             var command = new SqlCommand(query, connection);
             return command.ExecuteReader();
         }
