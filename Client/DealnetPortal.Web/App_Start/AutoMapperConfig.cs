@@ -40,7 +40,12 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
 
             cfg.CreateMap<AddressInformation, LocationDTO>()
-                .ForMember(x => x.Street, d => d.MapFrom(src => src.InstallationAddress))
+                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
+                .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
+                .ForMember(x => x.AddressType, d => d.Ignore())
+                .ForMember(x => x.Id, d => d.Ignore())
+                .ForMember(x => x.CustomerId, d => d.Ignore());
+            cfg.CreateMap<MailingAddressInformation, LocationDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
                 .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
                 .ForMember(x => x.AddressType, d => d.Ignore())
@@ -51,14 +56,6 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0));
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>();
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
-
-            cfg.CreateMap<AddressInformation, LocationDTO>()
-                .ForMember(x => x.Street, d => d.MapFrom(src => src.InstallationAddress))
-                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
-                .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
-                .ForMember(x => x.AddressType, d => d.Ignore())
-                .ForMember(x => x.Id, d => d.Ignore())
-                .ForMember(x => x.CustomerId, d => d.Ignore());
 
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
 
@@ -210,11 +207,13 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
                     .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)));
                 cfg.CreateMap<LocationDTO, AddressInformation>()
-                    .ForMember(x => x.InstallationAddress, d => d.MapFrom(src => src.Street))
                     .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
-                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));                
+                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
+            cfg.CreateMap<LocationDTO, MailingAddressInformation>()
+                    .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
+                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
-                cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
+            cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
                 cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
                 cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
                     .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))

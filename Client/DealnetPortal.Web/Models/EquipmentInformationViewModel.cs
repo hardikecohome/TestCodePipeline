@@ -21,12 +21,15 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? TotalMonthlyPayment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
-
-        [Required]
+        
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Requested Term is in incorrect format")]
         [Display(Name = "Requested Term")]
         public int? RequestedTerm { get; set; }
         
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Loan Term is in incorrect format")]
+        [Display(Name = "Loan Term")]
+        public int? LoanTerm { get; set; }
+
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Amortization Term is in incorrect format")]
         [Display(Name = "Amortization Term")]
         public int? AmortizationTerm { get; set; }

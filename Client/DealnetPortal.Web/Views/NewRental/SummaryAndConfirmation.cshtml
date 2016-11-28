@@ -113,10 +113,10 @@
                 </h3>
                 <div class="form-group">
                     <div class="row">
-                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.InstallationAddress, new {@class = "dealnet-field-caption col-xs-6"})
+                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new {@class = "dealnet-field-caption col-xs-6"})
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.InstallationAddress, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
                             </div>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                                 @Html.Label("", "Mailing Address", new {@class = "dealnet-field-caption col-xs-6"})
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                     </div>
                                 </div>
                             </div>
@@ -365,7 +365,7 @@
                                         @Html.Label("", "Mailing Address", new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                             </div>
                                         </div>
                                     </div>
@@ -486,6 +486,7 @@
                     @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
                     @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
                     @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
+                    @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                     @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class= "total-monthly-payment" })
                     @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
                     @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
@@ -523,6 +524,7 @@
     @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
     @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
     @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm, new { id = "requested-term" })
+    @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm, new { id = "loan-term" })
     @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm, new { id = "amortization-term" })
     @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate, new { id = "customer-rate" })
     @Html.HiddenFor(m => m.EquipmentInfo.AdminFee, new { id= "admin-fee" })
@@ -800,6 +802,7 @@
         @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
         @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
         @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
+        @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
         @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
@@ -996,11 +999,11 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.InstallationAddress, new {@class = "dealnet-field-caption"})
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.InstallationAddress, new {@class = "form-control dealnet-input", id = "street"})
-                                                @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.InstallationAddress, "", new {@class = "text-danger"})
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street"})
+                                                @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
                                     </div>
@@ -1081,8 +1084,8 @@
                                             @Html.Label("mailing_street", "Mailing Address", new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.InstallationAddress, new {@class = "form-control dealnet-input", id = "mailing_street"})
-                                                    @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.InstallationAddress, "", new {@class = "text-danger"})
+                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "mailing_street"})
+                                                    @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, "", new {@class = "text-danger"})
                                                </div>
                                             </div>
                                         </div>
@@ -1670,8 +1673,8 @@
                                             @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption" })
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1) })
-                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1) })
+                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>

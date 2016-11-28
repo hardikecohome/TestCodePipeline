@@ -38,8 +38,17 @@ namespace DealnetPortal.Web.Models
         public string DriverLicenseNumber { get; set; }
 
         public AddressInformation AddressInformation { get; set; }
-        public AddressInformation MailingAddressInformation { get; set; }
+        public MailingAddressInformation MailingAddressInformation { get; set; }
         public int? ContractId { get; set; }
+    }
+
+    public class MailingAddressInformation : AddressInformation
+    {
+        [Required]
+        [Display(Name = "Mailing Address")]
+        [StringLength(100, MinimumLength = 2)]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.,‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
+        public override string Street { get; set; }
     }
 
     public class AddressInformation
@@ -48,7 +57,7 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Installation Address")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.,‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
-        public string InstallationAddress { get; set; }
+        public virtual string Street { get; set; }
         [Display(Name = "Unit #")]
         [StringLength(10, MinimumLength = 1)]
         [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessage = "Unit Number is in incorrect format")]

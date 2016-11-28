@@ -52,18 +52,31 @@
 				                </div>
 				            </div>
 				        </div>
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">Loan Term</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        @(Model.EquipmentInfo?.LoanTerm)
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    }
+				    else
+				    {
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">Requested Term</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        @(Model.EquipmentInfo?.RequestedTerm)
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
 				    }
                     <div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Requested Term</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@(Model.EquipmentInfo?.RequestedTerm) 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Sales Rep</label>
 							<div class="dealnet-field-holder col-xs-6">
@@ -178,7 +191,7 @@
                             <label class="dealnet-field-caption col-xs-6">Installation Address</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.InstallationAddress)
+                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
                                 </div>
                             </div>
                         </div>
@@ -235,7 +248,7 @@
                                 <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.InstallationAddress)
+                                        @(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +401,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress)
+                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
                                         </div>
                                     </div>
                                 </div>
