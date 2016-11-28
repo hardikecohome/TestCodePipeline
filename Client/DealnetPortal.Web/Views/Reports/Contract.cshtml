@@ -283,11 +283,56 @@
                     </div>
                 </div>
             }
-		</div>
+            <div class="col-md-6 grid-column">
+                <div class="dealnet-credit-check-section">
+                    <h3 class="dealnet-section-title">Contact Information</h3>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">Home Phone</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.HomePhone)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.CellPhone)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">Business Phone</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.BusinessPhone)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">Email Address</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.EmailAddress)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 		<div class="row credit-check-info-hold">
-		    @if (Model.BasicInfo?.AdditionalApplicants != null)
+		    @if (Model.ContactAndPaymentInfo?.CoBorrowersContactInfo != null)
             {
-                foreach (var applicant in Model.BasicInfo.AdditionalApplicants)
+                for (var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                 {
 				<hr style="clear: both">
                      <div class="col-md-6 grid-column">
@@ -298,7 +343,7 @@
                                      <label class="dealnet-field-caption col-xs-6">First Name</label>
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
-                                             @applicant.FirstName
+                                             @Model.BasicInfo.AdditionalApplicants[i].FirstName
                                          </div>
                                      </div>
                                  </div>
@@ -308,7 +353,7 @@
                                      <label class="dealnet-field-caption col-xs-6">Last Name</label>
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
-                                             @applicant.LastName
+                                             @Model.BasicInfo.AdditionalApplicants[i].LastName
                                          </div>
                                      </div>
                                  </div>
@@ -318,7 +363,7 @@
                                      <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
-                                             @(applicant.BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+                                             @(Model.BasicInfo.AdditionalApplicants[i].BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
                                          </div>
                                      </div>
                                  </div>
@@ -328,7 +373,7 @@
                                      <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
-                                             @applicant.DriverLicenseNumber
+                                             @Model.BasicInfo.AdditionalApplicants[i].DriverLicenseNumber
                                          </div>
                                      </div>
                                  </div>
@@ -343,7 +388,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(applicant.MailingAddressInformation.InstallationAddress)
+                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress)
                                         </div>
                                     </div>
                                 </div>
@@ -353,7 +398,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Unit #</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(applicant.MailingAddressInformation.UnitNumber)
+                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
                                         </div>
                                     </div>
                                 </div>
@@ -363,7 +408,7 @@
                                     <label class="dealnet-field-caption col-xs-6">City</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(applicant.MailingAddressInformation.City)
+                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
                                         </div>
                                     </div>
                                 </div>
@@ -373,7 +418,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Province</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(applicant.MailingAddressInformation.Province)
+                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
                                         </div>
                                     </div>
                                 </div>
@@ -383,7 +428,52 @@
                                     <label class="dealnet-field-caption col-xs-6">Postal Code</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            <span class="postal-code">@(applicant.MailingAddressInformation.PostalCode)</span>
+                                            <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 grid-column">
+                        <div class="dealnet-credit-check-section">
+                            <h3 class="dealnet-section-title">Contact Information</h3>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Home Phone</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.HomePhone)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.CellPhone)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Business Phone</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.BusinessPhone)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Email Address</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.EmailAddress)
                                         </div>
                                     </div>
                                 </div>
@@ -393,54 +483,32 @@
                 }
             }
             
-			<div class="col-md-6 grid-column">
-				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Contact Information</h3>
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Home Phone</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.HomePhone)
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Cell Phone</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.CellPhone)
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Business Phone</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.BusinessPhone)
-								</div>
-							</div>
-						</div>
-					</div>
-				    <div class="form-group">
-				        <div class="row">
-				            <label class="dealnet-field-caption col-xs-6">Email Address</label>
-				            <div class="dealnet-field-holder col-xs-6">
-				                <div class="control-group">
-				                    @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.EmailAddress)
-				                </div>
-				            </div>
-				        </div>
-				    </div>
-				</div>
-			</div>
+			
 		</div>
 	</div>
-	<hr>
+    <hr>
+    <div class="form-section">
+        <div class="row">
+            <div class="credit-check-info-hold">
+                <div class="col-md-6 grid-column" id="edit-add-contract-section">
+                        <div class="dealnet-credit-check-section">
+                            <h3 class="dealnet-section-title">
+                                Additional Contract Information
+                            </h3>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
+                                    <div class="dealnet-field-holder col-xs-12">
+                                        <span style="white-space: pre-wrap">@Model.EquipmentInfo.Notes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
 	<div class="form-section">
 	@if (Model.EquipmentInfo?.NewEquipment != null)
 	{

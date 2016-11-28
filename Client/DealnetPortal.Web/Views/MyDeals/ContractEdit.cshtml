@@ -693,30 +693,44 @@
     }
 
 	<hr>
-	<!--<div class="form-section">
+	<div class="form-section">
 		<div class="row">
 			<div class="credit-check-info-hold">
 				<div class="col-md-6 grid-column" id="edit-add-contract-section">
-					<div class="dealnet-credit-check-section">
-						<h3 class="dealnet-section-title">
-							Additional Contract Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()">Edit</a>
-						</h3>
-						<div class="form-group">
-							<div class="row">
-								<label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
-								<div class="dealnet-field-holder col-xs-12">
-									<div class="control-group">
-										<teatarea class="dealnet-disabled-input dealnet-disabled-textarea">Notes</teatarea>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contract-notes-form", @class = "credit-check-info-hold" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+                        @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
+                        @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                        @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
+                        @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
+                        @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+                        @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
+                        @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
+                        @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
+
+                        <div class="dealnet-credit-check-section">
+                            <h3 class="dealnet-section-title">
+                                Additional Contract Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()">Edit</a>
+                            </h3>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
+                                    <div class="dealnet-field-holder col-xs-12">
+                                        <div class="control-group">
+                                            @Html.TextAreaFor(m => m.EquipmentInfo.Notes, new { @class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", id = "contract-notes" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
 				</div>
 			</div>
 		</div>
 	</div>
-	<hr>-->
+	<hr>
 	<div class="form-section">
 	@using (Html.BeginForm(null, null, FormMethod.Post, new {@class = "clearfix", id = "new-equipment-info-form"}))
 	{
@@ -1978,6 +1992,39 @@ foreach (var comment in comments)
             </div>
                             }
 }
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="edit-add-contract-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-title dealnet-large-header">Editing Additional Contract Information</div>
+            </div>
+            <div class="modal-body">
+                <div class="dealnet-credit-check-section dealnet-modal-section">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "edit-add-contract-section-modal" }))
+                    {
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-xs-12">Contract Notes</label>
+                                <div class="dealnet-field-holder col-xs-12">
+                                    <div class="control-group">
+                                        @Html.TextAreaFor(m => m.EquipmentInfo.Notes, new { @class = "form-control", id = "contract-notes" })
+                                        @Html.ValidationMessageFor(m => m.EquipmentInfo.Notes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="btn-container">
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#edit-add-contract-section-modal'), $('#edit-add-contract-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#contract-notes-form'))) { $('#edit-add-contract-modal').modal('hide'); }">Save changes</button>
+                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="upload-documents-modal">
 	<div class="modal-dialog" role="document">
