@@ -33,5 +33,14 @@ namespace DealnetPortal.Api.Tests.Aspire
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Any());
         }
+
+        [TestMethod]
+        public void TestGetSubDealers()
+        {
+            var list = _aspireStorageService.GetSubDealersList("Smart Home");
+            
+            Assert.IsNotNull(list);
+            Assert.IsTrue(list.Any());
+        }
     }
 }

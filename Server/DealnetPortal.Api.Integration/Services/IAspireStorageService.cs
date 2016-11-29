@@ -11,6 +11,6 @@ namespace DealnetPortal.Api.Integration.Services
     {
         IList<DropDownItem> GetGenericFieldValues();
 
-        IList<DropDownItem> GetSubDealersList(string dealerName);
+        IList<GenericSubDealer> GetSubDealersList(string dealerName);
     }
 }

@@ -8,12 +8,11 @@ namespace DealnetPortal.Api.Models.Aspire.AspireDb
 {
     public class GenericSubDealer
     {
-        public string RefType { get; set; }
-        public int Oid { get; set; }
-        public int SeqNum { get; set; }
-        public long FieldNum { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string DealerId { get; set; }
+        public string SeqNum { get; set; }
+        public string DealerName { get; set; }
+        public string SubDealerId { get; set; }
+        public string SubDealerName { get; set; }
         public string SubmissionValue { get; set; }
     }
 }
