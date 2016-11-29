@@ -376,6 +376,7 @@
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-email2.svg" />
+    <Content Include="Content\images\sprite\icon-error-upload.svg" />
     <Content Include="Content\images\sprite\icon-error.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
@@ -398,6 +399,7 @@
     <Content Include="Content\images\sprite\icon-search.svg" />
     <Content Include="Content\images\sprite\icon-successfully.svg" />
     <Content Include="Content\images\sprite\icon-successfully1.svg" />
+    <Content Include="Content\images\sprite\icon-upload.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />
@@ -571,6 +573,7 @@
     <Content Include="Content\less\reports.less" />
     <Content Include="Content\less\main-dealer.less" />
     <Content Include="Content\less\settings\variables-dealer.less" />
+    <Content Include="Content\less\components\tabs.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
