@@ -61,7 +61,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> GetWorkItems()
         {
-            var contracts = (await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.LastUpdateTime);
+            var contracts = (await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.LastUpdateTime).ToList();
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
 
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
