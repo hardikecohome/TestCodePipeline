@@ -236,6 +236,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">Residence</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.ResidenceType.GetEnumDescription())
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             @if (Model.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
@@ -442,6 +452,16 @@
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType.GetEnumDescription())
                                         </div>
                                     </div>
                                 </div>

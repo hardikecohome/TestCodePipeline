@@ -75,6 +75,8 @@ namespace DealnetPortal.Web.Models
         [StringLength(10, MinimumLength = 3)]
         [RegularExpression(@"^[a-zA-Z0-9]+\s?[a-zA-Z0-9]+$", ErrorMessage = "Postal Code is in incorrect format")]
         public string PostalCode { get; set; }
+        [Display(Name = "Residence")]
+        public ResidenceType ResidenceType { get; set; }
     }
 
     public class SubDealer    

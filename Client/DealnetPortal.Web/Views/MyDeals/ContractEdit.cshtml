@@ -311,41 +311,6 @@
                     </div>
 		        </div>
 		    </div>
-			@*<div class="col-md-6 grid-column">
-				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Additional Applicant</h3>
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">First Name</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="<Name>">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Last Name</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="<FName>">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Date of Birth</label>
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									<input type="text" class="dealnet-disabled-input" readonly="readonly" value="18/02/1987">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>*@
 		    <div class="col-md-6 grid-column">
 		        <div class="dealnet-credit-check-section" id="address-section">
 		            <h3 class="dealnet-section-title">Address Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();">Edit</a>
@@ -392,12 +357,22 @@
                             </div>
                         </div>
                     </div>
+		            <div class="form-group">
+		                <div class="row">
+		                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.PostalCode, new {@class = "dealnet-field-caption col-xs-6"})
+		                    <div class="dealnet-field-holder col-xs-6">
+		                        <div class="control-group">
+		                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = ""})
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
                     <div class="form-group">
                         <div class="row">
-                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.ResidenceType, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
+                                    @Html.EnumDropDownListFor(m => m.BasicInfo.HomeOwner.AddressInformation.ResidenceType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input form-control", id = "" })
                                 </div>
                             </div>
                         </div>
@@ -640,10 +615,20 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = ""})
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @Html.EnumDropDownListFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input form-control", id = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1363,7 +1348,18 @@ foreach (var comment in comments)
                                     </div>
                                 </div>
                             </div>
-						</div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.ResidenceType, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.EnumDropDownListFor(m => m.BasicInfo.HomeOwner.AddressInformation.ResidenceType, null, new { @class = "form-control", id = "residence" })
+                                            @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.ResidenceType, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 					</form>
 				</div>
 				<div class="btn-container">
@@ -2013,6 +2009,17 @@ foreach (var comment in comments)
                                                 <div class="control-group">
                                                     @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1)})
                                                     @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new {@class = "text-danger"})
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].AddressInformation.ResidenceType, new { @class = "dealnet-field-caption" })
+                                            <div class="dealnet-field-holder">
+                                                <div class="control-group">
+                                                    @Html.EnumDropDownListFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, null, new { @class = "form-control", id = "additional-residence-" + (i + 1) })
+                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>

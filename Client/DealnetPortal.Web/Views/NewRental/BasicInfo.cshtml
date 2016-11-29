@@ -268,11 +268,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Residence</label>
-                            <select name="" id="residence" class="form-control">
-                                <option value="0">Own</option>
-                                <option value="1">Rental</option>
-                            </select>
+                            @Html.LabelFor(m => m.HomeOwner.AddressInformation.ResidenceType)
+                            @Html.EnumDropDownListFor(m => m.HomeOwner.AddressInformation.ResidenceType, null, new { @class = "form-control", id = "residence" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.ResidenceType, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -503,11 +501,9 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Residence</label>
-                                <select name="" id="additional-residence-@(i+1)" class="form-control">
-                                    <option value="0">Own</option>
-                                    <option value="1">Rental</option>
-                                </select>
+                                @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType)
+                                @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, null, new { @class = "form-control", id = "additional-residence-" + (i + 1) })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
