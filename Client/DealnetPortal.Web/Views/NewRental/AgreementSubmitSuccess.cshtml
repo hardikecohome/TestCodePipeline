@@ -1,25 +1,115 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
-@model DealnetPortal.Web.Models.SubmitConfirmationViewModel
+@model DealnetPortal.Web.Models.SendEmailsViewModel
 
 <div class="rental-successful-page">
-<div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-5 message-block">
-        @if (Model != null && Model.AgreementType == AgreementType.LoanApplication)
-        {
-            <div class="message-header text-center">Loan Agreement submitted successfully!</div>
-        }
-        else
-        {
-            <div class="message-header text-center">Rental Agreement submitted successfully!</div>
-        }
-        <div class="message-desc">Thank you, @Model.HomeOwnerFullName, for completing the @(Model.AgreementType==AgreementType.LoanApplication ? "loan" : "rental") agreement. You will receive an email shortly at <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> containing a copy of the completed agreement.
-        </div>
-
-        <div class="text-center">
-            <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button">
-                Create another application for this home owner
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-5 message-block">
+            <div class="message-header text-center">@(Model.AgreementType == AgreementType.LoanApplication ? "Loan" : "Rental") Agreement submitted successfully!</div>
+            <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="print-link">
+                See contract details
             </a>
+            <a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="print-link">
+                <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
+            </a>
+            <div class="sent-contract-section">
+                <h2 class="dealnet-large-header">Send contract for e-signature</h2>
+                @using (Html.BeginForm("SummaryAndConfirmation", "NewRental", FormMethod.Post, new {id = "send-mails-form", @class = "clearfix"}))
+                {
+                    @Html.HiddenFor(m => m.ContractId)
+                    @Html.HiddenFor(m => m.HomeOwnerId)
+                    @Html.HiddenFor(m => m.HomeOwnerFullName)
+                    @Html.AntiForgeryToken()
+                    <div class="well rental-summary-emails well-info">
+                        <p class="summary-emails-header">
+                            <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
+                            Please enter emails of applicants below and click Send Emails.
+                        </p>
+                        <p class="summary-emails-header2">Invite(s) for digital signing of the contract will be sent to the following emails</p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="homeOwnerEmail">Home Owner Email</label>
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.HomeOwnerEmail, new {@class = "dealnet-input form-control", type = "email"})
+                                        @Html.ValidationMessageFor(m => m.HomeOwnerEmail, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.AdditionalApplicantsEmails != null)
+                            {
+                                for (var i = 0; i < Model.AdditionalApplicantsEmails.Length; i++)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="addApplicantEmail@(i)">Additional Applicant #@(i + 1) Email</label>
+                                            <div class="control-group">
+                                                @Html.HiddenFor(m => m.AdditionalApplicantsEmails[i].CustomerId)
+                                                @Html.TextBoxFor(m => m.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
+                                                @Html.ValidationMessageFor(m => m.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="homeOwnerEmail">Sales Rep Email</label>
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.SalesRepEmail, new {id = "salesRepEmail", @class = "dealnet-input form-control", type = "email"})
+                                        @Html.ValidationMessageFor(m => m.SalesRepEmail, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group btn-container">
+                                    <button type="button" class="btn dealnet-button dealnet-success-button" id="send-email-button" onclick="submitEmailsAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'));">
+                                        Send Emails
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="sent-email-msg text-center" style="display: none;">
+                                    <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Invites were sent to emails</h4>
+                                    Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="message-desc">Thank you, @Model.HomeOwnerFullName, for completing the @(Model.AgreementType == AgreementType.LoanApplication ? "loan" : "rental") agreement. You will receive an email shortly at <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> containing a copy of the completed agreement.
+            </div>
+
+            <div class="text-center">
+                <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button">
+                    Create another application for this home owner
+                </a>
+            </div>
         </div>
     </div>
 </div>
-</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.form.js")
+    <script type="text/javascript">
+        function submitEmailsAsync(url, form) {
+            form.validate();
+            if (!form.valid()) {
+                return;
+            };
+            $('.sent-email-msg').show();
+            $("#send-email-button").text('Resend Emails');
+            form.ajaxSubmit({
+                type: "POST",
+                url: url,
+                success: function (json) {
+                },
+                error: function (xhr, status, p3) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+    </script>
+}

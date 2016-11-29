@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Web.Models
 {
@@ -22,6 +23,8 @@ namespace DealnetPortal.Web.Models
         public int ContractId { get; set; }
 
         public int HomeOwnerId { get; set; }
+
+        public AgreementType AgreementType { get; set; }
 
         [Required]
         public string HomeOwnerFullName { get; set; }
