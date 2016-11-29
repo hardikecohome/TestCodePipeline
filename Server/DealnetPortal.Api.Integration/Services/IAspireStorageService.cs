@@ -10,5 +10,7 @@ namespace DealnetPortal.Api.Integration.Services
     public interface IAspireStorageService
     {
         IList<DropDownItem> GetGenericFieldValues();
+
+        IList<DropDownItem> GetSubDealersList(string dealerName);
     }
 }

@@ -39,6 +39,11 @@ namespace DealnetPortal.Api.Integration.Services
             return list;
         }
 
+        public IList<DropDownItem> GetSubDealersList(string dealerName)
+        {
+            throw new NotImplementedException();
+        }
+
         private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
         {
             //Define list
