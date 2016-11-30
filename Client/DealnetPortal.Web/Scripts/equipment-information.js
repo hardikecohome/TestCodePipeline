@@ -44,6 +44,8 @@ $(document)
 
                 $("#customer-rate").rules("add", "required");
                 $("#amortization-term").rules("add", "required");
+                $("#requested-term").rules("add", "required");
+                $("#loan-term").rules("add", "required");
                 var initAgreementType = $("#agreement-type").find(":selected").val();
                 manageAgreementElements(initAgreementType);
                 $("#agreement-type").on('change', function () {
@@ -72,7 +74,6 @@ function manageAgreementElements(agreementType) {
             $('.equipment-form-container').addClass('has-loan-calc');
             $('.rental-element').hide();
             $('#total-monthly-payment').rules("remove", "required");
-            $('#requested-term-label').text("Loan Term");
             break;
         case '1':
         case '2':
@@ -91,7 +92,6 @@ function manageAgreementElements(agreementType) {
             $('.equipment-form-container').removeClass('has-loan-calc');
             $('.rental-element').show();
             $('#total-monthly-payment').rules("add", "required");
-            $('#requested-term-label').text("Requested Term");
             break;
     }
 }
@@ -239,6 +239,8 @@ function resetFormValidator(formId) {
     $.validator.unobtrusive.parse(formId);
     $("#customer-rate").rules("add", "required");
     $("#amortization-term").rules("add", "required");
+    $("#requested-term").rules("add", "required");
+    $("#loan-term").rules("add", "required");
 }
 
 function assignDatepicker() {

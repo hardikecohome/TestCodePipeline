@@ -15,6 +15,7 @@ namespace DealnetPortal.Domain
         public int Id { get; set; }
 
         public AddressType AddressType { get; set; }
+        public ResidenceType ResidenceType { get; set; }
 
         [MinLength(2)]
         [MaxLength(100)]

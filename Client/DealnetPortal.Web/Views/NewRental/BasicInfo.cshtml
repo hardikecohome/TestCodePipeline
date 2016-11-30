@@ -220,8 +220,8 @@
                 <div class="form-group">
                     <label for="street">Installation Address</label>
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -268,11 +268,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Residence</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Own</option>
-                                <option value="">Rental</option>
-                            </select>
+                            @Html.LabelFor(m => m.HomeOwner.AddressInformation.ResidenceType)
+                            @Html.EnumDropDownListFor(m => m.HomeOwner.AddressInformation.ResidenceType, null, new { @class = "form-control", id = "residence" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.ResidenceType, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -298,8 +296,8 @@
                     <div class="form-group">
                         <label for="mailing_street">Mailing Address</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
-                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Street, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -446,7 +444,7 @@
                 </div>
             </div>
             <div class="owner-info">
-                <a href="#" class="dealnet-info-link">Use Home Owner address information</a>
+                <a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">Use Home Owner address information</a>
             </div>
             <p class="dealnet-middle-header address-info-label">Additional Applicant Mailing Address Information</p>
 
@@ -455,8 +453,8 @@
                     <div class="form-group">
                         <label for="additional-street-@(i+1)">Installation Address</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = "St." })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = "St." })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -503,11 +501,9 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Residence</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">Own</option>
-                                    <option value="">Rental</option>
-                                </select>
+                                @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType)
+                                @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, null, new { @class = "form-control", id = "additional-residence-" + (i + 1) })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">

@@ -73,7 +73,7 @@
 					<div class="dealnet-credit-check-section">
 						<h3 class="dealnet-section-title empty-title">&nbsp;</h3>
 					    @if (contract.EquipmentInfo != null && contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                        {
+					    {
 					        <div class="form-group">
 					            <div class="row">
 					                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
@@ -84,18 +84,31 @@
 					                </div>
 					            </div>
 					        </div>
+					        <div class="form-group">
+					            <div class="row">
+					                <label class="dealnet-field-caption col-xs-6">Loan Term</label>
+					                <div class="dealnet-field-holder col-xs-6">
+					                    <div class="control-group">
+					                        @(contract.EquipmentInfo?.LoanTerm)
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    }
+					    else
+					    {
+					        <div class="form-group">
+					            <div class="row">
+					                <label class="dealnet-field-caption col-xs-6">Requested Term</label>
+					                <div class="dealnet-field-holder col-xs-6">
+					                    <div class="control-group">
+					                        @(contract.EquipmentInfo?.RequestedTerm)
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
 					    }
                         <div class="form-group">
-							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Requested Term</label>
-								<div class="dealnet-field-holder col-xs-6">
-									<div class="control-group">
-										@(contract.EquipmentInfo?.RequestedTerm)
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
 							<div class="row">
 								<label class="dealnet-field-caption col-xs-6">Sales Rep</label>
 								<div class="dealnet-field-holder col-xs-6">
@@ -235,7 +248,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Installation Address</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.InstallationAddress)
+                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.Street)
                                         </div>
                                     </div>
                                 </div>
@@ -280,6 +293,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.ResidenceType.GetEnumDescription())
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @if (contract.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
@@ -292,7 +315,7 @@
                                         <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.InstallationAddress)
+                                                @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
                                             </div>
                                         </div>
                                     </div>
@@ -445,7 +468,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress)
+                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
                                         </div>
                                     </div>
                                 </div>
@@ -486,6 +509,16 @@
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             <span class="postal-code">@(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType.GetEnumDescription())
                                         </div>
                                     </div>
                                 </div>
@@ -585,6 +618,32 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Cost</label>
+                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                <div class="control-group">
+                                                    @equipment.Cost
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Monthly Cost</label>
+                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                <div class="control-group">
+                                                    @equipment.MonthlyCost
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 <div class="form-group">
                                     <div class="row">
                                         <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
