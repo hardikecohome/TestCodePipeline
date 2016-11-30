@@ -115,10 +115,10 @@
       &:before{
         content: '';
         position: absolute;
-        left: -3px;
+        left: -4px;
         top: 0;
         bottom: 0;
-        width: 3px;
+        width: 4px;
         background: @success-color;
       }
       & > a{
@@ -131,11 +131,14 @@
           color: inherit;
         }
       }
-      /*.glyphicon{
+      .glyphicon{
+        opacity: 1;
         &:before{
-          content: "\e257";
+          @media @tablet-down {
+            content: "\e260";
+          }
         }
-      }*/
+      }
     }
 
     & > a{
@@ -161,8 +164,12 @@
     color: #777777;
     font-size: 12px;
     .glyphicon{
+      opacity: 0.53;
       &:before{
         content: "\e258";
+        @media @tablet-down {
+          content: "\e259";
+        }
       }
     }
   }
@@ -234,7 +241,9 @@
     }
   }
   .file-upload{
-    float: left !important;
+    @media @desktop-up {
+      float: left !important;
+    }
     margin-top: 20px;
   }
   .documents-list{
@@ -264,7 +273,7 @@
       top: 50%;
       right: 0;
       color: #338f11;
-      margin: -10px 0 0;
+      margin: -10px 0 0 !important;
       height: 20px;
       text-align: center;
       opacity: 0.8;
