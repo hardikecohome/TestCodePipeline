@@ -704,7 +704,6 @@
         }
     </div>
 }
-<p>A one-time administration fee of $35.00 plus HST applies.</p>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new {@class = "clearfix", id = "payment-info-form"}))
 {
@@ -800,7 +799,7 @@
         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
         <div class="summary-return-equipment" id="existing-equipment-section">
             <h3 class="dealnet-section-title">
-                Return Equipment <a href="#" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                Existing Equipment Information <a href="#" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
             </h3>
             @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
             {
