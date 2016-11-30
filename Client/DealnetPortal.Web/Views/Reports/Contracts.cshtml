@@ -73,7 +73,7 @@
 					<div class="dealnet-credit-check-section">
 						<h3 class="dealnet-section-title empty-title">&nbsp;</h3>
 					    @if (contract.EquipmentInfo != null && contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                        {
+					    {
 					        <div class="form-group">
 					            <div class="row">
 					                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
@@ -84,18 +84,31 @@
 					                </div>
 					            </div>
 					        </div>
+					        <div class="form-group">
+					            <div class="row">
+					                <label class="dealnet-field-caption col-xs-6">Loan Term</label>
+					                <div class="dealnet-field-holder col-xs-6">
+					                    <div class="control-group">
+					                        @(contract.EquipmentInfo?.LoanTerm)
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    }
+					    else
+					    {
+					        <div class="form-group">
+					            <div class="row">
+					                <label class="dealnet-field-caption col-xs-6">Requested Term</label>
+					                <div class="dealnet-field-holder col-xs-6">
+					                    <div class="control-group">
+					                        @(contract.EquipmentInfo?.RequestedTerm)
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
 					    }
                         <div class="form-group">
-							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Requested Term</label>
-								<div class="dealnet-field-holder col-xs-6">
-									<div class="control-group">
-										@(contract.EquipmentInfo?.RequestedTerm)
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
 							<div class="row">
 								<label class="dealnet-field-caption col-xs-6">Sales Rep</label>
 								<div class="dealnet-field-holder col-xs-6">
@@ -235,7 +248,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Installation Address</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.InstallationAddress)
+                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.Street)
                                         </div>
                                     </div>
                                 </div>
@@ -280,6 +293,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.ResidenceType.GetEnumDescription())
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @if (contract.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
@@ -292,7 +315,7 @@
                                         <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.InstallationAddress)
+                                                @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
                                             </div>
                                         </div>
                                     </div>
@@ -386,157 +409,169 @@
                         </div>
                     </div>
                 </div>
-				<div class="row credit-check-info-hold">
+				<div class="row">
                     @if (contract.ContactAndPaymentInfo?.CoBorrowersContactInfo != null)
                     {
                         for (var i = 0; i < contract.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                         {
 					<hr style="clear: both">
-                    <div class="col-md-6 grid-column">
-						<div class="dealnet-credit-check-section">
-							<h3 class="dealnet-section-title">Additional Applicant</h3>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">First Name</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@contract.BasicInfo.AdditionalApplicants[i].FirstName
+					<div class="credit-check-info-hold">
+	                    <div class="col-md-6 grid-column">
+							<div class="dealnet-credit-check-section">
+								<h3 class="dealnet-section-title">Additional Applicant</h3>
+								<div class="form-group">
+									<div class="row">
+										<label class="dealnet-field-caption col-xs-6">First Name</label>
+										<div class="dealnet-field-holder col-xs-6">
+											<div class="control-group">
+												@contract.BasicInfo.AdditionalApplicants[i].FirstName
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Last Name</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@contract.BasicInfo.AdditionalApplicants[i].LastName
+								<div class="form-group">
+									<div class="row">
+										<label class="dealnet-field-caption col-xs-6">Last Name</label>
+										<div class="dealnet-field-holder col-xs-6">
+											<div class="control-group">
+												@contract.BasicInfo.AdditionalApplicants[i].LastName
+											</div>
 										</div>
 									</div>
 								</div>
+							    <div class="form-group">
+							        <div class="row">
+							            <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
+							            <div class="dealnet-field-holder col-xs-6">
+							                <div class="control-group">
+							                    @(contract.BasicInfo.AdditionalApplicants[i].BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+							                </div>
+							            </div>
+							        </div>
+							    </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @contract.BasicInfo.AdditionalApplicants[i].DriverLicenseNumber
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
 							</div>
-						    <div class="form-group">
-						        <div class="row">
-						            <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
-						            <div class="dealnet-field-holder col-xs-6">
-						                <div class="control-group">
-						                    @(contract.BasicInfo.AdditionalApplicants[i].BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
-						                </div>
-						            </div>
-						        </div>
-						    </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @contract.BasicInfo.AdditionalApplicants[i].DriverLicenseNumber
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 						</div>
+	                    <div class="col-md-6 grid-column">
+	                        <div class="dealnet-credit-check-section">
+	                            <h3 class="dealnet-section-title">Mailing Address</h3>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">City</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Province</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            <span class="postal-code">@(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType.GetEnumDescription())
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-6 grid-column">
+	                        <div class="dealnet-credit-check-section">
+	                            <h3 class="dealnet-section-title">Contact Information</h3>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Home Phone</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.HomePhone)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.CellPhone)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Business Phone</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.BusinessPhone)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="row">
+	                                    <label class="dealnet-field-caption col-xs-6">Email Address</label>
+	                                    <div class="dealnet-field-holder col-xs-6">
+	                                        <div class="control-group">
+	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.EmailAddress)
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
 					</div>
-                    <div class="col-md-6 grid-column">
-                        <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Mailing Address</h3>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.InstallationAddress)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">City</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Province</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            <span class="postal-code">@(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 grid-column">
-                        <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Contact Information</h3>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Home Phone</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.HomePhone)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.CellPhone)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Business Phone</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.BusinessPhone)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Email Address</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.EmailAddress)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                         }
                     }
 				</div>
@@ -585,6 +620,32 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Cost</label>
+                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                <div class="control-group">
+                                                    @equipment.Cost
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Monthly Cost</label>
+                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                <div class="control-group">
+                                                    @equipment.MonthlyCost
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 <div class="form-group">
                                     <div class="row">
                                         <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
@@ -737,7 +798,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="summary-return-equipment">
-                                <h3 class="dealnet-section-title">Return Equipment</h3>
+                                <h3 class="dealnet-section-title">Existing Equipment Information</h3>
                                 @foreach (var equipment in contract.EquipmentInfo.ExistingEquipment)
                     {
                                     <div class="summury-return-equip-item">
@@ -746,7 +807,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     Is rental?
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @(equipment.IsRental ? "Yes" : "No")
                                                 </div>
                                             </div>
@@ -756,7 +817,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     Rental Company
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.RentalCompany
                                                 </div>
                                             </div>
@@ -766,7 +827,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     General Condition
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.GeneralCondition
                                                 </div>
                                             </div>
@@ -776,7 +837,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     Estimated Age
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.EstimatedAge
                                                 </div>
                                             </div>
@@ -786,7 +847,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     Make
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.Make
                                                 </div>
                                             </div>
@@ -796,7 +857,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     Model
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.Model
                                                 </div>
                                             </div>
@@ -806,7 +867,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     Serial Number
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.SerialNumber
                                                 </div>
                                             </div>
@@ -816,7 +877,7 @@
                                                 <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                                     Notes
                                                 </div>
-                                                <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     <span style="white-space: pre-wrap">@equipment.Notes</span>
                                                 </div>
                                             </div>
@@ -841,7 +902,7 @@
 								<div class="form-group">
 									<div class="row">
 										<label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
-										<div class="dealnet-field-holder col-xs-12">
+										<div class="dealnet-field-holder text-left col-xs-12">
 											<span style="white-space: pre-wrap">@(contract.EquipmentInfo?.Notes)</span>
 										</div>
 									</div>

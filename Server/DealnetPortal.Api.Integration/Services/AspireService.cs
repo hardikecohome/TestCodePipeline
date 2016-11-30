@@ -581,8 +581,24 @@ namespace DealnetPortal.Api.Integration.Services
                         Firstname = c.FirstName,
                         Lastname = c.LastName,
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    },
+                    UDFs = new List<UDF>()
+                    {
+                        new UDF()
+                        {
+
+                            Name = "Authorized Consent",
+                            Value = "Y"
+                        },
+                        new UDF()
+                        {
+
+                            Name = "Existing Customer",
+                            Value = "Y" // ???
+                        }
                     }
-                };
+                };            
+
                 if (c.Locations?.Any() ?? false)
                 {
                     var loc = c.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
@@ -603,6 +619,12 @@ namespace DealnetPortal.Api.Integration.Services
                         SuiteNo = loc.Unit,
                         StreetNo = string.Empty
                     };
+
+                    account.UDFs.Add(new UDF()
+                    {
+                        Name = "Residence",
+                        Value = loc.ResidenceType == ResidenceType.Own ? "O" : "R" //<!—other value is R for rent  and O for own-->
+                    });
                 }
                 if (c.Phones?.Any() ?? false)
                 {
@@ -623,7 +645,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (!string.IsNullOrEmpty(role))
                 {
                     account.Role = role;
-                }
+                }                                
 
                 return account;
             };

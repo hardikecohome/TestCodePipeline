@@ -360,34 +360,9 @@ namespace DealnetPortal.Web.Infrastructure
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
-            summary.SendEmails = new SendEmailsViewModel();
             if (summary.BasicInfo.HomeOwner.AddressInformation != null) { 
                 var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.HomeOwner.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
-            }
-
-            summary.SendEmails.ContractId = contractId;
-            summary.SendEmails.HomeOwnerFullName = summary.BasicInfo.HomeOwner?.FirstName + " " + summary.BasicInfo.HomeOwner?.LastName;
-            summary.SendEmails.HomeOwnerId = contract.PrimaryCustomer?.Id ?? 0;
-            summary.SendEmails.HomeOwnerEmail = contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
-                contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
-
-            if (contract.SecondaryCustomers?.Any() ?? false)
-            {
-                summary.SendEmails.AdditionalApplicantsEmails =
-                    contract.SecondaryCustomers.Select(c =>
-                        new CustomerEmail()
-                        {
-                            CustomerId = c.Id,
-                            Email = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
-                                        c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
-                        }).ToArray();
-            }
-
-            var dealer = await _dictionaryServiceAgent.GetDealerInfo();
-            if (!string.IsNullOrEmpty(dealer?.Email))
-            {
-                summary.SendEmails.SalesRepEmail = dealer.Email;
             }
                         
             summary.AdditionalInfo = new AdditionalInfoViewModel();
@@ -398,7 +373,7 @@ namespace DealnetPortal.Web.Infrastructure
                 var loanCalculatorInput = new LoanCalculator.Input
                 {
                     TaxRate = summary.ProvinceTaxRate,
-                    LoanTerm = contract.Equipment.RequestedTerm,
+                    LoanTerm = contract.Equipment.RequestedTerm ?? 0,
                     AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                     EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                     AdminFee = contract.Equipment.AdminFee ?? 0,

@@ -308,7 +308,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         var loanCalculatorInput = new LoanCalculator.Input
                         {
                             TaxRate = rate.Rate,
-                            LoanTerm = contract.Equipment.RequestedTerm,
+                            LoanTerm = contract.Equipment.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                             EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                             AdminFee = contract.Equipment.AdminFee ?? 0,
@@ -347,7 +347,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         var loanCalculatorInput = new LoanCalculator.Input
                         {
                             TaxRate = rate.Rate,
-                            LoanTerm = contract.Equipment.RequestedTerm,
+                            LoanTerm = contract.Equipment.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                             EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                             AdminFee = contract.Equipment.AdminFee ?? 0,
@@ -525,7 +525,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 var loanCalculatorInput = new LoanCalculator.Input
                 {
                     TaxRate = taxRate.Rate,
-                    LoanTerm = contract.Equipment.RequestedTerm,
+                    LoanTerm = contract.Equipment.LoanTerm ?? 0,
                     AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                     EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                     AdminFee = contract.Equipment.AdminFee ?? 0,

@@ -142,6 +142,7 @@ function showTable() {
                 "<'row'<'col-md-12'p>>" +
                 "<'row'<'col-md-12'i>>",
                 renderer: 'bootstrap',
+                order: []
             });
 
         table.on('draw.dt', function(){

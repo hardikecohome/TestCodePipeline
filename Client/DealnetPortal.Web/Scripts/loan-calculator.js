@@ -32,7 +32,7 @@
     }
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
     totalAmountFinancedLabel.text(totalAmountFinanced.toFixed(2));
-    var loanTerm = parseInt($("#requested-term").val());
+    var loanTerm = parseInt($("#loan-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
     if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate <= 0) { return; }

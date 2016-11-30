@@ -149,7 +149,7 @@ $(document).ready(function () {
 function hideAditional1Section() {
     aditional1Section.hide();
     //Needed for validation
-    aditional1Section.find('input').each(function() {
+    aditional1Section.find('input, select').each(function() {
         $(this).prop("disabled", true);
     });
     addAdditionalButton.show();
@@ -157,7 +157,7 @@ function hideAditional1Section() {
 function hideAditional2Section() {
     aditional2Section.hide();
     //Needed for validation
-    aditional2Section.find('input').each(function () {
+    aditional2Section.find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     addAdditionalButton.show();
@@ -165,7 +165,7 @@ function hideAditional2Section() {
 function hideAditional3Section() {
     aditional3Section.hide();
     //Needed for validation
-    aditional3Section.find('input').each(function () {
+    aditional3Section.find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     addAdditionalButton.show();
@@ -188,7 +188,7 @@ function disableMailingAddress() {
 }
 function showAditional1Section() {
     aditional1Section.show();
-    aditional1Section.find('input').each(function () {
+    aditional1Section.find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
@@ -197,7 +197,7 @@ function showAditional1Section() {
 }
 function showAditional2Section() {
     aditional2Section.show();
-    aditional2Section.find('input').each(function () {
+    aditional2Section.find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
@@ -206,7 +206,7 @@ function showAditional2Section() {
 }
 function showAditional3Section() {
     aditional3Section.show();
-    aditional3Section.find('input').each(function () {
+    aditional3Section.find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     addAdditionalButton.hide();
@@ -225,4 +225,13 @@ function assignDatepicker(input) {
             onDateSelect($(this));
         }
     });
+}
+
+function useHomeOwnerAddress(i) {
+    $('#additional-street-' + i).val($('#street').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-unit_number-' + i).val($('#unit_number').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-locality-' + i).val($('#locality').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-administrative_area_level_1-' + i).val($('#administrative_area_level_1').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-postal_code-' + i).val($('#postal_code').val()).removeClass('pac-placeholder').removeClass('placeholder');
+    $('#additional-residence-' + i).val($('#residence').val());
 }

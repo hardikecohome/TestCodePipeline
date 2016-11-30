@@ -246,53 +246,55 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SummaryAndConfirmation([Bind(Prefix = "SendEmails")] SendEmailsViewModel submitViewModel)
+        
+        public async Task<ActionResult> SubmitDeal(int contractId)
         {
-            // update home owner notification email
-            if (!string.IsNullOrEmpty(submitViewModel.HomeOwnerEmail))
-            {
-                var contractRes = await _contractServiceAgent.GetContract(submitViewModel.ContractId);
-                if (contractRes?.Item1 != null)
-                {
-                    var emails = contractRes.Item1.PrimaryCustomer?.Emails;
-                    if (emails?.Any(e => e.EmailType == EmailType.Notification) ?? false)
-                    {
-                        emails.First(e => e.EmailType == EmailType.Notification).EmailAddress =
-                            submitViewModel.HomeOwnerEmail;
-                    }
-                    else
-                    {
-                        if (emails == null)
-                        {
-                            emails = new List<EmailDTO>();
-                        }
-                        emails.Add(new EmailDTO()
-                        {
-                            CustomerId = submitViewModel.HomeOwnerId,
-                            EmailType = EmailType.Notification,
-                            EmailAddress = submitViewModel.HomeOwnerEmail
-                        });
-                    }
-                    var customer = new CustomerDataDTO()
-                    {
-                        Id = submitViewModel.HomeOwnerId,
-                        ContractId = submitViewModel.ContractId,
-                        Emails = emails
-                    };
-                    await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] {customer});
-                }
-            }
-            await _contractServiceAgent.SubmitContract(submitViewModel.ContractId);
-            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitViewModel?.ContractId });            
+            await _contractServiceAgent.SubmitContract(contractId);
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId });            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void SendContractEmails([Bind(Prefix = "SendEmails")] SendEmailsViewModel emails)
+        public async Task SendContractEmails(SendEmailsViewModel emails)
         {
+            if (!ModelState.IsValid)
+            {
+                return;
+            }
+            // update home owner notification email
+            if (!string.IsNullOrEmpty(emails.HomeOwnerEmail))
+            {
+                var contractRes = await _contractServiceAgent.GetContract(emails.ContractId);
+                if (contractRes?.Item1 != null)
+                {
+                    var emls = contractRes.Item1.PrimaryCustomer?.Emails;
+                    if (emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
+                    {
+                        emls.First(e => e.EmailType == EmailType.Notification).EmailAddress =
+                            emails.HomeOwnerEmail;
+                    }
+                    else
+                    {
+                        if (emls == null)
+                        {
+                            emls = new List<EmailDTO>();
+                        }
+                        emls.Add(new EmailDTO()
+                        {
+                            CustomerId = emails.HomeOwnerId,
+                            EmailType = EmailType.Notification,
+                            EmailAddress = emails.HomeOwnerEmail
+                        });
+                    }
+                    var customer = new CustomerDataDTO()
+                    {
+                        Id = emails.HomeOwnerId,
+                        ContractId = emails.ContractId,
+                        Emails = emls
+                    };
+                    await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] { customer });
+                }
+            }
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
             signatureUsers.ContractId = emails.ContractId;
             signatureUsers.Users = new List<SignatureUser>();
@@ -317,7 +319,7 @@ namespace DealnetPortal.Web.Controllers
                 });
             }
 
-            _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
+            await _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
         }
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId)
@@ -327,24 +329,31 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("Error", "Info", new { alers = contract?.Item2 });
             }
-            var email = contract.Item1.PrimaryCustomer?.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
-                contract.Item1.PrimaryCustomer?.Emails?.FirstOrDefault()?.EmailAddress ?? string.Empty;
-            SubmitConfirmationViewModel vm = new SubmitConfirmationViewModel()
-            {
-                ContractId = contractId,
-                CustomerId = contract.Item1.PrimaryCustomer?.Id ?? 0,
-                AgreementType = contract.Item1.Equipment?.AgreementType ?? AgreementType.LoanApplication,
-                HomeOwnerFullName = $"{contract.Item1.PrimaryCustomer?.FirstName} {contract.Item1.PrimaryCustomer?.LastName}",
-                HomeOwnerEmail = email
-            };
-            return View(vm);
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AgreementSubmitSuccess([Bind(Prefix = "SendEmails")] SendEmailsViewModel emails)
-        {
-            return RedirectToAction("Index", "Home");            
+            var sendEmails = new SendEmailsViewModel();
+            sendEmails.ContractId = contractId;
+            sendEmails.HomeOwnerFullName = contract.Item1.PrimaryCustomer.FirstName + " " + contract.Item1.PrimaryCustomer.LastName;
+            sendEmails.HomeOwnerId = contract.Item1.PrimaryCustomer.Id;
+            sendEmails.HomeOwnerEmail = contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
+            if (contract.Item1.SecondaryCustomers?.Any() ?? false)
+            {
+                sendEmails.AdditionalApplicantsEmails =
+                    contract.Item1.SecondaryCustomers.Select(c =>
+                        new CustomerEmail()
+                        {
+                            CustomerId = c.Id,
+                            Email = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                                        c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
+                        }).ToArray();
+            }
+            var dealer = await _dictionaryServiceAgent.GetDealerInfo();
+            if (!string.IsNullOrEmpty(dealer?.Email))
+            {
+                sendEmails.SalesRepEmail = dealer.Email;
+            }
+            sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType ?? AgreementType.LoanApplication;
+            return View(sendEmails);
         }
 
         public async Task<ActionResult> CreateNewApplication(int contractId)

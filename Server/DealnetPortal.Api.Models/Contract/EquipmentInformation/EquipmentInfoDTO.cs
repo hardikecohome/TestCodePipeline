@@ -13,7 +13,9 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public List<ExistingEquipmentDTO> ExistingEquipment { get; set; }
         public decimal? TotalMonthlyPayment { get; set; }
 
-        public int RequestedTerm { get; set; }
+        public int? RequestedTerm { get; set; }
+
+        public int? LoanTerm { get; set; }
 
         public int? AmortizationTerm { get; set; }
 
