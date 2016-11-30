@@ -44,7 +44,15 @@ function showChart() {
                                     backgroundColor: 'rgba(0, 0, 0, 1)',
                                     titleFontColor: '#1f1f1f',
                                     bodyFontColor: '#1f1f1f',
-                                    cornerRadius: 4
+                                    cornerRadius: 4,
+                                    callbacks: {
+                                      label: function(tooltipItems) {
+                                        return tooltipItems.yLabel;
+                                      },
+                                      title: function (tooltipItems) {
+                                        return tooltipItems[0].xLabel + ':';
+                                      }
+                                    },
                                 },
                                 legend: {
                                     display: false
