@@ -9,6 +9,7 @@ using AutoMapper.Mappers;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Aspire.AspireDb;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
@@ -120,6 +121,9 @@ namespace DealnetPortal.Web.App_Start
         {
             cfg.CreateMap<ApplicationUserDTO, SubDealer>()
                 .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.UserName));
+            cfg.CreateMap<GenericSubDealer, SubDealer>()
+                .ForMember(x => x.Id, o => o.MapFrom(src => src.SubmissionValue))
+                .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.SubDealerName));
             cfg.CreateMap<DriverLicenseData, RecognizedLicense>();
             cfg.CreateMap<Tuple<DriverLicenseData, IList<Alert>>, DriverLicenseViewModel>()
                 .ForMember(x => x.DriverLicense, o => o.MapFrom(src => src.Item1))

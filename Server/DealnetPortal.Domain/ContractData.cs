@@ -6,6 +6,13 @@ namespace DealnetPortal.Domain
     {
         public int Id { get; set; }
         public string DealerId { get; set; }
+
+        /// <summary>
+        /// Aspire dealer for contract
+        /// </summary>
+        public string ExternalSubDealerName { get; set; }
+        public string ExternalSubDealerId { get; set; }
+
         public Customer PrimaryCustomer { get; set; }
 
         public ContractDetails Details { get; set; }

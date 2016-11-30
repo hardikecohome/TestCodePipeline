@@ -20,11 +20,13 @@ namespace DealnetPortal.Api.Controllers
     {
 
         private IContractRepository ContractRepository { get; set; }
+        private IAspireStorageService AspireStorageService { get; set; }
 
-        public DictionaryController(IContractRepository contractRepository, ILoggingService loggingService)
+        public DictionaryController(IContractRepository contractRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
             : base(loggingService)
         {
             ContractRepository = contractRepository;
+            AspireStorageService = aspireStorageService;
         }             
 
         [Route("DocumentTypes")]
@@ -125,6 +127,8 @@ namespace DealnetPortal.Api.Controllers
             {
                 var dealer = ContractRepository.GetDealer(LoggedInUser?.UserId);
                 var dealerDto = Mapper.Map<ApplicationUserDTO>(dealer);
+                dealerDto.UdfSubDealers = AspireStorageService.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName);
+
                 return Ok(dealerDto);
             }
             catch (Exception ex)

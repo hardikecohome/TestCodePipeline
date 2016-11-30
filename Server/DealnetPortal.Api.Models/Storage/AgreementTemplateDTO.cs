@@ -23,6 +23,11 @@ namespace DealnetPortal.Api.Models.Storage
 
         public string DealerName { get; set; }
 
+        /// <summary>
+        /// For Aspire dealers
+        /// </summary>
+        public string ExternalDealerName { get; set; }
+
         public byte[] AgreementFormRaw { get; set; }
 
         public string ExternalTemplateId { get; set; }
