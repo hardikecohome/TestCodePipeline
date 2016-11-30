@@ -352,12 +352,13 @@
                 </div>
             </div>
         </div>
-		<div class="row credit-check-info-hold">
+		<div class="row">
 		    @if (Model.ContactAndPaymentInfo?.CoBorrowersContactInfo != null)
             {
                 for (var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                 {
 				<hr style="clear: both">
+				<div class="credit-check-info-hold">
                      <div class="col-md-6 grid-column">
                          <div class="dealnet-credit-check-section">
                              <h3 class="dealnet-section-title">Additional Applicant</h3>
@@ -513,6 +514,7 @@
                             </div>
                         </div>
                     </div>
+				</div>
                 }
             }
             
