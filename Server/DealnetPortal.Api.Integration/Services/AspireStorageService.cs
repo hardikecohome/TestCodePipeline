@@ -39,6 +39,24 @@ namespace DealnetPortal.Api.Integration.Services
             return list;
         }
 
+        public IList<GenericSubDealer> GetSubDealersList(string dealerName)
+        {
+            string sqlStatement = @"SELECT a.OID,A.SEQ_NUM,A.DESCR AS UDF_COLUMN_NAME,                                    
+                                    B.descr as Field_Description,
+                                    B.OID as Field_Oid,
+                                    B.valid_value as SubmissionValue
+                                      FROM GenericField (NOLOCK)A
+                                      LEFT JOIN GenericFieldValidValue(NOLOCK) B ON A.oid = B.genf_oid
+                                      and b.active = 1 and a.active = 1                                      
+									  where a.ref_type = 'CNTRCT' and b.active = 1
+											and a.descr LIKE '%{0}%'
+                                      ORDER BY 3, 5";
+            sqlStatement = string.Format(sqlStatement, dealerName);
+
+            var list = GetListFromQuery(sqlStatement, _databaseService, ReadSubDealerItem);
+            return list;
+        }
+
         private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
         {
             //Define list
@@ -70,6 +88,26 @@ namespace DealnetPortal.Api.Integration.Services
                 row.SeqNum = ConvertFromDbVal<int>(dr["SEQ_NUM"]);
                 row.SubmissionValue = ConvertFromDbVal<string>(dr["SubmissionValue"]);
 
+                return row;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        private GenericSubDealer ReadSubDealerItem(IDataReader dr)
+        {
+            try
+            {
+                var row = new GenericSubDealer();
+
+                row.DealerId = ((long)dr["OID"]).ToString();
+                row.SeqNum = ConvertFromDbVal<int>(dr["SEQ_NUM"]).ToString();
+                row.DealerName = (string)dr["UDF_COLUMN_NAME"];
+                row.SubDealerName = ConvertFromDbVal<string>(dr["Field_Description"]);
+                row.SubDealerId = ConvertFromDbVal<long>(dr["Field_Oid"]).ToString();                
+                row.SubmissionValue = ConvertFromDbVal<string>(dr["SubmissionValue"]);                
                 return row;
             }
             catch (Exception ex)
