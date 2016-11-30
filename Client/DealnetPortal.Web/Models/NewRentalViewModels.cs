@@ -172,23 +172,8 @@ namespace DealnetPortal.Web.Models
         public BasicInfoViewModel BasicInfo { get; set; }
         public EquipmentInformationViewModel EquipmentInfo { get; set; }
         public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
-        public SendEmailsViewModel SendEmails { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
-    }
-
-    public class SubmitContractViewModel
-    {
-        public int? ContractId { get; set; }
-    }
-
-    public class SubmitConfirmationViewModel
-    {
-        public int ContractId { get; set; }
-        public int CustomerId { get; set; }
-        public string HomeOwnerFullName { get; set; }
-        public string HomeOwnerEmail { get; set; }
-        public AgreementType AgreementType { get; set; }
     }
 }

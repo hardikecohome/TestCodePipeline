@@ -74,7 +74,8 @@ function showTable() {
                             "<'row'<'col-md-12'tr>>" +
                             "<'row'<'col-md-12'p>>" +
                             "<'row'<'col-md-12'i>>",
-                    renderer: 'bootstrap'
+                    renderer: 'bootstrap',
+                    order: []
                 });
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
