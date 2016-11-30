@@ -24,6 +24,11 @@ namespace DealnetPortal.Domain
         [ForeignKey("DealerId")]
         public ApplicationUser Dealer { get; set; }
 
+        /// <summary>
+        /// For Aspire dealers
+        /// </summary>
+        public string ExternalDealerName { get; set; }
+
         public byte[] AgreementForm { get; set; }
 
         public string ExternalTemplateId { get; set; }

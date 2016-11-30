@@ -14,7 +14,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public double? HouseSize { get; set; }
 
-        public string TransactionId { get; set; }
+        public string TransactionId { get; set; }        
 
         public string Status { get; set; }
 

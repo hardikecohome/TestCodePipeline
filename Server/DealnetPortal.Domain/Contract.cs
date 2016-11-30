@@ -32,6 +32,12 @@ namespace DealnetPortal.Domain
         
         public Customer PrimaryCustomer { get; set; }
 
+        /// <summary>
+        /// Aspire dealer for contract
+        /// </summary>
+        public string ExternalSubDealerName { get; set; }
+        public string ExternalSubDealerId { get; set; }
+
         public ICollection<Customer> SecondaryCustomers { get; set; }
 
         public virtual PaymentInfo PaymentInfo { get; set; }
