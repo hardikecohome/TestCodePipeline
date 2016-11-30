@@ -352,12 +352,13 @@
                 </div>
             </div>
         </div>
-		<div class="row credit-check-info-hold">
+		<div class="row">
 		    @if (Model.ContactAndPaymentInfo?.CoBorrowersContactInfo != null)
             {
                 for (var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                 {
 				<hr style="clear: both">
+				<div class="credit-check-info-hold">
                      <div class="col-md-6 grid-column">
                          <div class="dealnet-credit-check-section">
                              <h3 class="dealnet-section-title">Additional Applicant</h3>
@@ -513,6 +514,7 @@
                             </div>
                         </div>
                     </div>
+				</div>
                 }
             }
             
@@ -734,7 +736,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="summary-return-equipment">
-                    <h3 class="dealnet-section-title">Return Equipment</h3>
+                    <h3 class="dealnet-section-title">Existing Equipment Information</h3>
                     @foreach (var equipment in Model.EquipmentInfo.ExistingEquipment)
                     {
                         <div class="summury-return-equip-item">
@@ -743,7 +745,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         Is rental?
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @(equipment.IsRental ? "Yes" : "No")
                                     </div>
                                 </div>
@@ -753,7 +755,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         Rental Company
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.RentalCompany
                                     </div>
                                 </div>
@@ -763,7 +765,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         General Condition
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.GeneralCondition
                                     </div>
                                 </div>
@@ -773,7 +775,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         Estimated Age
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.EstimatedAge
                                     </div>
                                 </div>
@@ -783,7 +785,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         Make
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.Make
                                     </div>
                                 </div>
@@ -793,7 +795,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         Model
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.Model
                                     </div>
                                 </div>
@@ -803,7 +805,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         Serial Number
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.SerialNumber
                                     </div>
                                 </div>
@@ -813,7 +815,7 @@
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
                                         Notes
                                     </div>
-                                    <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+                                    <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         <span style="white-space: pre-wrap">@equipment.Notes</span>
                                     </div>
                                 </div>
@@ -837,7 +839,7 @@
 							<div class="form-group">
 								<div class="row">
 									<label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
-									<div class="dealnet-field-holder col-xs-12">
+									<div class="dealnet-field-holder text-left col-xs-12">
 										<span style="white-space: pre-wrap">@Model.EquipmentInfo.Notes</span>
 									</div>
 								</div>
