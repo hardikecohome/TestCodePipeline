@@ -38,7 +38,8 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.Id, d => d.ResolveUsing(src => src.CustomerId ?? 0))
                     .ForMember(x => x.Phones, d => d.Ignore())
                     .ForMember(x => x.Emails, d => d.Ignore())
-                    .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
+                    .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
+                    .ForMember(x => x.AllowCommunicate, d => d.Ignore());
 
             cfg.CreateMap<AddressInformation, LocationDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
@@ -114,6 +115,12 @@ namespace DealnetPortal.Web.App_Start
                         EmailType = EmailType.Main,
                         EmailAddress = src.EmailAddress
                     }
+                }))
+                .ForMember(x => x.CustomerInfo, d => d.ResolveUsing(src =>
+                new CustomerInfoDTO()
+                {
+                    Id = src.CustomerId,
+                    AllowCommunicate = src.AllowCommunicate
                 }));
         }
 
@@ -232,7 +239,8 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.CellPhone, d => d.ResolveUsing(src =>
                         src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum))
                     .ForMember(x => x.EmailAddress, d => d.ResolveUsing(src =>
-                        src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress));
+                        src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
+                    .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate.HasValue ? src.AllowCommunicate.Value : false));
         }
 
 

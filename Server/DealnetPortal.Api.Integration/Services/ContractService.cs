@@ -552,7 +552,10 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 if (customers?.Any() ?? false)
                 {
-                    customers.ForEach(c => { _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails)); });
+                    customers.ForEach(c =>
+                    {
+                        _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo), Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails));
+                    });
                 }
                 _unitOfWork.Save();
 

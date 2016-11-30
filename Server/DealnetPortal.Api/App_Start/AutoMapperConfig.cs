@@ -90,7 +90,12 @@ namespace DealnetPortal.Api.App_Start
                .ForMember(x => x.Replies, d => d.Ignore())
                .ForMember(d => d.Dealer, s => s.Ignore());
             mapperConfig.CreateMap<CustomerDTO, Customer>()
-                .ForMember(x => x.AccountId, d => d.Ignore());                
+                .ForMember(x => x.AccountId, d => d.Ignore());
+            mapperConfig.CreateMap<CustomerInfoDTO, Customer>()
+                .ForMember(x => x.AccountId, d => d.Ignore())
+                .ForMember(x => x.Locations, d => d.Ignore())
+                .ForMember(x => x.Emails, d => d.Ignore())
+                .ForMember(x => x.Phones, d => d.Ignore());
 
             mapperConfig.CreateMap<ContractDataDTO, ContractData>();
             mapperConfig.CreateMap<PaymentInfoDTO, PaymentInfo>()

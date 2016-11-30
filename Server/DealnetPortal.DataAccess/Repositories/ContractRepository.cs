@@ -253,12 +253,29 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public Customer UpdateCustomerData(int customerId, IList<Location> locations,
+        public Customer UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations,
             IList<Phone> phones, IList<Email> emails)
         {
             var dbCustomer = GetCustomer(customerId);
             if (dbCustomer != null)
             {
+                if (customerInfo != null)
+                {
+                    if (customerInfo.AllowCommunicate.HasValue)
+                    {
+                        dbCustomer.AllowCommunicate = customerInfo.AllowCommunicate;
+                    }
+                    if (customerInfo.DriverLicenseNumber != null)
+                    {
+                        dbCustomer.DriverLicenseNumber = customerInfo.DriverLicenseNumber;
+                    }
+                    if (customerInfo.Sin != null)
+                    {
+                        dbCustomer.Sin = customerInfo.Sin;
+                    }
+                    //AddOrUpdateCustomer(customerInfo);
+                }
+
                 if (locations != null)
                 {
                     AddOrUpdateCustomerLocations(dbCustomer, locations.ToList());
@@ -769,6 +786,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
                 dbCustomer.Sin = customer.Sin;
                 dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
+                if (customer.AllowCommunicate.HasValue)
+                {
+                    dbCustomer.AllowCommunicate = customer.AllowCommunicate;
+                }
             }
             //if (dbCustomer.Locations == null)
             //{
