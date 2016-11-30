@@ -462,10 +462,10 @@ select.dealnet-disabled-input{
   .summary-emails-header{
     position: relative;
     font-size: 16px;
-    margin-bottom: 10px;
-    padding-left: 44px;
+    margin-bottom: 15px;
+    padding-left: 35px;
     .icon{
-      margin: 0 8px;
+      margin: 0;
       position: absolute;
       left: 0;
       top: 0;
@@ -562,26 +562,26 @@ select.dealnet-disabled-input{
       margin-right: 40px;
     }
   }
-  .print-link{
-    display: block;
-    text-align: center;
-    line-height: 39px;
-    padding: 10px;
+
+}
+.print-link{
+  display: block;
+  text-align: center;
+  line-height: 39px;
+  padding: 10px;
+  color: @default-dark-grey-color;
+  &:hover, &:focus{
     color: @default-dark-grey-color;
-    &:hover, &:focus{
-      color: @default-dark-grey-color;
-    }
-    .icon{
-      margin-right: 10px;
-    }
-    @media @desktop-up {
-      display: inline-block;
-      text-align: left;
-      padding: 0;
-    }
+  }
+  .icon{
+    margin-right: 10px;
+  }
+  @media @desktop-up {
+    display: inline-block;
+    text-align: left;
+    padding: 0;
   }
 }
-
 /*.report-documents-list{
   &.editable-list{
     li{
@@ -613,11 +613,7 @@ select.dealnet-disabled-input{
     display: none !important;
   }
 }
-.sent-email-msg{
-  .icon-success{
-    margin-right: 15px;
-  }
-}
+
 
 .equipment-form-container{
     margin-top: 30px;

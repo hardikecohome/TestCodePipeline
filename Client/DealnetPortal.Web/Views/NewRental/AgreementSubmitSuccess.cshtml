@@ -3,14 +3,16 @@
 
 <div class="rental-successful-page">
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-5 message-block">
+        <div class="col-xs-12">
             <div class="message-header text-center">@(Model.AgreementType == AgreementType.LoanApplication ? "Loan" : "Rental") Agreement submitted successfully!</div>
-            <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="print-link">
+            <div class="links-container">
+                <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="dealnet-info-link">
                 See contract details
-            </a>
-            <a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="print-link">
+                </a>
+                <a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="dealnet-info-link">
                 <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
-            </a>
+                </a>
+            </div>
             <div class="sent-contract-section">
                 <h2 class="dealnet-large-header">Send contract for e-signature</h2>
                 @using (Html.BeginForm("SummaryAndConfirmation", "NewRental", FormMethod.Post, new {id = "send-mails-form", @class = "clearfix"}))
@@ -24,7 +26,7 @@
                             <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
                             Please enter emails of applicants below and click Send Emails.
                         </p>
-                        <p class="summary-emails-header2">Invite(s) for digital signing of the contract will be sent to the following emails</p>
+                        <p>Invite(s) for digital signing of the contract will be sent to the following emails</p>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
