@@ -111,6 +111,26 @@
     &+li{
       margin-top: 3px;
     }
+    &.uploaded{
+      .custom-checkbox {
+        .checkbox-icon {
+          color: @heading-text-color2;
+          border-color: #dcdcdc;
+          .icon-checked{
+            opacity: 1;
+            color: #626262;
+          }
+        }
+      }
+    }
+    &.error{
+      .error-icon{
+        display: block;
+      }
+      .custom-checkbox {
+        display: none;
+      }
+    }
     &.active{
       &:before{
         content: '';
@@ -191,34 +211,18 @@
     .checkbox-icon {
       margin: 0;
       color: #777777;
-      border-color: currentColor;
+      border-color: #dcdcdc;
       .icon-checked{
         opacity: 0;
+        color: #626262;
       }
     }
   }
-  .document-uploaded-pill{
-    .custom-checkbox {
-      .checkbox-icon {
-        color: @heading-text-color2;
-        border-color: currentColor;
-        .icon-checked{
-          opacity: 1;
-        }
-      }
-    }
-  }
+
   .error-icon{
     display: none;
   }
-  .error-uploaded-pill{
-    .error-icon{
-      display: block;
-    }
-    .custom-checkbox {
-      display: none;
-    }
-  }
+
 }
 
 .doc-tab-content{
