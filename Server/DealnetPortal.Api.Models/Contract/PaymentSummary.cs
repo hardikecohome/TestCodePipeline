@@ -11,5 +11,6 @@ namespace DealnetPortal.Api.Models.Contract
         public decimal? MonthlyPayment { get; set; }
         public decimal? Hst { get; set; }
         public decimal? TotalPayment { get; set; }
+        public decimal? TotalAllMonthlyPayment { get; set; }
     }
 }

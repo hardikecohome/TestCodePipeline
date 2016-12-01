@@ -386,6 +386,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         paymentSummary.Hst = (decimal) loanCalculatorOutput.Hst;
                         paymentSummary.TotalPayment = (decimal) loanCalculatorOutput.TotalAllMonthlyPayments;
                         paymentSummary.MonthlyPayment = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
+                        paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
                     }
                     else
                     {
@@ -394,6 +395,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
                                                       (contract.Equipment.TotalMonthlyPayment ?? 0)*
                                                       (decimal) (rate.Rate/100);
+                        paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalPayment * (contract.Equipment.RequestedTerm ?? 0);
                     }
                 }
             }
