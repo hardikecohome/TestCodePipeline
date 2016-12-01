@@ -22,6 +22,8 @@ namespace DealnetPortal.Domain
 
         public string DisplayName { get; set; }
 
+        public bool EsignatureEnabled { get; set; }
+
         public virtual ICollection<ApplicationUser> SubDealers { get; set; }
 
         public string ParentDealerId { get; set; }

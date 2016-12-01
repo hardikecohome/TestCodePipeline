@@ -353,6 +353,9 @@ namespace DealnetPortal.Web.Controllers
                 sendEmails.SalesRepEmail = dealer.Email;
             }
             sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType ?? AgreementType.LoanApplication;
+
+            ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
+
             return View(sendEmails);
         }
 

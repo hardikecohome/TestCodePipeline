@@ -71,6 +71,7 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
+                EsignatureEnabled = false,
                 PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
@@ -85,6 +86,7 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
+                EsignatureEnabled = false,
                 PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
@@ -138,6 +140,7 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
+                EsignatureEnabled = true,
                 PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
@@ -158,6 +161,7 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
+                EsignatureEnabled = true,
                 PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
@@ -178,6 +182,7 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
+                EsignatureEnabled = true,
                 PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
@@ -198,6 +203,7 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
+                EsignatureEnabled = true,
                 PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
@@ -220,6 +226,7 @@ namespace DealnetPortal.DataAccess
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
+                EsignatureEnabled = true,
                 PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
@@ -242,6 +249,7 @@ namespace DealnetPortal.DataAccess
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PasswordHash = "",
+                EsignatureEnabled = true,
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -262,6 +270,7 @@ namespace DealnetPortal.DataAccess
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PasswordHash = "",
+                EsignatureEnabled = true,
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -282,6 +291,7 @@ namespace DealnetPortal.DataAccess
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PasswordHash = "",
+                EsignatureEnabled = true,
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -302,6 +312,7 @@ namespace DealnetPortal.DataAccess
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PasswordHash = "",
+                EsignatureEnabled = true,
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -322,6 +333,7 @@ namespace DealnetPortal.DataAccess
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 PasswordHash = "",
+                EsignatureEnabled = true,
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
