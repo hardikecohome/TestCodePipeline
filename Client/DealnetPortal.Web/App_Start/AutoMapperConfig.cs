@@ -73,7 +73,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<ContactInfoViewModel, CustomerDataDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId))
-                .ForMember(x => x.CustomerInfo, d => d.Ignore())
+                //.ForMember(x => x.CustomerInfo, d => d.Ignore())
                 .ForMember(x => x.Locations, d => d.Ignore())
                 .ForMember(x => x.Phones, d => d.ResolveUsing(src =>
                 {
@@ -120,7 +120,7 @@ namespace DealnetPortal.Web.App_Start
                 new CustomerInfoDTO()
                 {
                     Id = src.CustomerId,
-                    AllowCommunicate = src.AllowCommunicate
+                    AllowCommunicate = src.AllowCommunicate                    
                 }));
         }
 

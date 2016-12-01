@@ -786,10 +786,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
                 dbCustomer.Sin = customer.Sin;
                 dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
-                if (customer.AllowCommunicate.HasValue)
-                {
-                    dbCustomer.AllowCommunicate = customer.AllowCommunicate;
-                }
+                //if (customer.AllowCommunicate.HasValue)
+                //{
+                //    dbCustomer.AllowCommunicate = customer.AllowCommunicate;
+                //}
             }
             //if (dbCustomer.Locations == null)
             //{
