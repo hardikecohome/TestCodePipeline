@@ -208,6 +208,22 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<bool, IList<Alert>>> CheckContractAgreementAvailable(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsync<Tuple<bool, IList<Alert>>>(
+                            $"{_fullUri}/CheckContractAgreementAvailable?contractId={contractId}");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't check contract print agreement", ex);
+                throw;
+            }
+        }
+
         public async Task<IList<FlowingSummaryItemDTO>> GetContractsSummary(string summaryType)
         {
             try

@@ -245,6 +245,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, string contractOwnerId)
+        {
+            return _signatureService.CheckContractAgreementAvailable(contractId, contractOwnerId).GetAwaiter().GetResult();
+        }
+
         public Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId)
         {
             return _signatureService.GetContractAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();

@@ -169,6 +169,54 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<Tuple<bool, IList<Alert>>> CheckContractAgreementAvailable(int contractId, string ownerUserId)
+        {
+            bool isAvailable = false;
+            List<Alert> alerts = new List<Alert>();
+
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                //check is agreement created
+                if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
+                {
+                    isAvailable = true;
+                }
+                else
+                {
+                    // create draft agreement
+                    var createAlerts = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
+                    //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
+                    isAvailable = true;
+                    if (createAlerts.Any())
+                    {
+                        alerts.AddRange(createAlerts);
+                        if (createAlerts.Any(a => a.Type == AlertType.Error))
+                        {
+                            isAvailable = false;
+                        }
+                    }                    
+                }                
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+            LogAlerts(alerts);
+
+
+            return new Tuple<bool, IList<Alert>>(isAvailable, alerts);
+        }
+
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId)
         {
             List<Alert> alerts = new List<Alert>();
@@ -214,6 +262,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var errorMsg = $"Can't get contract [{contractId}] for processing";
                 alerts.Add(new Alert()
                 {
+                    Code = ErrorCodes.CantGetContractFromDb,
                     Type = AlertType.Error,
                     Header = "eSignature error",
                     Message = errorMsg

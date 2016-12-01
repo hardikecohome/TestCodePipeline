@@ -26,6 +26,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId);
 
+        Task<Tuple<bool, IList<Alert>>> CheckContractAgreementAvailable(int contractId, string ownerUserId);
+
         IList<Alert> GetSignatureResults(int contractId, string ownerUserId);
 
         SignatureStatus GetSignatureStatus(int contractId, string ownerUserId);

@@ -550,6 +550,7 @@
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
     <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning-mobile.js" />

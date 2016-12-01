@@ -78,6 +78,13 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId);
 
         /// <summary>
+        /// Check is contract print (pdf) agreement available
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns></returns>
+        Task<Tuple<bool, IList<Alert>>> CheckContractAgreementAvailable(int contractId);
+
+        /// <summary>
         /// Reports info about deals flowing
         /// </summary>
         /// <param name="summaryType"></param>
