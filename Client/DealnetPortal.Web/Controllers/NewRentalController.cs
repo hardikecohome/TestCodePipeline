@@ -458,6 +458,13 @@ namespace DealnetPortal.Web.Controllers
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> CheckContractAgreement(int contractId)
+        {            
+            var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+            return Json(result.Item1);
+        }
+
         private JsonResult GetSuccessJson()
         {
             return Json(new {isSuccess = true});

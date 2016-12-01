@@ -9,9 +9,16 @@
                 <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="dealnet-info-link">
                     See contract details
                 </a>
-                <a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="dealnet-info-link">
+                @*<a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="dealnet-info-link">*@
+                <a href="#" onclick="checkPrintedContract('@Url.Action("CheckContractAgreement", "NewRental", new {@contractId = Model.ContractId})', '@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})');"
+                   class="dealnet-info-link">
                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
                 </a>
+
+                <div class="well danger-well error-descr" style="display: none;">
+                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                    Cannot get contract agreement for Print
+                </div>
             </div>
             @if (ViewBag.IsEsignatureEnabled)
             {
@@ -97,24 +104,5 @@
 </div>
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.form.js")
-    <script type="text/javascript">
-        function submitEmailsAsync(url, form) {
-            form.validate();
-            if (!form.valid()) {
-                return;
-            };
-            $('.sent-email-msg').show();
-            $("#send-email-button").text('Resend Emails');
-            form.ajaxSubmit({
-                type: "POST",
-                url: url,
-                success: function (json) {
-                },
-                error: function (xhr, status, p3) {
-                    alert(xhr.responseText);
-                }
-            });
-        }
-    </script>
+    @Scripts.Render("~/bundles/agreement-submit-success")    
 }
