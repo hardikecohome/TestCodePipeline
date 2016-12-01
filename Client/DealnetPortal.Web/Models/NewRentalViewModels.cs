@@ -146,6 +146,8 @@ namespace DealnetPortal.Web.Models
 
         public string LastName { get; set; }
 
+        public bool AllowCommunicate { get; set; }
+
         public int CustomerId { get; set; }
     }
 

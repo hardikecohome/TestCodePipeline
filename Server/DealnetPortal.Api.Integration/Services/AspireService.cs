@@ -29,6 +29,7 @@ namespace DealnetPortal.Api.Integration.Services
     public class AspireService : IAspireService
     {
         private readonly IAspireServiceAgent _aspireServiceAgent;
+        private readonly IAspireStorageService _aspireStorageService;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -39,9 +40,10 @@ namespace DealnetPortal.Api.Integration.Services
         private const string CodeSuccess = "T000";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
-            IUnitOfWork unitOfWork, ILoggingService loggingService)
+            IUnitOfWork unitOfWork, IAspireStorageService aspireStorageService, ILoggingService loggingService)
         {
             _aspireServiceAgent = aspireServiceAgent;
+            _aspireStorageService = aspireStorageService;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
@@ -731,6 +733,21 @@ namespace DealnetPortal.Api.Integration.Services
                     application.UDFs = new List<UDF>();
                 }
                 application.UDFs.AddRange(udfs);
+            }
+
+            if (!string.IsNullOrEmpty(contract.ExternalSubDealerId))
+            {
+                var subDealers =
+                    _aspireStorageService.GetSubDealersList(contract.Dealer.AspireLogin ?? contract.Dealer.UserName);
+                var sbd = subDealers?.FirstOrDefault(sd => sd.SubmissionValue == contract.ExternalSubDealerId);
+                if (sbd != null)
+                {
+                    application.UDFs.Add(new UDF()
+                    {
+                        Name = sbd.DealerName,
+                        Value = sbd.SubmissionValue
+                    });
+                }
             }
 
             return application;

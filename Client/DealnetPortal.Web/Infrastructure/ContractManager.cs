@@ -151,10 +151,10 @@ namespace DealnetPortal.Web.Infrastructure
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
 
-            basicInfo.SubmittingDealerId = contract.DealerId;
+            basicInfo.SubmittingDealerId = contract.ExternalSubDealerId ?? contract.DealerId;
             basicInfo.SubDealers = new List<SubDealer>();
             var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
-            if (dealerInfo?.SubDealers?.Any() ?? false)
+            if ((dealerInfo?.SubDealers?.Any() ?? false) || (dealerInfo?.UdfSubDealers?.Any() ?? false))
             {
                 var mainDealer = new SubDealer()
                 {
@@ -162,7 +162,11 @@ namespace DealnetPortal.Web.Infrastructure
                     DisplayName = "On my behalf"
                 };
                 basicInfo.SubDealers.Add(mainDealer);
-                basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.SubDealers));                
+                basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.SubDealers));
+                if (dealerInfo?.UdfSubDealers?.Any() ?? false)
+                {
+                    basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.UdfSubDealers));
+                }
             }
         }
 
@@ -182,7 +186,20 @@ namespace DealnetPortal.Web.Infrastructure
             contractData.Id = basicInfo.ContractId ?? 0;
             if (!string.IsNullOrEmpty(basicInfo.SubmittingDealerId))
             {
-                contractData.DealerId = basicInfo.SubmittingDealerId;
+                //check dealer for update
+                var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
+                var usd = dealerInfo?.UdfSubDealers?.FirstOrDefault(usdl => usdl.SubmissionValue == basicInfo.SubmittingDealerId);
+                if (usd != null)
+                {
+                    contractData.ExternalSubDealerId = usd.SubmissionValue;
+                    contractData.ExternalSubDealerName = usd.SubDealerName;
+                }
+                else
+                {
+                    contractData.DealerId = basicInfo.SubmittingDealerId;
+                    contractData.ExternalSubDealerId = string.Empty;
+                    contractData.ExternalSubDealerName = string.Empty;
+                }                
             }            
             contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
             contractData.PrimaryCustomer.Locations = new List<LocationDTO>();

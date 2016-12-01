@@ -39,5 +39,7 @@ namespace DealnetPortal.Domain
         public virtual ICollection<Email> Emails { get; set; }
 
         public string AccountId { get; set; }
+
+        public bool? AllowCommunicate { get; set; }
     }
 }

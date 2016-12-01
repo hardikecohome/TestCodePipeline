@@ -13,6 +13,12 @@ namespace DealnetPortal.Api.Models.Contract
         public int Id { get; set; }
         public string DealerId { get; set; }
 
+        /// <summary>
+        /// Aspire dealer for contract
+        /// </summary>
+        public string ExternalSubDealerName { get; set; }
+        public string ExternalSubDealerId { get; set; }
+
         public CustomerDTO PrimaryCustomer { get; set; }
         public IList<CustomerDTO> SecondaryCustomers { get; set; }
 

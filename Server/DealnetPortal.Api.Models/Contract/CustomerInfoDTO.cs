@@ -15,6 +15,11 @@ namespace DealnetPortal.Api.Models.Contract
         [MaxLength(100)]
         public string LastName { get; set; }
         [Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+
+        public string Sin { get; set; }
+        public string DriverLicenseNumber { get; set; }
+
+        public bool? AllowCommunicate { get; set; }
     }
 }

@@ -84,6 +84,13 @@
                 </div>
             </div>
         </div>
+
+        <label class="align-middle custom-checkbox set-margin">
+            @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox" })
+            @*<input type="checkbox" class="dealnet-checkbox"/>*@
+            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+            <span>Yes, I wish to receive emails and text messages. I understand that I may withdraw my consent at any time.</span>
+        </label>
         if (Model.CoBorrowersContactInfo?.Any() ?? false)
         {
             for (int i = 0; i < Model.CoBorrowersContactInfo.Count; i++)
@@ -132,6 +139,12 @@
                         </div>
                     </div>
                 </div>
+                <label class="align-middle custom-checkbox set-margin">
+                    @*<input type="checkbox" class="dealnet-checkbox"/>*@
+                    @Html.CheckBoxFor(m => m.CoBorrowersContactInfo[i].AllowCommunicate, new { @class = "dealnet-checkbox" })
+                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                    <span>Yes, I wish to receive emails and text messages. I understand that I may withdraw my consent at any time.</span>
+                </label>
             }
         }
 

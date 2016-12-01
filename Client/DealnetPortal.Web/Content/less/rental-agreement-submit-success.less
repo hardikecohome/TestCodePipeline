@@ -1,17 +1,18 @@
 .rental-successful-page{
     @media @tablet-up {
-        margin-top: 100px;
+        margin-top: 0;
+    }
+    .icon-successfully {
+        margin: 40px 0 80px;
+        @media @mobile {
+            margin-bottom: 50px;
+        }
     }
     .message {
         &-block {
             float: none;
             margin: 0 auto;
-            .icon-successfully {
-                margin: 40px 0 80px;
-                @media @mobile {
-                    margin-bottom: 50px;
-                }
-            }
+
             @media @mobile {
                 .btn {
                     white-space: normal;
@@ -25,13 +26,45 @@
             font-weight: 700;
         }
         &-desc {
-            margin: 25px 0 40px;
-            text-align: justify;
+            text-align: center;
+            max-width: 500px;
+            margin: 20px auto 30px;
             @media @tablet-down {
                 margin: 40px 0 90px;
             }
             @media @mobile {
                 margin: 20px 0 40px;
+            }
+        }
+    }
+    .sent-email-msg{
+        margin-top: 30px;
+        margin-bottom: 20px;
+        .icon-success{
+            margin-right: 15px;
+        }
+    }
+    .links-container{
+        text-align: center;
+        margin: 25px 0;
+        .dealnet-info-link{
+            &+.dealnet-info-link{
+                margin-left: 50px;
+                @media @mobile {
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+    .rental-summary-emails{
+        .btn{
+            @media @tablet-down {
+                width: 100%;
+                display: block;
+                max-width: 355px;
+                margin: 0 auto;
+                height: 49px;
+                line-height: 36px;
             }
         }
     }

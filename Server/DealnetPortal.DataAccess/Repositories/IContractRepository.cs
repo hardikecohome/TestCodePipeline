@@ -84,10 +84,11 @@ namespace DealnetPortal.DataAccess.Repositories
         /// Update customer data
         /// </summary>
         /// <param name="customerId">Customer Id</param>
+        /// <param name="customerInfo"></param>
         /// <param name="locations">locations to set</param>
         /// <param name="phones">phones to set</param>
         /// <param name="emails">emails to set</param>
-        Customer UpdateCustomerData(int customerId, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
+        Customer UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
 
         Customer GetCustomer(int customerId);
 

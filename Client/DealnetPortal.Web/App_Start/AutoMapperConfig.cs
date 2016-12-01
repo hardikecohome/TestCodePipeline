@@ -9,6 +9,7 @@ using AutoMapper.Mappers;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Aspire.AspireDb;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
@@ -37,7 +38,8 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.Id, d => d.ResolveUsing(src => src.CustomerId ?? 0))
                     .ForMember(x => x.Phones, d => d.Ignore())
                     .ForMember(x => x.Emails, d => d.Ignore())
-                    .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate));
+                    .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
+                    .ForMember(x => x.AllowCommunicate, d => d.Ignore());
 
             cfg.CreateMap<AddressInformation, LocationDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
@@ -71,7 +73,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<ContactInfoViewModel, CustomerDataDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.CustomerId))
-                .ForMember(x => x.CustomerInfo, d => d.Ignore())
+                //.ForMember(x => x.CustomerInfo, d => d.Ignore())
                 .ForMember(x => x.Locations, d => d.Ignore())
                 .ForMember(x => x.Phones, d => d.ResolveUsing(src =>
                 {
@@ -113,6 +115,12 @@ namespace DealnetPortal.Web.App_Start
                         EmailType = EmailType.Main,
                         EmailAddress = src.EmailAddress
                     }
+                }))
+                .ForMember(x => x.CustomerInfo, d => d.ResolveUsing(src =>
+                new CustomerInfoDTO()
+                {
+                    Id = src.CustomerId,
+                    AllowCommunicate = src.AllowCommunicate                    
                 }));
         }
 
@@ -120,6 +128,9 @@ namespace DealnetPortal.Web.App_Start
         {
             cfg.CreateMap<ApplicationUserDTO, SubDealer>()
                 .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.UserName));
+            cfg.CreateMap<GenericSubDealer, SubDealer>()
+                .ForMember(x => x.Id, o => o.MapFrom(src => src.SubmissionValue))
+                .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.SubDealerName));
             cfg.CreateMap<DriverLicenseData, RecognizedLicense>();
             cfg.CreateMap<Tuple<DriverLicenseData, IList<Alert>>, DriverLicenseViewModel>()
                 .ForMember(x => x.DriverLicense, o => o.MapFrom(src => src.Item1))
@@ -228,7 +239,8 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.CellPhone, d => d.ResolveUsing(src =>
                         src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum))
                     .ForMember(x => x.EmailAddress, d => d.ResolveUsing(src =>
-                        src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress));
+                        src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
+                    .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate.HasValue ? src.AllowCommunicate.Value : false));
         }
 
 
