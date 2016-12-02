@@ -194,6 +194,61 @@ namespace DealnetPortal.Web.Controllers
             //}
         }
 
+        public async Task<JsonResult> GetCreditCheckRedirection(int contractId)
+        {
+            //Initiate credit status check
+            const int numOfAttempts = 2;
+            TimeSpan timeOut = TimeSpan.FromSeconds(10);
+
+            Tuple<CreditCheckDTO, IList<Alert>> checkResult = null;
+            for (int i = 0; i < numOfAttempts; i++)
+            {
+                checkResult = await _contractServiceAgent.GetCreditCheckResult(contractId);
+                if (checkResult == null || (checkResult.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+                {
+                    break;
+                }
+                if (checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
+                {
+                    break;
+                }
+                await Task.Delay(timeOut);
+            }
+
+            if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
+            {
+                TempData["CreditCheckErrorMessage"] = "Can't connect to Aspire for Credit Check. Try to perform Credit Check later.";
+                var redirectStr = Url.Action("CreditCheckConfirmation", new { contractId });
+                return Json(redirectStr);
+            }
+
+            if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+            {
+                var redirectStr = Url.Action("Error", "Info", new { alers = checkResult.Item2 });
+                return Json(redirectStr);
+            }
+
+            switch (checkResult?.Item1.CreditCheckState)
+            {
+                case CreditCheckState.Approved:
+                    TempData["MaxCreditAmount"] = checkResult?.Item1.CreditAmount;
+                    var redirectStr = Url.Action("EquipmentInformation", new { contractId });
+                    return Json(redirectStr);
+                case CreditCheckState.MoreInfoRequired:
+                    //TempData["MaxCreditAmount"] = checkResult?.Item1.CreditAmount;
+                    redirectStr = Url.Action("EquipmentInformation", new { contractId });
+                    return Json(redirectStr);
+                case CreditCheckState.Declined:
+                    redirectStr = Url.Action("CreditRejected", new { contractId });
+                    return Json(redirectStr);
+                case CreditCheckState.NotInitiated:
+                case CreditCheckState.Initiated:
+                default:
+                    redirectStr = Url.Action("CreditRejected", new { contractId });
+                    return Json(redirectStr);
+            }            
+        }
+
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
