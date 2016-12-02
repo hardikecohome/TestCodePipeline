@@ -33,7 +33,17 @@
     <script type="text/javascript">
         $(document)
             .ready(function () {
-                window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCreditCheckRedirection", new {@contractId = Model })',
+                    success: function (json) {
+                        window.location = json;
+                    },
+                    error: function (xhr, status, p3) {
+                        window.location = '@Url.Action("Error", "Info")';
+                    }
+                });
+                @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
             });
     </script>
 }
