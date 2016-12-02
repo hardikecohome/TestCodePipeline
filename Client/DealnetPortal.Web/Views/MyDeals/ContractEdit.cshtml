@@ -21,7 +21,23 @@
 			<div class="tabs tabs-vertical row responsive-tabs">
 				<div class="col-md-6">
 					<ul class="nav nav-pills nav-stacked documents-pills">
-						<li class="active uploaded documents-pills-item">
+					    @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes.Count; i++)
+                        {
+                            var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+                            <li class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item tab-container-@(i+1)">
+                                <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
+                                    @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
+                                    {
+                                        <text>Other Documents</text>
+                                    }
+                                    else
+                                    {
+                                       @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+                                    }                                    
+                                </a>
+                            </li>
+                        }
+                        @*<li class="active uploaded documents-pills-item">
 							<a href="#tab1" class="documents-pills-link" aria-controls="tab1" role="tab" data-toggle="tab">
 								Signed contract
 							</a>
@@ -55,12 +71,58 @@
 							<a href="#tab7" class="documents-pills-link" aria-controls="tab7" role="tab" data-toggle="tab">
 								Other Documents
 							</a>
-						</li>
+						</li>*@
 					</ul>
 				</div>
 				<div class="col-md-6">
 					<div class="tab-content doc-tab-content documents-pills" role="tablist" >
-						<div class="active uploaded documents-pills-item">
+					@for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes.Count; i++)
+                    {
+                        if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
+                        {
+                            continue;
+                        }
+                        var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+                        <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item tab-container-@(i+1)">
+                            <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
+                                @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+                            </a>
+                        </div>
+					    <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
+					        @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1)}))
+					        {
+					            <h3 class="document-pane-header">
+					                @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+					            </h3>
+					            <div class="well danger-well error-descr collapse">
+					                <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+					                <span class="error-message"></span>
+					            </div>
+					            <div class="documents-list">
+					                <div class="document-item block-item">
+					                    <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+					                    <span class="document-naming">@(document?.DocumentName)</span>
+					                </div>
+					            </div>
+					            <div class="progress-container collapse">
+					                <div class="progress">
+					                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+					                </div>
+					                <div class="progress-bar-value text-center">0%</div>
+					                <a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+					            </div>
+					            @Html.HiddenFor(m => m.BasicInfo.ContractId, new {Name = "ContractId"})
+					            @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new {Name = "DocumentTypeId"})
+					            <div class="form-group">
+					                <div class="file-upload btn dealnet-button dealnet-success-button">
+					                    <span>Upload</span>
+					                    <input type="file" name="File" class="upload main-document-upload"/>
+					                </div>
+					            </div>
+					        }
+					    </div>
+					}
+                        @*<div class="active uploaded documents-pills-item">
 							<a href="#tab1" class="documents-pills-link" aria-controls="tab1" role="tab" data-toggle="tab">
 								Signed contract
 							</a>
@@ -213,7 +275,7 @@
 									<input type="file" class="upload"/>
 								</div>
 							</div>
-						</div>
+						</div>*@
 
 						<!------------------------------------------------->
 

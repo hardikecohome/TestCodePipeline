@@ -405,7 +405,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
         {
-            var contract = _dbContext.Contracts.Find(contractId);            
+            var contract = _dbContext.Contracts.Include(c => c.Documents).FirstOrDefault(c => c.Id == contractId);            
             var docTypeId = document.DocumentTypeId;
             if (document.DocumentType != null)
             {

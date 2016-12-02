@@ -134,6 +134,64 @@
             });
             return false;
         });
+        $('.main-document-upload').change(function() {
+            var input = $(this);
+            var form = input.parent().closest('form');
+            var tabContainers = $('.documents-container .' + form.data('container'));
+            var prevDocumentName;
+            var wasCancelled;
+            var afterError = function(message) {
+                form.find('.error-message').text(message || 'An error occurred while uploading file.');
+                form.find('.error-descr').show();
+                form.find('.document-naming').text(prevDocumentName);
+                tabContainers.removeClass('uploaded');
+                tabContainers.addClass('error');
+            };
+            form.ajaxSubmit({
+                method: 'post',
+                contentType: false,
+                beforeSend: function (event) {
+                    //tabContainers.removeClass('uploaded');
+                    prevDocumentName = form.find('.document-naming').text();
+                    form.find('.progress-container .clear-data-link').on('click', function () {
+                        wasCancelled = true;
+                        event.abort();
+                    });
+                    var percentVal = '0%';                              
+                    form.find('.progress-bar').width(percentVal);
+                    form.find('.progress-bar-value').html(percentVal);
+                    form.find('.document-naming').text(input.val().match(/[\w-]+\.\w+/gi));
+                    form.find('.progress-container').show();
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    form.find('.progress-bar').width(percentVal);
+                    form.find('.progress-bar-value').html(percentVal);
+                },
+                success: function(result) {
+                    if (result.isSuccess) {
+                        form.find('.progress-bar').width(100 + "%");
+                        form.find('.progress-bar-value').html(100 + '%');
+                        form.find('.error-descr').hide();
+                        tabContainers.removeClass('error');
+                        tabContainers.addClass('uploaded');
+                    } else {
+                        if (result.isError) {
+                            afterError(result.errorMessage);
+                        }
+                    }
+                },
+                complete: function (xhr) {
+                    form.find('.progress-container').hide();
+                    input.val('');
+                },
+                error: function () {
+                    if (!wasCancelled) {
+                        afterError();
+                    }
+                }
+            });
+        });
     });
 
 function managePaymentFormElements(paymentType) {
