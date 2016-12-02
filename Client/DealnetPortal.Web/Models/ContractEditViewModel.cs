@@ -35,6 +35,8 @@ namespace DealnetPortal.Web.Models
 
         [Required(ErrorMessage = "Please, select a document file")]
         public HttpPostedFileBase File { get; set; }
+
+        public string OperationGuid { get; set; }
     }
 
     public class UploadDocumentsViewModel

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,13 +13,13 @@ using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using System.IO;
 using System.Threading;
-using DealnetPortal.Api.Models.Contract;
+using System.Web.SessionState;
 using DealnetPortal.Web.Infrastructure.Extensions;
-using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
     [AuthFromContext]
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class MyDealsController : UpdateDataController
     {
         private readonly IContractServiceAgent _contractServiceAgent;
@@ -65,8 +66,9 @@ namespace DealnetPortal.Web.Controllers
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
-        [HttpPost]       
-        public  async Task<ActionResult> UploadDocument(DocumentForUpload documentForUpload)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadDocument(DocumentForUpload documentForUpload)
         {
             if (documentForUpload?.File?.ContentLength > 0)
             {
@@ -82,6 +84,10 @@ namespace DealnetPortal.Web.Controllers
                     DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
                     ContractId = documentForUpload.ContractId
                 };
+                if (Session["CancelledUploadOperations"] != null && ((HashSet<string>)Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
+                {
+                    return Json(new {wasCancelled = true});
+                }
                 var updateResult = await _contractServiceAgent.AddDocumentToContract(document);
                 var errors = updateResult.Item2.Where(r => r.Type == AlertType.Error).ToArray();
                 return errors.Any() ? Json(new { isError = true, errorMessage = errors.Select(x => x.Message).Aggregate((x, y) => x + " " + y) }) : Json(new { updatedDocumentId = updateResult.Item1, isSuccess = true });

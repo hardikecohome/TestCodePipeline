@@ -111,7 +111,9 @@
 					                <div class="progress-bar-value text-center">0%</div>
 					                <a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
 					            </div>
-					            @Html.HiddenFor(m => m.BasicInfo.ContractId, new {Name = "ContractId"})
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("OperationGuid")
+                                @Html.HiddenFor(m => m.BasicInfo.ContractId, new {Name = "ContractId"})
 					            @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new {Name = "DocumentTypeId"})
 					            <div class="form-group">
 					                <div class="file-upload btn dealnet-button dealnet-success-button">
@@ -325,7 +327,12 @@
 					</div>
 				</div>
 			</div>
-			<!--
+		@using (Html.BeginForm("CancelDocumentUpload", "AsyncCancellation", FormMethod.Post, new { id = "cancel-upload-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("operationGuid")
+        }
+            <!--
 		    <div class="row ">
 		        <div class="report-documents-list credit-check-info-hold no-vertical-border">
 		            <div class="col-md-6 document-col grid-column">

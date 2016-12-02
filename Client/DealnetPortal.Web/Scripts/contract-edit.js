@@ -15,7 +15,7 @@
 
         $('.comment .write-reply-link').on('click', addReplyFrom);
 
-        $('.reply-button').on('click', function() {
+        $('.reply-button').on('click', function () {
             var form = $(this).parent().closest('form');
             submitComment(form, addBaseComment);
             return false;
@@ -138,52 +138,67 @@
             var input = $(this);
             var form = input.parent().closest('form');
             var tabContainers = $('.documents-container .' + form.data('container'));
+            var documentNaming = form.find('.document-naming');
+            var progressContainer = form.find('.progress-container');
+            var progressBar = form.find('.progress-bar');
+            var progressBarValue = form.find('.progress-bar-value');
+            var errorDesc = form.find('.error-descr');
             var prevDocumentName;
             var wasCancelled;
             var afterError = function(message) {
                 form.find('.error-message').text(message || 'An error occurred while uploading file.');
-                form.find('.error-descr').show();
-                form.find('.document-naming').text(prevDocumentName);
+                errorDesc.show();
+                documentNaming.text(prevDocumentName);
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
             };
+            var operatGuid = generateGuid();
+            form.find("input[name='OperationGuid']").val(operatGuid);
             form.ajaxSubmit({
                 method: 'post',
                 contentType: false,
                 beforeSend: function (event) {
                     //tabContainers.removeClass('uploaded');
-                    prevDocumentName = form.find('.document-naming').text();
-                    form.find('.progress-container .clear-data-link').on('click', function () {
+                    prevDocumentName = documentNaming.text();
+                    var cancelButton = form.find('.progress-container .clear-data-link');
+                    cancelButton.off('click');
+                    cancelButton.on('click', function () {
+                        showLoader();
                         wasCancelled = true;
-                        event.abort();
+                        //event.abort();
+                        var cancelUploadForm = $('#cancel-upload-form');
+                        cancelUploadForm.find("input[name='operationGuid']").val(operatGuid);
+                        cancelUploadForm.ajaxSubmit();
                     });
                     var percentVal = '0%';                              
-                    form.find('.progress-bar').width(percentVal);
-                    form.find('.progress-bar-value').html(percentVal);
-                    form.find('.document-naming').text(input.val().match(/[\w-]+\.\w+/gi));
-                    form.find('.progress-container').show();
+                    progressBar.width(percentVal);
+                    progressBarValue.html(percentVal);
+                    documentNaming.text(input.val().match(/[\w-]+\.\w+/gi));
+                    progressContainer.show();
                 },
                 uploadProgress: function(event, position, total, percentComplete) {
                     var percentVal = percentComplete + '%';
-                    form.find('.progress-bar').width(percentVal);
-                    form.find('.progress-bar-value').html(percentVal);
+                    progressBar.width(percentVal);
+                    progressBarValue.html(percentVal);
                 },
-                success: function(result) {
+                success: function (result) {
+                    //if (wasCancelled){ return; }
                     if (result.isSuccess) {
-                        form.find('.progress-bar').width(100 + "%");
-                        form.find('.progress-bar-value').html(100 + '%');
-                        form.find('.error-descr').hide();
+                        progressBar.width(100 + "%");
+                        progressBarValue.html(100 + '%');
+                        errorDesc.hide();
                         tabContainers.removeClass('error');
                         tabContainers.addClass('uploaded');
-                    } else {
-                        if (result.isError) {
-                            afterError(result.errorMessage);
-                        }
+                    } else if (result.isError) {
+                        afterError(result.errorMessage);
+                    } else if (result.wasCancelled) {
+                        documentNaming.text(prevDocumentName);
                     }
                 },
                 complete: function (xhr) {
-                    form.find('.progress-container').hide();
+                    progressContainer.hide();
                     input.val('');
+                    hideLoader();
                 },
                 error: function () {
                     if (!wasCancelled) {
@@ -193,6 +208,13 @@
             });
         });
     });
+
+function generateGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 function managePaymentFormElements(paymentType) {
     switch (paymentType) {

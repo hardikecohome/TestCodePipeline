@@ -178,6 +178,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AsyncCancellationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
@@ -747,6 +748,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
+    <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\Rentals\" />
