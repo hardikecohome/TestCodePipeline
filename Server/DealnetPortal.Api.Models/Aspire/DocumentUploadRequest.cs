@@ -22,9 +22,16 @@ namespace DealnetPortal.Api.Models.Aspire
         public string ContractId { get; set; }
         public string TransactionId { get; set; }
         public string Status { get; set; }
-        [XmlElement(ElementName = "documentName")]
-        public string DocumentName { get; set; }
-        [XmlElement(ElementName = "documentData")]
-        public string DocumentData { get; set; }
+
+        [XmlElement("Document")]
+        public List<Document> Documents { get; set; }
+    }
+
+    [Serializable]
+    public class Document
+    {
+        public string Name { get; set; }
+        public string Data { get; set; }
+        public string Ext { get; set; }
     }
 }

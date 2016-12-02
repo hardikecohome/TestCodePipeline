@@ -518,6 +518,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     else
                     {
                         ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
+                        if (ne.AssetNumber == null)
+                        {
+                            ne.AssetNumber = curEquipment.AssetNumber;
+                        }
                         _dbContext.NewEquipment.AddOrUpdate(ne);
                     }
                 });

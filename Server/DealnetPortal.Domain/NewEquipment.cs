@@ -12,6 +12,7 @@
         public decimal? Cost { get; set; }
         public decimal? MonthlyCost { get; set; }
         public DateTime? EstimatedInstallationDate { get; set; }
+        public string AssetNumber { get; set; }
         public int EquipmentInfoId { get; set; }
         [ForeignKey("EquipmentInfoId")]
         public EquipmentInfo EquipmentInfo { get; set; }
