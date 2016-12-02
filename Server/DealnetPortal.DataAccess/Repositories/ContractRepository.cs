@@ -45,6 +45,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     .Include(c => c.Equipment.ExistingEquipment)
                     .Include(c => c.Equipment.NewEquipment)
                     .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();
+            contracts.ForEach(c => c.Documents = _dbContext.ContractDocuments.Where(cd => cd.ContractId == c.Id)
+                .Select(cd => new { DocumentTypeId = cd.DocumentTypeId }).ToList().Select(x => new ContractDocument()
+                {
+                    DocumentTypeId = x.DocumentTypeId
+                }).ToList());
             return contracts;
         }
 
@@ -58,6 +63,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                     .Where(c => ids.Any(id => id == c.Id) && (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)).ToList();
+            contracts.ForEach(c => c.Documents = _dbContext.ContractDocuments.Where(cd => cd.ContractId == c.Id)
+                .Select(cd => new { DocumentTypeId = cd.DocumentTypeId}).ToList().Select(x => new ContractDocument()
+                {
+                    DocumentTypeId = x.DocumentTypeId
+                }).ToList());
             return contracts;
         }
 
@@ -518,6 +528,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     else
                     {
                         ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
+                        if (ne.AssetNumber == null)
+                        {
+                            ne.AssetNumber = curEquipment.AssetNumber;
+                        }
                         _dbContext.NewEquipment.AddOrUpdate(ne);
                     }
                 });

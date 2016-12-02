@@ -387,11 +387,19 @@ namespace DealnetPortal.Api.Integration.Services
                     {                    
                         request.Payload = new DocumentUploadPayload()
                         {
-                            TransactionId = contract.Details.TransactionId,
-                            DocumentName = document.DocumentName, //ext ?
-                            DocumentData = Convert.ToBase64String(document.DocumentBytes),
+                            TransactionId = contract.Details.TransactionId,                            
                             //TODO: insert correct status
                             Status = "35-Dead Deal"
+                        };
+
+                        request.Payload.Documents = new List<Document>()
+                        {
+                            new Document()
+                            {
+                                Name = Path.GetFileNameWithoutExtension(document.DocumentName), 
+                                Data = Convert.ToBase64String(document.DocumentBytes),
+                                Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
+                            }
                         };
 
                         var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
@@ -679,9 +687,12 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     application.Equipments.Add(new Equipment()
                     {
+                        Status = "new",
+                        AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
                         Cost = eq.Cost?.ToString(),
-                        Description = eq.Description
+                        Description = eq.Description,
+                        AssetClass = new AssetClass() { AssetCode = eq.Type }
                     });
                 });
                 application.AmtRequested = contract.Equipment.AmortizationTerm?.ToString();
@@ -813,11 +824,19 @@ namespace DealnetPortal.Api.Integration.Services
                             _unitOfWork.Save();
                             _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} customers");
                         }
-                    }
+                    }                    
 
                     if (response.Payload.Asset != null)
                     {
-                        
+                        var aEq =
+                            contract?.Equipment?.NewEquipment?.FirstOrDefault(
+                                eq => eq.Description == response.Payload.Asset.Name);
+                        if (aEq != null)
+                        {
+                            aEq.AssetNumber = response.Payload.Asset.Number;
+                            _unitOfWork.Save();
+                            _loggingService.LogInfo($"Aspire asset number {response.Payload.Asset.Number} assigned for equipment for contract {contract.Id}");
+                        }
                     }
                 }
             }      

@@ -77,6 +77,9 @@ namespace DealnetPortal.Api.Models.Aspire
     [Serializable]
     public class Equipment
     {
+        [XmlAttribute("Status")]
+        public string Status { get; set; }
+        public string AssetNo { get; set; }
         [XmlElement(ElementName = "Equipment_Description")]
         public string Description { get; set; }
         public string Quantity { get; set; }
