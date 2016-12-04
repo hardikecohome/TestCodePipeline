@@ -78,7 +78,9 @@ namespace DealnetPortal.Web.Controllers
                     documentBytes = reader.ReadBytes(documentForUpload.File.ContentLength);
                 }
                 var document = new ContractDocumentDTO
-                {   CreationDate = DateTime.Now,
+                {
+                    Id = documentForUpload.Id ?? 0,
+                    CreationDate = DateTime.Now,
                     DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
                     DocumentBytes = documentBytes,
                     DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    

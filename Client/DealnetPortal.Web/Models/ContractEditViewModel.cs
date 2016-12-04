@@ -27,6 +27,7 @@ namespace DealnetPortal.Web.Models
 
     public class DocumentForUpload
     {
+        public int? Id { get; set; }
         public int ContractId { get; set; }
         //[Required]
         public string DocumentName { get; set; }
