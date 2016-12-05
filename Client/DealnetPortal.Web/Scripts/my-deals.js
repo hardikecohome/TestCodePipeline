@@ -27,6 +27,15 @@ function assignDatepicker(input) {
 function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
         .done(function (data) {
+            var statusOptions = [];
+            $.each(data, function (i, e) {
+                if ($.inArray(statusOptions, e["Status"]) == -1)
+                    statusOptions.push(e["Status"]);
+            });
+            $.each(statusOptions, function (i, e) {
+                $("#deal-status").append($("<option />").val(e).text(e));
+            });
+
             var table = $('#work-items-table')
                 .DataTable({
                     data: data,
