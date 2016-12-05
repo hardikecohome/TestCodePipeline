@@ -30,6 +30,27 @@ function assignDatepicker(input) {
 function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
     .done(function (data) {
+        var statusOptions = [];
+        var paymentOptions = [];
+        var agrTypeOptions = [];
+        $.each(data, function (i, e) {
+            if ($.inArray(statusOptions, e["Status"]) == -1)
+                statusOptions.push(e["Status"]);
+            if ($.inArray(paymentOptions, e["PaymentType"]) == -1)
+                paymentOptions.push(e["PaymentType"]);
+            if ($.inArray(agrTypeOptions, e["AgreementType"]) == -1)
+                agrTypeOptions.push(e["AgreementType"]);
+        });
+        $.each(statusOptions, function (i, e) {
+            $("#deal-status").append($("<option />").val(e).text(e));
+        });
+        $.each(agrTypeOptions, function (i, e) {
+            $("#agreement-type").append($("<option />").val(e).text(e));
+        });
+        $.each(paymentOptions, function (i, e) {
+            $("#payment-type").append($("<option />").val(e).text(e));
+        });
+
             table = $('#work-items-table')
                 .DataTable({
                     data: data,

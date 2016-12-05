@@ -28,7 +28,8 @@
 						<div class="form-group">
 							<label for="">Deal Type</label>
 							<div class="control-group">
-								@Html.EnumDropDownListFor(s => dealType, null, new { @class = "form-control filter-input select-filter", id = "agreement-type" })
+							    @*@Html.EnumDropDownListFor(s => dealType, null, new { @class = "form-control filter-input select-filter", id = "agreement-type" })*@
+                                <select id="agreement-type" class="form-control filter-input select-filter"></select>
 							</div>
 						</div>
 					</div>
@@ -52,7 +53,8 @@
 						<div class="form-group">
 							<label for="">Deal Status</label>
 							<div class="control-group">
-								@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control filter-input select-filter", id = "deal-status" })
+							    @*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control filter-input select-filter", id = "deal-status" })*@
+                                <select id="deal-status" class="form-control filter-input select-filter"></select>
 							</div>
 						</div>
 					</div>
@@ -79,9 +81,10 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="form-group">
 							<label for="">Type of Payment</label>
-							<div class="control-group">
-								@Html.EnumDropDownListFor(s => paymentType, null, new { @class = "form-control filter-input select-filter", id = "payment-type" })
-							</div>
+						    <div class="control-group">
+                                <select id="payment-type" class="form-control filter-input select-filter"></select>
+						        @*@Html.EnumDropDownListFor(s => paymentType, null, new {@class = "form-control filter-input select-filter", id = "payment-type"})*@
+						    </div>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4 col-lg-4">
