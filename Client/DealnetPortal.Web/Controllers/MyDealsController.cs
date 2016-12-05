@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,13 +13,13 @@ using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using System.IO;
 using System.Threading;
-using DealnetPortal.Api.Models.Contract;
+using System.Web.SessionState;
 using DealnetPortal.Web.Infrastructure.Extensions;
-using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
     [AuthFromContext]
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class MyDealsController : UpdateDataController
     {
         private readonly IContractServiceAgent _contractServiceAgent;
@@ -65,25 +66,33 @@ namespace DealnetPortal.Web.Controllers
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
-        [HttpPost]       
-        public  async Task<ActionResult> UploadDocument(DocumentForUpload documentForUpload)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadDocument(DocumentForUpload documentForUpload)
         {
-            byte[] _documentBytes;
             if (documentForUpload?.File?.ContentLength > 0)
             {
+                byte[] documentBytes;
                 using (var reader = new BinaryReader(documentForUpload.File.InputStream))
                 {
-                    _documentBytes = reader.ReadBytes(documentForUpload.File.ContentLength);
+                    documentBytes = reader.ReadBytes(documentForUpload.File.ContentLength);
                 }
                 var document = new ContractDocumentDTO
-                {   CreationDate = DateTime.Now,
+                {
+                    Id = documentForUpload.Id ?? 0,
+                    CreationDate = DateTime.Now,
                     DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
-                    DocumentBytes = _documentBytes,
+                    DocumentBytes = documentBytes,
                     DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
                     ContractId = documentForUpload.ContractId
                 };
+                if (Session["CancelledUploadOperations"] != null && ((HashSet<string>)Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
+                {
+                    return Json(new {wasCancelled = true});
+                }
                 var updateResult = await _contractServiceAgent.AddDocumentToContract(document);
-                return updateResult.Item2.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : Json(new { updatedDocumentId = updateResult.Item1, isSuccess = true });
+                var errors = updateResult.Item2.Where(r => r.Type == AlertType.Error).ToArray();
+                return errors.Any() ? Json(new { isError = true, errorMessage = errors.Select(x => x.Message).Aggregate((x, y) => x + " " + y) }) : Json(new { updatedDocumentId = updateResult.Item1, isSuccess = true });
             }
             return GetErrorJson();
         }
@@ -94,35 +103,6 @@ namespace DealnetPortal.Web.Controllers
         {
             var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> UploadedList(int id)
-        {
-           var contract = await _contractServiceAgent.GetContract(id);
-           var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();       
-
-              if (contract?.Item1.Documents != null && docTypes?.Item1 != null)
-               {
-                //var document = contract.Item1.Documents
-                //                              .OrderByDescending(x => x.Id)
-                //                              .Select(i =>  new { i.DocumentName, i.DocumentTypeId })                                             
-                //                              .Take(5)
-                //                              .ToList();
-                var document = (from i in contract.Item1.Documents
-                                join p in docTypes.Item1
-                                on i.DocumentTypeId equals p.Id
-                                orderby i.Id descending
-                                select new
-                                {
-                                    p.Description,
-                                    i.DocumentName,
-                                }).Take(5).ToList();
-              
-                 
-                return Json(document, JsonRequestBehavior.DenyGet);
-               }
-            return Json(new { message = string.Format("error") }, JsonRequestBehavior.DenyGet);
         }
     }
 }

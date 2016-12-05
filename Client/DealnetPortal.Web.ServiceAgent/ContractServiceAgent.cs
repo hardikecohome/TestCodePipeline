@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.ApiClient;
@@ -256,8 +258,11 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return
-                    await Client.PutAsync<ContractDocumentDTO, Tuple<int?, IList<Alert>>>($"{_fullUri}/AddDocument", document);
+                MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
+                MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
+
+                var result = await Client.Client.PutAsync<ContractDocumentDTO>($"{_fullUri}/AddDocument", document, bsonFormatter);
+                return await result.Content.ReadAsAsync<Tuple<int?, IList<Alert>>>(formatters);
             }
             catch (Exception ex)
             {

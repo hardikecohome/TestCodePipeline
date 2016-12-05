@@ -15,7 +15,7 @@
 
         $('.comment .write-reply-link').on('click', addReplyFrom);
 
-        $('.reply-button').on('click', function() {
+        $('.reply-button').on('click', function () {
             var form = $(this).parent().closest('form');
             submitComment(form, addBaseComment);
             return false;
@@ -35,106 +35,185 @@
             return false;
         });
 
-        $(".add-main-document").on('click', function() {
-            var newDocForm = $('.main-document-template').clone(true).removeClass('main-document-template').removeClass('file-uploaded');
-            newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-main-group'));
-        });
-        $(".add-other-document").on('click', function() {
-            var newDocForm = $('.other-document-template').clone(true).removeClass('other-document-template').removeClass('file-uploaded');
-            newDocForm.appendTo($('#upload-documents-modal .modal-body .documents-other-group'));
-        });
-        $('#upload-documents-modal .file-upload').on('click', function() {
-            $(this).parent().closest('.form-group').addClass('file-uploaded');
-            $('.file-uploaded .progress-bar:last').width('0%');
-            return true;
-        });
-        $('.progress-container .clear-data-link').on('click', function() {
-            $(this).parent().closest('.form-group').removeClass('file-uploaded');
-        });
-
-        $('#main-documents .remove-link').on('click', function () {
-            removeDocument(this, false);
-        });
-
-        $('#other-documents .remove-link').on('click', function () {
-            removeDocument(this, true);
-        });
-
-        $('body').on('change', '.file-uploaded input[type=file]', function() {
-            $('.file-uploaded .text-center:last').html($('.file-uploaded input[type=file]:last').val().match(/[\w-]+\.\w+/gi));
-        });
-
-        var closeModalWindow = function() {
-            $('#upload-documents-modal').modal("toggle");
-            $('.clear-data-link').click();
-            //$('.no-documents').hide();
-            $('#upload-success').show();
-        };
-
-        $("#save").on('click', function() {
-            var m = 0;
-            $('.file-uploaded form').each(function() {
-                var form = $(this);
-                form.ajaxSubmit({
-                    method: 'post',
-                    contentType: false,
-                    beforeSend: function(event) {
-                        form.find('.progress-container .clear-data-link').on('click', function () {
-                            event.abort();
-                        });
-                        var percentVal = '0%';
-                        // $('.file-uploaded form').clearForm();
-                        //  $('.file-uploaded form').resetForm();                              
-                        form.find('.file-uploaded .progress-bar').width(percentVal);
-                        form.find('.file-uploaded .progress-bar-value').html(percentVal);
-                    },
-                    uploadProgress: function(event, position, total, percentComplete) {
-                        var percentVal = percentComplete + '%';
-                        form.find('.progress-bar').width(percentVal);
-                        form.find('.progress-bar-value').html(percentVal);
-                    },
-                    success: function(result) {
-                        if (result.isSuccess) {
-                            form.find('.progress-bar').width(100 + "%");
-                            form.find('.progress-bar-value').html(100 + '%');
-                            var typeId = form.find('.document-type-id');
-                            if (typeId.length) {
-                                var mainDocument = $('#main-documents #document-type-' + typeId.val());
-                                mainDocument.find("input[name='documentId']").val(result.updatedDocumentId);
-                                mainDocument.find('.file-name').text(form.find("input[name='File']").val().match(/[\w-]+\.\w+/gi));
-                                mainDocument.find('.remove-link').show();
-                            } else {
-                                //For "Other" document type
-                                var document = $('#other-document-template').clone();
-                                document.attr("id", "");
-                                document.find("input[name='documentId']").val(result.updatedDocumentId);
-                                document.find('.file-name').text(form.find("input[name='DocumentName']").val());
-                                document.appendTo('#other-documents');
-                                document.find('.remove-link').on('click', function () {
-                                    removeDocument(this, true);
-                                });
-                            }
-                        } else {
-                            if (result.isError) {
-                                alert("An error occurred while uploading file");
-                            }
-                        }
-                    },
-                    complete: function (xhr) {
-                        m++;
-                        if (m === $('.file-uploaded form').length)
-                            setTimeout(closeModalWindow, 1000);
-                    },
-                    error: function() {
-                        form.find('form').resetForm();
-                        form.find('.progress-bar').hide();
-                        form.find('.progress-bar-value').hide();
+        $('.main-document-upload').change(function() {
+            var input = $(this);
+            var form = input.parent().closest('form');
+            var tabContainers = $('.documents-container .' + form.data('container'));
+            var documentNaming = form.find('.document-naming');
+            var progressContainer = form.find('.progress-container');
+            var progressBar = form.find('.progress-bar');
+            var progressBarValue = form.find('.progress-bar-value');
+            var errorDesc = form.find('.error-descr');
+            var prevDocumentName;
+            var wasCancelled;
+            var afterError = function(message) {
+                form.find('.error-message').text(message || 'An error occurred while uploading file.');
+                errorDesc.show();
+                documentNaming.text(prevDocumentName);
+                tabContainers.removeClass('uploaded');
+                tabContainers.addClass('error');
+            };
+            var operatGuid = generateGuid();
+            form.find("input[name='OperationGuid']").val(operatGuid);
+            form.ajaxSubmit({
+                method: 'post',
+                contentType: false,
+                beforeSend: function (event) {
+                    //tabContainers.removeClass('uploaded');
+                    prevDocumentName = documentNaming.text();
+                    var cancelButton = form.find('.progress-container .clear-data-link');
+                    cancelButton.off('click');
+                    cancelButton.on('click', function () {
+                        showLoader();
+                        wasCancelled = true;
+                        //event.abort();
+                        var cancelUploadForm = $('#cancel-upload-form');
+                        cancelUploadForm.find("input[name='operationGuid']").val(operatGuid);
+                        cancelUploadForm.ajaxSubmit();
+                    });
+                    var percentVal = '0%';                              
+                    progressBar.width(percentVal);
+                    progressBarValue.html(percentVal);
+                    documentNaming.text(input.val().match(/[\w-]+\.\w+/gi));
+                    progressContainer.show();
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    if (percentComplete === 100) {
+                        percentComplete = 99;
                     }
-                });
+                    var percentVal = percentComplete + '%';
+                    progressBar.width(percentVal);
+                    progressBarValue.html(percentVal);
+                },
+                success: function (result) {
+                    //if (wasCancelled){ return; }
+                    if (result.isSuccess) {
+                        progressBar.width(100 + "%");
+                        progressBarValue.html(100 + '%');
+                        errorDesc.hide();
+                        tabContainers.removeClass('error');
+                        tabContainers.addClass('uploaded');
+                    } else if (result.isError) {
+                        afterError(result.errorMessage);
+                    } else if (result.wasCancelled) {
+                        documentNaming.text(prevDocumentName);
+                    }
+                },
+                complete: function (xhr) {
+                    progressContainer.hide();
+                    input.val('');
+                    hideLoader();
+                },
+                error: function () {
+                    if (!wasCancelled) {
+                        afterError();
+                    }
+                }
             });
-            return false;
         });
+        var submitOtherDocument = function() {
+            var input = $(this);
+            var form = input.parent().closest('form');
+            var tabContainers = $('.documents-container .tab-container-7');
+            var progressContainer = form.find('.progress-container');
+            var progressBar = form.find('.progress-bar');
+            var progressBarValue = form.find('.progress-bar-value');
+            var errorDesc = form.find('.error-descr');
+            var wasCancelled;
+            var afterError = function(message) {
+                form.find('.error-message').text(message || 'An error occurred while uploading file.');
+                errorDesc.show();
+                tabContainers.removeClass('uploaded');
+                tabContainers.addClass('error');
+            };
+            var operatGuid = generateGuid();
+            form.find("input[name='OperationGuid']").val(operatGuid);
+            form.ajaxSubmit({
+                method: 'post',
+                contentType: false,
+                beforeSend: function (event) {
+                    //tabContainers.removeClass('uploaded');
+                    var cancelButton = form.find('.progress-container .clear-data-link');
+                    cancelButton.off('click');
+                    cancelButton.on('click', function () {
+                        showLoader();
+                        wasCancelled = true;
+                        //event.abort();
+                        var cancelUploadForm = $('#cancel-upload-form');
+                        cancelUploadForm.find("input[name='operationGuid']").val(operatGuid);
+                        cancelUploadForm.ajaxSubmit();
+                    });
+                    var percentVal = '0%';                              
+                    progressBar.width(percentVal);
+                    progressBarValue.html(percentVal);
+                    progressContainer.show();
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    if (percentComplete === 100) {
+                        percentComplete = 99;
+                    }
+                    var percentVal = percentComplete + '%';
+                    progressBar.width(percentVal);
+                    progressBarValue.html(percentVal);
+                },
+                success: function (result) {
+                    //if (wasCancelled){ return; }
+                    if (result.isSuccess) {
+                        form.find("input[name='Id']").val(result.updatedDocumentId);
+                        progressBar.width(100 + "%");
+                        progressBarValue.html(100 + '%');
+                        errorDesc.hide();
+                        tabContainers.removeClass('error');
+                        tabContainers.addClass('uploaded');
+                    } else if (result.isError) {
+                        afterError(result.errorMessage);
+                    }
+                },
+                complete: function (xhr) {
+                    progressContainer.hide();
+                    input.val('');
+                    hideLoader();
+                },
+                error: function () {
+                    if (!wasCancelled) {
+                        afterError();
+                    }
+                }
+            });
+        }
+        $('.uploaded-other-document-input').change(submitOtherDocument);
+        $('#other-documents-upload').change(function () {
+            var documentName = $('#other-documents-name').val();
+            if (!documentName) {
+                $(this).val('');
+                $('#empty-document-name-message').show();
+                return;
+            } else {
+                $('#empty-document-name-message').hide();
+            }
+            var otherDocumentForm = $('#other-document-template').clone();
+            otherDocumentForm.find("input[name='DocumentName']").val(documentName);
+            otherDocumentForm.find('span.document-naming').text(documentName);
+            var blankFileInput = $(this).clone(true);
+            blankFileInput.val('');
+            $('#other-documents-upload-button').append(blankFileInput);
+            var fileInput = $(this).detach();
+            fileInput.attr("id", "");
+            otherDocumentForm.find('.file-upload').append(fileInput);
+            otherDocumentForm.attr("id", "");
+            $('#other-documents-list').append(otherDocumentForm);
+            fileInput.off('change');
+            fileInput.change(submitOtherDocument);
+            fileInput.change();
+        });
+	});
+
+function generateGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
     });
+}
 
 function managePaymentFormElements(paymentType) {
     switch (paymentType) {
@@ -147,38 +226,6 @@ function managePaymentFormElements(paymentType) {
             $(".pap-payment-form").show();
             break;
     }
-}
-
-function removeDocument(button, removeWholeLine) {
-    $("#remove-document-form input[name='documentId']").val($(button).prev("input[name='documentId']").val());
-    submitDocumentRemoval($(button), removeWholeLine);
-}
-
-function submitDocumentRemoval(removalLink, removeWholeLine) {
-    showLoader();
-    var form = $('#remove-document-form');
-    form.ajaxSubmit({
-        type: "POST",
-        success: function (json) {
-            hideLoader();
-            if (json.isError) {
-                alert("An error occurred while removing document");
-            } else {
-                if (json.isSuccess) {
-                    if (removeWholeLine) {
-                        removalLink.parent().closest('.document-row').remove();
-                    } else {
-                        removalLink.hide();
-                        removalLink.next(".dealnet-info-link").text("");
-                    }
-                }
-            }
-        },
-        error: function (xhr, status, p3) {
-            hideLoader();
-            alert(xhr.responseText);
-        }
-    });
 }
 
 function addReplyFrom() {

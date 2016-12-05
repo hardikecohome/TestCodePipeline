@@ -27,6 +27,7 @@ namespace DealnetPortal.Web.Models
 
     public class DocumentForUpload
     {
+        public int? Id { get; set; }
         public int ContractId { get; set; }
         //[Required]
         public string DocumentName { get; set; }
@@ -35,6 +36,8 @@ namespace DealnetPortal.Web.Models
 
         [Required(ErrorMessage = "Please, select a document file")]
         public HttpPostedFileBase File { get; set; }
+
+        public string OperationGuid { get; set; }
     }
 
     public class UploadDocumentsViewModel

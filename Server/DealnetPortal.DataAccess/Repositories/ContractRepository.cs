@@ -415,7 +415,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
         {
-            var contract = _dbContext.Contracts.Find(contractId);            
+            var contract = _dbContext.Contracts.Include(c => c.Documents).FirstOrDefault(c => c.Id == contractId);            
             var docTypeId = document.DocumentTypeId;
             if (document.DocumentType != null)
             {
@@ -436,21 +436,22 @@ namespace DealnetPortal.DataAccess.Repositories
 
             if (contract != null)
             {
-                var dbDocument = contract.Documents.FirstOrDefault(d => d.DocumentTypeId == docTypeId);
+                var otherType = _dbContext.DocumentTypes.FirstOrDefault(t => string.IsNullOrEmpty(t.Prefix));
+                var dbDocument = contract.Documents.FirstOrDefault(d => otherType != null && otherType.Id == docTypeId ? d.DocumentTypeId == docTypeId && d.Id == document.Id : d.DocumentTypeId == docTypeId);
                 if (dbDocument != null)
                 {
-                    var otherType = _dbContext.DocumentTypes.FirstOrDefault(t => string.IsNullOrEmpty(t.Prefix));
-                    if (otherType != null && dbDocument.DocumentType.Id == otherType.Id && dbDocument.DocumentName != document.DocumentName)
-                    {
-                        document.Contract = contract;
-                        contract.Documents.Add(document);
-                    }
-                    else
-                    {
-                        document.Id = dbDocument.Id;
+                    //var otherType = _dbContext.DocumentTypes.FirstOrDefault(t => string.IsNullOrEmpty(t.Prefix));
+                    //if (otherType != null && dbDocument.DocumentType.Id == otherType.Id && dbDocument.DocumentName != document.DocumentName)
+                    //{
+                    //    document.Contract = contract;
+                    //    contract.Documents.Add(document);
+                    //}
+                    //else
+                    //{
+                    document.Id = dbDocument.Id;
                         document.Contract = contract;
                         _dbContext.ContractDocuments.AddOrUpdate(document);
-                    }                    
+                    //}                    
                 }
                 else
                 {

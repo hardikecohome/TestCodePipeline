@@ -6,6 +6,12 @@
         <symbol id="icon-home" viewBox="0 0 20 20">
             <path fill="currentColor" fill-rule="evenodd" d="M15 8.942V16H5V8.942H3l7.012-5.04 7.012 5.04H15zM8 11h4v5H8v-5z"/>
         </symbol>
+        <symbol id="icon-error-upload" viewBox="0 0 20 20">
+            <path fill="#DA2E00" fill-rule="evenodd" d="M0 10C0 4.477 4.477 0 10 0s10 4.477 10 10-4.477 10-10 10S0 15.523 0 10zm9 3h2v2H9v-2zm0-9h2v7H9V4z"/>
+        </symbol>
+        <symbol id="icon-upload" viewBox="0 0 20 20">
+            <path fill="currentColor" fill-rule="evenodd" d="M8.28 5H8v.365L5.965 8.01H8V14h4V8.01h1.965L12 5.346V5h-.255L10.05 2.702 8.28 5zM18 15H2v-2H0v4h20v-4h-2v2z"/>
+        </symbol>
         <symbol id="icon-new-rental-side" viewBox="0 0 40 40">
             <polygon points="5 3 19.9889207 3 19.9889202 7.99658203 25 7.99658203 25 27 5 27"  fill="none" stroke="currentColor" stroke-width="3"></polygon>
         </symbol>
