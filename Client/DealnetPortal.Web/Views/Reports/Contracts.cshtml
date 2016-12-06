@@ -13,7 +13,7 @@
 		<div class="row credit-check-info-hold without-divider no-top-margin">
 			<div class="col-md-6 grid-column">
 				<div class="dealnet-credit-check-section">
-					<div class="dealnet-large-header">@Model.Select(x => $"#{x.BasicInfo?.ContractId}").ConcatWithComma()</div>
+					<div class="dealnet-large-header">@Model.Select(x => $"#{x.AdditionalInfo.TransactionId ?? x.BasicInfo?.ContractId.ToString()}").ConcatWithComma()</div>
 				</div>
 			</div>
 			<div class="col-md-6 grid-column">
@@ -52,7 +52,7 @@
         contractCount++;
         <div class="form-container reports-contract-item">
 		<div class="form-section contract-visible-info">
-			<div class="dealnet-large-header">Report for contract #@contract.BasicInfo.ContractId</div>
+			<div class="dealnet-large-header">Report for contract #@(contract.AdditionalInfo.TransactionId ?? contract.BasicInfo.ContractId.ToString())</div>
             <br />
             <div class="documents-container">
                 <h3 class="dealnet-section-title">Funding Checklist</h3>

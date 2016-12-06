@@ -167,6 +167,7 @@ namespace DealnetPortal.Web.Models
         public ContractState ContractState { get; set; }
         [Display(Name = "Date")]
         public DateTime? LastUpdateTime { get; set; }
+        public string TransactionId { get; set; }
     }
 
     public class SummaryAndConfirmationViewModel

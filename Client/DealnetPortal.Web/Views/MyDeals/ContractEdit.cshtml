@@ -8,12 +8,12 @@
 @using DealnetPortal.Web.Models
 @model DealnetPortal.Web.Models.ContractEditViewModel
 <div id="label-steps">
-	@Html.ActionLink("MyDeals", "Index", "MyDeals", null, new { @class = "dealnet-action-link" }) > <div class="dealnet-action-link">Contract #@Model.BasicInfo.ContractId</div>  >
+	@Html.ActionLink("MyDeals", "Index", "MyDeals", null, new { @class = "dealnet-action-link" }) > <div class="dealnet-action-link">Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  >
 </div>
 
 <div class="form-container">
 	<div class="form-section">
-		<div class="dealnet-large-header">Contract #@Model.BasicInfo.ContractId</div>
+		<div class="dealnet-large-header">Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
         <br />
 		<div class="documents-container">
 			<h3 class="dealnet-section-title">Funding Checklist</h3>
