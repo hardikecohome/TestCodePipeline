@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Web.Models.EquipmentInformation;
 
 namespace DealnetPortal.Web.Models
 {
-    public class ContractEditViewModel
+    public class ContractViewModel
     {
         public BasicInfoViewModel BasicInfo { get; set; }
         public EquipmentInformationViewModel EquipmentInfo { get; set; }
         public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
-        //public SendEmailsViewModel SendEmails { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
-        public List<CommentViewModel> Comments { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
         public UploadDocumentsViewModel UploadDocumentsInfo { get; set; }
-        
     }
 }

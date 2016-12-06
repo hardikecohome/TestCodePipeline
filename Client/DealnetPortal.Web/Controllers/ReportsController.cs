@@ -30,13 +30,13 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Contract(int id)
         {
-            return View(await _contractManager.GetSummaryAndConfirmationAsync(id));
+            return View(await _contractManager.GetContractAsync(id));
         }
 
         [HttpPost]
         public async Task<ActionResult> Contracts(IEnumerable<int> ids)
         {
-            return View(await _contractManager.GetSummaryAndConfirmationsAsync(ids));
+            return View(await _contractManager.GetContractsAsync(ids));
         }
 
         public async Task<ActionResult> GetXlsxReport(IEnumerable<int> ids)

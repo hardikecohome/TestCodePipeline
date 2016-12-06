@@ -22,7 +22,9 @@ namespace DealnetPortal.Web.Infrastructure
 
         Task<SummaryAndConfirmationViewModel> GetSummaryAndConfirmationAsync(int contractId, ContractDTO contract = null);
 
-        Task<IList<SummaryAndConfirmationViewModel>> GetSummaryAndConfirmationsAsync(IEnumerable<int> ids);
+        Task<ContractViewModel> GetContractAsync(int contractId);
+
+        Task<IList<ContractViewModel>> GetContractsAsync(IEnumerable<int> ids);
 
         Task<ContractEditViewModel> GetContractEditAsync(int contractId);
 

@@ -199,12 +199,14 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
+    <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewEquipmentInformation.cs" />
     <Compile Include="Models\NewRentalViewModels.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
+    <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -98,21 +98,30 @@ namespace DealnetPortal.Web.Infrastructure
             return summaryAndConfirmation;
         }
 
-        public async Task<IList<SummaryAndConfirmationViewModel>> GetSummaryAndConfirmationsAsync(IEnumerable<int> ids)
+        public async Task<IList<ContractViewModel>> GetContractsAsync(IEnumerable<int> ids)
         {
             var contractsResult = await _contractServiceAgent.GetContracts(ids);
             if (contractsResult.Item1 == null)
             {
-                return new List<SummaryAndConfirmationViewModel>();
+                return new List<ContractViewModel>();
             }
-            var summaries = new List<SummaryAndConfirmationViewModel>();
+            var contracts = new List<ContractViewModel>();
             foreach (var contract in contractsResult.Item1)
             {
-                var summaryAndConfirmation = new SummaryAndConfirmationViewModel();
-                await MapSummary(summaryAndConfirmation, contract, contract.Id);
-                summaries.Add(summaryAndConfirmation);
+                var contractViewModel = new ContractViewModel();
+                await MapContract(contractViewModel, contract, contract.Id);
+                contracts.Add(contractViewModel);
             }
-            return summaries;
+            return contracts;
+        }
+
+        public async Task<ContractViewModel> GetContractAsync(int contractId)
+        {
+            var contractsResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractsResult.Item1 == null) { return null; }
+            var contractViewModel = new ContractViewModel();
+            await MapContract(contractViewModel, contractsResult.Item1, contractsResult.Item1.Id);
+            return contractViewModel;
         }
 
         public async Task<ContractEditViewModel> GetContractEditAsync(int contractId)
@@ -402,6 +411,31 @@ namespace DealnetPortal.Web.Infrastructure
                     CustomerRate = contract.Equipment.CustomerRate ?? 0
                 };
                 summary.LoanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+            }
+        }
+
+        private async Task MapContract(ContractViewModel contractViewModel, ContractDTO contract, int contractId)
+        {
+            var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId, contract);
+
+            contractViewModel.AdditionalInfo = summaryViewModel.AdditionalInfo;
+            contractViewModel.ContactAndPaymentInfo = summaryViewModel.ContactAndPaymentInfo;
+            contractViewModel.BasicInfo = summaryViewModel.BasicInfo;
+            contractViewModel.EquipmentInfo = summaryViewModel.EquipmentInfo;
+            contractViewModel.ProvinceTaxRate = summaryViewModel.ProvinceTaxRate;
+            contractViewModel.LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput;
+            
+            contractViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
+            contractViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contract.Documents);
+            contractViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
+            var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
+            if (docTypes?.Item1 != null)
+            {
+                contractViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.Description
+                }).ToList();
             }
         }
     }
