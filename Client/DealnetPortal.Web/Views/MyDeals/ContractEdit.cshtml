@@ -102,7 +102,7 @@
 							<div class="documents-list" id="other-documents-list">
 							    @foreach (var document in Model.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
 							    {
-							        using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {enctype = "multipart/form-data", id = "other-document-template"}))
+							        using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {enctype = "multipart/form-data"}))
 							        {
 							            @Html.AntiForgeryToken()
 							            @Html.Hidden("OperationGuid")
