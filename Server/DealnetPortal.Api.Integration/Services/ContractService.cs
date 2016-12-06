@@ -427,11 +427,12 @@ namespace DealnetPortal.Api.Integration.Services
                         for (int i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
                         {
                             var contractsG = grDaysM.FirstOrDefault(g => g.Key == i);
-                            decimal totalSum = 0;
+                            double totalSum = 0;
                             contractsG?.ForEach(c =>
                             {
-                                var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
-                                totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
+                                //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
+                                //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
+                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
                             });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
@@ -454,11 +455,12 @@ namespace DealnetPortal.Api.Integration.Services
                             Enum.TryParse(weekDays[i], out curDay);
 
                             var contractsW = grDays.FirstOrDefault(g => g.Key == curDay);
-                            decimal totalSum = 0;
+                            double totalSum = 0;
                             contractsW?.ForEach(c =>
                             {
-                                var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
-                                totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
+                                //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
+                                //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
+                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
@@ -474,11 +476,12 @@ namespace DealnetPortal.Api.Integration.Services
                         for (int i = 0; i < months.Length; i++)
                         {
                             var contractsM = grMonths.FirstOrDefault(g => g.Key == i + 1);
-                            decimal totalSum = 0;
+                            double totalSum = 0;
                             contractsM?.ForEach(c =>
                             {
-                                var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
-                                totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
+                                //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
+                                //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
+                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()

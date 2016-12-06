@@ -55,7 +55,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerId, d => d.Ignore());
 
             cfg.CreateMap<EquipmentInformationViewModel, EquipmentInfoDTO>()
-                .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0));
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
+                .ForMember(x => x.ValueOfDeal, d => d.Ignore());
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>();
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
 

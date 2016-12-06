@@ -12,6 +12,6 @@ namespace DealnetPortal.Api.Models.Contract
 
         public int ItemCount { get; set; }
 
-        public decimal ItemData { get; set; }
+        public double ItemData { get; set; }
     }
 }
