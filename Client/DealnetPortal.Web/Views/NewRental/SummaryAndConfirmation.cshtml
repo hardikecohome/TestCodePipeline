@@ -1305,7 +1305,7 @@
                     @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "payment-info-section-modal" }))
                     {
                             <div class="row">
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
@@ -1315,7 +1315,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-5">
+                                @*<div class="col-md-4 col-sm-5">
                                     <div class="form-group">
                                         <div class="dealnet-label dealnet-field-caption">Photo of Void Cheque</div>
                                         <div class="equip-photo-group" style="position: relative;">
@@ -1336,8 +1336,8 @@
                                             <input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8 col-sm-12 pap-payment">
+                                </div>*@
+                                <div class="col-md-12 pap-payment">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
@@ -1348,7 +1348,7 @@
                                     </div>
                                 </div>
                                 <div class="pap-payment">
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
@@ -1359,7 +1359,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
@@ -1370,7 +1370,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
@@ -1383,7 +1383,7 @@
                                     </div>
                                 </div>
                                 <div class="enbridge-payment">
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
@@ -1394,7 +1394,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
