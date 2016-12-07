@@ -238,20 +238,6 @@
                         {
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new {@class = "dealnet-field-caption col-xs-6"})
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.RequestedTerm, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
-                        }
-                        else
-                        {
-                            <div class="form-group">
-                                <div class="row">
                                     @Html.LabelFor(m => m.EquipmentInfo.LoanTerm, new {@class = "dealnet-field-caption col-xs-6"})
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
@@ -261,6 +247,20 @@
                                 </div>
                             </div>
                             @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new {@class = "dealnet-field-caption col-xs-6"})
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.RequestedTerm, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                         }
                         <div class="form-group">
 				            <div class="row">
