@@ -19,8 +19,10 @@ namespace DealnetPortal.Api.App_Start
                 (ILoggingService)
                     GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
 
-            Database.SetInitializer(
-                new DropCreateDbWithSeedTestData(loggingService));            
+            //Database.SetInitializer(
+            //    new DropCreateDbWithSeedTestData(loggingService));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, DealnetPortal.DataAccess.Migrations.Configuration>());
+
         }
     }
 }
