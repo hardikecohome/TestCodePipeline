@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Web.Hosting;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -52,6 +53,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "user@user.com",
                 UserName = "user@user.com",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -67,6 +69,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "user2@user.com",
                 UserName = "user2@user.com",
                 Application = applications.First(x => x.Id == OdiAppId),
+                ApplicationId = applications.First(x => x.Id == OdiAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -90,6 +93,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "ecosmart@eco.com",
                 UserName = "ecosmart",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -112,6 +116,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "canadianhome@eco.com",
                 UserName = "canadianhome",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -134,6 +139,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "enertech@eco.com",
                 UserName = "enertech",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -156,6 +162,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "efficiency@eco.com",
                 UserName = "efficiency",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -180,6 +187,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "ecoenergy@eco.com",
                 UserName = "ecoenergy",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -202,6 +210,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "",
                 UserName = "Apex Home Services",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -224,6 +233,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "",
                 UserName = "Ontario Safety Standards",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -246,6 +256,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "",
                 UserName = "Ikotel O/A Ontario Water Health Safety",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -268,6 +279,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "",
                 UserName = "Ontario Green Solutions",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -290,6 +302,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 Email = "",
                 UserName = "EcoLife",
                 Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
@@ -528,10 +541,15 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "SeedData", t.TemplateName + ".pdf");
+                    var dir = HostingEnvironment.MapPath("~/SeedData");
+                    var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
                     {
-                        t.AgreementForm = File.ReadAllBytes(path);
+                        var templt = context.AgreementTemplates.Local.FirstOrDefault(tmplt => tmplt.TemplateName == t.TemplateName);
+                        if (templt != null)
+                        {
+                            templt.AgreementForm = File.ReadAllBytes(path);
+                        }
                     }
                 }
                 catch

@@ -21,7 +21,7 @@ namespace DealnetPortal.Api.App_Start
 
             //Database.SetInitializer(
             //    new DropCreateDbWithSeedTestData(loggingService));
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, DealnetPortal.DataAccess.Migrations.Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersionWithLog<ApplicationDbContext, DealnetPortal.DataAccess.Migrations.Configuration>(loggingService));
 
         }
     }
