@@ -13,7 +13,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(Name = "Type of agreement")]
         public AgreementType AgreementType { get; set; }
 
-        [CheckEquipmentsCost("CreditAmount")]
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Total Monthly Payment is in incorrect format")]
