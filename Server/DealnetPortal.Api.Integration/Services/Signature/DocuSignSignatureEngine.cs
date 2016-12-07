@@ -525,6 +525,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         new SignHere()
                         {
                             TabLabel = !isDealer ? $"Signature{routingOrder}" : "SignatureD"
+                        },
+                        //?? for 2nd signature
+                        new SignHere()
+                        {
+                            TabLabel = !isDealer ? $"Signature{routingOrder}_2" : "SignatureD_2"
                         }
                     }
                 }
