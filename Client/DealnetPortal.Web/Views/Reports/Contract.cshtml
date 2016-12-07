@@ -116,18 +116,18 @@
         <div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6 grid-column">
 				<div class="dealnet-credit-check-section">
-				    @if (Model.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    $ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
 				    {
-				        <div class="form-group">
-				            <div class="row">
-				                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
-				                <div class="dealnet-field-holder col-xs-6">
-				                    <div class="control-group">
-				                        $ @($"{Model.LoanCalculatorOutput.TotalBorowingCost:0.00}")
-				                    </div>
-				                </div>
-				            </div>
-				        </div>
 				        <div class="form-group">
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">Loan Term</label>

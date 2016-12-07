@@ -28,19 +28,16 @@
 							</div>
 						</div>
 					</div>
-				    @if (Model.Any(x => x.EquipmentInfo != null && x.EquipmentInfo.AgreementType == AgreementType.LoanApplication))
-				    {
 				        <div class="form-group">
 				            <div class="row">
 				                <div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL VALUE</div>
 				                <div class="col-xs-12 col-sm-3 dealnet-field-holder">
 				                    <div class="control-group">
-				                        $ @($"{Model.Where(x => x.EquipmentInfo != null && x.EquipmentInfo.AgreementType == AgreementType.LoanApplication).Sum(c => c.LoanCalculatorOutput.TotalBorowingCost):0.00}")
+				                        $ @($"{Model.Where(x => x.EquipmentInfo != null).Sum(c => c.EquipmentInfo.ValueOfDeal):0.00}")
 				                    </div>
 				                </div>
 				            </div>
 				        </div>
-				    }
                 </div>
 			</div>
 		</div>
@@ -131,22 +128,23 @@
                     </div>
                 </div>
             </div>
-			<h3 class="dealnet-section-title">Deal Information</h3>
+        <br/>
+            <h3 class="dealnet-section-title">Deal Information</h3>
 			<div class="row credit-check-info-hold">
 				<div class="col-md-6 col-md-push-6 grid-column">
 					<div class="dealnet-credit-check-section">
-					    @if (contract.EquipmentInfo != null && contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        $ @($"{contract.EquipmentInfo.ValueOfDeal:0.00}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (contract.EquipmentInfo != null && contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
 					    {
-					        <div class="form-group">
-					            <div class="row">
-					                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
-					                <div class="dealnet-field-holder col-xs-6">
-					                    <div class="control-group">
-					                        $ @($"{contract.LoanCalculatorOutput.TotalBorowingCost:0.00}")
-					                    </div>
-					                </div>
-					            </div>
-					        </div>
 					        <div class="form-group">
 					            <div class="row">
 					                <label class="dealnet-field-caption col-xs-6">Loan Term</label>

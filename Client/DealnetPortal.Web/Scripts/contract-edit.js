@@ -35,6 +35,20 @@
             return false;
         });
 
+        var validateFileSize = function(errorAction) {
+            try {
+                if (this.files[0].size / 1024 / 1024 > 50) {
+                    errorAction('Maximum file size is limited to 50 MB for a single file.');
+                    $(this).val('');
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                console.log("Browser doesn't support modern file size detection feature");
+                return false;
+            }
+        };
+
         $('.main-document-upload').change(function() {
             var input = $(this);
             var form = input.parent().closest('form');
@@ -53,6 +67,9 @@
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
             };
+            if (!validateFileSize.call(this, afterError)) {
+                return;
+            }
             var operatGuid = generateGuid();
             form.find("input[name='OperationGuid']").val(operatGuid);
             form.ajaxSubmit({
@@ -126,6 +143,9 @@
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
             };
+            if (!validateFileSize.call(this, afterError)) {
+                return;
+            }
             var operatGuid = generateGuid();
             form.find("input[name='OperationGuid']").val(operatGuid);
             form.ajaxSubmit({

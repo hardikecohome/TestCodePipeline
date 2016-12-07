@@ -102,7 +102,7 @@
 							<div class="documents-list" id="other-documents-list">
 							    @foreach (var document in Model.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
 							    {
-							        using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {enctype = "multipart/form-data", id = "other-document-template"}))
+							        using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {enctype = "multipart/form-data"}))
 							        {
 							            @Html.AntiForgeryToken()
 							            @Html.Hidden("OperationGuid")
@@ -215,19 +215,16 @@
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6 grid-column">
 				<div class="dealnet-credit-check-section">
-				    @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-				    {
 				        <div class="form-group">
 				            <div class="row">
 				                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
 				                <div class="dealnet-field-holder col-xs-6">
 				                    <div class="control-group">
-				                        $ @($"{Model.LoanCalculatorOutput.TotalBorowingCost:0.00}")
+				                        $ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")
 				                    </div>
 				                </div>
 				            </div>
 				        </div>
-				    }
                     @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "deal-info-form" }))
                     {
 				        @Html.AntiForgeryToken()
@@ -241,20 +238,6 @@
                         {
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new {@class = "dealnet-field-caption col-xs-6"})
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.RequestedTerm, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
-                        }
-                        else
-                        {
-                            <div class="form-group">
-                                <div class="row">
                                     @Html.LabelFor(m => m.EquipmentInfo.LoanTerm, new {@class = "dealnet-field-caption col-xs-6"})
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
@@ -264,6 +247,20 @@
                                 </div>
                             </div>
                             @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new {@class = "dealnet-field-caption col-xs-6"})
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.RequestedTerm, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                         }
                         <div class="form-group">
 				            <div class="row">
@@ -1268,7 +1265,7 @@ foreach (var comment in comments)
 									<div class="dealnet-field-holder">
 										<div class="control-group">
 											<div class="form-control control-disabled">
-												$ @($"{Model.EquipmentInfo.NewEquipment.Sum(e => e.Cost):0.00}")
+												$ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")
 											</div>
 										</div>
 									</div>
@@ -1716,7 +1713,7 @@ foreach (var comment in comments)
 				<div class="dealnet-credit-check-section dealnet-modal-section">
                     <form id="payment-info-section-modal">
                         <div class="row">
-                            <div class="col-md-8 col-sm-12">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
@@ -1726,7 +1723,7 @@ foreach (var comment in comments)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-5">
+                            @*<div class="col-md-4 col-sm-5">
                                 <div class="form-group">
                                     <div class="dealnet-label dealnet-field-caption">Photo of Void Cheque</div>
                                     <div class="equip-photo-group" style="position: relative;">
@@ -1747,8 +1744,8 @@ foreach (var comment in comments)
                                         <input type="file" accept="image/*" class="upload" id="upload-new-photo" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-8 col-sm-12 pap-payment">
+                            </div>*@
+                            <div class="col-md-12 pap-payment">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
@@ -1759,7 +1756,7 @@ foreach (var comment in comments)
                                 </div>
                             </div>
                             <div class="pap-payment">
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption" })
                                         <div class="dealnet-field-holder">
@@ -1770,7 +1767,7 @@ foreach (var comment in comments)
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption" })
                                         <div class="dealnet-field-holder">
@@ -1781,7 +1778,7 @@ foreach (var comment in comments)
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption" })
                                         <div class="dealnet-field-holder">
@@ -1794,7 +1791,7 @@ foreach (var comment in comments)
                                 </div>
                             </div>
                             <div class="enbridge-payment">
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
@@ -1805,7 +1802,7 @@ foreach (var comment in comments)
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">

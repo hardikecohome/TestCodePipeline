@@ -152,7 +152,7 @@ namespace DealnetPortal.Web.Controllers
 
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
-                TempData["CreditCheckErrorMessage"] = "Can't connect to Aspire for Credit Check. Try to perform Credit Check later.";
+                TempData["CreditCheckErrorMessage"] = "Can't connect to external system for Credit Check. Try to perform Credit Check later.";
                 return RedirectToAction("CreditCheckConfirmation", new { contractId });
             }
 
@@ -217,7 +217,7 @@ namespace DealnetPortal.Web.Controllers
 
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
-                TempData["CreditCheckErrorMessage"] = "Can't connect to Aspire for Credit Check. Try to perform Credit Check later.";
+                TempData["CreditCheckErrorMessage"] = "Can't connect to external system for Credit Check. Try to perform Credit Check later.";
                 var redirectStr = Url.Action("CreditCheckConfirmation", new { contractId });
                 return Json(redirectStr);
             }
