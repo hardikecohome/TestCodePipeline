@@ -34,12 +34,18 @@ function showTable() {
         var paymentOptions = [];
         var agrTypeOptions = [];
         $.each(data, function (i, e) {
-            if ($.inArray(statusOptions, e["Status"]) == -1)
-                statusOptions.push(e["Status"]);
-            if ($.inArray(paymentOptions, e["PaymentType"]) == -1)
-                paymentOptions.push(e["PaymentType"]);
-            if ($.inArray(agrTypeOptions, e["AgreementType"]) == -1)
-                agrTypeOptions.push(e["AgreementType"]);
+            if ($.inArray(e["Status"], statusOptions) == -1)
+                if (e["Status"]) {
+                    statusOptions.push(e["Status"]);
+                }
+            if ($.inArray(e["PaymentType"], paymentOptions) == -1)
+                if (e["PaymentType"]) {
+                    paymentOptions.push(e["PaymentType"]);
+                }
+            if ($.inArray(e["AgreementType"], agrTypeOptions) == -1)
+                if (e["AgreementType"]) {
+                    agrTypeOptions.push(e["AgreementType"]);
+                }
         });
         $.each(statusOptions, function (i, e) {
             $("#deal-status").append($("<option />").val(e).text(e));

@@ -29,8 +29,10 @@ function showTable() {
         .done(function (data) {
             var statusOptions = [];
             $.each(data, function (i, e) {
-                if ($.inArray(statusOptions, e["Status"]) == -1)
-                    statusOptions.push(e["Status"]);
+                if ($.inArray(e["Status"], statusOptions) == -1)
+                    if (e["Status"]) {
+                        statusOptions.push(e["Status"]);
+                    }
             });
             $.each(statusOptions, function (i, e) {
                 $("#deal-status").append($("<option />").val(e).text(e));
