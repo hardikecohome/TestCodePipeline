@@ -450,6 +450,7 @@
 
                     using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-coborrowers-form-" + (i + 1), @class = "" }))
                     {
+                        <input type="hidden" name="ContactAndPaymentInfo.CoBorrowersContactInfo.Index" value="@i" />
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
                     <div class="col-md-6 grid-column">
