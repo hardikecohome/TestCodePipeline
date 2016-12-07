@@ -91,7 +91,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         else
                         {
-                            throw new TimeoutException("The Aspire operation has timed out.");
+                            throw new TimeoutException("External system operation has timed out.");
                         }
 
                         //var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
@@ -182,7 +182,7 @@ namespace DealnetPortal.Api.Integration.Services
                             }
                             else
                             {
-                                throw new TimeoutException("The Aspire operation has timed out.");
+                                throw new TimeoutException("External system operation has timed out.");
                             }
 
                             //var response =
@@ -231,8 +231,8 @@ namespace DealnetPortal.Api.Integration.Services
                     alerts.Add(new Alert()
                     {
                         Code = ErrorCodes.AspireTransactionNotCreated,
-                        Header = "Aspire error",
-                        Message = $"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first",
+                        Header = "External system error",
+                        Message = $"Can't proceed for credit check for contract {contractId}",
                         Type = AlertType.Error
                     });
                     _loggingService.LogError($"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first");
@@ -306,7 +306,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         else
                         {
-                            throw new TimeoutException("The Aspire operation has timed out.");
+                            throw new TimeoutException("External system operation has timed out.");
                         }
 
                         var rAlerts = AnalyzeResponse(response, contract);
@@ -419,7 +419,7 @@ namespace DealnetPortal.Api.Integration.Services
                         alerts.Add(new Alert()
                         {
                             Code = ErrorCodes.AspireConnectionFailed,
-                            Header = "Can't upload document to Aspire",
+                            Header = "Can't upload document",
                             Message = ex.ToString(),
                             Type = AlertType.Error
                         });
@@ -522,14 +522,14 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                var errorMsg = "Can't obtain Aspire user credentials";
+                var errorMsg = "Can't obtain user credentials";
                 alerts.Add(new Alert()
                 {
-                    Header = "Can't obtain Aspire user credentials",
+                    Header = errorMsg,
                     Message = errorMsg,
                     Type = AlertType.Error
                 });
-                _loggingService.LogError(errorMsg);
+                _loggingService.LogError("Can't obtain Aspire user credentials");
             }
 
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
