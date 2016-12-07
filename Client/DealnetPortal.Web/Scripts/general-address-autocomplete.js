@@ -3,7 +3,8 @@
     route: 'long_name',
     locality: 'long_name',
     administrative_area_level_1: 'long_name',
-    postal_code: 'short_name'
+    postal_code: 'short_name',
+    postal_code_prefix: 'short_name'
 };
 function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
     var streetInput = document.getElementById(streetId);
@@ -77,7 +78,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
                     provenceInput.value = val;
                     continue;
                 }
-                if (addressType == 'postal_code') {
+                if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                     postalCodeInput.value = val;
                     continue;
                 }

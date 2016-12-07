@@ -4,7 +4,8 @@ var addressForm = {
     route: 'long_name',
     locality: 'long_name',
     administrative_area_level_1: 'long_name',
-    postal_code: 'short_name'
+    postal_code: 'short_name',
+    postal_code_prefix: 'short_name'
 };
 function initGoogleServices() {
     geocoder = new google.maps.Geocoder;
@@ -104,7 +105,7 @@ function initGoogleServices() {
                     $('#administrative_area_level_1').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
-                if (addressType == 'postal_code') {
+                if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                     document.getElementById('postal_code').value = val;
                     $('#postal_code').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
@@ -153,7 +154,7 @@ function initGoogleServices() {
                     $('#mailing_administrative_area_level_1').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
-                if (addressType == 'postal_code') {
+                if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                     document.getElementById('mailing_postal_code').value = val;
                     $('#mailing_postal_code').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
@@ -231,7 +232,7 @@ function initGoogleServices() {
                         admAreaInput.removeClass('pac-placeholder').removeClass('placeholder');
                         continue;
                     }
-                    if (addressType == 'postal_code') {
+                    if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                         var postalCodeInput = $('#additional-postal_code-' + j);
                         postalCodeInput.val(val);
                         postalCodeInput.removeClass('pac-placeholder').removeClass('placeholder');
@@ -280,6 +281,10 @@ function autodetectAddress() {
                                         } else {
                                             street += " " + val;
                                         }
+                                        continue;
+                                    }
+                                    if (addressType == 'postal_code_prefix') {
+                                        document.getElementById('postal_code').value = val;
                                         continue;
                                     }
 
