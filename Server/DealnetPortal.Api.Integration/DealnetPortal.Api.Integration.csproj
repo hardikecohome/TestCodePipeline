@@ -72,6 +72,9 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>..\..\lib\PdfSharp.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\..\lib\RestSharp.dll</HintPath>
     </Reference>
@@ -109,11 +112,13 @@
     <Compile Include="Services\IMailService.cs" />
     <Compile Include="Services\Signature\DocuSignSignatureEngine.cs" />
     <Compile Include="Services\Signature\EcoreSignatureEngine.cs" />
+    <Compile Include="Services\Signature\IPdfEngine.cs" />
     <Compile Include="Services\Signature\ISignatureEngine.cs" />
     <Compile Include="Services\ISignatureService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\PdfFormFields.cs" />
     <Compile Include="Services\SignatureService.cs" />
+    <Compile Include="Services\Signature\PdfSharpEngine.cs" />
     <Compile Include="Utility\NoTypeAttributeXmlWriter.cs" />
     <Compile Include="Utility\DriverLicenseParser.cs" />
     <Compile Include="Utility\XlsxExporter.cs" />

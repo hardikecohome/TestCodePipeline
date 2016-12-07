@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,8 @@ namespace DealnetPortal.Api.Integration.Services
     public class SignatureService : ISignatureService
     {
         private readonly ISignatureEngine _signatureEngine;
-        private readonly IESignatureServiceAgent _signatureServiceAgent;
+        private readonly IPdfEngine _pdfEngine;
+        //private readonly IESignatureServiceAgent _signatureServiceAgent;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
@@ -40,11 +42,12 @@ namespace DealnetPortal.Api.Integration.Services
         private List<string> _signatureFields = new List<string>() {"Signature1", "Signature2"};//, "Sinature3"};
         private List<string> _signatureRoles = new List<string>();
 
-        public SignatureService(ISignatureEngine signatureEngine, IESignatureServiceAgent signatureServiceAgent, IContractRepository contractRepository,
+        public SignatureService(ISignatureEngine signatureEngine, IPdfEngine pdfEngine, IContractRepository contractRepository,
             IFileRepository fileRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
         {
             _signatureEngine = signatureEngine;
-            _signatureServiceAgent = signatureServiceAgent;
+            _pdfEngine = pdfEngine;
+            //_signatureServiceAgent = signatureServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _fileRepository = fileRepository;
@@ -169,7 +172,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<Tuple<bool, IList<Alert>>> CheckContractAgreementAvailable(int contractId, string ownerUserId)
+        public async Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, string ownerUserId)
         {
             bool isAvailable = false;
             List<Alert> alerts = new List<Alert>();
@@ -178,26 +181,36 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
             if (contract != null)
             {
-                //check is agreement created
-                if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
+                //Check is pdf template in db. In this case we insert fields on place
+                var agrRes = SelectAgreementTemplate(contract, ownerUserId);
+                if (agrRes?.Item1?.AgreementForm != null)
                 {
                     isAvailable = true;
                 }
                 else
                 {
-                    // create draft agreement
-                    var createAlerts = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
-                    //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
-                    isAvailable = true;
-                    if (createAlerts.Any())
+                    //else we try to get contract from eSignature agreement template
+                    //check is agreement created
+                    if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
                     {
-                        alerts.AddRange(createAlerts);
-                        if (createAlerts.Any(a => a.Type == AlertType.Error))
+                        isAvailable = true;
+                    }
+                    else
+                    {
+                        // create draft agreement
+                        var createAlerts = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
+                        //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
+                        isAvailable = true;
+                        if (createAlerts.Any())
                         {
-                            isAvailable = false;
+                            alerts.AddRange(createAlerts);
+                            if (createAlerts.Any(a => a.Type == AlertType.Error))
+                            {
+                                isAvailable = false;
+                            }
                         }
-                    }                    
-                }                
+                    }
+                }
             }
             else
             {
@@ -215,6 +228,58 @@ namespace DealnetPortal.Api.Integration.Services
 
 
             return new Tuple<bool, IList<Alert>>(isAvailable, alerts);
+        }
+
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintAgreement(int contractId, string ownerUserId)
+        {
+            List<Alert> alerts = new List<Alert>();
+            AgreementDocument document = null;
+
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                //Check is pdf template in db. In this case we insert fields on place
+                var agrRes = SelectAgreementTemplate(contract, ownerUserId);
+                if (agrRes?.Item1?.AgreementForm != null)
+                {
+                    MemoryStream ms = new MemoryStream(agrRes.Item1.AgreementForm, true);
+                    var fields = PrepareFormFields(contract);
+                    var insertRes = _pdfEngine.InsertFormFields(ms, fields);
+                    if (insertRes?.Item2?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes.Item2);
+                    }
+                    if (insertRes?.Item1 != null)
+                    {
+                        var buf = new byte[insertRes.Item1.Length];
+                        await insertRes.Item1.ReadAsync(buf, 0, (int)insertRes.Item1.Length);
+                        document = new AgreementDocument()
+                        {
+                            DocumentRaw = buf,
+                            Name = agrRes.Item1.TemplateName
+                        };
+                    }
+                }
+                else
+                {
+                    return await GetContractAgreement(contractId, ownerUserId);
+                }
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+            LogAlerts(alerts);
+            return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId)
@@ -380,7 +445,13 @@ namespace DealnetPortal.Api.Integration.Services
                 contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
 
             var dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
-                at.DealerId == contractOwnerId);
+                (at.DealerId == contractOwnerId));
+            if (!string.IsNullOrEmpty(contract.ExternalSubDealerName))
+            {
+                var extTemplates = _fileRepository.FindAgreementTemplates(at =>
+                    (at.ExternalDealerName == contract.ExternalSubDealerName));
+                extTemplates?.ForEach(et => dealerTemplates.Add(et));
+            }
             
             // get agreement template 
             AgreementTemplate agreementTemplate = null;
@@ -446,7 +517,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         private bool LogoutFromService()
         {
-            return _signatureServiceAgent.Logout().GetAwaiter().GetResult();
+            return true;
+            //return _signatureServiceAgent.Logout().GetAwaiter().GetResult();
         }        
 
         private void FillHomeOwnerFieilds(List<FormField> formFields, Contract contract)

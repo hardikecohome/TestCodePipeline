@@ -9,29 +9,29 @@ namespace DealnetPortal.Api.Integration.Services
     public static class PdfFormFields
     {
         //Customer Fields
-        public static string FirstName = "First Name";
-        public static string LastName = "Last Name";
-        public static string DateOfBirth = "Date Of Birth";
-        public static string FirstName2 = "First Name_2";
-        public static string LastName2 = "Last Name_2";
-        public static string DateOfBirth2 = "Date Of Birth_2";
-        public static string InstallationAddress = "Installation Address";
-        public static string MailingAddress = "Mailing Address";
+        public static string FirstName = "FirstName";
+        public static string LastName = "LastName";
+        public static string DateOfBirth = "DateOfBirth";
+        public static string FirstName2 = "FirstName_2";
+        public static string LastName2 = "LastName_2";
+        public static string DateOfBirth2 = "DateOfBirth_2";
+        public static string InstallationAddress = "InstallationAddress";
+        public static string MailingAddress = "MailingAddress";
         public static string City = "City";
         public static string Province = "Province";
-        public static string PostalCode = "Postal Code";
-        public static string HomePhone = "Home Phone";
-        public static string BusinessPhone = "Business Phone";
-        public static string EmailAddress = "Email Address";
-        public static string IsMailingDifferent = "Is Mailing Different";
+        public static string PostalCode = "PostalCode";
+        public static string HomePhone = "HomePhone";
+        public static string BusinessPhone = "BusinessPhone";
+        public static string EmailAddress = "EmailAddress";
+        public static string IsMailingDifferent = "IsMailingDifferent";
 
         //Equipment Fields
-        public static string IsFurnace = "Is Furnace";
-        public static string IsAirConditioner = "Is Air Conditioner";
-        public static string IsBoiler = "Is Boiler";
-        public static string IsWaterFiltration = "Is Water Filtration";
-        public static string IsOther1 = "Is Other1";
-        public static string IsOther2 = "Is Other2";
+        public static string IsFurnace = "IsFurnace";
+        public static string IsAirConditioner = "IsAirConditioner";
+        public static string IsBoiler = "IsBoiler";
+        public static string IsWaterFiltration = "IsWaterFiltration";
+        public static string IsOther1 = "IsOther1";
+        public static string IsOther2 = "IsOther2";
         public static string FurnaceDetails = "FurnaceDetails";
         public static string AirConditionerDetails = "AirConditionerDetails";
         public static string BoilerDetails = "BoilerDetails";
@@ -45,14 +45,14 @@ namespace DealnetPortal.Api.Integration.Services
         public static string OtherMonthlyRental1 = "OtherMonthlyRental1";
         public static string OtherMonthlyRental2 = "OtherMonthlyRental2";
 
-        public static string MonthlyPayment = "Monthly Payment";
-        public static string TotalPayment = "Total Payment";
-        public static string TotalMonthlyPayment = "Total Monthly Payment";
+        public static string MonthlyPayment = "MonthlyPayment";
+        public static string TotalPayment = "TotalPayment";
+        public static string TotalMonthlyPayment = "TotalMonthlyPayment";
         public static string Hst = "HST";
 
-        public static string EquipmentQuantity = "Equipment Quantity";
-        public static string EquipmentDescription = "Equipment Description";
-        public static string EquipmentCost = "Equipment Cost";
+        public static string EquipmentQuantity = "EquipmentQuantity";
+        public static string EquipmentDescription = "EquipmentDescription";
+        public static string EquipmentCost = "EquipmentCost";
 
         //Payment Fields
         public static string EnbridgeAccountNumber = "Enbridge Account Number";

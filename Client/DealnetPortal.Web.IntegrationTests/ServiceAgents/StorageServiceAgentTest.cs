@@ -69,10 +69,10 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         {
             IStorageServiceAgent serviceAgent = new StorageServiceAgent(_client, _loggingService.Object);
 
-            var pdfData = File.ReadAllBytes("SeedData//EcoSmart  H.V.A.C RENTAL AGREEMENT - Ontario Aug 2016.pdf");
+            var pdfData = File.ReadAllBytes("SeedData//Canadian Home Efficiency HVAC OTHER RENTAL AGREEMENT ON.pdf");
             var aggreement = new AgreementTemplateDTO()
             {                
-                State = "ON",
+                State = "ON",                
                 DealerName = "canadianhome",
                 TemplateName = "Canadian Home Efficiency HVAC",                
                 AgreementFormRaw = pdfData
