@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models.Aspire.AspireDb;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess;
 using DealnetPortal.Utilities;
 
@@ -54,6 +55,17 @@ namespace DealnetPortal.Api.Integration.Services
             sqlStatement = string.Format(sqlStatement, dealerName);
 
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadSubDealerItem);
+            return list;
+        }
+
+        public IList<ContractDTO> GetDealerDeals(string dealerName)
+        {
+            string sqlStatement = @"SELECT *
+                                      FROM sample_mydeals                                      
+									  where dealer_name LIKE '%{0}%';";
+            sqlStatement = string.Format(sqlStatement, dealerName);
+
+            var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
             return list;
         }
 
@@ -109,6 +121,26 @@ namespace DealnetPortal.Api.Integration.Services
                 row.SubDealerId = ConvertFromDbVal<long>(dr["Field_Oid"]).ToString();                
                 row.SubmissionValue = ConvertFromDbVal<string>(dr["SubmissionValue"]);                
                 return row;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        private ContractDTO ReadSampleDealItem(IDataReader dr)
+        {
+            try
+            {
+                var item = new ContractDTO();
+                //item.
+                //row.DealerId = ((long)dr["OID"]).ToString();
+                //row.SeqNum = ConvertFromDbVal<int>(dr["SEQ_NUM"]).ToString();
+                //row.DealerName = (string)dr["UDF_COLUMN_NAME"];
+                //row.SubDealerName = ConvertFromDbVal<string>(dr["Field_Description"]);
+                //row.SubDealerId = ConvertFromDbVal<long>(dr["Field_Oid"]).ToString();
+                //row.SubmissionValue = ConvertFromDbVal<string>(dr["SubmissionValue"]);
+                return item;
             }
             catch (Exception ex)
             {
