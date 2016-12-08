@@ -165,12 +165,12 @@ namespace DealnetPortal.DataAccess.Repositories
                         }
                     }
 
-                    if (contract.ExternalSubDealerId != null && contract.ExternalSubDealerId != contractData.ExternalSubDealerId)
+                    if (contractData.ExternalSubDealerId != null && contract.ExternalSubDealerId != contractData.ExternalSubDealerId)
                     {
                         contract.ExternalSubDealerId = contractData.ExternalSubDealerId;
                         contract.LastUpdateTime = DateTime.Now;
                     }
-                    if (contract.ExternalSubDealerName != null && contract.ExternalSubDealerName != contractData.ExternalSubDealerName)
+                    if (contractData.ExternalSubDealerName != null && contract.ExternalSubDealerName != contractData.ExternalSubDealerName)
                     {
                         contract.ExternalSubDealerName = contractData.ExternalSubDealerName;
                         contract.LastUpdateTime = DateTime.Now;
