@@ -615,14 +615,59 @@ namespace DealnetPortal.Api.Integration.Services
                     switch (eq.Type)
                     {
                         case "ECO1": // Air Conditioner
-                            formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsAirConditioner, Value = "true" });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AirConditionerDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AirConditionerMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                            // check is already filled
+                            if (!formFields.Exists(f => f.Name == PdfFormFields.IsAirConditioner))
+                            {
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = PdfFormFields.IsAirConditioner,
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.AirConditionerDetails,
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.AirConditionerMonthlyRental,
+                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
                             break;
                         case "ECO2": // Boiler
-                            formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsBoiler, Value = "true" });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BoilerDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BoilerMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                            if (!formFields.Exists(f => f.Name == PdfFormFields.IsBoiler))
+                            {
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = PdfFormFields.IsBoiler,
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.BoilerDetails,
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.BoilerMonthlyRental,
+                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
                             break;
                         case "ECO3": // Doors
                             othersEq.Add(eq);
@@ -631,9 +676,31 @@ namespace DealnetPortal.Api.Integration.Services
                             othersEq.Add(eq);
                             break;
                         case "ECO5": // Furnace
-                            formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsFurnace, Value = "true" });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.FurnaceDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.FurnaceMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                            if (!formFields.Exists(f => f.Name == PdfFormFields.IsFurnace))
+                            {
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = PdfFormFields.IsFurnace,
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.FurnaceDetails,
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.FurnaceMonthlyRental,
+                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
                             break;
                         case "ECO6": // HWT
                             othersEq.Add(eq);
@@ -666,9 +733,31 @@ namespace DealnetPortal.Api.Integration.Services
                             othersEq.Add(eq);
                             break;
                         case "ECO44": // Water Treatment System
-                            formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsWaterFiltration, Value = "true" });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.WaterFiltrationDetails, Value = eq.Description });
-                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.WaterFiltrationMonthlyRental, Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                            if (!formFields.Exists(f => f.Name == PdfFormFields.IsWaterFiltration))
+                            {
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = PdfFormFields.IsWaterFiltration,
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.WaterFiltrationDetails,
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.WaterFiltrationMonthlyRental,
+                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
                             break;
                         case "ECO45": // Heat Pump
                             othersEq.Add(eq);
@@ -698,11 +787,28 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (othersEq.Any())
                 {
-                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsOther1, Value = "true" });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.OtherDetails1, Value = othersEq.First().Description });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.OtherMonthlyRental1, Value = othersEq.First().MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                    for (int i = 1; i <= othersEq.Count; i++)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.CheckBox,
+                            Name = $"{PdfFormFields.IsOtherBase}{i}",
+                            Value = "true"
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = $"{PdfFormFields.OtherDetailsBase}{i}",
+                            Value = othersEq[i].Description
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = $"{PdfFormFields.OtherMonthlyRentalBase}{i}",
+                            Value = othersEq[i].MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                        });
+                    }
                 }
-
             }
             if (contract.Equipment != null)
             {
