@@ -32,18 +32,21 @@ namespace DealnetPortal.Api.Integration.Services
         public static string IsWaterFiltration = "IsWaterFiltration";
         public static string IsOther1 = "IsOther1";
         public static string IsOther2 = "IsOther2";
+        public static string IsOtherBase = "IsOther";
         public static string FurnaceDetails = "FurnaceDetails";
         public static string AirConditionerDetails = "AirConditionerDetails";
         public static string BoilerDetails = "BoilerDetails";
         public static string WaterFiltrationDetails = "WaterFiltrationDetails";
         public static string OtherDetails1 = "OtherDetails1";
         public static string OtherDetails2 = "OtherDetails2";
+        public static string OtherDetailsBase = "OtherDetails";
         public static string FurnaceMonthlyRental = "FurnaceMonthlyRental";
         public static string AirConditionerMonthlyRental = "AirConditionerMonthlyRental";
         public static string BoilerMonthlyRental = "BoilerMonthlyRental";
         public static string WaterFiltrationMonthlyRental = "WaterFiltrationMonthlyRental";
         public static string OtherMonthlyRental1 = "OtherMonthlyRental1";
         public static string OtherMonthlyRental2 = "OtherMonthlyRental2";
+        public static string OtherMonthlyRentalBase = "OtherMonthlyRental";
 
         public static string MonthlyPayment = "MonthlyPayment";
         public static string TotalPayment = "TotalPayment";

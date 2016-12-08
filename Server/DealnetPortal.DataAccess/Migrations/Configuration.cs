@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web.Hosting;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Migrations
@@ -100,14 +101,14 @@ namespace DealnetPortal.DataAccess.Migrations
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 EsignatureEnabled = true,
-                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                PasswordHash = SecurityUtils.HashPassword("123456"),// "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Eco Smart Home Services",
                 AspireAccountId = "70017",
                 AspireLogin = "ecosmart",
-                AspirePassword = "123456789"
+                AspirePassword = "123456"
             };
             //context.Users.Add(ecosmartUser);
             users.Add(ecosmartUser);
@@ -123,7 +124,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 EsignatureEnabled = true,
-                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                PasswordHash = SecurityUtils.HashPassword("123456789"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -146,7 +147,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 EsignatureEnabled = true,
-                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                PasswordHash = SecurityUtils.HashPassword("123456789"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -169,7 +170,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 EsignatureEnabled = true,
-                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                PasswordHash = SecurityUtils.HashPassword("123456789"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -194,7 +195,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 EsignatureEnabled = true,
-                PasswordHash = "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                PasswordHash = SecurityUtils.HashPassword("123456789"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
@@ -218,7 +219,6 @@ namespace DealnetPortal.DataAccess.Migrations
                 AccessFailedCount = 0,
                 PasswordHash = "",
                 EsignatureEnabled = true,
-                //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Apex Home Services",
@@ -241,7 +241,6 @@ namespace DealnetPortal.DataAccess.Migrations
                 AccessFailedCount = 0,
                 PasswordHash = "",
                 EsignatureEnabled = true,
-                //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Ontario Safety Standards",
@@ -264,7 +263,6 @@ namespace DealnetPortal.DataAccess.Migrations
                 AccessFailedCount = 0,
                 PasswordHash = "",
                 EsignatureEnabled = true,
-                //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Ikotel O/A Ontario Water Health Safety",
@@ -287,7 +285,6 @@ namespace DealnetPortal.DataAccess.Migrations
                 AccessFailedCount = 0,
                 PasswordHash = "",
                 EsignatureEnabled = true,
-                //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "Ontario Green Solutions",
@@ -310,7 +307,6 @@ namespace DealnetPortal.DataAccess.Migrations
                 AccessFailedCount = 0,
                 PasswordHash = "",
                 EsignatureEnabled = true,
-                //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
                 DisplayName = "EcoLife",
@@ -397,16 +393,7 @@ namespace DealnetPortal.DataAccess.Migrations
         private AgreementTemplate[] SetDocuSignTemplates(ApplicationDbContext context)
         {
             List<AgreementTemplate> templates = new List<AgreementTemplate>();
-            // EcoSmart users
-            //byte[] fileBytes = null;
-            //try
-            //{
-            //    fileBytes = File.ReadAllBytes("SeedData//EcoSmart HVAC RENTAL AGREEMENT - Ontario Aug 2016.pdf");
-            //}
-            //catch (Exception ex)
-            //{
-            //    fileBytes = null;
-            //}
+            
             var template = new AgreementTemplate()
             {
                 State = "ON",
@@ -529,6 +516,16 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
+
+            //leave existing forms data
+            templates.ForEach(t =>
+            {
+                var tmpl = context.AgreementTemplates.FirstOrDefault(dbt => dbt.TemplateName == t.TemplateName);
+                if (tmpl != null)
+                {
+                    t.AgreementForm = tmpl.AgreementForm;
+                }
+            });
 
             context.AgreementTemplates.AddOrUpdate(t => t.TemplateName, templates.ToArray());
 

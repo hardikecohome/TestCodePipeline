@@ -8,6 +8,7 @@ using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
+using DealnetPortal.Api.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -50,10 +51,23 @@ namespace DealnetPortal.Api.Providers
             
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
-            if (user == null)
+            if (user == null || string.IsNullOrEmpty(user.AspireLogin))
             {
-                user = await CheckAndCreateAspireUser(context);
-            }                      
+                var aspireRes = await CheckAndAddOrUpdateAspireUser(context);
+                if (aspireRes?.Item2?.Any(e => e.Type == AlertType.Error) ?? false)
+                {
+                    user = null;
+                    if (aspireRes?.Item2?.Any(e => e.Code == ErrorCodes.AspireConnectionFailed) ?? false)
+                    {
+                        context.SetError(ErrorConstants.ServiceFailed, "External service is unavailable");
+                        return;
+                    }                    
+                }
+                else
+                {
+                    user = aspireRes?.Item1;
+                }
+            }            
 
             if (user == null)
             {
@@ -140,53 +154,82 @@ namespace DealnetPortal.Api.Providers
             return new AuthenticationProperties(data);
         }
 
-        private async Task<ApplicationUser> CheckAndCreateAspireUser(OAuthGrantResourceOwnerCredentialsContext context)
+        private async Task<Tuple<ApplicationUser, IList<Alert>>> CheckAndAddOrUpdateAspireUser(OAuthGrantResourceOwnerCredentialsContext context)
         {
             ApplicationUser user = null;
+            List<Alert> outAlerts = new List<Alert>();
 
             if (_aspireService != null)
             {
                 _loggingService?.LogInfo($"Check user [{context.UserName}] in Aspire");
                 var alerts = await _aspireService.LoginUser(context.UserName, context.Password);
+                if (alerts?.Any() ?? false)
+                {
+                    outAlerts.AddRange(alerts);
+                }
 
-                if (alerts.All(a => a.Type != AlertType.Error))
+                if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
                 {
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
                     var applicationId = context.OwinContext.Get<string>("portalId");
 
-                    var newUser = new ApplicationUser()
-                    {
-                        UserName = context.UserName,
-                        Email = "",
-                        ApplicationId = applicationId,
-                        EmailConfirmed = true,
-                        TwoFactorEnabled = false,
-                        AspireLogin = context.UserName,
-                        AspirePassword = context.Password                        
-                    };
+                    var oldUser = await userManager.FindByNameAsync(context.UserName);
 
-                    try
+                    if (oldUser != null)
                     {
-                        IdentityResult result = await userManager.CreateAsync(newUser, context.Password);                        
-                        if (result.Succeeded)
+                        //update password for existing aspire user
+                        var updateRes = await userManager.ChangePasswordAsync(oldUser.Id, oldUser.AspirePassword,
+                            context.Password);
+                        if (updateRes.Succeeded)
                         {
-                            _loggingService?.LogInfo($"New entity for Aspire user [{context.UserName}] created successefully");
-                            user = await userManager.FindAsync(context.UserName, context.Password);
+                            oldUser.AspirePassword = context.Password;
+                            updateRes = await userManager.UpdateAsync(oldUser);
+                            if (updateRes.Succeeded)
+                            {
+                                _loggingService?.LogInfo(
+                                    $"Password for Aspire user [{context.UserName}] was updated successefully");
+                                user = await userManager.FindAsync(context.UserName, context.Password);
+                            }
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        user = null;
+
+                        var newUser = new ApplicationUser()
+                        {
+                            UserName = context.UserName,
+                            Email = "",
+                            ApplicationId = applicationId,
+                            EmailConfirmed = true,
+                            TwoFactorEnabled = false,
+                            AspireLogin = context.UserName,
+                            AspirePassword = context.Password
+                        };
+
+                        try
+                        {
+                            IdentityResult result = await userManager.CreateAsync(newUser, context.Password);
+                            if (result.Succeeded)
+                            {
+                                _loggingService?.LogInfo(
+                                    $"New entity for Aspire user [{context.UserName}] created successefully");
+                                user = await userManager.FindAsync(context.UserName, context.Password);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            user = null;
+                        }
                     }
                 }
                 else
                 {
-                    alerts.Where(a => a.Type == AlertType.Error).ForEach(a => 
+                    alerts?.Where(a => a.Type == AlertType.Error).ForEach(a => 
                         _loggingService?.LogInfo(a.Message));
                 }
             }
-            return user;
+            return new Tuple<ApplicationUser, IList<Alert>>(user, outAlerts);
         }
     }
 }
