@@ -51,7 +51,7 @@ namespace DealnetPortal.Api.Providers
             
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
-            if (user == null || string.IsNullOrEmpty(user.AspireLogin))
+            if (user == null || !string.IsNullOrEmpty(user.AspireLogin))
             {
                 var aspireRes = await CheckAndAddOrUpdateAspireUser(context);
                 if (aspireRes?.Item2?.Any(e => e.Type == AlertType.Error) ?? false)
