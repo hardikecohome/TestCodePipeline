@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models.Aspire.AspireDb;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.DataAccess;
 using DealnetPortal.Utilities;
 
@@ -132,14 +133,39 @@ namespace DealnetPortal.Api.Integration.Services
         {
             try
             {
-                var item = new ContractDTO();
-                //item.
-                //row.DealerId = ((long)dr["OID"]).ToString();
-                //row.SeqNum = ConvertFromDbVal<int>(dr["SEQ_NUM"]).ToString();
-                //row.DealerName = (string)dr["UDF_COLUMN_NAME"];
-                //row.SubDealerName = ConvertFromDbVal<string>(dr["Field_Description"]);
-                //row.SubDealerId = ConvertFromDbVal<long>(dr["Field_Oid"]).ToString();
-                //row.SubmissionValue = ConvertFromDbVal<string>(dr["SubmissionValue"]);
+                var item = new ContractDTO()
+                {
+                    Id = 0 // for transactions from aspire
+                };
+                            
+                item.Details = new ContractDetailsDTO()
+                {
+                    TransactionId = ConvertFromDbVal<long>(dr["transaction#"]).ToString(),
+                    Status = ConvertFromDbVal<string>(dr["[Deal_Status"]),
+                };                
+
+                item.Equipment = new EquipmentInfoDTO()
+                {
+                    Id = 0,
+                    LoanTerm = ConvertFromDbVal<int>(dr["[Term"]) + 60,                    
+                    NewEquipment = new List<NewEquipmentDTO>()
+                    {
+                        new NewEquipmentDTO()
+                        {
+                            Id = 0,
+                            Description = ConvertFromDbVal<string>(dr["[Equipment_Description"]),
+                            Type = ConvertFromDbVal<string>(dr["[Equipment_Type"]),
+                            Cost = ConvertFromDbVal<decimal>(dr["[Amount Financed"])
+                        }
+                    }
+                };
+
+                item.PrimaryCustomer = new CustomerDTO()
+                {
+                    Id = 0,
+                    LastName = ConvertFromDbVal<string>(dr["[Customer_name"])
+                };
+               
                 return item;
             }
             catch (Exception ex)
