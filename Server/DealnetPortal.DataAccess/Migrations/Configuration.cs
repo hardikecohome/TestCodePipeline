@@ -34,6 +34,10 @@ namespace DealnetPortal.DataAccess.Migrations
             SetDocumentTypes(context);
             var templates = SetDocuSignTemplates(context);
             SetPdfTemplates(context, templates);
+            var seedNames = templates.Select(at => at.TemplateName).ToArray();
+            var dbTemplateNames =
+                context.AgreementTemplates.Select(at => at.TemplateName).Where(tn => seedNames.All(t => t != tn)).ToArray();           
+            SetExistingPdfTemplates(context, dbTemplateNames);
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -518,14 +522,16 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);
 
             //leave existing forms data
-            templates.ForEach(t =>
-            {
-                var tmpl = context.AgreementTemplates.FirstOrDefault(dbt => dbt.TemplateName == t.TemplateName);
-                if (tmpl != null)
-                {
-                    t.AgreementForm = tmpl.AgreementForm;
-                }
-            });
+            //templates.ForEach(t =>
+            //{
+            //    var tmpl = context.AgreementTemplates.FirstOrDefault(dbt => dbt.TemplateName == t.TemplateName);
+            //    if (tmpl != null)
+            //    {
+            //        templates.Remove(t);
+            //    }                
+            //});
+
+            templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName));
 
             context.AgreementTemplates.AddOrUpdate(t => t.TemplateName, templates.ToArray());
 
@@ -543,6 +549,30 @@ namespace DealnetPortal.DataAccess.Migrations
                     if (File.Exists(path))
                     {
                         var templt = context.AgreementTemplates.Local.FirstOrDefault(tmplt => tmplt.TemplateName == t.TemplateName);
+                        if (templt != null)
+                        {
+                            templt.AgreementForm = File.ReadAllBytes(path);
+                        }
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
+        }
+
+        private void SetExistingPdfTemplates(ApplicationDbContext context, string[] templates)
+        {
+            templates.ForEach(t =>
+            {
+                try
+                {
+                    var dir = HostingEnvironment.MapPath("~/SeedData");
+                    var path = Path.Combine(dir ?? "", t + ".pdf");
+                    if (File.Exists(path))
+                    {
+                        var templt = context.AgreementTemplates.FirstOrDefault(tmplt => tmplt.TemplateName == t);
                         if (templt != null)
                         {
                             templt.AgreementForm = File.ReadAllBytes(path);
