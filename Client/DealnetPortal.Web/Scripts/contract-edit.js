@@ -54,16 +54,20 @@
             var form = input.parent().closest('form');
             var tabContainers = $('.documents-container .' + form.data('container'));
             var documentNaming = form.find('.document-naming');
+            var documentItem = form.find('.document-item');
             var progressContainer = form.find('.progress-container');
             var progressBar = form.find('.progress-bar');
             var progressBarValue = form.find('.progress-bar-value');
             var errorDesc = form.find('.error-descr');
-            var prevDocumentName;
+            var prevDocumentName = documentNaming.text();;
             var wasCancelled;
             var afterError = function(message) {
                 form.find('.error-message').text(message || 'An error occurred while uploading file.');
                 errorDesc.show();
                 documentNaming.text(prevDocumentName);
+                if (!prevDocumentName) {
+                    documentItem.hide();
+                }
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
             };
@@ -77,7 +81,6 @@
                 contentType: false,
                 beforeSend: function (event) {
                     //tabContainers.removeClass('uploaded');
-                    prevDocumentName = documentNaming.text();
                     var cancelButton = form.find('.progress-container .clear-data-link');
                     cancelButton.off('click');
                     cancelButton.on('click', function () {
@@ -92,6 +95,7 @@
                     progressBar.width(percentVal);
                     progressBarValue.html(percentVal);
                     documentNaming.text(input.val().match(/[\w-]+\.\w+/gi));
+                    documentItem.show();
                     progressContainer.show();
                 },
                 uploadProgress: function(event, position, total, percentComplete) {

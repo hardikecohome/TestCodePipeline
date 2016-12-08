@@ -63,7 +63,7 @@
 					                <span class="error-message"></span>
 					            </div>
 					            <div class="documents-list">
-					                <div class="document-item block-item">
+					                <div class="document-item block-item @(document != null ? "" : "collapse")">
 					                    <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
 					                    <span class="document-naming">@(document?.DocumentName)</span>
 					                </div>
