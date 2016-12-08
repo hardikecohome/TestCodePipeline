@@ -472,6 +472,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 alerts.Add(new Alert()
                 {
+                    Code = ErrorCodes.AspireConnectionFailed,
                     Header = ErrorConstants.AspireConnectionFailed,
                     Type = AlertType.Error,
                     Message = ex.ToString()
