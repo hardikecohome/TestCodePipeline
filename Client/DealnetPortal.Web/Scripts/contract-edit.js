@@ -203,7 +203,8 @@
         }
         $('.uploaded-other-document-input').change(submitOtherDocument);
         $('#other-documents-upload').change(function () {
-            var documentName = $('#other-documents-name').val();
+            var documentNameInput = $('#other-documents-name');
+            var documentName = documentNameInput.val();
             if (!documentName) {
                 $(this).val('');
                 $('#empty-document-name-message').show();
@@ -217,6 +218,7 @@
             var blankFileInput = $(this).clone(true);
             blankFileInput.val('');
             $('#other-documents-upload-button').append(blankFileInput);
+            documentNameInput.val('');
             var fileInput = $(this).detach();
             fileInput.attr("id", "");
             otherDocumentForm.find('.file-upload').append(fileInput);
