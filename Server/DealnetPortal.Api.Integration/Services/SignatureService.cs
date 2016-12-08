@@ -787,24 +787,24 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (othersEq.Any())
                 {
-                    for (int i = 1; i <= othersEq.Count; i++)
+                    for (int i = 0; i < othersEq.Count; i++)
                     {
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.CheckBox,
-                            Name = $"{PdfFormFields.IsOtherBase}{i}",
+                            Name = $"{PdfFormFields.IsOtherBase}{i+1}",
                             Value = "true"
                         });
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
-                            Name = $"{PdfFormFields.OtherDetailsBase}{i}",
+                            Name = $"{PdfFormFields.OtherDetailsBase}{i+1}",
                             Value = othersEq[i].Description
                         });
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
-                            Name = $"{PdfFormFields.OtherMonthlyRentalBase}{i}",
+                            Name = $"{PdfFormFields.OtherMonthlyRentalBase}{i+1}",
                             Value = othersEq[i].MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
                         });
                     }
