@@ -38,7 +38,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
             mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>();
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
-            mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>();
+            mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
+                .ForMember(x => x.TypeDescription, d => d.Ignore());
             mapperConfig.CreateMap<Comment, CommentDTO>()
                 .ForMember(x => x.IsOwn, s => s.Ignore())
                 .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => src.Dealer.UserName));

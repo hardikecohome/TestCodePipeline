@@ -40,7 +40,7 @@ namespace DealnetPortal.Api.Integration.Utility
                         contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
                     worksheet.Cells[counter, 5].Value = contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum ?? contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
                     worksheet.Cells[counter, 6].Value = contract.LastUpdateTime?.ToString(CultureInfo.CurrentCulture);
-                    worksheet.Cells[counter, 7].Value = contract.Equipment?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma();
+                    worksheet.Cells[counter, 7].Value = contract.Equipment?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma();
                     worksheet.Cells[counter, 8].Value = $"$ {contract.Equipment?.ValueOfDeal:0.00}";
                 }
                 worksheet.Cells[1, 1, 1, 8].Style.Font.Bold = true;

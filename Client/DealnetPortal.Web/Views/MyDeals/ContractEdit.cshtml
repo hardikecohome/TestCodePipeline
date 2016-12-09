@@ -312,7 +312,7 @@
 							<label class="dealnet-field-caption col-xs-6">Type of Equipment</label>
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
-									@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma())
+									@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
 								</div>
 							</div>
 						</div>
@@ -911,7 +911,7 @@
     {
 	    @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
-        <h3 class="dealnet-section-title">Payment Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-info-modal').modal();">Edit</a>
+        <h3 class="dealnet-section-title">Payment Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();">Edit</a>
 	    </h3>
 	    <div class="row credit-check-info-hold no-top-margin">
 	        <div class="col-md-6 grid-column">
@@ -1345,7 +1345,7 @@ foreach (var comment in comments)
 									<div class="dealnet-field-holder">
 										<div class="control-group">
 											<div class="form-control control-disabled">
-												@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma())
+												@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
 											</div>
 										</div>
 									</div>
