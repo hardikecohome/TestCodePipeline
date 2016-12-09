@@ -121,7 +121,7 @@
                             <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    $ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")
+                                    $ @($"{Model.EquipmentInfo?.ValueOfDeal:0.00}")
                                 </div>
                             </div>
                         </div>
@@ -915,7 +915,7 @@
 								<div class="row">
 									<label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
 									<div class="dealnet-field-holder text-left col-xs-12">
-										<span style="white-space: pre-wrap">@Model.EquipmentInfo.Notes</span>
+										<span style="white-space: pre-wrap">@Model.EquipmentInfo?.Notes</span>
 									</div>
 								</div>
 							</div>

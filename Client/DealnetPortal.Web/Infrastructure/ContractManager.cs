@@ -390,7 +390,7 @@ namespace DealnetPortal.Web.Infrastructure
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
-            if (summary.BasicInfo.HomeOwner.AddressInformation != null) { 
+            if (summary.BasicInfo.HomeOwner?.AddressInformation != null) { 
                 var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.HomeOwner.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
             }
