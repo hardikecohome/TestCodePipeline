@@ -911,7 +911,7 @@
     {
 	    @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
-        <h3 class="dealnet-section-title">Payment Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-info-modal').modal();">Edit</a>
+        <h3 class="dealnet-section-title">Payment Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();">Edit</a>
 	    </h3>
 	    <div class="row credit-check-info-hold no-top-margin">
 	        <div class="col-md-6 grid-column">
