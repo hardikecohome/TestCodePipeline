@@ -565,12 +565,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var cellPhone = contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell);
                 var businessPhone =
                     contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business);
-
-                if (homePhone == null)
-                {
-                    homePhone = cellPhone;
-                    cellPhone = null;
-                }
+                
                 if (homePhone != null)
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.HomePhone, Value = homePhone.PhoneNum });
