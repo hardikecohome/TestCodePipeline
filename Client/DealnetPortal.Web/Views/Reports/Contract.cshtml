@@ -201,7 +201,7 @@
 							<label class="dealnet-field-caption col-xs-6">Type of Equipment</label>
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
-									@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.Type).ConcatWithComma())
+									@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
 								</div>
 							</div>
 						</div>

@@ -13,6 +13,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Required]
         public string Type { get; set; }
 
+        public string TypeDescription { get; set; }
+
         [Required]
         [StringLength(500)]
         public string Description { get; set; }

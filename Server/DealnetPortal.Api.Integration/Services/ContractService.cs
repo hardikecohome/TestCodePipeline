@@ -71,31 +71,35 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetContracts(string contractOwnerId)
         {
             var contracts = _contractRepository.GetContracts(contractOwnerId);
-            var contractsDTO = Mapper.Map<IList<ContractDTO>>(contracts);
-            foreach (var contractDTO in contractsDTO)
-            {
-                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
-                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId); }
-            }
-            return contractsDTO;
+            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
+            AftermapContracts(contracts, contractDTOs, contractOwnerId);
+            return contractDTOs;
         }
 
         public IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId)
         {
             var contracts = _contractRepository.GetContracts(ids, ownerUserId);
-            var contractsDTO = Mapper.Map<IList<ContractDTO>>(contracts);
-            foreach (var contractDTO in contractsDTO)
+            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
+            AftermapContracts(contracts, contractDTOs, ownerUserId);
+            return contractDTOs;
+        }
+
+        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
+        {
+            var equipmentTypes = _contractRepository.GetEquipmentTypes();
+            foreach (var contractDTO in contractDTOs)
             {
+                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
                 var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
                 if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
             }
-            return contractsDTO;
         }
 
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             var contractDTO = Mapper.Map<ContractDTO>(contract);
+            AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
             AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
             return contractDTO;
         }
@@ -658,6 +662,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
+        {
+            equipment?.ForEach(eq => eq.TypeDescription = equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.Description);
         }
 
         private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)

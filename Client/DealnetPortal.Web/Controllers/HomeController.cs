@@ -63,11 +63,6 @@ namespace DealnetPortal.Web.Controllers
         {
             var contracts = (await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.LastUpdateTime).ToList();
 
-            var eqTypes = await _dictionaryServiceAgent.GetEquipmentTypes();
-            if (eqTypes?.Item1?.Any() ?? false)
-            {
-                contracts.ForEach(c => c.Equipment?.NewEquipment.ForEach(e => e.Type = eqTypes.Item1.FirstOrDefault(eq => eq.Type == e.Type)?.Description ?? e.Type));
-            }
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
 
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
