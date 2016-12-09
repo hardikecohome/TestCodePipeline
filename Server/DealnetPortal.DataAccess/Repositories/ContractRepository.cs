@@ -362,11 +362,12 @@ namespace DealnetPortal.DataAccess.Repositories
             return totalMp;
         }
 
-        public PaymentSummary GetContractPaymentsSummary(int contractId)
+        public PaymentSummary GetContractPaymentsSummary(int contractId, string contractOwnerId)
         {
             PaymentSummary paymentSummary = new PaymentSummary();
 
-            var contract = _dbContext.Contracts.Find(contractId);
+            var contract = GetContract(contractId, contractOwnerId);
+                //_dbContext.Contracts.Find(contractId);
             if (contract != null)
             {
                 var rate =
