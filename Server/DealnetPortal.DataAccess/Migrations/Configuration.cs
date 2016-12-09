@@ -85,8 +85,10 @@ namespace DealnetPortal.DataAccess.Migrations
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
             };
-            var users = new ApplicationUser[] {user1, user2};
-            context.Users.AddOrUpdate(u => u.UserName, users);
+            var users = new List<ApplicationUser>() {user1, user2};
+            //leave existing users data
+            users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
+            context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
         }
 
         private void SetAspireTestUsers(ApplicationDbContext context, Application[] applications)
@@ -322,12 +324,15 @@ namespace DealnetPortal.DataAccess.Migrations
             users.Add(ecoenergySubUser);
             //context.Users.Add(ecoenergyUser);
             users.Add(ecoenergyUser);
+
+            //leave existing users data
+            users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
             context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
         }
 
         private void SetTestEquipmentTypes(ApplicationDbContext context)
         {
-            var equipmentTypes = new[]
+            var equipmentTypes = new List<EquipmentType>
             {
                 new EquipmentType {Description = "Air Conditioner", Type = "ECO1"},
                 new EquipmentType {Description = "Boiler", Type = "ECO2"},
@@ -354,13 +359,15 @@ namespace DealnetPortal.DataAccess.Migrations
                 new EquipmentType {Description = "Security System", Type = "ECO52"},
                 new EquipmentType {Description = "Basement Repair", Type = "ECO55"}
             };
-            context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes);
+            //leave existing data
+            equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
+            context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes.ToArray());
         }
 
         private void SetTestProvinceTaxRates(ApplicationDbContext context)
         {
             //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
-            var taxRates = new[]
+            var taxRates = new List<ProvinceTaxRate>
             {
                 new ProvinceTaxRate {Province = "AB", Rate = 5},
                 new ProvinceTaxRate {Province = "BC", Rate = 12},
@@ -376,12 +383,14 @@ namespace DealnetPortal.DataAccess.Migrations
                 new ProvinceTaxRate {Province = "SK", Rate = 10},
                 new ProvinceTaxRate {Province = "YT", Rate = 5}
             };
-            context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates);
+            //leave existing data
+            taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
+            context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
         }
 
         private void SetDocumentTypes(ApplicationDbContext context)
         {
-            var documentTypes = new[]
+            var documentTypes = new List<DocumentType>
             {
                 new DocumentType()  {Description = "Signed contract", Prefix = "SC_"},
                 new DocumentType()  {Description = "Signed Installation certificate", Prefix = "SIC_"},
@@ -391,7 +400,9 @@ namespace DealnetPortal.DataAccess.Migrations
                 new DocumentType()  {Description = "Third party verification call", Prefix = "TPV_"},
                 new DocumentType()  {Description = "Other", Prefix = ""},
             };
-            context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes);
+            //leave existing data
+            documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
+            context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
         }
 
         private AgreementTemplate[] SetDocuSignTemplates(ApplicationDbContext context)
