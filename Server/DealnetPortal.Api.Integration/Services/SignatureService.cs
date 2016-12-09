@@ -577,11 +577,15 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (cellPhone != null)
                 {
-                    //formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.HomePhone, Value = homePhone.PhoneNum });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.CellPhone, Value = cellPhone.PhoneNum });
                 }
                 if (businessPhone != null)
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BusinessPhone, Value = businessPhone.PhoneNum });
+                }
+                if (businessPhone != null || cellPhone != null)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BusinessOrCellPhone, Value = businessPhone?.PhoneNum ?? cellPhone?.PhoneNum});
                 }
             }
         }

@@ -21,7 +21,9 @@ namespace DealnetPortal.Api.Integration.Services
         public static string Province = "Province";
         public static string PostalCode = "PostalCode";
         public static string HomePhone = "HomePhone";
+        public static string CellPhone = "CellPhone";
         public static string BusinessPhone = "BusinessPhone";
+        public static string BusinessOrCellPhone = "BusinessOrCellPhone";
         public static string EmailAddress = "EmailAddress";
         public static string IsMailingDifferent = "IsMailingDifferent";
 
@@ -58,7 +60,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EquipmentCost = "EquipmentCost";
 
         //Payment Fields
-        public static string EnbridgeAccountNumber = "Enbridge Account Number";
+        public static string EnbridgeAccountNumber = "EnbridgeAccountNumber";
         public static string Ean = "EAN";
         public static string IsEnbridge = "IsEnbridge";
         public static string IsPAD = "IsPAD";
