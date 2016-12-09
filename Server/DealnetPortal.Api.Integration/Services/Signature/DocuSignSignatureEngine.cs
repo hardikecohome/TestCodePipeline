@@ -475,7 +475,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     Name = signer.Name,
                     Email = signer.Email,
-                    //RoutingOrder = signer.RoutingOrder,
+                    //RoutingOrder = signer.RoutingOrder, //?
                     RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}",
                     Tabs = signer.Tabs
                 });
@@ -516,7 +516,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 Email = signatureUser.EmailAddress,
                 Name = $"{signatureUser.FirstName} {signatureUser.LastName}",
                 RecipientId = routingOrder.ToString(),
-                RoutingOrder = "1",//routingOrder.ToString(),
+                RoutingOrder = routingOrder.ToString(), //not sure, probably 1
                 RoleName = !isDealer ? $"Signer{routingOrder}" : "SignerD",
                 Tabs = new Tabs()
                 {
