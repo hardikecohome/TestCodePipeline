@@ -71,7 +71,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract != null)
             {
                 _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
-                var fields = PrepareFormFields(contract);
+                var fields = PrepareFormFields(contract, ownerUserId);
                 _loggingService.LogInfo($"{fields.Count} fields collected");
 
                 var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
@@ -244,7 +244,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (agrRes?.Item1?.AgreementForm != null)
                 {
                     MemoryStream ms = new MemoryStream(agrRes.Item1.AgreementForm, true);
-                    var fields = PrepareFormFields(contract);
+                    var fields = PrepareFormFields(contract, ownerUserId);
                     var insertRes = _pdfEngine.InsertFormFields(ms, fields);
                     if (insertRes?.Item2?.Any() ?? false)
                     {
@@ -422,13 +422,13 @@ namespace DealnetPortal.Api.Integration.Services
             });
         }
 
-        private List<FormField> PrepareFormFields(Contract contract)
+        private List<FormField> PrepareFormFields(Contract contract, string ownerUserId)
         {
             var fields = new List<FormField>();
 
             FillHomeOwnerFieilds(fields, contract);
             FillApplicantsFieilds(fields, contract);
-            FillEquipmentFieilds(fields, contract);
+            FillEquipmentFieilds(fields, contract, ownerUserId);
             FillPaymentFieilds(fields, contract);
 
             return fields;
@@ -601,7 +601,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillEquipmentFieilds(List<FormField> formFields, Contract contract)
+        private void FillEquipmentFieilds(List<FormField> formFields, Contract contract, string ownerUserId)
         {
             if (contract.Equipment?.NewEquipment?.Any() ?? false)
             {
@@ -611,7 +611,7 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = "1" });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description.ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = fstEq.Cost.ToString() });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                //formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
 
                 var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)
@@ -816,7 +816,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract.Equipment != null)
             {
-                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id);
+                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id, ownerUserId);
 
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalPayment, Value = paySummary.TotalPayment?.ToString("F", CultureInfo.InvariantCulture) });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalMonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
