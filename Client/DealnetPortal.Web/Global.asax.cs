@@ -23,6 +23,8 @@ namespace DealnetPortal.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Configure();
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
+
+            ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator()));
         }
 
         protected void Application_Error(object sender, EventArgs e)

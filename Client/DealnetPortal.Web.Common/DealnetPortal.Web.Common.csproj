@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\HttpResponseHelpers.cs" />
     <Compile Include="PortalType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

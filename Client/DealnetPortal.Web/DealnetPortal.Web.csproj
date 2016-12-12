@@ -195,6 +195,7 @@
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
     <Compile Include="Infrastructure\IContractManager.cs" />
+    <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
@@ -208,6 +209,16 @@
     <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Resource.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.fr.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
@@ -777,6 +788,16 @@
       <Project>{9d034d24-d090-4ffd-9f50-7ff073568343}</Project>
       <Name>DealnetPortal.Web.ServiceAgent</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resource.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
