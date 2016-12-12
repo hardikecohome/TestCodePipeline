@@ -389,7 +389,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             TransactionId = contract.Details.TransactionId,                            
                             //TODO: insert correct status
-                            Status = "35-Dead Deal"
+                            Status = ConfigurationManager.AppSettings["DocumentUploadStatus"] ?? "32–Docs Received",                            
                         };
 
                         request.Payload.Documents = new List<Document>()
@@ -585,6 +585,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     IsIndividual = true,
                     IsPrimary = true,
+                    Legalname = contract.Dealer?.Application?.LegalName,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
                     Personal = new Personal()
@@ -700,7 +701,7 @@ namespace DealnetPortal.Api.Integration.Services
                 application.TermRequested = contract.Equipment.RequestedTerm.ToString();
                 application.Notes = contract.Equipment.Notes;
                 //TODO: Implement finance program selection
-                application.FinanceProgram = "EcoHome Finance Program";
+                application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
 
                 application.UDFs = new List<UDF>()
                 {

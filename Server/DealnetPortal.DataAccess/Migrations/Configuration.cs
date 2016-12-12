@@ -44,7 +44,7 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             var applications = new[]
             {
-                new Application {Id = EcohomeAppId, Name = "Ecohome"},
+                new Application {Id = EcohomeAppId, Name = "Ecohome", LegalName = "EcoHome Financial Inc.", FinanceProgram = "EcoHome Finance Program"},
                 new Application {Id = OdiAppId, Name = "ODI"}
             };
             context.Applications.AddOrUpdate(a => a.Id, applications);
