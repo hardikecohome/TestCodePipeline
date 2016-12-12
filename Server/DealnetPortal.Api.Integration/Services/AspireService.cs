@@ -605,7 +605,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
 
                             Name = "Existing Customer",
-                            Value = "Y" // ???
+                            Value = string.IsNullOrEmpty(c.AccountId) ? "N" : "Y" // ???
                         }
                     }
                 };            
