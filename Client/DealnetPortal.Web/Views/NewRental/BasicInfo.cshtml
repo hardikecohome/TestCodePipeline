@@ -178,7 +178,7 @@
             <div class="form-group">
                 <label for="birth-date">Date of Birth</label>
                 <div class="control-group date-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = "Date must be in range 1900 - Today"})
+                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = ""})
                     @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
                 </div>
             </div>
@@ -419,7 +419,7 @@
                     <div class="form-group">
                         <label for="additional-birth-date-@(i+1)">Date of Birth</label>
                         <div class="control-group date-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-" + (i + 1), placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "Date must be in range 1900 - Today" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-" + (i + 1), placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new { @class = "text-danger" })
                         </div>
                     </div>

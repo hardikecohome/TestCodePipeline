@@ -29,8 +29,8 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
+        [EligibleAge(ErrorMessage = "The applicant needs to be over 18 years old")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        [Remote("IsBirthDateValid", "NewRental", ErrorMessage = "Applicant is under 18")]
         public DateTime? BirthDate { get; set; }
         [Display(Name = "SIN (Social insurance number)")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "SIN must be 9 digits long")]
@@ -182,5 +182,16 @@ namespace DealnetPortal.Web.Models
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
+    }
+
+    public sealed class EligibleAgeAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            DateTime date = (DateTime)value;
+            var todayDate = DateTime.Today;
+            //In case of 29 February we make it 1 March (because date with 29 February minus 18 years equals date with 28 February)
+            return date > (todayDate.Day == 29 ? todayDate.AddDays(1).AddYears(-18) : todayDate);
+        }
     }
 }
