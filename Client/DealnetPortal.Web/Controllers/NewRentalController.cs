@@ -520,6 +520,21 @@ namespace DealnetPortal.Web.Controllers
             return Json(result.Item1);
         }
 
+        public JsonResult IsBirthDateValid(string birthDate)
+        {
+            var strDate = (from qStr in Request.QueryString.AllKeys
+                    where qStr.ToLower().Contains("date")
+                    select Request.QueryString.Get(qStr)).FirstOrDefault();
+            DateTime dateOfBirth;
+            if (!DateTime.TryParse(strDate, out dateOfBirth))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            bool isNotUnder18 = (DateTime.Today - dateOfBirth) > (DateTime.Today.AddYears(18) - DateTime.Today);
+            return Json(isNotUnder18, JsonRequestBehavior.AllowGet);
+        }
+
         private JsonResult GetSuccessJson()
         {
             return Json(new {isSuccess = true});

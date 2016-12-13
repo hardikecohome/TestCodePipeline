@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
@@ -29,6 +30,7 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [Remote("IsBirthDateValid", "NewRental", ErrorMessage = "Applicant is under 18")]
         public DateTime? BirthDate { get; set; }
         [Display(Name = "SIN (Social insurance number)")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "SIN must be 9 digits long")]
