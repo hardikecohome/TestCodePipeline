@@ -162,13 +162,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> SubmitContract(int contractId)
+        public async Task<Tuple<CreditCheckDTO, IList<Alert>>> SubmitContract(int contractId)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<string, IList<Alert>>(
+                        Client.PostAsync<string, Tuple<CreditCheckDTO, IList<Alert>>>(
                             $"{_fullUri}/SubmitContract?contractId={contractId}", "");               
             }
             catch (Exception ex)

@@ -167,6 +167,8 @@ namespace DealnetPortal.Web.Models
     {
         [Display(Name = "Status")]
         public ContractState ContractState { get; set; }
+        [Display(Name = "Status")]
+        public string Status { get; set; }
         [Display(Name = "Date")]
         public DateTime? LastUpdateTime { get; set; }
         public string TransactionId { get; set; }

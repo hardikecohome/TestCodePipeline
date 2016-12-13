@@ -96,7 +96,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
-        Task<IList<Alert>> SubmitContract(int contractId);
+        Task<Tuple<CreditCheckDTO, IList<Alert>>> SubmitContract(int contractId);
 
         /// <summary>
         /// Get xlsx report

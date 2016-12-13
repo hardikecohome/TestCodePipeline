@@ -279,10 +279,10 @@
 				<div class="dealnet-credit-check-section">
 					<div class="form-group">
 					    <div class="row">
-					        @Html.LabelFor(m => m.AdditionalInfo.ContractState, new { @class = "dealnet-field-caption col-xs-6" })
+					        @Html.LabelFor(m => m.AdditionalInfo.Status, new { @class = "dealnet-field-caption col-xs-6" })
 					        <div class="dealnet-field-holder col-xs-6">
 					            <div class="control-group">
-					                @Html.EnumDropDownListFor(m => m.AdditionalInfo.ContractState, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    @Html.TextBoxFor(m => m.AdditionalInfo.Status, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
 					            </div>
 					        </div>
 					    </div>
