@@ -229,6 +229,7 @@
                     {
 				        @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+                        @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
                         @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
                         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
                         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
@@ -1322,11 +1323,11 @@ foreach (var comment in comments)
 							<div class="col-md-6">
 								<div class="form-group">
 									@Html.LabelFor(m => m.EquipmentInfo.AgreementType, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.EnumDropDownListFor(m => m.EquipmentInfo.AgreementType, null, new { @readonly = "readonly", @class = "form-control control-disabled" })
-                                        </div>
-                                    </div>
+								    <div class="dealnet-field-holder">
+								        <div class="form-control control-disabled">
+								            @(Model.EquipmentInfo.AgreementType.GetEnumDescription())
+								        </div>
+								    </div>
 								</div>
 							</div>
 							<div class="col-md-6">
