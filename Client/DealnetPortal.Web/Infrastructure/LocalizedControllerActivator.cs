@@ -17,7 +17,8 @@ namespace DealnetPortal.Web.Infrastructure
         {
             //Get the {language} parameter in the RouteData
             string lang = (string)requestContext.RouteData.Values["lang"] ?? _defaultLanguage;
-            if (lang != _defaultLanguage)
+            //TODO: implement CultureHelper.GetCurrentCulture and compare it
+            if (!string.IsNullOrEmpty(lang))
             {
                 try
                 {

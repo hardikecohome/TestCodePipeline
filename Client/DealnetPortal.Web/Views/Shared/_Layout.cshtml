@@ -47,6 +47,13 @@
             break;
     }
 }
+
+@{
+    var routeValues = this.ViewContext.RouteData.Values;
+    var controller = routeValues["controller"] as string;
+    var action = routeValues["action"] as string;
+}
+
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
     <div class="container-fluid">
         <div class="row">
@@ -129,13 +136,37 @@
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("About us", "About", "Home", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("About us", "About", "Home", null, new {@class = "dealnet-link"})</div>
                         </li>
+                        <li class="dealnet-sidebar-item" id="sidebar-item-about">
+                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
+                                <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
+                            </div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("English", @action, @controller, new { lang = "en" }, new { @class = "dealnet-link"})</div>
+                        </li>
+                        <li class="dealnet-sidebar-item" id="sidebar-item-about">
+                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
+                                <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
+                            </div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("French", @action, @controller, new { lang = "fr" }, new { @class = "dealnet-link"})</div>
+                        </li>
+
+
+                        @*@{
+                            var routeValues = this.ViewContext.RouteData.Values;
+                            var controller = routeValues["controller"] as string;
+                            var action = routeValues["action"] as string;
+                        }
+                        <ul>
+                            <li>@Html.ActionLink("Nederlands", @action, @controller, new { culture = "nl" }, new { rel = "alternate", hreflang = "nl" })</li>
+                            <li>@Html.ActionLink("English", @action, @controller, new { culture = "en" }, new { rel = "alternate", hreflang = "en" })</li>
+                        </ul>*@
+
                     </ul>
 
                     <div class="dealnet-sidebar-logout">
                         <div class="dealnet-sidebar-item">
-                            @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })
+                            @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })                            
                         </div>
                     </div>
                 </div>
