@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Hosting;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
@@ -325,6 +326,52 @@ namespace DealnetPortal.DataAccess.Migrations
             //context.Users.Add(ecoenergyUser);
             users.Add(ecoenergyUser);
 
+            var smartHomeUser = new ApplicationUser()
+            {
+                Email = "smarthome@eco.com",
+                UserName = "smarthome",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("password"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Smart Home",
+                AspireAccountId = "70101",
+                AspireLogin = "smarthome",
+                AspirePassword = "password"
+            };
+            users.Add(smartHomeUser);
+
+            var ecoHomeUser = new ApplicationUser()
+            {
+                Email = "ecohome@eco.com",
+                UserName = "Dangelo",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("dangelo"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Eco Home",
+                AspireAccountId = "70073",
+                AspireLogin = "Dangelo",
+                AspirePassword = "dangelo"
+            };
+            users.Add(ecoHomeUser);
+
             //leave existing users data
             users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
             context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
@@ -530,6 +577,54 @@ namespace DealnetPortal.DataAccess.Migrations
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "Smart Home Ontario Loan Agreement Nov 2016",
+                ExternalDealerName = "smarthome",
+                ExternalTemplateId = "294a0dfb-6b32-4c23-975f-449f78986f6a",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "Smart Home HVAC agreement Nov 2016 M",
+                ExternalDealerName = "smarthome",
+                ExternalTemplateId = "a81ef5aa-d65b-43f0-86bf-7020f6c74e14",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (ON) loan agreement August 2016",
+                ExternalDealerName = "Dangelo",
+                ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "EcoHome (ON) rental HVAC Other Equipment",
+                ExternalDealerName = "Dangelo",
+                ExternalTemplateId = "b89a15e1-77e7-4506-83f6-be23e7272a21",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+            };
             templates.Add(template);
 
             //leave existing forms data

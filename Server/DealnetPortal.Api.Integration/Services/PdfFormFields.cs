@@ -17,14 +17,19 @@ namespace DealnetPortal.Api.Integration.Services
         public static string DateOfBirth2 = "DateOfBirth_2";
         public static string InstallationAddress = "InstallationAddress";
         public static string MailingAddress = "MailingAddress";
+        public static string Sin = "SIN";
+        public static string Sin2 = "SIN_2";
         public static string City = "City";
         public static string Province = "Province";
         public static string PostalCode = "PostalCode";
         public static string HomePhone = "HomePhone";
+        public static string HomePhone2 = "HomePhone_2";
         public static string CellPhone = "CellPhone";
+        public static string CellPhone2 = "CellPhone_2";
         public static string BusinessPhone = "BusinessPhone";
         public static string BusinessOrCellPhone = "BusinessOrCellPhone";
         public static string EmailAddress = "EmailAddress";
+        public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";
 
         //Equipment Fields
@@ -54,6 +59,9 @@ namespace DealnetPortal.Api.Integration.Services
         public static string TotalPayment = "TotalPayment";
         public static string TotalMonthlyPayment = "TotalMonthlyPayment";
         public static string Hst = "HST";
+
+        public static string RequestedTerm = "RequestedTerm";
+        public static string AmortizationTerm = "AmortizationTerm";
 
         public static string EquipmentQuantity = "EquipmentQuantity";
         public static string EquipmentDescription = "EquipmentDescription";
