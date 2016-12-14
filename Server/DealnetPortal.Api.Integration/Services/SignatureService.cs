@@ -263,7 +263,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    return await GetContractAgreement(contractId, ownerUserId);
+                    return await GetContractAgreement(contractId, ownerUserId).ConfigureAwait(false);
                 }
             }
             else
@@ -315,7 +315,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }                    
                 }
 
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Draft);
+                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Draft).ConfigureAwait(false);
                 document = docResult.Item1;
                 if (docResult.Item2.Any())
                 {
