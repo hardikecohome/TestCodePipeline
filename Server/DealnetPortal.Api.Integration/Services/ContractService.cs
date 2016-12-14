@@ -375,9 +375,10 @@ namespace DealnetPortal.Api.Integration.Services
             //return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
         }
 
-        public IList<Alert> SubmitContract(int contractId, string contractOwnerId)
+        public Tuple<CreditCheckDTO, IList<Alert>> SubmitContract(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
+            CreditCheckDTO creditCheck = null;
 
             var aspireAlerts = _aspireService.SubmitDeal(contractId, contractOwnerId).GetAwaiter().GetResult();
             if (aspireAlerts?.Any() ?? false)
@@ -387,33 +388,49 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (aspireAlerts?.All(ae => ae.Type != AlertType.Error) ?? false)
             {
-                var creditCheckRes = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
+                var creditCheckRes =
+                    _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
                 if (creditCheckRes?.Item2?.Any() ?? false)
                 {
                     alerts.AddRange(creditCheckRes.Item2);
                 }
-            }
-
-            var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
-            if (contract != null)
-            {
-                _unitOfWork.Save();
-                _loggingService.LogInfo($"Contract [{contractId}] submitted");
-
-                Task.Run(async () => await _mailService.SendSubmitNotification(contractId, contractOwnerId));
-                //_mailService.SendSubmitNotification(contractId, contractOwnerId);
-            }
-            else
-            {
-                var errorMsg = $"Cannot submit contract [{contractId}]";
-                alerts.Add(new Alert()
+                creditCheck = creditCheckRes?.Item1;
+                Contract contract = null;
+                switch (creditCheckRes?.Item1.CreditCheckState)
+                {                    
+                    case CreditCheckState.Declined:
+                        contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditCheckDeclined);
+                        break;
+                    default:
+                        contract = _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
+                        break;
+                }
+                //var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                //    ContractState.Completed);
+                if (contract != null)
                 {
-                    Type = AlertType.Error, Header = ErrorConstants.SubmitFailed, Message = errorMsg
-                });
-                _loggingService.LogError(errorMsg);
-            }
+                    _unitOfWork.Save();
+                    var submitState = creditCheckRes.Item1.CreditCheckState == CreditCheckState.Declined
+                        ? "declined"
+                        : "submitted";
+                    _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
 
-            return alerts;
+                    Task.Run(async () => await _mailService.SendSubmitNotification(contractId, contractOwnerId));
+                    //_mailService.SendSubmitNotification(contractId, contractOwnerId);
+                }
+                else
+                {
+                    var errorMsg = $"Cannot submit contract [{contractId}]";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.SubmitFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
         }
 
         public IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType)

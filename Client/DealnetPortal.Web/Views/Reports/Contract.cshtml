@@ -171,7 +171,7 @@
 							<label class="dealnet-field-caption col-xs-6">Status</label>
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
-									@(Model.AdditionalInfo?.ContractState.GetEnumDescription())
+									@(Model.AdditionalInfo?.Status)
 								</div>
 							</div>
 						</div>
@@ -623,8 +623,8 @@
 	                        <div class="row">
 	                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Type</label>
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                <div class="control-group">
-	                                    @equipment.Type
+	                                <div class="control-group">	                                    
+                                        @equipment.TypeDescription
 	                                </div>
 	                            </div>
 	                        </div>
@@ -915,7 +915,7 @@
 								<div class="row">
 									<label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
 									<div class="dealnet-field-holder text-left col-xs-12">
-										<span style="white-space: pre-wrap">@Model.EquipmentInfo?.Notes</span>
+										<span style="white-space: pre-wrap">@(Model.EquipmentInfo?.Notes)</span>
 									</div>
 								</div>
 							</div>

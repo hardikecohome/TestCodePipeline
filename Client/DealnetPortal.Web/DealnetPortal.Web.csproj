@@ -201,6 +201,7 @@
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
+    <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

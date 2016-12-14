@@ -295,8 +295,8 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.SubmitContract(contractId, LoggedInUser?.UserId);
-                return Ok(alerts);
+                var submitResult = ContractService.SubmitContract(contractId, LoggedInUser?.UserId);
+                return Ok(submitResult);
             }
             catch (Exception ex)
             {

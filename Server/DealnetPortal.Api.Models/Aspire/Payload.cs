@@ -113,6 +113,8 @@ namespace DealnetPortal.Api.Models.Aspire
     {
         public string ClientId { get; set; }
 
+        public string Legalname { get; set; }
+
         public string Role { get; set; }
 
         public bool? IsPrimary { get; set; }
