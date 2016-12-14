@@ -14,12 +14,18 @@ $(document).ready(function () {
         "date",
         function (value, element) {
             var minDate = Date.parse("1900-01-01");
-            var maxDate = new Date();
+            var maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
             var valueEntered = Date.parseExact(value, "M/d/yyyy");
             if (!valueEntered) {
+                $.validator.messages.date = "The date must be in correct format";
                 return false;
             }
-            if (valueEntered < minDate || valueEntered > maxDate) {
+            if (valueEntered < minDate) {
+                $.validator.messages.date = "The date must be over 1900 year";
+                return false;
+            }
+            if (valueEntered > maxDate) {
+                $.validator.messages.date = "The applicant needs to be over 18 years old";
                 return false;
             }
             return true;
@@ -218,9 +224,9 @@ function assignDatepicker(input) {
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         changeMonth: (viewport().width < 768) ? true : false,
-        yearRange: '1900:2016',
+        yearRange: '1900:' + (new Date().getFullYear()-18),
         minDate: Date.parse("1900-01-01"),
-        maxDate: new Date(),
+        maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
         onClose: function(){
             onDateSelect($(this));
         }

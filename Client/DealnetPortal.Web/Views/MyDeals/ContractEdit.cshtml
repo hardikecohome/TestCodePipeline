@@ -229,6 +229,7 @@
                     {
 				        @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+                        @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
                         @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
                         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
                         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
@@ -362,7 +363,7 @@
 		                    @Html.Label("", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
 		                    <div class="dealnet-field-holder col-xs-6">
 		                        <div class="control-group date-group">
-		                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = ""})
+		                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly",  id = ""})
 		                        </div>
 		                    </div>
 		                </div>
@@ -627,7 +628,7 @@
                                             @Html.Label("", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group date-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -851,7 +852,7 @@
 	                        <div class="row">
 	                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", data_val_date = "Date must be in range 1900 - Today" })
+                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", data_val_date = "" })
 	                            </div>
 	                        </div>
 	                    </div>
@@ -1321,13 +1322,13 @@ foreach (var comment in comments)
 			                </div>
 			                <div class="col-md-6">
 			                    <div class="form-group">
-			                        @Html.LabelFor(m => m.EquipmentInfo.AgreementType, new {@class = "dealnet-field-caption"})
-			                        <div class="dealnet-field-holder">
-			                            <div class="control-group">
-			                                @Html.EnumDropDownListFor(m => m.EquipmentInfo.AgreementType, null, new {@readonly = "readonly", @class = "form-control control-disabled", id = "agreement_type"})
-			                            </div>
-			                        </div>
-			                    </div>
+									@Html.LabelFor(m => m.EquipmentInfo.AgreementType, new { @class = "dealnet-field-caption" })
+								    <div class="dealnet-field-holder">
+								        <div class="form-control control-disabled">
+								            @(Model.EquipmentInfo.AgreementType.GetEnumDescription())
+								        </div>
+								    </div>
+								</div>
 			                </div>
 			                <div class="col-md-6">
 			                    <div class="form-group">

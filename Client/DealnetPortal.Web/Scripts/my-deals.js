@@ -15,7 +15,7 @@ function assignDatepicker(input) {
         dateFormat: 'mm/dd/yy',
         changeYear: true,
         changeMonth: (viewport().width < 768) ? true : false,
-        yearRange: '1900:2016',
+        yearRange: '1900:' + new Date().getFullYear(),
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(),
         onClose: function(){
