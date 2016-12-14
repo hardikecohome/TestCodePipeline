@@ -28,8 +28,8 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             //  This method will be called after migrating to the latest version.
             var applications = SetApplications(context);
-            SetTestUsers(context, applications);
-            SetAspireTestUsers(context, applications);
+            SetTestUsers(context, context.Applications.Local.ToArray());
+            SetAspireTestUsers(context, context.Applications.Local.ToArray());
             SetTestEquipmentTypes(context);
             SetTestProvinceTaxRates(context);
             SetDocumentTypes(context);
@@ -38,7 +38,7 @@ namespace DealnetPortal.DataAccess.Migrations
             var seedNames = templates.Select(at => at.TemplateName).ToArray();
             var dbTemplateNames =
                 context.AgreementTemplates.Select(at => at.TemplateName).Where(tn => seedNames.All(t => t != tn)).ToArray();           
-            SetExistingPdfTemplates(context, dbTemplateNames);
+            SetExistingPdfTemplates(context, dbTemplateNames);            
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -48,6 +48,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new Application {Id = EcohomeAppId, Name = "Ecohome", LegalName = "EcoHome Financial Inc.", FinanceProgram = "EcoHome Finance Program"},
                 new Application {Id = OdiAppId, Name = "ODI"}
             };
+
             context.Applications.AddOrUpdate(a => a.Id, applications);
             return applications;
         }
