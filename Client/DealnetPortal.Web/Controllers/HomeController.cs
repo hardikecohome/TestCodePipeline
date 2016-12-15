@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Utilities;
+using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -21,16 +22,24 @@ namespace DealnetPortal.Web.Controllers
     {
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private readonly ICultureManager _cultureManager;
 
-        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent)
+        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, ICultureManager cultureManager)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
+            _cultureManager = cultureManager;
         }
 
         public ActionResult Index()
         {
             return View("");
+        }
+        
+        public async Task<ActionResult> ChangeCulture(int culture)
+        {
+            await _cultureManager.ChangeCulture(culture);
+            return RedirectToAction("Index");
         }
 
         public ActionResult About()

@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using DealnetPortal.Web.App_Start;
+using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web
@@ -24,7 +26,7 @@ namespace DealnetPortal.Web
             AutoMapperConfig.Configure();
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
 
-            ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator()));
+            ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator(DependencyResolver.Current.GetService<ICultureManager>())));
         }
 
         protected void Application_Error(object sender, EventArgs e)

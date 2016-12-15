@@ -2,6 +2,7 @@ using System;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
@@ -47,6 +48,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
+            container.RegisterType<ICultureManager, CultureManager>();
             container.RegisterType<ISecurityManager, SecurityManager>(new InjectionConstructor(typeof(ISecurityServiceAgent), typeof(IUserManagementServiceAgent), typeof(ILoggingService), ApplicationSettingsManager.PortalType));
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();

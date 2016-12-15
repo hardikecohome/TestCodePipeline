@@ -9,10 +9,12 @@ using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
@@ -23,16 +25,20 @@ namespace DealnetPortal.Web.Controllers
     public class AccountController : Controller
     {
         private readonly ISecurityManager _securityManager;
+        private readonly ICultureManager _cultureManager;
         private readonly IUserManagementServiceAgent _userManagementServiceAgent;
         private readonly ILoggingService _loggingService;
+        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private AuthType _authType;
 
-        public AccountController(ISecurityManager securityManager, IUserManagementServiceAgent userManagementServiceAgent,
-            ILoggingService loggingService)
+        public AccountController(ISecurityManager securityManager, ICultureManager cultureManager, IUserManagementServiceAgent userManagementServiceAgent,
+            ILoggingService loggingService, IDictionaryServiceAgent dictionaryServiceAgent)
         {
             _securityManager = securityManager;
+            _cultureManager = cultureManager;
             _userManagementServiceAgent = userManagementServiceAgent;
             _loggingService = loggingService;
+            _dictionaryServiceAgent = dictionaryServiceAgent;
 
             if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
             {
@@ -68,6 +74,16 @@ namespace DealnetPortal.Web.Controllers
                 _loggingService.LogError(string.Format("Invalid login attempt for user: {0} - {1}:{2}", model.Email, error?.Header, error?.Message));
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
+            }
+            try
+            {
+                var culture = (await _dictionaryServiceAgent.GetDealerCulture()).ToCultureCode();
+                _loggingService.LogInfo($"Setting culture {culture} for user {model.Email}");
+                _cultureManager.SetCulture(culture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Can't set default culture for user: {model.Email}", ex);
             }
             return RedirectToAction("Index", "Home");
         }

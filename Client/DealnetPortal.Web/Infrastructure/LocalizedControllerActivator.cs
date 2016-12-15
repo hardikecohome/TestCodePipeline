@@ -6,30 +6,22 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using DealnetPortal.Web.Core.Culture;
 
 namespace DealnetPortal.Web.Infrastructure
 {
     public class LocalizedControllerActivator : IControllerActivator
     {
-        private string _defaultLanguage = "en";
+        private readonly ICultureManager _cultureManager;
+
+        public LocalizedControllerActivator(ICultureManager cultureManager)
+        {
+            _cultureManager = cultureManager;
+        }
 
         public IController Create(RequestContext requestContext, Type controllerType)
         {
-            //Get the {language} parameter in the RouteData
-            string lang = (string)requestContext.RouteData.Values["lang"] ?? _defaultLanguage;
-            //TODO: implement CultureHelper.GetCurrentCulture and compare it
-            if (!string.IsNullOrEmpty(lang))
-            {
-                try
-                {
-                    Thread.CurrentThread.CurrentCulture =
-                        Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
-                }
-                catch (Exception e)
-                {
-                    throw new NotSupportedException(String.Format("ERROR: Invalid language code '{0}'.", lang));
-                }
-            }
+            _cultureManager.EnsureCorrectCulture();
             return DependencyResolver.Current.GetService(controllerType) as IController;
         }
     }
