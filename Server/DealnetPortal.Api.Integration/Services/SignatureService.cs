@@ -583,6 +583,17 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BusinessOrCellPhone, Value = businessPhone?.PhoneNum ?? cellPhone?.PhoneNum});
                 }
             }
+
+            if (!string.IsNullOrEmpty(contract.PrimaryCustomer?.DriverLicenseNumber))
+            {
+                var dl = contract.PrimaryCustomer.DriverLicenseNumber.Replace(" ", "");
+                for (int ch = 1;
+                    ch <= Math.Min(dl.Length, 15);
+                    ch++)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Ean}{ch}", Value = $"{dl[ch - 1]}" });
+                }
+            }
         }
 
         private void FillApplicantsFieilds(List<FormField> formFields, Contract contract)
@@ -593,6 +604,18 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.FirstName2, Value = addApplicant.FirstName });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LastName2, Value = addApplicant.LastName });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DateOfBirth2, Value = addApplicant.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
+
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EmailAddress2, Value = addApplicant.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ?? contract.PrimaryCustomer.Emails.First()?.EmailAddress });
+                var homePhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home);
+                var cellPhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell);
+                if (homePhone != null)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.HomePhone2, Value = homePhone.PhoneNum });
+                }
+                if (cellPhone != null)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.CellPhone2, Value = cellPhone.PhoneNum });
+                }
             }
         }
 
@@ -603,8 +626,8 @@ namespace DealnetPortal.Api.Integration.Services
                 var newEquipments = contract.Equipment.NewEquipment;
                 var fstEq = newEquipments.First();
 
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = "1" });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description.ToString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = fstEq.Cost.ToString() });
                 //formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
 
