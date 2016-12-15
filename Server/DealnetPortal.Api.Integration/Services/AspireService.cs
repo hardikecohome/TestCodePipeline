@@ -703,6 +703,10 @@ namespace DealnetPortal.Api.Integration.Services
                 //TODO: Implement finance program selection
                 application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
 
+                application.ContractType = contract.Equipment?.AgreementType == AgreementType.LoanApplication
+                    ? "LOAN"
+                    : "RENTAL";                
+
                 application.UDFs = new List<UDF>()
                 {
                     new UDF()
@@ -715,12 +719,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract.PaymentInfo != null)
             {
-                var udfs = new List<UDF>();
-                udfs.Add(new UDF()
-                {
-                    Name = "Contract Type",
-                    Value = contract.Equipment?.AgreementType == AgreementType.LoanApplication ? "LOAN" : "RENTAL"
-                });
+                var udfs = new List<UDF>();                
                 udfs.Add(new UDF()
                 {
                     Name = "Payment Type",

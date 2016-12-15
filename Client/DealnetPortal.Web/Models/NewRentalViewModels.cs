@@ -49,7 +49,7 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(Name = "Mailing Address")]
         [StringLength(100, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.,‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
         public override string Street { get; set; }
     }
 
@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(Name = "Installation Address")]
         [StringLength(100, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.,‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
         public virtual string Street { get; set; }
         [Display(Name = "Unit #")]
         [StringLength(10, MinimumLength = 1)]
