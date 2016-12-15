@@ -18,6 +18,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string InstallationAddress = "InstallationAddress";
         public static string MailingAddress = "MailingAddress";
         public static string Sin = "SIN";
+        public static string DriverLicense = "DriverLicense";
+        public static string Dl = "DL";
         public static string Sin2 = "SIN_2";
         public static string City = "City";
         public static string Province = "Province";

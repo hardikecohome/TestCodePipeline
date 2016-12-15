@@ -373,6 +373,75 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             users.Add(ecoHomeUser);
 
+            var newUser = new ApplicationUser()
+            {
+                Email = "fahrhall@eco.com",
+                UserName = "fahrhall",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("fahrhall"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "Farhall Mechanical",
+                DisplayName = "Farhall Mechanical",
+                AspireAccountId = "70266",
+                AspireLogin = "fahrhall",
+                AspirePassword = "fahrhall"
+            };
+            users.Add(newUser);
+
+            newUser = new ApplicationUser()
+            {
+                Email = "lifetimewater@eco.com",
+                UserName = "lifetimewater",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("lifetimewater"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "Life-Time Water",
+                DisplayName = "Life-Time Water",
+                AspireAccountId = "70182",
+                AspireLogin = "lifetimewater",
+                AspirePassword = "lifetimewater"
+            };
+            users.Add(newUser);
+
+            newUser = new ApplicationUser()
+            {
+                Email = "phphome@eco.com",
+                UserName = "phphome",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("phphome"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "PHP Home Services",
+                DisplayName = "PHP Home Services",
+                AspireAccountId = "70214",
+                AspireLogin = "phphome",
+                AspirePassword = "phphome"
+            };
+            users.Add(newUser);
+
             //leave existing users data
             users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
             context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
@@ -463,7 +532,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "EcoSmart HVAC Rental",
                 ExternalTemplateId = "96f6775e-a18a-466b-b275-a845d63c6f6c",//"a8c47648-542c-4edf-b222-3168d39d4d68",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecosmart")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecosmart"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecosmart"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecosmart"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -474,7 +543,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "Canadian Home Efficiency HVAC",
                 ExternalTemplateId = "d2310353-8088-4ba0-9ea3-18278e6f168a",//"b6f6aa88-d405-4921-85c2-e1a4bd2162cd",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("canadianhome")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("canadianhome"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("canadianhome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("canadianhome"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -485,7 +554,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "EnerTech Home Services H.V.A.C OTHER RENTAL AGREEMENT",
                 ExternalTemplateId = "37c64c0e-5de3-4e78-a931-683e3b735ec5",//"36301cc8-07b1-4205-a96e-e9e647e7e110",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("enertech"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -496,7 +565,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "EFFICIENCY STANDARDS - HVAC RENTAL",
                 ExternalTemplateId = "ad0280c0-1312-4a29-96ac-ef6a69e29b98",//"567ece58-44ab-45f8-8085-6a6e68457e0e",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -508,7 +577,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "EFFICIENCY STANDARDS - WATER SOFTENER RENTAL",
                 ExternalTemplateId = "369af238-2db8-43e0-b1af-16d7377e5df5",//"78f231cf-6d08-4fdc-8eaa-f06c5552153c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -520,7 +589,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "Eco Energy Rental App 3-18-15",
                 ExternalTemplateId = "0153d9ad-7d65-4c8b-9322-a594686529ba",//"c68e3bf5-b6c5-4291-9392-82102371948b",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -531,7 +600,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "EEHS - Rental App - Alberta 2-22-16",
                 ExternalTemplateId = "5a46958f-2697-4042-8e3b-b7de9bed3864", //"67b4cff0-d95c-43ed-9696-1b9c7fa2d1f3",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -542,7 +611,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "Apex Home Services Rental Agreement",
                 ExternalTemplateId = "74b92c48-9b15-4bf3-9caf-0b5afdf8ba97",//"598be4b6-855b-4684-a0ee-fb5c83eb1eeb",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Apex")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Apex"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Apex"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Apex"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -553,7 +622,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "OSS RENTAL AGREEMENT - EGD 7-8-16",
                 ExternalTemplateId = "a1abda2a-c1ef-46ff-b15c-2617b25e7013", //"a7ef2bce-abfb-4643-8133-884b19f0b354",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Ontario"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -564,7 +633,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "OGSI RENTAL AGREEMENT - EGD 6-23-16",
                 ExternalTemplateId = "2c252e19-8341-4ab2-8618-04bcf3d4ebfe", //"6af6000b-6079-4ffd-970c-41bfb1639e5c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Green")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Green"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Green"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Ontario Green"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -575,7 +644,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 TemplateName = "ELHC RENTAL AGREEMENT - EGD 5-11-2016",
                 ExternalTemplateId = "5e362fbc-2ba0-43ed-882b-8ffe10f26379",//"dc11e414-b7c6-4f9a-bdaf-7e09c8c79f63",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("EcoLife"))?.Id,
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -588,7 +657,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalDealerName = "smarthome",
                 ExternalTemplateId = "294a0dfb-6b32-4c23-975f-449f78986f6a",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
             };
             templates.Add(template);
 
@@ -600,7 +669,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalDealerName = "smarthome",
                 ExternalTemplateId = "a81ef5aa-d65b-43f0-86bf-7020f6c74e14",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
             };
             templates.Add(template);
 
@@ -612,7 +681,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalDealerName = "Dangelo",
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
             };
             templates.Add(template);
 
@@ -624,7 +693,38 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalDealerName = "Dangelo",
                 ExternalTemplateId = "b89a15e1-77e7-4506-83f6-be23e7272a21",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
-                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "EcoHome (ON) loan agreement August 2016",
+                ExternalDealerName = "lifetimewater",
+                ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "EcoHome (ON) loan agreement August 2016",
+                ExternalDealerName = "phphome",
+                ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                TemplateName = "EcoHome (ON) loan agreement August 2016",
+                ExternalDealerName = "fahrhall",
+                ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
             };
             templates.Add(template);
 
@@ -638,9 +738,9 @@ namespace DealnetPortal.DataAccess.Migrations
             //    }                
             //});
 
-            templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName));
+            templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName && at.DealerId == t.DealerId && at.AgreementType == t.AgreementType));
 
-            context.AgreementTemplates.AddOrUpdate(t => t.TemplateName, templates.ToArray());
+            context.AgreementTemplates.AddOrUpdate(t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());
 
             return templates.ToArray();
         }
