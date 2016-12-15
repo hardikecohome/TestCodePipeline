@@ -58,6 +58,7 @@ namespace DealnetPortal.Api.Models.Aspire
     [Serializable]
     public class Application
     {        
+        public string ContractType { get; set; }
         [XmlElement("Equipment")]
         public List<Equipment> Equipments { get; set; }
 
