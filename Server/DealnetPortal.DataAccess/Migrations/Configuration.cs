@@ -38,7 +38,7 @@ namespace DealnetPortal.DataAccess.Migrations
             var seedNames = templates.Select(at => at.TemplateName).ToArray();
             var dbTemplateNames =
                 context.AgreementTemplates.Select(at => at.TemplateName).Where(tn => seedNames.All(t => t != tn)).ToArray();           
-            SetExistingPdfTemplates(context, dbTemplateNames);            
+            SetExistingPdfTemplates(context);
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -767,23 +767,19 @@ namespace DealnetPortal.DataAccess.Migrations
                     // ignored
                 }
             });
-        }
+        }        
 
-        private void SetExistingPdfTemplates(ApplicationDbContext context, string[] templates)
+        private void SetExistingPdfTemplates(ApplicationDbContext context)
         {
-            templates.ForEach(t =>
+            context.AgreementTemplates.ForEach(t =>
             {
                 try
                 {
                     var dir = HostingEnvironment.MapPath("~/SeedData");
-                    var path = Path.Combine(dir ?? "", t + ".pdf");
+                    var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
                     {
-                        var templt = context.AgreementTemplates.FirstOrDefault(tmplt => tmplt.TemplateName == t);
-                        if (templt != null)
-                        {
-                            templt.AgreementForm = File.ReadAllBytes(path);
-                        }
+                        t.AgreementForm = File.ReadAllBytes(path);                        
                     }
                 }
                 catch
