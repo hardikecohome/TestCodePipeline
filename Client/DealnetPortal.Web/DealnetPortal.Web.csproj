@@ -554,6 +554,7 @@
     <Content Include="Content\less\partials\navbar-fixed-side.less" />
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
+    <Content Include="DeployParameters.deaslnet02vm.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\agreement-submit-success.js" />

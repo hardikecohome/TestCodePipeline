@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Dealnet/Client" />
+  <parameter name="changeApiUrl" value="http://deaslnet02vm:8080/Server/api">
+                         <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='ApiUrl']/@value"/>
+	</parameter>
+</parameters>
