@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Web.Hosting;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain;
@@ -524,7 +527,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private AgreementTemplate[] SetDocuSignTemplates(ApplicationDbContext context)
         {
-            List<AgreementTemplate> templates = new List<AgreementTemplate>();
+           List<AgreementTemplate> templates = new List<AgreementTemplate>();
             
             var template = new AgreementTemplate()
             {
@@ -726,21 +729,11 @@ namespace DealnetPortal.DataAccess.Migrations
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
             };
-            templates.Add(template);
-
-            //leave existing forms data
-            //templates.ForEach(t =>
-            //{
-            //    var tmpl = context.AgreementTemplates.FirstOrDefault(dbt => dbt.TemplateName == t.TemplateName);
-            //    if (tmpl != null)
-            //    {
-            //        templates.Remove(t);
-            //    }                
-            //});
+            templates.Add(template);           
 
             templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName && at.DealerId == t.DealerId && at.AgreementType == t.AgreementType));
-
-            context.AgreementTemplates.AddOrUpdate(t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());
+            //context.AgreementTemplates.AddOrUpdate(t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());
+            AddOrUpdate(context, t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());
 
             return templates.ToArray();
         }
@@ -788,5 +781,81 @@ namespace DealnetPortal.DataAccess.Migrations
                 }
             });
         }
+
+        public static void AddOrUpdate<TEntity>(DbContext context, Expression<Func<TEntity, object>> identifiers, params TEntity[] entities) where TEntity : class
+        {
+            var primaryKeys = PrimaryKeys<TEntity>();
+            var properties = Properties<TEntity>(identifiers);
+
+            for (var i = 0; i < entities.Length; i++)
+            {
+                // build where condition for "identifiers"
+                var parameter = Expression.Parameter(typeof(TEntity));
+                var matches = properties.Select(p => Expression.Equal(
+                    Expression.Property(parameter, p),
+                    Expression.Constant(p.GetValue(entities[i]), p.PropertyType)));
+                var match = Expression.Lambda<Func<TEntity, bool>>(
+                    matches.Aggregate((p, q) => Expression.AndAlso(p, q)),
+                    parameter);
+
+                // match "identifiers" for current item
+                var current = context.Set<TEntity>().SingleOrDefault(match);
+                if (current != null)
+                {
+                    // update primary keys
+                    foreach (var k in primaryKeys)
+                        k.SetValue(entities[i], k.GetValue(current));
+
+                    // update all the values
+                    context.Entry(current).CurrentValues.SetValues(entities[i]);
+
+                    // replace updated item
+                    entities[i] = current;
+                }
+                else
+                {
+                    // add new item
+                    entities[i] = context.Set<TEntity>().Add(entities[i]);
+                }
+            }
+        }
+
+        private static PropertyInfo[] PrimaryKeys<TEntity>() where TEntity : class
+        {
+            return typeof(TEntity).GetProperties()
+                                  .Where(p => Attribute.IsDefined(p, typeof(KeyAttribute))
+                                           || "Id".Equals(p.Name, StringComparison.Ordinal))
+                                  .ToArray();
+        }
+
+        private static PropertyInfo[] Properties<TEntity>(Expression<Func<TEntity, object>> identifiers) where TEntity : class
+        {
+            // e => e.SomeValue
+            var direct = identifiers.Body as MemberExpression;
+            if (direct != null)
+            {
+                return new[] { (PropertyInfo)direct.Member };
+            }
+
+            // e => (object)e.SomeValue
+            var convert = identifiers.Body as UnaryExpression;
+            if (convert != null)
+            {
+                return new[] { (PropertyInfo)((MemberExpression)convert.Operand).Member };
+            }
+
+            // e => new { e.SomeValue, e.OtherValue }
+            var multiple = identifiers.Body as NewExpression;
+            if (multiple != null)
+            {
+                return multiple.Arguments
+                               .Cast<MemberExpression>()
+                               .Select(a => (PropertyInfo)a.Member)
+                               .ToArray();
+            }
+
+            throw new NotSupportedException();
+        }
+
     }
 }
