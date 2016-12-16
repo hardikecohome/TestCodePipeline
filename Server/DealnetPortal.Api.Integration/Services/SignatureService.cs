@@ -584,6 +584,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
 
+            if (!string.IsNullOrEmpty(contract.PrimaryCustomer?.Sin))
+            {
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Sin, Value = contract.PrimaryCustomer.Sin });
+            }
+
             if (!string.IsNullOrEmpty(contract.PrimaryCustomer?.DriverLicenseNumber))
             {
                 var dl = contract.PrimaryCustomer.DriverLicenseNumber.Replace(" ", "");
@@ -591,7 +596,7 @@ namespace DealnetPortal.Api.Integration.Services
                     ch <= Math.Min(dl.Length, 15);
                     ch++)
                 {
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Ean}{ch}", Value = $"{dl[ch - 1]}" });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Dl}{ch}", Value = $"{dl[ch - 1]}" });
                 }
             }
         }
@@ -605,7 +610,11 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LastName2, Value = addApplicant.LastName });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DateOfBirth2, Value = addApplicant.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
 
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EmailAddress2, Value = addApplicant.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ?? contract.PrimaryCustomer.Emails.First()?.EmailAddress });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EmailAddress2, Value = addApplicant.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ?? addApplicant.Emails.First()?.EmailAddress });
+                if (!string.IsNullOrEmpty(addApplicant?.Sin))
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Sin2, Value = addApplicant.Sin });
+                }
                 var homePhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home);
                 var cellPhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell);
                 if (homePhone != null)
@@ -840,6 +849,9 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalMonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Hst, Value = paySummary.Hst?.ToString("F",CultureInfo.InvariantCulture) });
+
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.RequestedTerm, Value = contract.Equipment.RequestedTerm?.ToString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AmortizationTerm, Value = contract.Equipment.AmortizationTerm?.ToString() });
             }            
         }
 
