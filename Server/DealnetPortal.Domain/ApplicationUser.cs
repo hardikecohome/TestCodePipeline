@@ -24,7 +24,7 @@ namespace DealnetPortal.Domain
 
         public bool EsignatureEnabled { get; set; }
 
-        public int Culture { get; set; }
+        public string Culture { get; set; }
 
         public virtual ICollection<ApplicationUser> SubDealers { get; set; }
 

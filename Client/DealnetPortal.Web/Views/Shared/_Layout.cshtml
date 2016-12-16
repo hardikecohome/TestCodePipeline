@@ -72,11 +72,11 @@
                                 <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                     <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
                                 </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("English", "ChangeCulture", "Home", new { culture = 0 }, new { @class = "dealnet-link" })</div>
+                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "dealnet-link" })</div>
                                 <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                     <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
                                 </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("French", "ChangeCulture", "Home", new { culture = 1 }, new { @class = "dealnet-link" })</div>
+                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-link" })</div>
                                 
                                 
                                 @Html.Partial("LoginButtons")

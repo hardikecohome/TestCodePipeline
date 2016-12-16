@@ -36,7 +36,7 @@ namespace DealnetPortal.Web.Controllers
             return View("");
         }
         
-        public async Task<ActionResult> ChangeCulture(int culture)
+        public async Task<ActionResult> ChangeCulture(string culture)
         {
             await _cultureManager.ChangeCulture(culture);
             return RedirectToAction("Index");

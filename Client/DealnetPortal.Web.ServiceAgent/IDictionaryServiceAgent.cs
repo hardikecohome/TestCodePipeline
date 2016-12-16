@@ -32,8 +32,8 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<ApplicationUserDTO> GetDealerInfo();
 
-        Task<int> GetDealerCulture();
+        Task<string> GetDealerCulture();
 
-        Task ChangeDealerCulture(int culture);
+        Task ChangeDealerCulture(string culture);
     }
 }

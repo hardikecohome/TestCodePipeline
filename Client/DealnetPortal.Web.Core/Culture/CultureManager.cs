@@ -39,17 +39,16 @@ namespace DealnetPortal.Web.Core.Culture
             CreateCookie(filteredCulture);
         }
 
-        public async Task ChangeCulture(int cultureNumber)
+        public async Task ChangeCulture(string culture)
         {
             try
             {
-                await _dictionaryServiceAgent.ChangeDealerCulture(cultureNumber);
+                await _dictionaryServiceAgent.ChangeDealerCulture(culture);
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Can't update culture {cultureNumber} for user {HttpContext.Current.User?.Identity?.Name}", ex);
+                _loggingService.LogError($"Can't update culture {culture} for user {HttpContext.Current.User?.Identity?.Name}", ex);
             }
-            var culture = Api.Common.Helpers.CultureHelper.ToCultureCode(cultureNumber);
             SetCulture(culture);
         }
 

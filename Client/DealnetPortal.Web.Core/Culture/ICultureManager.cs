@@ -6,6 +6,6 @@ namespace DealnetPortal.Web.Core.Culture
     {
         void EnsureCorrectCulture();
         void SetCulture(string culture);
-        Task ChangeCulture(int cultureNumber);
+        Task ChangeCulture(string cultureNumber);
     }
 }

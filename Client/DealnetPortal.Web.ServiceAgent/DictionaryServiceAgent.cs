@@ -81,11 +81,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<int> GetDealerCulture()
+        public async Task<string> GetDealerCulture()
         {
             try
             {
-                return await Client.GetAsync<int>(
+                return await Client.GetAsync<string>(
                             $"{_fullUri}/GetDealerCulture");
             }
             catch (Exception ex)
@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task ChangeDealerCulture(int culture)
+        public async Task ChangeDealerCulture(string culture)
         {
             try
             {

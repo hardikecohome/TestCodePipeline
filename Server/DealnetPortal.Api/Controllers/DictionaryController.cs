@@ -143,7 +143,7 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         // GET api/Account/GetDealerCulture
         [Route("GetDealerCulture")]
-        public int GetDealerCulture()
+        public string GetDealerCulture()
         {
             return ContractRepository.GetDealer(LoggedInUser?.UserId).Culture;            
         }
@@ -152,7 +152,7 @@ namespace DealnetPortal.Api.Controllers
         [HttpPut]
         // GET api/Account/PutDealerCulture
         [Route("PutDealerCulture")]
-        public IHttpActionResult PutDealerCulture(int culture)
+        public IHttpActionResult PutDealerCulture(string culture)
         {
             try
             {

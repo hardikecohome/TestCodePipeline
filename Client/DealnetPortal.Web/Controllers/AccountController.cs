@@ -77,7 +77,7 @@ namespace DealnetPortal.Web.Controllers
             }
             try
             {
-                var culture = (await _dictionaryServiceAgent.GetDealerCulture()).ToCultureCode();
+                var culture = await _dictionaryServiceAgent.GetDealerCulture();
                 _loggingService.LogInfo($"Setting culture {culture} for user {model.Email}");
                 _cultureManager.SetCulture(culture);
             }
