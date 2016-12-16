@@ -591,7 +591,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (!string.IsNullOrEmpty(contract.PrimaryCustomer?.DriverLicenseNumber))
             {
-                var dl = contract.PrimaryCustomer.DriverLicenseNumber.Replace(" ", "");
+                var dl = contract.PrimaryCustomer.DriverLicenseNumber.Replace(" ", "").Replace("-", "");                
                 for (int ch = 1;
                     ch <= Math.Min(dl.Length, 15);
                     ch++)
@@ -850,8 +850,18 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Hst, Value = paySummary.Hst?.ToString("F",CultureInfo.InvariantCulture) });
 
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.RequestedTerm, Value = contract.Equipment.RequestedTerm?.ToString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.RequestedTerm,
+                    Value = (contract.Equipment.AgreementType == AgreementType.LoanApplication) ? contract.Equipment.LoanTerm?.ToString() : contract.Equipment.RequestedTerm?.ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AmortizationTerm, Value = contract.Equipment.AmortizationTerm?.ToString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DownPayment, Value = contract.Equipment.DownPayment?.ToString("F", CultureInfo.InvariantCulture) });
+
+                if (contract.Equipment.AgreementType == AgreementType.LoanApplication && paySummary?.LoanDetails != null)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanTotalCashPrice, Value = paySummary.LoanDetails.TotalCashPrice.ToString("F", CultureInfo.InvariantCulture) });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanAmountFinanced, Value = paySummary.LoanDetails.TotalAmountFinanced.ToString("F", CultureInfo.InvariantCulture) });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanTotalObligation, Value = paySummary.LoanDetails.TotalObligation.ToString("F", CultureInfo.InvariantCulture) });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanTotalBorowingCost, Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture) });
+                }
             }            
         }
 

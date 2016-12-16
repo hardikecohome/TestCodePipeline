@@ -394,6 +394,8 @@ namespace DealnetPortal.DataAccess.Repositories
                         paymentSummary.TotalPayment = (decimal) loanCalculatorOutput.TotalAllMonthlyPayments;
                         paymentSummary.MonthlyPayment = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
                         paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+
+                        paymentSummary.LoanDetails = loanCalculatorOutput;
                     }
                     else
                     {

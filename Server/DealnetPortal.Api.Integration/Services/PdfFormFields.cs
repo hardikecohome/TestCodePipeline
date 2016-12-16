@@ -61,6 +61,11 @@ namespace DealnetPortal.Api.Integration.Services
         public static string TotalPayment = "TotalPayment";
         public static string TotalMonthlyPayment = "TotalMonthlyPayment";
         public static string Hst = "HST";
+        public static string DownPayment = "DownPayment";
+        public static string LoanTotalCashPrice = "LoanTotalCashPrice";
+        public static string LoanAmountFinanced = "LoanAmountFinanced";
+        public static string LoanTotalObligation = "LoanTotalObligation";
+        public static string LoanTotalBorowingCost = "LoanTotalBorowingCost";
 
         public static string RequestedTerm = "RequestedTerm";
         public static string AmortizationTerm = "AmortizationTerm";
