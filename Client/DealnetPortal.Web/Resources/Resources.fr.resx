@@ -123,6 +123,9 @@
   <data name="HomePage" xml:space="preserve">
     <value>Page d'accueil</value>
   </data>
+  <data name="IfYouChangeInfo" xml:space="preserve">
+    <value>Si vous changez d'informations sur le propriétaire, vous devrez refaire l'étape de vérification du crédit</value>
+  </data>
   <data name="MyDeals" xml:space="preserve">
     <value>Mes offres</value>
   </data>

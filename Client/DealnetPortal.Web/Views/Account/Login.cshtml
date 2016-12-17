@@ -1,12 +1,12 @@
 ﻿@model DealnetPortal.Api.Models.LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = Resources.Login;
 }
 
 <div class="row">
     <div class="col-md-12">
         <div class="login-container">
-        <div class="dealnet-large-header">Log In</div>
+        <div class="dealnet-large-header">@Resources.Login</div>
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
             {
@@ -34,11 +34,11 @@
                                 <label class="align-middle custom-checkbox">
                                     @Html.CheckBoxFor(m => m.RememberMe)
                                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                    <span>Remember me?</span>
+                                    <span>@Resources.RememberMe</span>
                                 </label>
                             </div>
                             <div  class="pull-right">
-                                @Html.ActionLink("Forgot password", "ForgotPassword")
+                                @Html.ActionLink(Resources.ForgotPassword, "ForgotPassword")
                             </div>
                         </div>
                     </div>
@@ -47,13 +47,13 @@
                     <div class="row">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-8 col-xs-12 col-lg-12 col-md-12">
-                            <input type="submit" value="Log in" class="btn dealnet-button dealnet-success-button"/>
+                            <input type="submit" value="@Resources.Login" class="btn dealnet-button dealnet-success-button"/>
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
                 </div>
                 <div class="form-group text-center">
-                    @Html.ActionLink("Registration", "Register", "Account", null, new { @class = "" })
+                    @Html.ActionLink(Resources.Registration, "Register", "Account", null, new { @class = "" })
                 </div>
             }
         </section>

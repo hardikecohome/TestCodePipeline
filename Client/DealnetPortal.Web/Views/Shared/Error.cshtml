@@ -1,11 +1,11 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = Resources.Error;
 }
 
 <div id="label-steps">
-    @Html.ActionLink("New Application", "BasicInfo", "NewRental", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Error</div>  &gt;
+    @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">@Resources.Error</div>  &gt;
 </div>
 <div class="page-container">
     <ul class="list-unstyled">
@@ -15,6 +15,6 @@
         </li>
     </ul>
     <div class="text-center">
-        @Html.ActionLink("New Application", "BasicInfo", "NewRental", null, new { @class = "btn dealnet-button dealnet-success-button" })
+        @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "btn dealnet-button dealnet-success-button" })
     </div>
 </div>

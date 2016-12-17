@@ -266,10 +266,10 @@ function navigateToStep(targetLink){
   var url = targetLink.attr('href');
   var stepName = targetLink.text();
 
-  var message = "If you change Home Owner Information you will have to pass Credit Check step again"
+  var message = translations['IfYouChangeInfo'];
   $('#alertModal').find('.modal-body p').html(message);
-  $('#alertModal').find('.modal-title').html('Navigate to step '+stepName+'?');
-  $('#alertModal').find('#confirmAlert').html('Go to Step '+stepName);
+  $('#alertModal').find('.modal-title').html(translations['NavigateToStep'] + stepName + '?');
+  $('#alertModal').find('#confirmAlert').html(translations['GoToStep'] + stepName);
   $('#alertModal').modal('show');
   $('#confirmAlert').on('click', function(){
     window.location.href = url;

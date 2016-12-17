@@ -17,6 +17,11 @@
         if (!window.console) window.console = {};
         if (!window.console.log) window.console.log = function () { };
         var urlContent = "@Url.Content("~/")";
+        var translations = {};
+        translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
+        translations['NavigateToStep'] = "@Resources.NavigateToStep";
+        translations['GoToStep'] = "@Resources.GoToStep";
+        @RenderSection("Translations", false)
     </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
