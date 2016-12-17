@@ -82,7 +82,7 @@ function showChart() {
                                     xAxes: [{                                        
                                         scaleLabel: {
                                             display: true,
-                                            labelString: 'Time',
+                                            labelString: translations['Time'],
                                             fontSize: 14,
                                             fontStyle: 'bold'
                                         },
@@ -110,11 +110,13 @@ function showTable() {
                 },
                 data: data,
                 oLanguage: {
-                  "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                    "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
                   "oPaginate": {
                     "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                     "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
-                  }
+                  },
+                  "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
+                  "sZeroRecords": translations['NoMatchingRecordsFound']
                 },
                 columns: [                    
                       { "data" : "TransactionId" },
@@ -126,7 +128,7 @@ function showTable() {
                       { "data": "Date"},
                       {// this is Actions Column
                           "render": function (sdata, type, row) {
-                              return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                              return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                           }
                       },
                       {
@@ -158,7 +160,7 @@ function showTable() {
         });
 
         var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
-        $('#table-title').html('My Work Items  <div class="filter-controls hidden">'+ iconSearch +'</div></div>');
+        $('#table-title').html(translations['MyWorkItems'] + '  <div class="filter-controls hidden">'+ iconSearch +'</div></div>');
         $('#table-title .icon-search-control').on('click', function(){
           $('#work-items-table_filter').slideToggle();
         });

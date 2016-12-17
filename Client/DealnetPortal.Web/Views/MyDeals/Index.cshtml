@@ -3,16 +3,16 @@
     var dealStatus = ContractState.Started;
 }
 <div id="label-steps">
-	<div class="dealnet-action-link">My Deals</div> >
+	<div class="dealnet-action-link">@Resources.MyDeals</div> >
 </div>
 <!--<div class="dealnet-large-header">My Deals</div>-->
 <div class="expand-filter-template">
 	<div class="reset-form-inline">
-		<div class="label-caption">Filter</div>
+		<div class="label-caption">@Resources.Filter</div>
 		<div class="row">
 			<div class="col-sm-6 col-md-3 col-lg-4">
 				<div class="form-group">
-					<label for="">Deal Status</label>
+					<label for="">@Resources.DealStatus</label>
 					<div class="control-group">
 					    @*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
                         <select id="deal-status" class = "form-control"></select>
@@ -21,7 +21,7 @@
 			</div>
 			<div class="col-lg-2 col-md-3 col-sm-6">
 				<div class="form-group">
-					<label for="">Date From</label>
+					<label for="">@Resources.DateFrom</label>
 					<div class="control-group date-group">
 						<input type="text" class="form-control date-control" id="date-from">
 					</div>
@@ -29,7 +29,7 @@
 			</div>
 			<div class="col-lg-2 col-md-3 col-sm-6">
 				<div class="form-group">
-					<label for="">Date To</label>
+					<label for="">@Resources.DateTo</label>
 					<div class="control-group date-group">
 						<input type="text" class="form-control date-control" id="date-to">
 					</div>
@@ -37,7 +37,7 @@
 			</div>
 			<div class="col-lg-4 col-md-3 col-sm-6">
 				<div class="form-group">
-					<button class="btn dealnet-button dealnet-success-button block-button" id="filter-button">Filter</button>
+					<button class="btn dealnet-button dealnet-success-button block-button" id="filter-button">@Resources.Filter</button>
 				</div>
 			</div>
 		</div>
@@ -47,20 +47,31 @@
 <table id="work-items-table" class="display responsive" width="100%">
     <thead>
     <tr>
-        <th class="all">Contract&nbsp;#</th>
-        <th class="all customer-cell">Customer</th>
-        <th class="min-tablet-p">Status</th>
-        <th class="min-desktop">Email</th>
-        <th class="min-desktop">Phone</th>
-        <th class="min-desktop">Date</th>
-        <th class="min-desktop">Equipment</th>
-        <th class="min-desktop">Value</th>
+        <th class="all">@Resources.Contract&nbsp;#</th>
+        <th class="all customer-cell">@Resources.Customer</th>
+        <th class="min-tablet-p">@Resources.Status</th>
+        <th class="min-desktop">@Resources.Email</th>
+        <th class="min-desktop">@Resources.Phone</th>
+        <th class="min-desktop">@Resources.Date</th>
+        <th class="min-desktop">@Resources.Equipment</th>
+        <th class="min-desktop">@Resources.Value</th>
         <th class="min-desktop hidden">RemainingDescription</th>
         <th class="all edit-cell"></th>
-        <th class="all id-cell hidden">Id</th>
+        <th class="all id-cell hidden">@Resources.Id</th>
     </tr>
     </thead>
 </table>
+
+@section Translations
+{
+    translations['NotSelected'] = "@Resources.NotSelected";
+    translations['Search'] = "@Resources.Search";
+    translations['Edit'] = "@Resources.Edit";
+    translations['MyWorkItems'] = "@Resources.MyWorkItems";
+    translations['Show'] = "@Resources.Show";
+    translations['Entries'] = "@Resources.Entries";
+    translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+}
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @section Styles

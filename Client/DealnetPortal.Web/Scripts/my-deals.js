@@ -5,7 +5,7 @@
                 $('#deal-status option').each(function () {
                     $(this).val($(this).text());
                 });
-                $('<option selected value="">- not selected -</option>').prependTo($('#deal-status'));
+                $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#deal-status'));
                 $('#deal-status').val($('#deal-status > option:first').val());
             });
 
@@ -42,11 +42,13 @@ function showTable() {
                 .DataTable({
                     data: data,
                     oLanguage: {
-                        "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
                         "oPaginate": {
                             "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                             "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
-                        }
+                        },
+                        "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
+                        "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     columns: [
                         { "data": "TransactionId" },
@@ -64,7 +66,7 @@ function showTable() {
                         {
                             // this is Actions Column
                             "render": function (sdata, type, row) {
-                                return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                                return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                             }
                         },
                         {
@@ -91,7 +93,7 @@ function showTable() {
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
-            $('#table-title').html('<div class="dealnet-large-header">My Work Items <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+            $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
                 $(this).toggleClass('active');
                 $('#work-items-table_filter').slideToggle();

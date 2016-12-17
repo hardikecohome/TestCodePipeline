@@ -9,7 +9,7 @@ $(document)
 		    $('.select-filter option').each(function () {
 		        $(this).val($(this).text());
 		    });
-		    $('<option selected value="">- not selected -</option>').prependTo($('.select-filter'));
+		    $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
             $('.select-filter').val($('.select-filter > option:first').val());
 		});
 function assignDatepicker(input) {
@@ -68,11 +68,13 @@ function showTable() {
                         }
                     },
                     oLanguage: {
-                        "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
                         "oPaginate": {
                             "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                             "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
-                        }
+                        },
+                        "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
+                        "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     columns: [
                     {
@@ -247,8 +249,8 @@ function createFilter() {
     var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
 
-    $('#table-title').html('<div class="dealnet-large-header">Reports <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
-    $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-success-button block-button" id="export-all-excel">Export All to Excel</button>');
+    $('#table-title').html('<div class="dealnet-large-header">' + translations['Reports'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+    $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-success-button block-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
 
     $('#table-title .icon-search-control').on('click', function () {
         $(this).toggleClass('active');

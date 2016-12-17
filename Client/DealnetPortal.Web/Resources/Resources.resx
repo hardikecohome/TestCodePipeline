@@ -120,14 +120,86 @@
   <data name="AboutUs" xml:space="preserve">
     <value>About us</value>
   </data>
+  <data name="ActionReq" xml:space="preserve">
+    <value>Action Req.</value>
+  </data>
   <data name="Anonymous" xml:space="preserve">
     <value>Anonymous</value>
   </data>
   <data name="ChangeYourPassword" xml:space="preserve">
     <value>Change your password</value>
   </data>
+  <data name="ClearFilters" xml:space="preserve">
+    <value>Clear Filters</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Contact us</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Contract</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Date From</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>Date To</value>
+  </data>
+  <data name="DealFlowOverview" xml:space="preserve">
+    <value>Deal Flow Overview</value>
+  </data>
+  <data name="DealInfo" xml:space="preserve">
+    <value>Deal Info</value>
+  </data>
+  <data name="DealStatus" xml:space="preserve">
+    <value>Deal Status</value>
+  </data>
+  <data name="DealType" xml:space="preserve">
+    <value>Deal Type</value>
+  </data>
+  <data name="DetailedInfo" xml:space="preserve">
+    <value>Detailed Info</value>
+  </data>
+  <data name="EcoHomeAbout1" xml:space="preserve">
+    <value>EcoHome Financial is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house.</value>
+  </data>
+  <data name="EcoHomeAbout2" xml:space="preserve">
+    <value>We partner with leading dealers and manufacturers to deliver what is needed to succeed in today’s competitive arena – hassle free finance programs for dealers and their customers.</value>
+  </data>
+  <data name="EcoHomeAbout3" xml:space="preserve">
+    <value>Give your customers the ability to purchase now, and the ability to purchase more. We deliver what you need to succeed.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Entries" xml:space="preserve">
+    <value>entries</value>
+  </data>
+  <data name="Equipment" xml:space="preserve">
+    <value>Equipment</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="ExportAllToExcel" xml:space="preserve">
+    <value>Export All to Excel</value>
+  </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>Export to Excel</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FindUs" xml:space="preserve">
+    <value>Find us</value>
   </data>
   <data name="ForgotPassword" xml:space="preserve">
     <value>Forgot Password</value>
@@ -138,11 +210,17 @@
   <data name="GoToStep" xml:space="preserve">
     <value>Go to Step </value>
   </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Grand Total:</value>
+  </data>
   <data name="GreatWork" xml:space="preserve">
     <value>Great work!</value>
   </data>
   <data name="HomePage" xml:space="preserve">
-    <value>Home page</value>
+    <value>Home Page</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
   </data>
   <data name="IfYouChangeInfo" xml:space="preserve">
     <value>If you change Home Owner Information you will have to pass Credit Check step again</value>
@@ -153,14 +231,26 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
   <data name="MyDeals" xml:space="preserve">
     <value>My Deals</value>
+  </data>
+  <data name="MyWorkItems" xml:space="preserve">
+    <value>My Work Items</value>
   </data>
   <data name="NavigateToStep" xml:space="preserve">
     <value>Navigate to step </value>
   </data>
   <data name="NewApplication" xml:space="preserve">
     <value>New Application</value>
+  </data>
+  <data name="NoMatchingRecordsFound" xml:space="preserve">
+    <value>No matching records found</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>not selected</value>
   </data>
   <data name="NowYouCanLogIn" xml:space="preserve">
     <value>Now you can log in with your new password.</value>
@@ -171,8 +261,14 @@
   <data name="PasswordWasChanged" xml:space="preserve">
     <value>Your password was successfully changed.</value>
   </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
   <data name="PleaseCheckEmail" xml:space="preserve">
     <value>please check your email for one-time password.</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
@@ -186,8 +282,38 @@
   <data name="Reports" xml:space="preserve">
     <value>Rapports</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TotalForSelected" xml:space="preserve">
+    <value>Total for Selected:</value>
+  </data>
+  <data name="TypeOfPayment" xml:space="preserve">
+    <value>Type of Payment</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ValueOfDeal" xml:space="preserve">
+    <value>Value of Deal</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
   </data>
   <data name="YouHaveBeenRegistered" xml:space="preserve">
     <value>You have been successfully registered,</value>
