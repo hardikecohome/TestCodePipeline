@@ -36,7 +36,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
 
-        IList<Alert> SubmitContract(int contractId, string contractOwnerId);
+        Tuple<CreditCheckDTO, IList<Alert>> SubmitContract(int contractId, string contractOwnerId);
 
         IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
 

@@ -74,7 +74,7 @@
 			            @Html.Label("HomeOwner_BirthDate", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
 			            <div class="dealnet-field-holder col-xs-6">
 			                <div class="control-group date-group">
-			                    @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "Date must be in range 1900 - Today", id = ""})
+			                    @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "", id = ""})
 			                </div>
 			            </div>
 			        </div>
@@ -285,7 +285,7 @@
                                 @Html.Label("additional-birth-date-@(i+1)", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group date-group">
-                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "Date must be in range 1900 - Today" })
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "" })
                                     </div>
                                 </div>
                             </div>
@@ -448,7 +448,7 @@
 					                @Html.Label("birth-date", "Date of Birth", new {@class = "dealnet-field-caption"})
 					                <div class="dealnet-field-holder">
 					                    <div class="control-group date-group">
-					                        @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", data_val_date = "Date must be in range 1900 - Today"})
+					                        @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", data_val_date = ""})
 					                        @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
 					                    </div>
 					                </div>
@@ -530,7 +530,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 					                @Html.Label("additional" + (i + 1) + "-birth-date", "Date of Birth", new {@class = "dealnet-field-caption"})
 					                <div class="dealnet-field-holder">
 					                    <div class="control-group date-group">
-					                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional" + (i + 1) + "-birth-date", data_val_date = "Date must be in range 1900 - Today"})
+					                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional" + (i + 1) + "-birth-date", data_val_date = ""})
 					                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new {@class = "text-danger"})
 					                    </div>
 					                </div>

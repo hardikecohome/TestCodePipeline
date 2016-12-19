@@ -165,12 +165,12 @@ namespace DealnetPortal.DataAccess.Repositories
                         }
                     }
 
-                    if (contract.ExternalSubDealerId != null && contract.ExternalSubDealerId != contractData.ExternalSubDealerId)
+                    if (contractData.ExternalSubDealerId != null && contract.ExternalSubDealerId != contractData.ExternalSubDealerId)
                     {
                         contract.ExternalSubDealerId = contractData.ExternalSubDealerId;
                         contract.LastUpdateTime = DateTime.Now;
                     }
-                    if (contract.ExternalSubDealerName != null && contract.ExternalSubDealerName != contractData.ExternalSubDealerName)
+                    if (contractData.ExternalSubDealerName != null && contract.ExternalSubDealerName != contractData.ExternalSubDealerName)
                     {
                         contract.ExternalSubDealerName = contractData.ExternalSubDealerName;
                         contract.LastUpdateTime = DateTime.Now;
@@ -362,11 +362,12 @@ namespace DealnetPortal.DataAccess.Repositories
             return totalMp;
         }
 
-        public PaymentSummary GetContractPaymentsSummary(int contractId)
+        public PaymentSummary GetContractPaymentsSummary(int contractId, string contractOwnerId)
         {
             PaymentSummary paymentSummary = new PaymentSummary();
 
-            var contract = _dbContext.Contracts.Find(contractId);
+            var contract = GetContract(contractId, contractOwnerId);
+                //_dbContext.Contracts.Find(contractId);
             if (contract != null)
             {
                 var rate =
@@ -393,6 +394,8 @@ namespace DealnetPortal.DataAccess.Repositories
                         paymentSummary.TotalPayment = (decimal) loanCalculatorOutput.TotalAllMonthlyPayments;
                         paymentSummary.MonthlyPayment = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
                         paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+
+                        paymentSummary.LoanDetails = loanCalculatorOutput;
                     }
                     else
                     {
@@ -565,7 +568,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 var taxRate = GetProvinceTaxRate(provinceCode);
                 var loanCalculatorInput = new LoanCalculator.Input
                 {
-                    TaxRate = taxRate.Rate,
+                    TaxRate = taxRate?.Rate ?? 0,
                     LoanTerm = contract.Equipment.LoanTerm ?? 0,
                     AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                     EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,

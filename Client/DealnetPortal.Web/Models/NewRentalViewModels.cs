@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
@@ -28,6 +29,7 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
+        [EligibleAge(ErrorMessage = "The applicant needs to be over 18 years old")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
         [Display(Name = "SIN (Social insurance number)")]
@@ -47,7 +49,7 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(Name = "Mailing Address")]
         [StringLength(100, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.,‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
         public override string Street { get; set; }
     }
 
@@ -56,7 +58,7 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(Name = "Installation Address")]
         [StringLength(100, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.,‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
         public virtual string Street { get; set; }
         [Display(Name = "Unit #")]
         [StringLength(10, MinimumLength = 1)]
@@ -165,6 +167,8 @@ namespace DealnetPortal.Web.Models
     {
         [Display(Name = "Status")]
         public ContractState ContractState { get; set; }
+        [Display(Name = "Status")]
+        public string Status { get; set; }
         [Display(Name = "Date")]
         public DateTime? LastUpdateTime { get; set; }
         public string TransactionId { get; set; }
@@ -178,5 +182,16 @@ namespace DealnetPortal.Web.Models
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public double ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
+    }
+
+    public sealed class EligibleAgeAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            var date = (DateTime)value;
+            var todayDate = DateTime.Today;
+            //In case of 29 February we make it 1 March (because date with 29 February minus 18 years equals date with 28 February)
+            return date <= (todayDate.Day == 29 ? todayDate.AddDays(1).AddYears(-18) : todayDate.AddYears(-18));
+        }
     }
 }

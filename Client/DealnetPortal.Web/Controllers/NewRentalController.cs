@@ -53,7 +53,7 @@ namespace DealnetPortal.Web.Controllers
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
-                if (contractResult.Item1.ContractState == ContractState.Completed)
+                if (contractResult.Item1.ContractState == ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
                 {
                     return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
                 }
@@ -194,6 +194,16 @@ namespace DealnetPortal.Web.Controllers
             //}
         }
 
+        public ActionResult CreditRejected(int contractId)
+        {
+            var viewModel = new CreditRejectedViewModel()
+            {
+                ContractId = contractId
+            };
+
+            return View(viewModel);
+        }
+
         public async Task<JsonResult> GetCreditCheckRedirection(int contractId)
         {
             //Initiate credit status check
@@ -304,7 +314,12 @@ namespace DealnetPortal.Web.Controllers
         
         public async Task<ActionResult> SubmitDeal(int contractId)
         {
-            await _contractServiceAgent.SubmitContract(contractId);
+            var result = await _contractServiceAgent.SubmitContract(contractId);
+
+            if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
+            {
+                return RedirectToAction("CreditRejected", new { contractId });
+            }
             return RedirectToAction("AgreementSubmitSuccess", new { contractId });            
         }
 

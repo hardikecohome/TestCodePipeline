@@ -390,13 +390,14 @@ namespace DealnetPortal.Web.Infrastructure
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
-            if (summary.BasicInfo.HomeOwner.AddressInformation != null) { 
+            if (summary.BasicInfo.HomeOwner?.AddressInformation != null) { 
                 var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.HomeOwner.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
             }
                         
             summary.AdditionalInfo = new AdditionalInfoViewModel();
             summary.AdditionalInfo.ContractState = contract.ContractState;
+            summary.AdditionalInfo.Status = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
             summary.AdditionalInfo.TransactionId = contract.Details?.TransactionId;
             if (contract.Equipment != null && contract.Equipment.AgreementType == AgreementType.LoanApplication)

@@ -17,12 +17,21 @@ namespace DealnetPortal.Api.Integration.Services
         public static string DateOfBirth2 = "DateOfBirth_2";
         public static string InstallationAddress = "InstallationAddress";
         public static string MailingAddress = "MailingAddress";
+        public static string Sin = "SIN";
+        public static string DriverLicense = "DriverLicense";
+        public static string Dl = "DL";
+        public static string Sin2 = "SIN_2";
         public static string City = "City";
         public static string Province = "Province";
         public static string PostalCode = "PostalCode";
         public static string HomePhone = "HomePhone";
+        public static string HomePhone2 = "HomePhone_2";
+        public static string CellPhone = "CellPhone";
+        public static string CellPhone2 = "CellPhone_2";
         public static string BusinessPhone = "BusinessPhone";
+        public static string BusinessOrCellPhone = "BusinessOrCellPhone";
         public static string EmailAddress = "EmailAddress";
+        public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";
 
         //Equipment Fields
@@ -52,13 +61,23 @@ namespace DealnetPortal.Api.Integration.Services
         public static string TotalPayment = "TotalPayment";
         public static string TotalMonthlyPayment = "TotalMonthlyPayment";
         public static string Hst = "HST";
+        public static string DownPayment = "DownPayment";
+        public static string AdmeenFee = "AdmeenFee";
+        public static string LoanTotalCashPrice = "LoanTotalCashPrice";
+        public static string LoanAmountFinanced = "LoanAmountFinanced";
+        public static string LoanTotalObligation = "LoanTotalObligation";
+        public static string LoanBalanceOwing = "LoanBalanceOwing";
+        public static string LoanTotalBorowingCost = "LoanTotalBorowingCost";
+
+        public static string RequestedTerm = "RequestedTerm";
+        public static string AmortizationTerm = "AmortizationTerm";
 
         public static string EquipmentQuantity = "EquipmentQuantity";
         public static string EquipmentDescription = "EquipmentDescription";
         public static string EquipmentCost = "EquipmentCost";
 
         //Payment Fields
-        public static string EnbridgeAccountNumber = "Enbridge Account Number";
+        public static string EnbridgeAccountNumber = "EnbridgeAccountNumber";
         public static string Ean = "EAN";
         public static string IsEnbridge = "IsEnbridge";
         public static string IsPAD = "IsPAD";

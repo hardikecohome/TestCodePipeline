@@ -62,10 +62,10 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> GetWorkItems()
         {
             var contracts = (await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.LastUpdateTime).ToList();
+
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
 
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
-            var eqTypes = await _dictionaryServiceAgent.GetEquipmentTypes();
 
             if (docTypes?.Item1 != null)
             {
@@ -83,11 +83,6 @@ namespace DealnetPortal.Web.Controllers
                         }
                     }                    
                 });
-            }
-
-            if (eqTypes?.Item1?.Any() ?? false)
-            {
-                contractsVms.ForEach(c => c.Equipment = eqTypes.Item1.FirstOrDefault(eq => eq.Type == c.Equipment)?.Description ?? c.Equipment);
             }
 
             return this.Json(contractsVms, JsonRequestBehavior.AllowGet);

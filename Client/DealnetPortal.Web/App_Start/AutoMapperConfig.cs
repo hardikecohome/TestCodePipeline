@@ -57,7 +57,8 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<EquipmentInformationViewModel, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
                 .ForMember(x => x.ValueOfDeal, d => d.Ignore());
-            cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>();
+            cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
+                .ForMember(x => x.TypeDescription, d => d.Ignore());
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
 
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
@@ -163,7 +164,7 @@ namespace DealnetPortal.Web.App_Start
                         var equipment = src.Equipment?.NewEquipment;
                         if (equipment != null)
                         {
-                            return equipment.Select(eq => eq.Type).ConcatWithComma();
+                            return equipment.Select(eq => eq.TypeDescription).ConcatWithComma();
                         }
                         return string.Empty;
                     }))
