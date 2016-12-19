@@ -557,7 +557,7 @@
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
-    <None Include="Content\less\components\loader.less" />
+    <Content Include="Content\less\components\loader.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Content\less\components\icons.less" />
     <Content Include="Content\less\partials\layout.less" />
