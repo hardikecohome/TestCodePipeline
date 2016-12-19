@@ -150,7 +150,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     TransactionId = ConvertFromDbVal<long>(dr["transaction#"]).ToString(),
                     Status = ConvertFromDbVal<string>(dr["Deal_Status"]),
-                    AgreementType = ConvertFromDbVal<string>(dr["Contract_Type_Code"]) == "RENTAL" ? AgreementType.RentalApplication : AgreementType.LoanApplication                    ,                    
+                    AgreementType = ConvertFromDbVal<string>(dr["Contract_Type_Code"]) == "RENTAL" ? AgreementType.RentalApplication : AgreementType.LoanApplication
                 };                
 
                 item.Equipment = new EquipmentInfoDTO()
@@ -159,7 +159,7 @@ namespace DealnetPortal.Api.Integration.Services
                     LoanTerm = ConvertFromDbVal<int>(dr["Term"]),                
                     RequestedTerm = ConvertFromDbVal<int>(dr["Term"]),
                     ValueOfDeal = (double)ConvertFromDbVal<decimal>(dr["Amount Financed"]),
-
+                    AgreementType = ConvertFromDbVal<string>(dr["Contract_Type_Code"]) == "RENTAL" ? AgreementType.RentalApplication : AgreementType.LoanApplication,
 
                     NewEquipment = new List<NewEquipmentDTO>()
                     {

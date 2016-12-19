@@ -29,16 +29,18 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
+        private readonly IAspireStorageService _aspireStorageService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
 
         public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, 
-            IAspireService aspireService, ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
+            IAspireService aspireService, IAspireStorageService aspireStorageService, ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _aspireService = aspireService;
+            _aspireStorageService = aspireStorageService;
             _signatureService = signatureService;
             _mailService = mailService;
         }
@@ -101,6 +103,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTO = Mapper.Map<ContractDTO>(contract);
             AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
             AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+
             return contractDTO;
         }
 
@@ -702,6 +705,37 @@ namespace DealnetPortal.Api.Integration.Services
                     AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId);
                 }
             }
+        }
+
+        private IList<ContractDTO> GetAspireDealsForDealer(string contractOwnerId)
+        {
+            var user = _contractRepository.GetDealer(contractOwnerId);
+            if (user != null)
+            {
+                try
+                {
+                    var deals = _aspireStorageService.GetDealerDeals(user.DisplayName);
+                    if (deals?.Any() ?? false)
+                    {
+                        var equipments = _contractRepository.GetEquipmentTypes();
+                        if (equipments?.Any() ?? false)
+                        {
+
+
+                        }
+                    }
+                    return deals;
+                }                                
+                catch (Exception ex)
+                {
+                    _loggingService.LogError($"Error occured during get deals from aspire", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
+            }
+            return null;
         }
 
         public Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
