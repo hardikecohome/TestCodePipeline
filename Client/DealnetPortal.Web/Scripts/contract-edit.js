@@ -38,7 +38,7 @@
         var validateFileSize = function(errorAction) {
             try {
                 if (this.files[0].size / 1024 / 1024 > 50) {
-                    errorAction('Maximum file size is limited to 50 MB for a single file.');
+                    errorAction(translations['MaximumFileSize']);
                     $(this).val('');
                     return false;
                 }
@@ -62,7 +62,7 @@
             var prevDocumentName = documentNaming.text();;
             var wasCancelled;
             var afterError = function(message) {
-                form.find('.error-message').text(message || 'An error occurred while uploading file.');
+                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 documentNaming.text(prevDocumentName);
                 if (!prevDocumentName) {
@@ -142,7 +142,7 @@
             var errorDesc = form.find('.error-descr');
             var wasCancelled;
             var afterError = function(message) {
-                form.find('.error-message').text(message || 'An error occurred while uploading file.');
+                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
@@ -317,7 +317,7 @@ function submitComment(form, addComment) {
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("An error occurred while adding comment");
+                alert(translations['ErrorWhileAddingComment']);
             } else {
                 var comment = addComment(form, json);
                 comment.find('.write-reply-link').on('click', addReplyFrom);
@@ -348,7 +348,7 @@ function submitCommentRemoval(comment, commentId) {
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("An error occurred while removing comment");
+                alert(translations['ErrorWhileRemovingComment']);
             } else {
                 var parentComment = comment.parent().closest('ul').prev('.comment');
                 var replies = comment.next('ul');

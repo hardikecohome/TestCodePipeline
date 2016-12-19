@@ -123,14 +123,41 @@
   <data name="ActionReq" xml:space="preserve">
     <value>Action Req.</value>
   </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Add comment</value>
+  </data>
+  <data name="AdditionalApplicant" xml:space="preserve">
+    <value>Additional Applicant</value>
+  </data>
+  <data name="AdditionalContractInformation" xml:space="preserve">
+    <value>Additional Contract Information</value>
+  </data>
+  <data name="AddressInformation" xml:space="preserve">
+    <value>Address Information</value>
+  </data>
   <data name="Anonymous" xml:space="preserve">
     <value>Anonymous</value>
+  </data>
+  <data name="Answers" xml:space="preserve">
+    <value>answer(s)</value>
+  </data>
+  <data name="BackToTop" xml:space="preserve">
+    <value>Back to top</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="ChangeYourPassword" xml:space="preserve">
     <value>Change your password</value>
   </data>
   <data name="ClearFilters" xml:space="preserve">
     <value>Clear Filters</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Contact Information</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
     <value>Contact us</value>
@@ -150,11 +177,17 @@
   <data name="DateTo" xml:space="preserve">
     <value>Date To</value>
   </data>
+  <data name="DealerName" xml:space="preserve">
+    <value>Dealer Name</value>
+  </data>
   <data name="DealFlowOverview" xml:space="preserve">
     <value>Deal Flow Overview</value>
   </data>
   <data name="DealInfo" xml:space="preserve">
     <value>Deal Info</value>
+  </data>
+  <data name="DealInformation" xml:space="preserve">
+    <value>Deal Information</value>
   </data>
   <data name="DealStatus" xml:space="preserve">
     <value>Deal Status</value>
@@ -164,6 +197,9 @@
   </data>
   <data name="DetailedInfo" xml:space="preserve">
     <value>Detailed Info</value>
+  </data>
+  <data name="DocumentNameEmpty" xml:space="preserve">
+    <value>Name of a document can't be empty</value>
   </data>
   <data name="EcoHomeAbout1" xml:space="preserve">
     <value>EcoHome Financial is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house.</value>
@@ -177,6 +213,9 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Editing</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -186,8 +225,23 @@
   <data name="Equipment" xml:space="preserve">
     <value>Equipment</value>
   </data>
+  <data name="EquipmentInformation" xml:space="preserve">
+    <value>Equipment Information</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="ErrorWhileAddingComment" xml:space="preserve">
+    <value>An error occurred while adding comment</value>
+  </data>
+  <data name="ErrorWhileRemovingComment" xml:space="preserve">
+    <value>An error occurred while removing comment</value>
+  </data>
+  <data name="ErrorWhileUploadingFile" xml:space="preserve">
+    <value>An error occurred while uploading file.</value>
+  </data>
+  <data name="ExistingEquipmentInformation" xml:space="preserve">
+    <value>Existing Equipment Information</value>
   </data>
   <data name="ExportAllToExcel" xml:space="preserve">
     <value>Export All to Excel</value>
@@ -204,6 +258,9 @@
   <data name="ForgotPassword" xml:space="preserve">
     <value>Forgot Password</value>
   </data>
+  <data name="FundingChecklist" xml:space="preserve">
+    <value>Funding Checklist</value>
+  </data>
   <data name="GoToApp" xml:space="preserve">
     <value>Go to app</value>
   </data>
@@ -216,8 +273,14 @@
   <data name="GreatWork" xml:space="preserve">
     <value>Great work!</value>
   </data>
+  <data name="HomeOwnerInformation" xml:space="preserve">
+    <value>Home Owner Information</value>
+  </data>
   <data name="HomePage" xml:space="preserve">
     <value>Home Page</value>
+  </data>
+  <data name="Hst" xml:space="preserve">
+    <value>HST</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
@@ -225,14 +288,29 @@
   <data name="IfYouChangeInfo" xml:space="preserve">
     <value>If you change Home Owner Information you will have to pass Credit Check step again</value>
   </data>
+  <data name="IsRental" xml:space="preserve">
+    <value>Is rental?</value>
+  </data>
+  <data name="LoanTerm" xml:space="preserve">
+    <value>Loan Term</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Log In</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="MailingAddress" xml:space="preserve">
+    <value>Mailing Address</value>
+  </data>
+  <data name="MaximumFileSize" xml:space="preserve">
+    <value>Maximum file size is limited to 50 MB for a single file.</value>
+  </data>
   <data name="Month" xml:space="preserve">
     <value>Month</value>
+  </data>
+  <data name="MonthlyPayment" xml:space="preserve">
+    <value>MONTHLY PAYMENT</value>
   </data>
   <data name="MyDeals" xml:space="preserve">
     <value>My Deals</value>
@@ -246,6 +324,9 @@
   <data name="NewApplication" xml:space="preserve">
     <value>New Application</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="NoMatchingRecordsFound" xml:space="preserve">
     <value>No matching records found</value>
   </data>
@@ -258,8 +339,14 @@
   <data name="OnThisEmail" xml:space="preserve">
     <value>On this email you will get a new password</value>
   </data>
+  <data name="OtherDocuments" xml:space="preserve">
+    <value>Other Documents</value>
+  </data>
   <data name="PasswordWasChanged" xml:space="preserve">
     <value>Your password was successfully changed.</value>
+  </data>
+  <data name="PaymentInformation" xml:space="preserve">
+    <value>Payment Information</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
@@ -279,8 +366,26 @@
   <data name="RememberMe" xml:space="preserve">
     <value>Remember me?</value>
   </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="ReportForContract" xml:space="preserve">
+    <value>Report for contract</value>
+  </data>
   <data name="Reports" xml:space="preserve">
-    <value>Rapports</value>
+    <value>Reports</value>
+  </data>
+  <data name="RequestedTerm" xml:space="preserve">
+    <value>Requested Term</value>
+  </data>
+  <data name="Reupload" xml:space="preserve">
+    <value>Reupload</value>
+  </data>
+  <data name="SalesRep" xml:space="preserve">
+    <value>Sales Rep</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save changes</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -294,14 +399,32 @@
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="SubDealer" xml:space="preserve">
+    <value>Sub-Dealer</value>
+  </data>
   <data name="Time" xml:space="preserve">
     <value>Time</value>
   </data>
   <data name="TotalForSelected" xml:space="preserve">
     <value>Total for Selected:</value>
   </data>
+  <data name="TotalMonthlyPaymentWithTaxes" xml:space="preserve">
+    <value>TOTAL MONTHLY PAYMENT (TAX INCL.)</value>
+  </data>
+  <data name="TotalValue" xml:space="preserve">
+    <value>TOTAL VALUE</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TypeOfEquipment" xml:space="preserve">
+    <value>Type of Equipment</value>
+  </data>
   <data name="TypeOfPayment" xml:space="preserve">
     <value>Type of Payment</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
   </data>
   <data name="Value" xml:space="preserve">
     <value>Value</value>
@@ -312,10 +435,19 @@
   <data name="Week" xml:space="preserve">
     <value>Week</value>
   </data>
+  <data name="WriteReply" xml:space="preserve">
+    <value>Write a reply...</value>
+  </data>
   <data name="Year" xml:space="preserve">
     <value>Year</value>
   </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
   <data name="YouHaveBeenRegistered" xml:space="preserve">
     <value>You have been successfully registered,</value>
+  </data>
+  <data name="YourComment" xml:space="preserve">
+    <value>your comment</value>
   </data>
 </root>
