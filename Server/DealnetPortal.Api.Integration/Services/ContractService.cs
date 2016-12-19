@@ -75,6 +75,13 @@ namespace DealnetPortal.Api.Integration.Services
             var contracts = _contractRepository.GetContracts(contractOwnerId);
             var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
             AftermapContracts(contracts, contractDTOs, contractOwnerId);
+
+            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
+            if (aspireDeals?.Any() ?? false)
+            {
+                aspireDeals.ForEach(d => contractDTOs.Add(d));                
+            }
+
             return contractDTOs;
         }
 
@@ -720,8 +727,24 @@ namespace DealnetPortal.Api.Integration.Services
                         var equipments = _contractRepository.GetEquipmentTypes();
                         if (equipments?.Any() ?? false)
                         {
-
-
+                            deals.ForEach(d =>
+                            {
+                                var eqType = d.Equipment?.NewEquipment?.FirstOrDefault()?.Type;
+                                if (!string.IsNullOrEmpty(eqType))
+                                {
+                                    var equipment = equipments.FirstOrDefault(eq => eq.Description == eqType);
+                                    if (equipment != null)
+                                    {
+                                        d.Equipment.NewEquipment.FirstOrDefault().Type = equipment.Type;
+                                        d.Equipment.NewEquipment.FirstOrDefault().TypeDescription =
+                                            equipment.Description;
+                                    }
+                                    else
+                                    {
+                                        d.Equipment.NewEquipment.FirstOrDefault().TypeDescription = eqType;
+                                    }                                                                                                                
+                                }
+                            });
                         }
                     }
                     return deals;
