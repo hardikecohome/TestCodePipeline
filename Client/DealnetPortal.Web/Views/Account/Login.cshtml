@@ -15,7 +15,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.UserName, new { @class = "" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control dealnet-input text-lowercase" })
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })                        
                     </div>
                 </div>
