@@ -27,5 +27,7 @@ namespace DealnetPortal.Api.Models.Contract
         public List<PhoneDTO> Phones { get; set; }
 
         public List<EmailDTO> Emails { get; set; }
+
+        public string AccountId { get; set; }
     }
 }

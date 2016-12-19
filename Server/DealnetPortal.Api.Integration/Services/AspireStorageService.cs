@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Aspire.AspireDb;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
@@ -62,7 +63,7 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetDealerDeals(string dealerName)
         {
             string sqlStatement = @"SELECT *
-                                      FROM sample_mydeals                                      
+                                      FROM sample_mydeals (NOLOCK)                                    
 									  where dealer_name LIKE '%{0}%';";
             sqlStatement = string.Format(sqlStatement, dealerName);
 
@@ -137,34 +138,53 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Id = 0 // for transactions from aspire
                 };
-                            
+
+                var date = ConvertFromDbVal<string>(dr["Last_Update_Date"]);
+                var time = ConvertFromDbVal<string>(dr["Last_Update_Time"]);
+                DateTime updateTime;
+                DateTime.TryParse($"{date} {time}", out updateTime);
+
+                item.LastUpdateTime = item.CreationTime = updateTime;
+
                 item.Details = new ContractDetailsDTO()
                 {
                     TransactionId = ConvertFromDbVal<long>(dr["transaction#"]).ToString(),
-                    Status = ConvertFromDbVal<string>(dr["[Deal_Status"]),
+                    Status = ConvertFromDbVal<string>(dr["Deal_Status"]),
+                    AgreementType = ConvertFromDbVal<string>(dr["Contract_Type_Code"]) == "RENTAL" ? AgreementType.RentalApplication : AgreementType.LoanApplication                    ,                    
                 };                
 
                 item.Equipment = new EquipmentInfoDTO()
                 {
                     Id = 0,
-                    LoanTerm = ConvertFromDbVal<int>(dr["[Term"]) + 60,                    
+                    LoanTerm = ConvertFromDbVal<int>(dr["Term"]),                
+                    RequestedTerm = ConvertFromDbVal<int>(dr["Term"]),
+                    ValueOfDeal = (double)ConvertFromDbVal<decimal>(dr["Amount Financed"]),
+
+
                     NewEquipment = new List<NewEquipmentDTO>()
                     {
                         new NewEquipmentDTO()
                         {
                             Id = 0,
-                            Description = ConvertFromDbVal<string>(dr["[Equipment_Description"]),
-                            Type = ConvertFromDbVal<string>(dr["[Equipment_Type"]),
-                            Cost = ConvertFromDbVal<decimal>(dr["[Amount Financed"])
+                            Description = ConvertFromDbVal<string>(dr["Equipment_Description"]),
+                            Type = ConvertFromDbVal<string>(dr["Equipment_Type"]),
                         }
                     }
                 };
 
+                var names = ConvertFromDbVal<string>(dr["Customer_name"])?.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
+                var fstName = names?.Count() > 1 ? names[0] : string.Empty;
+                var lstName = names?.Count() > 1 ? names[1] : string.Empty;
+
                 item.PrimaryCustomer = new CustomerDTO()
                 {
                     Id = 0,
-                    LastName = ConvertFromDbVal<string>(dr["[Customer_name"])
+                    AccountId = ConvertFromDbVal<string>(dr["Customer ID"]),
+                    LastName = lstName,
+                    FirstName = fstName
                 };
+
+
                
                 return item;
             }

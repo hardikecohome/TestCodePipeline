@@ -42,5 +42,14 @@ namespace DealnetPortal.Api.Tests.Aspire
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Any());
         }
+
+        [TestMethod]
+        public void TestGetDealerDeals()
+        {
+            var list = _aspireStorageService.GetDealerDeals("Eco Smart");
+
+            Assert.IsNotNull(list);
+            Assert.IsTrue(list.Any());
+        }
     }
 }
