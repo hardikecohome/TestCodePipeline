@@ -723,13 +723,8 @@ namespace DealnetPortal.Api.Integration.Services
                 udfs.Add(new UDF()
                 {
                     Name = "Payment Type",
-                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "Pre-Authorized Debit"
+                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "PAD"
                 });
-                //udfs.Add(new UDF()
-                //{
-                //    Name = "Payment Type",
-                //    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge Bill" : "Pre-Authorized Debit"
-                //});                
                 if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
                     !string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount))
                 {
