@@ -78,6 +78,7 @@ function showTable() {
                     {
                         "render": function(sdata, type, row) {
                             return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                            //disabled="disabled"
                         },
                         className: 'checkbox-cell'
                     },                    
@@ -103,7 +104,11 @@ function showTable() {
                     },
                     {// this is Actions Column
                         "render": function (sdata, type, row) {
-                            return '<div class="contract-controls"><a class="icon-link preview-item" onclick="previewItem.call(this);"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-preview"></use></a><a class="icon-link export-item" onclick="exportItem.call(this);"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+                            if (row.Id != 0) {
+                                return '<div class="contract-controls"><a class="icon-link preview-item" onclick="previewItem.call(this);"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-preview"></use></a><a class="icon-link export-item" onclick="exportItem.call(this);"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+                            } else {
+                                return '';
+                            }
                         },
                         className: 'controls-cell'
                     }
@@ -158,7 +163,12 @@ function showTable() {
         });
         $('#export-all-excel').click(function () {
             var ids = $.map(table.rows('tr', { search: 'applied' }).nodes(), function (tr) {
-                //return $(tr).find(':nth-child(2)').text();
+                //if (tr.id != '') {
+                //    return tr.id;
+                //} else {
+                //    return "t" + $(tr).find(':nth-child(2)').text();
+                //}
+                //return $(tr).find(':nth-child(1)').text();
                 return tr.id;
             });
             submitExportRequest(ids);
