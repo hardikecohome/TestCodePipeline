@@ -286,6 +286,7 @@
     <Content Include="Content\images\new-rental%403x.png" />
     <Content Include="Content\images\new-rental.png" />
     <Content Include="Content\images\new-rental.svg" />
+    <Content Include="DeployParameters.Api.deaslnet02vm.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
