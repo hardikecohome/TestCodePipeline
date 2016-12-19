@@ -17,6 +17,9 @@
   .comment{
     padding: 20px 0;
     border-bottom: 1px solid #ededed;
+    .comment-footer{
+      display: none;
+    }
     &.active{
       & + .child-comments-list{
         display: block;
@@ -100,7 +103,7 @@
     }
   }
   .child-comments-list{
-    padding-left: 130px;
+    padding-left: 0;
     display: none;
     margin: 0;
     @media @tablet-only {
