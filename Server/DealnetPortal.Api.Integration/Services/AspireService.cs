@@ -602,12 +602,12 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = "Authorized Consent",
                             Value = "Y"
                         },
-                        new UDF()
-                        {
+                        //new UDF()
+                        //{
 
-                            Name = "Existing Customer",
-                            Value = string.IsNullOrEmpty(c.AccountId) ? "N" : "Y" // ???
-                        }
+                        //    Name = "Existing Customer",
+                        //    Value = string.IsNullOrEmpty(c.AccountId) ? "N" : "Y" // ???
+                        //}
                     }
                 };            
 
@@ -649,10 +649,30 @@ namespace DealnetPortal.Api.Integration.Services
                     };
                 }
 
-                if (!string.IsNullOrEmpty(c.AccountId))
+                if (string.IsNullOrEmpty(c.AccountId))
+                {
+                    //check user on Aspire
+                    var postalCode =
+                        c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
+                        c.Locations?.FirstOrDefault()?.PostalCode;
+                    var aspireCustomer = _aspireStorageService.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth, postalCode);
+                    if (aspireCustomer != null)
+                    {
+                        account.ClientId = aspireCustomer.AccountId?.Trim();
+                    }
+                }
+                else
                 {
                     account.ClientId = c.AccountId;
-                }
+                } 
+                
+                account.UDFs.Add(
+                    new UDF()
+                    {
+
+                        Name = "Existing Customer",
+                        Value = string.IsNullOrEmpty(account.ClientId) ? "N" : "Y" // ???
+                    });
 
                 if (!string.IsNullOrEmpty(role))
                 {

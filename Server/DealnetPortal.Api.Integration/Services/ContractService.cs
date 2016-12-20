@@ -79,7 +79,8 @@ namespace DealnetPortal.Api.Integration.Services
             var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
             if (aspireDeals?.Any() ?? false)
             {
-                aspireDeals.ForEach(d => contractDTOs.Add(d));                
+                //skip deals that already in DB
+                aspireDeals.Where(d => contracts.All(c => !(c.Details?.TransactionId?.Contains(d.Details.TransactionId) ?? false))).ForEach(d => contractDTOs.Add(d));                
             }
 
             return contractDTOs;
@@ -122,7 +123,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var contractData = Mapper.Map<ContractData>(contract);
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
-                {                    
+                {
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
@@ -724,6 +725,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var deals = _aspireStorageService.GetDealerDeals(user.DisplayName);
                     if (deals?.Any() ?? false)
                     {
+                        //skip deals that already in DB                        
                         var equipments = _contractRepository.GetEquipmentTypes();
                         if (equipments?.Any() ?? false)
                         {

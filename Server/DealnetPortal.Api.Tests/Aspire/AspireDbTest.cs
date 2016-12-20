@@ -43,6 +43,7 @@ namespace DealnetPortal.Api.Tests.Aspire
             Assert.IsTrue(list.Any());
         }
 
+
         [TestMethod]
         public void TestGetDealerDeals()
         {
@@ -70,6 +71,18 @@ namespace DealnetPortal.Api.Tests.Aspire
 
             Assert.IsNotNull(customer);
             Assert.IsTrue(customer.AccountId.Contains(customerId));
+        }
+
+        [TestMethod]
+        public void TestFindCustomer()
+        {
+            var postalCode = "M1H2Y4";
+            var firstName = "aaaa";
+            var lastName = "ABBAK";
+            var dob = DateTime.Parse("1949-08-06 00:00:00.000");
+            var customer = _aspireStorageService.FindCustomer(firstName, lastName, dob, postalCode);
+
+            Assert.IsNotNull(customer);            
         }
     }
 }

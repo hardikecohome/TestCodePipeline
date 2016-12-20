@@ -49,7 +49,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     B.descr as Field_Description,
                                     B.OID as Field_Oid,
                                     B.valid_value as SubmissionValue
-                                      FROM GenericField (NOLOCK)A
+                                      FROM GenericField (NOLOCK) A
                                       LEFT JOIN GenericFieldValidValue(NOLOCK) B ON A.oid = B.genf_oid
                                       and b.active = 1 and a.active = 1                                      
 									  where a.ref_type = 'CNTRCT' and b.active = 1
@@ -64,8 +64,10 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetDealerDeals(string dealerName)
         {
             string sqlStatement = @"SELECT *
-                                      FROM sample_mydeals (NOLOCK)                                    
-									  where dealer_name LIKE '%{0}%';";
+                                      FROM sample_mydeals(NOLOCK) sd
+                                      LEFT JOIN Entity(NOLOCK) e ON sd.[Customer ID] = e.entt_id
+                                      LEFT JOIN Phone (nolock) p on (e.oid = p.entt_oid)
+                                      where dealer_name LIKE '%{0}%';";
             sqlStatement = string.Format(sqlStatement, dealerName);
 
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
@@ -81,6 +83,14 @@ namespace DealnetPortal.Api.Integration.Services
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
             if (list?.Any() ?? false)
             {
+                if (!string.IsNullOrEmpty(list[0].PrimaryCustomer?.AccountId))
+                {
+                    var customer = GetCustomerById(list[0].PrimaryCustomer?.AccountId);
+                    if (customer != null)
+                    {
+                        list[0].PrimaryCustomer = customer;
+                    }
+                }
                 return list[0];
             }
             return null;
@@ -117,7 +127,7 @@ namespace DealnetPortal.Api.Integration.Services
                                             on (e.oid = p.entt_oid)
                                         where   e.fname LIKE '{0}%'
                                             and e.lname LIKE '{1}%'
-                                            and e.date_of_birth = {2}
+                                            and e.date_of_birth = '{2}'
                                             and l.postal_code LIKE '{3}%'";
             var dob = customer?.DateOfBirth.ToString(CultureInfo.InvariantCulture);
             var postalCode =
@@ -142,7 +152,7 @@ namespace DealnetPortal.Api.Integration.Services
                                             on (e.oid = p.entt_oid)
                                         where   e.fname LIKE '{0}%'
                                             and e.lname LIKE '{1}%'
-                                            and e.date_of_birth = {2}
+                                            and e.date_of_birth = '{2}'
                                             and l.postal_code LIKE '{3}%'";
             var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);            
             sqlStatement = string.Format(sqlStatement, firstName, lastName, dob, postalCode.Replace(" ", ""));
@@ -258,24 +268,41 @@ namespace DealnetPortal.Api.Integration.Services
                 var names = ConvertFromDbVal<string>(dr["Customer_name"])?.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
                 var fstName = names?.Count() > 1 ? names[0] : string.Empty;
                 var lstName = names?.Count() > 1 ? names[1] : string.Empty;
+                DateTime dob = new DateTime();
+
+                try
+                {
+                    dob = ConvertFromDbVal<DateTime>(dr["date_of_birth"]);
+                }
+                catch (Exception ex)
+                {                    
+                }
 
                 item.PrimaryCustomer = new CustomerDTO()
                 {
                     Id = 0,
                     AccountId = ConvertFromDbVal<string>(dr["Customer ID"]),
-                    LastName = lstName,
-                    FirstName = fstName
+                    LastName = ConvertFromDbVal<string>(dr["lname"])  ?? lstName,
+                    FirstName = ConvertFromDbVal<string>(dr["fname"]) ?? fstName,
+                    DateOfBirth = dob,
+                    Emails = new List<EmailDTO>()
+                    {
+                        new EmailDTO()
+                        {
+                            EmailType = EmailType.Main,
+                            EmailAddress = ConvertFromDbVal<string>(dr["email_addr"])
+                        }
+                    },
+                    Phones = new List<PhoneDTO>()
+                    {
+                        new PhoneDTO()
+                        {
+                            PhoneType = PhoneType.Home,
+                            PhoneNum = ConvertFromDbVal<string>(dr["phone_num"])
+                        }
+                    }
                 };
 
-                if (!string.IsNullOrEmpty(item.PrimaryCustomer?.AccountId))
-                {
-                    var customer = GetCustomerById(item.PrimaryCustomer.AccountId);
-                    if (customer != null)
-                    {
-                        item.PrimaryCustomer = customer;
-                    }
-                }
-                
                 return item;
             }
             catch (Exception ex)

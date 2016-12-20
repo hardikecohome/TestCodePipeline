@@ -76,9 +76,12 @@ function showTable() {
                     },
                     columns: [
                     {
-                        "render": function(sdata, type, row) {
-                            return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
-                            //disabled="disabled"
+                        "render": function (sdata, type, row) {
+                            if (row.Id != 0) {
+                                return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                            } else {
+                                return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                            }                            
                         },
                         className: 'checkbox-cell'
                     },                    
