@@ -169,7 +169,7 @@ function showTable() {
                 //    return "t" + $(tr).find(':nth-child(2)').text();
                 //}
                 //return $(tr).find(':nth-child(1)').text();
-                return tr.id;
+                return tr.id ? tr.id : null;
             });
             submitExportRequest(ids);
         });
