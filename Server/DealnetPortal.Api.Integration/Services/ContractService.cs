@@ -29,16 +29,18 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
+        private readonly IAspireStorageService _aspireStorageService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
 
         public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, 
-            IAspireService aspireService, ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
+            IAspireService aspireService, IAspireStorageService aspireStorageService, ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _aspireService = aspireService;
+            _aspireStorageService = aspireStorageService;
             _signatureService = signatureService;
             _mailService = mailService;
         }
@@ -73,6 +75,14 @@ namespace DealnetPortal.Api.Integration.Services
             var contracts = _contractRepository.GetContracts(contractOwnerId);
             var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
             AftermapContracts(contracts, contractDTOs, contractOwnerId);
+
+            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
+            if (aspireDeals?.Any() ?? false)
+            {
+                //skip deals that already in DB
+                aspireDeals.Where(d => contracts.All(c => !(c.Details?.TransactionId?.Contains(d.Details.TransactionId) ?? false))).ForEach(d => contractDTOs.Add(d));                
+            }
+
             return contractDTOs;
         }
 
@@ -101,6 +111,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTO = Mapper.Map<ContractDTO>(contract);
             AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
             AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+
             return contractDTO;
         }
 
@@ -112,7 +123,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var contractData = Mapper.Map<ContractData>(contract);
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
-                {                    
+                {
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
@@ -702,6 +713,54 @@ namespace DealnetPortal.Api.Integration.Services
                     AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId);
                 }
             }
+        }
+
+        private IList<ContractDTO> GetAspireDealsForDealer(string contractOwnerId)
+        {
+            var user = _contractRepository.GetDealer(contractOwnerId);
+            if (user != null)
+            {
+                try
+                {
+                    var deals = _aspireStorageService.GetDealerDeals(user.DisplayName);
+                    if (deals?.Any() ?? false)
+                    {
+                        //skip deals that already in DB                        
+                        var equipments = _contractRepository.GetEquipmentTypes();
+                        if (equipments?.Any() ?? false)
+                        {
+                            deals.ForEach(d =>
+                            {
+                                var eqType = d.Equipment?.NewEquipment?.FirstOrDefault()?.Type;
+                                if (!string.IsNullOrEmpty(eqType))
+                                {
+                                    var equipment = equipments.FirstOrDefault(eq => eq.Description == eqType);
+                                    if (equipment != null)
+                                    {
+                                        d.Equipment.NewEquipment.FirstOrDefault().Type = equipment.Type;
+                                        d.Equipment.NewEquipment.FirstOrDefault().TypeDescription =
+                                            equipment.Description;
+                                    }
+                                    else
+                                    {
+                                        d.Equipment.NewEquipment.FirstOrDefault().TypeDescription = eqType;
+                                    }                                                                                                                
+                                }
+                            });
+                        }
+                    }
+                    return deals;
+                }                                
+                catch (Exception ex)
+                {
+                    _loggingService.LogError($"Error occured during get deals from aspire", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
+            }
+            return null;
         }
 
         public Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)

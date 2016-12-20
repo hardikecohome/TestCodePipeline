@@ -279,6 +279,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         dbCustomer.Sin = customerInfo.Sin;
                     }
+                    if (customerInfo.AccountId != null)
+                    {
+                        dbCustomer.AccountId = customerInfo.AccountId;
+                    }
                     //AddOrUpdateCustomer(customerInfo);
                 }
 

@@ -126,7 +126,11 @@ function showTable() {
                       { "data": "Date"},
                       {// this is Actions Column
                           "render": function (sdata, type, row) {
-                              return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                              if (row.Id != 0) {
+                                  return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                              } else {
+                                  return '';
+                              }
                           }
                       },
                       {

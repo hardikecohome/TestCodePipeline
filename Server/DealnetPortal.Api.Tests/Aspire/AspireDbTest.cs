@@ -42,5 +42,47 @@ namespace DealnetPortal.Api.Tests.Aspire
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Any());
         }
+
+
+        [TestMethod]
+        public void TestGetDealerDeals()
+        {
+            var list = _aspireStorageService.GetDealerDeals("Eco Smart");
+
+            Assert.IsNotNull(list);
+            Assert.IsTrue(list.Any());
+        }
+
+        [TestMethod]
+        public void TestGetDealById()
+        {
+            int transactionId = 19671;
+            var deal = _aspireStorageService.GetDealById(transactionId);
+
+            Assert.IsNotNull(deal);
+            Assert.AreEqual(transactionId, int.Parse(deal.Details.TransactionId));
+        }
+
+        [TestMethod]
+        public void TestGetCustomerById()
+        {
+            var customerId = "7954";
+            var customer = _aspireStorageService.GetCustomerById(customerId);
+
+            Assert.IsNotNull(customer);
+            Assert.IsTrue(customer.AccountId.Contains(customerId));
+        }
+
+        [TestMethod]
+        public void TestFindCustomer()
+        {
+            var postalCode = "M1H2Y4";
+            var firstName = "aaaa";
+            var lastName = "ABBAK";
+            var dob = DateTime.Parse("1949-08-06 00:00:00.000");
+            var customer = _aspireStorageService.FindCustomer(firstName, lastName, dob, postalCode);
+
+            Assert.IsNotNull(customer);            
+        }
     }
 }
