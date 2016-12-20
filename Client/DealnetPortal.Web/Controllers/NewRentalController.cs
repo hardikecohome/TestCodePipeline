@@ -175,23 +175,7 @@ namespace DealnetPortal.Web.Controllers
                 case CreditCheckState.Initiated:
                 default:
                     return View("CreditRejected", contractId);
-            }
-
-            ////Thread.Sleep(3000);
-            //var contractResult = await _contractServiceAgent.GetContract(contractId);
-            //if (contractResult.Item1 == null)
-            //{
-            //    return View("~/Views/Shared/Error.cshtml");
-            //}
-            //if (true)
-            //{
-            //    TempData["MaxCreditAmount"] = 15000;
-            //    return RedirectToAction("EquipmentInformation", new {contractId});
-            //}
-            //else
-            //{
-            //    return View("CreditRejected", contractId);
-            //}
+            }            
         }
 
         public ActionResult CreditRejected(int contractId)
