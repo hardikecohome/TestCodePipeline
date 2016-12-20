@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +70,88 @@ namespace DealnetPortal.Api.Integration.Services
 
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
             return list;
+        }
+
+        public ContractDTO GetDealById(int transactionId)
+        {
+            string sqlStatement = @"SELECT *
+                                      FROM sample_mydeals (NOLOCK)                                    
+									  where transaction# = {0};";
+            sqlStatement = string.Format(sqlStatement, transactionId);
+            var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
+            if (list?.Any() ?? false)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
+        public CustomerDTO GetCustomerById(string customerId)
+        {
+            string sqlStatement = @"SELECT
+                                        * FROM Entity (nolock) as e
+                                        LEFT JOIN Location (nolock) as l
+                                            on (e.oid = l.entt_oid and e.loca_oid = l.oid)
+                                        LEFT JOIN Phone (nolock) as p
+                                            on (e.oid = p.entt_oid)
+                                        where e.entt_id LIKE '{0}%'
+                                        and e.fname is not null
+                                        and e.lname is not null";
+
+            sqlStatement = string.Format(sqlStatement, customerId);
+            var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
+            if (list?.Any() ?? false)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
+        public CustomerDTO FindCustomer(CustomerDTO customer)
+        {
+            string sqlStatement = @"SELECT
+                                        * FROM Entity (nolock) as e
+                                        LEFT JOIN Location (nolock) as l
+                                            on (e.oid = l.entt_oid and e.loca_oid = l.oid)
+                                        LEFT JOIN Phone (nolock) as p
+                                            on (e.oid = p.entt_oid)
+                                        where   e.fname LIKE '{0}%'
+                                            and e.lname LIKE '{1}%'
+                                            and e.date_of_birth = {2}
+                                            and l.postal_code LIKE '{3}%'";
+            var dob = customer?.DateOfBirth.ToString(CultureInfo.InvariantCulture);
+            var postalCode =
+                customer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
+                customer?.Locations?.FirstOrDefault()?.PostalCode;
+            sqlStatement = string.Format(sqlStatement, customer?.FirstName, customer?.LastName, dob, postalCode?.Replace(" ",""));
+            var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
+            if (list?.Any() ?? false)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
+        public CustomerDTO FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode)
+        {
+            string sqlStatement = @"SELECT
+                                        * FROM Entity (nolock) as e
+                                        LEFT JOIN Location (nolock) as l
+                                            on (e.oid = l.entt_oid and e.loca_oid = l.oid)
+                                        LEFT JOIN Phone (nolock) as p
+                                            on (e.oid = p.entt_oid)
+                                        where   e.fname LIKE '{0}%'
+                                            and e.lname LIKE '{1}%'
+                                            and e.date_of_birth = {2}
+                                            and l.postal_code LIKE '{3}%'";
+            var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);            
+            sqlStatement = string.Format(sqlStatement, firstName, lastName, dob, postalCode.Replace(" ", ""));
+            var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
+            if (list?.Any() ?? false)
+            {
+                return list[0];
+            }
+            return null;
         }
 
         private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
@@ -184,9 +267,81 @@ namespace DealnetPortal.Api.Integration.Services
                     FirstName = fstName
                 };
 
-
-               
+                if (!string.IsNullOrEmpty(item.PrimaryCustomer?.AccountId))
+                {
+                    var customer = GetCustomerById(item.PrimaryCustomer.AccountId);
+                    if (customer != null)
+                    {
+                        item.PrimaryCustomer = customer;
+                    }
+                }
+                
                 return item;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        private CustomerDTO ReadCustomerItem(IDataReader dr)
+        {
+            try
+            {
+                CustomerDTO customer = new CustomerDTO()
+                {
+                    FirstName = ConvertFromDbVal<string>(dr["fname"]),
+                    LastName = ConvertFromDbVal<string>(dr["lname"]),
+                    AccountId = ConvertFromDbVal<string>(dr["entt_id"]),
+                };
+
+                customer.DateOfBirth = ConvertFromDbVal<DateTime>(dr["date_of_birth"]);
+                var email = ConvertFromDbVal<string>(dr["email_addr"]);
+                if (!string.IsNullOrEmpty(email))
+                {
+                    customer.Emails = new List<EmailDTO>()
+                    {
+                        new EmailDTO()
+                        {
+                            EmailType = EmailType.Main,
+                            EmailAddress = email
+                        }
+                    };
+                }
+
+                var postalCode = ConvertFromDbVal<string>(dr["postal_code"]);
+                if (!string.IsNullOrEmpty(postalCode))
+                {
+                    customer.Locations = new List<LocationDTO>()
+                    {
+                        new LocationDTO()
+                        {
+                            AddressType = AddressType.MainAddress,
+                            City = ConvertFromDbVal<string>(dr["city"]),
+                            State = ConvertFromDbVal<string>(dr["state"]),
+                            PostalCode = ConvertFromDbVal<string>(dr["postal_code"]),
+                            ResidenceType = ResidenceType.Own,
+                            Street = ConvertFromDbVal<string>(dr["addr_line1"])
+                        }
+                    };
+                }
+
+
+                var phoneNum = ConvertFromDbVal<string>(dr["phone_num"]);
+                if (!string.IsNullOrEmpty(phoneNum))
+                {
+                    customer.Phones = new List<PhoneDTO>()
+                    {
+                        //var isPrimary = ConvertFromDbVal<string>(dr["addr_line1"]);
+                        new PhoneDTO()
+                        {
+                            PhoneNum = phoneNum,
+                            PhoneType = PhoneType.Home
+                        }
+                    };
+                }
+
+                return customer;
             }
             catch (Exception ex)
             {

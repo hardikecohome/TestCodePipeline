@@ -51,5 +51,25 @@ namespace DealnetPortal.Api.Tests.Aspire
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Any());
         }
+
+        [TestMethod]
+        public void TestGetDealById()
+        {
+            int transactionId = 19671;
+            var deal = _aspireStorageService.GetDealById(transactionId);
+
+            Assert.IsNotNull(deal);
+            Assert.AreEqual(transactionId, int.Parse(deal.Details.TransactionId));
+        }
+
+        [TestMethod]
+        public void TestGetCustomerById()
+        {
+            var customerId = "7954";
+            var customer = _aspireStorageService.GetCustomerById(customerId);
+
+            Assert.IsNotNull(customer);
+            Assert.IsTrue(customer.AccountId.Contains(customerId));
+        }
     }
 }
