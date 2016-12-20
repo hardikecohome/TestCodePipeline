@@ -3,6 +3,10 @@
       if(detectIE()){
         $('body').addClass('ie');
       }
+      $('.chosen-language-link').on('click', function(){
+        $(this).parents('.lang-switcher').toggleClass('open');
+        return false;
+      });
 
         $("input, textarea").placeholder();
 
