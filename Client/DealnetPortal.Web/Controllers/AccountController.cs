@@ -72,7 +72,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 var error = result.FirstOrDefault(r => r.Type == AlertType.Error);
                 _loggingService.LogError(string.Format("Invalid login attempt for user: {0} - {1}:{2}", model.Email, error?.Header, error?.Message));
-                ModelState.AddModelError("", "Invalid login attempt.");
+                ModelState.AddModelError("", Resources.Resources.InvalidLoginAttempt);
                 return View(model);
             }
             try

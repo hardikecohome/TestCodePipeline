@@ -462,4 +462,10 @@
   <data name="String1" xml:space="preserve">
     <value>Report for contract</value>
   </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>Invalid login attempt.</value>
+  </data>
+  <data name="CreditCheckErrorMessage" xml:space="preserve">
+    <value>Can't connect to external system for Credit Check. Try to perform Credit Check later.</value>
+  </data>
 </root>

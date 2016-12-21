@@ -214,6 +214,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t connect to external system for Credit Check. Try to perform Credit Check later..
+        /// </summary>
+        public static string CreditCheckErrorMessage {
+            get {
+                return ResourceManager.GetString("CreditCheckErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
@@ -579,6 +588,15 @@ namespace DealnetPortal.Web.Resources {
         public static string IfYouChangeInfo {
             get {
                 return ResourceManager.GetString("IfYouChangeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid login attempt..
+        /// </summary>
+        public static string InvalidLoginAttempt {
+            get {
+                return ResourceManager.GetString("InvalidLoginAttempt", resourceCulture);
             }
         }
         
