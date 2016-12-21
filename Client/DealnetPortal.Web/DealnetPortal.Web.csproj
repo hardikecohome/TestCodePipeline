@@ -375,6 +375,12 @@
     <Content Include="Content\images\dataTables\sort_both.png" />
     <Content Include="Content\images\dataTables\sort_desc.png" />
     <Content Include="Content\images\dataTables\sort_desc_disabled.png" />
+    <Content Include="Content\images\icon-english%402x.png" />
+    <Content Include="Content\images\icon-english%403x.png" />
+    <Content Include="Content\images\icon-english.png" />
+    <Content Include="Content\images\icon-french%402x.png" />
+    <Content Include="Content\images\icon-french%403x.png" />
+    <Content Include="Content\images\icon-french.png" />
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo-one-dealer%402x.png" />
     <Content Include="Content\images\logo-one-dealer%403x.png" />
@@ -558,6 +564,7 @@
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\components\loader.less" />
+    <Content Include="Content\less\components\lang-swither.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Content\less\components\icons.less" />
     <Content Include="Content\less\partials\layout.less" />

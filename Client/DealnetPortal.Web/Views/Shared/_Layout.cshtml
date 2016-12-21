@@ -73,18 +73,28 @@
                         }
                         <div class="user-hold">
                             <div class="dealnet-login-buttons-holder pull-right">
-
-                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                    <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
-                                </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "dealnet-link" })</div>
-                                <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                    <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
-                                </div>
-                                <div class="dealnet-sidebar-item-inner">@Html.ActionLink("French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-link" })</div>
-                                
-                                
                                 @Html.Partial("LoginButtons")
+                            </div>
+                            <div class="lang-switcher pull-right">
+                                <div class="chosen-language">
+                                    <div class="lang-item">
+                                        <span class="flag-icon english-flag"></span>
+                                        <a href="#" class="chosen-language-link">
+                                            English
+                                            <span class="caret"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <ul class="lang-list">
+                                    <li class="lang-item active">
+                                        <span class="flag-icon english-flag"></span>
+                                        @Html.ActionLink("English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
+                                    </li>
+                                    <li class="lang-item">
+                                        <span class="flag-icon  french-flag"></span>
+                                        @Html.ActionLink("French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -151,7 +161,13 @@
                     </ul>
 
 
-                <div class="dealnet-sidebar-logout">
+                    <div class="dealnet-sidebar-logout">
+                        <div class="dealnet-sidebar-item">
+                            <div class="sidebar-lang-item">
+                                <span class="flag-icon  french-flag"></span>
+                                @Html.ActionLink("Switch to French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-link" })
+                            </div>
+                        </div>
                         <div class="dealnet-sidebar-item">
                             @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })                            
                         </div>
