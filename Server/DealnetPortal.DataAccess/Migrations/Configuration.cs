@@ -23,7 +23,8 @@ namespace DealnetPortal.DataAccess.Migrations
 
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;            
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;           
             ContextKey = "DealnetPortal.DataAccess.ApplicationDbContext";
         }
 
@@ -492,19 +493,19 @@ namespace DealnetPortal.DataAccess.Migrations
                 new ProvinceTaxRate {Province = "AB", Rate = 5},
                 new ProvinceTaxRate {Province = "BC", Rate = 12},
                 new ProvinceTaxRate {Province = "MB", Rate = 13},
-                new ProvinceTaxRate {Province = "NB", Rate = 13},
-                new ProvinceTaxRate {Province = "NL", Rate = 13},
+                new ProvinceTaxRate {Province = "NB", Rate = 15},
+                new ProvinceTaxRate {Province = "NL", Rate = 15},
                 new ProvinceTaxRate {Province = "NT", Rate = 5},
                 new ProvinceTaxRate {Province = "NS", Rate = 15},
                 new ProvinceTaxRate {Province = "NU", Rate = 5},
                 new ProvinceTaxRate {Province = "ON", Rate = 13},
-                new ProvinceTaxRate {Province = "PE", Rate = 5},
+                new ProvinceTaxRate {Province = "PE", Rate = 15},
                 new ProvinceTaxRate {Province = "QC", Rate = 14.975},
                 new ProvinceTaxRate {Province = "SK", Rate = 10},
                 new ProvinceTaxRate {Province = "YT", Rate = 5}
             };
             //leave existing data
-            taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
+            taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province && dbt.Rate == t.Rate));
             context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
         }
 
