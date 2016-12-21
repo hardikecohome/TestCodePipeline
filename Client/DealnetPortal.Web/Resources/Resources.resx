@@ -279,7 +279,7 @@
   <data name="HomePage" xml:space="preserve">
     <value>Home Page</value>
   </data>
-  <data name="Hst" xml:space="preserve">
+  <data name="GstHst" xml:space="preserve">
     <value>GST/HST</value>
   </data>
   <data name="Id" xml:space="preserve">
@@ -449,5 +449,17 @@
   </data>
   <data name="YourComment" xml:space="preserve">
     <value>your comment</value>
+  </data>
+  <data name="Contracts" xml:space="preserve">
+    <value>Contracts</value>
+  </data>
+  <data name="ReportForContracts" xml:space="preserve">
+    <value>Report for contracts</value>
+  </data>
+  <data name="ShowMoreInfo" xml:space="preserve">
+    <value>Show more information</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Report for contract</value>
   </data>
 </root>

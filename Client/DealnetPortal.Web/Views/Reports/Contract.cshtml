@@ -130,7 +130,7 @@
 				    {
 				        <div class="form-group">
 				            <div class="row">
-				                <label class="dealnet-field-caption col-xs-6">@Resources.LoanTerm</label>
+				                @Html.LabelFor(m => m.EquipmentInfo.LoanTerm, new { @class = "dealnet-field-caption col-xs-6" })
 				                <div class="dealnet-field-holder col-xs-6">
 				                    <div class="control-group">
 				                        @(Model.EquipmentInfo?.LoanTerm)
@@ -143,7 +143,7 @@
 				    {
 				        <div class="form-group">
 				            <div class="row">
-				                <label class="dealnet-field-caption col-xs-6">@Resources.RequestedTerm</label>
+				                @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new { @class = "dealnet-field-caption col-xs-6" })
 				                <div class="dealnet-field-holder col-xs-6">
 				                    <div class="control-group">
 				                        @(Model.EquipmentInfo?.RequestedTerm)
@@ -154,7 +154,7 @@
 				    }
                     <div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">@Resources.SalesRep</label>
+							@Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.EquipmentInfo?.SalesRep)
@@ -168,7 +168,7 @@
 				<div class="dealnet-credit-check-section">
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">@Resources.Status</label>
+							@Html.LabelFor(m => m.AdditionalInfo.Status, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.AdditionalInfo?.Status)
@@ -178,7 +178,7 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">@Resources.Type</label>
+							@Html.LabelFor(m => m.EquipmentInfo.AgreementType, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.EquipmentInfo?.AgreementType.GetEnumDescription())
@@ -188,7 +188,7 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">@Resources.Date</label>
+							@Html.LabelFor(m => m.AdditionalInfo.LastUpdateTime, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.AdditionalInfo?.LastUpdateTime?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -706,7 +706,7 @@
 					        <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 					            <div class="row">
 					                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-					                    @Resources.Hst
+					                    @Resources.GstHst
 					                </div>
 					                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate/100, 2))

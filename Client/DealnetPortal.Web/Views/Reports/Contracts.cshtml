@@ -5,11 +5,11 @@
 @using DealnetPortal.Api.Common.Helpers
 @model System.Collections.Generic.IList<DealnetPortal.Web.Models.ContractViewModel>
 <div id="label-steps">
-	@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Contracts</div>  &gt;
+	@Html.ActionLink(Resources.Reports, "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">@Resources.Contracts</div>  &gt;
 </div>
 <div class="form-container">
 	<div class="form-section">
-		<div class="dealnet-large-header">Report for contracts</div>
+		<div class="dealnet-large-header">@Resources.ReportForContracts</div>
 		<div class="row credit-check-info-hold without-divider no-top-margin">
 			<div class="col-md-6 grid-column">
 				<div class="dealnet-credit-check-section">
@@ -20,7 +20,7 @@
 				<div class="dealnet-credit-check-section common-contract-information">
 					<div class="form-group">
 						<div class="row">
-							<div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL MONTHLY PAYMENT (TAX INCL.)</div>
+							<div class="col-xs-12 col-sm-9 dealnet-field-caption">@Resources.TotalMonthlyPaymentWithTaxes</div>
 							<div class="col-xs-12 col-sm-3 dealnet-field-holder">
 								<div class="control-group">
                                     $ @($"{Model.Sum(c => c.EquipmentInfo == null ? 0 : c.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? c.LoanCalculatorOutput.TotalMonthlyPayment : (c.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (c.EquipmentInfo?.TotalMonthlyPayment ?? 0)*c.ProvinceTaxRate/100 ):0.00}")
@@ -30,7 +30,7 @@
 					</div>
 				        <div class="form-group">
 				            <div class="row">
-				                <div class="col-xs-12 col-sm-9 dealnet-field-caption">TOTAL VALUE</div>
+				                <div class="col-xs-12 col-sm-9 dealnet-field-caption">@Resources.TotalValue</div>
 				                <div class="col-xs-12 col-sm-3 dealnet-field-holder">
 				                    <div class="control-group">
 				                        $ @($"{Model.Where(x => x.EquipmentInfo != null).Sum(c => c.EquipmentInfo.ValueOfDeal):0.00}")
@@ -49,10 +49,10 @@
         contractCount++;
         <div class="form-container reports-contract-item">
 		<div class="form-section contract-visible-info">
-			<div class="dealnet-large-header">Report for contract #@(contract.AdditionalInfo.TransactionId ?? contract.BasicInfo.ContractId.ToString())</div>
+			<div class="dealnet-large-header">@Resources.ReportForContract #@(contract.AdditionalInfo.TransactionId ?? contract.BasicInfo.ContractId.ToString())</div>
             <br />
             <div class="documents-container">
-                <h3 class="dealnet-section-title">Funding Checklist</h3>
+                <h3 class="dealnet-section-title">@Resources.FundingChecklist</h3>
                 <div class="tabs tabs-vertical row responsive-tabs">
                     <div class="col-md-6">
                         <ul class="nav nav-pills nav-stacked documents-pills">
@@ -63,7 +63,7 @@
                                     <a href="#tab@(contractCount*10 + (i+1))" class="documents-pills-link" aria-controls="tab@(contractCount*10 + (i+1))" role="tab" data-toggle="tab">
                                         @if (contract.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                         {
-                                            <text>Other Documents</text>
+                                            <text>@Resources.OtherDocuments</text>
                                         }
                                         else
                                         {
@@ -106,12 +106,12 @@
 
                             <div class="@(contract.UploadDocumentsInfo.ExistingDocuments.Any(x => x.DocumentTypeId == 7) ? "uploaded" : "") documents-pills-item">
                                 <a href="#tab@(contractCount*10 + 7)" class="documents-pills-link" aria-controls="tab@(contractCount*10 + 7)" role="tab" data-toggle="tab">
-                                    Other Documents
+                                    @Resources.OtherDocuments
                                 </a>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab@(contractCount*10 + 7)">
                                 <h3 class="document-pane-header">
-                                    Other Documents
+                                    @Resources.OtherDocuments
                                 </h3>
                                 <div class="documents-list" id="other-documents-list">
                                     @foreach (var document in contract.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
@@ -129,13 +129,13 @@
                 </div>
             </div>
         <br/>
-            <h3 class="dealnet-section-title">Deal Information</h3>
+            <h3 class="dealnet-section-title">@Resources.DealInformation</h3>
 			<div class="row credit-check-info-hold">
 				<div class="col-md-6 col-md-push-6 grid-column">
 					<div class="dealnet-credit-check-section">
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+                                <label class="dealnet-field-caption col-xs-6">@Resources.TotalValue</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         $ @($"{contract.EquipmentInfo?.ValueOfDeal:0.00}")
@@ -147,7 +147,7 @@
 					    {
 					        <div class="form-group">
 					            <div class="row">
-					                <label class="dealnet-field-caption col-xs-6">Loan Term</label>
+					                @Html.LabelFor(m => contract.EquipmentInfo.LoanTerm, new { @class = "dealnet-field-caption col-xs-6" })
 					                <div class="dealnet-field-holder col-xs-6">
 					                    <div class="control-group">
 					                        @(contract.EquipmentInfo?.LoanTerm)
@@ -160,7 +160,7 @@
 					    {
 					        <div class="form-group">
 					            <div class="row">
-					                <label class="dealnet-field-caption col-xs-6">Requested Term</label>
+					                @Html.LabelFor(m => contract.EquipmentInfo.RequestedTerm, new { @class = "dealnet-field-caption col-xs-6" })
 					                <div class="dealnet-field-holder col-xs-6">
 					                    <div class="control-group">
 					                        @(contract.EquipmentInfo?.RequestedTerm)
@@ -171,7 +171,7 @@
 					    }
                         <div class="form-group">
 							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Sales Rep</label>
+								@Html.LabelFor(m => contract.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.EquipmentInfo?.SalesRep)
@@ -183,7 +183,7 @@
                         {
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Sub-Dealer</label>
+                                    <label class="dealnet-field-caption col-xs-6">@Resources.SubDealer</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                        @(contract.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == contract.BasicInfo.SubmittingDealerId)?.DisplayName)
                                     </div>
@@ -196,7 +196,7 @@
 					<div class="dealnet-credit-check-section">
 						<div class="form-group">
 							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Status</label>
+								@Html.LabelFor(m => contract.AdditionalInfo.ContractState, new { @class = "dealnet-field-caption col-xs-6" })
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.AdditionalInfo?.ContractState.GetEnumDescription())
@@ -206,7 +206,7 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Type</label>
+								@Html.LabelFor(m => contract.EquipmentInfo.AgreementType, new { @class = "dealnet-field-caption col-xs-6" })
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.EquipmentInfo?.AgreementType.GetEnumDescription())
@@ -216,7 +216,7 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Date</label>
+								@Html.LabelFor(m => contract.AdditionalInfo.LastUpdateTime, new { @class = "dealnet-field-caption col-xs-6" })
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.AdditionalInfo?.LastUpdateTime?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -226,7 +226,7 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Type of Equipment</label>
+								<label class="dealnet-field-caption col-xs-6">@Resources.TypeOfEquipment</label>
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
@@ -236,10 +236,10 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Sub Dealer</label>
+								<label class="dealnet-field-caption col-xs-6">@Resources.SubDealer</label>
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
-										Dealer Name
+										@(contract.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == contract.BasicInfo.SubmittingDealerId)?.DisplayName)
 									</div>
 								</div>
 							</div>
@@ -248,7 +248,7 @@
 				</div>
 			</div>
 			<div class="text-right">
-				<a href="#" class="dealnet-info-link show-full-conract-link">Show more information</a>
+				<a href="#" class="dealnet-info-link show-full-conract-link">@Resources.ShowMoreInfo</a>
 			</div>
 		</div>
 		<div class="contract-hidden-info">
@@ -257,20 +257,20 @@
 				<div class="row credit-check-info-hold">
 					<div class="col-md-6 grid-column">
 						<div class="dealnet-credit-check-section">
-							<h3 class="dealnet-section-title">Home Owner Information</h3>
+							<h3 class="dealnet-section-title">@Resources.HomeOwnerInformation</h3>
 							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">First Name</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@(contract.BasicInfo?.HomeOwner?.FirstName)
-										</div>
-									</div>
-								</div>
+							    <div class="row">
+							        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.FirstName, new { @class = "dealnet-field-caption col-xs-6" })
+							        <div class="dealnet-field-holder col-xs-6">
+							            <div class="control-group">
+							                @(contract.BasicInfo?.HomeOwner?.FirstName)
+							            </div>
+							        </div>
+							    </div>
 							</div>
 							<div class="form-group">
 								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Last Name</label>
+									@Html.LabelFor(m => contract.BasicInfo.HomeOwner.LastName, new { @class = "dealnet-field-caption col-xs-6" })
 									<div class="dealnet-field-holder col-xs-6">
 										<div class="control-group">
 											@(contract.BasicInfo?.HomeOwner?.LastName)
@@ -280,7 +280,7 @@
 							</div>
 						    <div class="form-group">
 						        <div class="row">
-						            <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
+						            @Html.LabelFor(m => contract.BasicInfo.HomeOwner.BirthDate, new { @class = "dealnet-field-caption col-xs-6" })
 						            <div class="dealnet-field-holder col-xs-6">
 						                <div class="control-group">
 						                    @(contract.BasicInfo?.HomeOwner?.BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -290,7 +290,7 @@
 						    </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
+                                    @Html.LabelFor(m => contract.BasicInfo.HomeOwner.DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.BasicInfo?.HomeOwner?.DriverLicenseNumber)
@@ -302,10 +302,10 @@
 					</div>
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Address Information</h3>
+                            <h3 class="dealnet-section-title">@Resources.AddressInformation</h3>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Installation Address</label>
+                                    @Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.BasicInfo?.HomeOwner?.AddressInformation?.Street)
@@ -315,7 +315,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
+                                    @Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
@@ -325,7 +325,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">City</label>
+                                    @Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.BasicInfo?.HomeOwner?.AddressInformation?.City)
@@ -335,7 +335,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Province</label>
+                                    @Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.BasicInfo?.HomeOwner?.AddressInformation?.Province)
@@ -345,7 +345,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+                                    @Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             <span class="postal-code">@(contract.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
@@ -355,7 +355,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
+                                    @Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.ResidenceType, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.BasicInfo?.HomeOwner?.AddressInformation?.ResidenceType.GetEnumDescription())
@@ -369,10 +369,10 @@
                     {
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section">
-                                <h3 class="dealnet-section-title">Mailing Address</h3>
+                                <h3 class="dealnet-section-title">@Resources.MailingAddress</h3>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
@@ -382,7 +382,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Unit #</label>
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.UnitNumber)
@@ -392,7 +392,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">City</label>
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.City)
@@ -402,7 +402,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Province</label>
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.Province)
@@ -412,7 +412,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 <span class="postal-code">@(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.PostalCode)</span>
@@ -425,10 +425,10 @@
                     }
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Contact Information</h3>
+                            <h3 class="dealnet-section-title">@Resources.ContactInformation</h3>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Home Phone</label>
+                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.ContactAndPaymentInfo?.HomeOwnerContactInfo?.HomePhone)
@@ -438,7 +438,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.ContactAndPaymentInfo?.HomeOwnerContactInfo?.CellPhone)
@@ -448,7 +448,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Business Phone</label>
+                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.ContactAndPaymentInfo?.HomeOwnerContactInfo?.BusinessPhone)
@@ -458,7 +458,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Email Address</label>
+                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(contract.ContactAndPaymentInfo?.HomeOwnerContactInfo?.EmailAddress)
@@ -478,10 +478,10 @@
 					<div class="credit-check-info-hold">
 	                    <div class="col-md-6 grid-column">
 							<div class="dealnet-credit-check-section">
-								<h3 class="dealnet-section-title">Additional Applicant</h3>
+								<h3 class="dealnet-section-title">@Resources.AdditionalApplicant</h3>
 								<div class="form-group">
 									<div class="row">
-										<label class="dealnet-field-caption col-xs-6">First Name</label>
+										@Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6" })
 										<div class="dealnet-field-holder col-xs-6">
 											<div class="control-group">
 												@contract.BasicInfo.AdditionalApplicants[i].FirstName
@@ -491,7 +491,7 @@
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<label class="dealnet-field-caption col-xs-6">Last Name</label>
+										@Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].LastName, new { @class = "dealnet-field-caption col-xs-6" })
 										<div class="dealnet-field-holder col-xs-6">
 											<div class="control-group">
 												@contract.BasicInfo.AdditionalApplicants[i].LastName
@@ -501,7 +501,7 @@
 								</div>
 							    <div class="form-group">
 							        <div class="row">
-							            <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
+							            @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].BirthDate, new { @class = "dealnet-field-caption col-xs-6" })
 							            <div class="dealnet-field-holder col-xs-6">
 							                <div class="control-group">
 							                    @(contract.BasicInfo.AdditionalApplicants[i].BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -511,7 +511,7 @@
 							    </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
+	                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @contract.BasicInfo.AdditionalApplicants[i].DriverLicenseNumber
@@ -523,10 +523,10 @@
 						</div>
 	                    <div class="col-md-6 grid-column">
 	                        <div class="dealnet-credit-check-section">
-	                            <h3 class="dealnet-section-title">Mailing Address</h3>
+	                            <h3 class="dealnet-section-title">@Resources.MailingAddress</h3>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
+	                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
@@ -536,7 +536,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
+	                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
@@ -546,7 +546,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">City</label>
+	                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
@@ -556,7 +556,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Province</label>
+	                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
@@ -566,7 +566,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+	                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            <span class="postal-code">@(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
@@ -576,7 +576,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
+	                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType.GetEnumDescription())
@@ -588,10 +588,10 @@
 	                    </div>
 	                    <div class="col-md-6 grid-column">
 	                        <div class="dealnet-credit-check-section">
-	                            <h3 class="dealnet-section-title">Contact Information</h3>
+	                            <h3 class="dealnet-section-title">@Resources.ContactInformation</h3>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Home Phone</label>
+	                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.CoBorrowersContactInfo[i].HomePhone, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.HomePhone)
@@ -601,7 +601,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+	                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CellPhone, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.CellPhone)
@@ -611,7 +611,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Business Phone</label>
+	                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.CoBorrowersContactInfo[i].BusinessPhone, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.BusinessPhone)
@@ -621,7 +621,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <div class="row">
-	                                    <label class="dealnet-field-caption col-xs-6">Email Address</label>
+	                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
 	                                    <div class="dealnet-field-holder col-xs-6">
 	                                        <div class="control-group">
 	                                            @(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.EmailAddress)
@@ -649,7 +649,7 @@
                             <div class="dealnet-credit-check-section">
                                 @if (i == 0)
                                 {
-                                    <h3 class="dealnet-section-title">Equipment Information</h3>
+                                    <h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
                                 }
                                 else
                                 {
@@ -662,17 +662,17 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Type</label>
+                                        @Html.LabelFor(m => equipment.TypeDescription, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                             <div class="control-group">
-                                                @equipment.Type
+                                                @equipment.TypeDescription
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Description</label>
+                                        @Html.LabelFor(m => equipment.Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                             <div class="control-group">
                                                 @equipment.Description
@@ -684,7 +684,7 @@
                                 {
                                     <div class="form-group">
                                         <div class="row">
-                                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Cost</label>
+                                            @Html.LabelFor(m => equipment.Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                             <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                 <div class="control-group">
                                                     @equipment.Cost
@@ -697,7 +697,7 @@
                                 {
                                     <div class="form-group">
                                         <div class="row">
-                                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Monthly Cost</label>
+                                            @Html.LabelFor(m => equipment.MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                             <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                 <div class="control-group">
                                                     @equipment.MonthlyCost
@@ -708,7 +708,7 @@
                                 }
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
+                                        @Html.LabelFor(m => equipment.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                             <div class="control-group">
                                                 @equipment.EstimatedInstallationDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
@@ -730,7 +730,7 @@
 			                    <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
 			                        <div class="row">
 			                            <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-			                                MONTHLY PAYMENT
+			                                @Resources.MonthlyPayment
 			                            </div>
 			                            <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 			                                @if (contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
@@ -752,7 +752,7 @@
 			                        <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 			                            <div class="row">
 			                                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-				                                GST/HST
+				                                @Resources.GstHst
 			                                </div>
 			                                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 			                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate/100, 2))
@@ -762,7 +762,7 @@
 			                        <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
 			                            <div class="row">
 			                                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-			                                    TOTAL MONTHLY PAYMENT (TAX INCL.)
+			                                    @Resources.TotalMonthlyPaymentWithTaxes
 			                                </div>
 			                                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 			                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate/100, 2))
@@ -781,10 +781,10 @@
                     <div class="row credit-check-info-hold">
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section">
-                                <h3 class="dealnet-section-title">Payment Information</h3>
+                                <h3 class="dealnet-section-title">@Resources.PaymentInformation</h3>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Payment Type</label>
+                                        @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(contract.ContactAndPaymentInfo.PaymentInfo.PaymentType.GetEnumDescription())
@@ -797,7 +797,7 @@
                                     case PaymentType.Enbridge:
                                         <div class="form-group">
                                             <div class="row">
-                                                <label class="dealnet-field-caption col-xs-6">Enbridge Acct #</label>
+                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
                                                         @(contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount)
@@ -807,7 +807,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <label class="dealnet-field-caption col-xs-6">Meter #</label>
+                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
                                                         @(contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber)
@@ -819,7 +819,7 @@
                                     case PaymentType.Pap:
                                         <div class="form-group">
                                             <div class="row">
-                                                <label class="dealnet-field-caption col-xs-6">Account #</label>
+                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
                                                         @(contract.ContactAndPaymentInfo.PaymentInfo.AccountNumber)
@@ -829,7 +829,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <label class="dealnet-field-caption col-xs-6">Bank #</label>
+                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
                                                         @(contract.ContactAndPaymentInfo.PaymentInfo.BlankNumber)
@@ -839,7 +839,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <label class="dealnet-field-caption col-xs-6">Transit #</label>
+                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
                                                         @(contract.ContactAndPaymentInfo.PaymentInfo.TransitNumber)
@@ -858,15 +858,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="summary-return-equipment">
-                                <h3 class="dealnet-section-title">Existing Equipment Information</h3>
+                                <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation</h3>
                                 @foreach (var equipment in contract.EquipmentInfo.ExistingEquipment)
                     {
                                     <div class="summury-return-equip-item">
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    Is rental?
-                                                </div>
+                                                @Html.LabelFor(m => equipment.IsRental, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @(equipment.IsRental ? "Yes" : "No")
                                                 </div>
@@ -874,9 +872,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    Rental Company
-                                                </div>
+                                                @Html.LabelFor(m => equipment.RentalCompany, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.RentalCompany
                                                 </div>
@@ -884,9 +880,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    General Condition
-                                                </div>
+                                                @Html.LabelFor(m => equipment.GeneralCondition, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.GeneralCondition
                                                 </div>
@@ -894,9 +888,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    Estimated Age
-                                                </div>
+                                                @Html.LabelFor(m => equipment.EstimatedAge, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.EstimatedAge
                                                 </div>
@@ -904,9 +896,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    Make
-                                                </div>
+                                                @Html.LabelFor(m => equipment.Make, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.Make
                                                 </div>
@@ -914,9 +904,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    Model
-                                                </div>
+                                                @Html.LabelFor(m => equipment.Model, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.Model
                                                 </div>
@@ -924,9 +912,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    Serial Number
-                                                </div>
+                                                @Html.LabelFor(m => equipment.SerialNumber, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.SerialNumber
                                                 </div>
@@ -934,9 +920,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                                    Notes
-                                                </div>
+                                                @Html.LabelFor(m => equipment.Notes, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                                 <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     <span style="white-space: pre-wrap">@equipment.Notes</span>
                                                 </div>
@@ -957,15 +941,15 @@
 						<div class="col-md-6 grid-column" id="edit-add-contract-section">
 							<div class="dealnet-credit-check-section">
 								<h3 class="dealnet-section-title">
-									Additional Contract Information
+									@Resources.AdditionalContractInformation
 								</h3>
 								<div class="form-group">
-									<div class="row">
-										<label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
-										<div class="dealnet-field-holder text-left col-xs-12">
-											<span style="white-space: pre-wrap">@(contract.EquipmentInfo?.Notes)</span>
-										</div>
-									</div>
+								    <div class="row">
+								        @Html.LabelFor(m => contract.EquipmentInfo.Notes, new { @class = "dealnet-field-caption col-xs-12" })								        
+								        <div class="dealnet-field-holder text-left col-xs-12">
+								            <span style="white-space: pre-wrap">@(contract.EquipmentInfo?.Notes)</span>
+								        </div>
+								    </div>
 								</div>
 							</div>
 						</div>
@@ -980,5 +964,5 @@
 </div>
 
 <div class="text-center back-to-top-hold">
-	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
+	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>@Resources.BackToTop</a>
 </div>
