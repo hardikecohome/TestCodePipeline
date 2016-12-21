@@ -722,7 +722,8 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 try
                 {
-                    var deals = _aspireStorageService.GetDealerDeals(user.DisplayName);
+                    //var deals = _aspireStorageService.GetDealerDeals(user.DisplayName);
+                    var deals = _aspireStorageService.GetDealerDeals(user.UserName);
                     if (deals?.Any() ?? false)
                     {
                         //skip deals that already in DB                        

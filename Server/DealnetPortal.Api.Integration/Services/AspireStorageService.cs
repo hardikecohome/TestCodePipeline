@@ -64,10 +64,8 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetDealerDeals(string dealerName)
         {
             string sqlStatement = @"SELECT *
-                                      FROM sample_mydeals(NOLOCK) sd
-                                      LEFT JOIN Entity(NOLOCK) e ON sd.[Customer ID] = e.entt_id
-                                      LEFT JOIN Phone (nolock) p on (e.oid = p.entt_oid)
-                                      where dealer_name LIKE '%{0}%';";
+                                      FROM sample_mydeals(NOLOCK) sd                                      
+                                      where dealer_name LIKE '{0}%';";
             sqlStatement = string.Format(sqlStatement, dealerName);
 
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
@@ -85,10 +83,18 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 if (!string.IsNullOrEmpty(list[0].PrimaryCustomer?.AccountId))
                 {
+                    try
+                    {
+                    
                     var customer = GetCustomerById(list[0].PrimaryCustomer?.AccountId);
                     if (customer != null)
                     {
                         list[0].PrimaryCustomer = customer;
+                    }
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService.LogError($"Cannot get customer {list[0].PrimaryCustomer?.AccountId} from Aspire", ex);
                     }
                 }
                 return list[0];
@@ -267,40 +273,14 @@ namespace DealnetPortal.Api.Integration.Services
 
                 var names = ConvertFromDbVal<string>(dr["Customer_name"])?.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
                 var fstName = names?.Count() > 1 ? names[0] : string.Empty;
-                var lstName = names?.Count() > 1 ? names[1] : string.Empty;
-                DateTime dob = new DateTime();
-
-                try
-                {
-                    dob = ConvertFromDbVal<DateTime>(dr["date_of_birth"]);
-                }
-                catch (Exception ex)
-                {                    
-                }
+                var lstName = names?.Count() > 1 ? names[1] : string.Empty;               
 
                 item.PrimaryCustomer = new CustomerDTO()
                 {
                     Id = 0,
                     AccountId = ConvertFromDbVal<string>(dr["Customer ID"]),
-                    LastName = ConvertFromDbVal<string>(dr["lname"])  ?? lstName,
-                    FirstName = ConvertFromDbVal<string>(dr["fname"]) ?? fstName,
-                    DateOfBirth = dob,
-                    Emails = new List<EmailDTO>()
-                    {
-                        new EmailDTO()
-                        {
-                            EmailType = EmailType.Main,
-                            EmailAddress = ConvertFromDbVal<string>(dr["email_addr"])
-                        }
-                    },
-                    Phones = new List<PhoneDTO>()
-                    {
-                        new PhoneDTO()
-                        {
-                            PhoneType = PhoneType.Home,
-                            PhoneNum = ConvertFromDbVal<string>(dr["phone_num"])
-                        }
-                    }
+                    LastName = lstName,
+                    FirstName = fstName,                    
                 };
 
                 return item;
