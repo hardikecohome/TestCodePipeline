@@ -644,10 +644,18 @@ namespace DealnetPortal.Api.Integration.Services
                     var postalCode =
                         c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
                         c.Locations?.FirstOrDefault()?.PostalCode;
-                    var aspireCustomer = _aspireStorageService.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth, postalCode);
-                    if (aspireCustomer != null)
+                    try
+                    {                    
+                        var aspireCustomer = _aspireStorageService.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth, postalCode);
+                        if (aspireCustomer != null)
+                        {
+                            account.ClientId = aspireCustomer.AccountId?.Trim();
+                        }
+                    }
+                    catch (Exception ex)
                     {
-                        account.ClientId = aspireCustomer.AccountId?.Trim();
+                        _loggingService.LogError("Failed to get customer from Aspire", ex);
+                        account.ClientId = null;
                     }
                 }
                 else
@@ -753,16 +761,24 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (!string.IsNullOrEmpty(contract.ExternalSubDealerId))
             {
-                var subDealers =
-                    _aspireStorageService.GetSubDealersList(contract.Dealer.AspireLogin ?? contract.Dealer.UserName);
-                var sbd = subDealers?.FirstOrDefault(sd => sd.SubmissionValue == contract.ExternalSubDealerId);
-                if (sbd != null)
-                {
-                    application.UDFs.Add(new UDF()
+                try
+                {                
+                    var subDealers =
+                        _aspireStorageService.GetSubDealersList(contract.Dealer.AspireLogin ?? contract.Dealer.UserName);
+                    var sbd = subDealers?.FirstOrDefault(sd => sd.SubmissionValue == contract.ExternalSubDealerId);
+                    if (sbd != null)
                     {
-                        Name = sbd.DealerName,
-                        Value = sbd.SubmissionValue
-                    });
+                        application.UDFs.Add(new UDF()
+                        {
+                            Name = sbd.DealerName,
+                            Value = sbd.SubmissionValue
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //we can get error here from Aspire DB
+                    _loggingService.LogError("Failed to get subdealers from Aspire", ex);
                 }
             }
 
