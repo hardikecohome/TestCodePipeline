@@ -547,7 +547,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HST.
+        ///   Looks up a localized string similar to GST/HST.
         /// </summary>
         public static string Hst {
             get {
