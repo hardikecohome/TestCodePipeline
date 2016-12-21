@@ -129,7 +129,16 @@ namespace DealnetPortal.Api.Controllers
             {
                 var dealer = ContractRepository.GetDealer(LoggedInUser?.UserId);
                 var dealerDto = Mapper.Map<ApplicationUserDTO>(dealer);
-                dealerDto.UdfSubDealers = AspireStorageService.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName);
+
+                try
+                {                
+                    dealerDto.UdfSubDealers = AspireStorageService.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName);
+                }
+                catch (Exception ex)
+                {
+                    //it's a not critical error on this step and we continue flow
+                    LoggingService.LogError("Failed to get subdealers from Aspire", ex);
+                }
 
                 return Ok(dealerDto);
             }
