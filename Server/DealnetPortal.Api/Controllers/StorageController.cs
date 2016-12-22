@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Xml;
 using AutoMapper;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
@@ -73,31 +74,47 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+
+        [AllowAnonymous]
+        [Route("NotifySignatureStatus")]
+        [HttpPost]
+        public IHttpActionResult PostNotifySignatureStatus(HttpRequestMessage request)
+        {
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.Load(request.Content.ReadAsStreamAsync().Result);
+
+            LoggingService.LogInfo("DocuSign message recieved");
+            LoggingService.LogInfo(xmldoc.ToString());
+
+            return Ok();
+        }
+
+
         //// GET: api/Storage
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+            //public IEnumerable<string> Get()
+            //{
+            //    return new string[] { "value1", "value2" };
+            //}
 
-        //// GET: api/Storage/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+            //// GET: api/Storage/5
+            //public string Get(int id)
+            //{
+            //    return "value";
+            //}
 
-        //// POST: api/Storage
-        //public void Post([FromBody]string value)
-        //{
-        //}
+            //// POST: api/Storage
+            //public void Post([FromBody]string value)
+            //{
+            //}
 
-        //// PUT: api/Storage/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+            //// PUT: api/Storage/5
+            //public void Put(int id, [FromBody]string value)
+            //{
+            //}
 
-        //// DELETE: api/Storage/5
-        //public void Delete(int id)
-        //{
-        //}        
-    }
+            //// DELETE: api/Storage/5
+            //public void Delete(int id)
+            //{
+            //}        
+        }
 }

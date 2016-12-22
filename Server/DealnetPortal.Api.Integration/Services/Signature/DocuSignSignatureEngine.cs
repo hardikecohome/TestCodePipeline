@@ -461,8 +461,17 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 };
             }
             envelopeDefinition.Status = statusOnCreation;
+            envelopeDefinition.EventNotification = GetEventNotification();
 
             return envelopeDefinition;
+        }
+
+        private EventNotification GetEventNotification()
+        {
+            var url = "https://195.206.225.83/Dealnet/Server/Api/Storage/";
+            var eventNotification = new EventNotification();
+
+            return eventNotification;
         }
 
         private void FillEnvelopeForTemplate(EnvelopeDefinition envelopeDefinition)
