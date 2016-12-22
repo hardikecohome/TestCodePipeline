@@ -1,9 +1,9 @@
 ﻿@model DealnetPortal.Web.Models.CreditRejectedViewModel
 
 <div id="label-steps">
-    <div class="dealnet-action-link">New Application</div> >
+    <div class="dealnet-action-link">@Resources.NewApplication</div> >
 </div>
-<div class="dealnet-large-header">Equipment Information</div>
+<div class="dealnet-large-header">@Resources.EquipmentInformation</div>
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -28,8 +28,8 @@
             <div class="text-center">
                 <svg aria-hidden="true" class="icon icon-reject"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reject")"></use></svg>
             </div>
-            <h3 class="text-center">Declined</h3>
-            <p class="text-center">(Reason: We are unable to process this application)</p>
+            <h3 class="text-center">@Resources.Declined</h3>
+            <p class="text-center">@Resources.UnableToProcessApplication</p>
             @*<h3 class="text-center">Recommendations</h3>
             <ol>
                 <li>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
@@ -42,7 +42,7 @@
                 @*@Html.ActionLink("Add Additional Applicant", "BasicInfo", new { contractId = Model }, new {@class="btn dealnet-button dealnet-success-button"})*@
                 <div class="text-center">
                     <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button">
-                        Create another application for this home owner
+                        @Resources.CreateAnotherApplicationForThis
                     </a>
                 </div>
             </div>

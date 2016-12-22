@@ -846,4 +846,91 @@
   <data name="Province" xml:space="preserve">
     <value>Province</value>
   </data>
+  <data name="AddPhoto" xml:space="preserve">
+    <value>Add Photo</value>
+  </data>
+  <data name="Agreement" xml:space="preserve">
+    <value>agreement</value>
+  </data>
+  <data name="AgreementSubmittedSuccessfully" xml:space="preserve">
+    <value>Agreement submitted successfully!</value>
+  </data>
+  <data name="CannotGetAgreementForPrint" xml:space="preserve">
+    <value>Cannot get contract agreement for Print</value>
+  </data>
+  <data name="CannotRecognizeVoidCheque" xml:space="preserve">
+    <value>Can't recognize void cheque</value>
+  </data>
+  <data name="ContactAndPaymentInfo" xml:space="preserve">
+    <value>Contact and Payment Information</value>
+  </data>
+  <data name="ContainingCopyOfAgreement" xml:space="preserve">
+    <value>containing a copy of the completed agreement.</value>
+  </data>
+  <data name="CreateAnotherApplicationForThis" xml:space="preserve">
+    <value>Create another application for this home owner</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>Declined</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="InvitesForSigningWillBeSent" xml:space="preserve">
+    <value>Invite(s) for digital signing of the contract will be sent to the following emails</value>
+  </data>
+  <data name="InvitesWereSentToEmails" xml:space="preserve">
+    <value>Invites were sent to emails</value>
+  </data>
+  <data name="Loan" xml:space="preserve">
+    <value>Loan</value>
+  </data>
+  <data name="PhotoOfVoidCheque" xml:space="preserve">
+    <value>Photo of Void Cheque</value>
+  </data>
+  <data name="PlatformIsPreparingCheck" xml:space="preserve">
+    <value>Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails</value>
+  </data>
+  <data name="PleaseEnterEmailsAndClickSend" xml:space="preserve">
+    <value>Please enter emails of applicants below and click Send Emails.</value>
+  </data>
+  <data name="PrintTheContract" xml:space="preserve">
+    <value>Print the contract</value>
+  </data>
+  <data name="Rental" xml:space="preserve">
+    <value>Rental</value>
+  </data>
+  <data name="ResendEmails" xml:space="preserve">
+    <value>Resend Emails</value>
+  </data>
+  <data name="ScanVoidCheque" xml:space="preserve">
+    <value>Scan Void Cheque</value>
+  </data>
+  <data name="SeeContractDetails" xml:space="preserve">
+    <value>See contract details</value>
+  </data>
+  <data name="SendContractForEsignature" xml:space="preserve">
+    <value>Send contract for e-signature</value>
+  </data>
+  <data name="SendEmails" xml:space="preserve">
+    <value>Send Emails</value>
+  </data>
+  <data name="SevenDigitsNumber" xml:space="preserve">
+    <value># (7 digits)</value>
+  </data>
+  <data name="ThankYouForCompleting" xml:space="preserve">
+    <value>Thank you, {0}, for completing the {1} agreement.</value>
+  </data>
+  <data name="TwelveDigitsNumber" xml:space="preserve">
+    <value># (12 digits)</value>
+  </data>
+  <data name="UnableToProcessApplication" xml:space="preserve">
+    <value>(Reason: We are unable to process this application)</value>
+  </data>
+  <data name="WillReceiveEmailShortly" xml:space="preserve">
+    <value>You will receive an email shortly at</value>
+  </data>
+  <data name="WishToReceiveEmailsAndMessages" xml:space="preserve">
+    <value>Yes, I wish to receive emails and text messages. I understand that I may withdraw my consent at any time.</value>
+  </data>
 </root>
