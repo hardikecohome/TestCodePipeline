@@ -468,7 +468,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private EventNotification GetEventNotification()
         {
-            var url = "https://195.206.225.83/Dealnet/Server/Api/Storage/";
+            var url = "https://195.206.225.83/Server/Api/Storage/";
             var eventNotification = new EventNotification();
 
             return eventNotification;
