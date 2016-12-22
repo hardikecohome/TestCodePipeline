@@ -63,9 +63,10 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<ContractDTO> GetDealerDeals(string dealerName)
         {
-            string sqlStatement = @"SELECT *
-                                      FROM sample_mydeals(NOLOCK) sd                                      
-                                      where dealer_name LIKE '{0}%';";
+            string sqlStatement = @"SELECT transaction#, Deal_Status, Contract_Type_Code, Last_Update_Date, Last_Update_Time,
+		                                Term, [Amount Financed], Equipment_Description, Equipment_Type, Customer_name, [Customer ID]
+                                    FROM sample_mydeals(NOLOCK) sd                                      
+                                    WHERE dealer_name LIKE '{0}%';";
             sqlStatement = string.Format(sqlStatement, dealerName);
 
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
@@ -74,7 +75,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         public ContractDTO GetDealById(int transactionId)
         {
-            string sqlStatement = @"SELECT *
+            string sqlStatement = @"SELECT transaction#, Deal_Status, Contract_Type_Code, Last_Update_Date, Last_Update_Time,
+		                                Term, [Amount Financed], Equipment_Description, Equipment_Type, Customer_name, [Customer ID]
                                       FROM sample_mydeals (NOLOCK)                                    
 									  where transaction# = {0};";
             sqlStatement = string.Format(sqlStatement, transactionId);
