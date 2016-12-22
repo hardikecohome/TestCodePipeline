@@ -21,10 +21,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         [Required]
         [StringLength(50)]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Make")]
         public string Make { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Model")]
         public string Model { get; set; }
 
         [Required]
@@ -38,6 +40,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public string GeneralCondition { get; set; }
 
         [StringLength(500)]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Notes")]
         public string Notes { get; set; }
 
         public int Id { get; set; }

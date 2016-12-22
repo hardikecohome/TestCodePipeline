@@ -1,7 +1,7 @@
 ﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
 
 <div id="label-steps">
-	<div class="dealnet-action-link">New Application</div> >
+	<div class="dealnet-action-link">@Resources.NewApplication</div> >
 </div>
 
 @using (Html.BeginForm("CreditCheckConfirmation", "NewRental", FormMethod.Post, new { id = "credit-check-form" }))
@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
     @Html.HiddenFor(m => m.SubmittingDealerId)
-<div class="dealnet-large-header" id="basic-info">Credit check confirmation</div>
+<div class="dealnet-large-header" id="basic-info">@Resources.CreditCheckConfirmation</div>
 
 <div id="steps-line"></div>
 <div class="row" id="steps">
@@ -44,7 +44,7 @@
 	<div class="row credit-check-info-hold">
 		<div class="col-md-6 grid-column">
 			<div class="dealnet-credit-check-section" id="home-owner-section">
-			    <h3 class="dealnet-section-title">Home Owner Information<a href="#" onclick="copyFormData($('#home-owner-section'), $('#home-owner-section-modal'), false); $('#home-owner-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+			    <h3 class="dealnet-section-title">@Resources.HomeOwnerInformation<a href="#" onclick="copyFormData($('#home-owner-section'), $('#home-owner-section-modal'), false); $('#home-owner-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
 			    </h3>
                 @Html.HiddenFor(m => m.HomeOwner.CustomerId)
 				<div class="form-group">
@@ -106,7 +106,7 @@
 					<label class="align-middle custom-checkbox">
 						@Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees" })
 						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-						<span>Agrees to send his/her personal data to credit check</span>
+						<span>@Resources.AgreesToSendPersonalDataToCreditCheck</span>
 					</label>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 
         <div class="col-md-6 grid-column">
             <div class="dealnet-credit-check-section" id="address-section">
-                <h3 class="dealnet-section-title">Address Information <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+                <h3 class="dealnet-section-title">@Resources.AddressInformation <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a></h3>
                 <div class="form-group">
                     <div class="row">
                         @Html.LabelFor(m => Model.HomeOwner.AddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
@@ -186,10 +186,10 @@
 
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section" id="mailing-address-section">
-                    <h3 class="dealnet-section-title">Mailing Address <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+                    <h3 class="dealnet-section-title">@Resources.MailingAddress <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a></h3>
                     <div class="form-group">
                         <div class="row">
-                            @Html.Label("", "Mailing Address", new { @class = "dealnet-field-caption col-xs-6" })
+                            @Html.LabelFor(m => Model.HomeOwner.MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
                                     @Html.TextBoxFor(m => Model.HomeOwner.MailingAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
@@ -255,7 +255,7 @@
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="additional@(i+1)-section">
                         <h3 class="dealnet-section-title">
-                            Additional Applicant #@(i + 1) <a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                            @Resources.AdditionalApplicant #@(i + 1) <a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                         </h3>
                         @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId)
                         <div class="form-group">
@@ -282,7 +282,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                @Html.Label("additional-birth-date-@(i+1)", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
+                                @Html.LabelFor(m => Model.AdditionalApplicants[i].BirthDate, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group date-group">
                                         @Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "" })
@@ -317,14 +317,14 @@
                             <label class="align-middle custom-checkbox">
                                 @Html.CheckBox("additional" + (i + 1) + "-agrees", new { id = "additional" + (i + 1) + "-agrees" })
                                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                <span>Agrees to send his/her personal data to credit check</span>
+                                <span>@Resources.AgreesToSendPersonalDataToCreditCheck</span>
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="additional-address-section-@(i+1)">
-                        <h3 class="dealnet-section-title">Address Information <a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+                        <h3 class="dealnet-section-title">@Resources.AddressInformation <a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a></h3>
                         <div class="form-group">
                             <div class="row">
                                 @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
@@ -398,10 +398,10 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="text-danger proceed-error-message" id="proceed-error-message" style="display: none;">
 				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-				You can't proceed until all applicants agree to send their personal data to credit check
+				@Resources.YouCannotProceedUntilAllAgree
 			</div>
 		    <button class="btn dealnet-button dealnet-success-button" id="check-credit-button">
-		        Check Credit
+		        @Resources.CheckCredit
 		    </button>
 		</div>
 	</div>
@@ -414,7 +414,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<div class="modal-title dealnet-large-header">Editing Home Owner Information</div>
+				<div class="modal-title dealnet-large-header">@Resources.Editing @Resources.HomeOwnerInformation</div>
 			</div>
 			<div class="modal-body">
 				<div class="dealnet-credit-check-section dealnet-modal-section">
@@ -445,7 +445,7 @@
 					        </div>
 					        <div class="col-md-6">
 					            <div class="form-group">
-					                @Html.Label("birth-date", "Date of Birth", new {@class = "dealnet-field-caption"})
+					                @Html.LabelFor(m => Model.HomeOwner.BirthDate, new {@class = "dealnet-field-caption"})
 					                <div class="dealnet-field-holder">
 					                    <div class="control-group date-group">
 					                        @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", data_val_date = ""})
@@ -480,8 +480,8 @@
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#home-owner-section-modal'), $('#home-owner-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#home-owner-modal').modal('hide'); }">Save changes</button>
-					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#home-owner-section-modal'), $('#home-owner-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#home-owner-modal').modal('hide'); }">@Resources.SaveChanges</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -496,7 +496,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<div class="modal-title dealnet-large-header">Editing Additional Applicant #@(i + 1)</div>
+				<div class="modal-title dealnet-large-header">@Resources.Editing @Resources.AdditionalApplicant #@(i + 1)</div>
 			</div>
 			<div class="modal-body">
 				<div class="dealnet-credit-check-section dealnet-modal-section">
@@ -527,7 +527,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 					        </div>
 					        <div class="col-md-6">
 					            <div class="form-group">
-					                @Html.Label("additional" + (i + 1) + "-birth-date", "Date of Birth", new {@class = "dealnet-field-caption"})
+					                @Html.LabelFor(m => m.AdditionalApplicants[i].BirthDate, new {@class = "dealnet-field-caption"})
 					                <div class="dealnet-field-holder">
 					                    <div class="control-group date-group">
 					                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional" + (i + 1) + "-birth-date", data_val_date = ""})
@@ -562,8 +562,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional@(i+1)-section-modal'), $('#additional@(i+1)-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#additional@(i+1)-modal').modal('hide'); }">Save changes</button>
-					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional@(i+1)-section-modal'), $('#additional@(i+1)-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#additional@(i+1)-modal').modal('hide'); }">@Resources.SaveChanges</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -574,7 +574,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="modal-title dealnet-large-header">Editing Address Information</div>
+                <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.AddressInformation</div>
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
@@ -650,8 +650,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
                     </form>
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional-address-section-modal-@(i + 1)'), $('#additional-address-section-@(i + 1)'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#additional-address-modal-@(i + 1)').modal('hide'); }">Save changes</button>
-                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional-address-section-modal-@(i + 1)'), $('#additional-address-section-@(i + 1)'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#additional-address-modal-@(i + 1)').modal('hide'); }">@Resources.SaveChanges</button>
+                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
                 </div>
             </div>
         </div>
@@ -666,7 +666,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<div class="modal-title dealnet-large-header">Editing Address Information</div>
+				<div class="modal-title dealnet-large-header">@Resources.Editing @Resources.AddressInformation</div>
 			</div>
 			<div class="modal-body">
 				<div class="dealnet-credit-check-section dealnet-modal-section">
@@ -742,8 +742,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
-					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">@Resources.SaveChanges</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -758,7 +758,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<div class="modal-title dealnet-large-header">Editing Mailing Address</div>
+				<div class="modal-title dealnet-large-header">@Resources.Editing @Resources.MailingAddress</div>
 			</div>
 			<div class="modal-body">
 				<div class="dealnet-credit-check-section dealnet-modal-section">
@@ -766,7 +766,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 						<div class="row">
 							<div class="col-md-9">
 								<div class="form-group">
-									@Html.Label("mailing_street", "Mailing Address", new { @class = "dealnet-field-caption" })
+									@Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "dealnet-field-caption" })
 									<div class="dealnet-field-holder">
 										<div class="control-group">
 											@Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "mailing_street" })
@@ -823,8 +823,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 					</form>
 				</div>
 				<div class="btn-container">
-					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#mailing-address-modal').modal('hide'); }">Save changes</button>
-					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#mailing-address-modal').modal('hide'); }">@Resources.SaveChanges</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -835,6 +835,10 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 @section Translations
 {
     translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
+    translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
+    translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
+    translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
+    translations['EnterValidDate'] = "@Resources.EnterValidDate";
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">

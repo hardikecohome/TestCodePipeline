@@ -7,7 +7,7 @@
             for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
             }
-            showLoader('Processing image...');
+            showLoader(translations['ProcessingImage']);
             $.ajax({
                 type: "POST",
                 url: uploadUrl,
@@ -17,7 +17,7 @@
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize driver license");
+                        alert(translations['CannotRecognizeDriverLicense']);
                     } else {
                         document.getElementById(fnToFill).value = json.FirstName;
                         document.getElementById(lnToFill).value = json.LastName;
@@ -39,7 +39,7 @@
             });
             sender.val("");
         } else {
-            alert("Browser doesn't support HTML5 file upload!");
+            alert(translations['BrowserNotSupportFileUpload']);
         }
     }
 }

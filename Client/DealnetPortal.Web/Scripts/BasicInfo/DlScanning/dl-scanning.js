@@ -1,6 +1,6 @@
 ﻿function uploadCaptured(uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
-    showLoader('Processing image...');
+    showLoader(translations['ProcessingImage']);
     $.ajax({
         type: "POST",
         url: uploadUrl,
@@ -10,7 +10,7 @@
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("Can't recognize driver license");
+                alert(translations['CannotRecognizeDriverLicense']);
             } else {
                 var modal = document.getElementById('camera-modal');
                 document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
@@ -52,7 +52,7 @@ function submitUpload(sender, uploadUrl) {
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize driver license");
+                        alert(translations['CannotRecognizeDriverLicense']);
                     } else {
                         var modal = document.getElementById('camera-modal');
                         document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
@@ -77,7 +77,7 @@ function submitUpload(sender, uploadUrl) {
             });
             $("#upload-file").val("");
         } else {
-            alert("Browser doesn't support HTML5 file upload!");
+            alert(translations['BrowserNotSupportFileUpload']);
         }
     }
 }

@@ -65,10 +65,12 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "UnitNumberIncorrectFormat")]
         public string UnitNumber { get; set; }
         [Required]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "City")]
         [StringLength(50, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CityIncorrectFormat")]
         public string City { get; set; }
         [Required]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Province")]
         [StringLength(30, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ProvinceIncorrectFormat")]
         public string Province { get; set; }

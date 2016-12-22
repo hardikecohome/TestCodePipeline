@@ -17,20 +17,20 @@ $(document).ready(function () {
             var maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
             var valueEntered = Date.parseExact(value, "M/d/yyyy");
             if (!valueEntered) {
-                $.validator.messages.date = "The date must be in correct format";
+                $.validator.messages.date = translations['TheDateMustBeInCorrectFormat'];
                 return false;
             }
             if (valueEntered < minDate) {
-                $.validator.messages.date = "The date must be over 1900 year";
+                $.validator.messages.date = translations['TheDateMustBeOver1900'];
                 return false;
             }
             if (valueEntered > maxDate) {
-                $.validator.messages.date = "The applicant needs to be over 18 years old";
+                $.validator.messages.date = translations['TheApplicantNeedsToBeOver18'];
                 return false;
             }
             return true;
         },
-        "Please enter a valid date!"
+        translations['EnterValidDate']
     );
 
     addAdditionalButton = $("#add-additional-applicant");

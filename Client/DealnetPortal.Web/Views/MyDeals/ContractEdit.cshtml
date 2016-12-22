@@ -1010,11 +1010,15 @@
 	                                @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental)
 	                            </div>
 	                            <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
+	                                @{                
+                                        var yesNaming = Resources.Yes;
+                                        var noNaming = Resources.No;
+                                    }
 	                                @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental, new SelectList(
 	                                    new[]
 	                                    {
-	                                        new {Value = "true", Text = Resources.Yes, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-	                                        new {Value = "false", Text = Resources.No, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+	                                        new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+	                                        new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
 	                                    },
 	                                    "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental), new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
 	                            </div>

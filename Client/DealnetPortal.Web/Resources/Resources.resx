@@ -459,9 +459,6 @@
   <data name="ShowMoreInfo" xml:space="preserve">
     <value>Show more information</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>Report for contract</value>
-  </data>
   <data name="InvalidLoginAttempt" xml:space="preserve">
     <value>Invalid login attempt.</value>
   </data>
@@ -689,5 +686,164 @@
   </data>
   <data name="HouseSizeSquareFeet" xml:space="preserve">
     <value>House Size (sq feet)</value>
+  </data>
+  <data name="AddAdditionalApplicant" xml:space="preserve">
+    <value>Add additional applicant</value>
+  </data>
+  <data name="AddAdditionalEquipment" xml:space="preserve">
+    <value>Add additional equipment</value>
+  </data>
+  <data name="AdditionalApplicantInformation" xml:space="preserve">
+    <value>Additional Applicant Information</value>
+  </data>
+  <data name="AdditionalApplicantMailingAddressInfo" xml:space="preserve">
+    <value>Additional Applicant Mailing Address Information</value>
+  </data>
+  <data name="AgreesToSendPersonalDataToCreditCheck" xml:space="preserve">
+    <value>Agrees to send his/her personal data to credit check</value>
+  </data>
+  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+    <value>Balance Owing at the End of Monthly Payments (Residual)</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Basic Info</value>
+  </data>
+  <data name="BrowserNotSupportFileUpload" xml:space="preserve">
+    <value>Browser doesn't support HTML5 file upload!</value>
+  </data>
+  <data name="CannotRecognizeDriverLicense" xml:space="preserve">
+    <value>Can't recognize driver license</value>
+  </data>
+  <data name="CashPriceOfEquipment" xml:space="preserve">
+    <value>Cash Price of Equipment</value>
+  </data>
+  <data name="CheckCredit" xml:space="preserve">
+    <value>Check Credit</value>
+  </data>
+  <data name="ChooseSubDealer" xml:space="preserve">
+    <value>Choose a Sub-Dealer</value>
+  </data>
+  <data name="ClearAddress" xml:space="preserve">
+    <value>Clear Address</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Cost</value>
+  </data>
+  <data name="CreditCheckConfirmation" xml:space="preserve">
+    <value>Credit check confirmation</value>
+  </data>
+  <data name="CreditCheckProcessedSuccessfully" xml:space="preserve">
+    <value>Credit Check Processed Successfully!</value>
+  </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>mm/dd/yyyy</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="EnterValidDate" xml:space="preserve">
+    <value>Please enter a valid date!</value>
+  </data>
+  <data name="GetMyLocation" xml:space="preserve">
+    <value>Get My Location</value>
+  </data>
+  <data name="MailingAddressDifferent" xml:space="preserve">
+    <value>Mailing address is different</value>
+  </data>
+  <data name="Make" xml:space="preserve">
+    <value>Make</value>
+  </data>
+  <data name="Model" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="Nepean" xml:space="preserve">
+    <value>Nepean</value>
+  </data>
+  <data name="NewEquipmentInformation" xml:space="preserve">
+    <value>New Equipment Information</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="Ottawa" xml:space="preserve">
+    <value>Ottawa</value>
+  </data>
+  <data name="PreApprovedFor" xml:space="preserve">
+    <value>Pre-Approved for</value>
+  </data>
+  <data name="ProcessingImage" xml:space="preserve">
+    <value>Processing image...</value>
+  </data>
+  <data name="Retake" xml:space="preserve">
+    <value>Retake</value>
+  </data>
+  <data name="SaveAndProceed" xml:space="preserve">
+    <value>Save and Proceed</value>
+  </data>
+  <data name="ScanAndFillAutomatically" xml:space="preserve">
+    <value>Scan license and this info will be filled out automatically</value>
+  </data>
+  <data name="ScanLicense" xml:space="preserve">
+    <value>Scan License</value>
+  </data>
+  <data name="SelectScanningMethod" xml:space="preserve">
+    <value>Select scanning method</value>
+  </data>
+  <data name="Sin" xml:space="preserve">
+    <value>SIN</value>
+  </data>
+  <data name="StreetPlaceholder" xml:space="preserve">
+    <value>St.</value>
+  </data>
+  <data name="TermAndRep" xml:space="preserve">
+    <value>Term and Rep</value>
+  </data>
+  <data name="TheApplicantNeedsToBeOver18" xml:space="preserve">
+    <value>The applicant needs to be over 18 years old</value>
+  </data>
+  <data name="TheDateMustBeInCorrectFormat" xml:space="preserve">
+    <value>The date must be in correct format</value>
+  </data>
+  <data name="TheDateMustBeOver1900" xml:space="preserve">
+    <value>The date must be over 1900 year</value>
+  </data>
+  <data name="TotalAllMonthlyPayments" xml:space="preserve">
+    <value>Total of All Monthly Payments</value>
+  </data>
+  <data name="TotalAmountFinanced" xml:space="preserve">
+    <value>Total Amount Financed</value>
+  </data>
+  <data name="TotalCashPrice" xml:space="preserve">
+    <value>Total Cash Price</value>
+  </data>
+  <data name="TotalCostOfBorrowing" xml:space="preserve">
+    <value>Total Cost of Borrowing</value>
+  </data>
+  <data name="TotalObligation" xml:space="preserve">
+    <value>Total Obligation</value>
+  </data>
+  <data name="TurnLicenseOver" xml:space="preserve">
+    <value>Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.</value>
+  </data>
+  <data name="UploadPhoto" xml:space="preserve">
+    <value>Upload Photo</value>
+  </data>
+  <data name="UseCamera" xml:space="preserve">
+    <value>Use Camera</value>
+  </data>
+  <data name="UseHomeOwnerAddressInfo" xml:space="preserve">
+    <value>Use Home Owner address information</value>
+  </data>
+  <data name="Years" xml:space="preserve">
+    <value>Years</value>
+  </data>
+  <data name="YouCannotProceedUntilAllAgree" xml:space="preserve">
+    <value>You can't proceed until all applicants agree to send their personal data to credit check</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Province</value>
   </data>
 </root>
