@@ -313,6 +313,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ** Before taxes. Payments are subject to change over the course of the term upon at least thirty (30) days written notice. See the attached Terms and Conditions..
+        /// </summary>
+        public static string BeforeTaxesPaymentsAreSubject {
+            get {
+                return ResourceManager.GetString("BeforeTaxesPaymentsAreSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Birth Date.
         /// </summary>
         public static string BirthDate {
@@ -1492,6 +1501,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Equipment.
+        /// </summary>
+        public static string NewEquipment {
+            get {
+                return ResourceManager.GetString("NewEquipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Equipment Information.
         /// </summary>
         public static string NewEquipmentInformation {
@@ -2109,6 +2127,24 @@ namespace DealnetPortal.Web.Resources {
         public static string SubDealer {
             get {
                 return ResourceManager.GetString("SubDealer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Deal.
+        /// </summary>
+        public static string SubmitDeal {
+            get {
+                return ResourceManager.GetString("SubmitDeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary And Confirmation.
+        /// </summary>
+        public static string SummaryAndConfirmation {
+            get {
+                return ResourceManager.GetString("SummaryAndConfirmation", resourceCulture);
             }
         }
         

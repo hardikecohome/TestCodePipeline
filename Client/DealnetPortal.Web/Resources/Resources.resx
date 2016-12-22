@@ -855,6 +855,9 @@
   <data name="AgreementSubmittedSuccessfully" xml:space="preserve">
     <value>Agreement submitted successfully!</value>
   </data>
+  <data name="BeforeTaxesPaymentsAreSubject" xml:space="preserve">
+    <value>** Before taxes. Payments are subject to change over the course of the term upon at least thirty (30) days written notice. See the attached Terms and Conditions.</value>
+  </data>
   <data name="CannotGetAgreementForPrint" xml:space="preserve">
     <value>Cannot get contract agreement for Print</value>
   </data>
@@ -884,6 +887,9 @@
   </data>
   <data name="Loan" xml:space="preserve">
     <value>Loan</value>
+  </data>
+  <data name="NewEquipment" xml:space="preserve">
+    <value>New Equipment</value>
   </data>
   <data name="PhotoOfVoidCheque" xml:space="preserve">
     <value>Photo of Void Cheque</value>
@@ -918,6 +924,9 @@
   <data name="SevenDigitsNumber" xml:space="preserve">
     <value># (7 digits)</value>
   </data>
+  <data name="SummaryAndConfirmation" xml:space="preserve">
+    <value>Summary And Confirmation</value>
+  </data>
   <data name="ThankYouForCompleting" xml:space="preserve">
     <value>Thank you, {0}, for completing the {1} agreement.</value>
   </data>
@@ -932,5 +941,8 @@
   </data>
   <data name="WishToReceiveEmailsAndMessages" xml:space="preserve">
     <value>Yes, I wish to receive emails and text messages. I understand that I may withdraw my consent at any time.</value>
+  </data>
+  <data name="SubmitDeal" xml:space="preserve">
+    <value>Submit Deal</value>
   </data>
 </root>

@@ -60,7 +60,7 @@ function checkTotalEquipmentCost() {
         }
     });
     if (sum > creditAmount) {
-        $('#new-equipment-validation-message').html('<span>Total equipments cost cannot be greater than Credit Amount</span>');
+        $('#new-equipment-validation-message').html('<span>' + translations['TotalCostGreaterThanAmount']  + '</span>');
         return false;
     }
     return true;
