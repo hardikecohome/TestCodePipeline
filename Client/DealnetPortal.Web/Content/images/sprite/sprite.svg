@@ -1,4 +1,4 @@
-<symbol width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <symbol id="icon-fax" viewBox="0 0 20 20">
             <g fill="#989897" fill-rule="evenodd"><path d="M9 7H8v11h12V7h-1V1h-4.527L9 4.986V7zm6.052-4L11 6.065V10h6V3h-1.948zM10 13h2v1h-2v-1zm0 2h2v1h-2v-1zm3-2h2v1h-2v-1zm0 2h2v1h-2v-1zm3-2h2v1h-2v-1zm0 2h2v1h-2v-1z"/><path d="M1.5 7h3C5.33 7 6 7.615 6 8.37v8.26C6 17.385 5.335 18 4.5 18h-3C.67 18 0 17.385 0 16.63V8.37C0 7.615.665 7 1.5 7zm.5 9c0-.003 1.997-.003 1.997-.003V9c0 .003-1.997.003-1.997.003L2.003 16z"/></g>
