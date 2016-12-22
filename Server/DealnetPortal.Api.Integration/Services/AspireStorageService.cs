@@ -114,7 +114,7 @@ namespace DealnetPortal.Api.Integration.Services
                                             on (e.oid = p.entt_oid)
                                         where e.entt_id LIKE '{0}%'
                                         and e.fname is not null
-                                        and e.lname is not null";
+                                        and e.lname is not null;";
 
             sqlStatement = string.Format(sqlStatement, customerId);
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
@@ -127,41 +127,27 @@ namespace DealnetPortal.Api.Integration.Services
 
         public CustomerDTO FindCustomer(CustomerDTO customer)
         {
-            string sqlStatement = @"SELECT
-                                        * FROM Entity (nolock) as e
-                                        LEFT JOIN Location (nolock) as l
-                                            on (e.oid = l.entt_oid and e.loca_oid = l.oid)
-                                        LEFT JOIN Phone (nolock) as p
-                                            on (e.oid = p.entt_oid)
-                                        where   e.fname LIKE '{0}%'
-                                            and e.lname LIKE '{1}%'
-                                            and e.date_of_birth = '{2}'
-                                            and l.postal_code LIKE '{3}%'";
-            var dob = customer?.DateOfBirth.ToString(CultureInfo.InvariantCulture);
+            var dob = customer?.DateOfBirth ?? new DateTime();
             var postalCode =
                 customer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
                 customer?.Locations?.FirstOrDefault()?.PostalCode;
-            sqlStatement = string.Format(sqlStatement, customer?.FirstName, customer?.LastName, dob, postalCode?.Replace(" ",""));
-            var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
-            if (list?.Any() ?? false)
-            {
-                return list[0];
-            }
-            return null;
+            return FindCustomer(customer?.FirstName, customer?.LastName, dob, postalCode?.Replace(" ", ""));           
         }
 
         public CustomerDTO FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode)
         {
-            string sqlStatement = @"SELECT
-                                        * FROM Entity (nolock) as e
-                                        LEFT JOIN Location (nolock) as l
-                                            on (e.oid = l.entt_oid and e.loca_oid = l.oid)
-                                        LEFT JOIN Phone (nolock) as p
-                                            on (e.oid = p.entt_oid)
-                                        where   e.fname LIKE '{0}%'
-                                            and e.lname LIKE '{1}%'
-                                            and e.date_of_birth = '{2}'
-                                            and l.postal_code LIKE '{3}%'";
+            string sqlStatement = @"SELECT e.entt_id, e.fname, e.lname, e.date_of_birth, e.email_addr, 
+		                                    l.postal_code, l.city, l.state, l.postal_code, l.addr_line1,
+		                                    p.phone_num
+                                    FROM Entity (nolock) as e
+                                    LEFT JOIN Location (nolock) as l
+                                        on (e.oid = l.entt_oid and e.loca_oid = l.oid)
+                                    LEFT JOIN Phone (nolock) as p
+                                        on (e.oid = p.entt_oid)
+                                    where   e.fname LIKE '{0}%'
+                                        and e.lname LIKE '{1}%'
+                                        and e.date_of_birth = '{2}'
+                                        and l.postal_code LIKE '{3}%';";
             var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);            
             sqlStatement = string.Format(sqlStatement, firstName, lastName, dob, postalCode.Replace(" ", ""));
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
