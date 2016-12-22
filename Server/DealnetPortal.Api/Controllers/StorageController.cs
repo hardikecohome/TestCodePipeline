@@ -83,8 +83,37 @@ namespace DealnetPortal.Api.Controllers
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.Load(request.Content.ReadAsStreamAsync().Result);
 
-            LoggingService.LogInfo("DocuSign message recieved");
-            LoggingService.LogInfo(xmldoc.ToString());
+            var mgr = new XmlNamespaceManager(xmldoc.NameTable);
+            mgr.AddNamespace("a", "http://www.docusign.net/API/3.0");
+
+            XmlNode envelopeStatus = xmldoc.SelectSingleNode("//a:EnvelopeStatus", mgr);
+            XmlNode envelopeId = envelopeStatus.SelectSingleNode("//a:EnvelopeID", mgr);
+            XmlNode status = envelopeStatus.SelectSingleNode("//a:Status", mgr);
+
+            if (status.InnerText == "Completed")
+            {
+                LoggingService.LogInfo($"DocuSign envelope {envelopeId} status changed to {status}");
+                XmlNode docs = xmldoc.SelectSingleNode("//a:DocumentPDFs", mgr);
+                if (docs != null)
+                {
+                    foreach (XmlNode doc in docs.ChildNodes)
+                    {
+                        string documentName = doc.ChildNodes[0].InnerText;
+                        // pdf.SelectSingleNode("//a:Name", mgr).InnerText;
+                        string documentId = doc.ChildNodes[2].InnerText;
+                        // pdf.SelectSingleNode("//a:DocumentID", mgr).InnerText;
+                        string byteStr = doc.ChildNodes[1].InnerText;
+                        // pdf.SelectSingleNode("//a:PDFBytes", mgr).InnerText;
+
+                        //System.IO.File.WriteAllText(
+                        //    HttpContext.Current.Server.MapPath("~/Documents/" + envelopeId.InnerText + "_" + documentId +
+                        //                                       "_" + documentName), byteStr);
+                        LoggingService.LogInfo($"Document {documentName} with size {byteStr.Length} recieved");
+                    }
+                }
+            }
+
+               
 
             return Ok();
         }

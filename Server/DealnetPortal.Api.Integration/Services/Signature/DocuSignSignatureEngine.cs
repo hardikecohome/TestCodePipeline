@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
@@ -467,7 +469,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         }
 
         private EventNotification GetEventNotification()
-        {
+        {            
             var url = "https://195.206.225.83/Server/Api/Storage/";
             //var eventNotification = new EventNotification();
 
