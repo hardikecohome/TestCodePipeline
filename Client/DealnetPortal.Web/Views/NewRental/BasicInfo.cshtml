@@ -140,7 +140,7 @@
                                 <div id="upload-area">
                                     <div id="upload-buttons">
                                         <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
-                                            <span class="icon"><img src="~/content/images/upload.png"></span>
+                                            <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
                                             <span>Upload Photo</span>
                                             <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')"/>
                                         </div>

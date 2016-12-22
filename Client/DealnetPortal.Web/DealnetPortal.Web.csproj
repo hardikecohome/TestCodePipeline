@@ -481,6 +481,7 @@
     <Content Include="Content\images\spinner%403x.png" />
     <Content Include="Content\images\spinner.png" />
     <Content Include="Content\images\sprite\successfully-upload.svg" />
+    <Content Include="Content\images\sprite\upload-cloud.svg" />
     <Content Include="Content\images\upload%402x.png" />
     <Content Include="Content\images\upload%403x.png" />
     <Content Include="Content\images\upload.png" />
