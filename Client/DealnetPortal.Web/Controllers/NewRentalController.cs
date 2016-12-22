@@ -518,15 +518,5 @@ namespace DealnetPortal.Web.Controllers
             var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
             return Json(result.Item1);
         }
-
-        private JsonResult GetSuccessJson()
-        {
-            return Json(new {isSuccess = true});
-        }
-
-        private JsonResult GetErrorJson()
-        {
-            return Json(new {isError = true});
-        }
     }
 }

@@ -13,8 +13,8 @@ namespace DealnetPortal.Web.Models
         public int CustomerId { get; set; }
 
         //[Required]
-        [Display(Name = "Additional Applicant Email")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "AdditionalApplicantEmail")]
+        [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
     }
 
@@ -30,13 +30,13 @@ namespace DealnetPortal.Web.Models
         public string HomeOwnerFullName { get; set; }
 
         [Required]
-        [Display(Name = "Home Owner Email")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "HomeOwnerEmail")]
+        [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string HomeOwnerEmail { get; set; }
 
         [Required]
-        [Display(Name = "Sales Rep Email")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "SalesRepEmail")]
+        [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string SalesRepEmail { get; set; }
 
         public CustomerEmail[] AdditionalApplicantsEmails { get; set; }

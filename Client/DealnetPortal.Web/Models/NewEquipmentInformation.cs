@@ -13,21 +13,21 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Required]
         public string Type { get; set; }
 
-        [Display(Name = "Type")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Type")]
         public string TypeDescription { get; set; }
 
         [Required]
         [StringLength(500)]
         public string Description { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Cost is in incorrect format")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CostIncorrectFormat")]
         public double? Cost { get; set; }
         
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Monthly Cost is in incorrect format")]
-        [Display(Name = "Monthly Cost")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "MonthlyCost")]
         public double? MonthlyCost { get; set; }
 
-        [Display(Name = "Estimated Installation Date")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "EstimatedInstallationDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime EstimatedInstallationDate{ get; set; }

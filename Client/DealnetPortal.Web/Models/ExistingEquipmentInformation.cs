@@ -8,15 +8,15 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 {    
     public class ExistingEquipmentInformation
     {
-        [Display(Name = "Is Rental?")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "IsRental")]
         public bool IsRental { get; set; }
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "Rental Company")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "RentalCompany")]
         public string RentalCompany { get; set; }
 
-        [Display(Name = "Estimated Age")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "EstimatedAge")]
         public double EstimatedAge { get; set; }
 
         [Required]
@@ -29,12 +29,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "Serial Number")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "SerialNumber")]
         public string SerialNumber { get; set; }
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "General Condition")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "GeneralCondition")]
         public string GeneralCondition { get; set; }
 
         [StringLength(500)]

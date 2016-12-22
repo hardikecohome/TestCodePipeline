@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.Models
 
         public int DocumentTypeId { get; set; }
 
-        [Required(ErrorMessage = "Please, select a document file")]
+        [Required(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PleaseSelectDocumentFile")]
         public HttpPostedFileBase File { get; set; }
 
         public string OperationGuid { get; set; }

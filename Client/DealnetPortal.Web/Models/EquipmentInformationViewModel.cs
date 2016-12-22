@@ -10,49 +10,49 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     public class EquipmentInformationViewModel
     {
-        [Display(Name = "Type of agreement")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Total Monthly Payment is in incorrect format")]
-        [Display(Name = "Total Monthly Payment")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TotalMonthlyPaymentIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "TotalMonthlyPayment")]
         public double? TotalMonthlyPayment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
         
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Requested Term is in incorrect format")]
-        [Display(Name = "Requested Term")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "RequestedTermIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "RequestedTerm")]
         public int? RequestedTerm { get; set; }
         
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Loan Term is in incorrect format")]
-        [Display(Name = "Loan Term")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "LoanTermIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "LoanTerm")]
         public int? LoanTerm { get; set; }
 
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Amortization Term is in incorrect format")]
-        [Display(Name = "Amortization Term")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AmortizationTermIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "AmortizationTerm")]
         public int? AmortizationTerm { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Customer Rate is in incorrect format")]
-        [Display(Name = "Customer Rate (%)")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]
         public double? CustomerRate { get; set; }
 
-        [RegularExpression(@"^[0-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Admin Fee is in incorrect format")]
-        [Display(Name = "Admin Fee")]
+        [RegularExpression(@"^[0-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AdminFeeIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "AdminFee")]
         public double? AdminFee { get; set; }
 
-        [RegularExpression(@"^[0-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Down Payment is in incorrect format")]
-        [Display(Name = "Down Payment")]
+        [RegularExpression(@"^[0-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "DownPaymentIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "DownPayment")]
         public double? DownPayment { get; set; }
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "Sales Rep")]
-        [RegularExpression(@"^[^0-9]+$", ErrorMessage = "Sales Rep is in incorrect format")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "SalesRep")]
+        [RegularExpression(@"^[^0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "SalesRepIncorrectFormat")]
         public string SalesRep { get; set; }
 
         [StringLength(500)]
-        [Display(Name = "Contract Notes")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "ContractNotes")]
         public string Notes { get; set; }
 
         public int? ContractId { get; set; }
@@ -107,19 +107,17 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         protected string GetErrorMessage(Type containerType, string displayName)
         {
-            const string DefaultErrorMessage =
-            "Total equipments cost cannot be greater than Credit Amount";
             ModelMetadata metadata = ModelMetadataProviders.Current.GetMetadataForProperty(null, containerType,
                                                                                            _costProperty);
             var otherDisplayName = metadata.GetDisplayName();
-            return ErrorMessage ?? DefaultErrorMessage; //string.Format(DefaultErrorMessage, displayName, otherDisplayName);
+            return ErrorMessage ?? Resources.Resources.TotalCostGreaterThanAmount; //string.Format(DefaultErrorMessage, displayName, otherDisplayName);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
             var rule = new ModelClientValidationRule
             {
-                ErrorMessage = "Total equipments cost cannot be greater than Credit Amount",
+                ErrorMessage = Resources.Resources.TotalCostGreaterThanAmount,
                 ValidationType = "checkcost",
             };
             yield return rule;

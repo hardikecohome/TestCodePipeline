@@ -17,26 +17,26 @@ namespace DealnetPortal.Web.Models
         public int? CustomerId { get; set; }
 
         [Required]
-        [Display(Name = "First Name")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "FirstName")]
         [StringLength(20, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "First Name is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "FirstNameIncorrectFormat")]
         public string FirstName { get; set; }
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "LastName")]
         [StringLength(20, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "Last Name is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "LastNameIncorrectFormat")]
         public string LastName { get; set; }
         [Required]
-        [Display(Name = "Birth Date")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "BirthDate")]
         [DataType(DataType.Date)]
-        [EligibleAge(ErrorMessage = "The applicant needs to be over 18 years old")]
+        [EligibleAge(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ApplicantNeedsToBeOver18")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
-        [Display(Name = "SIN (Social insurance number)")]
-        [StringLength(9, MinimumLength = 9, ErrorMessage = "SIN must be 9 digits long")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "SIN is in incorrect format")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "SinWithDescription")]
+        [StringLength(9, MinimumLength = 9, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "SinMustBeLong")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "SinIncorrectFormat")]
         public string Sin { get; set; } 
-        [Display(Name = "Driver License Number")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "DriverLicenseNumber")]
         public string DriverLicenseNumber { get; set; }
 
         public AddressInformation AddressInformation { get; set; }
@@ -47,38 +47,38 @@ namespace DealnetPortal.Web.Models
     public class MailingAddressInformation : AddressInformation
     {
         [Required]
-        [Display(Name = "Mailing Address")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "MailingAddress")]
         [StringLength(100, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MailingAddressIncorrectFormat")]
         public override string Street { get; set; }
     }
 
     public class AddressInformation
     {
         [Required]
-        [Display(Name = "Installation Address")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "InstallationAddress")]
         [StringLength(100, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InstallationAddressIncorrectFormat")]
         public virtual string Street { get; set; }
-        [Display(Name = "Unit #")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "UnitNumber")]
         [StringLength(10, MinimumLength = 1)]
-        [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessage = "Unit Number is in incorrect format")]
+        [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "UnitNumberIncorrectFormat")]
         public string UnitNumber { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "City is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CityIncorrectFormat")]
         public string City { get; set; }
         [Required]
         [StringLength(30, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "Province is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ProvinceIncorrectFormat")]
         public string Province { get; set; }
         [Required]
-        [Display(Name = "Postal Code")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "PostalCode")]
         [StringLength(10, MinimumLength = 3)]
-        [RegularExpression(@"^[a-zA-Z0-9]+\s?[a-zA-Z0-9]+$", ErrorMessage = "Postal Code is in incorrect format")]
+        [RegularExpression(@"^[a-zA-Z0-9]+\s?[a-zA-Z0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PostalCodeIncorrectFormat")]
         public string PostalCode { get; set; }
         [Required]
-        [Display(Name = "Residence")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Residence")]
         public ResidenceType ResidenceType { get; set; }
     }
 
@@ -99,49 +99,49 @@ namespace DealnetPortal.Web.Models
 
     public class PaymentInfoViewModel
     {
-        [Display(Name = "Payment Type")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "PaymentType")]
         public PaymentType PaymentType { get; set; }
-        [Display(Name = "Preferred Withdrawal Date")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "PrefferedWithdrawalDateIncorrectFormat")]
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Bank Number is in incorrect format")]
-        [Display(Name = "Bank Number")]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BankNumberIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "BlankNumber")]
         public string BlankNumber { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Transit Number is in incorrect format")]
-        [Display(Name = "Transit Number")]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TransitNumberIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "TransitNumber")]
         public string TransitNumber { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9- ]+$", ErrorMessage = "Account Number is in incorrect format")]
-        [Display(Name = "Account Number")]
+        [RegularExpression(@"^[0-9- ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AccountNumberIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "AccountNumber")]
         public string AccountNumber { get; set; }
         [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Enbridge Gas Distribution Account is in incorrect format")]
-        [Display(Name = "Enbridge Gas Distribution Account")]
+        [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "EnbridgeGasDistributionAccount")]
         public string EnbridgeGasDistributionAccount { get; set; }
         [StringLength(7)]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Meter # is in incorrect format")]
-        [Display(Name = "Meter #")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MeterNumberIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "MeterNumber")]
         public string MeterNumber { get; set; }
     }
 
     public class ContactInfoViewModel
     {
         [StringLength(50)]
-        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessage = "Home Phone is in incorrect format")]
-        [Display(Name = "Home Phone")]
+        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "HomePhone")]
         public string HomePhone { get; set; }
         [StringLength(50)]
-        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessage = "Cell Phone is in incorrect format")]
-        [Display(Name = "Cell Phone")]
+        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "CellPhone")]
         public string CellPhone { get; set; }
         [StringLength(50)]
-        [RegularExpression(@"^[EeTtX0-9x\.+()-]+$", ErrorMessage = "Business Phone is in incorrect format")]
-        [Display(Name = "Business Phone")]
+        [RegularExpression(@"^[EeTtX0-9x\.+()-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneIncorrectFormat")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "BusinessPhone")]
         public string BusinessPhone { get; set; }
         [StringLength(256)]
-        [Display(Name = "Email Address")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "EmailAddress")]
+        [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string EmailAddress { get; set; }
 
         public string FirstName { get; set; }
@@ -158,18 +158,18 @@ namespace DealnetPortal.Web.Models
         public ContactInfoViewModel HomeOwnerContactInfo { get; set; }
         public List<ContactInfoViewModel> CoBorrowersContactInfo { get; set; }
         public PaymentInfoViewModel PaymentInfo { get; set; }
-        [Display(Name = "House Size (sq feet)")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
         public int? ContractId { get; set; }
     }
 
     public class AdditionalInfoViewModel
     {
-        [Display(Name = "Status")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Status")]
         public ContractState ContractState { get; set; }
-        [Display(Name = "Status")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Status")]
         public string Status { get; set; }
-        [Display(Name = "Date")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Date")]
         public DateTime? LastUpdateTime { get; set; }
         public string TransactionId { get; set; }
     }

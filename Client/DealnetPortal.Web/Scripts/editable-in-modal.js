@@ -57,7 +57,7 @@ function submitChanges(url, mainform) {
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("An error occurred while updating data");
+                alert(translations['ErrorWhileUpdatingData']);
             }
         },
         error: function (xhr, status, p3) {

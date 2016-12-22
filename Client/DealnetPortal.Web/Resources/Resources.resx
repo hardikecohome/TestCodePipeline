@@ -468,4 +468,226 @@
   <data name="CreditCheckErrorMessage" xml:space="preserve">
     <value>Can't connect to external system for Credit Check. Try to perform Credit Check later.</value>
   </data>
+  <data name="ErrorWhileUpdatingData" xml:space="preserve">
+    <value>An error occurred while updating data</value>
+  </data>
+  <data name="MustBeAtLeastLong" xml:space="preserve">
+    <value>The {0} must be at least {2} characters long.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="PasswordAndConfirmationNotMatch" xml:space="preserve">
+    <value>The password and confirmation password do not match.</value>
+  </data>
+  <data name="TypeOfAgreement" xml:space="preserve">
+    <value>Type of agreement</value>
+  </data>
+  <data name="TotalMonthlyPayment" xml:space="preserve">
+    <value>Total Monthly Payment</value>
+  </data>
+  <data name="TotalMonthlyPaymentIncorrectFormat" xml:space="preserve">
+    <value>Total Monthly Payment is in incorrect format</value>
+  </data>
+  <data name="RequestedTermIncorrectFormat" xml:space="preserve">
+    <value>Requested Term is in incorrect format</value>
+  </data>
+  <data name="LoanTermIncorrectFormat" xml:space="preserve">
+    <value>Loan Term is in incorrect format</value>
+  </data>
+  <data name="AmortizationTermIncorrectFormat" xml:space="preserve">
+    <value>Amortization Term is in incorrect format</value>
+  </data>
+  <data name="AmortizationTerm" xml:space="preserve">
+    <value>Amortization Term</value>
+  </data>
+  <data name="CustomerRateIncorrectFormat" xml:space="preserve">
+    <value>Customer Rate is in incorrect format</value>
+  </data>
+  <data name="CustomerRatePercentage" xml:space="preserve">
+    <value>Customer Rate (%)</value>
+  </data>
+  <data name="AdminFeeIncorrectFormat" xml:space="preserve">
+    <value>Admin Fee is in incorrect format</value>
+  </data>
+  <data name="AdminFee" xml:space="preserve">
+    <value>Admin Fee</value>
+  </data>
+  <data name="DownPaymentIncorrectFormat" xml:space="preserve">
+    <value>Down Payment is in incorrect format</value>
+  </data>
+  <data name="DownPayment" xml:space="preserve">
+    <value>Down Payment</value>
+  </data>
+  <data name="SalesRepIncorrectFormat" xml:space="preserve">
+    <value>Sales Rep is in incorrect format</value>
+  </data>
+  <data name="ContractNotes" xml:space="preserve">
+    <value>Contract Notes</value>
+  </data>
+  <data name="TotalCostGreaterThanAmount" xml:space="preserve">
+    <value>Total equipments cost cannot be greater than Credit Amount</value>
+  </data>
+  <data name="RentalCompany" xml:space="preserve">
+    <value>Rental Company</value>
+  </data>
+  <data name="EstimatedAge" xml:space="preserve">
+    <value>Estimated Age</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Serial Number</value>
+  </data>
+  <data name="GeneralCondition" xml:space="preserve">
+    <value>General Condition</value>
+  </data>
+  <data name="CostIncorrectFormat" xml:space="preserve">
+    <value>Cost is in incorrect format</value>
+  </data>
+  <data name="MonthlyCostIncorrectFormat" xml:space="preserve">
+    <value>Monthly Cost is in incorrect format</value>
+  </data>
+  <data name="MonthlyCost" xml:space="preserve">
+    <value>Monthly Cost</value>
+  </data>
+  <data name="EstimatedInstallationDate" xml:space="preserve">
+    <value>Estimated Installation Date</value>
+  </data>
+  <data name="AdditionalApplicantEmail" xml:space="preserve">
+    <value>Additional Applicant Email</value>
+  </data>
+  <data name="InvalidEmailAddress" xml:space="preserve">
+    <value>Invalid Email Address</value>
+  </data>
+  <data name="HomeOwnerEmail" xml:space="preserve">
+    <value>Home Owner Email</value>
+  </data>
+  <data name="SalesRepEmail" xml:space="preserve">
+    <value>Sales Rep Email</value>
+  </data>
+  <data name="PleaseSelectDocumentFile" xml:space="preserve">
+    <value>Please, select a document file</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="FirstNameIncorrectFormat" xml:space="preserve">
+    <value>First Name is in incorrect format</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="LastNameIncorrectFormat" xml:space="preserve">
+    <value>Last Name is in incorrect format</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Birth Date</value>
+  </data>
+  <data name="ApplicantNeedsToBeOver18" xml:space="preserve">
+    <value>The applicant needs to be over 18 years old</value>
+  </data>
+  <data name="SinWithDescription" xml:space="preserve">
+    <value>SIN (Social insurance number)</value>
+  </data>
+  <data name="SinMustBeLong" xml:space="preserve">
+    <value>SIN must be 9 digits long</value>
+  </data>
+  <data name="SinIncorrectFormat" xml:space="preserve">
+    <value>SIN is in incorrect format</value>
+  </data>
+  <data name="DriverLicenseNumber" xml:space="preserve">
+    <value>Driver License Number</value>
+  </data>
+  <data name="MailingAddressIncorrectFormat" xml:space="preserve">
+    <value>Mailing Address is in incorrect format</value>
+  </data>
+  <data name="InstallationAddress" xml:space="preserve">
+    <value>Installation Address</value>
+  </data>
+  <data name="InstallationAddressIncorrectFormat" xml:space="preserve">
+    <value>Installation Address is in incorrect format</value>
+  </data>
+  <data name="UnitNumber" xml:space="preserve">
+    <value>Unit #</value>
+  </data>
+  <data name="UnitNumberIncorrectFormat" xml:space="preserve">
+    <value>Unit Number is in incorrect format</value>
+  </data>
+  <data name="CityIncorrectFormat" xml:space="preserve">
+    <value>City is in incorrect format</value>
+  </data>
+  <data name="ProvinceIncorrectFormat" xml:space="preserve">
+    <value>Province is in incorrect format</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="PostalCodeIncorrectFormat" xml:space="preserve">
+    <value>Postal Code is in incorrect format</value>
+  </data>
+  <data name="Residence" xml:space="preserve">
+    <value>Residence</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Payment Type</value>
+  </data>
+  <data name="PrefferedWithdrawalDateIncorrectFormat" xml:space="preserve">
+    <value>Preferred Withdrawal Date</value>
+  </data>
+  <data name="BankNumberIncorrectFormat" xml:space="preserve">
+    <value>Bank Number is in incorrect format</value>
+  </data>
+  <data name="BlankNumber" xml:space="preserve">
+    <value>Bank Number</value>
+  </data>
+  <data name="TransitNumberIncorrectFormat" xml:space="preserve">
+    <value>Transit Number is in incorrect format</value>
+  </data>
+  <data name="TransitNumber" xml:space="preserve">
+    <value>Transit Number</value>
+  </data>
+  <data name="AccountNumberIncorrectFormat" xml:space="preserve">
+    <value>Account Number is in incorrect format</value>
+  </data>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>Account Number</value>
+  </data>
+  <data name="EnbridgeGasDistributionAccountIncorrectFormat" xml:space="preserve">
+    <value>Enbridge Gas Distribution Account is in incorrect format</value>
+  </data>
+  <data name="EnbridgeGasDistributionAccount" xml:space="preserve">
+    <value>Enbridge Gas Distribution Account</value>
+  </data>
+  <data name="MeterNumberIncorrectFormat" xml:space="preserve">
+    <value>Meter # is in incorrect format</value>
+  </data>
+  <data name="MeterNumber" xml:space="preserve">
+    <value>Meter #</value>
+  </data>
+  <data name="HomePhoneIncorrectFormat" xml:space="preserve">
+    <value>Home Phone is in incorrect format</value>
+  </data>
+  <data name="HomePhone" xml:space="preserve">
+    <value>Home Phone</value>
+  </data>
+  <data name="CellPhoneIncorrectFormat" xml:space="preserve">
+    <value>Cell Phone is in incorrect format</value>
+  </data>
+  <data name="CellPhone" xml:space="preserve">
+    <value>Cell Phone</value>
+  </data>
+  <data name="BusinessPhoneIncorrectFormat" xml:space="preserve">
+    <value>Business Phone is in incorrect format</value>
+  </data>
+  <data name="BusinessPhone" xml:space="preserve">
+    <value>Business Phone</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="HouseSizeSquareFeet" xml:space="preserve">
+    <value>House Size (sq feet)</value>
+  </data>
 </root>
