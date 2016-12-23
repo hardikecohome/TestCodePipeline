@@ -219,6 +219,15 @@
                     </div>
                     <div class="col-md-4 loan-element">
                         <div class="form-group">
+                            @Html.LabelFor(m => m.AmortizationTerm)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();" })
+                                @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 loan-element">
+                        <div class="form-group">
                             @Html.LabelFor(m => m.LoanTerm)
                             <div class="control-group">
                                 @Html.TextBoxFor(m => m.LoanTerm, new { @class = "form-control dealnet-input", placeholder = "Loan Term", id = "loan-term", onchange = "calculateLoanValues();" })
@@ -232,15 +241,6 @@
                             <div class="control-group">
                                 @Html.TextBoxFor(m => m.SalesRep, new { @class = "form-control dealnet-input", placeholder = "Sales Rep" })
                                 @Html.ValidationMessageFor(m => m.SalesRep, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 loan-element">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.AmortizationTerm)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();" })
-                                @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
