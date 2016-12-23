@@ -221,6 +221,15 @@
                     </div>
                     <div class="col-md-4 loan-element">
                         <div class="form-group">
+                            @Html.LabelFor(m => m.AmortizationTerm)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = Resources.AmortizationTerm, id = "amortization-term", onchange = "calculateLoanValues();" })
+                                @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 loan-element">
+                        <div class="form-group">
                             @Html.LabelFor(m => m.LoanTerm)
                             <div class="control-group">
                                 @Html.TextBoxFor(m => m.LoanTerm, new { @class = "form-control dealnet-input", placeholder = Resources.LoanTerm, id = "loan-term", onchange = "calculateLoanValues();" })
@@ -237,15 +246,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 loan-element">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.AmortizationTerm)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = Resources.AmortizationTerm, id = "amortization-term", onchange = "calculateLoanValues();" })
-                                @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
         </div>
         <div class="col-md-6 col-sm-6">
