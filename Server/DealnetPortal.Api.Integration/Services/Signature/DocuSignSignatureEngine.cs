@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
@@ -24,6 +22,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsUser;
         private readonly string _dsPassword;
         private readonly string _dsIntegratorKey;
+
+        private readonly string _baseServerAddress;
 
         private ILoggingService _loggingService;
 
@@ -48,6 +48,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private const string EmailSubject = "Please Sign Agreement";
 
+        private const string NotificationEndpointName = "api/Storage/NotifySignatureStatus";
+
         public DocuSignSignatureEngine(ILoggingService loggingService)
         {
             _loggingService = loggingService;
@@ -56,6 +58,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsUser = System.Configuration.ConfigurationManager.AppSettings["DocuSignUser"];
             _dsPassword = System.Configuration.ConfigurationManager.AppSettings["DocuSignPassword"];
             _dsIntegratorKey = System.Configuration.ConfigurationManager.AppSettings["DocuSignIntegratorKey"];
+
+            _baseServerAddress = System.Configuration.ConfigurationManager.AppSettings["ServerBaseAddress"];
         }
 
         public async Task<IList<Alert>> ServiceLogin()
@@ -469,65 +473,74 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         }
 
         private EventNotification GetEventNotification()
-        {            
-            var url = "https://195.206.225.83/Server/Api/Storage/";
-            //var eventNotification = new EventNotification();
+        {
+            
+            if (!string.IsNullOrEmpty(_baseServerAddress))
+            {
+                string url = string.Empty;
+                url = string.Format("{0}/{1}", _baseServerAddress, NotificationEndpointName);
+                _loggingService.LogInfo($"DocuSign notofocations will send to {url}");
 
-            List<EnvelopeEvent> envelope_events = new List<EnvelopeEvent>();
+                List<EnvelopeEvent> envelope_events = new List<EnvelopeEvent>();
 
-            EnvelopeEvent envelope_event1 = new EnvelopeEvent();
-            envelope_event1.EnvelopeEventStatusCode = "sent";
-            envelope_events.Add(envelope_event1);
-            EnvelopeEvent envelope_event2 = new EnvelopeEvent();
-            envelope_event2.EnvelopeEventStatusCode = "delivered";
-            envelope_events.Add(envelope_event2);
-            EnvelopeEvent envelope_event3 = new EnvelopeEvent();
-            envelope_event3.EnvelopeEventStatusCode = "completed";
-            envelope_events.Add(envelope_event3);
-            EnvelopeEvent envelope_event4 = new EnvelopeEvent();
-            envelope_event4.EnvelopeEventStatusCode = "declined";
-            envelope_events.Add(envelope_event4);
-            EnvelopeEvent envelope_event5 = new EnvelopeEvent();
-            envelope_event5.EnvelopeEventStatusCode = "voided";
-            envelope_events.Add(envelope_event5);
+                EnvelopeEvent envelope_event1 = new EnvelopeEvent();
+                envelope_event1.EnvelopeEventStatusCode = "sent";
+                envelope_events.Add(envelope_event1);
+                EnvelopeEvent envelope_event2 = new EnvelopeEvent();
+                envelope_event2.EnvelopeEventStatusCode = "delivered";
+                envelope_events.Add(envelope_event2);
+                EnvelopeEvent envelope_event3 = new EnvelopeEvent();
+                envelope_event3.EnvelopeEventStatusCode = "completed";
+                envelope_events.Add(envelope_event3);
+                EnvelopeEvent envelope_event4 = new EnvelopeEvent();
+                envelope_event4.EnvelopeEventStatusCode = "declined";
+                envelope_events.Add(envelope_event4);
+                EnvelopeEvent envelope_event5 = new EnvelopeEvent();
+                envelope_event5.EnvelopeEventStatusCode = "voided";
+                envelope_events.Add(envelope_event5);
 
-            List<RecipientEvent> recipient_events = new List<RecipientEvent>();
-            RecipientEvent recipient_event1 = new RecipientEvent();
-            recipient_event1.RecipientEventStatusCode = "Sent";
-            recipient_events.Add(recipient_event1);
-            RecipientEvent recipient_event2 = new RecipientEvent();
-            recipient_event2.RecipientEventStatusCode = "Delivered";
-            recipient_events.Add(recipient_event2);
-            RecipientEvent recipient_event3 = new RecipientEvent();
-            recipient_event3.RecipientEventStatusCode = "Completed";
-            recipient_events.Add(recipient_event3);
-            RecipientEvent recipient_event4 = new RecipientEvent();
-            recipient_event4.RecipientEventStatusCode = "Declined";
-            recipient_events.Add(recipient_event4);
-            RecipientEvent recipient_event5 = new RecipientEvent();
-            recipient_event5.RecipientEventStatusCode = "AuthenticationFailed";
-            recipient_events.Add(recipient_event5);
-            RecipientEvent recipient_event6 = new RecipientEvent();
-            recipient_event6.RecipientEventStatusCode = "AutoResponded";
-            recipient_events.Add(recipient_event6);
+                List<RecipientEvent> recipient_events = new List<RecipientEvent>();
+                RecipientEvent recipient_event1 = new RecipientEvent();
+                recipient_event1.RecipientEventStatusCode = "Sent";
+                recipient_events.Add(recipient_event1);
+                RecipientEvent recipient_event2 = new RecipientEvent();
+                recipient_event2.RecipientEventStatusCode = "Delivered";
+                recipient_events.Add(recipient_event2);
+                RecipientEvent recipient_event3 = new RecipientEvent();
+                recipient_event3.RecipientEventStatusCode = "Completed";
+                recipient_events.Add(recipient_event3);
+                RecipientEvent recipient_event4 = new RecipientEvent();
+                recipient_event4.RecipientEventStatusCode = "Declined";
+                recipient_events.Add(recipient_event4);
+                RecipientEvent recipient_event5 = new RecipientEvent();
+                recipient_event5.RecipientEventStatusCode = "AuthenticationFailed";
+                recipient_events.Add(recipient_event5);
+                RecipientEvent recipient_event6 = new RecipientEvent();
+                recipient_event6.RecipientEventStatusCode = "AutoResponded";
+                recipient_events.Add(recipient_event6);
 
-            EventNotification event_notification = new EventNotification();
-            event_notification.Url = url;
-            event_notification.LoggingEnabled = "true";
-            event_notification.RequireAcknowledgment = "true";
-            event_notification.UseSoapInterface = "false";
-            event_notification.IncludeCertificateWithSoap = "false";
-            event_notification.SignMessageWithX509Cert = "false";
-            event_notification.IncludeDocuments = "true";
-            event_notification.IncludeEnvelopeVoidReason = "true";
-            event_notification.IncludeTimeZone = "true";
-            event_notification.IncludeSenderAccountAsCustomField = "true";
-            event_notification.IncludeDocumentFields = "true";
-            event_notification.IncludeCertificateOfCompletion = "true";
-            event_notification.EnvelopeEvents = envelope_events;
-            event_notification.RecipientEvents = recipient_events;
+                EventNotification event_notification = new EventNotification();
+                event_notification.Url = url;
+                event_notification.LoggingEnabled = "true";
+                event_notification.RequireAcknowledgment = "true";
+                event_notification.UseSoapInterface = "false";
+                event_notification.IncludeCertificateWithSoap = "false";
+                event_notification.SignMessageWithX509Cert = "false";
+                event_notification.IncludeDocuments = "true";
+                event_notification.IncludeEnvelopeVoidReason = "true";
+                event_notification.IncludeTimeZone = "true";
+                event_notification.IncludeSenderAccountAsCustomField = "true";
+                event_notification.IncludeDocumentFields = "true";
+                event_notification.IncludeCertificateOfCompletion = "true";
+                event_notification.EnvelopeEvents = envelope_events;
+                event_notification.RecipientEvents = recipient_events;
 
-            return event_notification;
+                return event_notification;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void FillEnvelopeForTemplate(EnvelopeDefinition envelopeDefinition)
