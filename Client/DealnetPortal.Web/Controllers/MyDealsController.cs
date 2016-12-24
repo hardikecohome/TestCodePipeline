@@ -83,7 +83,7 @@ namespace DealnetPortal.Web.Controllers
                     CreationDate = DateTime.Now,
                     DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
                     DocumentBytes = documentBytes,
-                    DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : documentForUpload.File.FileName,                    
+                    DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : Path.GetFileName(documentForUpload.File.FileName),                    
                     ContractId = documentForUpload.ContractId
                 };
                 if (Session["CancelledUploadOperations"] != null && ((HashSet<string>)Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
