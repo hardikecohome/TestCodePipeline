@@ -151,6 +151,11 @@ function showTable() {
 
         getTotalForSelectedCheckboxes();
         createFilter();
+        recalculateGrandTotal();
+        table.on('search.dt', function () {
+            recalculateGrandTotal();
+            recalculateTotalForSelected();
+        });
         $(".filter-button").click(function () {
             table.draw();
         });
@@ -275,36 +280,39 @@ function createFilter() {
 
 }
 
-function createTableFooter(row, data, start, end, display) {
-    var api = this.api(), data;
-
-    // Remove the formatting to get integer data for summation
-    var intVal = function (i) {
-        return typeof i === 'string' ?
-        i.replace(/[\$,]/g, '') * 1 :
-            typeof i === 'number' ?
-            i : 0;
-    };
-
-    // Total over all pages
-    total = api
-        .column(8)
-        .data()
-        .reduce(function (a, b) {
-            return intVal(a) + intVal(b);
-        }, 0);
-
-    // Total over this page
-    pageTotal = api
-        .column(8, { page: 'current' })
-        .data()
-        .reduce(function (a, b) {
-            return intVal(a) + intVal(b);
-        }, 0);
-
-    // Update footer
+function createTableFooter(row, data, start, end, display) {    
     $('.table-footer').html($('.reports-table-footer').detach());
-    $('.table-footer #reports-grand-total').html('$ ' + total.toFixed(2));
+}
+
+function getIntValue(value) {
+    return typeof value === 'string' ?
+        value.replace(/[\$,]/g, '') * 1 :
+            typeof value === 'number' ?
+        value : 0;
+}
+
+function recalculateGrandTotal() {
+    var sum = 0;
+    table.column(8, { search: 'applied' }).data().each(function (value, index) {
+        sum += getIntValue(value);
+    });
+
+    $('.table-footer #reports-grand-total').html('$ ' + sum.toFixed(2));
+    return sum;
+}
+
+function recalculateTotalForSelected() {
+    var data = table.rows('tr.selected', { search: 'applied' }).data();
+    var sum = 0;
+    data.each(function (value, index) {
+        sum += getIntValue(value.Value);
+    });
+    $('#selectedTotal').html('$ ' + sum.toFixed(2));
+    if (data.length) {
+        $('.reports-table-footer').addClass('has-selected-items');
+    } else {
+        $('.reports-table-footer').removeClass('has-selected-items');
+    }
 }
 
 function getTotalForSelectedCheckboxes() {
