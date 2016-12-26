@@ -37,11 +37,11 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(Name = "Customer Rate (%)")]
         public double? CustomerRate { get; set; }
 
-        [RegularExpression(@"^[0-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Admin Fee is in incorrect format")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Admin Fee is in incorrect format")]
         [Display(Name = "Admin Fee")]
         public double? AdminFee { get; set; }
 
-        [RegularExpression(@"^[0-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Down Payment is in incorrect format")]
+        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Down Payment is in incorrect format")]
         [Display(Name = "Down Payment")]
         public double? DownPayment { get; set; }
 
