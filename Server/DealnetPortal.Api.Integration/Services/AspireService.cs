@@ -742,6 +742,11 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = "Payment Type",
                     Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "PAD"
                 });
+                udfs.Add(new UDF()
+                {
+                    Name = "Deferral Type",
+                    Value = contract.PaymentInfo?.DeferralType.GetPersistentEnumDescription()
+                });
                 if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
                     !string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount))
                 {

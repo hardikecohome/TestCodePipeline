@@ -15,6 +15,7 @@ namespace DealnetPortal.Domain
         public int Id { get; set; }
         public PaymentType PaymentType { get; set; }
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        public DeferralType DeferralType { get; set; }
         [MaxLength(20)]
         public string BlankNumber { get; set; }
         [MaxLength(20)]

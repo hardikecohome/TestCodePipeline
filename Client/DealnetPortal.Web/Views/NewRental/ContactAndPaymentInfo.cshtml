@@ -169,6 +169,15 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PaymentInfo.DeferralType)
+                    <div class="control-group">
+                        @Html.EnumDropDownListFor(m => m.PaymentInfo.DeferralType, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PaymentInfo.DeferralType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row">

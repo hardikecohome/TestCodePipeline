@@ -926,11 +926,20 @@
                         </div>
                     </div>
 
-                    <div class="form-group pap-payment-form">
+	                <div class="form-group pap-payment-form">
+	                    <div class="row">
+	                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new {@class = "dealnet-field-caption col-xs-6"})
+	                        <div class="dealnet-field-holder col-xs-6">
+	                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                        </div>
+	                    </div>
+	                </div>
+	                
+                    <div class="form-group">
                         <div class="row">
-                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption col-xs-6" })
+                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
-                                @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                             </div>
                         </div>
                     </div>
@@ -1753,10 +1762,20 @@ foreach (var comment in comments)
                             </div>*@
                             <div class="col-md-12 pap-payment">
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption" })
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new {@class = "dealnet-field-caption"})
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control" })
+                                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new {@class = "form-control"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, null, new { @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>

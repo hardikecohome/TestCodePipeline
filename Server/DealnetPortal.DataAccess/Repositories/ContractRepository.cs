@@ -777,6 +777,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.PaymentInfo.PaymentType = newData.PaymentType;
                 contract.PaymentInfo.PrefferedWithdrawalDate = newData.PrefferedWithdrawalDate;
+                contract.PaymentInfo.DeferralType = newData.DeferralType;
                 contract.PaymentInfo.AccountNumber = newData.AccountNumber;
                 contract.PaymentInfo.BlankNumber = newData.BlankNumber;
                 contract.PaymentInfo.TransitNumber = newData.TransitNumber;
