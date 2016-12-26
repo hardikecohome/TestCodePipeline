@@ -67,6 +67,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
+        public Contract FindContractBySignatureId(string signatureTransactionId)
+        {
+            return _dbContext.Contracts.FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
+        }
+
         public Contract UpdateContractState(int contractId, string contractOwnerId, ContractState newState)
         {
             var contract = GetContract(contractId, contractOwnerId);

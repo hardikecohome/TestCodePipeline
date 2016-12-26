@@ -35,6 +35,8 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>List of contracts</returns>
         IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId);
 
+        Contract FindContractBySignatureId(string signatureTransactionId);
+
         /// <summary>
         /// Delete contract with all linked data
         /// </summary>
