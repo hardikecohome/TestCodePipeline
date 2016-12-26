@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Attributes;
 
 namespace DealnetPortal.Api.Common.Helpers
 {
@@ -15,6 +16,16 @@ namespace DealnetPortal.Api.Common.Helpers
             var fi = value.GetType().GetField(value.ToString());
             var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
                 typeof(DescriptionAttribute), false);
+            if (attributes != null && attributes.Length > 0)
+                return attributes[0].Description;
+            return value.ToString();
+        }
+
+        public static string GetPersistentEnumDescription(this Enum value)
+        {
+            var fi = value.GetType().GetField(value.ToString());
+            var attributes = (PersistentDescriptionAttribute[])fi.GetCustomAttributes(
+                typeof(PersistentDescriptionAttribute), false);
             if (attributes != null && attributes.Length > 0)
                 return attributes[0].Description;
             return value.ToString();

@@ -103,6 +103,8 @@ namespace DealnetPortal.Web.Models
         public PaymentType PaymentType { get; set; }
         [Display(Name = "Preferred Withdrawal Date")]
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        [Display(Name = "Deferral Type")]
+        public DeferralType DeferralType { get; set; }
         [StringLength(20)]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Bank Number is in incorrect format")]
         [Display(Name = "Bank Number")]

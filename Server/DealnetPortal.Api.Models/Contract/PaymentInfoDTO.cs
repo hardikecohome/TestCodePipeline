@@ -12,6 +12,7 @@ namespace DealnetPortal.Api.Models.Contract
         public int Id { get; set; }
         public PaymentType PaymentType { get; set; }
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        public DeferralType DeferralType { get; set; }
         public string BlankNumber { get; set; }
         public string TransitNumber { get; set; }
         public string AccountNumber { get; set; }
