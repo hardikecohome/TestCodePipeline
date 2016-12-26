@@ -105,7 +105,7 @@ namespace DealnetPortal.Web.Models
         public PaymentType PaymentType { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "PrefferedWithdrawalDateIncorrectFormat")]
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
-        [Display(Name = "Deferral Type")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
         public DeferralType DeferralType { get; set; }
         [StringLength(20)]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BankNumberIncorrectFormat")]

@@ -754,6 +754,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deferral Type.
+        /// </summary>
+        public static string DeferralType {
+            get {
+                return ResourceManager.GetString("DeferralType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {

@@ -747,7 +747,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Deferral Type </label>
+                                @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.ContactAndPaymentInfo.PaymentInfo.DeferralType.GetEnumDescription())

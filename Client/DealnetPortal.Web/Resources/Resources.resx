@@ -945,4 +945,7 @@
   <data name="SubmitDeal" xml:space="preserve">
     <value>Submit Deal</value>
   </data>
+  <data name="DeferralType" xml:space="preserve">
+    <value>Deferral Type</value>
+  </data>
 </root>
