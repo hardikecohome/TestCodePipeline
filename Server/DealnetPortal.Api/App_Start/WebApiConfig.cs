@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using DealnetPortal.Api.Infrastucture;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 

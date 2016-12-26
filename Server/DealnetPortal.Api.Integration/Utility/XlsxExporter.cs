@@ -25,7 +25,7 @@ namespace DealnetPortal.Api.Integration.Utility
                 worksheet.Cells[1, 2].Value = "Customer";
                 worksheet.Cells[1, 3].Value = "Status";
                 worksheet.Cells[1, 4].Value = "Email";
-                worksheet.Cells[1, 5].Value = "Phone";
+                worksheet.Cells[1, 5].Value = Resources.Resources.Phone;
                 worksheet.Cells[1, 6].Value = "Date";
                 worksheet.Cells[1, 7].Value = "Equipment";
                 worksheet.Cells[1, 8].Value = "Value";

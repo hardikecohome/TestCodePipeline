@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Common.Security;
@@ -29,12 +30,12 @@ namespace DealnetPortal.Web.Core.Culture
 
         public void EnsureCorrectCulture()
         {
-            SetCultureToThread(CultureHelper.GetImplementedCulture(HttpContext.Current.Request.Cookies[CookieName]?.Value));
+            SetCultureToThread(CultureHelper.FilterCulture(HttpContext.Current.Request.Cookies[CookieName]?.Value));
         }
 
         public void SetCulture(string culture)
         {
-            var filteredCulture = CultureHelper.GetImplementedCulture(culture);
+            var filteredCulture = CultureHelper.FilterCulture(culture);
             SetCultureToThread(filteredCulture);
             CreateCookie(filteredCulture);
         }

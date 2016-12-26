@@ -69,6 +69,7 @@
     <Compile Include="Enumeration\SignatureRole.cs" />
     <Compile Include="Enumeration\SignatureStatus.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
+    <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\DomainCodesHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\LoanCalculator.cs" />
