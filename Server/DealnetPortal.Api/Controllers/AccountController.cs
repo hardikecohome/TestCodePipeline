@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.UI;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using Microsoft.AspNet.Identity;
@@ -204,7 +206,7 @@ namespace DealnetPortal.Api.Controllers
                 var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
                 await this.UserManager.SendEmailAsync(user.Id,
                         "Your one-time password",
-                        $"This is your one-time password: {oneTimePass}\r\n Please use it to login the portal, and then you will be prompted to change the password.");
+                        GenerateOnetimePasswordMessage(oneTimePass));
                 _loggingService.LogInfo($"Confirmation email with one-time for user {user.UserName} password sent");
 
                 var resetToken = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -475,7 +477,7 @@ namespace DealnetPortal.Api.Controllers
                 {
                     await this.UserManager.SendEmailAsync(user.Id,
                             "Your one-time password",
-                            $"This is your one-time password: {oneTimePass}\r\n Please use it to login the portal, and then you will be prompted to change the password.");
+                            GenerateOnetimePasswordMessage(oneTimePass));
                     _loggingService.LogInfo("Confirmation email sended");
                 }
                 else
@@ -573,6 +575,38 @@ namespace DealnetPortal.Api.Controllers
             }
 
             return null;
+        }
+
+        private string GenerateOnetimePasswordMessage(string password)
+        {
+            //$"This is your one-time password: {oneTimePass}\r\n Please use it to login the portal, and then you will be prompted to change the password.")
+            var stringWriter = new StringWriter();
+            using (var writer = new HtmlTextWriter(stringWriter))
+            {
+                writer.Write("<!DOCTYPE HTML>");
+                writer.RenderBeginTag(HtmlTextWriterTag.Html);
+                writer.RenderBeginTag(HtmlTextWriterTag.Head);
+                writer.AddAttribute("charset", "UTF-8");
+                writer.RenderBeginTag(HtmlTextWriterTag.Meta);
+                writer.RenderEndTag();
+                writer.RenderEndTag();
+                writer.RenderBeginTag(HtmlTextWriterTag.Body);
+                writer.RenderBeginTag(HtmlTextWriterTag.P);
+                writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                writer.Write("This is your one-time password: ");
+                writer.RenderBeginTag(HtmlTextWriterTag.B);
+                writer.Write(password);
+                writer.RenderEndTag();
+                writer.RenderEndTag();
+                writer.RenderBeginTag(HtmlTextWriterTag.Br);
+                writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                writer.Write("Please use it to login the portal, and then you will be prompted to change the password.");
+                writer.RenderEndTag();
+                writer.RenderEndTag();
+                writer.RenderEndTag();
+                writer.RenderEndTag();
+            }
+            return stringWriter.ToString();
         }
 
         private class ExternalLoginData

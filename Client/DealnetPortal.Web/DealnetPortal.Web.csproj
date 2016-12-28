@@ -757,7 +757,7 @@
     <Content Include="Views\NewRental\ContactAndPaymentInfo.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\NewRental\CreditCheck.cshtml" />
-    <Content Include="Views\NewRental\CreditRejected.cshtml" />
+    <Content Include="Views\NewRental\CreditDeclined.cshtml" />
     <Content Include="Views\NewRental\SummaryAndConfirmation.cshtml" />
     <Content Include="Views\NewRental\AgreementSubmitSuccess.cshtml" />
     <Content Include="Views\MyDeals\Index.cshtml" />
