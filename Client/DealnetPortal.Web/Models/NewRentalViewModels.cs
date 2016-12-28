@@ -117,8 +117,8 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9- ]+$", ErrorMessage = "Account Number is in incorrect format")]
         [Display(Name = "Account Number")]
         public string AccountNumber { get; set; }
-        [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Enbridge Gas Distribution Account is in incorrect format")]
+        //[StringLength(20)]
+        [RegularExpression(@"^[0-9]\d{11}$", ErrorMessage = "Enbridge Gas Distribution Account is in incorrect format")]
         [Display(Name = "Enbridge Gas Distribution Account")]
         public string EnbridgeGasDistributionAccount { get; set; }
         [StringLength(7)]
@@ -129,16 +129,16 @@ namespace DealnetPortal.Web.Models
 
     public class ContactInfoViewModel
     {
-        [StringLength(50)]
-        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessage = "Home Phone is in incorrect format")]
+        //[StringLength(50)]
+        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessage = "Home Phone is in incorrect format")]
         [Display(Name = "Home Phone")]
         public string HomePhone { get; set; }
-        [StringLength(50)]
-        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessage = "Cell Phone is in incorrect format")]
+        //[StringLength(10, MinimumLength = 10, ErrorMessage = "Cell Phone must be 10 digits long")]
+        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessage = "Cell Phone is in incorrect format")]
         [Display(Name = "Cell Phone")]
         public string CellPhone { get; set; }
-        [StringLength(50)]
-        [RegularExpression(@"^[EeTtX0-9x\.+()-]+$", ErrorMessage = "Business Phone is in incorrect format")]
+        //[StringLength(50)]
+        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessage = "Business Phone is in incorrect format")]
         [Display(Name = "Business Phone")]
         public string BusinessPhone { get; set; }
         [StringLength(256)]
