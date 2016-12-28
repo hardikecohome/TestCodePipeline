@@ -169,16 +169,16 @@ namespace DealnetPortal.Web.Controllers
                     return RedirectToAction("EquipmentInformation", new { contractId });
                     break;
                 case CreditCheckState.Declined:
-                    return View("CreditRejected", contractId);
+                    return View("CreditDeclined", contractId);
                     break;                                
                 case CreditCheckState.NotInitiated:
                 case CreditCheckState.Initiated:
                 default:
-                    return View("CreditRejected", contractId);
+                    return View("CreditDeclined", contractId);
             }            
         }
 
-        public ActionResult CreditRejected(int contractId)
+        public ActionResult CreditDeclined(int contractId)
         {
             var viewModel = new CreditRejectedViewModel()
             {
@@ -233,12 +233,12 @@ namespace DealnetPortal.Web.Controllers
                     redirectStr = Url.Action("EquipmentInformation", new { contractId });
                     return Json(redirectStr);
                 case CreditCheckState.Declined:
-                    redirectStr = Url.Action("CreditRejected", new { contractId });
+                    redirectStr = Url.Action("CreditDeclined", new { contractId });
                     return Json(redirectStr);
                 case CreditCheckState.NotInitiated:
                 case CreditCheckState.Initiated:
                 default:
-                    redirectStr = Url.Action("CreditRejected", new { contractId });
+                    redirectStr = Url.Action("CreditDeclined", new { contractId });
                     return Json(redirectStr);
             }            
         }
@@ -302,7 +302,7 @@ namespace DealnetPortal.Web.Controllers
 
             if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
             {
-                return RedirectToAction("CreditRejected", new { contractId });
+                return RedirectToAction("CreditDeclined", new { contractId });
             }
             return RedirectToAction("AgreementSubmitSuccess", new { contractId });            
         }
