@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -24,8 +25,6 @@ namespace DealnetPortal.Api.Integration.Services
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
-
-
         }
 
         public async Task<IList<Alert>> SendSubmitNotification(int contractId, string contractOwnerId)
@@ -34,11 +33,70 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             if (contract != null)
             {
-                var subject = $"Contract {contract.Id} was successfully submitted";
+                var id = contract.Details?.TransactionId ?? contract.Id.ToString();
+                var subject = $"Contract {id} was successfully submitted";
                 var body = new StringBuilder();
-                body.AppendLine($"Contract {contract.Id} was successfully submitted");
+                body.AppendLine($"Contract {id} was successfully submitted");
                 body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
                 body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+                SendNotification(body.ToString(), subject, contract, alerts);                
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Email notifications for contract [{contractId}] was sent");
+            }
+
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> SendChangeNotification(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                var id = contract.Details?.TransactionId ?? contract.Id.ToString();
+                var subject = $"Contract {id} was successfully changed";
+                var body = new StringBuilder();
+                body.AppendLine($"Contract {id} was successfully changed");
+                body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
+                body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+                SendNotification(body.ToString(), subject, contract, alerts);
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Email notifications for contract [{contractId}] was sent");
+            }
+
+            return alerts;
+        }
+
+        private async Task<IList<Alert>> SendNotification(string body, string subject, Contract contract, List<Alert> alerts)
+        {
+            if (contract != null)
+            {
                 var recipients = GetContractRecipients(contract);
 
                 if (recipients.Any())
@@ -47,7 +105,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         recipients.ForEach(r =>
                         {
-                            var sAlerts = SendEmail(new List<string>() {r}, subject, body.ToString()).GetAwaiter().GetResult();
+                            var sAlerts = SendEmail(new List<string>() { r }, subject, body.ToString()).GetAwaiter().GetResult();
                             if (sAlerts?.Any() ?? false)
                             {
                                 alerts.AddRange(sAlerts);
@@ -68,7 +126,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var errorMsg = $"Can't get recipients list for contract [{contractId}]";
+                    var errorMsg = $"Can't get recipients list for contract [{contract.Id}]";
                     _loggingService.LogError(errorMsg);
                     alerts.Add(new Alert()
                     {
@@ -83,15 +141,15 @@ namespace DealnetPortal.Api.Integration.Services
                 alerts.Add(new Alert()
                 {
                     Header = "Can't get contract",
-                    Message = $"Can't get contract with id {contractId}",
+                    Message = $"Can't get contract with id {contract.Id}",
                     Type = AlertType.Error
                 });
-                _loggingService.LogError($"Can't get contract with id {contractId}");
+                _loggingService.LogError($"Can't get contract with id {contract.Id}");
             }
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                _loggingService.LogInfo($"Email notifications for contract [{contractId}] was sent");
+                _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
             }
 
             return alerts;

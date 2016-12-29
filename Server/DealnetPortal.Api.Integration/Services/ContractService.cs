@@ -94,17 +94,6 @@ namespace DealnetPortal.Api.Integration.Services
             return contractDTOs;
         }
 
-        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
-        {
-            var equipmentTypes = _contractRepository.GetEquipmentTypes();
-            foreach (var contractDTO in contractDTOs)
-            {
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
-                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
-                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
-            }
-        }
-
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
@@ -136,6 +125,10 @@ namespace DealnetPortal.Api.Integration.Services
                         //{
                         //    alerts.AddRange(aspireAlerts);
                         //}
+                    }
+                    if (updatedContract.ContractState == ContractState.Completed)
+                    {
+                        Task.Run(async () => await _mailService.SendChangeNotification(updatedContract.Id, contractOwnerId));
                     }
                 }
                 else
@@ -690,6 +683,17 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
+        {
+            var equipmentTypes = _contractRepository.GetEquipmentTypes();
+            foreach (var contractDTO in contractDTOs)
+            {
+                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
+                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
+                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
+            }
         }
 
         private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)

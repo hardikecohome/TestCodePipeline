@@ -10,5 +10,6 @@ namespace DealnetPortal.Api.Integration.Services
     public interface IMailService
     {
         Task<IList<Alert>> SendSubmitNotification(int contractId, string contractOwnerId);
+        Task<IList<Alert>> SendChangeNotification(int contractId, string contractOwnerId);
     }
 }
