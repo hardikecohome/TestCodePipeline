@@ -748,12 +748,13 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = contract.PaymentInfo?.DeferralType.GetPersistentEnumDescription()
                 });
                 if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
-                    !string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount))
+                    (!string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount) ||
+                    !string.IsNullOrEmpty(contract.PaymentInfo?.MeterNumber)))
                 {
                     udfs.Add(new UDF()
                     {
                         Name = "Enbridge Gas Account Number",
-                        Value = contract.PaymentInfo.EnbridgeGasDistributionAccount
+                        Value = contract.PaymentInfo.EnbridgeGasDistributionAccount ?? contract.PaymentInfo.MeterNumber
                     });
                 }
 

@@ -42,7 +42,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> GetXlsxReport(IEnumerable<int> ids)
         {
             var bytes = await _contractServiceAgent.GetXlsxReport(ids);
-            return File(bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx");
+            return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx");
         }        
     }
 }
