@@ -39,7 +39,7 @@ namespace DealnetPortal.Api.Integration.Services
                 body.AppendLine($"Contract {id} was successfully submitted");
                 body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
                 body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
-                SendNotification(body.ToString(), subject, contract, alerts);                
+                await SendNotification(body.ToString(), subject, contract, alerts);                
             }
             else
             {
@@ -72,7 +72,7 @@ namespace DealnetPortal.Api.Integration.Services
                 body.AppendLine($"Contract {id} was successfully changed");
                 body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
                 body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
-                SendNotification(body.ToString(), subject, contract, alerts);
+                await SendNotification(body.ToString(), subject, contract, alerts);
             }
             else
             {
@@ -93,7 +93,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private async Task<IList<Alert>> SendNotification(string body, string subject, Contract contract, List<Alert> alerts)
+        private async Task SendNotification(string body, string subject, Contract contract, List<Alert> alerts)
         {
             if (contract != null)
             {
@@ -103,14 +103,14 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     try
                     {
-                        recipients.ForEach(r =>
+                        foreach (var recipient in recipients)
                         {
-                            var sAlerts = SendEmail(new List<string>() { r }, subject, body.ToString()).GetAwaiter().GetResult();
+                            var sAlerts = await SendEmail(new List<string>() { recipient }, subject, body.ToString());
                             if (sAlerts?.Any() ?? false)
                             {
                                 alerts.AddRange(sAlerts);
                             }
-                        });
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -151,8 +151,6 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
             }
-
-            return alerts;
         }
 
         private IList<string> GetContractRecipients(Domain.Contract contract)
