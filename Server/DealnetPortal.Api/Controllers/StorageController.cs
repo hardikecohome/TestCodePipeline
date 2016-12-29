@@ -110,8 +110,7 @@ namespace DealnetPortal.Api.Controllers
                                     string byteStr = doc.ChildNodes[1].InnerText;
                                     // pdf.SelectSingleNode("//a:PDFBytes", mgr).InnerText;                                    
 
-                                    byte[] bytes = new byte[byteStr.Length * sizeof(char)];
-                                    System.Buffer.BlockCopy(byteStr.ToCharArray(), 0, bytes, 0, bytes.Length);                                    
+                                    byte[] bytes = Convert.FromBase64String(byteStr);
 
                                     ContractDocumentDTO document = new ContractDocumentDTO()
                                     {
