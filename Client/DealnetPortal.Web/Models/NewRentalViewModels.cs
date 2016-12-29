@@ -119,8 +119,8 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9- ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AccountNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AccountNumber")]
         public string AccountNumber { get; set; }
-        [StringLength(20)]
-        [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountIncorrectFormat")]
+        //[StringLength(20)]
+        [RegularExpression(@"^[0-9]\d{11}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EnbridgeGasDistributionAccount")]
         public string EnbridgeGasDistributionAccount { get; set; }
         [StringLength(7)]
@@ -131,16 +131,16 @@ namespace DealnetPortal.Web.Models
 
     public class ContactInfoViewModel
     {
-        [StringLength(50)]
-        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]
+        //[StringLength(50)]
+        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "HomePhone")]
         public string HomePhone { get; set; }
-        [StringLength(50)]
-        [RegularExpression(@"^[EeTtXx0-9\.+()-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
+        //[StringLength(50)]
+        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CellPhone")]
         public string CellPhone { get; set; }
-        [StringLength(50)]
-        [RegularExpression(@"^[EeTtX0-9x\.+()-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneIncorrectFormat")]
+        //[StringLength(50)]
+        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BusinessPhone")]
         public string BusinessPhone { get; set; }
         [StringLength(256)]
