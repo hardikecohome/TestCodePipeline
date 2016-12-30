@@ -247,8 +247,8 @@ namespace DealnetPortal.Api.Integration.Services
                                         on (e.oid = p.entt_oid)
                                     where   e.fname LIKE '{0}%'
                                         and e.lname LIKE '{1}%'
-                                        and e.date_of_birth = '{2}'
-                                        and l.postal_code LIKE '{3}%';";
+                                        and   convert (varchar(10),e.date_of_birth,101) = LEFT('{2}',10)
+                                        and REPLACE(l.postal_code,' ','') LIKE '{3}%';";
             var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);            
             sqlStatement = string.Format(sqlStatement, firstName, lastName, dob, postalCode.Replace(" ", ""));
             var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
