@@ -72,6 +72,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Contracts.FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
         }
 
+        public ContractState? GetContractState(int contractId, string contractOwnerId)
+        {
+            return _dbContext.Contracts.AsNoTracking().FirstOrDefault(c => c.Id == contractId && (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId))?.ContractState;
+        }
+
         public Contract UpdateContractState(int contractId, string contractOwnerId, ContractState newState)
         {
             var contract = GetContract(contractId, contractOwnerId);
@@ -620,12 +625,13 @@ namespace DealnetPortal.DataAccess.Repositories
             return comment;
         }
 
-        public bool TryRemoveComment(int commentId, string contractOwnerId)
+        public int? RemoveComment(int commentId, string contractOwnerId)
         {
             var cmmnt = _dbContext.Comments.FirstOrDefault(x => x.Id == commentId && x.DealerId == contractOwnerId);
-            if (cmmnt == null || cmmnt.Replies.Any()) { return false; }
+            if (cmmnt == null || cmmnt.Replies.Any()) { return null; }
+            var cmmntId = cmmnt.ContractId;
             _dbContext.Comments.Remove(cmmnt);
-            return true;
+            return cmmntId;
         }
 
         private bool CheckContractAccess(int contractId, string contractOwnerId)

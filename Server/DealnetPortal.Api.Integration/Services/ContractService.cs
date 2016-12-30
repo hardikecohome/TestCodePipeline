@@ -597,7 +597,11 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var contractId = customers.First().ContractId;
                     if (contractId.HasValue)
-                    {                        
+                    {
+                        if (_contractRepository.GetContractState(contractId.Value, contractOwnerId) == ContractState.Completed)
+                        {
+                            Task.Run(async () => await _mailService.SendChangeNotification(contractId.Value, contractOwnerId));
+                        }
                         _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
                         //if (aspireAlerts?.Any() ?? false)
                         //{
@@ -630,6 +634,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (comment != null)
                 {
                     _unitOfWork.Save();
+                    Task.Run(async () => await _mailService.SendChangeNotification(comment.ContractId.Value, contractOwnerId));
                 }
                 else
                 {
@@ -659,9 +664,11 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                if (_contractRepository.TryRemoveComment(commentId, contractOwnerId))
+                var removedCommentContractId = _contractRepository.RemoveComment(commentId, contractOwnerId);
+                if (removedCommentContractId != null)
                 {
                     _unitOfWork.Save();
+                    Task.Run(async () => await _mailService.SendChangeNotification(removedCommentContractId.Value, contractOwnerId));
                 }
                 else
                 {
@@ -785,6 +792,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //{
                 //    alerts.AddRange(aspireAlerts);
                 //}
+                Task.Run(async () => await _mailService.SendChangeNotification(doc.ContractId, contractOwnerId));
             }
             catch (Exception ex)
             {

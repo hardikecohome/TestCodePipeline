@@ -94,6 +94,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         Customer GetCustomer(int customerId);
 
+        ContractState? GetContractState(int contractId, string contractOwnerId);
+
         /// <summary>
         /// Update contract state
         /// </summary>
@@ -142,7 +144,13 @@ namespace DealnetPortal.DataAccess.Repositories
 
         Comment TryAddComment(Comment comment, string contractOwnerId);
 
-        bool TryRemoveComment(int commentId, string contractOwnerId);
+        /// <summary>
+        /// Removes contract comment
+        /// </summary>
+        /// <param name="commentId"></param>
+        /// <param name="contractOwnerId"></param>
+        /// <returns>Contract id of removed comment. If removal fails, then null is returned</returns>
+        int? RemoveComment(int commentId, string contractOwnerId);
 
         ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId);
 
