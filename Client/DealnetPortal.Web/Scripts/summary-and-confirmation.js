@@ -66,6 +66,14 @@ function checkTotalEquipmentCost() {
     return true;
 }
 
+function checkTotalMonthlyPayment() {
+    if (!isCalculationValid) {
+        $('#new-equipment-validation-message').text("Total monthly payment must be greater than zero");
+        return false;
+    }
+    return true;
+}
+
 function assignDatepicker() {
     var input = $(this);
     inputDateFocus(input);

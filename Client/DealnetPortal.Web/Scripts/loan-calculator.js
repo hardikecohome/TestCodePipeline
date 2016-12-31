@@ -37,6 +37,7 @@
     var customerRate = parseFloat($("#customer-rate").val());
     if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate <= 0) { return; }
     var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
+    isCalculationValid = totalMonthlyPayment > 0;
     loanTotalMonthlyPaymentLabel.text(totalMonthlyPayment.toFixed(2));
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
     loanTotalAllMonthlyPaymentsLabel.text(totalAllMonthlyPayments.toFixed(2));

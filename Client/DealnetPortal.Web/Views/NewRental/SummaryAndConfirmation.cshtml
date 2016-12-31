@@ -1294,7 +1294,7 @@
 
 
                 <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#new-equipment-info-section-modal'), $('#new-equipment-info-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#new-equipment-info-form'), @(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? "recalculateTotalCashPrice" : "recalculateTotalMonthlyPayment") @if (false/*Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication*/) { <text>,checkTotalEquipmentCost</text> })) { $('#new-equipment-info-modal').modal('hide'); }">Save changes</button>
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#new-equipment-info-section-modal'), $('#new-equipment-info-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#new-equipment-info-form'), @(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? "recalculateTotalCashPrice" : "recalculateTotalMonthlyPayment") @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication) { <text>,checkTotalMonthlyPayment</text> })) { $('#new-equipment-info-modal').modal('hide'); }">Save changes</button>
                     <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
