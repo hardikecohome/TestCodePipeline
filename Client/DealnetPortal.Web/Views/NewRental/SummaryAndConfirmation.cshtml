@@ -517,6 +517,7 @@
     @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm, new { id = "requested-term" })
     @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm, new { id = "loan-term" })
     @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm, new { id = "amortization-term" })
+    @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
     @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate, new { id = "customer-rate" })
     @Html.HiddenFor(m => m.EquipmentInfo.AdminFee, new { id= "admin-fee" })
     @Html.HiddenFor(m => m.EquipmentInfo.DownPayment, new { id = "down-payment" })
@@ -734,15 +735,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="row">
-                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
-                        <div class="dealnet-field-holder col-xs-6">
-                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                        </div>
-                    </div>
-                </div>
-
                 <div class="pap-payment-form">
                     <div class="form-group">
                         <div class="row">
@@ -804,6 +796,7 @@
         @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
         @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+        @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -921,6 +914,7 @@
                             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                             @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
                             @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+                            @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
                             @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
                             @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
                             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -1353,16 +1347,6 @@
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new {@class = "form-control"})
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption" })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, null, new { @class = "form-control" })
                                             </div>
                                         </div>
                                     </div>

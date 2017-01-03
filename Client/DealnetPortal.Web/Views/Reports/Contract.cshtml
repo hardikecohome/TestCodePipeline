@@ -153,6 +153,16 @@
 				        </div>
 				    }
                     <div class="form-group">
+                        <div class="row">
+                            <label class="dealnet-field-caption col-xs-6">Deferral Type</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.EquipmentInfo?.DeferralType.GetEnumDescription())
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">Sales Rep</label>
 							<div class="dealnet-field-holder col-xs-6">
@@ -741,16 +751,6 @@
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.ContactAndPaymentInfo.PaymentInfo.PaymentType.GetEnumDescription())
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Deferral Type </label>
-                                <div class="dealnet-field-holder col-xs-6">
-                                    <div class="control-group">
-                                        @(Model.ContactAndPaymentInfo.PaymentInfo.DeferralType.GetEnumDescription())
                                     </div>
                                 </div>
                             </div>

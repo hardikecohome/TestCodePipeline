@@ -230,8 +230,17 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AmortizationTerm)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();" })
-                                @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.AmortizationTerm, new {@class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();"})
+                                @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DeferralType)
+                            <div class="control-group">
+                                @Html.EnumDropDownListFor(m => m.DeferralType, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.DeferralType, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
