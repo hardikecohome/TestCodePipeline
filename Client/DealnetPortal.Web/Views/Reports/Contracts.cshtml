@@ -762,10 +762,10 @@
 			                        <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 			                            <div class="row">
 			                                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-				                                GST/HST
+				                                @contract.ProvinceTaxRate.Description
 			                                </div>
 			                                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-			                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate/100, 2))
+			                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate.Rate/100, 2))
 			                                </div>
 			                            </div>
 			                        </div>
@@ -775,7 +775,7 @@
 			                                    TOTAL MONTHLY PAYMENT (TAX INCL.)
 			                                </div>
 			                                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-			                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate/100, 2))
+			                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)*contract.ProvinceTaxRate.Rate/100, 2))
 			                                </div>
 			                            </div>
 			                        </div>

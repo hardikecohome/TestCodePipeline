@@ -293,6 +293,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
+            ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
         

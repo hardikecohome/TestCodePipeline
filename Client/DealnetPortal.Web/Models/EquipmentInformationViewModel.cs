@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
@@ -60,7 +61,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public int? ContractId { get; set; }
 
-        public double ProvinceTaxRate { get; set; }
+        public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
 
         public bool IsAllInfoCompleted { get; set; }
 

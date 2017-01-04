@@ -23,6 +23,11 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>Tax Rate for particular Province</returns>
         Task<Tuple<ProvinceTaxRateDTO, IList<Alert>>> GetProvinceTaxRate(string province);
 
+        /// <summary>
+        /// Get all Province Tax Rates
+        /// </summary>
+        /// <returns>All Tax Rates</returns>
+        Task<Tuple<IList<ProvinceTaxRateDTO>, IList<Alert>>> GetAllProvinceTaxRates();
 
         /// <summary>
         /// Get Equipment Types list

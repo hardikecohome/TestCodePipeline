@@ -512,7 +512,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
-    @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
+    @Html.HiddenFor(m => m.EquipmentInfo.AgreementType, new { id = "agreement-type"})
     @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
     @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm, new { id = "requested-term" })
     @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm, new { id = "loan-term" })
@@ -606,7 +606,7 @@
                             <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="equipment-cash-price">-</span></div>
                         </div>
                         <div class="row form-group">
-                            <div class="col-xs-8 col-sm-9">GST/HST</div>
+                            <div class="col-xs-8 col-sm-9"><span id="tax-label">@Model.ProvinceTaxRate.Description</span></div>
                             <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
                         </div>
                         <div class="row form-group">
@@ -685,10 +685,10 @@
                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                     <div class="row">
                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                            GST/HST
+                            <span id="tax-label">@Model.ProvinceTaxRate.Description</span>
                         </div>
                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                            $<span id="salex-tax">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate / 100):0.00}")</span>
+                            $<span id="salex-tax">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate.Rate / 100):0.00}")</span>
                         </div>
                     </div>
                 </div>
@@ -698,7 +698,7 @@
                             TOTAL MONTHLY PAYMENT (TAX INCL.)
                         </div>
                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                            $<span id="total-monthly-payment-wtaxes">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate / 100):0.00}")</span>
+                            $<span id="total-monthly-payment-wtaxes">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate.Rate / 100):0.00}")</span>
                         </div>
                     </div>
                 </div>
@@ -1027,10 +1027,11 @@
                                     </div>
                                 </div>
                             </div>
+                            @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation, "", new { @class = "text-danger", id = "address-info-validation-message" })
                     }
                 </div>
 	            <div class="btn-container">
-		            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
+		            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'), applyProvinceChange @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication) { <text>, checkProvince</text> })) { $('#address-modal').modal('hide'); }">Save changes</button>
 		            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
 	            </div>
             </div>
@@ -1759,13 +1760,25 @@
 @section scripts
 {
     <script type="text/javascript">
-        var taxRate = @Model.ProvinceTaxRate;
+        var taxRate = @Model.ProvinceTaxRate.Rate;
+        var agreementType = @((int)Model.EquipmentInfo.AgreementType);
+        @{
+            var provinceTaxRates = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
+            if (provinceTaxRates != null)
+            {
+                @: var provinceTaxRates = [];
+                foreach (var ptr in provinceTaxRates)
+                {
+                    @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate, description:"@ptr.Description"};
+                }
+            }
+        }
         @*var creditAmount = @Model.EquipmentInfo.CreditAmount;*@
     </script>
 
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
             {
                 <text>
@@ -1788,7 +1801,7 @@
     @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
     {
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 recalculateTotalCashPrice();
             });
         </script>

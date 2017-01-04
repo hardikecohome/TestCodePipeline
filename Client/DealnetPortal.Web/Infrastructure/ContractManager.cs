@@ -76,7 +76,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(contractResult.Item1.PrimaryCustomer.Locations.First(
                         l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
-            if (rate != null) { equipmentInfo.ProvinceTaxRate = rate.Rate; }
+            if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
             equipmentInfo.CreditAmount = contractResult.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
             if (!equipmentInfo.RequestedTerm.HasValue)
@@ -392,7 +392,7 @@ namespace DealnetPortal.Web.Infrastructure
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
             if (summary.BasicInfo.HomeOwner?.AddressInformation != null) { 
                 var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.HomeOwner.AddressInformation.Province.ToProvinceCode())).Item1;
-                if (rate != null) { summary.ProvinceTaxRate = rate.Rate; }
+                if (rate != null) { summary.ProvinceTaxRate = rate; }
             }
                         
             summary.AdditionalInfo = new AdditionalInfoViewModel();
@@ -404,7 +404,7 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 var loanCalculatorInput = new LoanCalculator.Input
                 {
-                    TaxRate = summary.ProvinceTaxRate,
+                    TaxRate = summary.ProvinceTaxRate.Rate,
                     LoanTerm = contract.Equipment.LoanTerm ?? 0,
                     AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                     EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,

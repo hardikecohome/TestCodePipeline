@@ -67,11 +67,47 @@ function checkTotalEquipmentCost() {
 }
 
 function checkTotalMonthlyPayment() {
-    if (!isCalculationValid) {
+    var sum = 0;
+    $(".equipment-cost").each(function () {
+        var numberValue = parseFloat(this.value);
+        if (!isNaN(numberValue)) {
+            sum += numberValue;
+        }
+    });
+    if (!checkCalculationValidity(sum)) {
         $('#new-equipment-validation-message').text("Total monthly payment must be greater than zero");
         return false;
     }
     return true;
+}
+
+function checkProvince() {
+    var provinceCode = toProvinceCode($("#administrative_area_level_1").val());
+    var provinceTaxRate = provinceTaxRates[provinceCode];
+    var rate = typeof provinceTaxRate !== 'undefined' ? provinceTaxRate.rate : 0;
+    if (!checkCalculationValidity(null, rate)) {
+        $('#address-info-validation-message').html("<span>After province change total monthly payment must be greater than zero</span>");
+        return false;
+    }
+    return true;
+}
+
+function applyProvinceChange() {
+    var provinceCode = toProvinceCode($("#administrative_area_level_1").val());
+    var provinceTaxRate = provinceTaxRates[provinceCode];
+    var taxDescription = typeof provinceTaxRate !== 'undefined' ? provinceTaxRate.description : "Tax";
+    $("#tax-label").text(taxDescription);
+    var rate = typeof provinceTaxRate !== 'undefined' ? provinceTaxRate.rate : 0;
+    taxRate = rate;
+    switch(agreementType) {
+        case 0:
+            calculateLoanValues();
+            break;
+        case 1:
+        case 2:
+            recalculateTotalMonthlyPayment();
+            break;
+    }
 }
 
 function assignDatepicker() {

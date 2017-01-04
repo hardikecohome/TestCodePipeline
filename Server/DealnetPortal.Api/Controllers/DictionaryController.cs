@@ -118,6 +118,36 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("AllProvinceTaxRates")]
+        [HttpGet]
+        public IHttpActionResult GetAllProvinceTaxRates()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var provinceTaxRates = ContractRepository.GetAllProvinceTaxRates();
+                var provinceTaxRateDtos = Mapper.Map<IList<ProvinceTaxRateDTO>>(provinceTaxRates);
+                if (provinceTaxRates == null)
+                {
+                    var errorMsg = "Cannot retrieve all Province Tax Rates";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<ProvinceTaxRateDTO>, IList<Alert>>(provinceTaxRateDtos, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve all Province Tax Rates", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Authorize]
         [Route("GetDealerInfo")]
         [HttpGet]

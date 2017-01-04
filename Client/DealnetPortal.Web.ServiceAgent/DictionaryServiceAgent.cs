@@ -49,6 +49,20 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<IList<ProvinceTaxRateDTO>, IList<Alert>>> GetAllProvinceTaxRates()
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<IList<ProvinceTaxRateDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllProvinceTaxRates");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get all Province Tax Rates", ex);
+                throw;
+            }
+        }
+
         /// <summary>
         /// Get Equipment Types list
         /// </summary>

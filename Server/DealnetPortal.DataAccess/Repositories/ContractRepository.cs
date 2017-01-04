@@ -337,6 +337,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.Province == province);
         }
 
+        public IList<ProvinceTaxRate> GetAllProvinceTaxRates()
+        {
+            return _dbContext.ProvinceTaxRates.ToList();
+        }
+
         public decimal GetContractTotalMonthlyPayment(int contractId)
         {
             decimal totalMp = 0.0M;

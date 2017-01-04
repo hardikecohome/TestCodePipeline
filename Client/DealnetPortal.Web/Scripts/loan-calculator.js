@@ -52,6 +52,28 @@
     totalBorrowingCostLabel.text(totalBorrowingCost.toFixed(2));
 }
 
+function checkCalculationValidity(inputCashPrice, inputTaxRate) {
+    var equipmentCashPrice = typeof inputCashPrice !== 'undefined' && inputCashPrice !== null ? inputCashPrice : parseFloat($("#equipment-cash-price").text());
+    if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) { return false; }
+    var testTaxRate = typeof inputTaxRate !== 'undefined' && inputTaxRate !== null ? inputTaxRate : taxRate;
+    var hst = testTaxRate / 100 * equipmentCashPrice;
+    var totalCashPrice = equipmentCashPrice + hst;
+    var adminFee = parseFloat($("#admin-fee").val());
+    if (isNaN(adminFee) || adminFee < 0) {
+        adminFee = 0;
+    }
+    var downPayment = parseFloat($("#down-payment").val());
+    if (isNaN(downPayment) || downPayment < 0) {
+        downPayment = 0;
+    }
+    var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
+    var amortizationTerm = parseInt($("#amortization-term").val());
+    var customerRate = parseFloat($("#customer-rate").val());
+    if (isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate <= 0) { return false; }
+    var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
+    return totalMonthlyPayment > 0;
+}
+
 function pmt(rate_per_period, number_of_payments, present_value, future_value, type) {
     if (rate_per_period != 0.0) {
         var q = Math.pow(1 + rate_per_period, number_of_payments);
