@@ -595,7 +595,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     DownPayment = contract.Equipment.DownPayment ?? 0,
                     CustomerRate = contract.Equipment.CustomerRate ?? 0
                 };
-                dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalBorowingCost;
+                dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalAmountFinanced;
             }
             else
             {
