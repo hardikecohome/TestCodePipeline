@@ -1001,6 +1001,7 @@
 	    {
 	        @Html.AntiForgeryToken()
 	        @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+            @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
 	        @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
 	        @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
@@ -1099,8 +1100,8 @@
 	                                @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes)
 	                            </div>
 	                            <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-	                                <div class="dealnet-disabled-input">
-	                                    @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                                <div class="control-group">
+	                                    @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new {@class = "dealnet-disabled-input dealnet-disabled-textarea", id = ""})
 	                                </div>
 	                            </div>
 	                        </div>

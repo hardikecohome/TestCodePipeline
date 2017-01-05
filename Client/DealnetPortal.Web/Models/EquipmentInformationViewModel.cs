@@ -59,6 +59,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(Name = "Contract Notes")]
         public string Notes { get; set; }
 
+        public bool FullUpdate { get; set; }
+
         public int? ContractId { get; set; }
 
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }

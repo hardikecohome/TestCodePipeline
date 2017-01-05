@@ -64,6 +64,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
+    @Html.HiddenFor(model => model.FullUpdate, new { @Value = true })
 
     <div class="equipment-editable-parent row">
         <div class="equipment-editable-section col-sm-6">
