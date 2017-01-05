@@ -421,7 +421,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
 
                     var contractDTO = Mapper.Map<ContractDTO>(contract);
-                    Task.Run(async () => await _mailService.SendSubmitNotification(contractDTO, contract.Dealer.Email));
+                    Task.Run(async () => await _mailService.SendSubmitNotification(contractDTO, contract.Dealer.Email, creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
                     //_mailService.SendSubmitNotification(contractId, contractOwnerId);
                 }
                 else

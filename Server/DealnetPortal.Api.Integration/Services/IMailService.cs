@@ -10,7 +10,7 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public interface IMailService
     {
-        Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail);
+        Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true);
         Task<IList<Alert>> SendChangeNotification(ContractDTO contract, string dealerEmail);
     }
 }

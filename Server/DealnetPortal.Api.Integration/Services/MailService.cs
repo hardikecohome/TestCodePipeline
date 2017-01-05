@@ -26,13 +26,13 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
         }
 
-        public async Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail)
+        public async Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
         {
             var alerts = new List<Alert>();
             var id = contract.Details?.TransactionId ?? contract.Id.ToString();
-            var subject = $"Contract {id} was successfully submitted";
+            var subject = $"Contract {id} was " + (success ? "successfully submitted" : "declined");
             var body = new StringBuilder();
-            body.AppendLine($"Contract {id} was successfully submitted");
+            body.AppendLine($"Contract {id} was " + (success ? "successfully submitted" : "declined"));
             body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
             body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
             await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);                
