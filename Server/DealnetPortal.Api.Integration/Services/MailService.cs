@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
@@ -33,7 +34,7 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = $"Contract {id} was " + (success ? "successfully submitted" : "declined");
             var body = new StringBuilder();
             body.AppendLine($"Contract {id} was " + (success ? "successfully submitted" : "declined"));
-            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
+            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType.GetEnumDescription()}");
             body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
             await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);                
 
@@ -53,7 +54,7 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = $"Contract {id} was successfully changed";
             var body = new StringBuilder();
             body.AppendLine($"Contract {id} was successfully changed");
-            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
+            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType.GetEnumDescription()}");
             body.AppendLine(
                 $"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
             await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);
