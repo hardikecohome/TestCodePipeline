@@ -79,8 +79,33 @@ namespace DealnetPortal.Api.Integration.Services
             var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
             if (aspireDeals?.Any() ?? false)
             {
-                //skip deals that already in DB
-                aspireDeals.Where(d => contracts.All(c => !(c.Details?.TransactionId?.Contains(d.Details.TransactionId) ?? false))).ForEach(d => contractDTOs.Add(d));                
+                var statusWasUpdated = false;
+                foreach (var aspireDeal in aspireDeals)
+                {
+                    if (aspireDeal.Details?.TransactionId == null)
+                    {
+                        continue;
+                    }
+                    var contract =
+                        contracts.FirstOrDefault(
+                            c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
+                    if (contract != null)
+                    {
+                        if (contract.Details.TransactionId != aspireDeal.Details.TransactionId)
+                        {
+                            contract.Details.Status = aspireDeal.Details.Status;
+                            statusWasUpdated = true;
+                        }
+                    }
+                    else
+                    {
+                        contractDTOs.Add(aspireDeal);
+                    }
+                }
+                if (statusWasUpdated)
+                {
+                    _unitOfWork.Save();
+                }
             }
 
             return contractDTOs;
