@@ -267,7 +267,7 @@
                         <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="equipment-cash-price">-</span></div>
                     </div>
                     <div class="row form-group">
-@(Model.ProvinceTaxRate.Description ?? "Tax")
+                        <div class="col-xs-8 col-sm-9">@(Model.ProvinceTaxRate?.Description ?? "Tax")</div>
                         <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
                     </div>
                     <div class="row form-group">
@@ -622,7 +622,7 @@
 @section scripts
 {
     <script type="text/javascript">
-        var taxRate = @Model.ProvinceTaxRate.Rate;        
+        var taxRate = @(Model.ProvinceTaxRate?.Rate ?? 0);        
         var isCalculationValid = false;
         @*var creditAmount = @Model.CreditAmount;*@
     </script>

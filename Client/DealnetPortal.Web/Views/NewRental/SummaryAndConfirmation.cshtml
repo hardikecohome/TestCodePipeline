@@ -610,7 +610,7 @@
                             <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="equipment-cash-price">-</span></div>
                         </div>
                         <div class="row form-group">
- <div class="col-xs-8 col-sm-9"><span id="tax-label">@Model.ProvinceTaxRate.Description</span></div>
+                            <div class="col-xs-8 col-sm-9"><span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? "Tax")</span></div>
                             <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
                         </div>
                         <div class="row form-group">
@@ -689,10 +689,10 @@
                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                     <div class="row">
                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
- <span id="tax-label">@Model.ProvinceTaxRate.Description</span>
+                            <span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? "Tax")</span>
                         </div>
                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                            $<span id="salex-tax">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate.Rate / 100):0.00}")</span>
+                            $<span id="salex-tax">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")</span>
                         </div>
                     </div>
                 </div>
@@ -702,7 +702,7 @@
                             @Resources.TotalMonthlyPaymentWithTaxes
                         </div>
                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                            $<span id="total-monthly-payment-wtaxes">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * Model.ProvinceTaxRate.Rate / 100):0.00}")</span>
+                            $<span id="total-monthly-payment-wtaxes">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")</span>
                         </div>
                     </div>
                 </div>
@@ -1770,7 +1770,7 @@
 @section scripts
 {
     <script type="text/javascript">
-        var taxRate = @Model.ProvinceTaxRate.Rate;
+        var taxRate = @(Model.ProvinceTaxRate?.Rate ?? 0);
         var agreementType = @((int)Model.EquipmentInfo.AgreementType);
         @{
             var provinceTaxRates = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;

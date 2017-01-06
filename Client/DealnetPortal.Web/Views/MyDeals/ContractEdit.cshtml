@@ -915,10 +915,10 @@
 	                <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 	                    <div class="row">
 	                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-@Model.ProvinceTaxRate.Description
+                                @(Model.ProvinceTaxRate?.Description ?? "Tax")
 	                        </div>
 	                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
+	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0)* (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
 	                        </div>
 	                    </div>
 	                </div>
@@ -928,7 +928,7 @@
 	                            @Resources.TotalMonthlyPaymentWithTaxes
 	                        </div>
 	                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
+	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0)* (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
 	                        </div>
 	                    </div>
 	                </div>
