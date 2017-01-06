@@ -72,6 +72,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Contracts.FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
         }
 
+        public ContractState? GetContractState(int contractId, string contractOwnerId)
+        {
+            return _dbContext.Contracts.AsNoTracking().FirstOrDefault(c => c.Id == contractId && (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId))?.ContractState;
+        }
+
         public Contract UpdateContractState(int contractId, string contractOwnerId, ContractState newState)
         {
             var contract = GetContract(contractId, contractOwnerId);
@@ -332,6 +337,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.ProvinceTaxRates.FirstOrDefault(x => x.Province == province);
         }
 
+        public IList<ProvinceTaxRate> GetAllProvinceTaxRates()
+        {
+            return _dbContext.ProvinceTaxRates.ToList();
+        }
+
         public decimal GetContractTotalMonthlyPayment(int contractId)
         {
             decimal totalMp = 0.0M;
@@ -585,7 +595,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     DownPayment = contract.Equipment.DownPayment ?? 0,
                     CustomerRate = contract.Equipment.CustomerRate ?? 0
                 };
-                dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalBorowingCost;
+                dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalAmountFinanced;
             }
             else
             {
@@ -620,12 +630,13 @@ namespace DealnetPortal.DataAccess.Repositories
             return comment;
         }
 
-        public bool TryRemoveComment(int commentId, string contractOwnerId)
+        public int? RemoveComment(int commentId, string contractOwnerId)
         {
             var cmmnt = _dbContext.Comments.FirstOrDefault(x => x.Id == commentId && x.DealerId == contractOwnerId);
-            if (cmmnt == null || cmmnt.Replies.Any()) { return false; }
+            if (cmmnt == null || cmmnt.Replies.Any()) { return null; }
+            var cmmntId = cmmnt.ContractId;
             _dbContext.Comments.Remove(cmmnt);
-            return true;
+            return cmmntId;
         }
 
         private bool CheckContractAccess(int contractId, string contractOwnerId)
@@ -782,7 +793,6 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.PaymentInfo.PaymentType = newData.PaymentType;
                 contract.PaymentInfo.PrefferedWithdrawalDate = newData.PrefferedWithdrawalDate;
-                contract.PaymentInfo.DeferralType = newData.DeferralType;
                 contract.PaymentInfo.AccountNumber = newData.AccountNumber;
                 contract.PaymentInfo.BlankNumber = newData.BlankNumber;
                 contract.PaymentInfo.TransitNumber = newData.TransitNumber;

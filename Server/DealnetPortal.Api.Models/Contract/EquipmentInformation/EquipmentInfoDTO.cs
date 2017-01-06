@@ -19,6 +19,8 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 
         public int? AmortizationTerm { get; set; }
 
+        public DeferralType DeferralType { get; set; }
+
         public double? CustomerRate { get; set; }
 
         public double? AdminFee { get; set; }

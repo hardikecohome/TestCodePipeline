@@ -17,10 +17,6 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(Name = "6 Month")]
         [Description("6 Month")]
         [PersistentDescription("6 Month")]
-        SixMonth,
-        [Display(Name = "12 Month")]
-        [Description("12 Month")]
-        [PersistentDescription("12 Month")]
-        TwelveMonth       
+        SixMonth       
     }
 }

@@ -8,8 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -17,42 +20,71 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class MailService : IMailService
     {
-        private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
 
-        public MailService(IContractRepository contractRepository, ILoggingService loggingService)
+        public MailService(ILoggingService loggingService)
         {
-            _contractRepository = contractRepository;
             _loggingService = loggingService;
-
-
         }
 
-        public async Task<IList<Alert>> SendSubmitNotification(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
         {
             var alerts = new List<Alert>();
-            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            var id = contract.Details?.TransactionId ?? contract.Id.ToString();
+            var subject = $"Contract {id} was " + (success ? "successfully submitted" : "declined");
+            var body = new StringBuilder();
+            body.AppendLine($"Contract {id} was " + (success ? "successfully submitted" : "declined"));
+            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType.GetEnumDescription()}");
+            body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+            await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);                
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
+            }
+
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> SendChangeNotification(ContractDTO contract, string dealerEmail)
+        {
+            var alerts = new List<Alert>();
+            
+            var id = contract.Details?.TransactionId ?? contract.Id.ToString();
+            var subject = $"Contract {id} was successfully changed";
+            var body = new StringBuilder();
+            body.AppendLine($"Contract {id} was successfully changed");
+            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType.GetEnumDescription()}");
+            body.AppendLine(
+                $"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+            await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
+            }
+
+            return alerts;
+        }
+
+        private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
+        {
             if (contract != null)
             {
-                var subject = $"Contract {contract.Id} was successfully submitted";
-                var body = new StringBuilder();
-                body.AppendLine($"Contract {contract.Id} was successfully submitted");
-                body.AppendLine($"Type of Application: {contract.Equipment.AgreementType}");
-                body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
-                var recipients = GetContractRecipients(contract);
+                var recipients = GetContractRecipients(contract, dealerEmail);
 
                 if (recipients.Any())
                 {
                     try
                     {
-                        recipients.ForEach(r =>
+                        foreach (var recipient in recipients)
                         {
-                            var sAlerts = SendEmail(new List<string>() {r}, subject, body.ToString()).GetAwaiter().GetResult();
+                            var sAlerts = await SendEmail(new List<string>() { recipient }, subject, body.ToString());
                             if (sAlerts?.Any() ?? false)
                             {
                                 alerts.AddRange(sAlerts);
                             }
-                        });
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -68,7 +100,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var errorMsg = $"Can't get recipients list for contract [{contractId}]";
+                    var errorMsg = $"Can't get recipients list for contract [{contract.Id}]";
                     _loggingService.LogError(errorMsg);
                     alerts.Add(new Alert()
                     {
@@ -83,21 +115,19 @@ namespace DealnetPortal.Api.Integration.Services
                 alerts.Add(new Alert()
                 {
                     Header = "Can't get contract",
-                    Message = $"Can't get contract with id {contractId}",
+                    Message = $"Can't get contract with id {contract.Id}",
                     Type = AlertType.Error
                 });
-                _loggingService.LogError($"Can't get contract with id {contractId}");
+                _loggingService.LogError($"Can't get contract with id {contract.Id}");
             }
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                _loggingService.LogInfo($"Email notifications for contract [{contractId}] was sent");
+                _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
             }
-
-            return alerts;
         }
 
-        private IList<string> GetContractRecipients(Domain.Contract contract)
+        private IList<string> GetContractRecipients(ContractDTO contract, string dealerEmail)
         {
             var recipients = new List<string>();
 
@@ -120,9 +150,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             //TODO: dealer and ODI/Ecohome team
-            if (!string.IsNullOrEmpty(contract.Dealer?.Email))
+            if (!string.IsNullOrEmpty(dealerEmail))
             {
-                recipients.Add(contract.Dealer.Email);
+                recipients.Add(dealerEmail);
             }
 
             return recipients;

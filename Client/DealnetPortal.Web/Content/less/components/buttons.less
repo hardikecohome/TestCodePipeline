@@ -105,6 +105,17 @@
         height: 49px;
         line-height: 36px;
       }
+      &.btn-long-text{
+        @media @mobile {
+          display: table;
+          margin: 0 auto;
+          span {
+            vertical-align: middle;
+            display: table-cell;
+            line-height: 18px;
+          }
+        }
+      }
     }
   }
 }

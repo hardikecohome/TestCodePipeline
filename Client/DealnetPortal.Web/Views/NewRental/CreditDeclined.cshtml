@@ -22,8 +22,8 @@
             <div class="button-container bttns-center">
                 @*@Html.ActionLink("Add Additional Applicant", "BasicInfo", new { contractId = Model }, new {@class="btn dealnet-button dealnet-success-button"})*@
                 <div class="text-center">
-                    <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button">
-                        @Resources.CreateAnotherApplicationForThis
+                    <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button btn-long-text">
+                        <span>@Resources.CreateAnotherApplicationForThis</span>
                     </a>
                 </div>
             </div>

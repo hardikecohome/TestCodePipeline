@@ -715,6 +715,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
     <Content Include="Scripts\navigation-with-warning.js" />
+    <Content Include="Scripts\print-contract.js" />
+    <Content Include="Scripts\province-codes-helper.js" />
     <Content Include="Scripts\reports.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

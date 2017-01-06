@@ -16,22 +16,7 @@
     });
 }
 
-function checkPrintedContract(checkUrl, downloadUrl) {
-    $.ajax({
-        type: "POST",
-        url: checkUrl,
-        success: function (json) {
-            if (json == true) {
-                window.location = downloadUrl;
-            } else {
-                $('.danger-well').show();
-            }
-        },
-        error: function (xhr, status, p3) {
-            $('.danger-well').show();
-        }
-    });
-    //$('.sent-email-msg').show();
+//$('.sent-email-msg').show();
     //$("#send-email-button").text('Resend Emails');
     //form.ajaxSubmit({
     //    type: "POST",
@@ -42,4 +27,3 @@ function checkPrintedContract(checkUrl, downloadUrl) {
     //        alert(xhr.responseText);
     //    }
     //});
-}

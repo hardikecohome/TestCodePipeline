@@ -85,9 +85,25 @@
 					                    <input type="file" name="File" class="upload main-document-upload"/>
 					                </div>
 					            </div>
-					        }
-					    </div>
-					}
+                            }
+                            @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1")
+                            {
+                                <br class="hidden-sm hidden-xs"/>
+                                <br class="hidden-sm hidden-xs"/>
+                                <br class="hidden-sm hidden-xs"/>
+                                <br class="hidden-sm hidden-xs"/>
+                                <a href="#" onclick="checkPrintedContract('@Url.Action("CheckContractAgreement", "NewRental", new {@contractId = Model.BasicInfo.ContractId})', '@Url.Action("PrintContract", "NewRental", new {@contractId = Model.BasicInfo.ContractId})');"
+                                   class="dealnet-info-link">
+                                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
+                                </a>
+
+                                <div class="well danger-well error-descr collapse" id="print-error-message">
+                                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                    Cannot get contract agreement for Print
+                                </div>
+                            }
+                                </div>
+                            }
 						<!------------------------------------------------->
 
 						<div class="@(Model.UploadDocumentsInfo.ExistingDocuments.Any(x => x.DocumentTypeId == 7) ? "uploaded" : "") documents-pills-item tab-container-7">
@@ -232,6 +248,7 @@
                         @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
                         @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
                         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+                        @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
                         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
                         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
                         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -263,6 +280,16 @@
                             </div>
                             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                         }
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.EquipmentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @Html.EnumDropDownListFor(m => m.EquipmentInfo.DeferralType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
 				            <div class="row">
 				                @Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
@@ -788,6 +815,7 @@
 	    @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
         @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+        @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -887,10 +915,10 @@
 	                <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 	                    <div class="row">
 	                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-	                            @Resources.GstHst
+@Model.ProvinceTaxRate.Description
 	                        </div>
 	                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate/100, 2))
+	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
 	                        </div>
 	                    </div>
 	                </div>
@@ -900,7 +928,7 @@
 	                            @Resources.TotalMonthlyPaymentWithTaxes
 	                        </div>
 	                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate/100, 2))
+	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
 	                        </div>
 	                    </div>
 	                </div>
@@ -934,15 +962,6 @@
 	                        </div>
 	                    </div>
 	                </div>
-	                
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
-                            <div class="dealnet-field-holder col-xs-6">
-                                @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="pap-payment-form">
                         <div class="form-group">
@@ -998,11 +1017,13 @@
 	    {
 	        @Html.AntiForgeryToken()
 	        @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+            @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
 	        @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
 	        @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
 	        @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
             @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+            @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
             @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
             @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -1099,8 +1120,8 @@
 	                                @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes)
 	                            </div>
 	                            <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-	                                <div class="dealnet-disabled-input">
-	                                    @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                                <div class="control-group">
+	                                    @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new {@class = "dealnet-disabled-input dealnet-disabled-textarea", id = ""})
 	                                </div>
 	                            </div>
 	                        </div>
@@ -1125,6 +1146,7 @@
                             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                             @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
                             @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+                            @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
                             @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
                             @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
                             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -1312,6 +1334,16 @@ foreach (var comment in comments)
 			                        </div>
 			                    </div>
 			                }
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.EquipmentInfo.DeferralType, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="form-control control-disabled">
+                                            @(Model.EquipmentInfo.DeferralType.GetEnumDescription())
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 			                <div class="col-md-6">
 			                    <div class="form-group">
 			                        @Html.LabelFor(m => m.EquipmentInfo.SalesRep, new {@class = "dealnet-field-caption"})
@@ -1766,16 +1798,6 @@ foreach (var comment in comments)
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
                                             @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new {@class = "form-control"})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, null, new { @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>

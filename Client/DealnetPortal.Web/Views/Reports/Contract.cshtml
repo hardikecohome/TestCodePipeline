@@ -153,8 +153,18 @@
 				        </div>
 				    }
                     <div class="form-group">
+                        <div class="row">
+<label class="dealnet-field-caption col-xs-6">Deferral Type</label>
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(Model.EquipmentInfo?.DeferralType.GetEnumDescription())
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
 						<div class="row">
-							@Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
+@Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.EquipmentInfo?.SalesRep)
@@ -706,10 +716,10 @@
 					        <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 					            <div class="row">
 					                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-					                    @Resources.GstHst
+@Model.ProvinceTaxRate.Description
 					                </div>
 					                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate/100, 2))
+					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
 					                </div>
 					            </div>
 					        </div>
@@ -719,7 +729,7 @@
 					                    @Resources.TotalMonthlyPaymentWithTaxes
 					                </div>
 					                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate/100, 2))
+					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
 					                </div>
 					            </div>
 					        </div>
@@ -741,16 +751,6 @@
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.ContactAndPaymentInfo.PaymentInfo.PaymentType.GetEnumDescription())
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
-                                <div class="dealnet-field-holder col-xs-6">
-                                    <div class="control-group">
-                                        @(Model.ContactAndPaymentInfo.PaymentInfo.DeferralType.GetEnumDescription())
                                     </div>
                                 </div>
                             </div>

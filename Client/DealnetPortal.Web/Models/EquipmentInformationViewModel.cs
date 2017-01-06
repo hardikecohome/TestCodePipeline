@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
@@ -33,7 +34,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "AmortizationTerm")]
         public int? AmortizationTerm { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
+        [Display(Name = "Deferral Type")]
+        public DeferralType DeferralType { get; set; }
+
+	[RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]
         public double? CustomerRate { get; set; }
 
@@ -55,9 +59,11 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "ContractNotes")]
         public string Notes { get; set; }
 
+        public bool FullUpdate { get; set; }
+
         public int? ContractId { get; set; }
 
-        public double ProvinceTaxRate { get; set; }
+        public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
 
         public bool IsAllInfoCompleted { get; set; }
 

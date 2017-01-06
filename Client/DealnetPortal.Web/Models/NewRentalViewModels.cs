@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models.EquipmentInformation;
 
 namespace DealnetPortal.Web.Models
@@ -105,8 +106,6 @@ namespace DealnetPortal.Web.Models
         public PaymentType PaymentType { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "PrefferedWithdrawalDateIncorrectFormat")]
         public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
-        [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
-        public DeferralType DeferralType { get; set; }
         [StringLength(20)]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BankNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BlankNumber")]
@@ -119,8 +118,8 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9- ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AccountNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AccountNumber")]
         public string AccountNumber { get; set; }
-        //[StringLength(20)]
-        [RegularExpression(@"^[0-9]\d{11}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountIncorrectFormat")]
+        [StringLength(12, MinimumLength = 12, ErrorMessage = "The field Enbridge Gas Distribution Account must be a string with a length of 12")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EnbridgeGasDistributionAccount")]
         public string EnbridgeGasDistributionAccount { get; set; }
         [StringLength(7)]
@@ -131,16 +130,16 @@ namespace DealnetPortal.Web.Models
 
     public class ContactInfoViewModel
     {
-        //[StringLength(50)]
-        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "The field Home Phone must be a string with a length of 10")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "HomePhone")]
         public string HomePhone { get; set; }
-        //[StringLength(50)]
-        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "The field Cell Phone must be a string with a length of 10")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CellPhone")]
         public string CellPhone { get; set; }
-        //[StringLength(50)]
-        [RegularExpression(@"^[0-9]\d{9}$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneIncorrectFormat")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "The field Business Phone must be a string with a length of 10")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BusinessPhone")]
         public string BusinessPhone { get; set; }
         [StringLength(256)]
@@ -184,7 +183,7 @@ namespace DealnetPortal.Web.Models
         public EquipmentInformationViewModel EquipmentInfo { get; set; }
         public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
-        public double ProvinceTaxRate { get; set; }
+        public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
     }
 

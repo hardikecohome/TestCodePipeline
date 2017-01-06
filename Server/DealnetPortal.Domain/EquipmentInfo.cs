@@ -21,7 +21,9 @@ namespace DealnetPortal.Domain
         public int? LoanTerm { get; set; }
 
         public int? AmortizationTerm { get; set; }
-        
+
+        public DeferralType DeferralType { get; set; }
+
         public double? CustomerRate { get; set; }
         
         public double? AdminFee { get; set; }

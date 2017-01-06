@@ -73,15 +73,43 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetContracts(string contractOwnerId)
         {
             var contracts = _contractRepository.GetContracts(contractOwnerId);
-            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, contractDTOs, contractOwnerId);
+            var contractDTOs = new List<ContractDTO>();
 
             var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
             if (aspireDeals?.Any() ?? false)
             {
-                //skip deals that already in DB
-                aspireDeals.Where(d => contracts.All(c => !(c.Details?.TransactionId?.Contains(d.Details.TransactionId) ?? false))).ForEach(d => contractDTOs.Add(d));                
+                var statusWasUpdated = false;
+                foreach (var aspireDeal in aspireDeals)
+                {
+                    if (aspireDeal.Details?.TransactionId == null)
+                    {
+                        continue;
+                    }
+                    var contract =
+                        contracts.FirstOrDefault(
+                            c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
+                    if (contract != null)
+                    {
+                        if (contract.Details.Status != aspireDeal.Details.Status)
+                        {
+                            contract.Details.Status = aspireDeal.Details.Status;
+                            statusWasUpdated = true;
+                        }
+                    }
+                    else
+                    {
+                        contractDTOs.Add(aspireDeal);
+                    }
+                }
+                if (statusWasUpdated)
+                {
+                    _unitOfWork.Save();
+                }
             }
+
+            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
+            AftermapContracts(contracts, mappedContracts, contractOwnerId);
+            contractDTOs.AddRange(mappedContracts);
 
             return contractDTOs;
         }
@@ -92,17 +120,6 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
             AftermapContracts(contracts, contractDTOs, ownerUserId);
             return contractDTOs;
-        }
-
-        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
-        {
-            var equipmentTypes = _contractRepository.GetEquipmentTypes();
-            foreach (var contractDTO in contractDTOs)
-            {
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
-                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
-                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
-            }
         }
 
         public ContractDTO GetContract(int contractId, string contractOwnerId)
@@ -136,6 +153,11 @@ namespace DealnetPortal.Api.Integration.Services
                         //{
                         //    alerts.AddRange(aspireAlerts);
                         //}
+                    }
+                    if (updatedContract.ContractState == ContractState.Completed)
+                    {
+                        var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
+                        Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, updatedContract.Dealer.Email));
                     }
                 }
                 else
@@ -426,7 +448,8 @@ namespace DealnetPortal.Api.Integration.Services
                         : "submitted";
                     _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
 
-                    Task.Run(async () => await _mailService.SendSubmitNotification(contractId, contractOwnerId));
+                    var contractDTO = Mapper.Map<ContractDTO>(contract);
+                    Task.Run(async () => await _mailService.SendSubmitNotification(contractDTO, contract.Dealer.Email, creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
                     //_mailService.SendSubmitNotification(contractId, contractOwnerId);
                 }
                 else
@@ -604,7 +627,13 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var contractId = customers.First().ContractId;
                     if (contractId.HasValue)
-                    {                        
+                    {
+                        var contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
+                        if (contract.ContractState == ContractState.Completed)
+                        {
+                            var contractDTO = Mapper.Map<ContractDTO>(contract);
+                            Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
+                        }
                         _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
                         //if (aspireAlerts?.Any() ?? false)
                         //{
@@ -637,6 +666,13 @@ namespace DealnetPortal.Api.Integration.Services
                 if (comment != null)
                 {
                     _unitOfWork.Save();
+                    if (comment.ContractId.HasValue)
+                    {
+                        var contract = _contractRepository.GetContractAsUntracked(comment.ContractId.Value,
+                            contractOwnerId);
+                        var contractDTO = Mapper.Map<ContractDTO>(contract);
+                        Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
+                    }
                 }
                 else
                 {
@@ -666,9 +702,14 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                if (_contractRepository.TryRemoveComment(commentId, contractOwnerId))
+                var removedCommentContractId = _contractRepository.RemoveComment(commentId, contractOwnerId);
+                if (removedCommentContractId != null)
                 {
                     _unitOfWork.Save();
+                    var contract = _contractRepository.GetContractAsUntracked(removedCommentContractId.Value,
+                         contractOwnerId);
+                    var contractDTO = Mapper.Map<ContractDTO>(contract);
+                    Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
                 }
                 else
                 {
@@ -690,6 +731,17 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
+        {
+            var equipmentTypes = _contractRepository.GetEquipmentTypes();
+            foreach (var contractDTO in contractDTOs)
+            {
+                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
+                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
+                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
+            }
         }
 
         private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
@@ -781,6 +833,9 @@ namespace DealnetPortal.Api.Integration.Services
                 //{
                 //    alerts.AddRange(aspireAlerts);
                 //}
+                var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
+                var contractDTO = Mapper.Map<ContractDTO>(contract);
+                Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
             }
             catch (Exception ex)
             {
