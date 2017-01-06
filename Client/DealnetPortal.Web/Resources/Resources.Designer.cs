@@ -205,6 +205,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to After province change total monthly payment must be greater than zero.
+        /// </summary>
+        public static string AfterProvinceChangeTotalMustBeGreater {
+            get {
+                return ResourceManager.GetString("AfterProvinceChangeTotalMustBeGreater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to agreement.
         /// </summary>
         public static string Agreement {
@@ -367,6 +376,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The field Business Phone must be a string with a length of 10.
+        /// </summary>
+        public static string BusinessPhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("BusinessPhoneMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -426,6 +444,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CellPhoneIncorrectFormat {
             get {
                 return ResourceManager.GetString("CellPhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field Cell Phone must be a string with a length of 10.
+        /// </summary>
+        public static string CellPhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("CellPhoneMustBeLong", resourceCulture);
             }
         }
         
@@ -898,6 +925,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The field Enbridge Gas Distribution Account must be a string with a length of 12.
+        /// </summary>
+        public static string EnbridgeGasDistributionAccountMustBeLong {
+            get {
+                return ResourceManager.GetString("EnbridgeGasDistributionAccountMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid date!.
         /// </summary>
         public static string EnterValidDate {
@@ -1182,6 +1218,15 @@ namespace DealnetPortal.Web.Resources {
         public static string HomePhoneIncorrectFormat {
             get {
                 return ResourceManager.GetString("HomePhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field Home Phone must be a string with a length of 10.
+        /// </summary>
+        public static string HomePhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("HomePhoneMustBeLong", resourceCulture);
             }
         }
         
@@ -2158,6 +2203,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tax.
+        /// </summary>
+        public static string Tax {
+            get {
+                return ResourceManager.GetString("Tax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Term and Rep.
         /// </summary>
         public static string TermAndRep {
@@ -2280,6 +2334,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalMonthlyPaymentIncorrectFormat {
             get {
                 return ResourceManager.GetString("TotalMonthlyPaymentIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total monthly payment must be greater than zero.
+        /// </summary>
+        public static string TotalMonthlyPaymentMustBeGreaterZero {
+            get {
+                return ResourceManager.GetString("TotalMonthlyPaymentMustBeGreaterZero", resourceCulture);
             }
         }
         

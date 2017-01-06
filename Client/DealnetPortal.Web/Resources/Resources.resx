@@ -948,4 +948,25 @@
   <data name="DeferralType" xml:space="preserve">
     <value>Deferral Type</value>
   </data>
+  <data name="EnbridgeGasDistributionAccountMustBeLong" xml:space="preserve">
+    <value>The field Enbridge Gas Distribution Account must be a string with a length of 12</value>
+  </data>
+  <data name="HomePhoneMustBeLong" xml:space="preserve">
+    <value>The field Home Phone must be a string with a length of 10</value>
+  </data>
+  <data name="CellPhoneMustBeLong" xml:space="preserve">
+    <value>The field Cell Phone must be a string with a length of 10</value>
+  </data>
+  <data name="BusinessPhoneMustBeLong" xml:space="preserve">
+    <value>The field Business Phone must be a string with a length of 10</value>
+  </data>
+  <data name="AfterProvinceChangeTotalMustBeGreater" xml:space="preserve">
+    <value>After province change total monthly payment must be greater than zero</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="TotalMonthlyPaymentMustBeGreaterZero" xml:space="preserve">
+    <value>Total monthly payment must be greater than zero</value>
+  </data>
 </root>

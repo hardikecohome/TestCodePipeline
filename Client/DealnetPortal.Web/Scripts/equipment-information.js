@@ -17,7 +17,7 @@ $(document)
                         //}
                         if (!isCalculationValid) {
                             event.preventDefault();
-                            $('#new-equipment-validation-message').text("Total monthly payment must be greater than zero");
+                            $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
                     }
                 });

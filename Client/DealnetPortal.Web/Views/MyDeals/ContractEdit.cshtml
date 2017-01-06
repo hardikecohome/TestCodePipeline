@@ -99,7 +99,7 @@
 
                                 <div class="well danger-well error-descr collapse" id="print-error-message">
                                     <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                                    Cannot get contract agreement for Print
+                                    @Resources.CannotGetAgreementForPrint
                                 </div>
                             }
                                 </div>
@@ -915,7 +915,7 @@
 	                <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 	                    <div class="row">
 	                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                @(Model.ProvinceTaxRate?.Description ?? "Tax")
+                                @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
 	                        </div>
 	                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
 	                            $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0)* (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))

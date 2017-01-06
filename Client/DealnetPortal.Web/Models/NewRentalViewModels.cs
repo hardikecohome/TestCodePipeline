@@ -118,7 +118,7 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9- ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AccountNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AccountNumber")]
         public string AccountNumber { get; set; }
-        [StringLength(12, MinimumLength = 12, ErrorMessage = "The field Enbridge Gas Distribution Account must be a string with a length of 12")]
+        [StringLength(12, MinimumLength = 12, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountMustBeLong")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EnbridgeGasDistributionAccount")]
         public string EnbridgeGasDistributionAccount { get; set; }
@@ -130,15 +130,15 @@ namespace DealnetPortal.Web.Models
 
     public class ContactInfoViewModel
     {
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "The field Home Phone must be a string with a length of 10")]
+        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "HomePhoneMustBeLong")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "HomePhone")]
         public string HomePhone { get; set; }
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "The field Cell Phone must be a string with a length of 10")]
+        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CellPhoneMustBeLong")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CellPhone")]
         public string CellPhone { get; set; }
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "The field Business Phone must be a string with a length of 10")]
+        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneMustBeLong")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BusinessPhone")]
         public string BusinessPhone { get; set; }

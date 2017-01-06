@@ -34,10 +34,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "AmortizationTerm")]
         public int? AmortizationTerm { get; set; }
 
-        [Display(Name = "Deferral Type")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
         public DeferralType DeferralType { get; set; }
 
-	[RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
+	    [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]
         public double? CustomerRate { get; set; }
 

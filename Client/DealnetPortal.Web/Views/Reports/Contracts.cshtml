@@ -171,7 +171,7 @@
 					    }
                         <div class="form-group">
                             <div class="row">
- <label class="dealnet-field-caption col-xs-6">Deferral Type</label>
+                                @Html.LabelFor(m => contract.EquipmentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(contract.EquipmentInfo?.DeferralType.GetEnumDescription())
@@ -181,7 +181,7 @@
                         </div>
                         <div class="form-group">
 							<div class="row">
-@Html.LabelFor(m => contract.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
+                                @Html.LabelFor(m => contract.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
 										@(contract.EquipmentInfo?.SalesRep)
@@ -762,7 +762,7 @@
 			                        <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 			                            <div class="row">
 			                                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-								                @(contract.ProvinceTaxRate?.Description ?? "Tax")
+								                @(contract.ProvinceTaxRate?.Description ?? @Resources.Tax)
 			                                </div>
 			                                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
 			                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0)* (contract.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
