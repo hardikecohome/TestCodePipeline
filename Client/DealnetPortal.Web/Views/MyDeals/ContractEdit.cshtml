@@ -85,9 +85,25 @@
 					                    <input type="file" name="File" class="upload main-document-upload"/>
 					                </div>
 					            </div>
-					        }
-					    </div>
-					}
+                            }
+                            @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1")
+                            {
+                                <br class="hidden-sm hidden-xs"/>
+                                <br class="hidden-sm hidden-xs"/>
+                                <br class="hidden-sm hidden-xs"/>
+                                <br class="hidden-sm hidden-xs"/>
+                                <a href="#" onclick="checkPrintedContract('@Url.Action("CheckContractAgreement", "NewRental", new {@contractId = Model.BasicInfo.ContractId})', '@Url.Action("PrintContract", "NewRental", new {@contractId = Model.BasicInfo.ContractId})');"
+                                   class="dealnet-info-link">
+                                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
+                                </a>
+
+                                <div class="well danger-well error-descr collapse" id="print-error-message">
+                                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                    Cannot get contract agreement for Print
+                                </div>
+                            }
+                                </div>
+                            }
 						<!------------------------------------------------->
 
 						<div class="@(Model.UploadDocumentsInfo.ExistingDocuments.Any(x => x.DocumentTypeId == 7) ? "uploaded" : "") documents-pills-item tab-container-7">
