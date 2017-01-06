@@ -73,8 +73,7 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetContracts(string contractOwnerId)
         {
             var contracts = _contractRepository.GetContracts(contractOwnerId);
-            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, contractDTOs, contractOwnerId);
+            var contractDTOs = new List<ContractDTO>();
 
             var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
             if (aspireDeals?.Any() ?? false)
@@ -91,7 +90,7 @@ namespace DealnetPortal.Api.Integration.Services
                             c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
                     if (contract != null)
                     {
-                        if (contract.Details.TransactionId != aspireDeal.Details.TransactionId)
+                        if (contract.Details.Status != aspireDeal.Details.Status)
                         {
                             contract.Details.Status = aspireDeal.Details.Status;
                             statusWasUpdated = true;
@@ -107,6 +106,10 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
                 }
             }
+
+            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
+            AftermapContracts(contracts, mappedContracts, contractOwnerId);
+            contractDTOs.AddRange(mappedContracts);
 
             return contractDTOs;
         }
