@@ -124,6 +124,10 @@ namespace DealnetPortal.Web.App_Start
                     Id = src.CustomerId,
                     AllowCommunicate = src.AllowCommunicate                    
                 }));
+
+            cfg.CreateMap<RegisterViewModel, RegisterBindingModel>();
+            cfg.CreateMap<ChangePasswordAnonymouslyViewModel, ChangePasswordAnonymouslyBindingModel>();
+            cfg.CreateMap<ForgotPasswordViewModel, ForgotPasswordBindingModel>();
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)

@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -55,7 +56,7 @@ namespace DealnetPortal.Web.Controllers
         // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(DealnetPortal.Web.Models.LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -113,14 +114,14 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordBindingModel model)
+        public async Task<ActionResult> ForgotPassword(DealnetPortal.Web.Models.ForgotPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var result = await _userManagementServiceAgent.ForgotPassword(model);
+            var result = await _userManagementServiceAgent.ForgotPassword(Mapper.Map<ForgotPasswordBindingModel>(model));
             if (result.Any(item => item.Type == AlertType.Error))
             {
                 AddAlertsToModelErrors(result);
@@ -134,7 +135,7 @@ namespace DealnetPortal.Web.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterBindingModel model)
+        public async Task<ActionResult> Register(DealnetPortal.Web.Models.RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -142,7 +143,7 @@ namespace DealnetPortal.Web.Controllers
             }
             model.ApplicationId = ApplicationSettingsManager.PortalId;
             model.UserName = model.Email;
-            var result = await _userManagementServiceAgent.Register(model);
+            var result = await _userManagementServiceAgent.Register(Mapper.Map<RegisterBindingModel>(model));
             if (result.Any(item => item.Type == AlertType.Error))
             {
                 AddAlertsToModelErrors(result);
@@ -174,13 +175,13 @@ namespace DealnetPortal.Web.Controllers
         // POST: /Account/ChangePasswordAfterRegistration
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePasswordAfterRegistration(ChangePasswordAnonymouslyBindingModel model)
+        public async Task<ActionResult> ChangePasswordAfterRegistration(DealnetPortal.Web.Models.ChangePasswordAnonymouslyViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var result = await _userManagementServiceAgent.ChangePasswordAnonymously(model);
+            var result = await _userManagementServiceAgent.ChangePasswordAnonymously(Mapper.Map<ChangePasswordAnonymouslyBindingModel>(model));
             if (result.Any(item => item.Type == AlertType.Error))
             {
                 AddAlertsToModelErrors(result);

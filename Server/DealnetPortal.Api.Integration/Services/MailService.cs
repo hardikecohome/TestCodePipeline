@@ -31,11 +31,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var id = contract.Details?.TransactionId ?? contract.Id.ToString();
-            var subject = $"Contract {id} was " + (success ? "successfully submitted" : "declined");
+            var subject = string.Format(success ? Resources.Resources.ContractWasSuccessfullySubmitted : Resources.Resources.ContractWasDeclined, id);
             var body = new StringBuilder();
-            body.AppendLine($"Contract {id} was " + (success ? "successfully submitted" : "declined"));
-            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType.GetEnumDescription()}");
-            body.AppendLine($"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+            body.AppendLine(subject);
+            body.AppendLine($"{Resources.Resources.TypeOfApplication} {contract.Equipment.AgreementType.GetEnumDescription()}");
+            body.AppendLine($"{Resources.Resources.HomeOwnersName} {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
             await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);                
 
             if (alerts.All(a => a.Type != AlertType.Error))
@@ -51,12 +51,12 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             
             var id = contract.Details?.TransactionId ?? contract.Id.ToString();
-            var subject = $"Contract {id} was successfully changed";
+            var subject = string.Format(Resources.Resources.ContractWasSuccessfullyChanged, id);
             var body = new StringBuilder();
-            body.AppendLine($"Contract {id} was successfully changed");
-            body.AppendLine($"Type of Application: {contract.Equipment.AgreementType.GetEnumDescription()}");
+            body.AppendLine(subject);
+            body.AppendLine($"{Resources.Resources.TypeOfApplication} {contract.Equipment.AgreementType.GetEnumDescription()}");
             body.AppendLine(
-                $"Home Owner's Name: {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+                $"{Resources.Resources.HomeOwnersName} {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
             await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);
 
             if (alerts.All(a => a.Type != AlertType.Error))

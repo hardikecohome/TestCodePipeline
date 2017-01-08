@@ -529,6 +529,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm new password.
+        /// </summary>
+        public static string ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm password.
         /// </summary>
         public static string ConfirmPassword {
@@ -651,6 +660,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CreditCheckProcessedSuccessfully {
             get {
                 return ResourceManager.GetString("CreditCheckProcessedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current password.
+        /// </summary>
+        public static string CurrentPassword {
+            get {
+                return ResourceManager.GetString("CurrentPassword", resourceCulture);
             }
         }
         
@@ -1573,6 +1591,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New password.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string No {
@@ -1659,6 +1686,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PasswordAndConfirmationNotMatch {
             get {
                 return ResourceManager.GetString("PasswordAndConfirmationNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password and confirmation password do not match..
+        /// </summary>
+        public static string PasswordAndConfirmNotMatch {
+            get {
+                return ResourceManager.GetString("PasswordAndConfirmNotMatch", resourceCulture);
             }
         }
         
@@ -2505,6 +2541,15 @@ namespace DealnetPortal.Web.Resources {
         public static string UseHomeOwnerAddressInfo {
             get {
                 return ResourceManager.GetString("UseHomeOwnerAddressInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Name.
+        /// </summary>
+        public static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
             }
         }
         

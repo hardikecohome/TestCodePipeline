@@ -9,7 +9,7 @@ namespace DealnetPortal.Api.Common.Helpers
 {
     public static class CultureHelper
     {
-        private static string DefaultCulture = "en";
+        private const string DefaultCulture = "en";
 
         public static string FilterCulture(string name)
         {

@@ -188,7 +188,7 @@ namespace DealnetPortal.Api.Controllers
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid user email.");
+                ModelState.AddModelError("", Resources.Resources.InvalidUserEmail);
                 return BadRequest(ModelState);
             }
 
@@ -197,15 +197,15 @@ namespace DealnetPortal.Api.Controllers
             if (isAspireUser)
             {
                 await this.UserManager.SendEmailAsync(user.Id,
-                        "Your password",
-                        $"This is your password: {user.AspirePassword}\r\n Please use it to login the portal");
+                        Resources.Resources.YourPassword,
+                        Resources.Resources.ThisIsYourPass + $"{user.AspirePassword}\r\n" + Resources.Resources.PleaseUseToLoginPortal);
                 _loggingService.LogInfo($"Confirmation email with aspire password for user {user.UserName} was sent");
             }
             else
             {
                 var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
                 await this.UserManager.SendEmailAsync(user.Id,
-                        "Your one-time password",
+                        Resources.Resources.YourOneTimePassword,
                         GenerateOnetimePasswordMessage(oneTimePass));
                 _loggingService.LogInfo($"Confirmation email with one-time for user {user.UserName} password sent");
 
@@ -241,7 +241,7 @@ namespace DealnetPortal.Api.Controllers
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid user email.");
+                ModelState.AddModelError("", Resources.Resources.InvalidUserEmail);
                 return BadRequest(ModelState);
             }
             IdentityResult result = await UserManager.ChangePasswordAsync(user.Id, model.OldPassword,
@@ -300,14 +300,14 @@ namespace DealnetPortal.Api.Controllers
                 && ticket.Properties.ExpiresUtc.HasValue
                 && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
             {
-                return BadRequest("External login failure.");
+                return BadRequest(Resources.Resources.ExternalLoginFailure);
             }
 
             ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
 
             if (externalData == null)
             {
-                return BadRequest("The external login is already associated with an account.");
+                return BadRequest(Resources.Resources.EexternalLoginAlreadyAssociated);
             }
 
             IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
@@ -461,7 +461,7 @@ namespace DealnetPortal.Api.Controllers
 
             var application = _applicationRepository.GetApplication(model.ApplicationId);
             if (application == null) {
-                ModelState.AddModelError(ErrorConstants.UnknownApplication, "Unknown application to register");
+                ModelState.AddModelError(ErrorConstants.UnknownApplication, Resources.Resources.UnknownApplicationToRegister);
                 return BadRequest(ModelState);
             }
             var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, ApplicationId = application.Id };            
@@ -476,7 +476,7 @@ namespace DealnetPortal.Api.Controllers
                 if (result.Succeeded && _authType != AuthType.AuthProviderOneStepRegister)
                 {
                     await this.UserManager.SendEmailAsync(user.Id,
-                            "Your one-time password",
+                            Resources.Resources.YourOneTimePassword,
                             GenerateOnetimePasswordMessage(oneTimePass));
                     _loggingService.LogInfo("Confirmation email sended");
                 }
@@ -488,7 +488,7 @@ namespace DealnetPortal.Api.Controllers
             catch (Exception ex)
             {
                 _loggingService.LogError("Error on Register user", ex);
-                ModelState.AddModelError(ErrorConstants.ServiceFailed, "Error on Register user");
+                ModelState.AddModelError(ErrorConstants.ServiceFailed, Resources.Resources.ErrorOnRegisterUser);
                 return BadRequest(ModelState);
             }
             _loggingService.LogInfo("User registered successfully");
@@ -593,14 +593,14 @@ namespace DealnetPortal.Api.Controllers
                 writer.RenderBeginTag(HtmlTextWriterTag.Body);
                 writer.RenderBeginTag(HtmlTextWriterTag.P);
                 writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                writer.Write("This is your one-time password: ");
+                writer.Write(Resources.Resources.ThisIsYourOnetimePass + " ");
                 writer.RenderBeginTag(HtmlTextWriterTag.B);
                 writer.Write(password);
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderBeginTag(HtmlTextWriterTag.Br);
                 writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                writer.Write("Please use it to login the portal, and then you will be prompted to change the password.");
+                writer.Write(Resources.Resources.PleaseUseToLoginPortal + ", " + Resources.Resources.AndThenYouPromptedToChangePass);
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderEndTag();

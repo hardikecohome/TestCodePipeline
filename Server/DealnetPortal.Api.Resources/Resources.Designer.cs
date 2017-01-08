@@ -61,83 +61,191 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contract.
+        ///   Looks up a localized string similar to and then you will be prompted to change the password..
         /// </summary>
-        public static string Contract {
+        public static string AndThenYouPromptedToChangePass {
             get {
-                return ResourceManager.GetString("Contract", resourceCulture);
+                return ResourceManager.GetString("AndThenYouPromptedToChangePass", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer.
+        ///   Looks up a localized string similar to Contract {0} was declined.
         /// </summary>
-        public static string Customer {
+        public static string ContractWasDeclined {
             get {
-                return ResourceManager.GetString("Customer", resourceCulture);
+                return ResourceManager.GetString("ContractWasDeclined", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date.
+        ///   Looks up a localized string similar to Contract {0} was successfully changed.
         /// </summary>
-        public static string Date {
+        public static string ContractWasSuccessfullyChanged {
             get {
-                return ResourceManager.GetString("Date", resourceCulture);
+                return ResourceManager.GetString("ContractWasSuccessfullyChanged", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to Contract {0} was successfully submitted.
         /// </summary>
-        public static string Email {
+        public static string ContractWasSuccessfullySubmitted {
             get {
-                return ResourceManager.GetString("Email", resourceCulture);
+                return ResourceManager.GetString("ContractWasSuccessfullySubmitted", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment.
+        ///   Looks up a localized string similar to The external login is already associated with an account..
         /// </summary>
-        public static string Equipment {
+        public static string EexternalLoginAlreadyAssociated {
             get {
-                return ResourceManager.GetString("Equipment", resourceCulture);
+                return ResourceManager.GetString("EexternalLoginAlreadyAssociated", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone.
+        ///   Looks up a localized string similar to Error on Register user.
         /// </summary>
-        public static string Phone {
+        public static string ErrorOnRegisterUser {
             get {
-                return ResourceManager.GetString("Phone", resourceCulture);
+                return ResourceManager.GetString("ErrorOnRegisterUser", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reports.
+        ///   Looks up a localized string similar to External login failure..
         /// </summary>
-        public static string Reports {
+        public static string ExternalLoginFailure {
             get {
-                return ResourceManager.GetString("Reports", resourceCulture);
+                return ResourceManager.GetString("ExternalLoginFailure", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status.
+        ///   Looks up a localized string similar to External service is unavailable.
         /// </summary>
-        public static string Status {
+        public static string ExternalServiceUnavailable {
             get {
-                return ResourceManager.GetString("Status", resourceCulture);
+                return ResourceManager.GetString("ExternalServiceUnavailable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value.
+        ///   Looks up a localized string similar to Home Owner&apos;s Name:.
         /// </summary>
-        public static string Value {
+        public static string HomeOwnersName {
             get {
-                return ResourceManager.GetString("Value", resourceCulture);
+                return ResourceManager.GetString("HomeOwnersName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid user email..
+        /// </summary>
+        public static string InvalidUserEmail {
+            get {
+                return ResourceManager.GetString("InvalidUserEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your on-time password is correct, now please change the password.
+        /// </summary>
+        public static string OntimePassCorrectNowChange {
+            get {
+                return ResourceManager.GetString("OntimePassCorrectNowChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Sign Agreement.
+        /// </summary>
+        public static string PleaseSignAgreement {
+            get {
+                return ResourceManager.GetString("PleaseSignAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please use it to login the portal.
+        /// </summary>
+        public static string PleaseUseToLoginPortal {
+            get {
+                return ResourceManager.GetString("PleaseUseToLoginPortal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is your one-time password:.
+        /// </summary>
+        public static string ThisIsYourOnetimePass {
+            get {
+                return ResourceManager.GetString("ThisIsYourOnetimePass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is your password:.
+        /// </summary>
+        public static string ThisIsYourPass {
+            get {
+                return ResourceManager.GetString("ThisIsYourPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type of Application:.
+        /// </summary>
+        public static string TypeOfApplication {
+            get {
+                return ResourceManager.GetString("TypeOfApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown application to log in..
+        /// </summary>
+        public static string UnknownApplicationToLogIn {
+            get {
+                return ResourceManager.GetString("UnknownApplicationToLogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown application to register.
+        /// </summary>
+        public static string UnknownApplicationToRegister {
+            get {
+                return ResourceManager.GetString("UnknownApplicationToRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user name or password is incorrect..
+        /// </summary>
+        public static string UserNamerPasswordIncorrect {
+            get {
+                return ResourceManager.GetString("UserNamerPasswordIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your one-time password.
+        /// </summary>
+        public static string YourOneTimePassword {
+            get {
+                return ResourceManager.GetString("YourOneTimePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password.
+        /// </summary>
+        public static string YourPassword {
+            get {
+                return ResourceManager.GetString("YourPassword", resourceCulture);
             }
         }
     }

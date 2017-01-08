@@ -117,31 +117,68 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Contract" xml:space="preserve">
-    <value>Contract</value>
+  <data name="ContractWasDeclined" xml:space="preserve">
+    <value>Contract {0} was declined</value>
   </data>
-  <data name="Customer" xml:space="preserve">
-    <value>Customer</value>
+  <data name="ContractWasSuccessfullyChanged" xml:space="preserve">
+    <value>Contract {0} was successfully changed</value>
   </data>
-  <data name="Date" xml:space="preserve">
-    <value>Date</value>
+  <data name="ContractWasSuccessfullySubmitted" xml:space="preserve">
+    <value>Contract {0} was successfully submitted</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
+  <data name="HomeOwnersName" xml:space="preserve">
+    <value>Home Owner's Name:</value>
   </data>
-  <data name="Equipment" xml:space="preserve">
-    <value>Equipment</value>
+  <data name="PleaseSignAgreement" xml:space="preserve">
+    <value>Please Sign Agreement</value>
   </data>
-  <data name="Phone" xml:space="preserve">
-    <value>Phone</value>
+  <data name="TypeOfApplication" xml:space="preserve">
+    <value>Type of Application:</value>
   </data>
-  <data name="Reports" xml:space="preserve">
-    <value>Reports</value>
+  <data name="AndThenYouPromptedToChangePass" xml:space="preserve">
+    <value>and then you will be prompted to change the password.</value>
   </data>
-  <data name="Status" xml:space="preserve">
-    <value>Status</value>
+  <data name="EexternalLoginAlreadyAssociated" xml:space="preserve">
+    <value>The external login is already associated with an account.</value>
   </data>
-  <data name="Value" xml:space="preserve">
-    <value>Value</value>
+  <data name="ErrorOnRegisterUser" xml:space="preserve">
+    <value>Error on Register user</value>
+  </data>
+  <data name="ExternalLoginFailure" xml:space="preserve">
+    <value>External login failure.</value>
+  </data>
+  <data name="ExternalServiceUnavailable" xml:space="preserve">
+    <value>External service is unavailable</value>
+  </data>
+  <data name="InvalidUserEmail" xml:space="preserve">
+    <value>Invalid user email.</value>
+  </data>
+  <data name="OntimePassCorrectNowChange" xml:space="preserve">
+    <value>Your on-time password is correct, now please change the password</value>
+  </data>
+  <data name="PleaseUseToLoginPortal" xml:space="preserve">
+    <value>Please use it to login the portal</value>
+    <comment>Context: This is your password. Please use it to...</comment>
+  </data>
+  <data name="ThisIsYourOnetimePass" xml:space="preserve">
+    <value>This is your one-time password:</value>
+  </data>
+  <data name="ThisIsYourPass" xml:space="preserve">
+    <value>This is your password:</value>
+  </data>
+  <data name="UnknownApplicationToLogIn" xml:space="preserve">
+    <value>Unknown application to log in.</value>
+  </data>
+  <data name="UnknownApplicationToRegister" xml:space="preserve">
+    <value>Unknown application to register</value>
+  </data>
+  <data name="UserNamerPasswordIncorrect" xml:space="preserve">
+    <value>The user name or password is incorrect.</value>
+  </data>
+  <data name="YourOneTimePassword" xml:space="preserve">
+    <value>Your one-time password</value>
+  </data>
+  <data name="YourPassword" xml:space="preserve">
+    <value>Your password</value>
   </data>
 </root>
