@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -746,7 +747,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
         {
-            equipment?.ForEach(eq => eq.TypeDescription = equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.Description);
+            equipment?.ForEach(eq => eq.TypeDescription = ResourceHelper.GetGlobalStringResource(equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.DescriptionResource));
         }
 
         private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
@@ -792,7 +793,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     {
                                         d.Equipment.NewEquipment.FirstOrDefault().Type = equipment.Type;
                                         d.Equipment.NewEquipment.FirstOrDefault().TypeDescription =
-                                            equipment.Description;
+                                            ResourceHelper.GetGlobalStringResource(equipment.Description);
                                     }
                                     else
                                     {

@@ -869,6 +869,7 @@
   </data>
   <data name="ContainingCopyOfAgreement" xml:space="preserve">
     <value>containing a copy of the completed agreement.</value>
+    <comment>Context: You will receive an email ... containing a copy of...</comment>
   </data>
   <data name="CreateAnotherApplicationForThis" xml:space="preserve">
     <value>Create another application for this home owner</value>
@@ -929,6 +930,7 @@
   </data>
   <data name="ThankYouForCompleting" xml:space="preserve">
     <value>Thank you, {0}, for completing the {1} agreement.</value>
+    <comment>Context: Thank you, John Doe, for completing Rental agreement</comment>
   </data>
   <data name="TwelveDigitsNumber" xml:space="preserve">
     <value># (12 digits)</value>

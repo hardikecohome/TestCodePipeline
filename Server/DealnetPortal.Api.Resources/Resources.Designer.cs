@@ -61,11 +61,56 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Air Conditioner.
+        /// </summary>
+        public static string AirConditioner {
+            get {
+                return ResourceManager.GetString("AirConditioner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Air Handler.
+        /// </summary>
+        public static string AirHandler {
+            get {
+                return ResourceManager.GetString("AirHandler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to and then you will be prompted to change the password..
         /// </summary>
         public static string AndThenYouPromptedToChangePass {
             get {
                 return ResourceManager.GetString("AndThenYouPromptedToChangePass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basement Repair.
+        /// </summary>
+        public static string BasementRepair {
+            get {
+                return ResourceManager.GetString("BasementRepair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bathroom.
+        /// </summary>
+        public static string Bathroom {
+            get {
+                return ResourceManager.GetString("Bathroom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boiler.
+        /// </summary>
+        public static string Boiler {
+            get {
+                return ResourceManager.GetString("Boiler", resourceCulture);
             }
         }
         
@@ -97,6 +142,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Doors.
+        /// </summary>
+        public static string Doors {
+            get {
+                return ResourceManager.GetString("Doors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The external login is already associated with an account..
         /// </summary>
         public static string EexternalLoginAlreadyAssociated {
@@ -111,6 +165,15 @@ namespace DealnetPortal.Api.Resources {
         public static string ErrorOnRegisterUser {
             get {
                 return ResourceManager.GetString("ErrorOnRegisterUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extended Warranty Form.
+        /// </summary>
+        public static string ExtendedWarrantyForm {
+            get {
+                return ResourceManager.GetString("ExtendedWarrantyForm", resourceCulture);
             }
         }
         
@@ -133,11 +196,110 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fireplace.
+        /// </summary>
+        public static string Fireplace {
+            get {
+                return ResourceManager.GetString("Fireplace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flooring.
+        /// </summary>
+        public static string Flooring {
+            get {
+                return ResourceManager.GetString("Flooring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Furnace.
+        /// </summary>
+        public static string Furnace {
+            get {
+                return ResourceManager.GetString("Furnace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GST.
+        /// </summary>
+        public static string Gst {
+            get {
+                return ResourceManager.GetString("Gst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GST + PST.
+        /// </summary>
+        public static string GstPst {
+            get {
+                return ResourceManager.GetString("GstPst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GST + QST.
+        /// </summary>
+        public static string GstQst {
+            get {
+                return ResourceManager.GetString("GstQst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heat Pump.
+        /// </summary>
+        public static string HeatPump {
+            get {
+                return ResourceManager.GetString("HeatPump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hepa System.
+        /// </summary>
+        public static string HepaSystem {
+            get {
+                return ResourceManager.GetString("HepaSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home Owner&apos;s Name:.
         /// </summary>
         public static string HomeOwnersName {
             get {
                 return ResourceManager.GetString("HomeOwnersName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HRV.
+        /// </summary>
+        public static string Hrv {
+            get {
+                return ResourceManager.GetString("Hrv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HST.
+        /// </summary>
+        public static string Hst {
+            get {
+                return ResourceManager.GetString("Hst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HWT.
+        /// </summary>
+        public static string Hwt {
+            get {
+                return ResourceManager.GetString("Hwt", resourceCulture);
             }
         }
         
@@ -151,11 +313,38 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invoice.
+        /// </summary>
+        public static string Invoice {
+            get {
+                return ResourceManager.GetString("Invoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kitchen.
+        /// </summary>
+        public static string Kitchen {
+            get {
+                return ResourceManager.GetString("Kitchen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your on-time password is correct, now please change the password.
         /// </summary>
         public static string OntimePassCorrectNowChange {
             get {
                 return ResourceManager.GetString("OntimePassCorrectNowChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
             }
         }
         
@@ -174,6 +363,96 @@ namespace DealnetPortal.Api.Resources {
         public static string PleaseUseToLoginPortal {
             get {
                 return ResourceManager.GetString("PleaseUseToLoginPortal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plumbing.
+        /// </summary>
+        public static string Plumbing {
+            get {
+                return ResourceManager.GetString("Plumbing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Porch Enclosure.
+        /// </summary>
+        public static string PorchEnclosure {
+            get {
+                return ResourceManager.GetString("PorchEnclosure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roofing.
+        /// </summary>
+        public static string Roofing {
+            get {
+                return ResourceManager.GetString("Roofing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security System.
+        /// </summary>
+        public static string SecuritySystem {
+            get {
+                return ResourceManager.GetString("SecuritySystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Siding.
+        /// </summary>
+        public static string Siding {
+            get {
+                return ResourceManager.GetString("Siding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signed contract.
+        /// </summary>
+        public static string SignedContract {
+            get {
+                return ResourceManager.GetString("SignedContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signed Installation certificate.
+        /// </summary>
+        public static string SignedInstallationCertificate {
+            get {
+                return ResourceManager.GetString("SignedInstallationCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sunrooms.
+        /// </summary>
+        public static string Sunrooms {
+            get {
+                return ResourceManager.GetString("Sunrooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tankless Water Heater.
+        /// </summary>
+        public static string TanklessWaterHeater {
+            get {
+                return ResourceManager.GetString("TanklessWaterHeater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Third party verification call.
+        /// </summary>
+        public static string ThirdPartyVerificationCall {
+            get {
+                return ResourceManager.GetString("ThirdPartyVerificationCall", resourceCulture);
             }
         }
         
@@ -205,6 +484,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown application to log in..
         /// </summary>
         public static string UnknownApplicationToLogIn {
@@ -228,6 +516,33 @@ namespace DealnetPortal.Api.Resources {
         public static string UserNamerPasswordIncorrect {
             get {
                 return ResourceManager.GetString("UserNamerPasswordIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy of Void Personal Cheque.
+        /// </summary>
+        public static string VoidPersonalChequeCopy {
+            get {
+                return ResourceManager.GetString("VoidPersonalChequeCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water Treatment System.
+        /// </summary>
+        public static string WaterTreatmentSystem {
+            get {
+                return ResourceManager.GetString("WaterTreatmentSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows.
+        /// </summary>
+        public static string Windows {
+            get {
+                return ResourceManager.GetString("Windows", resourceCulture);
             }
         }
         

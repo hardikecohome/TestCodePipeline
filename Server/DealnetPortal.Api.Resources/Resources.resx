@@ -135,8 +135,26 @@
   <data name="TypeOfApplication" xml:space="preserve">
     <value>Type of Application:</value>
   </data>
+  <data name="AirConditioner" xml:space="preserve">
+    <value>Air Conditioner</value>
+  </data>
+  <data name="AirHandler" xml:space="preserve">
+    <value>Air Handler</value>
+  </data>
   <data name="AndThenYouPromptedToChangePass" xml:space="preserve">
     <value>and then you will be prompted to change the password.</value>
+  </data>
+  <data name="BasementRepair" xml:space="preserve">
+    <value>Basement Repair</value>
+  </data>
+  <data name="Bathroom" xml:space="preserve">
+    <value>Bathroom</value>
+  </data>
+  <data name="Boiler" xml:space="preserve">
+    <value>Boiler</value>
+  </data>
+  <data name="Doors" xml:space="preserve">
+    <value>Doors</value>
   </data>
   <data name="EexternalLoginAlreadyAssociated" xml:space="preserve">
     <value>The external login is already associated with an account.</value>
@@ -144,27 +162,105 @@
   <data name="ErrorOnRegisterUser" xml:space="preserve">
     <value>Error on Register user</value>
   </data>
+  <data name="ExtendedWarrantyForm" xml:space="preserve">
+    <value>Extended Warranty Form</value>
+  </data>
   <data name="ExternalLoginFailure" xml:space="preserve">
     <value>External login failure.</value>
   </data>
   <data name="ExternalServiceUnavailable" xml:space="preserve">
     <value>External service is unavailable</value>
   </data>
+  <data name="Fireplace" xml:space="preserve">
+    <value>Fireplace</value>
+  </data>
+  <data name="Flooring" xml:space="preserve">
+    <value>Flooring</value>
+  </data>
+  <data name="Furnace" xml:space="preserve">
+    <value>Furnace</value>
+  </data>
+  <data name="Gst" xml:space="preserve">
+    <value>GST</value>
+  </data>
+  <data name="GstPst" xml:space="preserve">
+    <value>GST + PST</value>
+  </data>
+  <data name="GstQst" xml:space="preserve">
+    <value>GST + QST</value>
+  </data>
+  <data name="HeatPump" xml:space="preserve">
+    <value>Heat Pump</value>
+  </data>
+  <data name="HepaSystem" xml:space="preserve">
+    <value>Hepa System</value>
+  </data>
+  <data name="Hrv" xml:space="preserve">
+    <value>HRV</value>
+  </data>
+  <data name="Hst" xml:space="preserve">
+    <value>HST</value>
+  </data>
+  <data name="Hwt" xml:space="preserve">
+    <value>HWT</value>
+  </data>
   <data name="InvalidUserEmail" xml:space="preserve">
     <value>Invalid user email.</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+  </data>
+  <data name="Kitchen" xml:space="preserve">
+    <value>Kitchen</value>
   </data>
   <data name="OntimePassCorrectNowChange" xml:space="preserve">
     <value>Your on-time password is correct, now please change the password</value>
   </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
   <data name="PleaseUseToLoginPortal" xml:space="preserve">
     <value>Please use it to login the portal</value>
     <comment>Context: This is your password. Please use it to...</comment>
+  </data>
+  <data name="Plumbing" xml:space="preserve">
+    <value>Plumbing</value>
+  </data>
+  <data name="PorchEnclosure" xml:space="preserve">
+    <value>Porch Enclosure</value>
+  </data>
+  <data name="Roofing" xml:space="preserve">
+    <value>Roofing</value>
+  </data>
+  <data name="SecuritySystem" xml:space="preserve">
+    <value>Security System</value>
+  </data>
+  <data name="Siding" xml:space="preserve">
+    <value>Siding</value>
+  </data>
+  <data name="SignedContract" xml:space="preserve">
+    <value>Signed contract</value>
+  </data>
+  <data name="SignedInstallationCertificate" xml:space="preserve">
+    <value>Signed Installation certificate</value>
+  </data>
+  <data name="Sunrooms" xml:space="preserve">
+    <value>Sunrooms</value>
+  </data>
+  <data name="TanklessWaterHeater" xml:space="preserve">
+    <value>Tankless Water Heater</value>
+  </data>
+  <data name="ThirdPartyVerificationCall" xml:space="preserve">
+    <value>Third party verification call</value>
   </data>
   <data name="ThisIsYourOnetimePass" xml:space="preserve">
     <value>This is your one-time password:</value>
   </data>
   <data name="ThisIsYourPass" xml:space="preserve">
     <value>This is your password:</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="UnknownApplicationToLogIn" xml:space="preserve">
     <value>Unknown application to log in.</value>
@@ -174,6 +270,15 @@
   </data>
   <data name="UserNamerPasswordIncorrect" xml:space="preserve">
     <value>The user name or password is incorrect.</value>
+  </data>
+  <data name="VoidPersonalChequeCopy" xml:space="preserve">
+    <value>Copy of Void Personal Cheque</value>
+  </data>
+  <data name="WaterTreatmentSystem" xml:space="preserve">
+    <value>Water Treatment System</value>
+  </data>
+  <data name="Windows" xml:space="preserve">
+    <value>Windows</value>
   </data>
   <data name="YourOneTimePassword" xml:space="preserve">
     <value>Your one-time password</value>

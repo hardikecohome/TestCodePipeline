@@ -75,13 +75,19 @@
     <Compile Include="Helpers\DomainCodesHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\LoanCalculator.cs" />
+    <Compile Include="Helpers\ResourceHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\XmlSerializerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Api.Resources\DealnetPortal.Api.Resources.csproj">
+      <Project>{783de205-0ee3-429c-a85e-09f83f86dd4a}</Project>
+      <Name>DealnetPortal.Api.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

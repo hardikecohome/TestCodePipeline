@@ -455,33 +455,33 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             var equipmentTypes = new List<EquipmentType>
             {
-                new EquipmentType {Description = "Air Conditioner", Type = "ECO1"},
-                new EquipmentType {Description = "Boiler", Type = "ECO2"},
-                new EquipmentType {Description = "Doors", Type = "ECO3"},
-                new EquipmentType {Description = "Fireplace", Type = "ECO4"},
-                new EquipmentType {Description = "Furnace", Type = "ECO5"},
-                new EquipmentType {Description = "HWT", Type = "ECO6"},
-                new EquipmentType {Description = "Plumbing", Type = "ECO7"},
-                new EquipmentType {Description = "Roofing", Type = "ECO9"},
-                new EquipmentType {Description = "Siding", Type = "ECO10"},
-                new EquipmentType {Description = "Tankless Water Heater", Type = "ECO11"},
-                new EquipmentType {Description = "Windows", Type = "ECO13"},
-                new EquipmentType {Description = "Sunrooms", Type = "ECO38"},
-                new EquipmentType {Description = "Air Handler", Type = "ECO40"},
-                new EquipmentType {Description = "Flooring", Type = "ECO42"},
-                new EquipmentType {Description = "Porch Enclosure", Type = "ECO43"},
-                new EquipmentType {Description = "Water Treatment System", Type = "ECO44"},
-                new EquipmentType {Description = "Heat Pump", Type = "ECO45"},
-                new EquipmentType {Description = "HRV", Type = "ECO46"},
-                new EquipmentType {Description = "Bathroom", Type = "ECO47"},
-                new EquipmentType {Description = "Kitchen", Type = "ECO48"},
-                new EquipmentType {Description = "Hepa System", Type = "ECO49"},
-                new EquipmentType {Description = "Unknown", Type = "ECO50"},
-                new EquipmentType {Description = "Security System", Type = "ECO52"},
-                new EquipmentType {Description = "Basement Repair", Type = "ECO55"}
+                new EquipmentType {Description = "Air Conditioner", DescriptionResource = "AirConditioner", Type = "ECO1"},
+                new EquipmentType {Description = "Boiler", DescriptionResource = "Boiler", Type = "ECO2"},
+                new EquipmentType {Description = "Doors", DescriptionResource = "Doors", Type = "ECO3"},
+                new EquipmentType {Description = "Fireplace", DescriptionResource = "Fireplace", Type = "ECO4"},
+                new EquipmentType {Description = "Furnace", DescriptionResource = "Furnace", Type = "ECO5"},
+                new EquipmentType {Description = "HWT", DescriptionResource = "Hwt", Type = "ECO6"},
+                new EquipmentType {Description = "Plumbing", DescriptionResource = "Plumbing", Type = "ECO7"},
+                new EquipmentType {Description = "Roofing", DescriptionResource = "Roofing", Type = "ECO9"},
+                new EquipmentType {Description = "Siding", DescriptionResource = "Siding", Type = "ECO10"},
+                new EquipmentType {Description = "Tankless Water Heater", DescriptionResource = "TanklessWaterHeater", Type = "ECO11"},
+                new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
+                new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
+                new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
+                new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
+                new EquipmentType {Description = "Porch Enclosure", DescriptionResource = "PorchEnclosure", Type = "ECO43"},
+                new EquipmentType {Description = "Water Treatment System", DescriptionResource = "WaterTreatmentSystem", Type = "ECO44"},
+                new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45"},
+                new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46"},
+                new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
+                new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
+                new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49"},
+                new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
+                new EquipmentType {Description = "Security System", DescriptionResource = "SecuritySystem", Type = "ECO52"},
+                new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"}
             };
             //leave existing data
-            equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
+            //equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
             context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes.ToArray());
         }
 
@@ -490,19 +490,19 @@ namespace DealnetPortal.DataAccess.Migrations
             //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
             var taxRates = new List<ProvinceTaxRate>
             {
-                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "GST"},
-                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GST + PST"},
-                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GST + PST"},
-                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "HST"},
-                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "HST"},
-                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "GST"},
-                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "HST"},
-                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "GST"},
-                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "HST"},
-                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "HST"},
-                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GST + QST"},
-                new ProvinceTaxRate {Province = "SK", Rate = 10, Description = "GST + PST"},
-                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "GST"}
+                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "Gst"},
+                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GstPst"},
+                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GstPst"},
+                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "Hst"},
+                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "Hst"},
+                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "Gst"},
+                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "Hst"},
+                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "Gst"},
+                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "Hst"},
+                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "Hst"},
+                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GstQst"},
+                new ProvinceTaxRate {Province = "SK", Rate = 10, Description = "GstPst"},
+                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst"}
             };
             //leave existing data
             //taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
@@ -513,16 +513,16 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             var documentTypes = new List<DocumentType>
             {
-                new DocumentType()  {Description = "Signed contract", Prefix = "SC_"},
-                new DocumentType()  {Description = "Signed Installation certificate", Prefix = "SIC_"},
-                new DocumentType()  {Description = "Invoice", Prefix = "INV_"},
-                new DocumentType()  {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
-                new DocumentType()  {Description = "Extended Warranty Form", Prefix = "EWF_"},
-                new DocumentType()  {Description = "Third party verification call", Prefix = "TPV_"},
-                new DocumentType()  {Description = "Other", Prefix = ""},
+                new DocumentType()  {Description = "Signed contract", DescriptionResource = "SignedContract", Prefix = "SC_"},
+                new DocumentType()  {Description = "Signed Installation certificate", DescriptionResource = "SignedInstallationCertificate", Prefix = "SIC_"},
+                new DocumentType()  {Description = "Invoice", DescriptionResource = "Invoice", Prefix = "INV_"},
+                new DocumentType()  {Description = "Copy of Void Personal Cheque", DescriptionResource = "VoidPersonalChequeCopy", Prefix = "VPC_"},
+                new DocumentType()  {Description = "Extended Warranty Form", DescriptionResource = "ExtendedWarrantyForm", Prefix = "EWF_"},
+                new DocumentType()  {Description = "Third party verification call", DescriptionResource = "ThirdPartyVerificationCall", Prefix = "TPV_"},
+                new DocumentType()  {Description = "Other", DescriptionResource = "Other", Prefix = ""},
             };
             //leave existing data
-            documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
+            //documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
             context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
         }
 
