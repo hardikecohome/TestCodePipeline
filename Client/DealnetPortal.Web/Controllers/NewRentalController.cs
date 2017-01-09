@@ -407,7 +407,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 sendEmails.SalesRepEmail = dealer.Email;
             }
-            sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType ?? AgreementType.LoanApplication;
+            sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType.ConvertTo<Common.Enumeration.AgreementType>() ?? Common.Enumeration.AgreementType.LoanApplication;
 
             ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
 

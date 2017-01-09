@@ -24,7 +24,7 @@ namespace DealnetPortal.Web.Models
 
         public int HomeOwnerId { get; set; }
 
-        public AgreementType AgreementType { get; set; }
+        public Common.Enumeration.AgreementType AgreementType { get; set; }
 
         [Required]
         public string HomeOwnerFullName { get; set; }

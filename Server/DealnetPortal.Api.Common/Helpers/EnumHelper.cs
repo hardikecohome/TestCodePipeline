@@ -42,5 +42,10 @@ namespace DealnetPortal.Api.Common.Helpers
                 return attributes[0].Description;
             return value.ToString();
         }
+
+        public static T ConvertTo<T>(this Enum value) where T : struct, IConvertible
+        {
+            return (T)Enum.Parse(typeof (T), value.ToString());
+        }
     }
 }

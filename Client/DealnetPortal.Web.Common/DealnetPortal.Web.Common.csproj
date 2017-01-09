@@ -47,6 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -60,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumeration\AgreementType.cs" />
+    <Compile Include="Enumeration\ContractState.cs" />
+    <Compile Include="Enumeration\DeferralType.cs" />
+    <Compile Include="Enumeration\PaymentType.cs" />
+    <Compile Include="Enumeration\ResidenceType.cs" />
+    <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Helpers\HttpResponseHelpers.cs" />
     <Compile Include="PortalType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,6 +84,10 @@
     <ProjectReference Include="..\DealnetPortal.Web.Models\DealnetPortal.Web.Models.csproj">
       <Project>{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}</Project>
       <Name>DealnetPortal.Web.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Web.Resources\DealnetPortal.Web.Resources.csproj">
+      <Project>{e996df6c-67cd-4178-a6ad-3df9c1583677}</Project>
+      <Name>DealnetPortal.Web.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

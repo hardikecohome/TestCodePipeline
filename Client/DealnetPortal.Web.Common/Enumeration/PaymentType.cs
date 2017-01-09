@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DealnetPortal.Api.Common.Enumeration
+namespace DealnetPortal.Web.Common.Enumeration
 {
     public enum PaymentType
     {
-        [Display(Name = "ENBRIDGE")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "EnbridgeCapital")]
         Enbridge,
-        [Display(Name = "PAP")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "PapCapital")]
         Pap
     }
 }

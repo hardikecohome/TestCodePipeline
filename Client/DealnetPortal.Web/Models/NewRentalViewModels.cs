@@ -82,7 +82,7 @@ namespace DealnetPortal.Web.Models
         public string PostalCode { get; set; }
         [Required]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Residence")]
-        public ResidenceType ResidenceType { get; set; }
+        public Common.Enumeration.ResidenceType ResidenceType { get; set; }
     }
 
     public class SubDealer    
@@ -103,9 +103,9 @@ namespace DealnetPortal.Web.Models
     public class PaymentInfoViewModel
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "PaymentType")]
-        public PaymentType PaymentType { get; set; }
+        public Common.Enumeration.PaymentType PaymentType { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "PrefferedWithdrawalDateIncorrectFormat")]
-        public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        public Common.Enumeration.WithdrawalDateType PrefferedWithdrawalDate { get; set; }
         [StringLength(20)]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BankNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BlankNumber")]
@@ -169,7 +169,7 @@ namespace DealnetPortal.Web.Models
     public class AdditionalInfoViewModel
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "Status")]
-        public ContractState ContractState { get; set; }
+        public Common.Enumeration.ContractState ContractState { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "Status")]
         public string Status { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "Date")]

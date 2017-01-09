@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Web", "DealnetPortal.Web\DealnetPortal.Web.csproj", "{6144C1AA-F7C1-4FA0-A8F8-CF3304476F66}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Web.IntegrationTests", "DealnetPortal.Web.IntegrationTests\DealnetPortal.Web.IntegrationTests.csproj", "{765F5301-2074-47B2-90CA-BEF60C9A7982}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Web.Models", "DealnetPortal.Web.Models\DealnetPortal.Web.Models.csproj", "{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Web.Resources", "DealnetPortal.Web.Resources\DealnetPortal.Web.Resources.csproj", "{E996DF6C-67CD-4178-A6AD-3DF9C1583677}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E996DF6C-67CD-4178-A6AD-3DF9C1583677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E996DF6C-67CD-4178-A6AD-3DF9C1583677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E996DF6C-67CD-4178-A6AD-3DF9C1583677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E996DF6C-67CD-4178-A6AD-3DF9C1583677}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

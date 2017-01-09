@@ -1,8 +1,8 @@
 @using System
 @using System.Globalization
 @using System.Linq
-@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Web.Common.Enumeration
 @model DealnetPortal.Web.Models.ContractViewModel
 <div id="label-steps">
 	@Html.ActionLink(Resources.Reports, "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  &gt;
@@ -757,7 +757,7 @@
                         </div>
                         @switch (Model.ContactAndPaymentInfo.PaymentInfo.PaymentType)
                         {
-                            case PaymentType.Enbridge:
+                            case DealnetPortal.Web.Common.Enumeration.PaymentType.Enbridge:
                                 <div class="form-group">
                                     <div class="row">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
@@ -779,7 +779,7 @@
                                     </div>
                                 </div>
                                 break;
-                            case PaymentType.Pap:
+                            case DealnetPortal.Web.Common.Enumeration.PaymentType.Pap:
                                 <div class="form-group">
                                     <div class="row">
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })

@@ -126,11 +126,20 @@
   <data name="IfYouChangeInfo" xml:space="preserve">
     <value>Si vous changez d'informations sur le propriétaire, vous devrez refaire l'étape de vérification du crédit</value>
   </data>
+  <data name="LoanApplication" xml:space="preserve">
+    <value>LoanApplicationVASYA</value>
+  </data>
   <data name="MyDeals" xml:space="preserve">
     <value>Mes offres</value>
   </data>
   <data name="NewApplication" xml:space="preserve">
     <value>Nouvelle application</value>
+  </data>
+  <data name="RentalApplication" xml:space="preserve">
+    <value>RentalApplicationVasya</value>
+  </data>
+  <data name="RentalApplicationHwt" xml:space="preserve">
+    <value>RentalApplicationHwtVasya</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Rapports</value>

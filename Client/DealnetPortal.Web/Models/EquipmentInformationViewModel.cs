@@ -12,7 +12,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
     public class EquipmentInformationViewModel
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "TypeOfAgreement")]
-        public AgreementType AgreementType { get; set; }
+        public Common.Enumeration.AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
@@ -35,7 +35,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public int? AmortizationTerm { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
-        public DeferralType DeferralType { get; set; }
+        public Common.Enumeration.DeferralType DeferralType { get; set; }
 
 	    [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]

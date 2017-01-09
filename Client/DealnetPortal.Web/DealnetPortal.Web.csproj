@@ -56,6 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
     </Reference>
+    <Reference Include="DealnetPortal.Api.Resources">
+      <HintPath>..\..\lib\DealnetPortal.Api.Resources.dll</HintPath>
+    </Reference>
     <Reference Include="DealnetPortal.Utilities">
       <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
     </Reference>
@@ -210,16 +213,6 @@
     <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Resources.fr.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.fr.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
@@ -772,6 +765,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
+    <Folder Include="Resources\" />
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
@@ -795,21 +789,14 @@
       <Project>{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}</Project>
       <Name>DealnetPortal.Web.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Web.Resources\DealnetPortal.Web.Resources.csproj">
+      <Project>{e996df6c-67cd-4178-a6ad-3df9c1583677}</Project>
+      <Name>DealnetPortal.Web.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Web.ServiceAgent\DealnetPortal.Web.ServiceAgent.csproj">
       <Project>{9d034d24-d090-4ffd-9f50-7ff073568343}</Project>
       <Name>DealnetPortal.Web.ServiceAgent</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Resources.fr.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.fr.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

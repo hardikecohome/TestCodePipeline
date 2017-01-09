@@ -986,4 +986,55 @@
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Confirm new password</value>
   </data>
+  <data name="LoanApplication" xml:space="preserve">
+    <value>Loan Application</value>
+  </data>
+  <data name="RentalApplicationHwt" xml:space="preserve">
+    <value>Rental Application (HWT)</value>
+  </data>
+  <data name="RentalApplication" xml:space="preserve">
+    <value>Rental Application</value>
+  </data>
+  <data name="StartedToFillNewContract" xml:space="preserve">
+    <value>Started to fill new contract</value>
+  </data>
+  <data name="ClientDataInputted" xml:space="preserve">
+    <value>Client data inputted</value>
+  </data>
+  <data name="CreditCheckInitiated" xml:space="preserve">
+    <value>Credit check initiated</value>
+  </data>
+  <data name="CreditCheckDeclined" xml:space="preserve">
+    <value>Credit check declined</value>
+  </data>
+  <data name="CreditCheckApproved" xml:space="preserve">
+    <value>Credit check approved</value>
+  </data>
+  <data name="ApplicationSubmitted" xml:space="preserve">
+    <value>Application submitted</value>
+  </data>
+  <data name="NoDeferral" xml:space="preserve">
+    <value>No Deferral</value>
+  </data>
+  <data name="ThreeMonth" xml:space="preserve">
+    <value>3 Month</value>
+  </data>
+  <data name="SixMonth" xml:space="preserve">
+    <value>6 Month</value>
+  </data>
+  <data name="EnbridgeCapital" xml:space="preserve">
+    <value>ENBRIDGE</value>
+  </data>
+  <data name="PapCapital" xml:space="preserve">
+    <value>PAP</value>
+  </data>
+  <data name="Own" xml:space="preserve">
+    <value>Own</value>
+  </data>
+  <data name="OneSt" xml:space="preserve">
+    <value>1st</value>
+  </data>
+  <data name="FifteenTh" xml:space="preserve">
+    <value>15th</value>
+  </data>
 </root>
