@@ -79,7 +79,7 @@
                                 @Html.Hidden("OperationGuid")
                                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new {Name = "ContractId"})
 					            @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new {Name = "DocumentTypeId"})
-					            <div class="form-group">
+					            <div class="form-group clearfix">
 					                <div class="file-upload btn dealnet-button dealnet-success-button">
 					                    <span>@Resources.Upload</span>
 					                    <input type="file" name="File" class="upload main-document-upload"/>
@@ -88,12 +88,8 @@
                             }
                             @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1")
                             {
-                                <br class="hidden-sm hidden-xs"/>
-                                <br class="hidden-sm hidden-xs"/>
-                                <br class="hidden-sm hidden-xs"/>
-                                <br class="hidden-sm hidden-xs"/>
                                 <a href="#" onclick="checkPrintedContract('@Url.Action("CheckContractAgreement", "NewRental", new {@contractId = Model.BasicInfo.ContractId})', '@Url.Action("PrintContract", "NewRental", new {@contractId = Model.BasicInfo.ContractId})');"
-                                   class="dealnet-info-link">
+                                   class="dealnet-info-link doc-tab-print-link">
                                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
                                 </a>
 
