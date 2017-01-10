@@ -28,6 +28,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     ContractState = ContractState.Started,
                     CreationTime = DateTime.Now,
+                    LastUpdateTime = DateTime.Now,
                     Dealer = dealer
                 };
                 _dbContext.Contracts.Add(contract);
