@@ -734,7 +734,7 @@ namespace DealnetPortal.Api.Integration.Services
                     new UDF()
                     {
                         Name = "Deferral Type",
-                        Value = contract.Equipment?.DeferralType.GetPersistentEnumDescription()
+                        Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
                     }
                 };
 
@@ -786,6 +786,20 @@ namespace DealnetPortal.Api.Integration.Services
                     //we can get error here from Aspire DB
                     _loggingService.LogError("Failed to get subdealers from Aspire", ex);
                 }
+            }
+
+            var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];
+            if (!string.IsNullOrEmpty(portalDescriber))
+            {
+                if (application.UDFs == null)
+                {
+                    application.UDFs = new List<UDF>();
+                }
+                application.UDFs.Add(new UDF()
+                {
+                     Name = "LeadSource",
+                     Value = portalDescriber
+                });
             }
 
             return application;
