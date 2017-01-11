@@ -410,7 +410,7 @@
 		    </div>
 		    <div class="col-md-6 grid-column">
 		        <div class="dealnet-credit-check-section" id="address-section">
-		            <h3 class="dealnet-section-title">Address Information <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();">Edit</a>
+		            <h3 class="dealnet-section-title">Address Information @*<a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();">Edit</a>*@
 		            </h3>
                     <div class="form-group">
                         <div class="row">
@@ -1405,7 +1405,7 @@ foreach (var comment in comments)
 	</div>
 </div>
 
-<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="address-modal">
+@*<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="address-modal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -1492,7 +1492,7 @@ foreach (var comment in comments)
 			</div>
 		</div>
 	</div>
-</div>
+</div>*@
 
 @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
 {
