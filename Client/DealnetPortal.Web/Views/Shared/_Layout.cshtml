@@ -11,6 +11,7 @@
     <meta name="format-detection" content="telephone=no">
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
+
     @RenderSection("Styles", false)
     <script type="text/javascript">
         //Next two lines for IE (God Damn It! What is that shit made of?!)
@@ -27,9 +28,11 @@
         case PortalType.Ecohome:
         default:
             <link rel="stylesheet/less" type="text/css" href="~/Content/less/main.less">
+            <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
             break;
         case PortalType.Odi:
             <link rel="stylesheet/less" type="text/css" href="~/Content/less/main-dealer.less">
+            <link rel="shortcut icon" href="~/favicon-dealer.ico" type="image/x-icon" />
             break;
     }
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
