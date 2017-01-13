@@ -34,7 +34,7 @@ namespace DealnetPortal.Api.Integration.Utility
                 DriverLicense.State = elems.FirstOrDefault(x => x.Name == "state")?.Value;
                 DriverLicense.City = elems.FirstOrDefault(x => x.Name == "city")?.Value;
                 DriverLicense.Country = elems.FirstOrDefault(x => x.Name == "country")?.Value;
-                DriverLicense.PostalCode = elems.FirstOrDefault(x => x.Name == "postal")?.Value;
+                DriverLicense.PostalCode = elems.FirstOrDefault(x => x.Name == "postal")?.Value?.Replace(" ", "");
                 DateTime date;
                 DateTime.TryParse(elems.FirstOrDefault(x => x.Name == "dob")?.Value, out date);
                 DriverLicense.DateOfBirth = date;
