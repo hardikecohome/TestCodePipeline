@@ -35,7 +35,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public int? AmortizationTerm { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
-        public Common.Enumeration.DeferralType DeferralType { get; set; }
+        public Common.Enumeration.LoanDeferralType LoanDeferralType { get; set; }
+
+        [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
+        public Common.Enumeration.RentalDeferralType RentalDeferralType { get; set; }
 
 	    [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]

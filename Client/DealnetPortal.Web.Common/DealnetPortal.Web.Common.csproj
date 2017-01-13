@@ -63,8 +63,9 @@
   <ItemGroup>
     <Compile Include="Enumeration\AgreementType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
-    <Compile Include="Enumeration\DeferralType.cs" />
+    <Compile Include="Enumeration\LoanDeferralType.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
+    <Compile Include="Enumeration\RentalDeferralType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Helpers\HttpResponseHelpers.cs" />

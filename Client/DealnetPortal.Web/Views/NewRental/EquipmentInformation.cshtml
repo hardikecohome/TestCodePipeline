@@ -1,4 +1,6 @@
-﻿@using DealnetPortal.Api.Models.Contract
+﻿@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
@@ -238,12 +240,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 loan-element">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.DeferralType)
+                            @Html.LabelFor(m => m.LoanDeferralType)
                             <div class="control-group">
-                                @Html.EnumDropDownListFor(m => m.DeferralType, null, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.DeferralType, "", new { @class = "text-danger" })
+                                @Html.EnumDropDownListFor(m => m.LoanDeferralType, new {@class = "form-control"})
+                                @Html.ValidationMessageFor(m => m.LoanDeferralType, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 rental-element">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.RentalDeferralType)
+                            <div class="control-group">
+                                @Html.EnumDropDownListFor(m => m.RentalDeferralType, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.RentalDeferralType, "", new {@class = "text-danger"})
                             </div>
                         </div>
                     </div>

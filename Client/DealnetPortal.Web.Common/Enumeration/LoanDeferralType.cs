@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Web.Common.Enumeration
 {
-    public enum DeferralType
+    public enum LoanDeferralType
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "NoDeferral")]
-        NoDeferral,
+        NoDeferral = 0,
         [Display(ResourceType = typeof (Resources.Resources), Name = "ThreeMonth")]
-        ThreeMonth,
+        ThreeMonth = 2,
         [Display(ResourceType = typeof (Resources.Resources), Name = "SixMonth")]
-        SixMonth
+        SixMonth = 3,
+        [Display(Name = "9 Month")]
+        NineMonth = 4,
+        [Display(Name = "12 Month")]
+        TwelveMonth =5
     }
 }
