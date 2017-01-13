@@ -248,7 +248,6 @@
                         @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
                         @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
                         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
-                        @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
                         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
                         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
                         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -264,6 +263,18 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.LoanDeferralType, new { @class = "dealnet-field-caption col-xs-6" })
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @Html.EnumDropDownListFor(m => m.EquipmentInfo.LoanDeferralType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
                             @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
                         }
                         else
@@ -278,18 +289,19 @@
                                     </div>
                                 </div>
                             </div>
-                            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
-                        }
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
-                                <div class="dealnet-field-holder col-xs-6">
-                                    <div class="control-group">
-                                        @Html.EnumDropDownListFor(m => m.EquipmentInfo.DeferralType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.RentalDeferralType, new {@class = "dealnet-field-caption col-xs-6"})
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @Html.EnumDropDownListFor(m => m.EquipmentInfo.RentalDeferralType, null, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
+                            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
+                        }
                         <div class="form-group">
 				            <div class="row">
 				                @Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
@@ -815,7 +827,8 @@
 	    @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
         @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
         @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
-        @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
+        @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
+        @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -1023,7 +1036,8 @@
             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
 	        @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
             @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
-            @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
+            @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
+            @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
             @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
             @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -1142,7 +1156,8 @@
                             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                             @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
                             @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
-                            @Html.HiddenFor(m => m.EquipmentInfo.DeferralType)
+                            @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
+                            @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
                             @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
                             @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
                             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
@@ -1316,9 +1331,19 @@ foreach (var comment in comments)
 			                            </div>
 			                        </div>
 			                    </div>
-			                }
-			                else
-			                {
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.EquipmentInfo.LoanDeferralType, new { @class = "dealnet-field-caption" })
+                                        <div class="dealnet-field-holder">
+                                            <div class="form-control control-disabled">
+                                                @(Model.EquipmentInfo.LoanDeferralType.GetEnumDescription())
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
 			                    <div class="col-md-6">
 			                        <div class="form-group">
 			                            @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new {@class = "dealnet-field-caption"})
@@ -1329,17 +1354,17 @@ foreach (var comment in comments)
 			                            </div>
 			                        </div>
 			                    </div>
-			                }
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.EquipmentInfo.DeferralType, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="form-control control-disabled">
-                                            @(Model.EquipmentInfo.DeferralType.GetEnumDescription())
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.EquipmentInfo.RentalDeferralType, new { @class = "dealnet-field-caption" })
+                                        <div class="dealnet-field-holder">
+                                            <div class="form-control control-disabled">
+                                                @(Model.EquipmentInfo.RentalDeferralType.GetEnumDescription())
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
 			                <div class="col-md-6">
 			                    <div class="form-group">
 			                        @Html.LabelFor(m => m.EquipmentInfo.SalesRep, new {@class = "dealnet-field-caption"})
