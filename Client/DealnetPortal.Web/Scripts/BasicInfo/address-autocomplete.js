@@ -106,7 +106,7 @@ function initGoogleServices() {
                     continue;
                 }
                 if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
-                    document.getElementById('postal_code').value = val;
+                    document.getElementById('postal_code').value = val.replace(/\s+/g, '');
                     $('#postal_code').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
@@ -155,7 +155,7 @@ function initGoogleServices() {
                     continue;
                 }
                 if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
-                    document.getElementById('mailing_postal_code').value = val;
+                    document.getElementById('mailing_postal_code').value = val.replace(/\s+/g, '');
                     $('#mailing_postal_code').removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
@@ -234,7 +234,7 @@ function initGoogleServices() {
                     }
                     if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                         var postalCodeInput = $('#additional-postal_code-' + j);
-                        postalCodeInput.val(val);
+                        postalCodeInput.val(val.replace(/\s+/g, ''));
                         postalCodeInput.removeClass('pac-placeholder').removeClass('placeholder');
                         continue;
                     }
@@ -282,6 +282,9 @@ function autodetectAddress() {
                                             street += " " + val;
                                         }
                                         continue;
+                                    }
+                                    if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
+                                        val = val.replace(/\s+/g, '');
                                     }
                                     if (addressType == 'postal_code_prefix') {
                                         document.getElementById('postal_code').value = val;

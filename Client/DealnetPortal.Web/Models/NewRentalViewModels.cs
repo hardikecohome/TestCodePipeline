@@ -77,8 +77,8 @@ namespace DealnetPortal.Web.Models
         public string Province { get; set; }
         [Required]
         [Display(ResourceType = typeof (Resources.Resources), Name = "PostalCode")]
-        [StringLength(10, MinimumLength = 3)]
-        [RegularExpression(@"^[a-zA-Z0-9]+\s?[a-zA-Z0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PostalCodeIncorrectFormat")]
+        [StringLength(6, MinimumLength = 5)]
+        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PostalCodeIncorrectFormat")]
         public string PostalCode { get; set; }
         [Required]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Residence")]
