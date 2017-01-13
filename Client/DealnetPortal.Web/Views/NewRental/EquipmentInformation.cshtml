@@ -1,4 +1,6 @@
-﻿@using DealnetPortal.Api.Models.Contract
+﻿@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
@@ -236,12 +238,47 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    @{ 
+                        var loanDeferralTypes = Enum.GetValues(typeof(DeferralType))
+                                             .Cast<DeferralType>()
+                                             .Where(e => e == DeferralType.NoDeferral ||
+                                             e == DeferralType.ThreeMonth ||
+                                             e == DeferralType.SixMonth ||
+                                             e == DeferralType.NineMonth ||
+                                             e == DeferralType.TwelveMonth)
+                                             .Select(e => new SelectListItem
+                                             {
+                                                 Value = ((int)e).ToString(),
+                                                 Text = e.GetEnumDescription()
+                                             });
+                    }
+                    <div class="col-md-4 loan-element">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.DeferralType)
+                            @Html.LabelFor(m => m.LoanDeferralType)
                             <div class="control-group">
-                                @Html.EnumDropDownListFor(m => m.DeferralType, null, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.DeferralType, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(m => m.LoanDeferralType, loanDeferralTypes, new {@class = "form-control"})
+                                @Html.ValidationMessageFor(m => m.LoanDeferralType, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    @{
+                        var rentalDeferralTypes = Enum.GetValues(typeof(DeferralType))
+                                             .Cast<DeferralType>()
+                                             .Where(e => e == DeferralType.NoDeferral ||
+                                             e == DeferralType.TwoMonth ||
+                                             e == DeferralType.ThreeMonth)
+                                             .Select(e => new SelectListItem
+                                             {
+                                                 Value = ((int)e).ToString(),
+                                                 Text = e.GetEnumDescription()
+                                             });
+                    }
+                    <div class="col-md-4 rental-element">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.RentalDeferralType)
+                            <div class="control-group">
+                                @Html.DropDownListFor(m => m.RentalDeferralType, rentalDeferralTypes, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.RentalDeferralType, "", new {@class = "text-danger"})
                             </div>
                         </div>
                     </div>

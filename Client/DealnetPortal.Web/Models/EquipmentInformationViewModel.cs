@@ -35,7 +35,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public int? AmortizationTerm { get; set; }
 
         [Display(Name = "Deferral Type")]
-        public DeferralType DeferralType { get; set; }
+        public DeferralType LoanDeferralType { get; set; }
+
+        [Display(Name = "Deferral Type")]
+        public DeferralType RentalDeferralType { get; set; }
 
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Customer Rate is in incorrect format")]
         [Display(Name = "Customer Rate (%)")]
