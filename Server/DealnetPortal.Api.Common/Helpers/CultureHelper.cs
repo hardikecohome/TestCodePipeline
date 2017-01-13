@@ -7,9 +7,29 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Common.Helpers
 {
+    public enum CultureType
+    {
+        English,
+        French
+    }
     public static class CultureHelper
     {
         private const string DefaultCulture = "en";
+
+        public static CultureType CurrentCultureType
+        {
+            get
+            {
+                switch (GetCurrentNeutralCulture())
+                {
+                    case "en":
+                    default:
+                        return CultureType.English;
+                    case "fr":
+                        return CultureType.French;
+                }
+            }
+        }
 
         public static string FilterCulture(string name)
         {
