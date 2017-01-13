@@ -155,9 +155,19 @@
 					                </div>
 					            </div>
 					        </div>
-					    }
-					    else
-					    {
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => contract.EquipmentInfo.LoanDeferralType, new { @class = "dealnet-field-caption col-xs-6" })
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(contract.EquipmentInfo?.LoanDeferralType.GetEnumDescription())
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
 					        <div class="form-group">
 					            <div class="row">
 					                @Html.LabelFor(m => contract.EquipmentInfo.RequestedTerm, new { @class = "dealnet-field-caption col-xs-6" })
@@ -168,17 +178,17 @@
 					                </div>
 					            </div>
 					        </div>
-					    }
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => contract.EquipmentInfo.DeferralType, new { @class = "dealnet-field-caption col-xs-6" })
-                                <div class="dealnet-field-holder col-xs-6">
-                                    <div class="control-group">
-                                        @(contract.EquipmentInfo?.DeferralType.GetEnumDescription())
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => contract.EquipmentInfo.RentalDeferralType, new { @class = "dealnet-field-caption col-xs-6" })
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @(contract.EquipmentInfo?.RentalDeferralType.GetEnumDescription())
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div class="form-group">
 							<div class="row">
                                 @Html.LabelFor(m => contract.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
