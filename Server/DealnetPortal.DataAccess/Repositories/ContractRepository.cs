@@ -600,7 +600,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             else
             {
-                dbEquipment.ValueOfDeal = (double)(dbEquipment.TotalMonthlyPayment*dbEquipment.RequestedTerm);
+                dbEquipment.ValueOfDeal = (double?)(dbEquipment.TotalMonthlyPayment);
             }            
             
             return dbEquipment;
