@@ -36,13 +36,9 @@ namespace DealnetPortal.Api
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            var userLanguages = ((HttpApplication) sender)?.Context?.Request?.UserLanguages;
-            var userLanguage = userLanguages?[0];
-            if (userLanguage != null)
-            {
-                Thread.CurrentThread.CurrentCulture =
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureHelper.FilterCulture(userLanguage));
-            }
+            var userLanguage = ((HttpApplication) sender)?.Context?.Request?.UserLanguages?[0];
+            Thread.CurrentThread.CurrentCulture =
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureHelper.FilterCulture(userLanguage));
         }
     }
 }
