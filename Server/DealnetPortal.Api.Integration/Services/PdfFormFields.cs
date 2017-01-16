@@ -72,6 +72,9 @@ namespace DealnetPortal.Api.Integration.Services
 
         public static string RequestedTerm = "RequestedTerm";
         public static string AmortizationTerm = "AmortizationTerm";
+        public static string DeferralTerm = "DeferralTerm";
+        public static string YesDeferral = "YesDeferral";
+        public static string NoDeferral = "NoDeferral";
 
         public static string EquipmentQuantity = "EquipmentQuantity";
         public static string EquipmentDescription = "EquipmentDescription";
