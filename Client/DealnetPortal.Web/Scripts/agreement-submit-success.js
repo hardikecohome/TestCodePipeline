@@ -11,7 +11,6 @@
         success: function (json) {
         },
         error: function (xhr, status, p3) {
-            alert(xhr.responseText);
         }
     });
 }
