@@ -70,6 +70,19 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<ContractDTO>> GetCompletedContracts()
+        {
+            try
+            {
+                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetCompletedContracts");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts for an user", ex);
+                throw;
+            }
+        }
+
         public async Task<Tuple<IList<ContractDTO>, IList<Alert>>> GetContracts(IEnumerable<int> ids)
         {
             var alerts = new List<Alert>();

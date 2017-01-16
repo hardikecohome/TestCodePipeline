@@ -51,6 +51,14 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetCompletedContracts")]
+        [HttpGet]
+        public IHttpActionResult GetCompletedContracts()
+        {
+            var contracts = ContractService.GetContracts(LoggedInUser.UserId);
+            return Ok(contracts.Where(c => c.ContractState == ContractState.Completed));
+        }
+
         //Get: api/Contract/{contractId}
         [Route("{contractId}")]
         [HttpGet]

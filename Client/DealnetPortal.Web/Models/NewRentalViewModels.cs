@@ -75,8 +75,8 @@ namespace DealnetPortal.Web.Models
         public string Province { get; set; }
         [Required]
         [Display(Name = "Postal Code")]
-        [StringLength(10, MinimumLength = 3)]
-        [RegularExpression(@"^[a-zA-Z0-9]+\s?[a-zA-Z0-9]+$", ErrorMessage = "Postal Code is in incorrect format")]
+        [StringLength(6, MinimumLength = 5)]
+        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Postal Code is in incorrect format")]
         public string PostalCode { get; set; }
         [Required]
         [Display(Name = "Residence")]

@@ -79,7 +79,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
                     continue;
                 }
                 if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
-                    postalCodeInput.value = val;
+                    postalCodeInput.value = val.replace(/\s+/g, '');
                     continue;
                 }
             }
