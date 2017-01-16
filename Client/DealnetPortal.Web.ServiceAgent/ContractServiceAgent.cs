@@ -65,7 +65,8 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get contracts for an user", ex);
-                throw;
+                return new List<ContractDTO>();
+                //throw;
             }
         }
 
