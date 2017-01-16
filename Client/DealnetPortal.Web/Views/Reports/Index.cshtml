@@ -180,7 +180,7 @@
 @section scripts
 {
     <script type="text/javascript">
-        var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+        var itemsUrl = '@Url.Action("GetWorkItems", "Home", new { completedOnly = true })';
         var contractPreviewUrl = '@Url.Action("Contract", "Reports")' + '/';
     </script>
     @Scripts.Render("~/bundles/data-tables-scripts")
