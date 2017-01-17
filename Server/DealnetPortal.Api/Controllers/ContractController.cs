@@ -39,8 +39,24 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetContract()
         {
+            try
+            {            
+                var contracts = ContractService.GetContracts(LoggedInUser.UserId);
+                return Ok(contracts);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts for the User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetCompletedContracts")]
+        [HttpGet]
+        public IHttpActionResult GetCompletedContracts()
+        {
             var contracts = ContractService.GetContracts(LoggedInUser.UserId);
-            return Ok(contracts);
+            return Ok(contracts.Where(c => c.ContractState == ContractState.Completed));
         }
 
         //Get: api/Contract/{contractId}

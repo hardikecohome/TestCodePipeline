@@ -65,6 +65,20 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get contracts for an user", ex);
+                return new List<ContractDTO>();
+                //throw;
+            }
+        }
+
+        public async Task<IList<ContractDTO>> GetCompletedContracts()
+        {
+            try
+            {
+                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetCompletedContracts");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts for an user", ex);
                 throw;
             }
         }

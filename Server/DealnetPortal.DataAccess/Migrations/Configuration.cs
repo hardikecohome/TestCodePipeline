@@ -724,13 +724,35 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (ON) loan agreement August 2016",
                 ExternalDealerName = "fahrhall",
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
             };
-            templates.Add(template);           
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                //EquipmentType = "ECO11",
+                AgreementType = AgreementType.RentalApplicationHwt,
+                TemplateName = "EcoHome Generic Water Heater Agreement",
+                ExternalDealerName = "fahrhall",
+                ExternalTemplateId = "7a543d1a-f581-4f93-9903-decc3db38a99",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "EcoHome (ON) rental HVAC Other Equipment",
+                ExternalDealerName = "fahrhall",
+                ExternalTemplateId = "b89a15e1-77e7-4506-83f6-be23e7272a21",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+            };
+            templates.Add(template);
 
             templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName && at.DealerId == t.DealerId && at.AgreementType == t.AgreementType));
             //context.AgreementTemplates.AddOrUpdate(t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());

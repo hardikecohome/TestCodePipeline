@@ -103,7 +103,14 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (statusWasUpdated)
                 {
-                    _unitOfWork.Save();
+                    try
+                    {
+                        _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService.LogError("Cannot update Aspire deals status", ex);
+                    }                    
                 }
             }
 

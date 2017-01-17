@@ -49,11 +49,15 @@ namespace DealnetPortal.Web.Controllers
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
+                if (contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
+                {
+                    return RedirectToAction("BasicInfo", new { contractId });
+                }
                 if (contractResult.Item1.ContractState == ContractState.CreditContirmed)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
-                if (contractResult.Item1.ContractState == ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
+                if (contractResult.Item1.ContractState == ContractState.Completed)
                 {
                     return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
                 }

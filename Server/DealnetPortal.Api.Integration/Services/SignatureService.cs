@@ -460,9 +460,17 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // if dealer has templates, select one
                 agreementTemplate = dealerTemplates.FirstOrDefault(at =>                
-                (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType)
+                (at.AgreementType == contract.Equipment.AgreementType)
                 && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                 && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
+
+                if (agreementTemplate == null)
+                {
+                    agreementTemplate = dealerTemplates.FirstOrDefault(at =>
+                        (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType)
+                        && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
+                        && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
+                }
 
                 if (agreementTemplate == null)
                 {
@@ -471,9 +479,9 @@ namespace DealnetPortal.Api.Integration.Services
                         && (string.IsNullOrEmpty(province) || at.State == province));
                 }
 
-                if (agreementTemplate == null && agreementType == AgreementType.RentalApplicationHwt)
+                if (agreementTemplate == null)
                 {
-                    agreementTemplate = dealerTemplates.FirstOrDefault(at => (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType));
+                    agreementTemplate = dealerTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
                 }
                 if (agreementTemplate == null)
                 {

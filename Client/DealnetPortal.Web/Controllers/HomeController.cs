@@ -59,9 +59,9 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetWorkItems()
+        public async Task<ActionResult> GetWorkItems(bool? completedOnly)
         {
-            var contracts = (await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.LastUpdateTime).ToList();
+            var contracts = (completedOnly.HasValue && completedOnly.Value ? await _contractServiceAgent.GetCompletedContracts() : await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.LastUpdateTime).ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
 
