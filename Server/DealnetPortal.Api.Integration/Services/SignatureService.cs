@@ -873,6 +873,17 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanBalanceOwing, Value = paySummary.LoanDetails.ResidualBalance.ToString("F", CultureInfo.InvariantCulture) });
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanTotalBorowingCost, Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture) });
                 }
+
+                if (contract.Equipment.DeferralType != DeferralType.NoDeferral)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.YesDeferral, Value = "true" });                    
+                    var defTerm = contract.Equipment.DeferralType.GetPersistentEnumDescription().Split()[0];
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DeferralTerm, Value = defTerm });
+                }
+                else
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.NoDeferral, Value = "true" });
+                }
             }            
         }
 
