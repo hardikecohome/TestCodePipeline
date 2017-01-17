@@ -597,6 +597,15 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                AgreementType = AgreementType.RentalApplicationHwt,
+                TemplateName = "Eco Energy Rental HWT App 4-8-15",
+                ExternalTemplateId = "8d0ad210-99a3-41b7-99f8-8e2f8ec79088",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
+            };
+            templates.Add(template);
 
             template = new AgreementTemplate()
             {

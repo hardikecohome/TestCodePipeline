@@ -136,6 +136,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Repositories\ContractRepositoryTest.cs" />
     <Compile Include="Services\ContractServiceTest.cs" />
+    <Compile Include="Services\QueriesStorageTest.cs" />
     <Compile Include="TrdPartySDKs\MailGunTest.cs" />
     <Compile Include="MappingTest.cs" />
   </ItemGroup>

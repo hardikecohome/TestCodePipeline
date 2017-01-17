@@ -47,6 +47,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
 
+            container.RegisterType<IQueriesStorage, QueriesFileStorage>();
             container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
                 new InjectionConstructor(System.Configuration.ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
             container.RegisterType<IAspireStorageService, AspireStorageService>();
