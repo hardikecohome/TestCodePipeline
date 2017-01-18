@@ -581,11 +581,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 });
             }
 
+            var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
+                   l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
+            var taxRate = GetProvinceTaxRate(provinceCode);
             if (dbEquipment.AgreementType == AgreementType.LoanApplication)
             {
-                var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                    l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
-                var taxRate = GetProvinceTaxRate(provinceCode);
                 var loanCalculatorInput = new LoanCalculator.Input
                 {
                     TaxRate = taxRate?.Rate ?? 0,
@@ -600,7 +600,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             else
             {
-                dbEquipment.ValueOfDeal = (double?)(dbEquipment.TotalMonthlyPayment);
+                dbEquipment.ValueOfDeal = (double?)((dbEquipment.TotalMonthlyPayment ?? 0) + (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(taxRate.Rate / 100));
             }            
             
             return dbEquipment;
