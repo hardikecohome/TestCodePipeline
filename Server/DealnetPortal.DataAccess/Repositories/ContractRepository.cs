@@ -45,12 +45,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     .Include(c => c.Equipment)
                     .Include(c => c.Equipment.ExistingEquipment)
                     .Include(c => c.Equipment.NewEquipment)
+                    .Include(c => c.Documents)
                     .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();
-            contracts.ForEach(c => c.Documents = _dbContext.ContractDocuments.Where(cd => cd.ContractId == c.Id)
-                .Select(cd => new { DocumentTypeId = cd.DocumentTypeId }).ToList().Select(x => new ContractDocument()
-                {
-                    DocumentTypeId = x.DocumentTypeId
-                }).ToList());
             return contracts;
         }
 
