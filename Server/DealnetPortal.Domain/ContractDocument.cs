@@ -18,6 +18,7 @@ namespace DealnetPortal.Domain
 
         public string DocumentName { get; set; }
 
+        [NotMapped]
         public byte[] DocumentBytes { get; set; }
 
         public DateTime CreationDate { get; set; }
