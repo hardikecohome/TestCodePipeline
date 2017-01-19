@@ -503,6 +503,27 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Users.Find(dealerId);            
         }
 
+        public int UpdateSubDealersHierarchyByRelatedTransactions(IEnumerable<string> transactionIds, string ownerUserId)
+        {
+            int updated = 0;
+
+            var dbTransactions =
+                _dbContext.Contracts.Where(c => !string.IsNullOrEmpty(c.Details.TransactionId))
+                    .Select(t => t.Details.TransactionId)
+                    .ToList();
+            dbTransactions = dbTransactions.Intersect(transactionIds).ToList();
+
+            var dealers = _dbContext.Contracts.Where(c => dbTransactions.Any(t => t == c.Details.TransactionId) && (c.Dealer.Id != ownerUserId && c.Dealer.ParentDealerId != ownerUserId))
+                .Select(c => c.Dealer).ToArray();
+            if (dealers?.Any() ?? false)
+            {
+                updated = dealers.Length;
+                dealers.ForEach(d => d.ParentDealerId = ownerUserId);
+            }           
+
+            return updated;
+        }
+
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
         {
             var newEquipments = equipmentInfo.NewEquipment;
