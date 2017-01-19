@@ -738,6 +738,14 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
 
+                if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
+                {
+                    application.UDFs.Add(new UDF()
+                    {
+                        Name = "Dealer Sales Rep",
+                        Value = contract.Equipment.SalesRep
+                    });
+                }
             }
             if (contract.PaymentInfo != null)
             {
@@ -774,6 +782,10 @@ namespace DealnetPortal.Api.Integration.Services
                     var sbd = subDealers?.FirstOrDefault(sd => sd.SubmissionValue == contract.ExternalSubDealerId);
                     if (sbd != null)
                     {
+                        if (application.UDFs == null)
+                        {
+                            application.UDFs = new List<UDF>();
+                        }
                         application.UDFs.Add(new UDF()
                         {
                             Name = sbd.DealerName,
