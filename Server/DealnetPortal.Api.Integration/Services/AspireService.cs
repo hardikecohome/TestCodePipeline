@@ -577,6 +577,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Legalname = contract.Dealer?.Application?.LegalName,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
+                    CreditReleaseObtained = true,
                     Personal = new Personal()
                     {
                         Firstname = c.FirstName,
@@ -585,6 +586,12 @@ namespace DealnetPortal.Api.Integration.Services
                     },
                     UDFs = new List<UDF>()
                     {
+                        new UDF()
+                        {
+
+                            Name = "Lead Source",
+                            Value = "New Portal"
+                        },
                         new UDF()
                         {
 
