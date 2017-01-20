@@ -45,12 +45,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     .Include(c => c.Equipment)
                     .Include(c => c.Equipment.ExistingEquipment)
                     .Include(c => c.Equipment.NewEquipment)
+                    .Include(c => c.Documents)
                     .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();
-            contracts.ForEach(c => c.Documents = _dbContext.ContractDocuments.Where(cd => cd.ContractId == c.Id)
-                .Select(cd => new { DocumentTypeId = cd.DocumentTypeId }).ToList().Select(x => new ContractDocument()
-                {
-                    DocumentTypeId = x.DocumentTypeId
-                }).ToList());
             return contracts;
         }
 
@@ -507,6 +503,27 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Users.Find(dealerId);            
         }
 
+        public int UpdateSubDealersHierarchyByRelatedTransactions(IEnumerable<string> transactionIds, string ownerUserId)
+        {
+            int updated = 0;
+
+            var dbTransactions =
+                _dbContext.Contracts.Where(c => !string.IsNullOrEmpty(c.Details.TransactionId))
+                    .Select(t => t.Details.TransactionId)
+                    .ToList();
+            dbTransactions = dbTransactions.Intersect(transactionIds).ToList();
+
+            var dealers = _dbContext.Contracts.Where(c => dbTransactions.Any(t => t == c.Details.TransactionId) && (c.Dealer.Id != ownerUserId && c.Dealer.ParentDealerId != ownerUserId))
+                .Select(c => c.Dealer).ToArray();
+            if (dealers?.Any() ?? false)
+            {
+                updated = dealers.Length;
+                dealers.ForEach(d => d.ParentDealerId = ownerUserId);
+            }           
+
+            return updated;
+        }
+
         private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
         {
             var newEquipments = equipmentInfo.NewEquipment;
@@ -581,11 +598,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 });
             }
 
+            var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
+                   l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
+            var taxRate = GetProvinceTaxRate(provinceCode);
             if (dbEquipment.AgreementType == AgreementType.LoanApplication)
             {
-                var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                    l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
-                var taxRate = GetProvinceTaxRate(provinceCode);
                 var loanCalculatorInput = new LoanCalculator.Input
                 {
                     TaxRate = taxRate?.Rate ?? 0,
@@ -600,7 +617,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             else
             {
-                dbEquipment.ValueOfDeal = (double)(dbEquipment.TotalMonthlyPayment*dbEquipment.RequestedTerm);
+                dbEquipment.ValueOfDeal = (double?)((dbEquipment.TotalMonthlyPayment ?? 0) + (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(taxRate.Rate / 100));
             }            
             
             return dbEquipment;

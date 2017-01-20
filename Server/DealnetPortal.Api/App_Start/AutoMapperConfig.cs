@@ -29,7 +29,7 @@ namespace DealnetPortal.Api.App_Start
         private static void MapDomainsToModels(IMapperConfigurationExpression mapperConfig)
         {
             mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
-                .ForMember(x => x.SubDealers, o => o.MapFrom(src => src.SubDealers))
+                .ForMember(x => x.SubDealers, o => o.Ignore())
                 .ForMember(x => x.UdfSubDealers, d => d.Ignore());
             mapperConfig.CreateMap<Location, LocationDTO>();
             mapperConfig.CreateMap<Phone, PhoneDTO>()
