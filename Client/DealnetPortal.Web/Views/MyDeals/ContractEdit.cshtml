@@ -206,6 +206,29 @@
 		</div>
 	</div>
 	<hr>
+	<div class="indicate-doc-status form-section">
+		<div class="descr-hold">
+			<div class="hidden">
+				If all needed documents for contract were uploaded, please, send report
+			</div>
+			<div class="well danger-well error-descr ">
+				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+				You need to upload more documents and confirm again
+			</div>
+			<div class="hidden">
+				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+				Deal submitted for audit
+			</div>
+			<div class="well success-well hidden">
+				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+				All documents are checked
+			</div>
+		</div>
+		<div class="btn-hold">
+			<button class="btn dealnet-button dealnet-success-button">Send Report</button>
+		</div>
+	</div>
+	<hr>
 	<div class="form-section">
 	    @if (Model.BasicInfo.SubDealers?.Any() ?? false)
         {
