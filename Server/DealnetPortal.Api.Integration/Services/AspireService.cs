@@ -566,7 +566,8 @@ namespace DealnetPortal.Api.Integration.Services
             const string GuarRole = "GUAR";
 
             var accounts = new List<Account>();
-            //InitRequestPayload(request);            
+            //InitRequestPayload(request);     
+            var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];            
 
             Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
             {
@@ -585,27 +586,28 @@ namespace DealnetPortal.Api.Integration.Services
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     },
                     UDFs = new List<UDF>()
-                    {
-                        new UDF()
-                        {
-
-                            Name = "Lead Source",
-                            Value = "New Portal"
-                        },
+                    {                        
                         new UDF()
                         {
 
                             Name = "Authorized Consent",
                             Value = "Y"
-                        },
-                        //new UDF()
-                        //{
-
-                        //    Name = "Existing Customer",
-                        //    Value = string.IsNullOrEmpty(c.AccountId) ? "N" : "Y" // ???
-                        //}
+                        }                        
                     }
-                };            
+                };
+
+                if (!string.IsNullOrEmpty(portalDescriber))
+                {
+                    if (account.UDFs == null)
+                    {
+                        account.UDFs = new List<UDF>();
+                    }
+                    account.UDFs.Add(new UDF()
+                    {
+                        Name = "Lead Source",
+                        Value = portalDescriber
+                    });
+                }
 
                 if (c.Locations?.Any() ?? false)
                 {
