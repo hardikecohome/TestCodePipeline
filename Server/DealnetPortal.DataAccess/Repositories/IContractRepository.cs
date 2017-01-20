@@ -168,5 +168,13 @@ namespace DealnetPortal.DataAccess.Repositories
 
         ApplicationUser GetDealer(string dealerId);
 
+        /// <summary>
+        /// Update Dealer-SubDealers hierarchy by array of related transactions
+        /// </summary>
+        /// <param name="transactionIds">array of transactions Ids related to dealer</param>
+        /// <param name="ownerUserId"></param>
+        /// <returns>number of updated sub-dealers</returns>
+        int UpdateSubDealersHierarchyByRelatedTransactions(IEnumerable<string> transactionIds, string ownerUserId);
+
     }
 }
