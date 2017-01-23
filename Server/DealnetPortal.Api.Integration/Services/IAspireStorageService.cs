@@ -12,9 +12,11 @@ namespace DealnetPortal.Api.Integration.Services
     {
         IList<DropDownItem> GetGenericFieldValues();
 
-        IList<GenericSubDealer> GetSubDealersList(string dealerName);
+        IList<GenericSubDealer> GetSubDealersList(string dealerUserName);
 
-        IList<ContractDTO> GetDealerDeals(string dealerName);
+        IList<ContractDTO> GetDealerDeals(string dealerUserName);
+
+        CustomerDTO GetDealerInfo(string dealerUserName);
 
         ContractDTO GetDealById(int transactionId);
 
@@ -22,6 +24,6 @@ namespace DealnetPortal.Api.Integration.Services
 
         CustomerDTO FindCustomer(CustomerDTO customer);
 
-        CustomerDTO FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode);
+        CustomerDTO FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode);        
     }
 }

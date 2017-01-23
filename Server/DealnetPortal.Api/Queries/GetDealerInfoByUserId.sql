@@ -1,4 +1,4 @@
-﻿SELECT e.entt_id, e.fname, e.lname, e.date_of_birth, e.email_addr, 
+﻿SELECT e.entt_id, e.name, e.fname, e.lname, e.date_of_birth, e.email_addr, 
 		                                    l.postal_code, l.city, l.state, l.postal_code, l.addr_line1,
 		                                    p.phone_num
 FROM Entity (nolock) as e
