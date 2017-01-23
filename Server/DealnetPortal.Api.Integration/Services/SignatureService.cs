@@ -650,7 +650,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = fstEq.Cost.ToString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString() });
                 //formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
 
                 var othersEq = new List<NewEquipment>();
@@ -853,6 +853,16 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
+                if (contract.Equipment.NewEquipment.First().EstimatedInstallationDate.HasValue)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.InstallDate,
+                        Value =
+                            contract.Equipment.NewEquipment.First().EstimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                    });
+                }
             }
             if (contract.Equipment != null)
             {
@@ -888,7 +898,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.NoDeferral, Value = "true" });
-                }
+                }                
             }            
         }
 

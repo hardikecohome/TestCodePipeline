@@ -80,6 +80,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EquipmentDescription = "EquipmentDescription";
         public static string EquipmentCost = "EquipmentCost";
 
+        public static string InstallDate = "InstallDate";
+
         //Payment Fields
         public static string EnbridgeAccountNumber = "EnbridgeAccountNumber";
         public static string Ean = "EAN";
