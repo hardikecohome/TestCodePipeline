@@ -301,6 +301,27 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> SubmitAllDocumentsUploadedRequest(int contractId)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                return await Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/SubmitAllDocumentsUploadedRequest?contractId={contractId}", "");              
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = $"Can't submit All Documents UploadedRequest",
+                    Message = ex.Message
+                });
+                _loggingService.LogError($"Can't submit All Documents UploadedRequest", ex);
+            }
+            return new List<Alert>(alerts);
+        }
+
         public async Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment)
         {
             try

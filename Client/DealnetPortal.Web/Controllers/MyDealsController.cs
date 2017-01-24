@@ -104,5 +104,13 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitAllDocumentsUploadedRequest(int contractId)
+        {
+            var submitResult = await _contractServiceAgent.SubmitAllDocumentsUploadedRequest(contractId);
+            return submitResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
     }
 }

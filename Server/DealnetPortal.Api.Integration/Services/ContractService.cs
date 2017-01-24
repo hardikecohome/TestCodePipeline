@@ -114,6 +114,13 @@ namespace DealnetPortal.Api.Integration.Services
                         if (contract.Details.Status != aspireDeal.Details.Status)
                         {
                             contract.Details.Status = aspireDeal.Details.Status;
+                            var aspireStatus = _contractRepository.GetAspireStatus(aspireDeal.Details.Status);
+                            if (aspireStatus != null && !aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                            contract.ContractState == ContractState.SentToAudit)
+                            {
+                                contract.ContractState = ContractState.Completed;
+                                contract.LastUpdateTime = DateTime.Now;
+                            }
                             statusWasUpdated = true;
                         }
                     }
@@ -910,6 +917,32 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        public async Task<IList<Alert>> SubmitAllDocumentsUploadedRequest(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                //run aspire upload async
+                var aspireAlerts =  await _aspireService.SubmitAllDocumentsUploadedRequest(contractId, contractOwnerId);
+                //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
+                if (aspireAlerts?.Any() ?? false)
+                {
+                    alerts.AddRange(aspireAlerts);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to submit All Documents Uploaded Request", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Failed to submit All Documents Uploaded Request",
+                    Message = ex.ToString()
+                });
+            }
+            return new List<Alert>(alerts);
         }
     }
 }

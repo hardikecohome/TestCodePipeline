@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using AutoMapper;
@@ -185,6 +186,21 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = ContractService.RemoveContractDocument(documentId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("SubmitAllDocumentsUploadedRequest")]
+        [HttpPost]
+        public async Task<IHttpActionResult> SubmitAllDocumentsUploadedRequest(int contractId)
+        {
+            try
+            {
+                var result = await ContractService.SubmitAllDocumentsUploadedRequest(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)

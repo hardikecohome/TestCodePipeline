@@ -208,27 +208,32 @@
 	<hr>
 	<div class="indicate-doc-status form-section">
 		<div class="descr-hold">
-			<div class="hidden">
+			<div class="before-all-documents-submitted">
 				If all needed documents for contract were uploaded, please, send report
 			</div>
-			<div class="well danger-well error-descr ">
+			<div class="well danger-well error-descr collapse before-all-documents-submitted">
 				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
 				You need to upload more documents and confirm again
 			</div>
-			<div class="hidden">
+			<div class="collapse" id="all-documents-submitted-message">
 				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
 				Deal submitted for audit
 			</div>
-			<div class="well success-well hidden">
+			<div class="well success-well collapse before-all-documents-submitted">
 				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
 				All documents are checked
 			</div>
 		</div>
 		<div class="btn-hold">
-			<button class="btn dealnet-button dealnet-success-button">Send Report</button>
+			<button class="btn dealnet-button dealnet-success-button" id="send-all-documents-report">Send Report</button>
 		</div>
 	</div>
-	<hr>
+    @using (Html.BeginForm("SubmitAllDocumentsUploadedRequest", "MyDeals", FormMethod.Post, new { id = "all-documents-uploaded-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("contractId", Model.BasicInfo.ContractId)
+    }
+    <hr>
 	<div class="form-section">
 	    @if (Model.BasicInfo.SubDealers?.Any() ?? false)
         {

@@ -339,6 +339,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.ProvinceTaxRates.ToList();
         }
 
+        public AspireStatus GetAspireStatus(string status)
+        {
+            return _dbContext.AspireStatuses.FirstOrDefault(x => x.Status == status);
+        }
+
         public decimal GetContractTotalMonthlyPayment(int contractId)
         {
             decimal totalMp = 0.0M;

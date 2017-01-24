@@ -45,6 +45,8 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<ProvinceTaxRate> ProvinceTaxRates { get; set; }
 
+        public virtual DbSet<AspireStatus> AspireStatuses { get; set; }
+
         public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
         public virtual DbSet<Comment> Comments { get; set; }

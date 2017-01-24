@@ -232,6 +232,22 @@
             fileInput.change(submitOtherDocument);
             fileInput.change();
         });
+
+        $('#send-all-documents-report').on('click', function () {
+            $('#all-documents-uploaded-form').ajaxSubmit({
+                method: 'post',
+                success: function (result) {
+                    if (result.isSuccess) {
+                        $('.before-all-documents-submitted').hide();
+                        $('#all-documents-submitted-message').show();
+                    } else if (result.isError) {
+                        alert('An error occurred while sending report');
+                    }
+                },
+                error: function () {
+                }
+            });
+        });
 	});
 
 function generateGuid() {
