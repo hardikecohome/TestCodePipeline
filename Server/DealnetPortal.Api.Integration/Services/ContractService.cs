@@ -310,15 +310,20 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, string contractOwnerId)
+        public Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string contractOwnerId)
         {
-            return _signatureService.CheckPrintAgreementAvailable(contractId, contractOwnerId).GetAwaiter().GetResult();
+            return _signatureService.CheckPrintAgreementAvailable(contractId, documentTypeId, contractOwnerId).GetAwaiter().GetResult();
         }
 
         public Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId)
         {
             return _signatureService.GetPrintAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
         }
+
+        public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId)
+        {
+            return _signatureService.GetInstallCertificate(contractId, contractOwnerId).GetAwaiter().GetResult();
+        }        
 
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)
         {

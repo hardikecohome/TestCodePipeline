@@ -229,7 +229,37 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = ContractService.CheckPrintAgreementAvailable(contractId, LoggedInUser?.UserId);
+                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetContractAgreement")]
+        [HttpGet]
+        public IHttpActionResult GetInstallationCertificate(int contractId)
+        {
+            try
+            {
+                var result = ContractService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("CheckContractAgreementAvailable")]
+        [HttpGet]
+        public IHttpActionResult CheckInstallationCertificateAvailable(int contractId)
+        {
+            try
+            {
+                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)

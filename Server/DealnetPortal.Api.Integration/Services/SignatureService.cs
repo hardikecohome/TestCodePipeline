@@ -176,7 +176,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, string ownerUserId)
+        public async Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string ownerUserId)
         {
             bool isAvailable = false;
             List<Alert> alerts = new List<Alert>();
@@ -186,7 +186,9 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract != null)
             {
                 //Check is pdf template in db. In this case we insert fields on place
-                var agrRes = SelectAgreementTemplate(contract, ownerUserId);
+                var agrRes = documentTypeId != (int) DocumentTemplateType.SignedInstallationCertificate
+                    ? SelectAgreementTemplate(contract, ownerUserId)
+                    : SelectInstallCertificateTemplate(contract, ownerUserId);
                 if (agrRes?.Item1?.AgreementForm != null)
                 {
                     isAvailable = true;
@@ -284,6 +286,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
             LogAlerts(alerts);
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
+        }
+
+        public Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId, string ownerUserId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId)
@@ -450,11 +457,11 @@ namespace DealnetPortal.Api.Integration.Services
                 contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
 
             var dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
-                (at.DealerId == contractOwnerId));
+                (at.DealerId == contractOwnerId) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
             if (!string.IsNullOrEmpty(contract.ExternalSubDealerName))
             {
                 var extTemplates = _fileRepository.FindAgreementTemplates(at =>
-                    (at.ExternalDealerName == contract.ExternalSubDealerName));
+                    (at.ExternalDealerName == contract.ExternalSubDealerName) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
                 extTemplates?.ForEach(et => dealerTemplates.Add(et));
             }
             
@@ -496,7 +503,7 @@ namespace DealnetPortal.Api.Integration.Services
             else
             {
                 //otherwise select any common template
-                var commonTemplates = _fileRepository.FindAgreementTemplates(at => string.IsNullOrEmpty(at.DealerId));
+                var commonTemplates = _fileRepository.FindAgreementTemplates(at => string.IsNullOrEmpty(at.DealerId) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
                 if (commonTemplates?.Any() ?? false)
                 {
                     agreementTemplate = commonTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
@@ -526,6 +533,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return new Tuple<AgreementTemplate, IList<Alert>>(agreementTemplate, alerts);
+        }
+
+        private Tuple<AgreementTemplate, IList<Alert>> SelectInstallCertificateTemplate(Contract contract, string contractOwnerId)
+        {
+            throw new NotImplementedException();            
         }
 
         private bool LogoutFromService()

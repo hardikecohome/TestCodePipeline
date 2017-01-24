@@ -32,7 +32,9 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId);
 
-        Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, string contractOwnerId);
+        Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string contractOwnerId);
+
+        Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId);
 
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
 

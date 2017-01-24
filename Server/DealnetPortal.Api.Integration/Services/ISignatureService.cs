@@ -26,9 +26,11 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId);
 
-        Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, string ownerUserId);
+        Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string ownerUserId);
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintAgreement(int contractId, string ownerUserId);
+
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId, string ownerUserId);
 
         IList<Alert> GetSignatureResults(int contractId, string ownerUserId);
 
