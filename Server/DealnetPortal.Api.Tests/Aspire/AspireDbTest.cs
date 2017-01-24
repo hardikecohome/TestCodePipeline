@@ -15,6 +15,7 @@ namespace DealnetPortal.Api.Tests.Aspire
     public class AspireDbTest
     {
         private IAspireStorageService _aspireStorageService;
+        private Mock<IQueriesStorage> _queriesStorageMock;
         private IDatabaseService _databaseService;
         private Mock<ILoggingService> _loggingServiceMock;
 
@@ -22,8 +23,9 @@ namespace DealnetPortal.Api.Tests.Aspire
         public void Intialize()
         {
             _loggingServiceMock = new Mock<ILoggingService>();
-            _databaseService = new MsSqlDatabaseService(ConfigurationManager.ConnectionStrings["AspireConnection"]?.ConnectionString);                
-            _aspireStorageService = new AspireStorageService(_databaseService, _loggingServiceMock.Object);
+            _databaseService = new MsSqlDatabaseService(ConfigurationManager.ConnectionStrings["AspireConnection"]?.ConnectionString);
+            _queriesStorageMock = new Mock<IQueriesStorage>();
+            _aspireStorageService = new AspireStorageService(_databaseService, _queriesStorageMock.Object, _loggingServiceMock.Object);
         }
 
         [TestMethod]
