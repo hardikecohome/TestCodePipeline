@@ -265,15 +265,36 @@ function documentsColHeight(){
 function navigateToStep(targetLink){
   var url = targetLink.attr('href');
   var stepName = targetLink.text();
+  var data = {
+    message: "If you change Home Owner Information you will have to pass Credit Check step again",
+    title: 'Navigate to step '+stepName+'?',
+    confirmBtnText: 'Go to Step '+stepName
+  };
+  dynamicAlertModal(data);
 
-  var message = "If you change Home Owner Information you will have to pass Credit Check step again"
-  $('#alertModal').find('.modal-body p').html(message);
-  $('#alertModal').find('.modal-title').html('Navigate to step '+stepName+'?');
-  $('#alertModal').find('#confirmAlert').html('Go to Step '+stepName);
-  $('#alertModal').modal('show');
   $('#confirmAlert').on('click', function(){
     window.location.href = url;
   });
+}
+
+function auditConfirmModal(){
+  var data = {
+    class: "audit-alert-modal",
+    message: "If you send documents to audit you won't have possibility to make some changes in this contract or upload any document",
+    title: "Send to Audit?",
+    confirmBtnText: "Proceed"
+  };
+  dynamicAlertModal(data);
+}
+
+function dynamicAlertModal(obj){
+  var classes = obj.class ? obj.class : '';
+
+  $('#alertModal').find('.modal-body p').html(obj.message);
+  $('#alertModal').find('.modal-title').html(obj.title);
+  $('#alertModal').find('#confirmAlert').html(obj.confirmBtnText);
+  $('#alertModal').addClass(classes);
+  $('#alertModal').modal('show');
 }
 
 function detectPageHeight(){
