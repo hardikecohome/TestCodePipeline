@@ -194,13 +194,13 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("SubmitAllDocumentsUploadedRequest")]
+        [Route("SubmitAllDocumentsUploaded")]
         [HttpPost]
-        public async Task<IHttpActionResult> SubmitAllDocumentsUploadedRequest(int contractId)
+        public async Task<IHttpActionResult> SubmitAllDocumentsUploaded(int contractId)
         {
             try
             {
-                var result = await ContractService.SubmitAllDocumentsUploadedRequest(contractId, LoggedInUser?.UserId);
+                var result = await ContractService.SubmitAllDocumentsUploaded(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)

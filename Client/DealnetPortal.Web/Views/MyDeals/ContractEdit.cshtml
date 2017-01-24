@@ -228,7 +228,7 @@
 			<button class="btn dealnet-button dealnet-success-button" id="send-all-documents-report">Send Report</button>
 		</div>
 	</div>
-    @using (Html.BeginForm("SubmitAllDocumentsUploadedRequest", "MyDeals", FormMethod.Post, new { id = "all-documents-uploaded-form" }))
+    @using (Html.BeginForm("SubmitAllDocumentsUploaded", "MyDeals", FormMethod.Post, new { id = "all-documents-uploaded-form" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("contractId", Model.BasicInfo.ContractId)

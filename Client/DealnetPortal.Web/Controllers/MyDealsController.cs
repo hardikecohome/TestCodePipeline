@@ -107,9 +107,9 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitAllDocumentsUploadedRequest(int contractId)
+        public async Task<ActionResult> SubmitAllDocumentsUploaded(int contractId)
         {
-            var submitResult = await _contractServiceAgent.SubmitAllDocumentsUploadedRequest(contractId);
+            var submitResult = await _contractServiceAgent.SubmitAllDocumentsUploaded(contractId);
             return submitResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
     }

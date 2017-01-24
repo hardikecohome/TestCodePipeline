@@ -45,7 +45,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> RemoveContractDocument(int documentId, string contractOwnerId);
 
-        Task<IList<Alert>> SubmitAllDocumentsUploadedRequest(int contractId, string contractOwnerId);
+        Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
 
         Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();        
 

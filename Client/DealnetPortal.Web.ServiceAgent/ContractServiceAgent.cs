@@ -301,13 +301,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> SubmitAllDocumentsUploadedRequest(int contractId)
+        public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId)
         {
             var alerts = new List<Alert>();
             try
             {
                 return await Client.PostAsync<string, IList<Alert>>(
-                            $"{_fullUri}/SubmitAllDocumentsUploadedRequest?contractId={contractId}", "");              
+                            $"{_fullUri}/SubmitAllDocumentsUploaded?contractId={contractId}", "");              
             }
             catch (Exception ex)
             {

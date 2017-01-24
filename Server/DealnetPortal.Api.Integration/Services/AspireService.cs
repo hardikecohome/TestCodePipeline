@@ -431,7 +431,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SubmitAllDocumentsUploadedRequest(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
 

@@ -341,7 +341,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public AspireStatus GetAspireStatus(string status)
         {
-            return _dbContext.AspireStatuses.FirstOrDefault(x => x.Status == status);
+            return _dbContext.AspireStatuses.FirstOrDefault(x => x.Status.Contains(status.Trim()));
         }
 
         public decimal GetContractTotalMonthlyPayment(int contractId)

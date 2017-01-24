@@ -115,11 +115,20 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             contract.Details.Status = aspireDeal.Details.Status;
                             var aspireStatus = _contractRepository.GetAspireStatus(aspireDeal.Details.Status);
-                            if (aspireStatus != null && !aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                            contract.ContractState == ContractState.SentToAudit)
+                            if (aspireStatus != null)
                             {
-                                contract.ContractState = ContractState.Completed;
-                                contract.LastUpdateTime = DateTime.Now;
+                                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                                    contract.ContractState == ContractState.SentToAudit)
+                                {
+                                    contract.ContractState = ContractState.Completed;
+                                    contract.LastUpdateTime = DateTime.Now;
+                                }
+                                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                                         contract.ContractState != ContractState.SentToAudit)
+                                {
+                                    contract.ContractState = ContractState.SentToAudit;
+                                    contract.LastUpdateTime = DateTime.Now;
+                                }
                             }
                             statusWasUpdated = true;
                         }
@@ -919,13 +928,13 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SubmitAllDocumentsUploadedRequest(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
             try
             {
                 //run aspire upload async
-                var aspireAlerts =  await _aspireService.SubmitAllDocumentsUploadedRequest(contractId, contractOwnerId);
+                var aspireAlerts =  await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
                 //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 if (aspireAlerts?.Any() ?? false)
                 {
