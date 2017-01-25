@@ -288,49 +288,58 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
-        public Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string ownerUserId)
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string ownerUserId)
         {
             List<Alert> alerts = new List<Alert>();
             AgreementDocument document = null;
 
             // Get contract
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            var contract = _contractRepository.GetContractAsUntracked(installationCertificateData.ContractId, ownerUserId);
             if (contract != null)
             {
-                //check is agreement created
-                if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
+                //Check is pdf template in db. In this case we insert fields on place
+                var agrRes = SelectInstallCertificateTemplate(contract, ownerUserId);
+                if (agrRes?.Item1?.AgreementForm != null)
                 {
-                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
-                    if (logRes.Any(a => a.Type == AlertType.Error))
-                    {
-                        LogAlerts(alerts);
-                        return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
-                    }
+                    MemoryStream ms = new MemoryStream(agrRes.Item1.AgreementForm, true);
 
-                    _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                    _signatureEngine.DocumentId = contract.Details.SignatureDocumentId;
+                    var fields = new List<FormField>();
+                    FillHomeOwnerFields(fields, contract);
+                    FillApplicantsFields(fields, contract);
+                    FillEquipmentFields(fields, contract, ownerUserId);
+                    FillDealerFields(fields, contract);   
+                    FillInstallCertificateFields(fields, installationCertificateData);
+
+                    var insertRes = _pdfEngine.InsertFormFields(ms, fields);
+                    if (insertRes?.Item2?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes.Item2);
+                    }
+                    if (insertRes?.Item1 != null)
+                    {
+                        var buf = new byte[insertRes.Item1.Length];
+                        await insertRes.Item1.ReadAsync(buf, 0, (int)insertRes.Item1.Length);
+                        document = new AgreementDocument()
+                        {
+                            DocumentRaw = buf,
+                            Name = agrRes.Item1.TemplateName
+                        };
+                    }
                 }
                 else
                 {
-                    // create draft agreement
-                    var createAlerts = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
-                    //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
-                    if (createAlerts.Any())
+                    var errorMsg = $"Cannot find installation certificate template for contract [{installationCertificateData.ContractId}]";
+                    alerts.Add(new Alert()
                     {
-                        alerts.AddRange(createAlerts);
-                    }
-                }
-
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Draft).ConfigureAwait(false);
-                document = docResult.Item1;
-                if (docResult.Item2.Any())
-                {
-                    alerts.AddRange(docResult.Item2);
-                }
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Message = errorMsg
+                    });
+                }                
             }
             else
             {
-                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                var errorMsg = $"Can't get contract [{installationCertificateData.ContractId}] for processing";
                 alerts.Add(new Alert()
                 {
                     Code = ErrorCodes.CantGetContractFromDb,
@@ -338,7 +347,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Header = "eSignature error",
                     Message = errorMsg
                 });
-                _loggingService.LogError(errorMsg);
             }
             LogAlerts(alerts);
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
@@ -588,7 +596,14 @@ namespace DealnetPortal.Api.Integration.Services
 
         private Tuple<AgreementTemplate, IList<Alert>> SelectInstallCertificateTemplate(Contract contract, string contractOwnerId)
         {
-            throw new NotImplementedException();            
+            var alerts = new List<Alert>();
+            AgreementTemplate agreementTemplate = null;
+
+            var dealerCertificates = _fileRepository.FindAgreementTemplates(at =>
+                (at.DealerId == contractOwnerId) && (at.DocumentTypeId == (int)DocumentTemplateType.SignedInstallationCertificate));
+            
+
+            return new Tuple<AgreementTemplate, IList<Alert>>(agreementTemplate, alerts);
         }
 
         private bool LogoutFromService()
@@ -1048,6 +1063,11 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError("Cannot get dealer info from Aspire");
                 }
             }            
+        }
+
+        private void FillInstallCertificateFields(List<FormField> formFields, InstallationCertificateDataDTO installationCertificateData)
+        {
+            
         }
     }
 }

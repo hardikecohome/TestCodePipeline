@@ -260,7 +260,11 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = ContractService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
+                if (installationCertificateData == null)
+                {
+                    throw new ArgumentNullException(nameof(installationCertificateData));
+                }
+                var result = ContractService.GetInstallCertificate(installationCertificateData, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
