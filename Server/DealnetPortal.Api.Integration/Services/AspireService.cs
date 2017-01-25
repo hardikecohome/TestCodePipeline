@@ -431,6 +431,90 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract != null)
+            {
+                var request = new DocumentUploadRequest();
+
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = userResult.Item1;
+
+                    try
+                    {
+                        request.Payload = new DocumentUploadPayload()
+                        {
+                            TransactionId = contract.Details.TransactionId,
+                            Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
+                        };
+
+                        //TODO:
+                        request.Payload.Documents = new List<Document>()
+                        {
+                            new Document()
+                        };
+
+                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+                        var rAlerts = AnalyzeResponse(docUploadResponse, contract);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
+
+                        if (contract.ContractState != ContractState.SentToAudit)
+                        {
+                            alerts.Add(new Alert()
+                            {
+                                Header = "Deal wasn't sent to audit",
+                                Message = $"Deal wasn't sent to audit for contract with id {contractId}",
+                                Type = AlertType.Error
+                            });
+                            _loggingService.LogError($"Deal wasn't sent to audit for contract with id {contractId}");
+                        }
+
+                        if (rAlerts.All(a => a.Type != AlertType.Error))
+                        {
+                            _loggingService.LogInfo($"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Can't upload document",
+                            Message = ex.ToString(),
+                            Type = AlertType.Error
+                        });
+                        _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            return alerts;
+        }
+
         public async Task<IList<Alert>> LoginUser(string userName, string password)
         {
             var alerts = new List<Alert>();
@@ -854,6 +938,13 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.Details.Status != response.Payload.ContractStatus)
                     {
                         contract.Details.Status = response.Payload.ContractStatus;
+                        var aspireStatus = _contractRepository.GetAspireStatus(response.Payload.ContractStatus);
+                        if (aspireStatus != null && aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                            contract.ContractState != ContractState.SentToAudit)
+                        {
+                            contract.ContractState = ContractState.SentToAudit;
+                            contract.LastUpdateTime = DateTime.Now;
+                        }
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Contract [{contract.Id}] state was changed to [{response.Payload.ContractStatus}]");
                     }
