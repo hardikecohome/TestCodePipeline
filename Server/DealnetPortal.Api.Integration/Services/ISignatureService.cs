@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 
@@ -30,7 +31,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintAgreement(int contractId, string ownerUserId);
 
-        Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId, string ownerUserId);
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string ownerUserId);
 
         IList<Alert> GetSignatureResults(int contractId, string ownerUserId);
 

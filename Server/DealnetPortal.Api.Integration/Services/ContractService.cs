@@ -320,9 +320,9 @@ namespace DealnetPortal.Api.Integration.Services
             return _signatureService.GetPrintAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
         }
 
-        public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId)
+        public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId)
         {
-            return _signatureService.GetInstallCertificate(contractId, contractOwnerId).GetAwaiter().GetResult();
+            return _signatureService.GetInstallCertificate(installationCertificateData, contractOwnerId).GetAwaiter().GetResult();
         }        
 
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)

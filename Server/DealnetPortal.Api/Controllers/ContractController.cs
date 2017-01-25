@@ -240,7 +240,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("GetContractAgreement")]
         [HttpGet]
-        public IHttpActionResult GetInstallationCertificate(int contractId)
+        public IHttpActionResult GetInstallationCertificate(InstallationCertificateDataDTO installationCertificateData)
         {
             try
             {
@@ -253,7 +253,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CheckContractAgreementAvailable")]
+        [Route("CheckInstallationCertificateAvailable")]
         [HttpGet]
         public IHttpActionResult CheckInstallationCertificateAvailable(int contractId)
         {
