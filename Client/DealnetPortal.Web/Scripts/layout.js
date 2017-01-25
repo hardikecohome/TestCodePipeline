@@ -31,6 +31,10 @@
         }
       });
 
+      $('#alertModal').on('hidden.bs.modal', function () {
+          $('#confirmAlert').off('click');
+      });
+
       $('.navbar-toggle').click(function(){
         if($('.navbar-collapse').attr('aria-expanded') === 'false'){
           saveScrollPosition();
@@ -277,24 +281,19 @@ function navigateToStep(targetLink){
   });
 }
 
-function auditConfirmModal(){
-  var data = {
-    class: "audit-alert-modal",
-    message: "If you send documents to audit you won't have possibility to make some changes in this contract or upload any document",
-    title: "Send to Audit?",
-    confirmBtnText: "Proceed"
-  };
-  dynamicAlertModal(data);
-}
-
 function dynamicAlertModal(obj){
   var classes = obj.class ? obj.class : '';
+    var alertModal = $('#alertModal');
+    alertModal.find('.modal-body p').html(obj.message);
+    alertModal.find('.modal-title').html(obj.title);
+    alertModal.find('#confirmAlert').html(obj.confirmBtnText);
+    alertModal.addClass(classes);
+    alertModal.modal('show');
+}
 
-  $('#alertModal').find('.modal-body p').html(obj.message);
-  $('#alertModal').find('.modal-title').html(obj.title);
-  $('#alertModal').find('#confirmAlert').html(obj.confirmBtnText);
-  $('#alertModal').addClass(classes);
-  $('#alertModal').modal('show');
+function hideDynamicAlertModal() {
+    $('#alertModal').modal('hide');
+    $('#confirmAlert').off('click');
 }
 
 function detectPageHeight(){
