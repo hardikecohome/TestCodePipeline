@@ -80,6 +80,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EquipmentDescription = "EquipmentDescription";
         public static string EquipmentCost = "EquipmentCost";
 
+        public static string InstallDate = "InstallDate";
+
         //Payment Fields
         public static string EnbridgeAccountNumber = "EnbridgeAccountNumber";
         public static string Ean = "EAN";
@@ -87,5 +89,11 @@ namespace DealnetPortal.Api.Integration.Services
         public static string IsPAD = "IsPAD";
         public static string IsPAD1 = "IsPAD1";
         public static string IsPAD15 = "IsPAD15";
+
+        //Dealer and SalesRep fields
+        public static string SalesRep = "SalesRep";
+        public static string DealerName = "DealerName";
+        public static string DealerAddress = "DealerAddress";
+        public static string DealerPhone = "DealerPhone";
     }
 }

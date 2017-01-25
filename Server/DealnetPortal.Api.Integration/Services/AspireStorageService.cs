@@ -45,12 +45,12 @@ namespace DealnetPortal.Api.Integration.Services
             return list;
         }
 
-        public IList<GenericSubDealer> GetSubDealersList(string dealerName)
+        public IList<GenericSubDealer> GetSubDealersList(string dealerUserName)
         {           
             string sqlStatement = _queriesStorage.GetQuery("GetSubDealers");
             if (!string.IsNullOrEmpty(sqlStatement))
             {
-                sqlStatement = string.Format(sqlStatement, dealerName);
+                sqlStatement = string.Format(sqlStatement, dealerUserName);
                 var list = GetListFromQuery(sqlStatement, _databaseService, ReadSubDealerItem);
                 return list;
             }
@@ -61,12 +61,12 @@ namespace DealnetPortal.Api.Integration.Services
             return new List<GenericSubDealer>();
         }
 
-        public IList<ContractDTO> GetDealerDeals(string dealerName)
+        public IList<ContractDTO> GetDealerDeals(string dealerUserName)
         {
             string sqlStatement = _queriesStorage.GetQuery("GetDealerDeals");
             if (!string.IsNullOrEmpty(sqlStatement))
             {
-                sqlStatement = string.Format(sqlStatement, dealerName);
+                sqlStatement = string.Format(sqlStatement, dealerUserName);
                 var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
                 return list;
             }
@@ -75,6 +75,26 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
             }
             return new List<ContractDTO>();
+        }
+
+        public CustomerDTO GetDealerInfo(string dealerUserName)
+        {
+            string sqlStatement = _queriesStorage.GetQuery("GetDealerInfoByUserId");
+
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                sqlStatement = string.Format(sqlStatement, dealerUserName);
+                var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
+                if (list?.Any() ?? false)
+                {
+                    return list[0];
+                }
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
+            }
+            return null;            
         }
 
         public ContractDTO GetDealById(int transactionId)
@@ -340,6 +360,28 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 return null;
             }
+        }
+
+        private CustomerDTO ReadDealerInfoItem(IDataReader dr)
+        {
+            var dealerInfo = ReadCustomerItem(dr);
+
+            if (dealerInfo != null)
+            {
+                try
+                {
+                    var name = ConvertFromDbVal<string>(dr["name"]);
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        dealerInfo.FirstName = name;
+                    }
+                }
+                catch (Exception ex)
+                {                    
+                }
+            }
+
+            return dealerInfo;
         }
 
         public static T ConvertFromDbVal<T>(object obj)

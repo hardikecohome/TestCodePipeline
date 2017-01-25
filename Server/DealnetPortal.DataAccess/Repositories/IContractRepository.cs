@@ -143,6 +143,8 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Tax Rates for all provinces</returns>
         IList<ProvinceTaxRate> GetAllProvinceTaxRates();
 
+        AspireStatus GetAspireStatus(string status);
+
         //TODO: add db table field?
         decimal GetContractTotalMonthlyPayment(int contractId);
 

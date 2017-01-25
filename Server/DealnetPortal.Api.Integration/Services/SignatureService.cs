@@ -14,6 +14,7 @@ using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWe
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Integration.Services.Signature;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
@@ -34,7 +35,9 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
         private readonly IUnitOfWork _unitOfWork;
-        
+        private readonly IAspireStorageService _aspireStorageService;
+
+
         private readonly string _eCoreSignatureRole;
         private readonly string _eCoreAgreementTemplate;
         private readonly string _eCoreCustomerSecurityCode;
@@ -43,7 +46,7 @@ namespace DealnetPortal.Api.Integration.Services
         private List<string> _signatureRoles = new List<string>();
 
         public SignatureService(ISignatureEngine signatureEngine, IPdfEngine pdfEngine, IContractRepository contractRepository,
-            IFileRepository fileRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
+            IFileRepository fileRepository, IUnitOfWork unitOfWork, IAspireStorageService aspireStorageService, ILoggingService loggingService)
         {
             _signatureEngine = signatureEngine;
             _pdfEngine = pdfEngine;
@@ -52,7 +55,8 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
-            
+            _aspireStorageService = aspireStorageService;
+
             _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
             _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
             _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
@@ -426,10 +430,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var fields = new List<FormField>();
 
-            FillHomeOwnerFieilds(fields, contract);
-            FillApplicantsFieilds(fields, contract);
-            FillEquipmentFieilds(fields, contract, ownerUserId);
-            FillPaymentFieilds(fields, contract);
+            FillHomeOwnerFields(fields, contract);
+            FillApplicantsFields(fields, contract);
+            FillEquipmentFields(fields, contract, ownerUserId);
+            FillPaymentFields(fields, contract);
+            FillDealerFields(fields, contract);
 
             return fields;
         }
@@ -529,7 +534,7 @@ namespace DealnetPortal.Api.Integration.Services
             //return _signatureServiceAgent.Logout().GetAwaiter().GetResult();
         }        
 
-        private void FillHomeOwnerFieilds(List<FormField> formFields, Contract contract)
+        private void FillHomeOwnerFields(List<FormField> formFields, Contract contract)
         {
             if (contract.PrimaryCustomer != null)
             {
@@ -609,7 +614,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillApplicantsFieilds(List<FormField> formFields, Contract contract)
+        private void FillApplicantsFields(List<FormField> formFields, Contract contract)
         {
             if (contract.SecondaryCustomers?.Any() ?? false)
             {
@@ -636,7 +641,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillEquipmentFieilds(List<FormField> formFields, Contract contract, string ownerUserId)
+        private void FillEquipmentFields(List<FormField> formFields, Contract contract, string ownerUserId)
         {
             if (contract.Equipment?.NewEquipment?.Any() ?? false)
             {
@@ -645,7 +650,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = fstEq.Cost.ToString() });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString() });
                 //formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
 
                 var othersEq = new List<NewEquipment>();
@@ -848,6 +853,16 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
+                if (contract.Equipment.NewEquipment.First().EstimatedInstallationDate.HasValue)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.InstallDate,
+                        Value =
+                            contract.Equipment.NewEquipment.First().EstimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                    });
+                }
             }
             if (contract.Equipment != null)
             {
@@ -883,11 +898,11 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.NoDeferral, Value = "true" });
-                }
+                }                
             }            
         }
 
-        private void FillPaymentFieilds(List<FormField> formFields, Contract contract)
+        private void FillPaymentFields(List<FormField> formFields, Contract contract)
         {
             if (contract.PaymentInfo != null)
             {
@@ -912,6 +927,64 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? PdfFormFields.IsPAD1 : PdfFormFields.IsPAD15, Value = "true" });                    
                 }                
             }        
+        }
+
+        private void FillDealerFields(List<FormField> formFields, Contract contract)
+        {
+            if (!string.IsNullOrEmpty(contract?.Equipment?.SalesRep))
+            {
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.SalesRep, Value = contract.Equipment.SalesRep });
+            }
+
+            //try to get Dealer info from Aspire and fill it
+            if (!string.IsNullOrEmpty(contract?.Dealer.AspireLogin))
+            {
+                TimeSpan aspireRequestTimeout = TimeSpan.FromSeconds(3);
+                Task timeoutTask = Task.Delay(aspireRequestTimeout);
+                var aspireRequestTask = Task.Run(() => _aspireStorageService.GetDealerInfo(contract?.Dealer.AspireLogin));                
+
+                if (Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false).GetAwaiter().GetResult() == aspireRequestTask)
+                {
+                    var dealerInfo = aspireRequestTask.Result;
+
+                    if (dealerInfo != null)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.DealerName,
+                            Value = dealerInfo.FirstName
+                        });
+
+                        var dealerAddress =
+                            dealerInfo.Locations?.FirstOrDefault();
+                        if (dealerAddress != null)
+                        {
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.DealerAddress,
+                                Value =
+                                    $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}"
+                            });
+                        }
+
+                        if (dealerInfo.Phones?.Any() ?? false)
+                        {
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.DealerPhone,
+                                Value = dealerInfo.Phones.First().PhoneNum
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    _loggingService.LogError("Cannot get dealer info from Aspire");
+                }
+            }            
         }
     }
 }
