@@ -128,7 +128,7 @@ namespace DealnetPortal.Web.Controllers
             return submitResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
-        public async Task<JsonResult> PrintInstallationCertificate(CertificateInformationViewModel informationViewModel)
+        public async Task<JsonResult> PrintInstallationCertificate([Bind(Prefix = "InstallCertificateInformation")]CertificateInformationViewModel informationViewModel)
         {
             return Json(null);
         }
