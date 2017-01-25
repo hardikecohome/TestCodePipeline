@@ -601,7 +601,39 @@ namespace DealnetPortal.Api.Integration.Services
 
             var dealerCertificates = _fileRepository.FindAgreementTemplates(at =>
                 (at.DealerId == contractOwnerId) && (at.DocumentTypeId == (int)DocumentTemplateType.SignedInstallationCertificate));
-            
+            if (dealerCertificates?.Any() ?? false)
+            {
+                agreementTemplate = dealerCertificates.FirstOrDefault(
+                    cert => cert.AgreementType == contract.Details.AgreementType)
+                                    ?? dealerCertificates.FirstOrDefault();
+            }
+            else
+            {
+                var daeler = _contractRepository.GetDealer(contractOwnerId);
+                if (daeler != null)
+                {
+                    var appCertificates = _fileRepository.FindAgreementTemplates(at =>
+                        (at.ApplicationId == daeler.ApplicationId) && (at.DocumentTypeId == (int)DocumentTemplateType.SignedInstallationCertificate));
+                    if (appCertificates?.Any() ?? false)
+                    {
+                        agreementTemplate = appCertificates.FirstOrDefault(
+                            cert => cert.AgreementType == contract.Details.AgreementType)
+                                            ?? appCertificates.FirstOrDefault();
+                    }
+                }                
+            }
+
+            if (agreementTemplate == null)
+            {
+                var errorMsg =
+                    $"Can't find installation certificate template for a dealer contract {contractOwnerId}";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Can't find installation certificate template",
+                    Message = errorMsg
+                });
+            }
 
             return new Tuple<AgreementTemplate, IList<Alert>>(agreementTemplate, alerts);
         }
