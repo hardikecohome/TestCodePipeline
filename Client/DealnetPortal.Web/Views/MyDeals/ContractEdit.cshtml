@@ -2281,177 +2281,125 @@ foreach (var comment in comments)
                 <div class="modal-title dealnet-large-header">Download Certificate Template</div>
             </div>
             <div class="modal-body no-padding-top">
-	            <div class="dealnet-credit-check-section dealnet-modal-section">
-	             <form action="">
-		            <div class="certificate-equipment">
-			            <h3 class="dealnet-section-title">#1</h3>
-			            <div class="form-group">
-				            <div class="row">
-					            <div class="col-sm-3">
-						            <div class="dealnet-field-caption">Qty</div>
-					            </div>
-								<div class="col-sm-9">
-									<div class="dealnet-field-holder text-left ">
-										1
-									</div>
-								</div>
-				            </div>
-			            </div>
-			            <div class="form-group">
-				            <div class="row">
-					            <div class="col-sm-3">
-						            <div class="dealnet-field-caption">Type</div>
-					            </div>
-					            <div class="col-sm-9">
-						            <div class="dealnet-field-holder text-left text-uppercase">
-							            Furnace
-						            </div>
-					            </div>
-				            </div>
-			            </div>
-			            <div class="form-group">
-				            <div class="row">
-					            <div class="col-sm-3">
-						            <div class="dealnet-field-caption">Description</div>
-					            </div>
-					            <div class="col-sm-9">
-						            <div class="dealnet-field-holder text-left">
-							            Goodman 40000 - 36840 - GMSS960402BN
-						            </div>
-					            </div>
-				            </div>
-			            </div>
-			            <br />
-			            <div class="row">
-				            <div class="col-sm-6">
-					            <div class="form-group">
-						            <label class="dealnet-field-caption">Installed equipment serial number</label>
-						            <div class="dealnet-field-holder">
-							            <div class="control-group">
-								            <input type="text" class="form-control">
-							            </div>
-						            </div>
-					            </div>
-				            </div>
-				            <div class="col-sm-6">
-					            <div class="form-group">
-						            <label class="dealnet-field-caption">Installed equipement model</label>
-						            <div class="dealnet-field-holder">
-							            <div class="control-group">
-								            <input type="text" class="form-control">
-							            </div>
-						            </div>
-					            </div>
-				            </div>
-			            </div>
-		            </div>
-		             <!--***********************************Repeated Part**********************************-->
-		            <div class="certificate-equipment">
-			            <h3 class="dealnet-section-title">#2</h3>
-			            <div class="form-group">
-				            <div class="row">
-					            <div class="col-sm-3">
-						            <div class="dealnet-field-caption">Qty</div>
-					            </div>
-								<div class="col-sm-9">
-									<div class="dealnet-field-holder text-left ">
-										1
-									</div>
-								</div>
-				            </div>
-			            </div>
-			            <div class="form-group">
-				            <div class="row">
-					            <div class="col-sm-3">
-						            <div class="dealnet-field-caption">Type</div>
-					            </div>
-					            <div class="col-sm-9">
-						            <div class="dealnet-field-holder text-left text-uppercase">
-							            AIR CONDITIONER
-						            </div>
-					            </div>
-				            </div>
-			            </div>
-			            <div class="form-group">
-				            <div class="row">
-					            <div class="col-sm-3">
-						            <div class="dealnet-field-caption">Description</div>
-					            </div>
-					            <div class="col-sm-9">
-						            <div class="dealnet-field-holder text-left">
-							            Everest 16 SEER - ESX130181
-						            </div>
-					            </div>
-				            </div>
-			            </div>
-			            <br />
-			            <div class="row">
-				            <div class="col-sm-6">
-					            <div class="form-group">
-						            <label class="dealnet-field-caption">Installed equipment serial number</label>
-						            <div class="dealnet-field-holder">
-							            <div class="control-group">
-								            <input type="text" class="form-control">
-							            </div>
-						            </div>
-					            </div>
-				            </div>
-				            <div class="col-sm-6">
-					            <div class="form-group">
-						            <label class="dealnet-field-caption">Installed equipement model</label>
-						            <div class="dealnet-field-holder">
-							            <div class="control-group">
-								            <input type="text" class="form-control">
-							            </div>
-						            </div>
-					            </div>
-				            </div>
-			            </div>
-		            </div>
-		             <!--***********************************Repeated Part End**********************************-->
+                <div class="dealnet-credit-check-section dealnet-modal-section">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "install-certificate-info-section-modal"}))
+                    {
+                        @Html.HiddenFor(m => m.InstallCertificateInformation.ContractId)
+                        for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
+                         {
+                             <div class="certificate-equipment">
+                                 @Html.HiddenFor(m => m.InstallCertificateInformation.Equipments[i].Id)
+                                 <h3 class="dealnet-section-title">&#8470;@(i + 1)</h3>
+                                 <div class="form-group">
+                                     <div class="row">
+                                         <div class="col-sm-3">
+                                             <div class="dealnet-field-caption">Qty</div>
+                                         </div>
+                                         <div class="col-sm-9">
+                                             <div class="dealnet-field-holder text-left ">
+                                                 1
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="row">
+                                         <div class="col-sm-3">
+                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new {@class = "dealnet-field-caption"})
+                                         </div>
+                                         <div class="col-sm-9">
+                                             <div class="dealnet-field-holder text-left text-uppercase">
+                                                 @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
+                                                     ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type}),
+                                                     new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="row">
+                                         <div class="col-sm-3">
+                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "dealnet-field-caption"})
+                                         </div>
+                                         <div class="col-sm-9">
+                                             <div class="dealnet-field-holder text-left">
+                                                 @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <br/>
+                                 <div class="row">
+                                     <div class="col-sm-6">
+                                         <div class="form-group">
+                                             <label class="dealnet-field-caption">Installed equipment serial number</label>
+                                             <div class="dealnet-field-holder">
+                                                 <div class="control-group">
+                                                     @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new {@class = "form-control dealnet-input"})
+                                                     @Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, "", new {@class = "text-danger"})
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-6">
+                                         <div class="form-group">
+                                             <label class="dealnet-field-caption">Installed equipement model</label>
+                                             <div class="dealnet-field-holder">
+                                                 <div class="control-group">
+                                                     @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].Model, new {@class = "form-control dealnet-input"})
+                                                     @Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].Model, "", new {@class = "text-danger"})
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         }
 
-		             <hr>
+                        <hr>
 
 
-		             <div class="certificate-instaler">
-			             <div class="row">
-				             <div class="col-sm-6">
-					             <div class="form-group">
-						             <label class="dealnet-field-caption">Installer first name</label>
-						             <div class="dealnet-field-holder">
-							             <div class="control-group">
-								             <input type="text" class="form-control" placeholder="Installer first name">
-							             </div>
-						             </div>
-					             </div>
-				             </div>
-				             <div class="col-sm-6">
-					             <div class="form-group">
-						             <label class="dealnet-field-caption">Installer last name</label>
-						             <div class="dealnet-field-holder">
-							             <div class="control-group">
-								             <input type="text" class="form-control" placeholder="Installer last name">
-							             </div>
-						             </div>
-					             </div>
-				             </div>
-				             <div class="col-sm-6">
-					             <div class="form-group">
-						             <label class="dealnet-field-caption">Installation Date</label>
-						             <div class="dealnet-field-holder">
-							             <div class="control-group date-group">
-								             <input type="text" class="form-control" placeholder="Installation Date">
-							             </div>
-						             </div>
-					             </div>
-				             </div>
-			             </div>
-		             </div>
-
-		            </form>
-	            </div>
+                        <div class="certificate-instaler">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="dealnet-field-caption">Installer first name</label>
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerFirstName, new {id = "installerFirstName", @class = "form-control dealnet-input"})
+                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="dealnet-field-caption">Installer last name</label>
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerLastName, new {@class = "form-control dealnet-input"})
+                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="dealnet-field-caption">Installation Date</label>
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group date-group">
+                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input"})
+                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallationDate, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
                 <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="$('#download-certificate-modal').modal('hide');">Download</button>
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="printCertificate('@Url.Action("PrintInstallationCertificate", "MyDeals")', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">Download</button>
                     <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

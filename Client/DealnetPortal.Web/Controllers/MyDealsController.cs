@@ -26,13 +26,15 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public MyDealsController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent,
+        public MyDealsController(IContractServiceAgent contractServiceAgent,
+            IDictionaryServiceAgent dictionaryServiceAgent,
             IContractManager contractManager) : base(contractManager)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _contractManager = contractManager;
         }
+
         public ActionResult Index()
         {
             return View();
@@ -55,7 +57,9 @@ namespace DealnetPortal.Web.Controllers
                 return GetErrorJson();
             }
             var updateResult = await _contractServiceAgent.AddComment(Mapper.Map<CommentDTO>(comment));
-            return updateResult.Item2.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : Json(new { updatedCommentId = updateResult.Item1 });
+            return updateResult.Item2.Any(r => r.Type == AlertType.Error)
+                ? GetErrorJson()
+                : Json(new {updatedCommentId = updateResult.Item1});
         }
 
         [HttpPost]
@@ -83,16 +87,27 @@ namespace DealnetPortal.Web.Controllers
                     CreationDate = DateTime.Now,
                     DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
                     DocumentBytes = documentBytes,
-                    DocumentName = !string.IsNullOrEmpty(documentForUpload.DocumentName) ? documentForUpload.DocumentName : Path.GetFileName(documentForUpload.File.FileName),                    
+                    DocumentName =
+                        !string.IsNullOrEmpty(documentForUpload.DocumentName)
+                            ? documentForUpload.DocumentName
+                            : Path.GetFileName(documentForUpload.File.FileName),
                     ContractId = documentForUpload.ContractId
                 };
-                if (Session["CancelledUploadOperations"] != null && ((HashSet<string>)Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
+                if (Session["CancelledUploadOperations"] != null &&
+                    ((HashSet<string>) Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
                 {
                     return Json(new {wasCancelled = true});
                 }
                 var updateResult = await _contractServiceAgent.AddDocumentToContract(document);
                 var errors = updateResult.Item2.Where(r => r.Type == AlertType.Error).ToArray();
-                return errors.Any() ? Json(new { isError = true, errorMessage = errors.Select(x => x.Message).Aggregate((x, y) => x + " " + y) }) : Json(new { updatedDocumentId = updateResult.Item1, isSuccess = true });
+                return errors.Any()
+                    ? Json(
+                        new
+                        {
+                            isError = true,
+                            errorMessage = errors.Select(x => x.Message).Aggregate((x, y) => x + " " + y)
+                        })
+                    : Json(new {updatedDocumentId = updateResult.Item1, isSuccess = true});
             }
             return GetErrorJson();
         }
@@ -111,6 +126,11 @@ namespace DealnetPortal.Web.Controllers
         {
             var submitResult = await _contractServiceAgent.SubmitAllDocumentsUploaded(contractId);
             return submitResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
+
+        public async Task<JsonResult> PrintInstallationCertificate(CertificateInformationViewModel informationViewModel)
+        {
+            return Json(null);
         }
     }
 }

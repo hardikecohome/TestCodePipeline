@@ -463,3 +463,18 @@ function assignAutocompletes() {
             }
         });
 }
+
+function printCertificate(checkUrl, form) {
+    form.validate();
+    if (!form.valid()) {
+        return;
+    };
+    form.ajaxSubmit({
+        type: "POST",
+        url: checkUrl,
+        success: function (json) {            
+        },
+        error: function (xhr, status, p3) {            
+        }
+    });
+}
