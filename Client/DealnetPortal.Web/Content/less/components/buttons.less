@@ -122,3 +122,20 @@
 .button-proceed{
   margin-top: 10px;
 }
+
+button,
+.btn,
+a{
+  &.disabled{
+    pointer-events: none !important;
+    input[type="file"]{
+      pointer-events: none !important;
+    }
+    &:disabled{
+      pointer-events: none !important;
+    }
+  }
+}
+a.disabled{
+  opacity: 0.75;
+}
