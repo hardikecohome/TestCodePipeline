@@ -35,6 +35,10 @@
         }
       });
 
+      $('#alertModal').on('hidden.bs.modal', function () {
+          $('#confirmAlert').off('click');
+      });
+
       $('.navbar-toggle').click(function(){
         if($('.navbar-collapse').attr('aria-expanded') === 'false'){
           saveScrollPosition();
@@ -269,15 +273,31 @@ function documentsColHeight(){
 function navigateToStep(targetLink){
   var url = targetLink.attr('href');
   var stepName = targetLink.text();
+  var data = {
+    message: "If you change Home Owner Information you will have to pass Credit Check step again",
+    title: 'Navigate to step '+stepName+'?',
+    confirmBtnText: 'Go to Step '+stepName
+  };
+  dynamicAlertModal(data);
 
-  var message = translations['IfYouChangeInfo'];
-  $('#alertModal').find('.modal-body p').html(message);
-  $('#alertModal').find('.modal-title').html(translations['NavigateToStep'] + stepName + '?');
-  $('#alertModal').find('#confirmAlert').html(translations['GoToStep'] + stepName);
-  $('#alertModal').modal('show');
   $('#confirmAlert').on('click', function(){
     window.location.href = url;
   });
+}
+
+function dynamicAlertModal(obj){
+  var classes = obj.class ? obj.class : '';
+    var alertModal = $('#alertModal');
+    alertModal.find('.modal-body p').html(obj.message);
+    alertModal.find('.modal-title').html(obj.title);
+    alertModal.find('#confirmAlert').html(obj.confirmBtnText);
+    alertModal.addClass(classes);
+    alertModal.modal('show');
+}
+
+function hideDynamicAlertModal() {
+    $('#alertModal').modal('hide');
+    $('#confirmAlert').off('click');
 }
 
 function detectPageHeight(){

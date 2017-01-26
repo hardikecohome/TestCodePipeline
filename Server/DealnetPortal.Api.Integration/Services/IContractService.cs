@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -43,6 +44,8 @@ namespace DealnetPortal.Api.Integration.Services
         Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId);
 
         IList<Alert> RemoveContractDocument(int documentId, string contractOwnerId);
+
+        Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
 
         Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();        
 

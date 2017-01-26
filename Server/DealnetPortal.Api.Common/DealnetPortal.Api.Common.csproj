@@ -59,6 +59,7 @@
     <Compile Include="Enumeration\AddressType.cs" />
     <Compile Include="Enumeration\AgreementType.cs" />
     <Compile Include="Enumeration\AlertType.cs" />
+    <Compile Include="Enumeration\AspireStatusInterpretation.cs" />
     <Compile Include="Enumeration\AuthType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Enumeration\CreditCheckState.cs" />

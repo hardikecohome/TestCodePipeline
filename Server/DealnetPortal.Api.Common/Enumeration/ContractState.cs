@@ -19,6 +19,8 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(Name = "Credit check approved")]
         CreditContirmed = 4,
         [Display(Name = "Application submitted")]
-        Completed = 5
+        Completed = 5,
+        [Display(Name = "Sent to audit")]
+        SentToAudit = 6
     }
 }

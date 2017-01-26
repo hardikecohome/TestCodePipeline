@@ -7,6 +7,9 @@
 @using DealnetPortal.Web.Common.Enumeration
 @using DealnetPortal.Web.Models
 @model DealnetPortal.Web.Models.ContractEditViewModel
+@{
+    var contractState = Model.AdditionalInfo.ContractState;
+}
 <div id="label-steps">
 	@Html.ActionLink("MyDeals", "Index", "MyDeals", null, new { @class = "dealnet-action-link" }) > <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  >
 </div>
@@ -80,7 +83,7 @@
                                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new {Name = "ContractId"})
 					            @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new {Name = "DocumentTypeId"})
 					            <div class="form-group clearfix">
-					                <div class="file-upload btn dealnet-button dealnet-success-button">
+					                <div @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> } class="file-upload btn dealnet-button dealnet-success-button disablable">
 					                    <span>@Resources.Upload</span>
 					                    <input type="file" name="File" class="upload main-document-upload"/>
 					                </div>
@@ -129,7 +132,7 @@
 							                <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
 							                <span class="document-naming">@document.DocumentName</span>
                                             @Html.Hidden("DocumentName", document.DocumentName)
-							                <a class="upload-doc-link file-upload" href="#">
+							                <a class="upload-doc-link file-upload disablable" href="#" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
 							                    <svg aria-hidden="true" class="icon icon-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
 							                    @Resources.Reupload
                                                 <input type="file" name="File" class="upload uploaded-other-document-input"/>
@@ -153,7 +156,7 @@
                                 <div class="collapse" id="empty-document-name-message">
                                     <span class="text-danger">@Resources.DocumentNameEmpty</span>
                                 </div>
-								<div class="file-upload btn dealnet-button dealnet-success-button" id="other-documents-upload-button">
+								<div class="file-upload btn dealnet-button dealnet-success-button disablable" id="other-documents-upload-button" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
 									<span>@Resources.Upload</span>
 									<input type="file" name="File" class="upload" id="other-documents-upload"/>
 								</div>
@@ -202,6 +205,36 @@
 		</div>
 	</div>
 	<hr>
+	<div class="indicate-doc-status form-section">
+		<div class="descr-hold">
+			<div class="before-all-documents-submitted">
+				If all needed documents for contract were uploaded, please, send report
+			</div>
+			<div class="well danger-well error-descr collapse before-all-documents-submitted">
+				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+				You need to upload more documents and confirm again
+			</div>
+			<div class="collapse" id="all-documents-submitted-message">
+				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+				Deal submitted for audit
+			</div>
+			<div class="well success-well collapse before-all-documents-submitted">
+				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+				All documents are checked
+			</div>
+		</div>
+		<div class="btn-hold">
+		    <button class="btn dealnet-button dealnet-success-button disablable" id="send-all-documents-report" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
+				Send to Audit
+		    </button>
+		</div>
+	</div>
+    @using (Html.BeginForm("SubmitAllDocumentsUploaded", "MyDeals", FormMethod.Post, new { id = "all-documents-uploaded-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("contractId", Model.BasicInfo.ContractId)
+    }
+    <hr>
 	<div class="form-section">
 	    @if (Model.BasicInfo.SubDealers?.Any() ?? false)
         {
@@ -222,8 +255,9 @@
 	                </div>
 	            </div>
 	        </div>
-	    }
-        <h3 class="dealnet-section-title">@Resources.DealInformation <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();">@Resources.Edit</a></h3>
+	    }        
+	<h3 class="dealnet-section-title">@Resources.DealInformation @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();">@Resources.Edit</a> }
+        </h3>
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6 grid-column">
 				<div class="dealnet-credit-check-section">
@@ -488,7 +522,7 @@
 		    {
                 <div class="col-md-6 grid-column">
 		            <div class="dealnet-credit-check-section"  id="mailing-address-section">
-		                <h3 class="dealnet-section-title">@Resources.MailingAddress <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();">@Resources.Edit</a>
+		                <h3 class="dealnet-section-title">@Resources.MailingAddress @if(contractState == ContractState.CreditCheckDeclined) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();">@Resources.Edit</a> }
 		                </h3>
                         <div class="form-group">
                             <div class="row">
@@ -556,7 +590,7 @@
                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
                     <div class="dealnet-credit-check-section" id="contact-info-section">
                         @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
-                        <h3 class="dealnet-section-title">@Resources.ContactInformation <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();">@Resources.Edit</a>
+                        <h3 class="dealnet-section-title">@Resources.ContactInformation @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();">@Resources.Edit</a>}
                         </h3>
                         <div class="form-group">
                             <div class="row">
@@ -684,7 +718,7 @@
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                     <h3 class="dealnet-section-title">
-                                        @Resources.MailingAddress <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                                        @Resources.MailingAddress @if(contractState == ContractState.CreditCheckDeclined) { <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>}
                                     </h3>
                                     <div class="form-group">
                                         <div class="row">
@@ -762,7 +796,7 @@
                                 <div class="dealnet-credit-check-section" id="contact-info-section@(i + 1)-coborrower">
                                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CustomerId)
                                     <h3 class="dealnet-section-title">
-                                        @Resources.ContactInformation <a href="#" onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                                        @Resources.ContactInformation @if(contractState <= ContractState.Completed) { <a href="#" onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>}
                                     </h3>
                                     <div class="form-group">
                                         <div class="row">
@@ -807,9 +841,17 @@
                         }
                     }
                 </div>
-
             </div>
+
         </div>
+    }
+
+    @if (contractState == ContractState.CreditCheckDeclined)
+    {
+        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit align-middle">
+            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+            <span>Add additional applicant</span>
+        </a>
     }
 	
 	<hr>
@@ -828,7 +870,8 @@
         @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
-	    <h3 class="dealnet-section-title">@Resources.EquipmentInformation <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();">@Resources.Edit</a>
+	    <h3 class="dealnet-section-title">@Resources.EquipmentInformation 
+            @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();">@Resources.Edit</a>}
 	    </h3>
 	    <div class="row credit-check-info-hold equipment-info no-top-margin" id="new-equipment-info-section">
 	        @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
@@ -949,7 +992,8 @@
     {
 	    @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
-        <h3 class="dealnet-section-title">@Resources.PaymentInformation <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();">@Resources.Edit</a>
+        <h3 class="dealnet-section-title">@Resources.PaymentInformation 
+            @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();">@Resources.Edit</a>}
 	    </h3>
 	    <div class="row credit-check-info-hold no-top-margin">
 	        <div class="col-md-6 grid-column">
@@ -1038,7 +1082,8 @@
             @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
 	        <div class="summary-return-equipment" id="existing-equipment-section">
-	            <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();">@Resources.Edit</a>
+	            <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation 
+                    @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();">@Resources.Edit</a>}
 	            </h3>
 	            @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
 	            {
@@ -1164,7 +1209,8 @@
 
                             <div class="dealnet-credit-check-section">
                                 <h3 class="dealnet-section-title">
-                                    @Resources.AdditionalContractInformation <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()">@Resources.Edit</a>
+                                    @Resources.AdditionalContractInformation 
+                                    @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()">@Resources.Edit</a>}
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">

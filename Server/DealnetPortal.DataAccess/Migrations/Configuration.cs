@@ -36,6 +36,7 @@ namespace DealnetPortal.DataAccess.Migrations
             SetAspireTestUsers(context, context.Applications.Local.ToArray());
             SetTestEquipmentTypes(context);
             SetTestProvinceTaxRates(context);
+            SetAspireStatuses(context);
             SetDocumentTypes(context);
             var templates = SetDocuSignTemplates(context);
             SetPdfTemplates(context, templates);
@@ -507,6 +508,18 @@ namespace DealnetPortal.DataAccess.Migrations
             //leave existing data
             //taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
             context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
+        }
+
+        private void SetAspireStatuses(ApplicationDbContext context)
+        {
+            var statuses = new List<AspireStatus>
+            {
+                 new AspireStatus { Status = "Booked", Interpretation = AspireStatusInterpretation.SentToAudit },
+                 new AspireStatus { Status = "Ready for Audit", Interpretation = AspireStatusInterpretation.SentToAudit }
+            };
+            //leave existing data
+            statuses.RemoveAll(t => context.AspireStatuses.Any(dbt => dbt.Status == t.Status));
+            context.AspireStatuses.AddOrUpdate(t => t.Status, statuses.ToArray());
         }
 
         private void SetDocumentTypes(ApplicationDbContext context)

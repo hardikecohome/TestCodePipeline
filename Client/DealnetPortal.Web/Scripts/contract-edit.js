@@ -232,6 +232,8 @@
             fileInput.change(submitOtherDocument);
             fileInput.change();
         });
+
+        $('#send-all-documents-report').on('click', auditConfirmModal);
 	});
 
 function generateGuid() {
@@ -252,6 +254,43 @@ function managePaymentFormElements(paymentType) {
             $(".pap-payment-form").show();
             break;
     }
+}
+
+function auditConfirmModal() {
+    var data = {
+        class: "audit-alert-modal",
+        message: "If you send documents to audit you won't have possibility to make some changes in this contract or upload any document",
+        title: "Send to Audit?",
+        confirmBtnText: "Proceed"
+    };
+    dynamicAlertModal(data);
+    $('#confirmAlert').on('click', function () {
+        submitAllDocumentsUploaded();
+    });
+}
+
+function submitAllDocumentsUploaded() {
+    showLoader();
+    $('#all-documents-uploaded-form').ajaxSubmit({
+        method: 'post',
+        success: function (result) {
+            if (result.isSuccess) {
+                $('.before-all-documents-submitted').hide();
+                $('#all-documents-submitted-message').show();
+                $('.disablable').addClass('disabled');
+                $('button.disabled, input.disabled').attr('disabled', 'disabled');
+                $('.dealnet-section-edit-link').hide();
+            } else if (result.isError) {
+                alert('An error occurred while sending report');
+            }
+        },
+        error: function () {
+        },
+        complete: function (xhr) {
+            hideLoader();
+            hideDynamicAlertModal();
+        }
+    });
 }
 
 function addReplyFrom() {
