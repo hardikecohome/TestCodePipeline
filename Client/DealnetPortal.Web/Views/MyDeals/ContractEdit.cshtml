@@ -2282,7 +2282,7 @@ foreach (var comment in comments)
             </div>
             <div class="modal-body no-padding-top">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "install-certificate-info-section-modal"}))
+                    @using (Html.BeginForm("PrepareInstallationCertificate", "MyDeals", FormMethod.Post, new {id = "install-certificate-info-section-modal"}))
                     {
                         @Html.HiddenFor(m => m.InstallCertificateInformation.ContractId)
                         for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
@@ -2399,7 +2399,7 @@ foreach (var comment in comments)
                     }
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="printCertificate('@Url.Action("PrintInstallationCertificate", "MyDeals")', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">Download</button>
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">Download</button>
                     <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

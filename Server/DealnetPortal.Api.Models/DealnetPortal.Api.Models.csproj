@@ -66,6 +66,7 @@
     <Compile Include="Contract\EmailDTO.cs" />
     <Compile Include="Contract\EquipmentTypeDTO.cs" />
     <Compile Include="Contract\InstallationCertificateDataDTO.cs" />
+    <Compile Include="Contract\InstalledEquipmentDTO.cs" />
     <Compile Include="Contract\LocationDTO.cs" />
     <Compile Include="Contract\ContractDTO.cs" />
     <Compile Include="Contract\CreditCheckDTO.cs" />

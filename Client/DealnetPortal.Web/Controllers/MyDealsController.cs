@@ -14,6 +14,7 @@ using DealnetPortal.Web.ServiceAgent;
 using System.IO;
 using System.Threading;
 using System.Web.SessionState;
+using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Web.Infrastructure.Extensions;
 
 namespace DealnetPortal.Web.Controllers
@@ -25,6 +26,7 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private const string InstallCertificateStorageName = "InstallCertificate";
 
         public MyDealsController(IContractServiceAgent contractServiceAgent,
             IDictionaryServiceAgent dictionaryServiceAgent,
@@ -128,9 +130,51 @@ namespace DealnetPortal.Web.Controllers
             return submitResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
-        public async Task<JsonResult> PrintInstallationCertificate([Bind(Prefix = "InstallCertificateInformation")]CertificateInformationViewModel informationViewModel)
+        [HttpPost]
+        public async Task<JsonResult> CheckInstallationCertificate(int contractId)
         {
+            var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+            return Json(result.Item1);
+        }
+
+        public async Task<JsonResult> PrepareInstallationCertificate([Bind(Prefix = "InstallCertificateInformation")]CertificateInformationViewModel informationViewModel)
+        {
+            if (informationViewModel == null)
+            {
+                throw new ArgumentNullException(nameof(informationViewModel));
+            }
+            var certificateData = Mapper.Map<InstallationCertificateDataDTO>(informationViewModel);
+            var result = await _contractServiceAgent.GetInstallationCertificate(certificateData);
+            var keyName = InstallCertificateStorageName + informationViewModel.ContractId;
+
+            HttpContext.Application[keyName] = result.Item1;
+            if (result.Item1 != null)
+            {
+                return Json(Url.Action("GetInstallationCertificate", new {@contractId = informationViewModel.ContractId }));
+            }
             return Json(null);
+        }
+
+        public FileResult GetInstallationCertificate(int contractId)
+        {
+            var keyName = InstallCertificateStorageName + contractId;
+            var certDocument =
+                (AgreementDocument)HttpContext.Application[keyName];            
+
+            if (certDocument != null)
+            {
+                HttpContext.Application.Remove(keyName);
+                var response = new FileContentResult(certDocument.DocumentRaw, "application/pdf")
+                {
+                    FileDownloadName = certDocument.Name
+                };
+                if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
+                {
+                    response.FileDownloadName += ".pdf";
+                }
+                return response;
+            }
+            return new FileContentResult(new byte[] { }, "application/pdf");
         }
     }
 }

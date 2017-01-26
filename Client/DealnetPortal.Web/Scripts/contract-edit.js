@@ -465,17 +465,33 @@ function assignAutocompletes() {
 }
 
 function printCertificate(checkUrl, form) {
-    form.validate();
-    if (!form.valid()) {
-        return;
-    };
-    form.ajaxSubmit({
+
+    $.get({
         type: "POST",
         url: checkUrl,
-        data : form.serialize(),
-        success: function (json) {            
+        success: function(json) {
+            if (json == true) {
+                $('#print-error-message').hide();
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                };
+                form.ajaxSubmit({
+                    url: form.attr("action"),
+                    method: form.attr("method"),  // post
+                    success: function (json) {
+                        if (json != null)
+                            window.location = json;
+                    },
+                    error: function (xhr, status, p3) {
+                    }
+                });                
+            } else {
+                $('#print-error-message').show();
+            }
         },
-        error: function (xhr, status, p3) {            
+        error: function(xhr, status, p3) {
+            $('#print-error-message').show();
         }
     });
 }

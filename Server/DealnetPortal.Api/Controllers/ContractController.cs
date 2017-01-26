@@ -254,8 +254,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetContractAgreement")]
-        [HttpGet]
+        [Route("GetInstallationCertificate")]
+        [HttpPost]
         public IHttpActionResult GetInstallationCertificate(InstallationCertificateDataDTO installationCertificateData)
         {
             try

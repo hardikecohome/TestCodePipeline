@@ -33,8 +33,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EmailAddress = "EmailAddress";
         public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";
-        public static string SuiteNo = "SuiteNo";
-        public static string CustomerName = "CustomerName";        
+        public static string SuiteNo = "SuiteNo";                
 
         //Equipment Fields
         public static string IsFurnace = "IsFurnace";
@@ -101,6 +100,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string DealerPhone = "DealerPhone";
 
         //For Signed Installation Certificate
+        public static string CustomerName = "CustomerName";
         public static string InstallerName = "InstallerName";
         public static string InstallationDate = "InstallationDate";
         public static string EquipmentModel = "EquipmentModel";
