@@ -472,6 +472,7 @@ function printCertificate(checkUrl, form) {
     form.ajaxSubmit({
         type: "POST",
         url: checkUrl,
+        data : form.serialize(),
         success: function (json) {            
         },
         error: function (xhr, status, p3) {            
