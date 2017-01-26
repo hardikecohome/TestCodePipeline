@@ -241,6 +241,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All documents are checked.
+        /// </summary>
+        public static string AllDocumentsChecked {
+            get {
+                return ResourceManager.GetString("AllDocumentsChecked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Amortization Term.
         /// </summary>
         public static string AmortizationTerm {
@@ -255,6 +264,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AmortizationTermIncorrectFormat {
             get {
                 return ResourceManager.GetString("AmortizationTermIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while sending report.
+        /// </summary>
+        public static string AnErrorWhileSendingReport {
+            get {
+                return ResourceManager.GetString("AnErrorWhileSendingReport", resourceCulture);
             }
         }
         
@@ -826,6 +844,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deal submitted for audit.
+        /// </summary>
+        public static string DealSubmittedForAudit {
+            get {
+                return ResourceManager.GetString("DealSubmittedForAudit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deal Type.
         /// </summary>
         public static string DealType {
@@ -1222,7 +1249,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Go to Step .
+        ///   Looks up a localized string similar to Go to Step.
         /// </summary>
         public static string GoToStep {
             get {
@@ -1330,11 +1357,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If all needed documents for contract were uploaded, please, send report.
+        /// </summary>
+        public static string IfDocumentsUploadedSendReport {
+            get {
+                return ResourceManager.GetString("IfDocumentsUploadedSendReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If you change Home Owner Information you will have to pass Credit Check step again.
         /// </summary>
         public static string IfYouChangeInfo {
             get {
                 return ResourceManager.GetString("IfYouChangeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you send documents to audit you won&apos;t have possibility to make some changes in this contract or upload any document.
+        /// </summary>
+        public static string IfYouSendToAuditNoChanges {
+            get {
+                return ResourceManager.GetString("IfYouSendToAuditNoChanges", resourceCulture);
             }
         }
         
@@ -1618,7 +1663,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Navigate to step .
+        ///   Looks up a localized string similar to Navigate to step.
         /// </summary>
         public static string NavigateToStep {
             get {
@@ -1668,6 +1713,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 9 Month.
+        /// </summary>
+        public static string NineMonth {
+            get {
+                return ResourceManager.GetString("NineMonth", resourceCulture);
             }
         }
         
@@ -1938,6 +1992,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PrintTheContract {
             get {
                 return ResourceManager.GetString("PrintTheContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proceed.
+        /// </summary>
+        public static string Proceed {
+            get {
+                return ResourceManager.GetString("Proceed", resourceCulture);
             }
         }
         
@@ -2244,6 +2307,33 @@ namespace DealnetPortal.Web.Resources {
         public static string SendEmails {
             get {
                 return ResourceManager.GetString("SendEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send to Audit.
+        /// </summary>
+        public static string SendToAudit {
+            get {
+                return ResourceManager.GetString("SendToAudit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send to Audit?.
+        /// </summary>
+        public static string SendToAuditQuestion {
+            get {
+                return ResourceManager.GetString("SendToAuditQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sent to audit.
+        /// </summary>
+        public static string SentToAudit {
+            get {
+                return ResourceManager.GetString("SentToAudit", resourceCulture);
             }
         }
         
@@ -2599,6 +2689,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 12 Month.
+        /// </summary>
+        public static string TwelveMonth {
+            get {
+                return ResourceManager.GetString("TwelveMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2 Month.
+        /// </summary>
+        public static string TwoMonth {
+            get {
+                return ResourceManager.GetString("TwoMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string Type {
@@ -2802,6 +2910,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YouHaveBeenRegistered {
             get {
                 return ResourceManager.GetString("YouHaveBeenRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need to upload more documents and confirm again.
+        /// </summary>
+        public static string YouNeedToUploadMoreDocuments {
+            get {
+                return ResourceManager.GetString("YouNeedToUploadMoreDocuments", resourceCulture);
             }
         }
         

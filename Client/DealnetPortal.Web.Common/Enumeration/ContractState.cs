@@ -20,6 +20,8 @@ namespace DealnetPortal.Web.Common.Enumeration
         [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckApproved")]
         CreditContirmed = 4,
         [Display(ResourceType = typeof (Resources.Resources), Name = "ApplicationSubmitted")]
-        Completed = 5
+        Completed = 5,
+        [Display(ResourceType = typeof (Resources.Resources), Name = "SentToAudit")]
+        SentToAudit = 6
     }
 }

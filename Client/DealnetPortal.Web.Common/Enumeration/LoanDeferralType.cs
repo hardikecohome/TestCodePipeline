@@ -15,9 +15,9 @@ namespace DealnetPortal.Web.Common.Enumeration
         ThreeMonth = 2,
         [Display(ResourceType = typeof (Resources.Resources), Name = "SixMonth")]
         SixMonth = 3,
-        [Display(Name = "9 Month")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "NineMonth")]
         NineMonth = 4,
-        [Display(Name = "12 Month")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "TwelveMonth")]
         TwelveMonth =5
     }
 }

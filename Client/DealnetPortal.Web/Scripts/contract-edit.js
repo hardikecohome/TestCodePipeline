@@ -259,9 +259,9 @@ function managePaymentFormElements(paymentType) {
 function auditConfirmModal() {
     var data = {
         class: "audit-alert-modal",
-        message: "If you send documents to audit you won't have possibility to make some changes in this contract or upload any document",
-        title: "Send to Audit?",
-        confirmBtnText: "Proceed"
+        message: translations['IfYouSendToAuditNoChanges'],
+        title: translations['SendToAuditQuestion'],
+        confirmBtnText: translations['Proceed']
     };
     dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {
@@ -281,7 +281,7 @@ function submitAllDocumentsUploaded() {
                 $('button.disabled, input.disabled').attr('disabled', 'disabled');
                 $('.dealnet-section-edit-link').hide();
             } else if (result.isError) {
-                alert('An error occurred while sending report');
+                alert(translations['AnErrorWhileSendingReport']);
             }
         },
         error: function () {

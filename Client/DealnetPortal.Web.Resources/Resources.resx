@@ -265,7 +265,7 @@
     <value>Go to app</value>
   </data>
   <data name="GoToStep" xml:space="preserve">
-    <value>Go to Step </value>
+    <value>Go to Step</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>Grand Total:</value>
@@ -319,7 +319,7 @@
     <value>My Work Items</value>
   </data>
   <data name="NavigateToStep" xml:space="preserve">
-    <value>Navigate to step </value>
+    <value>Navigate to step</value>
   </data>
   <data name="NewApplication" xml:space="preserve">
     <value>New Application</value>
@@ -1036,5 +1036,44 @@
   </data>
   <data name="FifteenTh" xml:space="preserve">
     <value>15th</value>
+  </data>
+  <data name="SentToAudit" xml:space="preserve">
+    <value>Sent to audit</value>
+  </data>
+  <data name="AllDocumentsChecked" xml:space="preserve">
+    <value>All documents are checked</value>
+  </data>
+  <data name="AnErrorWhileSendingReport" xml:space="preserve">
+    <value>An error occurred while sending report</value>
+  </data>
+  <data name="DealSubmittedForAudit" xml:space="preserve">
+    <value>Deal submitted for audit</value>
+  </data>
+  <data name="IfDocumentsUploadedSendReport" xml:space="preserve">
+    <value>If all needed documents for contract were uploaded, please, send report</value>
+  </data>
+  <data name="IfYouSendToAuditNoChanges" xml:space="preserve">
+    <value>If you send documents to audit you won't have possibility to make some changes in this contract or upload any document</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Proceed</value>
+  </data>
+  <data name="SendToAudit" xml:space="preserve">
+    <value>Send to Audit</value>
+  </data>
+  <data name="SendToAuditQuestion" xml:space="preserve">
+    <value>Send to Audit?</value>
+  </data>
+  <data name="YouNeedToUploadMoreDocuments" xml:space="preserve">
+    <value>You need to upload more documents and confirm again</value>
+  </data>
+  <data name="NineMonth" xml:space="preserve">
+    <value>9 Month</value>
+  </data>
+  <data name="TwelveMonth" xml:space="preserve">
+    <value>12 Month</value>
+  </data>
+  <data name="TwoMonth" xml:space="preserve">
+    <value>2 Month</value>
   </data>
 </root>

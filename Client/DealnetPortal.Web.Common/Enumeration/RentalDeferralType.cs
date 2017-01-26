@@ -11,7 +11,7 @@ namespace DealnetPortal.Web.Common.Enumeration
     {
         [Display(ResourceType = typeof(Resources.Resources), Name = "NoDeferral")]
         NoDeferral = 0,
-        [Display(Name = "2 Month")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "TwoMonth")]
         TwoMonth = 1,
         [Display(ResourceType = typeof(Resources.Resources), Name = "ThreeMonth")]
         ThreeMonth = 2

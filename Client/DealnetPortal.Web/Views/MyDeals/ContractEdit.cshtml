@@ -208,24 +208,24 @@
 	<div class="indicate-doc-status form-section">
 		<div class="descr-hold">
 			<div class="before-all-documents-submitted">
-				If all needed documents for contract were uploaded, please, send report
+				@Resources.IfDocumentsUploadedSendReport
 			</div>
 			<div class="well danger-well error-descr collapse before-all-documents-submitted">
 				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-				You need to upload more documents and confirm again
+				@Resources.YouNeedToUploadMoreDocuments
 			</div>
 			<div class="collapse" id="all-documents-submitted-message">
 				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-				Deal submitted for audit
+				@Resources.DealSubmittedForAudit
 			</div>
 			<div class="well success-well collapse before-all-documents-submitted">
 				<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-				All documents are checked
+				@Resources.AllDocumentsChecked
 			</div>
 		</div>
 		<div class="btn-hold">
 		    <button class="btn dealnet-button dealnet-success-button disablable" id="send-all-documents-report" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
-				Send to Audit
+				@Resources.SendToAudit
 		    </button>
 		</div>
 	</div>
@@ -850,7 +850,7 @@
     {
         <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit align-middle">
             <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-            <span>Add additional applicant</span>
+            <span>@Resources.AddAdditionalApplicant</span>
         </a>
     }
 	
@@ -2276,6 +2276,10 @@ foreach (var comment in comments)
     translations['ErrorWhileAddingComment'] = "@Resources.ErrorWhileAddingComment";    
     translations['ErrorWhileRemovingComment'] = "@Resources.ErrorWhileRemovingComment";    
     translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";    
+    translations['IfYouSendToAuditNoChanges'] = "@Resources.IfYouSendToAuditNoChanges";    
+    translations['SendToAuditQuestion'] = "@Resources.SendToAuditQuestion";    
+    translations['Proceed'] = "@Resources.Proceed";    
+    translations['AnErrorWhileSendingReport'] = "@Resources.AnErrorWhileSendingReport";    
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">

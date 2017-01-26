@@ -274,9 +274,9 @@ function navigateToStep(targetLink){
   var url = targetLink.attr('href');
   var stepName = targetLink.text();
   var data = {
-    message: "If you change Home Owner Information you will have to pass Credit Check step again",
-    title: 'Navigate to step '+stepName+'?',
-    confirmBtnText: 'Go to Step '+stepName
+      message: translations['IfYouChangeInfo'],
+      title: translations['NavigateToStep'] + ' ' + stepName + '?',
+      confirmBtnText: translations['GoToStep'] + ' ' + stepName
   };
   dynamicAlertModal(data);
 
