@@ -179,6 +179,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsyncCancellationController.cs" />
+    <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
@@ -753,6 +754,7 @@
     <Content Include="Views\Reports\Contracts.cshtml" />
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
+    <Content Include="Views\Calculator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
