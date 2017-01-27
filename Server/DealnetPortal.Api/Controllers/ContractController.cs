@@ -57,7 +57,7 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetCompletedContracts()
         {
             var contracts = ContractService.GetContracts(LoggedInUser.UserId);
-            return Ok(contracts.Where(c => c.ContractState == ContractState.Completed));
+            return Ok(contracts.Where(c => c.ContractState >= ContractState.Completed));
         }
 
         //Get: api/Contract/{contractId}

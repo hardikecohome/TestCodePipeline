@@ -47,7 +47,8 @@
 }
 
 
-#add-additional-applicant {
+#add-additional-applicant,
+.add-applicant-link{
   font-family: Lato;
   font-size: 14px;
   font-weight: 500;
@@ -55,15 +56,17 @@
   margin-top: 26px;
   cursor: pointer;
   width: 200px;
-}
-
-#add-additional-applicant:hover {
-  color: #2a99dc;
-}
-
-#add-additional-applicant > div > img {
-  margin-right: 9px;
-  margin-top: -2px;
+  &:hover {
+    color: #2a99dc;
+  }
+  & > div > img {
+    margin-right: 9px;
+    margin-top: -2px;
+  }
+  &.add-applicant-contract-edit{
+    display: block;
+    margin: 5px 0 15px;
+  }
 }
 
 .address-info-label {

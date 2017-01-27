@@ -277,7 +277,8 @@ function submitAllDocumentsUploaded() {
             if (result.isSuccess) {
                 $('.before-all-documents-submitted').hide();
                 $('#all-documents-submitted-message').show();
-                $('.disablable').attr('disabled', 'disabled');
+                $('.disablable').addClass('disabled');
+                $('button.disabled, input.disabled').attr('disabled', 'disabled');
                 $('.dealnet-section-edit-link').hide();
             } else if (result.isError) {
                 alert('An error occurred while sending report');
