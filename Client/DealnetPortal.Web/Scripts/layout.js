@@ -136,7 +136,9 @@
 
 
       if($('.sticker').length){
-        stickySection($('.sticker'));
+        $('.sticker').each(function(){
+          stickySection($(this));
+        });
       }
       addIconsToFields();
       toggleClearInputIcon();
@@ -202,6 +204,7 @@
 function stickySection(elem){
     var fixedHeaderHeight;
     var s = elem;
+    var parentDiv = s.parents('.sticker-parent');
     var windowpos;
     var parentOffsetTop;
     var parentOffsetLeft;
@@ -210,9 +213,9 @@ function stickySection(elem){
     $(window).on('scroll resize', function(){
       fixedHeaderHeight = $('.navbar-header').height();
       windowpos = $(window).scrollTop() + fixedHeaderHeight;
-      parentOffsetTop = s.parent().offset().top;
-      parentOffsetLeft = s.parent().offset().left;
-      stickerWidth = s.parent().width();
+      parentOffsetTop = parentDiv.offset().top;
+      parentOffsetLeft = parentDiv.offset().left;
+      stickerWidth = parentDiv.width();
       if (windowpos >= parentOffsetTop) {
         s.addClass("stick");
         stikerTopPos = fixedHeaderHeight+10;
@@ -221,12 +224,13 @@ function stickySection(elem){
         stikerTopPos = 0;
       }
 
-      $('.equipment-form-container.has-loan-calc .sticker').css({
+      s.css({
         top: stikerTopPos + 'px',
         width: stickerWidth + 'px'
       });
     });
 }
+
 
 function has_scrollbar(elem, className)
 {
