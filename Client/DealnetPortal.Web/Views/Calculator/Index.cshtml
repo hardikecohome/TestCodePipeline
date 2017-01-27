@@ -1,2 +1,528 @@
-﻿
+﻿<!-- Provide standalone payment calculator screen -->
+<div id="label-steps">
+	<div class="dealnet-action-link">Calculator</div> >
+</div>
+<div class="dealnet-large-header" id="basic-info">Calculator</div>
 
+<div class="initial-standalone-calculator">
+
+	<div class="form-container equipment-form-container has-loan-calc standalone-calculator">
+		<div class="form-section">
+			<div class="equipment-editable-parent row">
+				<div class="equipment-editable-section col-sm-6">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-8 initial-width">
+								<label>Choose province</label>
+								<select class="form-control">
+									<option value="1">-not selected-</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="equipments-hold">
+						<h3 class="dealnet-middle-header">Equipment Information</h3>
+						<div class="form-group">
+							<label>Type</label>
+							<select class="form-control">
+								<option value="1">-not selected-</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Description</label>
+							<div class="control-group">
+								<input type="text" class="form-control dealnet-input date-input">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6 equipment-cost-col initial-width">
+									<label>Cost</label>
+									<div class="control-group has-addon-left">
+										<div class="control-group-addon">$</div>
+										<input type="text" class="form-control dealnet-input date-input">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="align-middle dealnet-info-link add-equip-link">
+						<svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+						<span>Add additional equipment</span>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-4 initial-width">
+							<div class="form-group">
+								<label>Add: Admin Fee</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 initial-width">
+							<div class="form-group">
+								<label>Down Payment</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 initial-width">
+							<div class="form-group">
+								<label>Customer Rate (%)</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+					</div>
+					<h3 class="dealnet-middle-header">Term and Rep</h3>
+					<div class="row loan-element">
+						<div class="col-md-4 initial-width">
+							<div class="form-group">
+								<label>Loan Term</label>
+								<select class="form-control">
+									<option value="1">60</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4 initial-width">
+							<div class="form-group">
+								<label>Amortization Term</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 initial-width">
+							<div class="form-group">
+								<label>Deferral Type</label>
+								<select class="form-control">
+									<option value="1">-not selected-</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div><!--equipment-editable-section END-->
+
+				<div class="col-md-6 col-sm-6 sticker-parent">
+					<div class="equipment-calculator sticker">
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Total Cash Price (1+2)</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,400.00</span></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">HST</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>2,400.00</span></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Total Amount Financed (3+4-5)</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,459.95</span></div>
+						</div>
+						<hr>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Total Monthly Payment</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>466.12</span></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Total of All Monthly Payments (7*10)</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Balance Owing at the End of Monthly Payments (Residual)</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>-</span></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Total Obligation (11+12)</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Total Cost of Prrowing</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>5,507.40</span></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-8 col-sm-8 col-md-9">Total Tax</div>
+							<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold"><span>13.000 %</span></div>
+						</div>
+					</div><!--equipment-calculator END-->
+
+				</div>
+
+			</div> <!--equipment-editable-parent END-->
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="button-proceed">
+						<input type="submit" value="Save and Proceed" class="btn dealnet-button dealnet-success-button" onClick="$('#calculator-modal').modal()">
+					</div>
+				</div>
+			</div>
+
+		</div> <!--form-section END-->
+
+	</div><!--form-container END-->
+</div><!--initial-standalone-calculator END-->
+
+<div class="compare-standalone-calculator" style="display: none">
+	<div>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs text-left hidden-md hidden-lg" role="tablist">
+			<li role="presentation" class="active"><a href="#type1" aria-controls="type1" role="tab" data-toggle="tab">Type 1</a></li>
+			<li role="presentation"><a href="#type2" aria-controls="type2" role="tab" data-toggle="tab">Type 2</a></li>
+			<li role="presentation"><a href="#type3" aria-controls="type3" role="tab" data-toggle="tab">Type 3</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="form-container equipment-form-container has-loan-calc standalone-calculator">
+			<div class="form-section">
+				<div class="equipment-editable-parent row">
+					<div class="equipment-editable-section col-sm-6  hidden-md hidden-lg">
+						<div id="compare-calculator-data">
+							<div class="equipment-hold">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Type</label>
+											<select class="form-control">
+												<option value="1">-not selected-</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Description</label>
+											<div class="control-group">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label>Cost</label>
+										<div class="control-group has-addon-left">
+											<div class="control-group-addon">$</div>
+											<input type="text" class="form-control dealnet-input date-input">
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="align-middle dealnet-info-link add-equip-link">
+											<svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+											<span>Add additional equipment</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-md-4 initial-width">
+									<div class="form-group">
+										<label>Add: Admin Fee</label>
+										<div class="control-group">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 initial-width">
+									<div class="form-group">
+										<label>Down Payment</label>
+										<div class="control-group">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 initial-width">
+									<div class="form-group">
+										<label>Customer Rate (%)</label>
+										<div class="control-group">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<h3 class="dealnet-middle-header">Term and Rep</h3>
+							<div class="row loan-element">
+								<div class="col-md-4 initial-width">
+									<div class="form-group">
+										<label>Loan Term</label>
+										<select class="form-control">
+											<option value="1">60</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-4 initial-width">
+									<div class="form-group">
+										<label>Amortization Term</label>
+										<div class="control-group">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 initial-width">
+									<div class="form-group">
+										<label>Deferral Type</label>
+										<select class="form-control">
+											<option value="1">-not selected-</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!--equipment-editable-section END-->
+
+					<div class="col-md-6 col-sm-6 sticker-parent">
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="type1">
+								<div class="equipment-calculator sticker">
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Cash Price (1+2)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,400.00</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">HST</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>2,400.00</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Amount Financed (3+4-5)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,459.95</span></div>
+									</div>
+									<hr>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Monthly Payment</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>466.12</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total of All Monthly Payments (7*10)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Balance Owing at the End of Monthly Payments (Residual)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>-</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Obligation (11+12)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Cost of Prrowing</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>5,507.40</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Tax</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold"><span>13.000 %</span></div>
+									</div>
+								</div><!--equipment-calculator END-->
+							</div>
+							<div role="tabpanel" class="tab-pane" id="type2">
+								<div class="equipment-calculator sticker">
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Cash Price (1+2)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>15,000.00</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">HST</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>3,400.00</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Amount Financed (3+4-5)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>10,459.95</span></div>
+									</div>
+									<hr>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Monthly Payment</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>340.12</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total of All Monthly Payments (7*10)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Balance Owing at the End of Monthly Payments (Residual)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>-</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Obligation (11+12)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>5,967.35</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Cost of Prrowing</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>12,507.40</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Tax</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold"><span>20.000 %</span></div>
+									</div>
+								</div><!--equipment-calculator END-->
+							</div>
+							<div role="tabpanel" class="tab-pane" id="type3">
+								<div class="equipment-calculator sticker">
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Cash Price (1+2)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,400.00</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">HST</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>2,400.00</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Amount Financed (3+4-5)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,459.95</span></div>
+									</div>
+									<hr>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Monthly Payment</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>466.12</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total of All Monthly Payments (7*10)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Balance Owing at the End of Monthly Payments (Residual)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>-</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Obligation (11+12)</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Cost of Prrowing</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>5,507.40</span></div>
+									</div>
+									<div class="row form-group">
+										<div class="col-xs-8 col-sm-8 col-md-9">Total Tax</div>
+										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold"><span>13.000 %</span></div>
+									</div>
+								</div><!--equipment-calculator END-->
+							</div>
+
+
+						</div>
+					</div>
+
+				</div> <!--equipment-editable-parent END-->
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="button-proceed">
+							<input type="submit" value="Save and Proceed" class="btn dealnet-button dealnet-success-button">
+						</div>
+					</div>
+				</div>
+
+			</div> <!--form-section END-->
+
+		</div><!--form-container END-->
+
+	</div>
+</div>
+
+<!--Modal for desktop version-->
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="calculator-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Compare to</div>
+			</div>
+			<div class="modal-body">
+				<h3 class="dealnet-middle-header">Equipment Information</h3>
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+
+					<div class="equipment-hold">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Type</label>
+									<select class="form-control">
+										<option value="1">-not selected-</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Description</label>
+									<div class="control-group">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-6">
+								<label>Cost</label>
+								<div class="control-group has-addon-left">
+									<div class="control-group-addon">$</div>
+									<input type="text" class="form-control dealnet-input date-input">
+								</div>
+							</div>
+							<div class="col-md-8">
+								<div class="align-middle dealnet-info-link add-equip-link">
+									<svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+									<span>Add additional equipment</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 initial-width">
+							<div class="form-group">
+								<label>Add: Admin Fee</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6 initial-width">
+							<div class="form-group">
+								<label>Down Payment</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6 initial-width">
+							<div class="form-group">
+								<label>Customer Rate (%)</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+					</div>
+					<h3 class="dealnet-middle-header">Term and Rep</h3>
+					<div class="row loan-element">
+						<div class="col-md-4 col-sm-6 initial-width">
+							<div class="form-group">
+								<label>Loan Term</label>
+								<select class="form-control">
+									<option value="1">60</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6 initial-width">
+							<div class="form-group">
+								<label>Amortization Term</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6 initial-width">
+							<div class="form-group">
+								<label>Deferral Type</label>
+								<select class="form-control">
+									<option value="1">-not selected-</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="btn-container">
+				<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" data-dismiss="modal" onClick="$('.initial-standalone-calculator').hide(); $('.compare-standalone-calculator').show()">Add to Comparison</button>
+				<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
