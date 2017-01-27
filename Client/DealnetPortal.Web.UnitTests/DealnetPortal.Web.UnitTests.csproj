@@ -108,6 +108,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Web.Core\DealnetPortal.Web.Core.csproj">
+      <Project>{BF1B17E7-04B8-42C3-897F-0CEECB75E479}</Project>
+      <Name>DealnetPortal.Web.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Web.ServiceAgent\DealnetPortal.Web.ServiceAgent.csproj">
       <Project>{9D034D24-D090-4FFD-9F50-7FF073568343}</Project>
       <Name>DealnetPortal.Web.ServiceAgent</Name>
