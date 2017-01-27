@@ -471,19 +471,21 @@ namespace DealnetPortal.Api.Integration.Services
                             alerts.AddRange(rAlerts);
                         }
 
-                        if (contract.ContractState != ContractState.SentToAudit)
-                        {
-                            alerts.Add(new Alert()
-                            {
-                                Header = "Deal wasn't sent to audit",
-                                Message = $"Deal wasn't sent to audit for contract with id {contractId}",
-                                Type = AlertType.Error
-                            });
-                            _loggingService.LogError($"Deal wasn't sent to audit for contract with id {contractId}");
-                        }
+                        //if (contract.ContractState != ContractState.SentToAudit)
+                        //{
+                        //    alerts.Add(new Alert()
+                        //    {
+                        //        Header = "Deal wasn't sent to audit",
+                        //        Message = $"Deal wasn't sent to audit for contract with id {contractId}",
+                        //        Type = AlertType.Error
+                        //    });
+                        //    _loggingService.LogError($"Deal wasn't sent to audit for contract with id {contractId}");
+                        //}
 
                         if (rAlerts.All(a => a.Type != AlertType.Error))
                         {
+                            contract.ContractState = ContractState.SentToAudit;
+                            _unitOfWork.Save();
                             _loggingService.LogInfo($"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
                         }
                     }
