@@ -472,7 +472,7 @@ function printCertificate(checkUrl, form) {
         url: checkUrl,
         success: function(json) {
             if (json == true) {
-                $('#print-error-message').hide();
+                $('#certificate-error-message').hide();
                 form.validate();
                 if (!form.valid()) {
                     return;
@@ -481,18 +481,22 @@ function printCertificate(checkUrl, form) {
                     url: form.attr("action"),
                     method: form.attr("method"),  // post
                     success: function (json) {
-                        if (json != null)
+                        if (json != null) {
                             window.location = json;
+                        } else {
+                            $('#certificate-error-message').show();
+                        }
                     },
                     error: function (xhr, status, p3) {
+                        $('#certificate-error-message').show();
                     }
                 });                
             } else {
-                $('#print-error-message').show();
+                $('#certificate-error-message').show();
             }
         },
         error: function(xhr, status, p3) {
-            $('#print-error-message').show();
+            $('#certificate-error-message').show();
         }
     });
 }
