@@ -245,7 +245,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             return View(await _contractManager.GetEquipmentInfoAsync(contractId));
         }
 
@@ -256,7 +256,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsAllInfoCompleted = false;
             if (!ModelState.IsValid)
             {
-                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
+                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
                 return View(equipmentInfo);
             }
             var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
@@ -292,7 +292,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
         {
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
