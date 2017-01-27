@@ -1,5 +1,9 @@
 ﻿$(document)
     .ready(function () {
+      var tabletUp = viewport().width > 768;
+      var tabletOnly = viewport().width > 768 && viewport().width <= 1024;
+      var desktopUp = viewport().width > 1024;
+
       if(detectIE()){
         $('body').addClass('ie');
       }
@@ -135,8 +139,13 @@
       });
 
 
-      if($('.sticker').length){
-        $('.sticker').each(function(){
+      if($('.loan-sticker').length){
+        $('.loan-sticker').each(function(){
+          stickySection($(this));
+        });
+      }
+      if($('.compare-sticker').length){
+        $('.compare-sticker').each(function(){
           stickySection($(this));
         });
       }

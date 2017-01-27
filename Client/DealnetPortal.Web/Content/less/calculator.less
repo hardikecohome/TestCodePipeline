@@ -1,0 +1,45 @@
+.compare-table-calculator{
+  @media @desktop-up {
+    width: 100% !important;
+    .calc-label{
+      width: 40%;
+    }
+    div[class*="calc-field-type"]{
+      width: 20%;
+    }
+  }
+  #type1{
+    .calc-field-type2,
+    .calc-field-type3{
+      display: none;
+      @media @desktop-up {
+        display: block;
+      }
+    }
+  }
+  #type2{
+    .calc-field-type1,
+    .calc-field-type3{
+      display: none;
+      @media @desktop-up {
+        display: block;
+      }
+    }
+  }
+  #type3{
+    .calc-field-type1,
+    .calc-field-type2{
+      display: none;
+      @media @desktop-up {
+        display: block;
+      }
+    }
+  }
+  .calculator-remove{
+    float: right;
+    margin-left: 5px;
+    padding: 2px 5px;
+    margin-right: -5px;
+    cursor: pointer;
+  }
+}
