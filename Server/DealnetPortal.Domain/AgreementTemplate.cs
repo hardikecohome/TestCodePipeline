@@ -18,11 +18,19 @@ namespace DealnetPortal.Domain
 
         public AgreementType? AgreementType { get; set; }
 
+        public int? DocumentTypeId { get; set; }
+        [ForeignKey("DocumentTypeId")]
+        public DocumentType DocumentType { get; set; }
+
         public string State { get; set; }
 
         public string DealerId { get; set; }
         [ForeignKey("DealerId")]
         public ApplicationUser Dealer { get; set; }
+
+        public string ApplicationId { get; set; }
+        [ForeignKey("ApplicationId")]
+        public Application Application { get; set; }
 
         /// <summary>
         /// For Aspire dealers
@@ -34,7 +42,5 @@ namespace DealnetPortal.Domain
         public string ExternalTemplateId { get; set; }
 
         public string EquipmentType { get; set; }
-
-        //public virtual List<EquipmentType> EquipmentTypes { get; set; }
     }
 }

@@ -197,6 +197,8 @@
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
+    <Compile Include="Models\CertificateInformationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />

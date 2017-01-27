@@ -72,7 +72,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public decimal? CreditAmount { get; set; }
 
-        public double? ValueOfDeal { get; set; }
+        public double? ValueOfDeal { get; set; }        
     }
 
     public class CheckEquipmentsCostAttribute : ValidationAttribute, IClientValidatable

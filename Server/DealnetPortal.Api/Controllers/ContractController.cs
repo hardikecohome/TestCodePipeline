@@ -57,7 +57,7 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetCompletedContracts()
         {
             var contracts = ContractService.GetContracts(LoggedInUser.UserId);
-            return Ok(contracts.Where(c => c.ContractState == ContractState.Completed));
+            return Ok(contracts.Where(c => c.ContractState >= ContractState.Completed));
         }
 
         //Get: api/Contract/{contractId}
@@ -245,7 +245,41 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = ContractService.CheckPrintAgreementAvailable(contractId, LoggedInUser?.UserId);
+                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetInstallationCertificate")]
+        [HttpPost]
+        public IHttpActionResult GetInstallationCertificate(InstallationCertificateDataDTO installationCertificateData)
+        {
+            try
+            {
+                if (installationCertificateData == null)
+                {
+                    throw new ArgumentNullException(nameof(installationCertificateData));
+                }
+                var result = ContractService.GetInstallCertificate(installationCertificateData, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("CheckInstallationCertificateAvailable")]
+        [HttpGet]
+        public IHttpActionResult CheckInstallationCertificateAvailable(int contractId)
+        {
+            try
+            {
+                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)

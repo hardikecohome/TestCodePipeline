@@ -176,7 +176,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, string ownerUserId)
+        public async Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string ownerUserId)
         {
             bool isAvailable = false;
             List<Alert> alerts = new List<Alert>();
@@ -186,7 +186,9 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract != null)
             {
                 //Check is pdf template in db. In this case we insert fields on place
-                var agrRes = SelectAgreementTemplate(contract, ownerUserId);
+                var agrRes = documentTypeId != (int) DocumentTemplateType.SignedInstallationCertificate
+                    ? SelectAgreementTemplate(contract, ownerUserId)
+                    : SelectInstallCertificateTemplate(contract, ownerUserId);
                 if (agrRes?.Item1?.AgreementForm != null)
                 {
                     isAvailable = true;
@@ -281,6 +283,70 @@ namespace DealnetPortal.Api.Integration.Services
                     Message = errorMsg
                 });
                 _loggingService.LogError(errorMsg);
+            }
+            LogAlerts(alerts);
+            return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
+        }
+
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string ownerUserId)
+        {
+            List<Alert> alerts = new List<Alert>();
+            AgreementDocument document = null;
+
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(installationCertificateData.ContractId, ownerUserId);
+            if (contract != null)
+            {
+                //Check is pdf template in db. In this case we insert fields on place
+                var agrRes = SelectInstallCertificateTemplate(contract, ownerUserId);
+                if (agrRes?.Item1?.AgreementForm != null)
+                {
+                    MemoryStream ms = new MemoryStream(agrRes.Item1.AgreementForm, true);
+
+                    var fields = new List<FormField>();
+                    FillHomeOwnerFields(fields, contract);
+                    FillApplicantsFields(fields, contract);
+                    FillEquipmentFields(fields, contract, ownerUserId);
+                    FillDealerFields(fields, contract);   
+                    FillInstallCertificateFields(fields, contract, installationCertificateData);
+
+                    var insertRes = _pdfEngine.InsertFormFields(ms, fields);
+                    if (insertRes?.Item2?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes.Item2);
+                    }
+                    if (insertRes?.Item1 != null)
+                    {
+                        var buf = new byte[insertRes.Item1.Length];
+                        await insertRes.Item1.ReadAsync(buf, 0, (int)insertRes.Item1.Length);
+                        document = new AgreementDocument()
+                        {
+                            DocumentRaw = buf,
+                            Name = agrRes.Item1.TemplateName
+                        };
+                    }
+                }
+                else
+                {
+                    var errorMsg = $"Cannot find installation certificate template for contract [{installationCertificateData.ContractId}]";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Message = errorMsg
+                    });
+                }                
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{installationCertificateData.ContractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
             }
             LogAlerts(alerts);
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
@@ -450,11 +516,11 @@ namespace DealnetPortal.Api.Integration.Services
                 contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
 
             var dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
-                (at.DealerId == contractOwnerId));
+                (at.DealerId == contractOwnerId) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
             if (!string.IsNullOrEmpty(contract.ExternalSubDealerName))
             {
                 var extTemplates = _fileRepository.FindAgreementTemplates(at =>
-                    (at.ExternalDealerName == contract.ExternalSubDealerName));
+                    (at.ExternalDealerName == contract.ExternalSubDealerName) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
                 extTemplates?.ForEach(et => dealerTemplates.Add(et));
             }
             
@@ -496,7 +562,7 @@ namespace DealnetPortal.Api.Integration.Services
             else
             {
                 //otherwise select any common template
-                var commonTemplates = _fileRepository.FindAgreementTemplates(at => string.IsNullOrEmpty(at.DealerId));
+                var commonTemplates = _fileRepository.FindAgreementTemplates(at => string.IsNullOrEmpty(at.DealerId) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
                 if (commonTemplates?.Any() ?? false)
                 {
                     agreementTemplate = commonTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
@@ -521,6 +587,50 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error,
                     Header = "Can't find agreement template",
+                    Message = errorMsg
+                });
+            }
+
+            return new Tuple<AgreementTemplate, IList<Alert>>(agreementTemplate, alerts);
+        }
+
+        private Tuple<AgreementTemplate, IList<Alert>> SelectInstallCertificateTemplate(Contract contract, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            AgreementTemplate agreementTemplate = null;
+
+            var dealerCertificates = _fileRepository.FindAgreementTemplates(at =>
+                (at.DealerId == contractOwnerId) && (at.DocumentTypeId == (int)DocumentTemplateType.SignedInstallationCertificate));
+            if (dealerCertificates?.Any() ?? false)
+            {
+                agreementTemplate = dealerCertificates.FirstOrDefault(
+                    cert => cert.AgreementType == contract.Details.AgreementType)
+                                    ?? dealerCertificates.FirstOrDefault();
+            }
+            else
+            {
+                var daeler = _contractRepository.GetDealer(contractOwnerId);
+                if (daeler != null)
+                {
+                    var appCertificates = _fileRepository.FindAgreementTemplates(at =>
+                        (at.ApplicationId == daeler.ApplicationId) && (at.DocumentTypeId == (int)DocumentTemplateType.SignedInstallationCertificate));
+                    if (appCertificates?.Any() ?? false)
+                    {
+                        agreementTemplate = appCertificates.FirstOrDefault(
+                            cert => cert.AgreementType == contract.Details.AgreementType)
+                                            ?? appCertificates.FirstOrDefault();
+                    }
+                }                
+            }
+
+            if (agreementTemplate == null)
+            {
+                var errorMsg =
+                    $"Can't find installation certificate template for a dealer contract {contractOwnerId}";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Can't find installation certificate template",
                     Message = errorMsg
                 });
             }
@@ -985,6 +1095,56 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError("Cannot get dealer info from Aspire");
                 }
             }            
+        }
+
+        private void FillInstallCertificateFields(List<FormField> formFields, Contract contract, InstallationCertificateDataDTO installationCertificateData)
+        {
+            formFields.Add(new FormField() {FieldType = FieldType.Text, Name = PdfFormFields.CustomerName, Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"});
+
+            if (installationCertificateData != null)
+            {
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallerName, Value = $"{installationCertificateData.InstallerLastName} {installationCertificateData.InstallerFirstName}" });
+                if (installationCertificateData.InstallationDate.HasValue)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationDate, Value = installationCertificateData.InstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
+                }
+
+                if (installationCertificateData.InstalledEquipments?.Any() ?? false)
+                {
+                    string eqDescs = string.Empty;
+                    string eqModels = string.Empty;
+                    string eqSerials = string.Empty;
+                    installationCertificateData.InstalledEquipments.ForEach(eq =>
+                    {
+                        if (!string.IsNullOrEmpty(eqModels))
+                        {
+                            eqModels += "; ";
+                        }
+                        eqModels += eq.Model;
+                        if (!string.IsNullOrEmpty(eqSerials))
+                        {
+                            eqSerials += "; ";
+                        }
+                        eqSerials += eq.SerialNumber;
+                        if (!string.IsNullOrEmpty(eqDescs))
+                        {
+                            eqDescs += "; ";
+                        }
+                        eqDescs += contract.Equipment.NewEquipment?.FirstOrDefault(e => e.Id == eq.Id)?.Description;
+                    });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentModel, Value = eqModels });
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentSerialNumber, Value = eqSerials });
+                    var descField = formFields.FirstOrDefault(f => f.Name == PdfFormFields.EquipmentDescription);
+                    if (descField != null)
+                    {
+                        descField.Value = eqDescs;
+                    }
+                    else
+                    {
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = eqDescs });
+                    }
+                }                
+            }
         }
     }
 }

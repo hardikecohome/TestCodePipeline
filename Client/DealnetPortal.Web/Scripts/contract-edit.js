@@ -277,7 +277,8 @@ function submitAllDocumentsUploaded() {
             if (result.isSuccess) {
                 $('.before-all-documents-submitted').hide();
                 $('#all-documents-submitted-message').show();
-                $('.disablable').attr('disabled', 'disabled');
+                $('.disablable').addClass('disabled');
+                $('button.disabled, input.disabled').attr('disabled', 'disabled');
                 $('.dealnet-section-edit-link').hide();
             } else if (result.isError) {
                 alert('An error occurred while sending report');
@@ -462,4 +463,40 @@ function assignAutocompletes() {
                 initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
             }
         });
+}
+
+function printCertificate(checkUrl, form) {
+
+    $.get({
+        type: "POST",
+        url: checkUrl,
+        success: function(json) {
+            if (json == true) {
+                $('#certificate-error-message').hide();
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                };
+                form.ajaxSubmit({
+                    url: form.attr("action"),
+                    method: form.attr("method"),  // post
+                    success: function (json) {
+                        if (json != null) {
+                            window.location = json;
+                        } else {
+                            $('#certificate-error-message').show();
+                        }
+                    },
+                    error: function (xhr, status, p3) {
+                        $('#certificate-error-message').show();
+                    }
+                });                
+            } else {
+                $('#certificate-error-message').show();
+            }
+        },
+        error: function(xhr, status, p3) {
+            $('#certificate-error-message').show();
+        }
+    });
 }

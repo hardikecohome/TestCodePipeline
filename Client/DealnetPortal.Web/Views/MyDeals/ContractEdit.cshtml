@@ -65,18 +65,34 @@
 					                <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
 					                <span class="error-message"></span>
 					            </div>
+
 					            <div class="documents-list">
 					                <div class="document-item block-item @(document != null ? "" : "collapse")">
 					                    <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
 					                    <span class="document-naming">@(document?.DocumentName)</span>
 					                </div>
 					            </div>
+								if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
+								{
+								    <div>
+								        <a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link">
+								            <svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
+								            Download Certificate Template
+								        </a>
+								    </div>
+                                    <div class="well danger-well error-descr collapse" id="certificate-error-message">
+                                        <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                        Cannot get installation certificate for Print
+                                    </div>
+								    <hr>
+								}
 					            <div class="progress-container collapse">
 					                <div class="progress">
 					                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
 					                </div>
 					                <div class="progress-bar-value text-center">0%</div>
-					                <a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+					                <a href="#" class="clear-data-link">
+						                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
 					            </div>
                                 @Html.AntiForgeryToken()
                                 @Html.Hidden("OperationGuid")
@@ -229,7 +245,7 @@
 		</div>
 		<div class="btn-hold">
 		    <button class="btn dealnet-button dealnet-success-button disablable" id="send-all-documents-report" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
-		        Send Report
+				Send to Audit
 		    </button>
 		</div>
 	</div>
@@ -260,7 +276,7 @@
 	            </div>
 	        </div>
 	    }
-	    <h3 class="dealnet-section-title">Deal Information @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();">Edit</a> }
+	    <h3 class="dealnet-section-title">Deal Information @if(contractState <= ContractState.Completed) { <a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();"*@>Edit</a> }
         </h3>
 		<div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6 grid-column">
@@ -526,7 +542,7 @@
 		    {
                 <div class="col-md-6 grid-column">
 		            <div class="dealnet-credit-check-section"  id="mailing-address-section">
-		                <h3 class="dealnet-section-title">Mailing Address @if(contractState == ContractState.CreditCheckDeclined) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();">Edit</a> }
+		                <h3 class="dealnet-section-title">Mailing Address @if(contractState == ContractState.CreditCheckDeclined) { <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();"*@>Edit</a> }
 		                </h3>
                         <div class="form-group">
                             <div class="row">
@@ -594,7 +610,7 @@
                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
                     <div class="dealnet-credit-check-section" id="contact-info-section">
                         @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
-                        <h3 class="dealnet-section-title">Contact Information @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();">Edit</a>}
+                        <h3 class="dealnet-section-title">Contact Information @if(contractState <= ContractState.Completed) { <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>Edit</a>}
                         </h3>
                         <div class="form-group">
                             <div class="row">
@@ -722,7 +738,7 @@
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                     <h3 class="dealnet-section-title">
-                                        Mailing Address @if(contractState == ContractState.CreditCheckDeclined) { <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a>}
+                                        Mailing Address @if(contractState == ContractState.CreditCheckDeclined) { <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" @*onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();"*@ class="dealnet-section-edit-link pull-right">Edit</a>}
                                     </h3>
                                     <div class="form-group">
                                         <div class="row">
@@ -800,7 +816,7 @@
                                 <div class="dealnet-credit-check-section" id="contact-info-section@(i + 1)-coborrower">
                                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CustomerId)
                                     <h3 class="dealnet-section-title">
-                                        Contact Information @if(contractState <= ContractState.Completed) { <a href="#" onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>}
+                                        Contact Information @if(contractState <= ContractState.Completed) { <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" @*onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();"*@ class="dealnet-section-edit-link pull-right">Edit</a>}
                                     </h3>
                                     <div class="form-group">
                                         <div class="row">
@@ -845,9 +861,17 @@
                         }
                     }
                 </div>
-
             </div>
+
         </div>
+    }
+
+    @if (contractState == ContractState.CreditCheckDeclined)
+    {
+        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit align-middle">
+            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+            <span>Add additional applicant</span>
+        </a>
     }
 	
 	<hr>
@@ -867,7 +891,7 @@
         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
 	    <h3 class="dealnet-section-title">Equipment Information 
-            @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();">Edit</a>}
+            @if(contractState <= ContractState.Completed) { <a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();"*@>Edit</a>}
 	    </h3>
 	    <div class="row credit-check-info-hold equipment-info no-top-margin" id="new-equipment-info-section">
 	        @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
@@ -989,7 +1013,7 @@
 	    @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
         <h3 class="dealnet-section-title">Payment Information 
-            @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();">Edit</a>}
+            @if(contractState <= ContractState.Completed) { <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();"*@>Edit</a>}
 	    </h3>
 	    <div class="row credit-check-info-hold no-top-margin">
 	        <div class="col-md-6 grid-column">
@@ -1079,7 +1103,7 @@
             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
 	        <div class="summary-return-equipment" id="existing-equipment-section">
 	            <h3 class="dealnet-section-title">Existing Equipment Information 
-                    @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();">Edit</a>}
+                    @if(contractState <= ContractState.Completed) { <a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();"*@>Edit</a>}
 	            </h3>
 	            @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
 	            {
@@ -1202,7 +1226,7 @@
                             <div class="dealnet-credit-check-section">
                                 <h3 class="dealnet-section-title">
                                     Additional Contract Information 
-                                    @if(contractState <= ContractState.Completed) { <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()">Edit</a>}
+                                    @if(contractState <= ContractState.Completed) { <a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>Edit</a>}
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">
@@ -1334,7 +1358,7 @@ foreach (var comment in comments)
     <a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
 </div>
 
-<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="deal-info-modal">
+@*<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="deal-info-modal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -1466,7 +1490,7 @@ foreach (var comment in comments)
 			</div>
 		</div>
 	</div>
-</div>
+</div>*@
 
 @*<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="address-modal">
 	<div class="modal-dialog" role="document">
@@ -1556,7 +1580,7 @@ foreach (var comment in comments)
 		</div>
 	</div>
 </div>*@
-
+@*
 @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
 {
     <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="mailing-address-modal">
@@ -1850,7 +1874,7 @@ foreach (var comment in comments)
                                         <input type="file" accept="image/*" class="upload" id="upload-new-photo" />
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>*@@*
                             <div class="col-md-12 pap-payment">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new {@class = "dealnet-field-caption"})
@@ -2237,15 +2261,15 @@ foreach (var comment in comments)
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "edit-add-contract-section-modal" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "edit-add-contract-section-modal"}))
                     {
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-xs-12">Contract Notes</label>
                                 <div class="dealnet-field-holder col-xs-12">
                                     <div class="control-group">
-                                        @Html.TextAreaFor(m => m.EquipmentInfo.Notes, new { @class = "form-control", id = "contract-notes" })
-                                        @Html.ValidationMessageFor(m => m.EquipmentInfo.Notes, "", new { @class = "text-danger" })
+                                        @Html.TextAreaFor(m => m.EquipmentInfo.Notes, new {@class = "form-control", id = "contract-notes"})
+                                        @Html.ValidationMessageFor(m => m.EquipmentInfo.Notes, "", new {@class = "text-danger"})
                                     </div>
                                 </div>
                             </div>
@@ -2254,6 +2278,141 @@ foreach (var comment in comments)
                 </div>
                 <div class="btn-container">
                     <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#edit-add-contract-section-modal'), $('#edit-add-contract-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#contract-notes-form'))) { $('#edit-add-contract-modal').modal('hide'); }">Save changes</button>
+                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+*@
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="download-certificate-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-title dealnet-large-header">Download Certificate Template</div>
+            </div>
+            <div class="modal-body no-padding-top">
+                <div class="dealnet-credit-check-section dealnet-modal-section">
+                    @using (Html.BeginForm("PrepareInstallationCertificate", "MyDeals", FormMethod.Post, new {id = "install-certificate-info-section-modal"}))
+                    {
+                        @Html.HiddenFor(m => m.InstallCertificateInformation.ContractId)
+                        for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
+                         {
+                             <div class="certificate-equipment">
+                                 @Html.HiddenFor(m => m.InstallCertificateInformation.Equipments[i].Id)
+                                 <h3 class="dealnet-section-title">&#8470;@(i + 1)</h3>
+                                 <div class="form-group">
+                                     <div class="row">
+                                         <div class="col-sm-3">
+                                             <div class="dealnet-field-caption">Qty</div>
+                                         </div>
+                                         <div class="col-sm-9">
+                                             <div class="dealnet-field-holder text-left ">
+                                                 1
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="row">
+                                         <div class="col-sm-3">
+                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new {@class = "dealnet-field-caption"})
+                                         </div>
+                                         <div class="col-sm-9">
+                                             <div class="dealnet-field-holder text-left text-uppercase">
+                                                 @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
+                                                     ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type}),
+                                                     new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="row">
+                                         <div class="col-sm-3">
+                                             @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "dealnet-field-caption"})
+                                         </div>
+                                         <div class="col-sm-9">
+                                             <div class="dealnet-field-holder text-left">
+                                                 @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <br/>
+                                 <div class="row">
+                                     <div class="col-sm-6">
+                                         <div class="form-group">
+                                             <label class="dealnet-field-caption">Installed equipment serial number</label>
+                                             <div class="dealnet-field-holder">
+                                                 <div class="control-group">
+                                                     @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new {@class = "form-control dealnet-input"})
+                                                     @Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, "", new {@class = "text-danger"})
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-6">
+                                         <div class="form-group">
+                                             <label class="dealnet-field-caption">Installed equipement model</label>
+                                             <div class="dealnet-field-holder">
+                                                 <div class="control-group">
+                                                     @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].Model, new {@class = "form-control dealnet-input"})
+                                                     @Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].Model, "", new {@class = "text-danger"})
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         }
+
+                        <hr>
+
+
+                        <div class="certificate-instaler">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="dealnet-field-caption">Installer first name</label>
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerFirstName, new {id = "installerFirstName", @class = "form-control dealnet-input"})
+                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="dealnet-field-caption">Installer last name</label>
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerLastName, new {@class = "form-control dealnet-input"})
+                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="dealnet-field-caption">Installation Date</label>
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group date-group">
+                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input"})
+                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallationDate, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="btn-container">
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">Download</button>
                     <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

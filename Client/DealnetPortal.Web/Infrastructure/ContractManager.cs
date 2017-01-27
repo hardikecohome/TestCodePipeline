@@ -156,6 +156,18 @@ namespace DealnetPortal.Web.Infrastructure
                 }).ToList();
             }
 
+            contractEditViewModel.InstallCertificateInformation = new CertificateInformationViewModel()
+            {
+                ContractId = contractId,
+                Equipments = new List<CertificateEquipmentInfoViewModel>()
+            };
+            summaryViewModel.EquipmentInfo.NewEquipment?.ForEach(eq =>
+                contractEditViewModel.InstallCertificateInformation.Equipments.Add(
+                    new CertificateEquipmentInfoViewModel()
+                    {
+                        Id = eq.Id
+                    }));
+
             return contractEditViewModel;
         }
 

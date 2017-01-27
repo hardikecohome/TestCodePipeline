@@ -125,6 +125,10 @@ namespace DealnetPortal.Web.App_Start
                     Id = src.CustomerId,
                     AllowCommunicate = src.AllowCommunicate                    
                 }));
+
+            cfg.CreateMap<CertificateEquipmentInfoViewModel, InstalledEquipmentDTO>();
+            cfg.CreateMap<CertificateInformationViewModel, InstallationCertificateDataDTO>()
+                .ForMember(x => x.InstalledEquipments, d => d.MapFrom(src => src.Equipments));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -208,14 +212,14 @@ namespace DealnetPortal.Web.App_Start
                         return string.Empty;
                     }));
 
-                cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
-                    .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
-                    .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
-                    .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
-                    .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)));
-                cfg.CreateMap<LocationDTO, AddressInformation>()
-                    .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
-                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
+            cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
+                .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
+                .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
+                .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)));
+            cfg.CreateMap<LocationDTO, AddressInformation>()
+                .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
+                .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
             cfg.CreateMap<LocationDTO, MailingAddressInformation>()
                     .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                     .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
@@ -229,23 +233,23 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.DeferralType : 0))
                     .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != AgreementType.LoanApplication ? src.DeferralType : 0));
 
-                cfg.CreateMap<CommentDTO, CommentViewModel>();
-                cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
-                .ForMember(x => x.DocumentId, d => d.MapFrom(src => src.Id))
-                .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)));
+            cfg.CreateMap<CommentDTO, CommentViewModel>();
+            cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
+            .ForMember(x => x.DocumentId, d => d.MapFrom(src => src.Id))
+            .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)));
 
-                cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
-                cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()
-                    .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
-                    .ForMember(x => x.BusinessPhone, d => d.ResolveUsing(src =>
-                        src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum))
-                    .ForMember(x => x.HomePhone, d => d.ResolveUsing(src =>
-                        src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum))
-                    .ForMember(x => x.CellPhone, d => d.ResolveUsing(src =>
-                        src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum))
-                    .ForMember(x => x.EmailAddress, d => d.ResolveUsing(src =>
-                        src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
-                    .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate.HasValue ? src.AllowCommunicate.Value : false));
+            cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
+            cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()
+                .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.BusinessPhone, d => d.ResolveUsing(src =>
+                    src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum))
+                .ForMember(x => x.HomePhone, d => d.ResolveUsing(src =>
+                    src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum))
+                .ForMember(x => x.CellPhone, d => d.ResolveUsing(src =>
+                    src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum))
+                .ForMember(x => x.EmailAddress, d => d.ResolveUsing(src =>
+                    src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
+                .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate.HasValue ? src.AllowCommunicate.Value : false));            
         }
 
 
