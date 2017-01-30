@@ -12,12 +12,12 @@ namespace DealnetPortal.Web.Models
 
         public List<CertificateEquipmentInfoViewModel> Equipments { get; set; }
 
-        [Display(Name = "First Name")]
+        [Display(Name = "Installer First Name")]
         [StringLength(20, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "First Name is in incorrect format")]
         public string InstallerFirstName { get; set; }
 
-        [Display(Name = "Last Name")]
+        [Display(Name = "Installer Last Name")]
         [StringLength(20, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "Last Name is in incorrect format")]
         public string InstallerLastName { get; set; }

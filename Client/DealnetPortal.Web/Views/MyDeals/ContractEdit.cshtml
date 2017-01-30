@@ -2322,9 +2322,9 @@ foreach (var comment in comments)
                                          </div>
                                          <div class="col-sm-9">
                                              <div class="dealnet-field-holder text-left text-uppercase">
-	                                             @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-	                                             ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type}),
-	                                             new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                                 @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
+                                                     ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type}),
+                                                     new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
                                              </div>
                                          </div>
                                      </div>
@@ -2345,7 +2345,7 @@ foreach (var comment in comments)
                                  <div class="row">
                                      <div class="col-sm-6">
                                          <div class="form-group">
-                                             <label class="dealnet-field-caption">Installed equipment serial number</label>
+	                                         @Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new {@class = "dealnet-field-caption"})
                                              <div class="dealnet-field-holder">
                                                  <div class="control-group">
                                                      @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new {@class = "form-control dealnet-input"})
@@ -2356,7 +2356,7 @@ foreach (var comment in comments)
                                      </div>
                                      <div class="col-sm-6">
                                          <div class="form-group">
-                                             <label class="dealnet-field-caption">Installed equipment model</label>
+	                                         @Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].Model, new {@class = "dealnet-field-caption"})
                                              <div class="dealnet-field-holder">
                                                  <div class="control-group">
                                                      @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].Model, new {@class = "form-control dealnet-input"})
@@ -2376,7 +2376,7 @@ foreach (var comment in comments)
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="dealnet-field-caption">Installer first name</label>
+	                                    @Html.LabelFor(m => m.InstallCertificateInformation.InstallerFirstName, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerFirstName, new {id = "installerFirstName", @class = "form-control dealnet-input"})
@@ -2387,7 +2387,7 @@ foreach (var comment in comments)
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="dealnet-field-caption">Installer last name</label>
+	                                    @Html.LabelFor(m => m.InstallCertificateInformation.InstallerLastName, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerLastName, new {@class = "form-control dealnet-input"})
@@ -2398,7 +2398,7 @@ foreach (var comment in comments)
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="dealnet-field-caption">Installation Date</label>
+	                                    @Html.LabelFor(m => m.InstallCertificateInformation.InstallationDate, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group date-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input"})
