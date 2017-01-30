@@ -49,6 +49,33 @@
     }
   }
 }
+.mandatory-title{
+  font-size: 14px;
+  color: #5d5d5d;
+  font-weight: normal;
+  float: right;
+  .glyphicon{
+    font-size: 7px;
+    top: -2px;
+    color: #ff9800;
+  }
+  @media (max-width: 420px) {
+    float: none;
+    display: block;
+    margin-top: 10px;
+  }
+}
+.mandatory-icon{
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  height: 10px;
+  font-size: 20px;
+  line-height: 18px;
+  font-weight: bold;
+  color: #d33b4c;
+}
+
 .dealnet-section-edit-link{
   .dealnet-info-link;
   font-weight: 400;
@@ -77,6 +104,11 @@
     display: none;
   }
 }
+
+.text-left .dealnet-disabled-input:not(.form-control-disabled){
+  text-align: left;
+}
+
 input.dealnet-disabled-input,
 select.dealnet-disabled-input{
 

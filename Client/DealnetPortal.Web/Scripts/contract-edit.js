@@ -21,6 +21,8 @@
             return false;
         });
 
+        checkSubmitAllDocumentsAvailability();
+
         if (!isMobileBrowser) {
             $('.base-comment-text').keypress(function(e) {
                 if (e.which == 13 && !e.shiftKey) {
@@ -114,6 +116,7 @@
                         errorDesc.hide();
                         tabContainers.removeClass('error');
                         tabContainers.addClass('uploaded');
+                        checkSubmitAllDocumentsAvailability();
                     } else if (result.isError) {
                         afterError(result.errorMessage);
                     } else if (result.wasCancelled) {
@@ -259,8 +262,8 @@ function managePaymentFormElements(paymentType) {
 function auditConfirmModal() {
     var data = {
         class: "audit-alert-modal",
-        message: "If you send documents to audit you won't have possibility to make some changes in this contract or upload any document",
-        title: "Send to Audit?",
+        message: "Did you upload all the documents needed? After proceeding you won't have a possibility to make any other changes",
+        title: "Final check",
         confirmBtnText: "Proceed"
     };
     dynamicAlertModal(data);
@@ -280,6 +283,7 @@ function submitAllDocumentsUploaded() {
                 $('.disablable').addClass('disabled');
                 $('button.disabled, input.disabled').attr('disabled', 'disabled');
                 $('.dealnet-section-edit-link').hide();
+                isSentToAudit = true;
             } else if (result.isError) {
                 alert('An error occurred while sending report');
             }
@@ -291,6 +295,23 @@ function submitAllDocumentsUploaded() {
             hideDynamicAlertModal();
         }
     });
+}
+
+function checkSubmitAllDocumentsAvailability() {
+    var submitEnabled = true;
+    $('.mandatory').each(function () {
+        submitEnabled = submitEnabled && $(this).hasClass('uploaded');
+    });
+    if (submitEnabled && !isSentToAudit) {
+        $('button.disabled, input.disabled').removeClass('disabled');
+        $('button.disabled, input.disabled').removeProp('disabled');
+        $('.before-all-documents-submitted').hide();
+    } else {
+        if (isSentToAudit) {
+            $('.before-all-documents-submitted').hide();
+            $('#all-documents-submitted-message').show();
+        }
+    }
 }
 
 function addReplyFrom() {

@@ -19,14 +19,20 @@
 		<div class="dealnet-large-header">Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
         <br />
 		<div class="documents-container">
-			<h3 class="dealnet-section-title">Funding Checklist</h3>
+			<div class="row">
+				<div class="col-md-6">
+					<h3 class="dealnet-section-title">Funding Checklist
+						<span class="mandatory-title"><i class="mandatory-icon">*</i> &mdash; Mandatory documents</span>
+					</h3>
+				</div>
+			</div>
 			<div class="tabs tabs-vertical row responsive-tabs">
 				<div class="col-md-6">
 					<ul class="nav nav-pills nav-stacked documents-pills">
 					    @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes.Count; i++)
                         {
                             var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
-                            <li class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item tab-container-@(i+1)">
+                            <li class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
                                 <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
                                     @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                     {
@@ -35,6 +41,10 @@
                                     else
                                     {
                                        @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+                                        if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+                                        {
+	                                        <i class="mandatory-icon">*</i>
+	                                    }
                                     }                                    
                                 </a>
                             </li>
@@ -50,9 +60,13 @@
                             continue;
                         }
                         var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
-                        <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item tab-container-@(i+1)">
+                        <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
                             <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
                                 @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+	                            @if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+                                {
+	                            <i class="mandatory-icon">*</i>
+	                            }
                             </a>
                         </div>
 					    <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
@@ -227,8 +241,8 @@
 	<hr>
 	<div class="indicate-doc-status form-section">
 		<div class="descr-hold">
-			<div class="before-all-documents-submitted">
-				If all needed documents for contract were uploaded, please, send report
+			<div class="before-all-documents-submitted text-right">
+				Please upload all mandatory documents
 			</div>
 			<div class="well danger-well error-descr collapse before-all-documents-submitted">
 				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
@@ -244,8 +258,8 @@
 			</div>
 		</div>
 		<div class="btn-hold">
-		    <button class="btn dealnet-button dealnet-success-button disablable" id="send-all-documents-report" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
-				Send to Audit
+		    <button class="btn dealnet-button dealnet-success-button disablable disabled" id="send-all-documents-report" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
+				Ready for Audit
 		    </button>
 		</div>
 	</div>
@@ -2345,7 +2359,7 @@ foreach (var comment in comments)
                                  <div class="row">
                                      <div class="col-sm-6">
                                          <div class="form-group">
-                                             <label class="dealnet-field-caption">Installed equipment serial number</label>
+	                                         @Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new {@class = "dealnet-field-caption"})
                                              <div class="dealnet-field-holder">
                                                  <div class="control-group">
                                                      @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new {@class = "form-control dealnet-input"})
@@ -2356,7 +2370,7 @@ foreach (var comment in comments)
                                      </div>
                                      <div class="col-sm-6">
                                          <div class="form-group">
-                                             <label class="dealnet-field-caption">Installed equipement model</label>
+	                                         @Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].Model, new {@class = "dealnet-field-caption"})
                                              <div class="dealnet-field-holder">
                                                  <div class="control-group">
                                                      @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].Model, new {@class = "form-control dealnet-input"})
@@ -2376,7 +2390,7 @@ foreach (var comment in comments)
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="dealnet-field-caption">Installer first name</label>
+	                                    @Html.LabelFor(m => m.InstallCertificateInformation.InstallerFirstName, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerFirstName, new {id = "installerFirstName", @class = "form-control dealnet-input"})
@@ -2387,7 +2401,7 @@ foreach (var comment in comments)
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="dealnet-field-caption">Installer last name</label>
+	                                    @Html.LabelFor(m => m.InstallCertificateInformation.InstallerLastName, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerLastName, new {@class = "form-control dealnet-input"})
@@ -2398,7 +2412,7 @@ foreach (var comment in comments)
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="dealnet-field-caption">Installation Date</label>
+	                                    @Html.LabelFor(m => m.InstallCertificateInformation.InstallationDate, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group date-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input"})
@@ -2426,6 +2440,7 @@ foreach (var comment in comments)
 {
     <script type="text/javascript">
         var isMobileBrowser = @(ViewBag.IsMobileRequest ? "true" : "false");
+        var isSentToAudit = @(Model.AdditionalInfo.ContractState == ContractState.SentToAudit ? "true" : "false");
     </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/contract-edit")

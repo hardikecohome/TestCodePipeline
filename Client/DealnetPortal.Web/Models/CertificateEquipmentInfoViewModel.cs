@@ -10,10 +10,10 @@ namespace DealnetPortal.Web.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "installed equipement model")]        
+        [Display(Name = "Installed Equipment Model")]
         public string Model { get; set; }
 
-        [Display(Name = "Installed equipment serial number")]
+        [Display(Name = "Installed Equipment Serial Number")]
         public string SerialNumber { get; set; }
     }
 }

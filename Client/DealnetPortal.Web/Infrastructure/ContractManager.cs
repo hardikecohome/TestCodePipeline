@@ -144,8 +144,9 @@ namespace DealnetPortal.Web.Infrastructure
             contractEditViewModel.Comments = comments;
 
             contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
-            contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contractsResult.Item1.Documents);
+            contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contractsResult.Item1.Documents);            
             contractEditViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
+            contractEditViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() { (int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4 };
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
             if (docTypes?.Item1 != null)
             {
@@ -442,6 +443,7 @@ namespace DealnetPortal.Web.Infrastructure
             contractViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
             contractViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contract.Documents);
             contractViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
+            contractViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() {(int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4};
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
             if (docTypes?.Item1 != null)
             {
