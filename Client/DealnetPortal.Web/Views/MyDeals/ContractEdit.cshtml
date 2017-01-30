@@ -2322,9 +2322,9 @@ foreach (var comment in comments)
                                          </div>
                                          <div class="col-sm-9">
                                              <div class="dealnet-field-holder text-left text-uppercase">
-                                                 @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                     ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type}),
-                                                     new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+	                                             @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
+	                                             ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type}),
+	                                             new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
                                              </div>
                                          </div>
                                      </div>
@@ -2356,7 +2356,7 @@ foreach (var comment in comments)
                                      </div>
                                      <div class="col-sm-6">
                                          <div class="form-group">
-                                             <label class="dealnet-field-caption">Installed equipement model</label>
+                                             <label class="dealnet-field-caption">Installed equipment model</label>
                                              <div class="dealnet-field-holder">
                                                  <div class="control-group">
                                                      @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].Model, new {@class = "form-control dealnet-input"})
