@@ -2319,11 +2319,11 @@ foreach (var comment in comments)
                                  <h3 class="dealnet-section-title">&#8470;@(i + 1)</h3>
                                  <div class="form-group">
                                      <div class="row">
-                                         <div class="col-sm-3">
+                                         <div class="col-sm-3 col-xs-4">
                                              @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new {@class = "dealnet-field-caption"})
                                          </div>
-                                         <div class="col-sm-9">
-                                             <div class="dealnet-field-holder text-left text-uppercase">
+                                         <div class="col-sm-9 col-xs-8">
+                                             <div class="dealnet-field-holder text-left text-uppercase text-normal">
                                                  @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
                                                      ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type}),
                                                      new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
@@ -2333,11 +2333,11 @@ foreach (var comment in comments)
                                  </div>
                                  <div class="form-group">
                                      <div class="row">
-                                         <div class="col-sm-3">
+                                         <div class="col-sm-3 col-xs-4">
                                              @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "dealnet-field-caption"})
                                          </div>
-                                         <div class="col-sm-9">
-                                             <div class="dealnet-field-holder text-left">
+                                         <div class="col-sm-9 col-xs-8">
+                                             <div class="dealnet-field-holder text-left text-normal">
                                                  @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
                                              </div>
                                          </div>
