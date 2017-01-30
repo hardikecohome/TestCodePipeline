@@ -188,8 +188,11 @@ namespace DealnetPortal.Web.Infrastructure
                     DisplayName = "On my behalf"
                 };
                 basicInfo.SubDealers.Add(mainDealer);
-                basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.SubDealers));
-                if (dealerInfo?.UdfSubDealers?.Any() ?? false)
+                if (dealerInfo.SubDealers?.Any() ?? false)
+                {
+                    basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.SubDealers));
+                }
+                if (dealerInfo.UdfSubDealers?.Any() ?? false)
                 {
                     basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.UdfSubDealers));
                 }
