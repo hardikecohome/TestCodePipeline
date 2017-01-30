@@ -113,7 +113,7 @@
                                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new {Name = "ContractId"})
 					            @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new {Name = "DocumentTypeId"})
 					            <div class="form-group">
-					                <div @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> } class="file-upload btn dealnet-button dealnet-success-button disablable">
+					                <div @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> } class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.SentToAudit) { <text>disabled</text> }">
 					                    <span>Upload</span>
 					                    <input type="file" name="File" class="upload main-document-upload"/>
 					                </div>
@@ -166,7 +166,7 @@
 							                <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
 							                <span class="document-naming">@document.DocumentName</span>
                                             @Html.Hidden("DocumentName", document.DocumentName)
-							                <a class="upload-doc-link file-upload disablable" href="#" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
+							                <a class="upload-doc-link file-upload disablable @if(contractState == ContractState.SentToAudit) { <text>disabled</text> }" href="#" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
 							                    <svg aria-hidden="true" class="icon icon-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
 							                    Reupload
                                                 <input type="file" name="File" class="upload uploaded-other-document-input"/>
@@ -190,7 +190,7 @@
                                 <div class="collapse" id="empty-document-name-message">
                                     <span class="text-danger">Name of a document can't be empty</span>
                                 </div>
-								<div class="file-upload btn dealnet-button dealnet-success-button disablable" id="other-documents-upload-button" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
+								<div class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.SentToAudit) { <text>disabled</text> }" id="other-documents-upload-button" @if(contractState == ContractState.SentToAudit) { <text>disabled="disabled"</text> }>
 									<span>Upload</span>
 									<input type="file" name="File" class="upload" id="other-documents-upload"/>
 								</div>
