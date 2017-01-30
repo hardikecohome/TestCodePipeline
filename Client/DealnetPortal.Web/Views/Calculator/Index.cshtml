@@ -168,10 +168,10 @@
 <div class="compare-standalone-calculator" style="display: none">
 	<div>
 		<!-- Nav tabs -->
-		<ul class="nav nav-tabs text-left hidden-md hidden-lg" role="tablist">
-			<li role="presentation" class="active"><a href="#type1" aria-controls="type1" role="tab" data-toggle="tab">Type 1</a></li>
-			<li role="presentation"><a href="#type2" aria-controls="type2" role="tab" data-toggle="tab">Type 2</a></li>
-			<li role="presentation"><a href="#type3" aria-controls="type3" role="tab" data-toggle="tab">Type 3</a></li>
+		<ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg">
+			<li class="active"><a href="#" data-calc="calc-field-type1">Type 1</a></li>
+			<li><a href="#" data-calc="calc-field-type2">Type 2</a></li>
+			<li><a href="#" data-calc="calc-field-type3">Type 3</a></li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -271,322 +271,108 @@
 					</div><!--equipment-editable-section END-->
 
 					<div class="col-md-6 col-sm-6 sticker-parent compare-table-calculator">
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="type1">
-								<div class="compare-sticker sticker">
-									<div class="row form-group hidden-sm hiden-xs text-semibold">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
-											Type 1
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
-											Type 2
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
-											Type 3
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-									</div>
-									<div class="row form-group  hidden-sm hiden-xs">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Type of equipment</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">AIR CONDITIONER</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">AIR CONDITIONER</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">AIR CONDITIONER</div>
-									</div>
-									<div class="row form-group  hidden-sm hiden-xs">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Description</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">Everest 16 SEER - ESX130181</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price (1+2)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>10,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>11,400.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>2,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>1,500.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>1,950.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed (3+4-5)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,459.95</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>22,459.95</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>22,459.95</span></div>
-									</div>
-									<hr>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>466.12</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>300.12</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>500.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments (7*10)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>27,967.35</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>-</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>-</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>-</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation (11+12)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>27,967.35</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Prrowing</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>5,507.40</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>5,507.40</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>5,507.40</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Tax</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">13.000 %</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">13.000 %</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">13.000 %</div>
-									</div>
-									<div class="row form-group hidden-xs hidden-sm">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-									</div>
-								</div><!--equipment-calculator END-->
+						<div class="">
+							<div class="row form-group hidden-sm hiden-xs text-semibold">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title">
+									Type 1
+									<a class="calculator-remove" data-remove-calc="calc-field-type1">
+										<i class="glyphicon glyphicon-remove"></i>
+									</a>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title">
+									Type 2
+									<a class="calculator-remove" data-remove-calc="calc-field-type2">
+										<i class="glyphicon glyphicon-remove"></i>
+									</a>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-title">
+									Type 3
+									<a class="calculator-remove" data-remove-calc="calc-field-type3">
+										<i class="glyphicon glyphicon-remove"></i>
+									</a>
+								</div>
 							</div>
-							<div role="tabpanel" class="tab-pane" id="type2">
-								<div class="compare-sticker sticker">
-									<div class="row form-group hidden-sm hiden-xs text-semibold">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
-											Type 1
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
-											Type 2
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
-											Type 3
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-									</div>
-									<div class="row form-group  hidden-sm hiden-xs">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Type of equipment</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">AIR CONDITIONER</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">AIR CONDITIONER</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">AIR CONDITIONER</div>
-									</div>
-									<div class="row form-group  hidden-sm hiden-xs">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Description</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">Everest 16 SEER - ESX130181</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price (1+2)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>10,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>11,400.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>2,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>1,500.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>1,950.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed (3+4-5)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,459.95</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>22,459.95</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>22,459.95</span></div>
-									</div>
-									<hr>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>466.12</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>300.12</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>500.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments (7*10)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>27,967.35</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>-</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>-</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>-</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation (11+12)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>27,967.35</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Prrowing</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>5,507.40</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>5,507.40</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>5,507.40</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Tax</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">13.000 %</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">13.000 %</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">13.000 %</div>
-									</div>
-									<div class="row form-group hidden-xs hidden-sm">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-									</div>
-								</div><!--equipment-calculator END-->
+							<div class="row form-group  hidden-sm hiden-xs">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Type of equipment</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">AIR CONDITIONER</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">AIR CONDITIONER</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">AIR CONDITIONER</div>
 							</div>
-							<div role="tabpanel" class="tab-pane" id="type3">
-								<div class="compare-sticker sticker">
-									<div class="row form-group hidden-sm hiden-xs text-semibold">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
-											Type 1
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
-											Type 2
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
-											Type 3
-											<div class="calculator-remove">
-												<i class="glyphicon glyphicon-remove"></i>
-											</div>
-										</div>
-									</div>
-									<div class="row form-group  hidden-sm hiden-xs">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Type of equipment</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">AIR CONDITIONER</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">AIR CONDITIONER</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">AIR CONDITIONER</div>
-									</div>
-									<div class="row form-group  hidden-sm hiden-xs">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Description</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">Everest 16 SEER - ESX130181</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price (1+2)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>10,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>11,400.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>2,400.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>1,500.00</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>1,950.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed (3+4-5)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,459.95</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>22,459.95</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>22,459.95</span></div>
-									</div>
-									<hr>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>466.12</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>300.12</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>500.00</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments (7*10)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>27,967.35</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>-</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>-</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>-</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation (11+12)</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>27,967.35</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>27,967.35</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Prrowing</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>5,507.40</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>5,507.40</span></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>5,507.40</span></div>
-									</div>
-									<div class="row form-group">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Tax</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">13.000 %</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">13.000 %</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">13.000 %</div>
-									</div>
-									<div class="row form-group hidden-xs hidden-sm">
-										<div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
-											<a onClick="$('#calculator-modal').modal(); return false;">Edit</a>
-										</div>
-									</div>
-								</div><!--equipment-calculator END-->
+							<div class="row form-group  hidden-sm hiden-xs">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Description</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">Everest 16 SEER - ESX130181</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
 							</div>
-
-
-						</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price (1+2)</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,400.00</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>10,400.00</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>11,400.00</span></div>
+							</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>2,400.00</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>1,500.00</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>1,950.00</span></div>
+							</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed (3+4-5)</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,459.95</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>15,459.95</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>18,459.95</span></div>
+							</div>
+							<hr>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>466.12</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>300.12</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>500.00</span></div>
+							</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments (7*10)</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>26,967.35</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>29,967.35</span></div>
+							</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>-</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>-</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>-</span></div>
+							</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation (11+12)</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>25,967.35</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>26,967.35</span></div>
+							</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Prrowing</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>5,507.40</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>4,507.40</span></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>6,507.40</span></div>
+							</div>
+							<div class="row form-group">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Tax</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">13.000 %</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">12.000 %</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">14.000 %</div>
+							</div>
+							<div class="row form-group hidden-xs hidden-sm">
+								<div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
+									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
+									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
+									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+								</div>
+							</div>
+						</div><!--equipment-calculator END-->
 					</div>
 
 				</div> <!--equipment-editable-parent END-->
@@ -617,8 +403,8 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<div class="modal-title dealnet-large-header">Compare to</div>
 			</div>
-			<div class="modal-body">
-				<h3 class="dealnet-middle-header">Equipment Information</h3>
+			<div class="modal-body no-padding-top">
+				<h3 class="dealnet-middle-header no-top-margin">Equipment Information</h3>
 				<div class="dealnet-credit-check-section dealnet-modal-section">
 					<!-- Here clone by jquery  #compare-calculator-data -->
 				</div>
@@ -640,6 +426,40 @@
 	$(document)
 		.ready(function () {
 			$('#calculator-modal .dealnet-modal-section').html($('#compare-calculator-data').html());
+			if($(window).width() < 1023){
+				$('.switch-calculators li a').each(function(){
+					var currCalc = $(this).parents('li.active').find('a').attr('data-calc');
+					$('.'+currCalc).show().siblings(('div[class*="calc-field-type"]')).hide();
+				})
+			}else{
+				$('div[class*="calc-field-type"]').show();
+			}
+
+			$('.calculator-remove').on('click', function(){
+				var calcClass = $(this).attr('data-remove-calc');
+				$('.'+calcClass).not('.calc-title').remove();
+				$('.'+calcClass+'.calc-title').css('color', 'blue');
+				$(this).remove();
+			})
+
+			$(window).on('resize', function(){
+				if($(window).width() < 1023){
+					$('.switch-calculators li a').each(function(){
+						var currCalc = $(this).parents('li').find('a').attr('data-calc');
+						$('.'+currCalc).show().siblings(('div[class*="calc-field-type"]')).hide();
+					})
+				}else{
+					$('div[class*="calc-field-type"]').show();
+				}
+			});
+			$('.switch-calculators li a').on('click', function(){
+				var currLink = $(this);
+				var currLi = currLink.parents('li');
+				var currCalc = currLink.attr('data-calc');
+				currLi.addClass('active').siblings().removeClass('active');
+				$('div[class*="calc-field-type"]').hide();
+				$('.'+currCalc).show();
+			});
 		});
 </script>
 }
