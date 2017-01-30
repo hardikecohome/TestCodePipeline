@@ -120,7 +120,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4 equipment-cost-col">
+                                    <div class="col-md-4 loan-col-md-6 equipment-cost-col">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].Cost)
                                             <div class="control-group has-addon-left">
@@ -130,7 +130,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 monthly-cost-col">
+                                    <div class="col-md-4 loan-col-md-6 monthly-cost-col">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
                                             <div class="control-group has-addon-left">
@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 loan-col-md-6">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new { @for = "estimated-installation-date-" + i })
                                             <div class="control-group">
@@ -164,7 +164,7 @@
                 </div>
                 <hr class="loan-element">
                 <div class="row loan-element">
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdminFee)
                             <div class="control-group">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.DownPayment)
                             <div class="control-group">
@@ -182,7 +182,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.CustomerRate)
                             <div class="control-group">
@@ -293,8 +293,8 @@
                     </div>
                 </div>
         </div>
-        <div class="col-md-6 col-sm-6">
-            <div class="equipment-calculator sticker">
+        <div class="col-md-6 col-sm-6 sticker-parent">
+            <div class="equipment-calculator sticker loan-sticker">
                 <div class="loan-element">
                     <div class="row form-group">
                         <div class="col-xs-8 col-sm-8 col-md-9">Cash Price of Equipment</div>
@@ -525,7 +525,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4 equipment-cost-col">
+                <div class="col-md-4 loan-col-md-6 equipment-cost-col">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].Cost)
                         <div class="control-group has-addon-left">
@@ -535,7 +535,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 monthly-cost-col">
+                <div class="col-md-4 loan-col-md-6 monthly-cost-col">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
                         <div class="control-group has-addon-left">
@@ -545,7 +545,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 loan-col-md-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate, new { @for = "estimated-installation-date-0" })
                         <div class="control-group">

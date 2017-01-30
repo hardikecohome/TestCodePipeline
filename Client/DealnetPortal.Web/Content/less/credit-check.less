@@ -143,9 +143,11 @@ select.dealnet-disabled-input{
   width: 100% !important;
 }
 
-/*.dealnet-modal-section>div:first-child {
+/*
+.dealnet-modal-section>div:first-child {
   display: none !important;
-}*/
+}
+*/
 
 .dealnet-credit-check-section {
   width: 100%;
@@ -684,20 +686,23 @@ select.dealnet-disabled-input{
       max-width: 100% !important;
     }
 
-    .equipment-editable-section div[class*="col-"]{
+
+    .equipment-editable-section div[class*="col-"]:not(.initial-width){
       width: 100% !important;
     }
-    .equipment-editable-section{
+    .equipment-editable-section div[class*="col-"].loan-col-md-6{
       @media @desktop-up {
-        padding-right: 50px;
-      }
-      & > hr{
-        @media @desktop-up {
-          margin-right: -35px;
-        }
+        width: 50% !important;
       }
     }
+
+
+
   }
+  &.standalone-calculator{
+
+  }
+
 }
 
 .sticker{
@@ -714,5 +719,8 @@ select.dealnet-disabled-input{
       right: 0;
       box-sizing: content-box;
     }
+  }
+  &:not(.stick){
+    width: 100% !important;
   }
 }

@@ -1,5 +1,9 @@
 ﻿$(document)
     .ready(function () {
+      var tabletUp = viewport().width > 768;
+      var tabletOnly = viewport().width > 768 && viewport().width <= 1024;
+      var desktopUp = viewport().width > 1024;
+
       if(detectIE()){
         $('body').addClass('ie');
       }
@@ -135,9 +139,18 @@
       });
 
 
-      if($('.sticker').length){
-        stickySection($('.sticker'));
+      if($('.loan-sticker').length){
+        $('.loan-sticker').each(function(){
+          stickySection($(this));
+        });
       }
+      if($('.compare-sticker').length){
+        $('.compare-sticker').each(function(){
+          stickySection($(this));
+        });
+      }
+      
+
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();
@@ -202,6 +215,7 @@
 function stickySection(elem){
     var fixedHeaderHeight;
     var s = elem;
+    var parentDiv = s.parents('.sticker-parent');
     var windowpos;
     var parentOffsetTop;
     var parentOffsetLeft;
@@ -210,9 +224,9 @@ function stickySection(elem){
     $(window).on('scroll resize', function(){
       fixedHeaderHeight = $('.navbar-header').height();
       windowpos = $(window).scrollTop() + fixedHeaderHeight;
-      parentOffsetTop = s.parent().offset().top;
-      parentOffsetLeft = s.parent().offset().left;
-      stickerWidth = s.parent().width();
+      parentOffsetTop = parentDiv.offset().top;
+      parentOffsetLeft = parentDiv.offset().left;
+      stickerWidth = parentDiv.width();
       if (windowpos >= parentOffsetTop) {
         s.addClass("stick");
         stikerTopPos = fixedHeaderHeight+10;
@@ -221,12 +235,13 @@ function stickySection(elem){
         stikerTopPos = 0;
       }
 
-      $('.equipment-form-container.has-loan-calc .sticker').css({
+      s.css({
         top: stikerTopPos + 'px',
         width: stickerWidth + 'px'
       });
     });
 }
+
 
 function has_scrollbar(elem, className)
 {

@@ -379,6 +379,7 @@
     <Content Include="Content\images\sprite\get-location.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
     <Content Include="Content\images\sprite\icon-audio.svg" />
+    <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
@@ -584,6 +585,7 @@
     <Content Include="Content\less\main-dealer.less" />
     <Content Include="Content\less\settings\variables-dealer.less" />
     <Content Include="Content\less\components\tabs.less" />
+    <Content Include="Content\less\calculator.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
