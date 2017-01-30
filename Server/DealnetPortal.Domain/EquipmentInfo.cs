@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
@@ -35,7 +36,13 @@ namespace DealnetPortal.Domain
         public string SalesRep { get; set; }
         
         public string Notes { get; set; }
-        
+
+        public DateTime? InstallationDate { get; set; }
+
+        public string InstallerFirstName { get; set; }
+
+        public string InstallerLastName { get; set; }
+
         public Contract Contract { get; set; }
     }
 }

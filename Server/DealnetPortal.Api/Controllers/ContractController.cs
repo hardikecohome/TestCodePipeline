@@ -355,6 +355,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("UpdateInstallationData")]
+        [HttpPut]
+        public IHttpActionResult UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData)
+        {
+            try
+            {
+                var alerts = ContractService.UpdateInstallationData(installationCertificateData, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("SubmitContract")]
         [HttpPost]
         public IHttpActionResult SubmitContract(int contractId)

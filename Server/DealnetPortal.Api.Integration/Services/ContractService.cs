@@ -339,7 +339,13 @@ namespace DealnetPortal.Api.Integration.Services
         public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId)
         {
             return _signatureService.GetInstallCertificate(installationCertificateData, contractOwnerId).GetAwaiter().GetResult();
-        }        
+        }
+
+        public IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData,
+            string contractOwnerId)
+        {
+            throw new NotImplementedException();
+        }
 
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)
         {

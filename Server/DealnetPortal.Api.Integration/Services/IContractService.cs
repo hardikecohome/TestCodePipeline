@@ -37,6 +37,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
 
+        IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
+
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
 
         Tuple<CreditCheckDTO, IList<Alert>> SubmitContract(int contractId, string contractOwnerId);
