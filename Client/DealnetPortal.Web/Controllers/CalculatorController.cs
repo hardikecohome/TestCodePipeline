@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -12,7 +13,8 @@ namespace DealnetPortal.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var viewModel = new LoanCalculatorViewModel();
+            return View(viewModel);
         }
     }
 }
