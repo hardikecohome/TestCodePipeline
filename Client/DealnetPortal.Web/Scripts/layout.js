@@ -149,6 +149,8 @@
           stickySection($(this));
         });
       }
+      
+
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();

@@ -169,9 +169,9 @@
 	<div>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg">
-			<li class="active"><a href="#" data-calc="calc-field-type1">Type 1</a></li>
-			<li><a href="#" data-calc="calc-field-type2">Type 2</a></li>
-			<li><a href="#" data-calc="calc-field-type3">Type 3</a></li>
+			<li class="active"><a href="#" data-calc="1">Type 1</a></li>
+			<li><a href="#" data-calc="2">Type 2</a></li>
+			<li><a href="#" data-calc="3">Type 3</a></li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -271,24 +271,24 @@
 					</div><!--equipment-editable-section END-->
 
 					<div class="col-md-6 col-sm-6 sticker-parent compare-table-calculator">
-						<div class="">
+						<div class="calculators-hold">
 							<div class="row form-group hidden-sm hiden-xs text-semibold">
 								<div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
 								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title" data-calc="1">
 									Type 1
-									<span class="calculator-remove" data-remove-calc="calc-field-type1">
+									<span class="calculator-remove">
 										<i class="glyphicon glyphicon-remove"></i>
 									</span>
 								</div>
 								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title" data-calc="2">
 									Type 2
-									<span class="calculator-remove" data-remove-calc="calc-field-type2">
+									<span class="calculator-remove">
 										<i class="glyphicon glyphicon-remove"></i>
 									</span>
 								</div>
 								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-title" data-calc="3">
 									Type 3
-									<span class="calculator-remove" data-remove-calc="calc-field-type3">
+									<span class="calculator-remove">
 										<i class="glyphicon glyphicon-remove"></i>
 									</span>
 								</div>
@@ -382,7 +382,7 @@
 
 
 						<div class="button-proceed">
-							<button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg">Clear</button>
+							<button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg" id="clearCalcBtn">Clear</button>
 							<input type="submit" value="Clear" class="btn dealnet-button dealnet-success-button  hidden-sm hidden-xs">
 						</div>
 					</div>
@@ -427,45 +427,75 @@
 		.ready(function () {
 			$('#calculator-modal .dealnet-modal-section').html($('#compare-calculator-data').html());
 
-
-			if($(window).width() < 1023){
-				$('.switch-calculators li a').each(function(){
-					var currCalc = $(this).parents('li.active').find('a').attr('data-calc');
-					$('.'+currCalc).show().siblings(('div[class*="calc-field-type"]')).hide();
-				})
-			}else{
-				$('div[class*="calc-field-type"]').show();
-			}
-
-			$('.calculator-remove').on('click', function(){
-				var calcClass = $(this).attr('data-remove-calc');
-				var calcNumber = $(this).parents('.'+calcClass+'.calc-title').attr('data-calc');
-				$('.'+calcClass).not('.calc-title').not('.calc-field-edit').html('$ -');
-				$('.'+calcClass+'.calc-title').text('Add Type '+calcNumber).css('color', 'blue');
-				$(this).hide();
-				$('.'+calcClass+'.calc-field-edit a').hide();
-
-				$('.switch-calculators li a[data-calc="'+calcClass+'"]').css('color', 'blue').text('Add Type '+calcNumber);
-			});
+			displayCompareCalcs();
+			makeStickCalendar();
 
 			$(window).on('resize', function(){
-				if($(window).width() < 1023){
-					$('.switch-calculators li a').each(function(){
-						var currCalc = $(this).parents('li').find('a').attr('data-calc');
-						$('.'+currCalc).show().siblings(('div[class*="calc-field-type"]')).hide();
-					})
+				displayCompareCalcs();
+				makeStickCalendar();
+			}).on('scroll', function(){
+				makeStickCalendar();
+			});
+
+			function displayCompareCalcs(){
+				if($(window).width() < 1023) {
+					var activeCalcNumber = $('.switch-calculators li.active a').attr('data-calc');
+					$('div[class*="calc-field-type"]').hide();
+					$('.calc-field-type'+activeCalcNumber).show();
 				}else{
 					$('div[class*="calc-field-type"]').show();
 				}
-			});
+			}
+
+			function makeStickCalendar(){
+				if($(window).width() < 1023) {
+					if($('.compare-standalone-calculator').css('display') !== 'none'){
+						$('.calculators-hold').addClass('sticker');
+						if($('.calculators-hold.sticker').length){
+							$('.calculators-hold.sticker').each(function(){
+								stickySection($(this));
+							});
+						}
+					}
+				}else{
+					$('.calculators-hold').removeClass('sticker').removeClass('stick');
+				}
+			}
+
 			$('.switch-calculators li a').on('click', function(){
-				var currLink = $(this);
-				var currLi = currLink.parents('li');
-				var currCalc = currLink.attr('data-calc');
+				var currLi = $(this).parent('li');
+				var currCalcNumber = $(this).attr('data-calc');
 				currLi.addClass('active').siblings().removeClass('active');
-				$('div[class*="calc-field-type"]').hide();
-				$('.'+currCalc).show();
+				switchCalcs(currCalcNumber);
 			});
+
+			function switchCalcs(calcNumber){
+				$('div[class*="calc-field-type"]').hide();
+				$('.calc-field-type'+calcNumber).show();
+			}
+
+			$('#clearCalcBtn').on('click', function(){
+				var activeCalcNumber = $('.switch-calculators li.active a').attr('data-calc');
+				clearCalculator(activeCalcNumber)
+			});
+
+			$('.calculator-remove').on('click', function(){
+				var activeCalcNumber = $(this).parents('.calc-title').attr('data-calc');
+				clearCalculator(activeCalcNumber);
+			});
+
+			function clearCalculator(calculatorNumber){
+				$('.calc-field-type'+calculatorNumber)
+													.not('.calc-title')
+													.not('.calc-field-edit')
+													.html('$ <span>-</span>');
+
+				$('.calc-field-type'+calculatorNumber+'.calc-title')
+																	.text('Add Type ' + calculatorNumber)
+																	.css('color', 'blue')
+																	.find('.calculator-remove').hide();
+				$('.switch-calculators li a[data-calc="'+calculatorNumber+'"]').text('Add Type ' + calculatorNumber).css('color', 'blue');
+			}
 		});
 </script>
 }
