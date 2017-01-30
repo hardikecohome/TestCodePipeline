@@ -155,7 +155,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="button-proceed">
-						<input type="submit" value="Save and Proceed" class="btn dealnet-button dealnet-success-button" onClick="$('#calculator-modal').modal()">
+						<input type="submit" value="Add to Comparison" class="btn dealnet-button dealnet-success-button" onClick="$('#calculator-modal').modal()">
 					</div>
 				</div>
 			</div>
@@ -274,23 +274,23 @@
 						<div class="">
 							<div class="row form-group hidden-sm hiden-xs text-semibold">
 								<div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
-								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title">
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title" data-calc="1">
 									Type 1
-									<a class="calculator-remove" data-remove-calc="calc-field-type1">
+									<span class="calculator-remove" data-remove-calc="calc-field-type1">
 										<i class="glyphicon glyphicon-remove"></i>
-									</a>
+									</span>
 								</div>
-								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title">
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title" data-calc="2">
 									Type 2
-									<a class="calculator-remove" data-remove-calc="calc-field-type2">
+									<span class="calculator-remove" data-remove-calc="calc-field-type2">
 										<i class="glyphicon glyphicon-remove"></i>
-									</a>
+									</span>
 								</div>
-								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-title">
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-title" data-calc="3">
 									Type 3
-									<a class="calculator-remove" data-remove-calc="calc-field-type3">
+									<span class="calculator-remove" data-remove-calc="calc-field-type3">
 										<i class="glyphicon glyphicon-remove"></i>
-									</a>
+									</span>
 								</div>
 							</div>
 							<div class="row form-group  hidden-sm hiden-xs">
@@ -362,13 +362,13 @@
 							</div>
 							<div class="row form-group hidden-xs hidden-sm">
 								<div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
-								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-field-edit">
 									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
 								</div>
-								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-field-edit">
 									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
 								</div>
-								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">
+								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-field-edit">
 									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
 								</div>
 							</div>
@@ -383,7 +383,7 @@
 
 						<div class="button-proceed">
 							<button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg">Clear</button>
-							<input type="submit" value="Save and Proceed" class="btn dealnet-button dealnet-success-button  hidden-sm hidden-xs">
+							<input type="submit" value="Clear" class="btn dealnet-button dealnet-success-button  hidden-sm hidden-xs">
 						</div>
 					</div>
 				</div>
@@ -426,6 +426,8 @@
 	$(document)
 		.ready(function () {
 			$('#calculator-modal .dealnet-modal-section').html($('#compare-calculator-data').html());
+
+
 			if($(window).width() < 1023){
 				$('.switch-calculators li a').each(function(){
 					var currCalc = $(this).parents('li.active').find('a').attr('data-calc');
@@ -437,10 +439,14 @@
 
 			$('.calculator-remove').on('click', function(){
 				var calcClass = $(this).attr('data-remove-calc');
-				$('.'+calcClass).not('.calc-title').remove();
-				$('.'+calcClass+'.calc-title').css('color', 'blue');
-				$(this).remove();
-			})
+				var calcNumber = $(this).parents('.'+calcClass+'.calc-title').attr('data-calc');
+				$('.'+calcClass).not('.calc-title').not('.calc-field-edit').html('$ -');
+				$('.'+calcClass+'.calc-title').text('Add Type '+calcNumber).css('color', 'blue');
+				$(this).hide();
+				$('.'+calcClass+'.calc-field-edit a').hide();
+
+				$('.switch-calculators li a[data-calc="'+calcClass+'"]').css('color', 'blue').text('Add Type '+calcNumber);
+			});
 
 			$(window).on('resize', function(){
 				if($(window).width() < 1023){

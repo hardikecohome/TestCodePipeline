@@ -379,6 +379,7 @@
     <Content Include="Content\images\sprite\get-location.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
     <Content Include="Content\images\sprite\icon-audio.svg" />
+    <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
