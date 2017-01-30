@@ -259,8 +259,8 @@ function managePaymentFormElements(paymentType) {
 function auditConfirmModal() {
     var data = {
         class: "audit-alert-modal",
-        message: "If you send documents to audit you won't have possibility to make some changes in this contract or upload any document",
-        title: "Send to Audit?",
+        message: "Did you upload all the documents needed? After proceeding you won't have a possibility to make any other changes",
+        title: "Final check",
         confirmBtnText: "Proceed"
     };
     dynamicAlertModal(data);
