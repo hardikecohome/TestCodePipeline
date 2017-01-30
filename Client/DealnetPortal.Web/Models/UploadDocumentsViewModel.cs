@@ -42,5 +42,7 @@ namespace DealnetPortal.Web.Models
         public List<ExistingDocument> ExistingDocuments { get; set; }
 
         public List<DocumentForUpload> DocumentsForUpload { get; set; }
+
+        public List<int> MandatoryDocumentTypes { get; set; }
     }
 }
