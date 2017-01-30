@@ -2440,6 +2440,7 @@ foreach (var comment in comments)
 {
     <script type="text/javascript">
         var isMobileBrowser = @(ViewBag.IsMobileRequest ? "true" : "false");
+        var isSentToAudit = @(Model.AdditionalInfo.ContractState == ContractState.SentToAudit ? "true" : "false");
     </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/contract-edit")
