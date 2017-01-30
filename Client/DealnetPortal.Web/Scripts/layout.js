@@ -227,6 +227,7 @@ function stickySection(elem){
       parentOffsetTop = parentDiv.offset().top;
       parentOffsetLeft = parentDiv.offset().left;
       stickerWidth = parentDiv.width();
+      stikerLeftPos = parentOffsetLeft;
       if (windowpos >= parentOffsetTop) {
         s.addClass("stick");
         stikerTopPos = fixedHeaderHeight+10;
@@ -237,7 +238,9 @@ function stickySection(elem){
 
       s.css({
         top: stikerTopPos + 'px',
-        width: stickerWidth + 'px'
+        width: 'auto',
+        right: 0,
+        left: stikerLeftPos + 'px'
       });
     });
 }

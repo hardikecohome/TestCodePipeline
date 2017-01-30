@@ -363,13 +363,13 @@
 							<div class="row form-group hidden-xs hidden-sm">
 								<div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
 								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-field-edit">
-									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+									<a class="dealnet-section-edit-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
 								</div>
 								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-field-edit">
-									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+									<a class="dealnet-section-edit-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
 								</div>
 								<div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-field-edit">
-									<a class="dealnet-info-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+									<a class="dealnet-section-edit-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
 								</div>
 							</div>
 						</div><!--equipment-calculator END-->
@@ -383,7 +383,8 @@
 
 						<div class="button-proceed">
 							<button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg" id="clearCalcBtn">Clear</button>
-							<input type="submit" value="Clear" class="btn dealnet-button dealnet-success-button  hidden-sm hidden-xs">
+							<input type="submit" value="Clear" class="btn dealnet-button dealnet-success-button  hidden-sm hidden-xs"
+							       onclick="$('.initial-standalone-calculator').show(); $('.compare-standalone-calculator').hide();">
 						</div>
 					</div>
 				</div>
@@ -448,7 +449,7 @@
 			}
 
 			function makeStickCalendar(){
-				if($(window).width() < 1023) {
+				if($(document).height() > $(window).height()) {
 					if($('.compare-standalone-calculator').css('display') !== 'none'){
 						$('.calculators-hold').addClass('sticker');
 						if($('.calculators-hold.sticker').length){
@@ -457,8 +458,17 @@
 							});
 						}
 					}
+					if($('.initial-standalone-calculator').css('display') !== 'none'){
+						$('.equipment-calculator').addClass('sticker');
+						if($('.equipment-calculator.sticker').length){
+							$('.equipment-calculator.sticker').each(function(){
+								stickySection($(this));
+							});
+						}
+					}
 				}else{
 					$('.calculators-hold').removeClass('sticker').removeClass('stick');
+					$('.equipment-calculator').removeClass('sticker').removeClass('stick');
 				}
 			}
 
@@ -484,17 +494,24 @@
 				clearCalculator(activeCalcNumber);
 			});
 
+
+
 			function clearCalculator(calculatorNumber){
 				$('.calc-field-type'+calculatorNumber)
 													.not('.calc-title')
 													.not('.calc-field-edit')
 													.html('$ <span>-</span>');
+				$('.calc-field-type'+calculatorNumber+'.calc-field-edit a').hide();
 
 				$('.calc-field-type'+calculatorNumber+'.calc-title')
-																	.text('Add Type ' + calculatorNumber)
-																	.css('color', 'blue')
+																	.html('<a class="dealnet-section-edit-link add-calculator-btn">Add Type' + calculatorNumber+'</a>')
 																	.find('.calculator-remove').hide();
-				$('.switch-calculators li a[data-calc="'+calculatorNumber+'"]').text('Add Type ' + calculatorNumber).css('color', 'blue');
+				$('.switch-calculators li a[data-calc="'+calculatorNumber+'"]').html('<a class="dealnet-section-edit-link">Add Type ' + calculatorNumber+'</a>');
+
+				$('.add-calculator-btn').on('click', function(){
+					$('#calculator-modal').modal();
+					return false;
+				})
 			}
 		});
 </script>
