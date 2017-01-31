@@ -78,7 +78,15 @@
 
 .dealnet-section-edit-link{
   .dealnet-info-link;
-  font-weight: 400;
+  color: @button-link-color;
+
+  &:focus{
+    color: @button-link-color;
+  }
+  &:hover{
+    color: @button-link-hover-color;
+  }
+  font-weight: 600;
   font-size: 17px;
   line-height: 22px;
 }
@@ -107,6 +115,9 @@
 
 .text-left .dealnet-disabled-input:not(.form-control-disabled){
   text-align: left;
+}
+.text-normal .dealnet-disabled-input:not(.form-control-disabled){
+  font-weight: 400;
 }
 
 input.dealnet-disabled-input,
