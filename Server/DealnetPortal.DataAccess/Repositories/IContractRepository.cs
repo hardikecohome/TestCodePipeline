@@ -6,8 +6,6 @@ using DealnetPortal.Domain;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
-    using System.Security.Cryptography.X509Certificates;
-
     /// <summary>
     /// An interface for Contracts repository in DB
     /// </summary>
@@ -177,6 +175,5 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="ownerUserId"></param>
         /// <returns>number of updated sub-dealers</returns>
         int UpdateSubDealersHierarchyByRelatedTransactions(IEnumerable<string> transactionIds, string ownerUserId);
-
     }
 }
