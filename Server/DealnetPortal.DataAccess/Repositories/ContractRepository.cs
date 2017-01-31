@@ -547,6 +547,20 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.Contract = contract;
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
+
+                if (string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
+                {
+                    equipmentInfo.InstallerFirstName = dbEquipment.InstallerFirstName;
+                }
+                if (string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
+                {
+                    equipmentInfo.InstallerLastName = dbEquipment.InstallerLastName;
+                }
+                if (!equipmentInfo.InstallationDate.HasValue)
+                {
+                    equipmentInfo.InstallationDate = dbEquipment.InstallationDate;
+                }
+
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
                 dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
             }          
@@ -573,6 +587,14 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (ne.AssetNumber == null)
                         {
                             ne.AssetNumber = curEquipment.AssetNumber;
+                        }
+                        if (string.IsNullOrEmpty(ne.InstalledModel))
+                        {
+                            ne.InstalledModel = curEquipment.InstalledModel;
+                        }
+                        if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
+                        {
+                            ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
                         }
                         _dbContext.NewEquipment.AddOrUpdate(ne);
                     }

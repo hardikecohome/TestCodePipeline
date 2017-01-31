@@ -144,36 +144,29 @@ namespace DealnetPortal.Web.Controllers
                 throw new ArgumentNullException(nameof(informationViewModel));
             }
             var certificateData = Mapper.Map<InstallationCertificateDataDTO>(informationViewModel);
-            var result = await _contractServiceAgent.GetInstallationCertificate(certificateData);
-            var keyName = InstallCertificateStorageName + informationViewModel.ContractId;
-
-            HttpContext.Application[keyName] = result.Item1;
-            if (result.Item1 != null)
+            var updateResult = await _contractServiceAgent.UpdateInstallationData(certificateData);            
+            if (updateResult?.All(r => r.Type != AlertType.Error) ?? false)
             {
                 return Json(Url.Action("GetInstallationCertificate", new {@contractId = informationViewModel.ContractId }));
             }
             return Json(null);
         }
 
-        public FileResult GetInstallationCertificate(int contractId)
+        public async Task<FileResult> GetInstallationCertificate(int contractId)
         {
-            var keyName = InstallCertificateStorageName + contractId;
-            var certDocument =
-                (AgreementDocument)HttpContext.Application[keyName];            
-
-            if (certDocument != null)
+            var result = await _contractServiceAgent.GetInstallationCertificate(contractId);
+            if (result.Item1 != null)
             {
-                HttpContext.Application.Remove(keyName);
-                var response = new FileContentResult(certDocument.DocumentRaw, "application/pdf")
+                var response = new FileContentResult(result.Item1.DocumentRaw, "application/pdf")
                 {
-                    FileDownloadName = certDocument.Name
+                    FileDownloadName = result.Item1.Name
                 };
                 if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
                 {
                     response.FileDownloadName += ".pdf";
                 }
                 return response;
-            }
+            }            
             return new FileContentResult(new byte[] { }, "application/pdf");
         }
     }

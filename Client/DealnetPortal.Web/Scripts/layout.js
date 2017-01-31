@@ -399,6 +399,12 @@ function hideLoader() {
     $.loader('close');
 }
 
+$.prototype.disableTab = function() {
+  this.each(function() {
+    $(this).attr('tabindex', '500');
+  });
+};
+
 function customizeSelect(){
   setTimeout(function(){
     $('select').each(function(){
@@ -410,6 +416,8 @@ function customizeSelect(){
         }
       }
     });
+
+    $('select.dealnet-disabled-input').disableTab();
   }, 300);
 }
 

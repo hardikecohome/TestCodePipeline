@@ -160,13 +160,18 @@ namespace DealnetPortal.Web.Infrastructure
             contractEditViewModel.InstallCertificateInformation = new CertificateInformationViewModel()
             {
                 ContractId = contractId,
+                InstallationDate = contractsResult.Item1.Equipment?.InstallationDate,
+                InstallerFirstName = contractsResult.Item1.Equipment?.InstallerFirstName,
+                InstallerLastName = contractsResult.Item1.Equipment?.InstallerLastName,
                 Equipments = new List<CertificateEquipmentInfoViewModel>()
             };
-            summaryViewModel.EquipmentInfo.NewEquipment?.ForEach(eq =>
+            contractsResult.Item1.Equipment?.NewEquipment?.ForEach(eq =>
                 contractEditViewModel.InstallCertificateInformation.Equipments.Add(
                     new CertificateEquipmentInfoViewModel()
                     {
-                        Id = eq.Id
+                        Id = eq.Id,
+                        Model = eq.InstalledModel,
+                        SerialNumber = eq.InstalledSerialNumber,
                     }));
 
             return contractEditViewModel;
@@ -188,8 +193,11 @@ namespace DealnetPortal.Web.Infrastructure
                     DisplayName = "On my behalf"
                 };
                 basicInfo.SubDealers.Add(mainDealer);
-                basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.SubDealers));
-                if (dealerInfo?.UdfSubDealers?.Any() ?? false)
+                if (dealerInfo.SubDealers?.Any() ?? false)
+                {
+                    basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.SubDealers));
+                }
+                if (dealerInfo.UdfSubDealers?.Any() ?? false)
                 {
                     basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.UdfSubDealers));
                 }

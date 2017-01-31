@@ -224,15 +224,30 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallationCertificate(
-            InstallationCertificateDataDTO installationCertificate)
+        public async Task<IList<Alert>> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<InstallationCertificateDataDTO, Tuple<AgreementDocument, IList<Alert>>>(
-                            $"{_fullUri}/GetInstallationCertificate", installationCertificate);
+                        Client.PutAsync<InstallationCertificateDataDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateInstallationData", installationCertificateData);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update installation certificate data", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallationCertificate(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsync<Tuple<AgreementDocument, IList<Alert>>>(
+                            $"{_fullUri}/GetInstallationCertificate?contractId={contractId}");
             }
             catch (Exception ex)
             {
