@@ -382,9 +382,7 @@
 
 
 						<div class="button-proceed">
-							<button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg" id="clearCalcBtn">Clear</button>
-							<input type="submit" value="Clear" class="btn dealnet-button dealnet-success-button  hidden-sm hidden-xs"
-							       onclick="$('.initial-standalone-calculator').show(); $('.compare-standalone-calculator').hide();">
+							<button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg" id="clearCalcBtn">Remove</button>
 						</div>
 					</div>
 				</div>
@@ -477,6 +475,7 @@
 				var currCalcNumber = $(this).attr('data-calc');
 				currLi.addClass('active').siblings().removeClass('active');
 				switchCalcs(currCalcNumber);
+				checkEmptyCalc();
 			});
 
 			function switchCalcs(calcNumber){
@@ -495,6 +494,14 @@
 			});
 
 
+			function checkEmptyCalc(){
+				if($('.switch-calculators li.active a').hasClass('empty-calc')){
+					$('#clearCalcBtn').hide();
+				}else{
+					$('#clearCalcBtn').show();
+				}
+			}
+
 
 			function clearCalculator(calculatorNumber){
 				$('.calc-field-type'+calculatorNumber)
@@ -506,12 +513,14 @@
 				$('.calc-field-type'+calculatorNumber+'.calc-title')
 																	.html('<a class="dealnet-section-edit-link add-calculator-btn">Add Type' + calculatorNumber+'</a>')
 																	.find('.calculator-remove').hide();
-				$('.switch-calculators li a[data-calc="'+calculatorNumber+'"]').html('<a class="dealnet-section-edit-link">Add Type ' + calculatorNumber+'</a>');
+				$('.switch-calculators li a[data-calc="'+calculatorNumber+'"]').addClass('empty-calc').html('Add Type ' + calculatorNumber);
 
 				$('.add-calculator-btn').on('click', function(){
 					$('#calculator-modal').modal();
 					return false;
-				})
+				});
+				checkEmptyCalc();
+
 			}
 		});
 </script>
