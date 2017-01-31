@@ -80,26 +80,28 @@
 					                <span class="error-message"></span>
 					            </div>
 
+								if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
+								{
+								<div>
+									<a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link">
+										<svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
+										Download Certificate Template
+									</a>
+								</div>
+								<div class="well danger-well error-descr collapse" id="certificate-error-message">
+									<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+									Cannot get installation certificate for Print
+								</div>
+								<hr>
+								}
+
 					            <div class="documents-list">
 					                <div class="document-item block-item @(document != null ? "" : "collapse")">
 					                    <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
 					                    <span class="document-naming">@(document?.DocumentName)</span>
 					                </div>
 					            </div>
-								if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
-								{
-								    <div>
-								        <a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link">
-								            <svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
-								            Download Certificate Template
-								        </a>
-								    </div>
-                                    <div class="well danger-well error-descr collapse" id="certificate-error-message">
-                                        <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                                        Cannot get installation certificate for Print
-                                    </div>
-								    <hr>
-								}
+
 					            <div class="progress-container collapse">
 					                <div class="progress">
 					                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
