@@ -255,16 +255,12 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [Route("GetInstallationCertificate")]
-        [HttpPost]
-        public IHttpActionResult GetInstallationCertificate(InstallationCertificateDataDTO installationCertificateData)
+        [HttpGet]
+        public IHttpActionResult GetInstallationCertificate(int contractId)
         {
             try
-            {
-                if (installationCertificateData == null)
-                {
-                    throw new ArgumentNullException(nameof(installationCertificateData));
-                }
-                var result = ContractService.GetInstallCertificate(installationCertificateData, LoggedInUser?.UserId);
+            {                
+                var result = ContractService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)

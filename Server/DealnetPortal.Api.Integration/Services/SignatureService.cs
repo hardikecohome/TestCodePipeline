@@ -288,13 +288,13 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string ownerUserId)
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId, string ownerUserId)
         {
             List<Alert> alerts = new List<Alert>();
             AgreementDocument document = null;
 
             // Get contract
-            var contract = _contractRepository.GetContractAsUntracked(installationCertificateData.ContractId, ownerUserId);
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
             if (contract != null)
             {
                 //Check is pdf template in db. In this case we insert fields on place
@@ -308,7 +308,7 @@ namespace DealnetPortal.Api.Integration.Services
                     FillApplicantsFields(fields, contract);
                     FillEquipmentFields(fields, contract, ownerUserId);
                     FillDealerFields(fields, contract);   
-                    FillInstallCertificateFields(fields, contract, installationCertificateData);
+                    FillInstallCertificateFields(fields, contract);
 
                     var insertRes = _pdfEngine.InsertFormFields(ms, fields);
                     if (insertRes?.Item2?.Any() ?? false)
@@ -328,7 +328,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var errorMsg = $"Cannot find installation certificate template for contract [{installationCertificateData.ContractId}]";
+                    var errorMsg = $"Cannot find installation certificate template for contract [{contractId}]";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
@@ -339,7 +339,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
-                var errorMsg = $"Can't get contract [{installationCertificateData.ContractId}] for processing";
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
                 alerts.Add(new Alert()
                 {
                     Code = ErrorCodes.CantGetContractFromDb,
@@ -1097,53 +1097,50 @@ namespace DealnetPortal.Api.Integration.Services
             }            
         }
 
-        private void FillInstallCertificateFields(List<FormField> formFields, Contract contract, InstallationCertificateDataDTO installationCertificateData)
+        private void FillInstallCertificateFields(List<FormField> formFields, Contract contract)
         {
             formFields.Add(new FormField() {FieldType = FieldType.Text, Name = PdfFormFields.CustomerName, Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"});
 
-            if (installationCertificateData != null)
+            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallerName, Value = $"{contract.Equipment.InstallerLastName} {contract.Equipment.InstallerFirstName}" });
+            if (contract.Equipment.InstallationDate.HasValue)
             {
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallerName, Value = $"{installationCertificateData.InstallerLastName} {installationCertificateData.InstallerFirstName}" });
-                if (installationCertificateData.InstallationDate.HasValue)
-                {
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationDate, Value = installationCertificateData.InstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
-                }
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationDate, Value = contract.Equipment?.InstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
+            }
 
-                if (installationCertificateData.InstalledEquipments?.Any() ?? false)
+            if (contract.Equipment.NewEquipment?.Any() ?? false)
+            {
+                string eqDescs = string.Empty;
+                string eqModels = string.Empty;
+                string eqSerials = string.Empty;
+                contract.Equipment.NewEquipment.ForEach(eq =>
                 {
-                    string eqDescs = string.Empty;
-                    string eqModels = string.Empty;
-                    string eqSerials = string.Empty;
-                    installationCertificateData.InstalledEquipments.ForEach(eq =>
+                    if (!string.IsNullOrEmpty(eqModels))
                     {
-                        if (!string.IsNullOrEmpty(eqModels))
-                        {
-                            eqModels += "; ";
-                        }
-                        eqModels += eq.Model;
-                        if (!string.IsNullOrEmpty(eqSerials))
-                        {
-                            eqSerials += "; ";
-                        }
-                        eqSerials += eq.SerialNumber;
-                        if (!string.IsNullOrEmpty(eqDescs))
-                        {
-                            eqDescs += "; ";
-                        }
-                        eqDescs += contract.Equipment.NewEquipment?.FirstOrDefault(e => e.Id == eq.Id)?.Description;
-                    });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentModel, Value = eqModels });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentSerialNumber, Value = eqSerials });
-                    var descField = formFields.FirstOrDefault(f => f.Name == PdfFormFields.EquipmentDescription);
-                    if (descField != null)
-                    {
-                        descField.Value = eqDescs;
+                        eqModels += "; ";
                     }
-                    else
+                    eqModels += eq.InstalledModel;
+                    if (!string.IsNullOrEmpty(eqSerials))
                     {
-                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = eqDescs });
+                        eqSerials += "; ";
                     }
-                }                
+                    eqSerials += eq.InstalledSerialNumber;
+                    if (!string.IsNullOrEmpty(eqDescs))
+                    {
+                        eqDescs += "; ";
+                    }
+                    eqDescs += eq.Description;
+                });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentModel, Value = eqModels });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentSerialNumber, Value = eqSerials });
+                var descField = formFields.FirstOrDefault(f => f.Name == PdfFormFields.EquipmentDescription);
+                if (descField != null)
+                {
+                    descField.Value = eqDescs;
+                }
+                else
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = eqDescs });
+                }
             }
         }
     }

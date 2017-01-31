@@ -336,15 +336,72 @@ namespace DealnetPortal.Api.Integration.Services
             return _signatureService.GetPrintAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
         }
 
-        public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId)
+        public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId)
         {
-            return _signatureService.GetInstallCertificate(installationCertificateData, contractOwnerId).GetAwaiter().GetResult();
+            return _signatureService.GetInstallCertificate(contractId, contractOwnerId).GetAwaiter().GetResult();
         }
 
         public IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData,
             string contractOwnerId)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+
+            try
+            {
+                var contract = _contractRepository.GetContract(installationCertificateData.ContractId, contractOwnerId);
+
+                if (contract != null)
+                {
+                    if (contract.Equipment != null)
+                    {
+                        if (!string.IsNullOrEmpty(installationCertificateData.InstallerFirstName))
+                        {
+                            contract.Equipment.InstallerFirstName = installationCertificateData.InstallerFirstName;
+                        }
+                        if (!string.IsNullOrEmpty(installationCertificateData.InstallerLastName))
+                        {
+                            contract.Equipment.InstallerLastName = installationCertificateData.InstallerLastName;
+                        }
+                        if (installationCertificateData.InstallationDate.HasValue)
+                        {
+                            contract.Equipment.InstallationDate = installationCertificateData.InstallationDate;
+                        }
+                        if (installationCertificateData.InstalledEquipments?.Any() ?? false)
+                        {
+                            installationCertificateData.InstalledEquipments.ForEach(ie =>
+                            {
+                                var eq = contract.Equipment.NewEquipment.FirstOrDefault(e => e.Id == ie.Id);
+                                if (eq != null)
+                                {
+                                    if (!string.IsNullOrEmpty(ie.Model))
+                                    {
+                                        eq.InstalledModel = ie.Model;
+                                    }
+                                    if (!string.IsNullOrEmpty(ie.SerialNumber))
+                                    {
+                                        eq.InstalledSerialNumber = ie.SerialNumber;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.CreditCheckFailed,
+                        Message = "Cannot find a contract [{contractId}] for initiate credit check"
+                    });
+                }                                       
+            }
+            catch (Exception ex)
+            {            
+                _loggingService.LogError($"Cannot update installation data for contract {installationCertificateData.ContractId}", ex);    
+            }            
+            return alerts;
         }
 
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)

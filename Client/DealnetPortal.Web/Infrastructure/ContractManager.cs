@@ -160,13 +160,18 @@ namespace DealnetPortal.Web.Infrastructure
             contractEditViewModel.InstallCertificateInformation = new CertificateInformationViewModel()
             {
                 ContractId = contractId,
+                InstallationDate = contractsResult.Item1.Equipment?.InstallationDate,
+                InstallerFirstName = contractsResult.Item1.Equipment?.InstallerFirstName,
+                InstallerLastName = contractsResult.Item1.Equipment?.InstallerLastName,
                 Equipments = new List<CertificateEquipmentInfoViewModel>()
             };
-            summaryViewModel.EquipmentInfo.NewEquipment?.ForEach(eq =>
+            contractsResult.Item1.Equipment?.NewEquipment?.ForEach(eq =>
                 contractEditViewModel.InstallCertificateInformation.Equipments.Add(
                     new CertificateEquipmentInfoViewModel()
                     {
-                        Id = eq.Id
+                        Id = eq.Id,
+                        Model = eq.InstalledModel,
+                        SerialNumber = eq.InstalledSerialNumber,
                     }));
 
             return contractEditViewModel;
