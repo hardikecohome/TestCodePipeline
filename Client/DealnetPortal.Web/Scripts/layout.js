@@ -383,7 +383,7 @@ function hideLoader() {
 
 $.prototype.disableTab = function() {
   this.each(function() {
-    $(this).attr('tabindex', '-1');
+    $(this).attr('tabindex', '500');
   });
 };
 
