@@ -96,7 +96,7 @@
                     var percentVal = '0%';                              
                     progressBar.width(percentVal);
                     progressBarValue.html(percentVal);
-                    documentNaming.text(input.val().match(/[\w-]+\.\w+/gi));
+                    documentNaming.text(input.val().replace(/^.*[\\\/]/, ''));
                     documentItem.show();
                     progressContainer.show();
                 },
