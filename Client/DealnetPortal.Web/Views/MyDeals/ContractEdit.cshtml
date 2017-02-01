@@ -884,10 +884,12 @@
 
     @if (contractState == ContractState.CreditCheckDeclined)
     {
-        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit align-middle">
+<div class="form-section">
+        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit dealnet-info-link align-middle">
             <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
             <span>Add additional applicant</span>
         </a>
+</div>
     }
 	
 	<hr>
