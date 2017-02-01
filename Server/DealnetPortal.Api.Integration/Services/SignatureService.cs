@@ -1049,7 +1049,7 @@ namespace DealnetPortal.Api.Integration.Services
             //try to get Dealer info from Aspire and fill it
             if (!string.IsNullOrEmpty(contract?.Dealer.AspireLogin))
             {
-                TimeSpan aspireRequestTimeout = TimeSpan.FromSeconds(3);
+                TimeSpan aspireRequestTimeout = TimeSpan.FromSeconds(5);
                 Task timeoutTask = Task.Delay(aspireRequestTimeout);
                 var aspireRequestTask = Task.Run(() => _aspireStorageService.GetDealerInfo(contract?.Dealer.AspireLogin));                
 
