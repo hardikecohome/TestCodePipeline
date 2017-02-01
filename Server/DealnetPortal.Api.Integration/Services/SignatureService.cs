@@ -604,7 +604,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (dealerCertificates?.Any() ?? false)
             {
                 agreementTemplate = dealerCertificates.FirstOrDefault(
-                    cert => cert.AgreementType == contract.Details.AgreementType)
+                    cert => cert.AgreementType == contract.Equipment.AgreementType)
                                     ?? dealerCertificates.FirstOrDefault();
             }
             else
@@ -617,7 +617,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (appCertificates?.Any() ?? false)
                     {
                         agreementTemplate = appCertificates.FirstOrDefault(
-                            cert => cert.AgreementType == contract.Details.AgreementType)
+                            cert => cert.AgreementType == contract.Equipment.AgreementType)
                                             ?? appCertificates.FirstOrDefault();
                     }
                 }                
