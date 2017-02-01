@@ -1099,12 +1099,28 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillInstallCertificateFields(List<FormField> formFields, Contract contract)
         {
-            formFields.Add(new FormField() {FieldType = FieldType.Text, Name = PdfFormFields.CustomerName, Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"});
+            formFields.Add(new FormField()
+            {
+                FieldType = FieldType.Text,
+                Name = PdfFormFields.CustomerName,
+                Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
+            });
 
-            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallerName, Value = $"{contract.Equipment.InstallerLastName} {contract.Equipment.InstallerFirstName}" });
+            formFields.Add(new FormField()
+            {
+                FieldType = FieldType.Text,
+                Name = PdfFormFields.InstallerName,
+                Value = $"{contract.Equipment.InstallerLastName} {contract.Equipment.InstallerFirstName}"
+            });
             if (contract.Equipment.InstallationDate.HasValue)
             {
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.InstallationDate, Value = contract.Equipment?.InstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.InstallationDate,
+                    Value =
+                        contract.Equipment?.InstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                });
             }
 
             if (contract.Equipment.NewEquipment?.Any() ?? false)
@@ -1130,8 +1146,18 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     eqDescs += eq.Description;
                 });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentModel, Value = eqModels });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentSerialNumber, Value = eqSerials });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.EquipmentModel,
+                    Value = eqModels
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.EquipmentSerialNumber,
+                    Value = eqSerials
+                });
                 var descField = formFields.FirstOrDefault(f => f.Name == PdfFormFields.EquipmentDescription);
                 if (descField != null)
                 {
@@ -1139,19 +1165,55 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = eqDescs });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.EquipmentDescription,
+                        Value = eqDescs
+                    });
                 }
             }
 
             if (contract.Equipment.ExistingEquipment?.Any() ?? false)
             {
                 var exEq = contract.Equipment.ExistingEquipment.First();
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentRentalCompany, Value = exEq.RentalCompany });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentMake, Value = exEq.Make });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentModel, Value = exEq.Model });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentSerialNumber, Value = exEq.SerialNumber });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentGeneralCondition, Value = exEq.GeneralCondition });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentAge, Value = exEq.EstimatedAge.ToString("F", CultureInfo.InvariantCulture) });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ExistingEquipmentRentalCompany,
+                    Value = exEq.RentalCompany
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ExistingEquipmentMake,
+                    Value = exEq.Make
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ExistingEquipmentModel,
+                    Value = exEq.Model
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ExistingEquipmentSerialNumber,
+                    Value = exEq.SerialNumber
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ExistingEquipmentGeneralCondition,
+                    Value = exEq.GeneralCondition
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ExistingEquipmentAge,
+                    Value = exEq.EstimatedAge.ToString("F", CultureInfo.InvariantCulture)
+                });
             }
+        }
     }
 }
