@@ -1142,6 +1142,16 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = eqDescs });
                 }
             }
-        }
+
+            if (contract.Equipment.ExistingEquipment?.Any() ?? false)
+            {
+                var exEq = contract.Equipment.ExistingEquipment.First();
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentRentalCompany, Value = exEq.RentalCompany });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentMake, Value = exEq.Make });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentModel, Value = exEq.Model });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentSerialNumber, Value = exEq.SerialNumber });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentGeneralCondition, Value = exEq.GeneralCondition });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.ExistingEquipmentAge, Value = exEq.EstimatedAge.ToString("F", CultureInfo.InvariantCulture) });
+            }
     }
 }
