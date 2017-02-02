@@ -662,6 +662,7 @@ namespace DealnetPortal.Api.Integration.Services
                         formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.City, Value = mainAddress.City });
                         formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Province, Value = mainAddress.State });
                         formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.PostalCode, Value = mainAddress.PostalCode });
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.SuiteNo, Value = mainAddress.Unit });
                     }
                     var mailAddress =
                         contract.PrimaryCustomer?.Locations?.FirstOrDefault(
@@ -1106,6 +1107,16 @@ namespace DealnetPortal.Api.Integration.Services
                 Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
             });
 
+            if (contract.SecondaryCustomers?.Any() ?? false)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.CustomerName2,
+                    Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                });
+            }
+
             formFields.Add(new FormField()
             {
                 FieldType = FieldType.Text,
@@ -1176,6 +1187,13 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract.Equipment.ExistingEquipment?.Any() ?? false)
             {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.IsExistingEquipment,
+                    Value = "true"
+                });
+
                 var exEq = contract.Equipment.ExistingEquipment.First();
                 formFields.Add(new FormField()
                 {
@@ -1212,6 +1230,15 @@ namespace DealnetPortal.Api.Integration.Services
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.ExistingEquipmentAge,
                     Value = exEq.EstimatedAge.ToString("F", CultureInfo.InvariantCulture)
+                });
+            }
+            else
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.IsNoExistingEquipment,
+                    Value = "true"
                 });
             }
         }

@@ -101,11 +101,14 @@ namespace DealnetPortal.Api.Integration.Services
 
         //For Signed Installation Certificate
         public static string CustomerName = "CustomerName";
+        public static string CustomerName2 = "CustomerName_2";
         public static string InstallerName = "InstallerName";
         public static string InstallationDate = "InstallationDate";
         public static string EquipmentModel = "EquipmentModel";
         public static string EquipmentSerialNumber = "EquipmentSerialNumber";
 
+        public static string IsExistingEquipment = "IsExistingEquipment";
+        public static string IsNoExistingEquipment = "IsNoExistingEquipment";
         public static string ExistingEquipmentRentalCompany = "ExistingEquipmentRentalCompany";
         public static string ExistingEquipmentMake = "ExistingEquipmentMake";
         public static string ExistingEquipmentModel = "ExistingEquipmentModel";
