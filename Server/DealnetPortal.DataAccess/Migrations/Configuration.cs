@@ -811,7 +811,8 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var dir = HostingEnvironment.MapPath("~/SeedData");
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
                     {
@@ -880,7 +881,8 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var dir = HostingEnvironment.MapPath("~/SeedData");
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
                     {
