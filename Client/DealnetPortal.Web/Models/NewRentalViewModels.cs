@@ -96,6 +96,7 @@ namespace DealnetPortal.Web.Models
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public List<SubDealer> SubDealers { get; set; }
         public int? ContractId { get; set; }
+        public ContractState ContractState { get; set; }
     }
 
     public class PaymentInfoViewModel
@@ -162,6 +163,8 @@ namespace DealnetPortal.Web.Models
         [Display(Name = "House Size (sq feet)")]
         public double? HouseSize { get; set; }
         public int? ContractId { get; set; }
+
+        public bool IsApplicantsInfoEditAvailable { get; set; }
     }
 
     public class AdditionalInfoViewModel

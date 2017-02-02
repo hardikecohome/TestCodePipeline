@@ -70,6 +70,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsAllInfoCompleted { get; set; }
 
+        public bool IsApplicantsInfoEditAvailable { get; set; }
+
         public decimal? CreditAmount { get; set; }
 
         public double? ValueOfDeal { get; set; }        
