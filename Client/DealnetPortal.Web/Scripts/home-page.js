@@ -24,6 +24,7 @@ function showChart() {
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
+                    cache: false,
                     data: {
                         type: $('.dealnet-chart-switch-button-selected').attr('data-type')
                     }
@@ -99,7 +100,7 @@ function showChart() {
 };
 
 function showTable() {
-    $.when($.ajax(itemsUrl, { mode: 'GET' }))
+    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
     .done(function (data) {
       var table = $('#work-items-table')
             .DataTable({
