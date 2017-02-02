@@ -57,6 +57,7 @@ namespace DealnetPortal.Web.Infrastructure
                 return contactAndPaymentInfo;
             }
             contactAndPaymentInfo.ContractId = contractId;
+            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < ContractState.Completed;
             MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
             return contactAndPaymentInfo;
         }
@@ -79,6 +80,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
             equipmentInfo.CreditAmount = contractResult.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
+            equipmentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < ContractState.Completed;
             if (!equipmentInfo.RequestedTerm.HasValue)
             {
                 equipmentInfo.RequestedTerm = 120;
@@ -181,7 +183,6 @@ namespace DealnetPortal.Web.Infrastructure
         {
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
-
             basicInfo.SubmittingDealerId = contract.ExternalSubDealerId ?? contract.DealerId;
             basicInfo.SubDealers = new List<SubDealer>();
             var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
@@ -202,6 +203,7 @@ namespace DealnetPortal.Web.Infrastructure
                     basicInfo.SubDealers.AddRange(Mapper.Map<IList<SubDealer>>(dealerInfo.UdfSubDealers));
                 }
             }
+            basicInfo.ContractState = contract.ContractState;
         }
 
         public void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
@@ -404,6 +406,7 @@ namespace DealnetPortal.Web.Infrastructure
             summary.EquipmentInfo = new EquipmentInformationViewModel();
             summary.EquipmentInfo.ContractId = contractId;
             summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
+            summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
             if (summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;

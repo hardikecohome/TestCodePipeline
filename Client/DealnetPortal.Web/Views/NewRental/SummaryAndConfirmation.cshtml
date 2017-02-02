@@ -11,10 +11,24 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a href="@Url.Action("BasicInfo", new { contractId = Model.BasicInfo.ContractId })" data-warning="true" class="step-item">1</a>
+        @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+        {
+            <a href="@Url.Action("BasicInfo", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
+        }
+        else
+        {
+            <div id="step1" class="step-item">1</div>
+        }
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a href="@Url.Action("CreditCheckConfirmation", new { contractId = Model.BasicInfo.ContractId })" data-warning="true" id="step2" class="step-item">2</a>
+        @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+        {
+            <a href="@Url.Action("CreditCheckConfirmation", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step2" class="step-item">2</a>
+        }
+        else
+        {
+            <div id="step2" class="step-item">2</div>
+        }
 
         <a href="@Url.Action("EquipmentInformation", new { contractId = Model.BasicInfo.ContractId })" id="step3" class="step-item">3</a>
     </div>
@@ -109,7 +123,11 @@
         <div class="col-md-6 grid-column">
             <div class="dealnet-credit-check-section" id="address-section">
                 <h3 class="dealnet-section-title">
-                    Address Information <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                    Address Information 
+                    @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+                    {
+                        <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                    }
                 </h3>
                 <div class="form-group">
                     <div class="row">
@@ -180,7 +198,11 @@
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="mailing-address-section">
                         <h3 class="dealnet-section-title">
-                            Mailing Address <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                            Mailing Address 
+                            @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+                            {
+                                <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                            }
                         </h3>
                         <div class="form-group">
                             <div class="row">
@@ -379,7 +401,11 @@
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                 <h3 class="dealnet-section-title">
-                                    Mailing Address <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                                    Mailing Address
+                                    @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+                                    {
+                                        <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                                    }
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">
