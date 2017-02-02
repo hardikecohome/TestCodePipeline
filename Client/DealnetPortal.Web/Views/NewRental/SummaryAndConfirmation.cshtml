@@ -401,7 +401,11 @@
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                 <h3 class="dealnet-section-title">
-                                    Mailing Address <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                                    Mailing Address
+                                    @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+                                    {
+                                        <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                                    }
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">
