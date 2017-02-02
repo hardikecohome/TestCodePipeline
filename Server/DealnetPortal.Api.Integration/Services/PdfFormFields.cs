@@ -107,8 +107,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EquipmentModel = "EquipmentModel";
         public static string EquipmentSerialNumber = "EquipmentSerialNumber";
 
-        public static string IsExistingEquipment = "IsExistingEquipment";
-        public static string IsNoExistingEquipment = "IsNoExistingEquipment";
+        public static string IsExistingEquipmentRental = "IsExistingEquipmentRental";
+        public static string IsExistingEquipmentNoRental = "IsExistingEquipmentNoRental";
         public static string ExistingEquipmentRentalCompany = "ExistingEquipmentRentalCompany";
         public static string ExistingEquipmentMake = "ExistingEquipmentMake";
         public static string ExistingEquipmentModel = "ExistingEquipmentModel";

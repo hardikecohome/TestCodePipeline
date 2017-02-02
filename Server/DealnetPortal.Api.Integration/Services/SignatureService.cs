@@ -1186,15 +1186,14 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             if (contract.Equipment.ExistingEquipment?.Any() ?? false)
-            {
+            {                
+                var exEq = contract.Equipment.ExistingEquipment.First();
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.CheckBox,
-                    Name = PdfFormFields.IsExistingEquipment,
+                    Name = exEq.IsRental ? PdfFormFields.IsExistingEquipmentRental : PdfFormFields.IsExistingEquipmentNoRental,
                     Value = "true"
                 });
-
-                var exEq = contract.Equipment.ExistingEquipment.First();
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
@@ -1231,16 +1230,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.ExistingEquipmentAge,
                     Value = exEq.EstimatedAge.ToString("F", CultureInfo.InvariantCulture)
                 });
-            }
-            else
-            {
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.CheckBox,
-                    Name = PdfFormFields.IsNoExistingEquipment,
-                    Value = "true"
-                });
-            }
+            }            
         }
     }
 }
