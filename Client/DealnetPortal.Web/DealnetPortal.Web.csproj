@@ -59,6 +59,10 @@
     <Reference Include="DealnetPortal.Utilities">
       <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="dotless.Core, Version=1.5.2.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotless.1.5.2\lib\dotless.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
@@ -193,6 +197,7 @@
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
+    <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
