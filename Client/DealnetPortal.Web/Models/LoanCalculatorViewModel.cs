@@ -9,10 +9,10 @@ namespace DealnetPortal.Web.Models
 {
     public class LoanCalculatorViewModel
     {
-        public List<NewEquipmentInformation> NewEquipment { get; set; }
+        public EquipmentInformationViewModel Equipment { get; set; }
 
-        public List<EquipmentTypeDTO> EquipmentTypes { get; set; }
+        public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }
 
-
+        public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
     }
 }
