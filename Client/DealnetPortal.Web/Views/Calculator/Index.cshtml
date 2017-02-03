@@ -26,6 +26,15 @@
 
     <div class="initial-standalone-calculator">
 
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg compare-mode">
+            <li class="active"><a href="#" data-calc="1" ng-click="retrieveCompareState()">Type 1</a></li>
+            <li><a href="#" data-calc="2">Type 2</a></li>
+            <li><a href="#" data-calc="3">Type 3</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+
         <div class="form-container equipment-form-container has-loan-calc standalone-calculator">
             <div class="form-section">
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "activeForm" }))
@@ -43,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="equipments-hold">
-                                <h3 class="dealnet-middle-header">Equipment Information</h3>
+                                <h3 class="dealnet-middle-header no-top-margin-compare-mode">Equipment Information</h3>
                                 <div ng-repeat="item in (activeEquipment)" ng-init="$last && resetForm('#activeForm')">
                                     <div class="dealnet-middle-header owner-info-label" ng-if="$index !== 0">
                                         <div @*onclick="recalculateTotalCashPrice();"*@ ng-click="removeEquipmentToCompare($index)">
@@ -141,171 +150,9 @@
                             </div>
                         </div><!--equipment-editable-section END-->
 
-                        <div class="col-md-6 col-sm-6 sticker-parent">
-                            <div class="equipment-calculator compare-sticker sticker">
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Total Cash Price (1+2)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,400.00</span></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">HST</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>2,400.00</span></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Total Amount Financed (3+4-5)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>22,459.95</span></div>
-                                </div>
-                                <hr>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Total Monthly Payment</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>466.12</span></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Total of All Monthly Payments (7*10)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Balance Owing at the End of Monthly Payments (Residual)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>-</span></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Total Obligation (11+12)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>27,967.35</span></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Total Cost of Prrowing</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold">$ <span>5,507.40</span></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9">Total Tax</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold"><span>13.000 %</span></div>
-                                </div>
-                            </div><!--equipment-calculator END-->
-
-                        </div>
-
-                    </div>
-                    <!--equipment-editable-parent END-->
-                }
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="button-proceed">
-                            <input type="submit" value="Add to Comparison" class="btn dealnet-button dealnet-success-button" onClick="$('#calculator-modal').modal()">
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!--form-section END-->
-
-        </div><!--form-container END-->
-    </div><!--initial-standalone-calculator END-->
-
-    <div class="compare-standalone-calculator" style="display: none">
-        <div>
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg">
-                <li class="active"><a href="#" data-calc="1" ng-click="retrieveCompareState()">Type 1</a></li>
-                <li><a href="#" data-calc="2">Type 2</a></li>
-                <li><a href="#" data-calc="3">Type 3</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="form-container equipment-form-container has-loan-calc standalone-calculator">
-                <div class="form-section">
-                    <div class="equipment-editable-parent row">
-                        <div class="equipment-editable-section col-sm-6  hidden-md hidden-lg">
-                            @using (Html.BeginForm(null, null))
-                            {
-                                <div id="compare-calculator-data">
-                                    <div class="equipment-hold">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type)
-                                                    @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type,
-                                                        (Model.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description}),
-                                                        new {@class = "form-control", ng_model = "activeType"})
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description)
-                                                    <div class="control-group">
-                                                        @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { @class = "form-control dealnet-input date-input", placeholder = "Description", ng_model = "activeDescription" })
-                                                        @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost)
-                                                <div class="control-group has-addon-left">
-                                                    <div class="control-group-addon">$</div>
-                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { @class = "form-control dealnet-input date-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();", ng_model = "activeCost" })
-                                                    @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="align-middle dealnet-info-link add-equip-link">
-                                        <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-                                        <span>Add additional equipment</span>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-4 initial-width">
-                                            <div class="form-group">
-                                                @Html.LabelFor(m => m.Equipment.AdminFee)
-                                                @Html.TextBoxFor(m => m.Equipment.AdminFee, new {@class = "form-control", placeholder = "Admin Fee", id = "admin-fee", onchange = "calculateLoanValues();", ng_model = "activeAdminFee"})
-                                                @Html.ValidationMessageFor(m => m.Equipment.AdminFee, "", new {@class = "text-danger"})
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 initial-width">
-                                            <div class="form-group">
-                                                @Html.LabelFor(m => m.Equipment.DownPayment)
-                                                @Html.TextBoxFor(m => m.Equipment.DownPayment, new {@class = "form-control", placeholder = "Down Payment", id = "down-payment", onchange = "calculateLoanValues();", ng_model = "activeDownPayment"})
-                                                @Html.ValidationMessageFor(m => m.Equipment.DownPayment, "", new {@class = "text-danger"})
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 initial-width">
-                                            <div class="form-group">
-                                                @Html.LabelFor(m => m.Equipment.CustomerRate)
-                                                @Html.TextBoxFor(m => m.Equipment.CustomerRate, new {@class = "form-control", placeholder = "Customer Rate (%)", id = "customer-rate", onchange = "calculateLoanValues();", ng_model = "activeCustomerRate"})
-                                                @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new {@class = "text-danger"})
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h3 class="dealnet-middle-header">Term and Rep</h3>
-                                    <div class="row loan-element">
-                                        <div class="col-md-4 initial-width">
-                                            <div class="form-group">
-                                                @Html.LabelFor(m => m.Equipment.LoanTerm)
-                                                @Html.TextBoxFor(m => m.Equipment.LoanTerm, new {@class = "form-control dealnet-input", placeholder = "Loan Term", id = "loan-term", onchange = "calculateLoanValues();", value = "120", ng_model = "activeLoanTerm"})
-                                                @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new {@class = "text-danger"})
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 initial-width">
-                                            <div class="form-group">
-                                                @Html.LabelFor(m => m.Equipment.AmortizationTerm)
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new {@class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();", ng_model = "activeAmortizationTerm"})
-                                                    @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new {@class = "text-danger"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 initial-width">
-                                            <div class="form-group">
-                                                @Html.LabelFor(m => m.Equipment.LoanDeferralType)
-                                                @Html.DropDownListFor(m => loanDeferralTypes, loanDeferralTypes, new {@class = "form-control", ng_model = "activeDeferralType"})
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div><!--equipment-editable-section END-->
-
                         <div class="col-md-6 col-sm-6 sticker-parent compare-table-calculator">
                             <div class="calculators-hold">
-                                <div class="row form-group hidden-sm hiden-xs text-semibold">
+                                <div class="row form-group hidden-sm hiden-xs text-semibold compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title" data-calc="1">
                                         Type 1
@@ -313,26 +160,26 @@
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title" data-calc="2">
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title compare-mode" data-calc="2">
                                         Type 2
                                         <span class="calculator-remove">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </span>
                                     </div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-title" data-calc="3">
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-title compare-mode" data-calc="3">
                                         Type 3
                                         <span class="calculator-remove">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="row form-group  hidden-sm hiden-xs">
+                                <div class="row form-group  hidden-sm hiden-xs compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Type of equipment</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">AIR CONDITIONER</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">AIR CONDITIONER</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">AIR CONDITIONER</div>
                                 </div>
-                                <div class="row form-group  hidden-sm hiden-xs">
+                                <div class="row form-group  hidden-sm hiden-xs compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Description</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">Everest 16 SEER - ESX130181</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
@@ -341,59 +188,59 @@
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price (1+2)</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,400.00</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>10,400.00</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>11,400.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>10,400.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>11,400.00</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>2,400.00</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>1,500.00</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>1,950.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>1,500.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>1,950.00</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed (3+4-5)</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,459.95</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>15,459.95</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>18,459.95</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>15,459.95</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>18,459.95</span></div>
                                 </div>
                                 <hr>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>466.12</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>300.12</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>500.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>300.12</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>500.00</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments (7*10)</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>26,967.35</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>29,967.35</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>26,967.35</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>29,967.35</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>-</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation (11+12)</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>25,967.35</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>26,967.35</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>25,967.35</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>26,967.35</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Prrowing</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>5,507.40</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">$ <span>4,507.40</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">$ <span>6,507.40</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>4,507.40</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>6,507.40</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Tax</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">13.000 %</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2">12.000 %</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3">14.000 %</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">12.000 %</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">14.000 %</div>
                                 </div>
-                                <div class="row form-group hidden-xs hidden-sm">
+                                <div class="row form-group hidden-xs hidden-sm compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-field-edit">
                                         <a class="dealnet-section-edit-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
@@ -408,24 +255,23 @@
                             </div><!--equipment-calculator END-->
                         </div>
 
-                    </div> <!--equipment-editable-parent END-->
+                    </div>
+                    <!--equipment-editable-parent END-->
+                }
 
-                    <div class="row">
-                        <div class="col-md-12">
-
-
-                            <div class="button-proceed">
-                                <button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg" id="clearCalcBtn">Remove</button>
-                            </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="button-proceed">
+                            <input type="submit" value="Add to Comparison" class="btn dealnet-button dealnet-success-button initial-mode" onClick="$('#calculator-modal').modal()">
+                            <button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg compare-mode" id="clearCalcBtn">Remove</button>
                         </div>
                     </div>
+                </div>
 
-                </div> <!--form-section END-->
+            </div> <!--form-section END-->
 
-            </div><!--form-container END-->
-
-        </div>
-    </div>
+        </div><!--form-container END-->
+    </div><!--initial-standalone-calculator END-->
 
     <!--Modal for desktop version-->
     <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="calculator-modal">
@@ -539,7 +385,7 @@
                     }
                     <div class="btn-container">
                         <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" data-dismiss="modal"
-                                onClick="$('.initial-standalone-calculator').hide(); $('.compare-standalone-calculator').show();"
+                                onClick="$('.initial-standalone-calculator').addClass('compare-mode');"
                                 ng-click="addCompareState()">
                             Add to Comparison
                         </button>
@@ -730,6 +576,11 @@
                 $('#calculator-modal').modal();
                 return false;
             });
+
+            if($('.empty-calc').length === 2){
+                $('.initial-standalone-calculator').removeClass('compare-mode');
+            }
+
             checkEmptyCalc();
         }
     </script>
