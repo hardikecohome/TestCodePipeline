@@ -47,15 +47,15 @@
                                         <label>Choose province</label>
                                         @Html.DropDownListFor(m => m.ProvinceTaxRates,
                                             (Model.ProvinceTaxRates).Select(x => new SelectListItem {Value = x.Rate.ToStringInvariant(), Text = x.Province}),
-                                            new {@class = "form-control"})
+                                            new {@class = "form-control", id="province-tax-rate", onchange = "assignTaxRate.call(this)" })
                                     </div>
                                 </div>
                             </div>
                             <div class="equipments-hold">
                                 <h3 class="dealnet-middle-header no-top-margin-compare-mode">Equipment Information</h3>
-                                <div ng-repeat="item in (activeEquipment)" ng-init="$last && resetForm('#activeForm')">
+                                <div ng-repeat="item in activeEquipment" ng-init="$last && resetForm('#activeForm')">
                                     <div class="dealnet-middle-header owner-info-label" ng-if="$index !== 0">
-                                        <div @*onclick="recalculateTotalCashPrice();"*@ ng-click="removeEquipmentToCompare($index)">
+                                        <div ng-click="removeActiveEquipment($index)">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </div>
                                     </div>
@@ -63,12 +63,12 @@
                                         @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type, new { @for = "Equipment_NewEquipment_{{$index}}__Type" })
                                         @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type,
                                                 (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control" })
+                                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control", ng_model = "item.type" })
                                     </div>
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description, new { @for = "Equipment_NewEquipment_{{$index}}__Description" })
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { id = "Equipment_NewEquipment_{{$index}}__Description", Name = "Equipment.NewEquipment[{{$index}}].Description", @class = "form-control dealnet-input date-input", placeholder = "Description" })
+                                            @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { id = "Equipment_NewEquipment_{{$index}}__Description", Name = "Equipment.NewEquipment[{{$index}}].Description", @class = "form-control dealnet-input date-input", placeholder = "Description", ng_model = "item.description" })
                                             @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Description", @class = "text-danger" })
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
                                                 <div class="control-group has-addon-left">
                                                     <div class="control-group-addon">$</div>
-                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();" })
+                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();", ng_model = "item.cost" })
                                                     @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost", @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -186,57 +186,57 @@
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price (1+2)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,400.00</span></div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Cash Price of Equipment</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="equipment-cash-price">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>10,400.00</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>11,400.00</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>2,400.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="hst">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>1,500.00</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>1,950.00</span></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed (3+4-5)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>22,459.95</span></div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-cash-price">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>15,459.95</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>18,459.95</span></div>
                                 </div>
                                 <hr>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>466.12</span></div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-amount-financed">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>300.12</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>500.00</span></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments (7*10)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-monthly-payment">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>26,967.35</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>29,967.35</span></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>-</span></div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-all-monthly-payments">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>-</span></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation (11+12)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>27,967.35</span></div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="residual-balance">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>25,967.35</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>26,967.35</span></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Prrowing</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span>5,507.40</span></div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-obligation">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>4,507.40</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>6,507.40</span></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Tax</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">13.000 %</div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Borrowing</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-borrowing-cost">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">12.000 %</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">14.000 %</div>
                                 </div>
@@ -262,7 +262,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="button-proceed">
-                            <input type="submit" value="Add to Comparison" class="btn dealnet-button dealnet-success-button initial-mode" onClick="$('#calculator-modal').modal()">
+                            <input type="submit" value="Add to Comparison" class="btn dealnet-button dealnet-success-button initial-mode" ng-click="tryCopyActiveToCompare()">
                             <button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg compare-mode" id="clearCalcBtn">Remove</button>
                         </div>
                     </div>
@@ -287,9 +287,9 @@
                     {
                         <div class="dealnet-credit-check-section dealnet-modal-section">
                             <div class="equipments-hold">
-                                <div ng-repeat="item in (equipmentToCompare)" ng-init="$last && resetForm('#formToCompare')">
+                                <div ng-repeat="item in equipmentToCompare" ng-init="$last && resetForm('#formToCompare')">
                                     <div class="dealnet-middle-header owner-info-label" ng-if="$index !== 0">
-                                        <div @*onclick="recalculateTotalCashPrice();"*@ ng-click="removeEquipmentToCompare($index)">
+                                        <div ng-click="removeEquipmentToCompare($index)">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </div>
                                     </div>
@@ -299,14 +299,14 @@
                                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type, new { @for = "Equipment_NewEquipment_{{$index}}__Type" })
                                                 @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type,
                                                 (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control" })
+                                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control", ng_model = "item.type" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description, new { @for = "Equipment_NewEquipment_{{$index}}__Description" })
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { id = "Equipment_NewEquipment_{{$index}}__Description", Name = "Equipment.NewEquipment[{{$index}}].Description", @class = "form-control dealnet-input date-input", placeholder = "Description" })
+                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { id = "Equipment_NewEquipment_{{$index}}__Description", Name = "Equipment.NewEquipment[{{$index}}].Description", @class = "form-control dealnet-input date-input", placeholder = "Description", ng_model = "item.description" })
                                                     @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { data_valmsg_for= "Equipment.NewEquipment[{{$index}}].Description", @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -315,7 +315,7 @@
                                             @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
                                             <div class="control-group has-addon-left">
                                                 <div class="control-group-addon">$</div>
-                                                @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();" })
+                                                @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = "Cost", ng_model = "item.cost" })
                                                 @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost", @class = "text-danger" })
                                             </div>
                                         </div>
@@ -332,7 +332,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AdminFee)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", placeholder = "Admin Fee", id = "admin-fee", onchange = "calculateLoanValues();", ng_model = "adminFeeToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", placeholder = "Admin Fee", ng_model = "adminFeeToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AdminFee, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -341,7 +341,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.DownPayment)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", placeholder = "Down Payment", id = "down-payment", onchange = "calculateLoanValues();", ng_model = "downPaymentToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", placeholder = "Down Payment", ng_model = "downPaymentToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.DownPayment, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -350,7 +350,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.CustomerRate)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control", placeholder = "Customer Rate (%)", id = "customer-rate", onchange = "calculateLoanValues();", ng_model = "customerRateToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control", placeholder = "Customer Rate (%)", ng_model = "customerRateToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -361,7 +361,7 @@
                                 <div class="col-md-4 initial-width">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanTerm)
-                                        @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input", placeholder = "Loan Term", id = "loan-term", onchange = "calculateLoanValues();", value = "120", ng_model = "loanTermToCompare" })
+                                        @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input", placeholder = "Loan Term", value = "120", ng_model = "loanTermToCompare" })
                                         @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -369,7 +369,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AmortizationTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();", ng_model = "amortizationTermToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", ng_model = "amortizationTermToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -396,23 +396,19 @@
         </div>
     </div>
 </div>
-<div class="hidden">
-    <div id="new-equipment-deletion-base">
-        <div class="dealnet-middle-header owner-info-label">
-            <div onclick="$(this).parent().parent().remove(); recalculateTotalCashPrice();">
-                <i class="glyphicon glyphicon-remove"></i>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 @section scripts
 {
 
-@Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var taxRate = 0;
+    </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/loan-calculator.js")
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <script type="text/javascript">
 
         var app = angular.module("calculator", []);
@@ -429,6 +425,7 @@
             }
             $scope.removeActiveEquipment = function (index) {
                 $scope.activeEquipment.splice(index, 1);
+                recalculateTotalCashPrice();
             }
             $scope.addActiveEquipment();
             $scope.equipmentToCompare = [];
@@ -445,9 +442,7 @@
             $scope.addEquipmentToCompare();
             $scope.addCompareState = function () {
                 $scope.compareStates.push({
-                    type: $scope.typeToCompare,
-                    description: $scope.descriptionToCompare,
-                    cost: $scope.costToCompare,
+                    equipment: $scope.equipmentToCompare,
                     adminFee: $scope.adminFeeToCompare,
                     downPayment: $scope.downPaymentToCompare,
                     customerRate: $scope.customerRateToCompare,
@@ -456,7 +451,23 @@
                     deferralType: $scope.deferralTypeToCompare
                 });
             };
+            $scope.tryCopyActiveToCompare = function () {
+                var form = $('#activeForm');
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                }
+                $scope.equipmentToCompare = jQuery.extend(true, {}, $scope.activeEquipment);
+                $scope.adminFeeToCompare = $scope.activeAdminFee;
+                $scope.downPaymentToCompare = $scope.activeDownPayment;
+                $scope.customerRateToCompare = $scope.activeCustomerRate;
+                $scope.loanTermToCompare = $scope.activeLoanTerm;
+                $scope.amortizationTermToCompare = $scope.activeAmortizationTerm;
+                $scope.deferralTypeToCompare = $scope.activeDeferralType;
+                $('#calculator-modal').modal();
+            };
             $scope.resetForm = function (form) {
+                customizeSelect();
                 setTimeout(function () { resetFormValidator(form); }, 300);
             };
         });
@@ -466,6 +477,7 @@
 
                 displayCompareCalcs();
                 makeStickCalendar();
+                $('#province-tax-rate').change();
 
                 $(window).on('resize', function() {
                     displayCompareCalcs();
@@ -503,6 +515,19 @@
             customizeSelect();
         }
 
+        function recalculateTotalCashPrice() {
+            var sum = 0;
+            $(".equipment-cost").each(function () {
+                var numberValue = parseFloat(this.value);
+                if (!isNaN(numberValue)) {
+                    sum += numberValue;
+                }
+            });
+
+            $("#equipment-cash-price").text(sum.toFixed(2));
+            calculateLoanValues();
+        }
+
         function resetFormValidator(formId) {
             $(formId).removeData('validator');
             $(formId).removeData('unobtrusiveValidation');
@@ -511,6 +536,10 @@
             //$("#amortization-term").rules("add", "required");
             //$("#requested-term").rules("add", "required");
             //$("#loan-term").rules("add", "required");
+        }
+
+        function assignTaxRate() {
+            taxRate = this.value;
         }
 
         function displayCompareCalcs() {
