@@ -51,9 +51,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="equipments-hold">
+                            <div class="equipments-hold" recalculate-Tcp reset-Form>
                                 <h3 class="dealnet-middle-header no-top-margin-compare-mode">Equipment Information</h3>
-                                <div ng-repeat="item in activeEquipment" ng-init="$last && resetForm('#activeForm')">
+                                <div ng-repeat="item in activeEquipment">
                                     <div class="dealnet-middle-header owner-info-label" ng-if="$index !== 0">
                                         <div ng-click="removeActiveEquipment($index)">
                                             <i class="glyphicon glyphicon-remove"></i>
@@ -87,7 +87,7 @@
                                 </div>
                                 </div>
 
-                            <div class="align-middle dealnet-info-link add-equip-link" ng-click="addActiveEquipment()" @*onclick="addNewEquipment.call(this);"*@>
+                            <div class="align-middle dealnet-info-link add-equip-link" ng-click="addActiveEquipment()">
                                 <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
                                 <span>Add additional equipment</span>
                             </div>
@@ -287,7 +287,7 @@
                     {
                         <div class="dealnet-credit-check-section dealnet-modal-section">
                             <div class="equipments-hold">
-                                <div ng-repeat="item in equipmentToCompare" ng-init="$last && resetForm('#formToCompare')">
+                                <div ng-repeat="item in equipmentToCompare">
                                     <div class="dealnet-middle-header owner-info-label" ng-if="$index !== 0">
                                         <div ng-click="removeEquipmentToCompare($index)">
                                             <i class="glyphicon glyphicon-remove"></i>
@@ -322,7 +322,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="align-middle dealnet-info-link add-equip-link" ng-click="addEquipmentToCompare()" @*onclick="addNewEquipment.call(this);"*@>
+                            <div class="align-middle dealnet-info-link add-equip-link" ng-click="addEquipmentToCompare()">
                                 <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
                                 <span>Add additional equipment</span>
                             </div>
@@ -413,25 +413,55 @@
 
         var app = angular.module("calculator", []);
 
+        app.directive('recalculateTcp', function () {
+            return {
+                link: function ($scope, element, attrs) {
+                    var watch = $scope.$watch(function () {
+                        return element.children().length;
+                    }, function () {
+                        $scope.$evalAsync(function () {
+                            recalculateTotalCashPrice();
+                        });
+                    });
+                }
+            };
+        });
+        app.directive('resetForm', function () {
+            return {
+                link: function ($scope, element, attrs) {
+                    var watch = $scope.$watch(function () {
+                        return element.children().length;
+                    }, function () {
+                        $scope.$evalAsync(function () {
+                            var form = element.parent().closest('form');;
+                            customizeSelect();
+                            resetFormValidator(form);
+                        });
+                    });
+                }
+            };
+        });
         app.controller("calculator", function ($scope) {
+            var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
+            var defaultDefferalType = '@loanDeferralTypes.First().Value';
             $scope.compareStates = [];
+            $scope.activeDeferralType = defaultDefferalType;
             $scope.activeEquipment = [];
             $scope.addActiveEquipment = function () {
                 $scope.activeEquipment.push({
-                    type: '',
+                    type: defaultEquipmentType,
                     description: '',
                     cost: ''
                 });
             }
             $scope.removeActiveEquipment = function (index) {
                 $scope.activeEquipment.splice(index, 1);
-                recalculateTotalCashPrice();
             }
             $scope.addActiveEquipment();
             $scope.equipmentToCompare = [];
             $scope.addEquipmentToCompare = function() {
                 $scope.equipmentToCompare.push({
-                    type: '',
+                    type: defaultEquipmentType,
                     description: '',
                     cost: ''
                 });
@@ -457,7 +487,7 @@
                 if (!form.valid()) {
                     return;
                 }
-                $scope.equipmentToCompare = jQuery.extend(true, {}, $scope.activeEquipment);
+                $scope.equipmentToCompare = JSON.parse(JSON.stringify($scope.activeEquipment));
                 $scope.adminFeeToCompare = $scope.activeAdminFee;
                 $scope.downPaymentToCompare = $scope.activeDownPayment;
                 $scope.customerRateToCompare = $scope.activeCustomerRate;
@@ -465,10 +495,6 @@
                 $scope.amortizationTermToCompare = $scope.activeAmortizationTerm;
                 $scope.deferralTypeToCompare = $scope.activeDeferralType;
                 $('#calculator-modal').modal();
-            };
-            $scope.resetForm = function (form) {
-                customizeSelect();
-                setTimeout(function () { resetFormValidator(form); }, 300);
             };
         });
         $(document)
@@ -505,24 +531,17 @@
                 });
             });
 
-        function addNewEquipment() {
-            var form = $(this).parent().closest('form');
-            var newDiv = document.createElement('div');
-            newDiv.innerHTML = form.find('.new-equipment-base').html();
-            form.find('.equipments-hold').append(newDiv);
-            $(newDiv).prepend($('#new-equipment-deletion-base').html());
-            resetFormValidator(form);
-            customizeSelect();
-        }
-
         function recalculateTotalCashPrice() {
-            var sum = 0;
+            var sum;
             $(".equipment-cost").each(function () {
                 var numberValue = parseFloat(this.value);
                 if (!isNaN(numberValue)) {
+                    if (!sum) { sum = 0; }
                     sum += numberValue;
                 }
             });
+
+            if (!sum) { return; }
 
             $("#equipment-cash-price").text(sum.toFixed(2));
             calculateLoanValues();
