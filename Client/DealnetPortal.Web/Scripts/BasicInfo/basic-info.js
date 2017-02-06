@@ -55,7 +55,7 @@ $(document).ready(function () {
     mailingAddress = $("#mailing-adress");
     mailingAddressCheckbox = $("#mailing-adress-checkbox");
     if (!mailingAddressCheckbox.is(":checked")) {
-        mailingAddress.hide();
+        mailingAddress.slideUp();
     } else {
         enableMailingAddress();
     }
@@ -182,10 +182,10 @@ function enableMailingAddress() {
     $("#mailing_locality").prop("disabled", false);
     $("#mailing_administrative_area_level_1").prop("disabled", false);
     $("#mailing_postal_code").prop("disabled", false);
-    mailingAddress.show(300);
+    mailingAddress.slideDown();
 }
 function disableMailingAddress() {
-    mailingAddress.hide(200);
+    mailingAddress.slideUp();
     $("#mailing_street").prop("disabled", true);
     $("#mailing_unit_number").prop("disabled", true);
     $("#mailing_locality").prop("disabled", true);

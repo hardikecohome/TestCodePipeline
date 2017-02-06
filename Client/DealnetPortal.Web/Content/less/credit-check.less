@@ -463,8 +463,17 @@ select.dealnet-disabled-input{
   &.well-info{
     background-color: rgba(168, 216, 238, 0.17);
     border: solid 1px #90d0ee;
-    .icon-email{
+    .icon-info-well, .icon-email{
       color: #2f9cd0;
+    }
+    &.position{
+      position: relative;
+      padding-left: 50px;
+      .icon-info-well{
+        position: absolute;
+        left: 15px;
+        top: 17px;
+      }
     }
   }
   &.success-well{
