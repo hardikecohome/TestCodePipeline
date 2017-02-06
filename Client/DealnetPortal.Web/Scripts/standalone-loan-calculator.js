@@ -1,11 +1,22 @@
 ﻿function calculateAndAssign(calculationState) {
-    var equipmentCashPrice = 0;
+    if (!calculationState.equipment) {
+        return;
+    }
+    var equipmentCashPrice;
     $.each(calculationState.equipment, function (index, value) {
-        equipmentCashPrice += parseFloat(value.cost);
+        var numberValue = parseFloat(value.cost);
+        if (!isNaN(numberValue)) {
+            if (!equipmentCashPrice) {
+                equipmentCashPrice = 0;
+            }
+            equipmentCashPrice += numberValue;
+        }
     });
-    if (equipmentCashPrice === 0) { return; }
+    if (!equipmentCashPrice || equipmentCashPrice <= 0) {
+        return;
+    }
     calculationState.equipmentCashPrice = equipmentCashPrice;
-    var hst = taxRate / 100 * calculationState.equipmentCashPrice;
+    var hst = taxRate / 100 * equipmentCashPrice;
     calculationState.hst = hst;
     var totalCashPrice = equipmentCashPrice + hst;
     calculationState.totalCashPrice = totalCashPrice;
@@ -19,6 +30,7 @@
     }
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
     calculationState.totalAmountFinanced = totalAmountFinanced;
+    if (isNaN(calculationState.loanTerm) || calculationState.loanTerm <= 0 || isNaN(calculationState.amortizationTerm) || calculationState.amortizationTerm <= 0 || isNaN(calculationState.customerRate) || calculationState.customerRate <= 0) { return; }
     var totalMonthlyPayment = totalAmountFinanced * pmt(calculationState.customerRate / 100 / 12, calculationState.amortizationTerm, -1, 0, 0);
     calculationState.totalMonthlyPayment = totalMonthlyPayment;
     var totalAllMonthlyPayments = totalMonthlyPayment * calculationState.loanTerm;

@@ -17,7 +17,7 @@
                              Text = e.GetEnumDescription()
                          }).ToList();
 }
-<div ng-app="calculator" ng-controller="calculator">
+<div id="main-div" ng-app="calculator" ng-controller="calculator">
     <!-- Provide standalone payment calculator screen -->
     <div id="label-steps">
         <div class="dealnet-action-link">Calculator</div> >
@@ -47,11 +47,11 @@
                                         <label>Choose province</label>
                                         @Html.DropDownListFor(m => m.ProvinceTaxRates,
                                             (Model.ProvinceTaxRates).Select(x => new SelectListItem {Value = x.Rate.ToStringInvariant(), Text = x.Province}),
-                                            new {@class = "form-control", id="province-tax-rate", onchange = "assignTaxRate.call(this); calculateLoanValues();" })
+                                            new {@class = "form-control", id="province-tax-rate", ng_change = "assignTaxRate()", ng_model="taxRate" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="equipments-hold" recalculate-Tcp reset-Form>
+                            <div class="equipments-hold" reset-Form>
                                 <h3 class="dealnet-middle-header no-top-margin-compare-mode">Equipment Information</h3>
                                 <div ng-repeat="item in activeEquipment">
                                     <div class="dealnet-middle-header owner-info-label" ng-if="$index !== 0">
@@ -78,7 +78,7 @@
                                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
                                                 <div class="control-group has-addon-left">
                                                     <div class="control-group-addon">$</div>
-                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = "Cost", onchange = "recalculateTotalCashPrice();", ng_model = "item.cost" })
+                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = "Cost", ng_change = "calculateLoanValues();", ng_model = "item.cost" })
                                                     @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost", @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AdminFee)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", placeholder = "Admin Fee", id = "admin-fee", onchange = "calculateLoanValues();", ng_model = "activeAdminFee" })
+                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", placeholder = "Admin Fee", id = "admin-fee", ng_change = "calculateLoanValues()", ng_model = "activeAdminFee" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AdminFee, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.DownPayment)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", placeholder = "Down Payment", id = "down-payment", onchange = "calculateLoanValues();", ng_model = "activeDownPayment" })
+                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", placeholder = "Down Payment", id = "down-payment", ng_change = "calculateLoanValues()", ng_model = "activeDownPayment" })
                                             @Html.ValidationMessageFor(m => m.Equipment.DownPayment, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.CustomerRate)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", id= "customer-rate", placeholder = "Customer Rate (%)", onchange = "calculateLoanValues();", ng_model = "activeCustomerRate" })
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", id= "customer-rate", placeholder = "Customer Rate (%)", ng_change = "calculateLoanValues()", ng_model = "activeCustomerRate" })
                                             @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", id= "loan-term", placeholder = "Loan Term", onchange = "calculateLoanValues();", value = "120", ng_model = "activeLoanTerm" })
+                                            @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", id= "loan-term", placeholder = "Loan Term", ng_change = "calculateLoanValues()", value = "120", ng_model = "activeLoanTerm" })
                                             @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AmortizationTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", id= "amortization-term", placeholder = "Amortization Term", onchange = "calculateLoanValues();", ng_model = "activeAmortizationTerm" })
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", id= "amortization-term", placeholder = "Amortization Term", ng_change = "calculateLoanValues()", ng_model = "activeAmortizationTerm" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -218,9 +218,9 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-all-monthly-payments" ng-bind="displayedTotalMonthlyPayment0">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment0"></span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment0"></span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-all-monthly-payments" ng-bind="displayedTotalAllMonthlyPayments0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalAllMonthlyPayments1"></span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalAllMonthlyPayments2"></span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
@@ -361,7 +361,7 @@
                                 <div class="col-md-4 initial-width">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanTerm)
-                                        @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input", placeholder = "Loan Term", value = "120", ng_model = "loanTermToCompare" })
+                                        @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", placeholder = "Loan Term", value = "120", ng_model = "loanTermToCompare" })
                                         @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -406,7 +406,7 @@
     </script>
 
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/loan-calculator.js")
+    @Scripts.Render("~/Scripts/financial-functions.js")
     @Scripts.Render("~/Scripts/standalone-loan-calculator.js")
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
@@ -414,19 +414,6 @@
 
         var app = angular.module("calculator", []);
 
-        app.directive('recalculateTcp', function() {
-            return {
-                link: function($scope, element, attrs) {
-                    var watch = $scope.$watch(function() {
-                        return element.children().length;
-                    }, function() {
-                        $scope.$evalAsync(function() {
-                            recalculateTotalCashPrice();
-                        });
-                    });
-                }
-            };
-        });
         app.directive('resetForm', function() {
             return {
                 link: function($scope, element, attrs) {
@@ -434,7 +421,7 @@
                         return element.children().length;
                     }, function() {
                         $scope.$evalAsync(function() {
-                            var form = element.parent().closest('form');;
+                            var form = element.parent().closest('form');
                             customizeSelect();
                             resetFormValidator(form);
                         });
@@ -471,7 +458,32 @@
                 $scope.equipmentToCompare.splice(index, 1);
             }
             $scope.addEquipmentToCompare();
+            $scope.addActiveToCompareStates = function() {
+                var state = {
+                    equipment: JSON.parse(JSON.stringify($scope.activeEquipment)),
+                    adminFee: $scope.activeAdminFee,
+                    downPayment: $scope.activeDownPayment,
+                    customerRate: $scope.activeCustomerRate,
+                    loanTerm: $scope.activeLoanTerm,
+                    amortizationTerm: $scope.activeAmortizationTerm,
+                    deferralType: $scope.activeDeferralType,
+                    equipmentCashPrice: $scope.displayedEquipmentCashPrice0,
+                    hst: $scope.displayedHst0,
+                    totalCashPrice: $scope.displayedTotalCashPrice0,
+                    totalAmountFinanced: $scope.displayedTotalAmountFinanced0,
+                    totalMonthlyPayment: $scope.displayedTotalMonthlyPayment0,
+                    totalAllMonthlyPayments: $scope.displayedTotalAllMonthlyPayments0,
+                    residualBalance: $scope.displayedResidualBalance0,
+                    totalObligation: $scope.displayedTotalObligation0,
+                    totalBorrowingCost: $scope.displayedTotalBorrowingCost0
+                };
+                $scope.compareStates.push(state);
+                $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
+            };
             $scope.addCompareState = function(index) {
+                if ($scope.compareStates.length === 0) {
+                    $scope.addActiveToCompareStates();
+                }
                 var state = {
                     equipment: JSON.parse(JSON.stringify($scope.equipmentToCompare)),
                     adminFee: $scope.adminFeeToCompare,
@@ -501,15 +513,15 @@
                 });
                 $scope['displayedEquipmentType' + index] = allEquipmentTypes;
                 $scope['displayedEquipmentDescription' + index] = allDescriptions;
-                $scope['displayedEquipmentCashPrice' + index] = state.equipmentCashPrice.toFixed(2);
-                $scope['displayedHst' + index] = state.hst.toFixed(2);
-                $scope['displayedTotalCashPrice' + index] = state.totalCashPrice.toFixed(2);
-                $scope['displayedTotalAmountFinanced' + index] = state.totalAmountFinanced.toFixed(2);
-                $scope['displayedTotalMonthlyPayment' + index] = state.totalMonthlyPayment.toFixed(2);
-                $scope['displayedTotalAllMonthlyPayments' + index] = state.totalAllMonthlyPayments.toFixed(2);
-                $scope['displayedResidualBalance' + index] = state.residualBalance.toFixed(2);
-                $scope['displayedTotalObligation' + index] = state.totalObligation.toFixed(2);
-                $scope['displayedTotalBorrowingCost' + index] = state.totalBorrowingCost.toFixed(2);
+                $scope['displayedEquipmentCashPrice' + index] = typeof state.equipmentCashPrice === 'number' ? state.equipmentCashPrice.toFixed(2) : state.equipmentCashPrice;
+                $scope['displayedHst' + index] = typeof state.equipmentCashPrice === 'number' ? state.hst.toFixed(2) : state.hst;
+                $scope['displayedTotalCashPrice' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice;
+                $scope['displayedTotalAmountFinanced' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced;
+                $scope['displayedTotalMonthlyPayment' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment;
+                $scope['displayedTotalAllMonthlyPayments' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments;
+                $scope['displayedResidualBalance' + index] = typeof state.equipmentCashPrice === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance;
+                $scope['displayedTotalObligation' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation;
+                $scope['displayedTotalBorrowingCost' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost;
             };
             $scope.tryCopyActiveToCompare = function() {
                 var form = $('#activeForm');
@@ -526,11 +538,34 @@
                 $scope.deferralTypeToCompare = $scope.activeDeferralType;
                 $('#calculator-modal').modal();
             };
+            $scope.calculateLoanValues = function () {
+                var state = {
+                    equipment: $scope.activeEquipment,
+                    adminFee: $scope.activeAdminFee,
+                    downPayment: $scope.activeDownPayment,
+                    customerRate: $scope.activeCustomerRate,
+                    loanTerm: $scope.activeLoanTerm,
+                    amortizationTerm: $scope.activeAmortizationTerm,
+                    deferralType: $scope.activeDeferralType
+                };
+                calculateAndAssign(state);
+                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice ? state.equipmentCashPrice.toFixed(2) : '-';
+                $scope.displayedHst0 = state.hst ? state.hst.toFixed(2) : '-';
+                $scope.displayedTotalCashPrice0 = state.totalCashPrice ? state.totalCashPrice.toFixed(2) : '-'; 
+                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced ? state.totalAmountFinanced.toFixed(2) : '-';
+                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment ? state.totalMonthlyPayment.toFixed(2) : '-';
+                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments ? state.totalAllMonthlyPayments.toFixed(2) : '-'; 
+                $scope.displayedResidualBalance0 = state.residualBalance ? state.residualBalance.toFixed(2) : '-'; 
+                $scope.displayedTotalObligation0 = state.totalObligation ? state.totalObligation.toFixed(2) : '-'; 
+                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost ? state.totalBorrowingCost.toFixed(2) : '-';
+            }
+            $scope.assignTaxRate = function () {
+                taxRate = $('#province-tax-rate').val();
+                $scope.calculateLoanValues();
+            }
         });
         $(document)
             .ready(function() {
-                //$('#calculator-modal .dealnet-modal-section').html($('#compare-calculator-data').html());
-
                 displayCompareCalcs();
                 makeStickCalendar();
                 $('#province-tax-rate').change();
@@ -561,26 +596,6 @@
                 });
             });
 
-        function recalculateTotalCashPrice() {
-            var sum;
-            $(".equipment-cost").each(function() {
-                var numberValue = parseFloat(this.value);
-                if (!isNaN(numberValue)) {
-                    if (!sum) {
-                        sum = 0;
-                    }
-                    sum += numberValue;
-                }
-            });
-
-            if (!sum) {
-                return;
-            }
-
-            $("#equipment-cash-price").text(sum.toFixed(2));
-            calculateLoanValues();
-        }
-
         function resetFormValidator(formId) {
             var form = $(formId);
             form.removeData('validator');
@@ -592,10 +607,6 @@
             form.find('.equipment-cost').each(function() {
                 $(this).rules("add", "required");
             });
-        }
-
-        function assignTaxRate() {
-            taxRate = this.value;
         }
 
         function displayCompareCalcs() {
