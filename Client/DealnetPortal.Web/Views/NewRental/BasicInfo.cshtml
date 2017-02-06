@@ -62,7 +62,87 @@
         @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)*@
         @*@Html.Hidden("SubmittingDealerId", "")*@
     }
-    <div class="dealnet-middle-header owner-info-label">Home Owner Information</div>
+
+    <!--Instalation Address-->
+    <h2 class="dealnet-middle-header address-info-label">Installation Address Information</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
+                <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use></svg>
+                <span>Get My Location</span>
+            </div>
+        </div>
+    </div>
+    <div class="row address-info1">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="street">Installation Address</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <div class="form-group">
+                <label for="unit_number">Unit #</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="locality">City</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row address-info2">
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="administrative_area_level_1">Province</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="postal_code">Postal Code</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.HomeOwner.AddressInformation.ResidenceType)
+                        @Html.EnumDropDownListFor(m => m.HomeOwner.AddressInformation.ResidenceType, null, new { @class = "form-control", id = "residence" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.ResidenceType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="dealnet-disabled-text clear-address">
+                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END Instalation Address-->
+
+
+    <!--Home Owner Information-->
+    <h2 class="dealnet-middle-header owner-info-label">Home Owner Information</h2>
 
     if (!ViewBag.IsMobileRequest)
     {
@@ -204,83 +284,7 @@
         </div>
     </div>
 
-    <p class="dealnet-middle-header address-info-label">Address Information</p>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
-                <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use></svg>
-                <span>Get My Location</span>
-            </div>
-        </div>
-    </div>
-
-        <div class="row address-info1">
-            <div class="col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label for="street">Installation Address</label>
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-lg-2">
-                <div class="form-group">
-                    <label for="unit_number">Unit #</label>
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="locality">City</label>
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row address-info2">
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="administrative_area_level_1">Province</label>
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="postal_code">Postal Code</label>
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.HomeOwner.AddressInformation.ResidenceType)
-                            @Html.EnumDropDownListFor(m => m.HomeOwner.AddressInformation.ResidenceType, null, new { @class = "form-control", id = "residence" })
-                            @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.ResidenceType, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="#" class="dealnet-disabled-text clear-address">
-                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+   <!--Mailing Adress-->
 
         <div id="mailing-adress-different" class="form-group">
             <label for="mailing-adress-checkbox" class="align-middle custom-checkbox">
