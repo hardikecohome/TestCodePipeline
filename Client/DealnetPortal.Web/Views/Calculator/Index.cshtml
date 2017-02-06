@@ -175,70 +175,70 @@
                                 </div>
                                 <div class="row form-group  hidden-sm hiden-xs compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Type of equipment</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">AIR CONDITIONER</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">AIR CONDITIONER</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">AIR CONDITIONER</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">{{displayedEquipmentType0}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">{{displayedEquipmentType1}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">{{displayedEquipmentType2}}</div>
                                 </div>
                                 <div class="row form-group  hidden-sm hiden-xs compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Description</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">Everest 16 SEER - ESX130181</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">Goodman 40000 - 36840 - GMSS960402BN</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">{{displayedEquipmentDescription0}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">{{displayedEquipmentDescription1}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type3 text-uppercase">{{displayedEquipmentDescription2}}</div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Cash Price of Equipment</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="equipment-cash-price">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>10,400.00</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>11,400.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="equipment-cash-price" ng-bind="displayedEquipmentCashPrice0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedEquipmentCashPrice1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedEquipmentCashPrice2">-</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="hst">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>1,500.00</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>1,950.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="hst" ng-bind="displayedHst0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedHst1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedHst2">-</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cash Price</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-cash-price">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>15,459.95</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>18,459.95</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-cash-price" ng-bind="displayedTotalCashPrice0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalCashPrice1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalCashPrice2">-</span></div>
                                 </div>
                                 <hr>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Amount Financed</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-amount-financed">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>300.12</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>500.00</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-amount-financed" ng-bind="displayedTotalAmountFinanced0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalAmountFinanced1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalAmountFinanced2">-</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Monthly Payment</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-monthly-payment">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>26,967.35</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>29,967.35</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-monthly-payment" ng-bind="displayedTotalMonthlyPayment0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment2">-</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total of All Monthly Payments</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-all-monthly-payments">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="loan-total-all-monthly-payments" ng-bind="displayedTotalMonthlyPayment0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment0"></span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment0"></span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Balance Owing at the End of Monthly Payments (Residual)</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="residual-balance">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>25,967.35</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>26,967.35</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="residual-balance" ng-bind="displayedResidualBalance0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedResidualBalance1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedResidualBalance2">-</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Obligation</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-obligation">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span>4,507.40</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span>6,507.40</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-obligation" ng-bind="displayedTotalObligation0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalObligation1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalObligation2">-</span></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Total Cost of Borrowing</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-borrowing-cost">-</span></div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">12.000 %</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">14.000 %</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1">$ <span id="total-borrowing-cost" ng-bind="displayedTotalBorrowingCost0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalBorrowingCost1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 compare-mode">$ <span ng-bind="displayedTotalBorrowingCost2">-</span></div>
                                 </div>
                                 <div class="row form-group hidden-xs hidden-sm compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
@@ -286,7 +286,7 @@
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formToCompare" }))
                     {
                         <div class="dealnet-credit-check-section dealnet-modal-section">
-                            <div class="equipments-hold">
+                            <div class="equipments-hold" reset-Form>
                                 <div ng-repeat="item in equipmentToCompare">
                                     <div class="dealnet-middle-header owner-info-label" ng-if="$index !== 0">
                                         <div ng-click="removeEquipmentToCompare($index)">
@@ -407,32 +407,33 @@
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/loan-calculator.js")
+    @Scripts.Render("~/Scripts/standalone-loan-calculator.js")
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <script type="text/javascript">
 
         var app = angular.module("calculator", []);
 
-        app.directive('recalculateTcp', function () {
+        app.directive('recalculateTcp', function() {
             return {
-                link: function ($scope, element, attrs) {
-                    var watch = $scope.$watch(function () {
+                link: function($scope, element, attrs) {
+                    var watch = $scope.$watch(function() {
                         return element.children().length;
-                    }, function () {
-                        $scope.$evalAsync(function () {
+                    }, function() {
+                        $scope.$evalAsync(function() {
                             recalculateTotalCashPrice();
                         });
                     });
                 }
             };
         });
-        app.directive('resetForm', function () {
+        app.directive('resetForm', function() {
             return {
-                link: function ($scope, element, attrs) {
-                    var watch = $scope.$watch(function () {
+                link: function($scope, element, attrs) {
+                    var watch = $scope.$watch(function() {
                         return element.children().length;
-                    }, function () {
-                        $scope.$evalAsync(function () {
+                    }, function() {
+                        $scope.$evalAsync(function() {
                             var form = element.parent().closest('form');;
                             customizeSelect();
                             resetFormValidator(form);
@@ -441,20 +442,20 @@
                 }
             };
         });
-        app.controller("calculator", function ($scope) {
+        app.controller("calculator", function($scope) {
             var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
             var defaultDefferalType = '@loanDeferralTypes.First().Value';
             $scope.compareStates = [];
             $scope.activeDeferralType = defaultDefferalType;
             $scope.activeEquipment = [];
-            $scope.addActiveEquipment = function () {
+            $scope.addActiveEquipment = function() {
                 $scope.activeEquipment.push({
                     type: defaultEquipmentType,
                     description: '',
                     cost: ''
                 });
             }
-            $scope.removeActiveEquipment = function (index) {
+            $scope.removeActiveEquipment = function(index) {
                 $scope.activeEquipment.splice(index, 1);
             }
             $scope.addActiveEquipment();
@@ -466,22 +467,51 @@
                     cost: ''
                 });
             }
-            $scope.removeEquipmentToCompare = function (index) {
+            $scope.removeEquipmentToCompare = function(index) {
                 $scope.equipmentToCompare.splice(index, 1);
             }
             $scope.addEquipmentToCompare();
-            $scope.addCompareState = function () {
-                $scope.compareStates.push({
-                    equipment: $scope.equipmentToCompare,
+            $scope.addCompareState = function(index) {
+                var state = {
+                    equipment: JSON.parse(JSON.stringify($scope.equipmentToCompare)),
                     adminFee: $scope.adminFeeToCompare,
                     downPayment: $scope.downPaymentToCompare,
                     customerRate: $scope.customerRateToCompare,
                     loanTerm: $scope.loanTermToCompare,
                     amortizationTerm: $scope.amortizationTermToCompare,
                     deferralType: $scope.deferralTypeToCompare
-                });
+                };
+                calculateAndAssign(state);
+                if (typeof index !== 'undefined') {
+                    $scope.compareStates[index] = state;
+                    $scope.updateDisplayedValues(state, index);
+                } else {
+                    $scope.compareStates.push(state);
+                    $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
+                }
             };
-            $scope.tryCopyActiveToCompare = function () {
+            $scope.updateDisplayedValues = function(state, index) {
+                var allEquipmentTypes = '';
+                $.each(state.equipment, function(index, value) {
+                    allEquipmentTypes += index !== 0 ? ',' + value.type : value.type;
+                });
+                var allDescriptions = '';
+                $.each(state.equipment, function(index, value) {
+                    allDescriptions += index !== 0 ? ',' + value.description : value.description;
+                });
+                $scope['displayedEquipmentType' + index] = allEquipmentTypes;
+                $scope['displayedEquipmentDescription' + index] = allDescriptions;
+                $scope['displayedEquipmentCashPrice' + index] = state.equipmentCashPrice.toFixed(2);
+                $scope['displayedHst' + index] = state.hst.toFixed(2);
+                $scope['displayedTotalCashPrice' + index] = state.totalCashPrice.toFixed(2);
+                $scope['displayedTotalAmountFinanced' + index] = state.totalAmountFinanced.toFixed(2);
+                $scope['displayedTotalMonthlyPayment' + index] = state.totalMonthlyPayment.toFixed(2);
+                $scope['displayedTotalAllMonthlyPayments' + index] = state.totalAllMonthlyPayments.toFixed(2);
+                $scope['displayedResidualBalance' + index] = state.residualBalance.toFixed(2);
+                $scope['displayedTotalObligation' + index] = state.totalObligation.toFixed(2);
+                $scope['displayedTotalBorrowingCost' + index] = state.totalBorrowingCost.toFixed(2);
+            };
+            $scope.tryCopyActiveToCompare = function() {
                 var form = $('#activeForm');
                 form.validate();
                 if (!form.valid()) {
@@ -533,15 +563,19 @@
 
         function recalculateTotalCashPrice() {
             var sum;
-            $(".equipment-cost").each(function () {
+            $(".equipment-cost").each(function() {
                 var numberValue = parseFloat(this.value);
                 if (!isNaN(numberValue)) {
-                    if (!sum) { sum = 0; }
+                    if (!sum) {
+                        sum = 0;
+                    }
                     sum += numberValue;
                 }
             });
 
-            if (!sum) { return; }
+            if (!sum) {
+                return;
+            }
 
             $("#equipment-cash-price").text(sum.toFixed(2));
             calculateLoanValues();
@@ -555,7 +589,7 @@
             form.find('.customer-rate').rules("add", "required");
             form.find('.amortization-term').rules("add", "required");
             form.find('.loan-term').rules("add", "required");
-            form.find('.equipment-cost').each(function () {
+            form.find('.equipment-cost').each(function() {
                 $(this).rules("add", "required");
             });
         }
@@ -628,7 +662,7 @@
                 return false;
             });
 
-            if($('.empty-calc').length === 2){
+            if ($('.empty-calc').length === 2) {
                 $('.initial-standalone-calculator').removeClass('compare-mode');
             }
 
