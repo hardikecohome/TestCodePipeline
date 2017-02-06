@@ -151,6 +151,43 @@ $(document).ready(function () {
     $("#additional3-remove").click(function () {
         hideAditional3Section();
     });
+
+    $("#save-and-proceed-button").click(function (event) {
+        var isApprovalAge = false;
+        $('.check-age').each(function () {
+            //var birthday = Date.parseExact($(this).value, "M/d/yyyy");            
+            var birthday = $(this).datepicker('getDate');//Date.parseExact($(this).value, "M/d/yyyy");
+            var ageDifMs = Date.now() - birthday.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+            if (age <= 75) {
+                isApprovalAge = isApprovalAge || true;
+            }
+        });
+
+        if (!isApprovalAge) {
+            event.preventDefault();
+            //$("#proceed-error-message").show();
+        }
+    });
+
+    //function checkSubmitAllDocumentsAvailability() {
+    //    var submitEnabled = true;
+    //    $('.mandatory').each(function () {
+    //        submitEnabled = submitEnabled && $(this).hasClass('uploaded');
+    //    });
+    //    if (submitEnabled && !isSentToAudit) {
+    //        $('button.disabled, input.disabled').removeClass('disabled');
+    //        $('button.disabled, input.disabled').removeProp('disabled');
+    //        $('.before-all-documents-submitted').hide();
+    //    } else {
+    //        if (isSentToAudit) {
+    //            $('.before-all-documents-submitted').hide();
+    //            $('#all-documents-submitted-message').show();
+    //        }
+    //    }
+    //}
+
 });
 function hideAditional1Section() {
     aditional1Section.hide();

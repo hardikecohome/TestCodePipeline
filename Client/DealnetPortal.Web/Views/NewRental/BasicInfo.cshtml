@@ -178,7 +178,7 @@
             <div class="form-group">
                 <label for="birth-date">Date of Birth</label>
                 <div class="control-group date-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = ""})
+                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = ""})
                     @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
                 </div>
             </div>
@@ -526,7 +526,7 @@
 
     <div class="row" id="saveproceed-button">
         <div class="col-xs-12 col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-success-button">
+            <button class="btn dealnet-button dealnet-success-button" id="save-and-proceed-button">
                 Save and Proceed
             </button>
         </div>

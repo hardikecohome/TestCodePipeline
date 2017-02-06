@@ -151,7 +151,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
-        {
+        {            
             //Initiate a credit check here!
             var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
 
