@@ -52,8 +52,8 @@ $(document).ready(function () {
     } else {
         hideAditional3Section();
     }
-    mailingAddress = $("#mailing-adress");
-    mailingAddressCheckbox = $("#mailing-adress-checkbox");
+    mailingAddress = $("#mailing-address");
+    mailingAddressCheckbox = $("#mailing-address-checkbox");
     if (!mailingAddressCheckbox.is(":checked")) {
         mailingAddress.slideUp();
     } else {
