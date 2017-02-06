@@ -210,6 +210,7 @@
     <Compile Include="Models\NewRentalViewModels.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
+    <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

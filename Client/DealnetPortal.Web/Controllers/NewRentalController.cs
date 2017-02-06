@@ -111,7 +111,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(basicInfo);
             }
             var contractResult = basicInfo.ContractId == null ?
                 await _contractServiceAgent.CreateContract() :
