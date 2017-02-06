@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models.EquipmentInformation;
+using DealnetPortal.Web.Models.Validation;
 
 namespace DealnetPortal.Web.Models
 {
@@ -92,6 +93,7 @@ namespace DealnetPortal.Web.Models
     public class BasicInfoViewModel
     {
         public string SubmittingDealerId { get; set; }
+        [CheckCustomersAge("AdditionalApplicants", 75)]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public List<SubDealer> SubDealers { get; set; }
