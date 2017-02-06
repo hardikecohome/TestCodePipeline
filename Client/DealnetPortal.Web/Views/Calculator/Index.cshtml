@@ -47,7 +47,7 @@
                                         <label>Choose province</label>
                                         @Html.DropDownListFor(m => m.ProvinceTaxRates,
                                             (Model.ProvinceTaxRates).Select(x => new SelectListItem {Value = x.Rate.ToStringInvariant(), Text = x.Province}),
-                                            new {@class = "form-control", id="province-tax-rate", onchange = "assignTaxRate.call(this)" })
+                                            new {@class = "form-control", id="province-tax-rate", onchange = "assignTaxRate.call(this); calculateLoanValues();" })
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.CustomerRate)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control", placeholder = "Customer Rate (%)", id = "customer-rate", onchange = "calculateLoanValues();", ng_model = "activeCustomerRate" })
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", id= "customer-rate", placeholder = "Customer Rate (%)", onchange = "calculateLoanValues();", ng_model = "activeCustomerRate" })
                                             @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input", placeholder = "Loan Term", id = "loan-term", onchange = "calculateLoanValues();", value = "120", ng_model = "activeLoanTerm" })
+                                            @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", id= "loan-term", placeholder = "Loan Term", onchange = "calculateLoanValues();", value = "120", ng_model = "activeLoanTerm" })
                                             @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AmortizationTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", id = "amortization-term", onchange = "calculateLoanValues();", ng_model = "activeAmortizationTerm" })
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", id= "amortization-term", placeholder = "Amortization Term", onchange = "calculateLoanValues();", ng_model = "activeAmortizationTerm" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -350,7 +350,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.CustomerRate)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control", placeholder = "Customer Rate (%)", ng_model = "customerRateToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", placeholder = "Customer Rate (%)", ng_model = "customerRateToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -369,7 +369,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AmortizationTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = "Amortization Term", ng_model = "amortizationTermToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", placeholder = "Amortization Term", ng_model = "amortizationTermToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -548,13 +548,16 @@
         }
 
         function resetFormValidator(formId) {
-            $(formId).removeData('validator');
-            $(formId).removeData('unobtrusiveValidation');
+            var form = $(formId);
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
             $.validator.unobtrusive.parse(formId);
-            //$("#customer-rate").rules("add", "required");
-            //$("#amortization-term").rules("add", "required");
-            //$("#requested-term").rules("add", "required");
-            //$("#loan-term").rules("add", "required");
+            form.find('.customer-rate').rules("add", "required");
+            form.find('.amortization-term').rules("add", "required");
+            form.find('.loan-term').rules("add", "required");
+            form.find('.equipment-cost').each(function () {
+                $(this).rules("add", "required");
+            });
         }
 
         function assignTaxRate() {
