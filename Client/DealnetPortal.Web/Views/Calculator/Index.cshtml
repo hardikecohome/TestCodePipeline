@@ -243,13 +243,13 @@
                                 <div class="row form-group hidden-xs hidden-sm compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-field-edit">
-                                        <a class="dealnet-section-edit-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+                                        <a class="dealnet-section-edit-link" ng-click="copyStateToCompare(0)">Edit</a>
                                     </div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-field-edit">
-                                        <a class="dealnet-section-edit-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+                                        <a class="dealnet-section-edit-link" ng-click="copyStateToCompare(1)">Edit</a>
                                     </div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-field-edit">
-                                        <a class="dealnet-section-edit-link" onClick="$('#calculator-modal').modal(); return false;">Edit</a>
+                                        <a class="dealnet-section-edit-link" ng-click="copyStateToCompare(2)">Edit</a>
                                     </div>
                                 </div>
                             </div><!--equipment-calculator END-->
@@ -384,8 +384,7 @@
                         </div>
                     }
                     <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" data-dismiss="modal"
-                                onClick="$('.initial-standalone-calculator').addClass('compare-mode');"
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button"
                                 ng-click="addCompareState()">
                             Add to Comparison
                         </button>
@@ -480,9 +479,15 @@
                 $scope.compareStates.push(state);
                 $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
             };
-            $scope.addCompareState = function(index) {
+            $scope.addCompareState = function () {
+                var form = $('#formToCompare');
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                }
                 if ($scope.compareStates.length === 0) {
                     $scope.addActiveToCompareStates();
+                    $scope.editIndex = null;
                 }
                 var state = {
                     equipment: JSON.parse(JSON.stringify($scope.equipmentToCompare)),
@@ -494,13 +499,15 @@
                     deferralType: $scope.deferralTypeToCompare
                 };
                 calculateAndAssign(state);
-                if (typeof index !== 'undefined') {
-                    $scope.compareStates[index] = state;
-                    $scope.updateDisplayedValues(state, index);
+                if ($scope.editIndex !== null) {
+                    $scope.compareStates[$scope.editIndex] = state;
+                    $scope.updateDisplayedValues(state, $scope.editIndex);
                 } else {
                     $scope.compareStates.push(state);
                     $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
                 }
+                $('.initial-standalone-calculator').addClass('compare-mode');
+                $('#calculator-modal').modal('hide');
             };
             $scope.updateDisplayedValues = function(state, index) {
                 var allEquipmentTypes = '';
@@ -538,7 +545,19 @@
                 $scope.deferralTypeToCompare = $scope.activeDeferralType;
                 $('#calculator-modal').modal();
             };
-            $scope.calculateLoanValues = function () {
+            $scope.copyStateToCompare = function (index) {
+                var state = $scope.compareStates[index];
+                $scope.equipmentToCompare = JSON.parse(JSON.stringify(state.equipment));
+                $scope.adminFeeToCompare = state.adminFee;
+                $scope.downPaymentToCompare = state.downPayment;
+                $scope.customerRateToCompare = state.customerRate;
+                $scope.loanTermToCompare = state.loanTerm;
+                $scope.amortizationTermToCompare = state.amortizationTerm;
+                $scope.deferralTypeToCompare = state.deferralType;
+                $scope.editIndex = index;
+                $('#calculator-modal').modal();
+            };
+            $scope.calculateLoanValues = function() {
                 var state = {
                     equipment: $scope.activeEquipment,
                     adminFee: $scope.activeAdminFee,
@@ -551,15 +570,15 @@
                 calculateAndAssign(state);
                 $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice ? state.equipmentCashPrice.toFixed(2) : '-';
                 $scope.displayedHst0 = state.hst ? state.hst.toFixed(2) : '-';
-                $scope.displayedTotalCashPrice0 = state.totalCashPrice ? state.totalCashPrice.toFixed(2) : '-'; 
+                $scope.displayedTotalCashPrice0 = state.totalCashPrice ? state.totalCashPrice.toFixed(2) : '-';
                 $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced ? state.totalAmountFinanced.toFixed(2) : '-';
                 $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment ? state.totalMonthlyPayment.toFixed(2) : '-';
-                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments ? state.totalAllMonthlyPayments.toFixed(2) : '-'; 
-                $scope.displayedResidualBalance0 = state.residualBalance ? state.residualBalance.toFixed(2) : '-'; 
-                $scope.displayedTotalObligation0 = state.totalObligation ? state.totalObligation.toFixed(2) : '-'; 
+                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments ? state.totalAllMonthlyPayments.toFixed(2) : '-';
+                $scope.displayedResidualBalance0 = state.residualBalance ? state.residualBalance.toFixed(2) : '-';
+                $scope.displayedTotalObligation0 = state.totalObligation ? state.totalObligation.toFixed(2) : '-';
                 $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost ? state.totalBorrowingCost.toFixed(2) : '-';
             }
-            $scope.assignTaxRate = function () {
+            $scope.assignTaxRate = function() {
                 taxRate = $('#province-tax-rate').val();
                 $scope.calculateLoanValues();
             }
@@ -594,6 +613,7 @@
                     var activeCalcNumber = $(this).parents('.calc-title').attr('data-calc');
                     clearCalculator(activeCalcNumber);
                 });
+                clearCalculator(3);
             });
 
         function resetFormValidator(formId) {
@@ -668,8 +688,9 @@
                 .find('.calculator-remove').hide();
             $('.switch-calculators li a[data-calc="' + calculatorNumber + '"]').addClass('empty-calc').html('Add Type ' + calculatorNumber);
 
-            $('.add-calculator-btn').on('click', function() {
-                $('#calculator-modal').modal();
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').on('click', function() {
+                addCalculator(calculatorNumber);
+                //$('#calculator-modal').modal();
                 return false;
             });
 
@@ -678,6 +699,20 @@
             }
 
             checkEmptyCalc();
+        }
+
+        function addCalculator(calculatorNumber) {
+            $('.calc-field-type' + calculatorNumber)
+                .addClass('.calc-title')
+                .addClass('.calc-field-edit');
+            $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').show();
+
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').off('click');
+            $('.calc-field-type' + calculatorNumber + '.calc-title')
+                .text('Type ' + calculatorNumber);
+            $('.calc-field-type' + calculatorNumber + '.calc-title')
+                .find('.calculator-remove').show();
+            $('.switch-calculators li a[data-calc="' + calculatorNumber + '"]').removeClass('empty-calc').html('Type ' + calculatorNumber);
         }
     </script>
 }
