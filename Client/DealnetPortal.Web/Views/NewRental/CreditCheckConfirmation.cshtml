@@ -443,6 +443,8 @@
 				                    </div>
 					            </div>
 					        </div>
+						</div>
+					    <div class="row">
 					        <div class="col-md-6">
 					            <div class="form-group">
 					                @Html.Label("birth-date", "Date of Birth", new {@class = "dealnet-field-caption"})
@@ -465,6 +467,8 @@
                                     </div>
                                 </div>
                             </div>
+					    </div>
+						<div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(m => Model.HomeOwner.DriverLicenseNumber, new { @class = "dealnet-field-caption" })
@@ -525,6 +529,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 				                    </div>
 					            </div>
 					        </div>
+						</div>
+						<div class="row">
 					        <div class="col-md-6">
 					            <div class="form-group">
 					                @Html.Label("additional" + (i + 1) + "-birth-date", "Date of Birth", new {@class = "dealnet-field-caption"})
@@ -547,6 +553,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 					                </div>
 					            </div>
 					        </div>
+						</div>
+						<div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "dealnet-field-caption" })
@@ -602,6 +610,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
                                     </div>
                                 </div>
                             </div>
+	                    </div>
+	                    <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "dealnet-field-caption" })
@@ -624,6 +634,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
                                     </div>
                                 </div>
                             </div>
+	                    </div>
+	                    <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "dealnet-field-caption"})
@@ -694,6 +706,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									@Html.LabelFor(m => m.HomeOwner.AddressInformation.City, new { @class = "dealnet-field-caption"})
@@ -716,6 +730,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 						    <div class="col-md-6">
 						        <div class="form-group">
 						            @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode, new {@class = "dealnet-field-caption"})
@@ -786,6 +802,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									@Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.City, new { @class = "dealnet-field-caption"})
@@ -808,6 +826,8 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									@Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption"})
