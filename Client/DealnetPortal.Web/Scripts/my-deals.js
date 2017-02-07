@@ -52,10 +52,12 @@ function showTable() {
                         { "data": "TransactionId" },
                         { "data": "CustomerName" },
                         { "data": "Status" },
+                        { "data": "Type" },
                         { "data": "Email" },
                         { "data": "Phone" },
                         { "data": "Date" },
                         { "data": "Equipment" },
+                        { "data": "SalesRep" },
                         { "data": "Value" },
                         {
                             "data": "RemainingDescription",
@@ -79,7 +81,6 @@ function showTable() {
                     columnDefs: [
                       { targets  : [-1], orderable: false},
                       { className: 'customer-cell', targets: 1},
-                      { className: 'id-cell', targets: 9},
                       { className: 'edit-cell', targets: -1}
                     ],
                     dom:
@@ -121,7 +122,7 @@ $.fn.dataTable.ext.search.push(
         var status = $("#deal-status").val();
         var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var valueEntered = Date.parseExact(data[5], "M/d/yyyy");
+        var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
         if ((!status || status === data[2]) && (!dateTo || valueEntered <= dateTo) && (!dateFrom || valueEntered >= dateFrom)) {
             return true;
         }
