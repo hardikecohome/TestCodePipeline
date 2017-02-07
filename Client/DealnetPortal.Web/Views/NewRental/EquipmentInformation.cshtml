@@ -105,7 +105,7 @@
                         {
                             <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
                                 @Html.HiddenFor(m => m.NewEquipment[i].Id)
-                                <div class="dealnet-middle-header owner-info-label">
+                                <div class="dealnet-middle-header equipment-number-header">
                                     <span class="equipment-number">№@(i + 1)</span>
                                     @if (i != 0)
                                     {
@@ -135,7 +135,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4 equipment-cost-col">
+                                    <div class="col-md-4 equipment-cost-col loan-col-md-6">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].Cost)
                                             <div class="control-group has-addon-left">
@@ -155,7 +155,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <!--<div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new {@for = "estimated-installation-date-" + i})
                                             <div class="control-group">
@@ -163,7 +163,7 @@
                                                 @Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedInstallationDate, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         }
@@ -177,9 +177,22 @@
                         </div>
                     </div>
                 </div>
+
+                <br class="rental-element">
                 <hr class="loan-element">
+
                 <div class="row loan-element">
-                    <div class="col-md-4">
+                    <div class="col-md-6 initial-width">
+                        <div class="form-group">
+                            <label for="">Estimated Installation Date</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input date-input" placeholder="Installation Date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row loan-element">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdminFee)
                             <div class="control-group">
@@ -188,7 +201,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.DownPayment)
                             <div class="control-group">
@@ -197,7 +210,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.CustomerRate)
                             <div class="control-group">
@@ -207,10 +220,19 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+
+                <hr class="loan-element">
 
                 <div class="row rental-element">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Estimated Installation Date</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input date-input" placeholder="Installation Date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
                             @Html.LabelFor(m => m.TotalMonthlyPayment)
                             <div class="control-group has-addon-left">
@@ -222,6 +244,7 @@
                     </div>
                 </div>
 
+                <hr class="rental-element">
 
                 <h3 class="dealnet-middle-header">Term and Rep</h3>
 
@@ -235,7 +258,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 loan-element">
+                    <div class="col-md-4 loan-element initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.LoanTerm)
                             <div class="control-group">
@@ -244,7 +267,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 loan-element">
+                    <div class="col-md-4 loan-element initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.AmortizationTerm)
                             <div class="control-group">
@@ -267,7 +290,7 @@
                                                  Text = e.GetEnumDescription()
                                              });
                     }
-                    <div class="col-md-4 loan-element">
+                    <div class="col-md-4 loan-element initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.LoanDeferralType)
                             <div class="control-group">
@@ -382,7 +405,7 @@
                 for (var i = 0; i < Model.ExistingEquipment.Count; i++)
                 {
                 <div id="existing-equipment-@(i)">
-                    <div class="dealnet-middle-header owner-info-label">
+                    <div class="dealnet-middle-header equipment-number-header">
                         <span class="equipment-number">№@(i + 1)</span>
                         <div id="existing-equipment-remove-@(i)" class="additional-remove" onclick="removeExistingEquipment(@(i));">
                             <i class="glyphicon glyphicon-remove"></i>
@@ -513,7 +536,7 @@
 {
     <div class="hidden">
         <div id="new-equipment-base" class="new-equipment">
-            <div class="dealnet-middle-header owner-info-label">
+            <div class="dealnet-middle-header equipment-number-header">
                 <span class="equipment-number">№1</span>
                 <div id="new-equipment-remove-0" class="additional-remove" onclick="removeNewEquipment(0); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
                     <i class="glyphicon glyphicon-remove"></i>
@@ -575,7 +598,7 @@
 
     <div class="hidden">
         <div id="existing-equipment-base">
-            <div class="dealnet-middle-header owner-info-label">
+            <div class="dealnet-middle-header equipment-number-header">
                 <span class="equipment-number">№1</span>
                 <div id="existing-equipment-remove-0" class="additional-remove" onclick="removeExistingEquipment(0);">
                     <i class="glyphicon glyphicon-remove"></i>
