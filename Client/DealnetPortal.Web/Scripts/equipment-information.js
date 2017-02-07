@@ -3,25 +3,22 @@ $(document)
             .ready(function () {
                 $('#equipment-form').submit(function (event) {
                     var agreementType = $("#agreement-type").find(":selected").val();
-                    if (agreementType === "0") {
-                        //var sum = 0;
-                        //$(".equipment-cost").each(function () {
-                        //    var numberValue = parseFloat(this.value);
-                        //    if (!isNaN(numberValue)) {
-                        //        sum += numberValue;
-                        //    }
-                        //});
-                        //if (sum > creditAmount) {
-                        //    event.preventDefault();
-                        //    $('#new-equipment-validation-message').text("Total equipments cost cannot be greater than Credit Amount");
-                        //}
+                    if (agreementType === "0") {                        
+                        isCalculationValid = false;
+                        recalculateTotalCashPrice();
                         if (!isCalculationValid) {
                             event.preventDefault();
                             $('#new-equipment-validation-message').text("Total monthly payment must be greater than zero");
                         }
+                    } else {
+                        recalculateTotalMonthlyPayment();
+                        var monthPayment = $("#total-monthly-payment").val();
+                        if (isNaN(monthPayment) || (monthPayment == 0)) {
+                            event.preventDefault();
+                            $('#new-equipment-validation-message').text("Total monthly payment must be greater than zero");
+                        }
                     }
-                });
-                
+                });                
 
                 $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
