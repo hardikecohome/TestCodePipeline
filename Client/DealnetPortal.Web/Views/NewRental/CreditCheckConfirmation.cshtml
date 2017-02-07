@@ -74,7 +74,7 @@
 			            @Html.Label("HomeOwner_BirthDate", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
 			            <div class="dealnet-field-holder col-xs-6">
 			                <div class="control-group date-group">
-			                    @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", data_val_date = "", id = ""})
+			                    @Html.TextBoxFor(m => Model.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input check-age", @readonly = "readonly", data_val_date = "", id = ""})
 			                </div>
 			            </div>
 			        </div>
@@ -285,7 +285,7 @@
                                 @Html.Label("additional-birth-date-@(i+1)", "Date of Birth", new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group date-group">
-                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "" })
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input check-age", @readonly = "readonly", id = "", data_val_date = "" })
                                     </div>
                                 </div>
                             </div>

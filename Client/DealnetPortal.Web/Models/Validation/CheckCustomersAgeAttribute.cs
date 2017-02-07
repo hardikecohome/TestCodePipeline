@@ -35,8 +35,6 @@ namespace DealnetPortal.Web.Models.Validation
             }
 
             var addAplicants = (IList<ApplicantPersonalInfo>)type.GetProperty(_addApplicantsProperty).GetValue(instance, null);
-            //var cost = (decimal?)property.GetValue(validationContext.ObjectInstance, null);
-            //var eqList = (List<NewEquipmentInformation>)value;        
             var homeOwner = (ApplicantPersonalInfo) value;
 
             var isUnderAge = new Func<DateTime, bool>(date => (DateTime.Now - date) < (DateTime.Now.AddYears(_maxAge) - DateTime.Now));

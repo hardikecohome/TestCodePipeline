@@ -151,7 +151,12 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
-        {            
+        {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (!ModelState.IsValid)
+            {
+                return View(basicInfo);
+            }
             //Initiate a credit check here!
             var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
 

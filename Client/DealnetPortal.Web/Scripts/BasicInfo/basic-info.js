@@ -31,7 +31,7 @@ $(document).ready(function () {
             return true;
         },
         "Please enter a valid date!"
-    );
+    );    
 
     addAdditionalButton = $("#add-additional-applicant");
     aditional1Section = $("#additional1-section");
@@ -153,18 +153,7 @@ $(document).ready(function () {
     });
 
     $("#save-and-proceed-button").click(function (event) {
-        var isApprovalAge = false;
-        $('.check-age').each(function () {
-            //var birthday = Date.parseExact($(this).value, "M/d/yyyy");            
-            var birthday = $(this).datepicker('getDate');//Date.parseExact($(this).value, "M/d/yyyy");
-            var ageDifMs = Date.now() - birthday.getTime();
-            var ageDate = new Date(ageDifMs); // miliseconds from epoch
-            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
-            if (age <= 75) {
-                isApprovalAge = isApprovalAge || true;
-            }
-        });
-
+        var isApprovalAge = checkApplicantsAge();
         if (!isApprovalAge) {
             event.preventDefault();
             //$("#proceed-error-message").show();

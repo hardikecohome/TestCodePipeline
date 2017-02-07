@@ -28,6 +28,7 @@
         "Please enter a valid date!"
     );
         $("#check-credit-button").click(function (event) {
+            var isValid = true;
             var check1 = document.getElementById('home-owner-agrees');
             var check2 = document.getElementById('additional1-agrees');
             var check3 = document.getElementById('additional2-agrees');
@@ -36,8 +37,16 @@
                 (check2 == null || check2.checked) &&
                 (check3 == null || check3.checked) &&
                 (check4 == null || check4.checked))) {
-                event.preventDefault();
+                isValid = isValid && false;                
                 $("#proceed-error-message").show();
+            }
+            var isValidAge = checkApplicantsAge();
+            if (!isValidAge) {
+                
+            }
+            isValid = isValid && isValidAge;
+            if (!isValid) {
+                event.preventDefault();
             }
         });
     });
