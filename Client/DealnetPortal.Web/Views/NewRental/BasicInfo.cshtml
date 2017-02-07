@@ -186,55 +186,59 @@
             }
         <!--END scanlicence-button-->
 
-    <div class="row owner-info">
-        @Html.HiddenFor(m => m.HomeOwner.CustomerId)
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                <label for="first-name">First Name</label>
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = "First Name"})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
+        <div class="owner-info">
+            <div class="row">
+                @Html.HiddenFor(m => m.HomeOwner.CustomerId)
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = "First Name"})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name"})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="birth-date">Date of Birth</label>
+                        <div class="control-group date-group">
+                            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = ""})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                <label for="last-name">Last Name</label>
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = "Last Name"})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="sin-number">SIN</label>
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", placeholder = "SIN"})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                <label for="birth-date">Date of Birth</label>
-                <div class="control-group date-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = ""})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                <label for="sin-number">SIN</label>
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", placeholder = "SIN"})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                <label for="dl-number">Driver License Number</label>
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "dl-number", placeholder = "Driver License Number" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new { @class = "text-danger" })
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="dl-number">Driver License Number</label>
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "dl-number", placeholder = "Driver License Number" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     <!--END Borrower Information-->
 
     <!--Living time-->
@@ -426,7 +430,8 @@
             </div>
             }
 
-            <div class="row owner-info">
+            <div class="owner-info">
+            <div class="row">
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
                         <label for="additional-first-name-@(i+1)">First Name</label>
@@ -455,6 +460,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
                         <label for="additional-sin-number-@(i+1)">SIN</label>
@@ -473,6 +480,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
             </div>
 
             <!--Living time-->
