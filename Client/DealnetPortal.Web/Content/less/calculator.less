@@ -16,9 +16,19 @@
 .switch-calculators{
   li{
     a{
-      &.empty-calc{
-        .dealnet-section-edit-link !important;
+      &.empty-calc-link{
+        .dealnet-info-link;
+        color: @button-link-color !important;
 
+        &:focus{
+          color: @button-link-color !important;
+        }
+        &:hover{
+          color: @button-link-hover-color !important;
+        }
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 22px;
       }
     }
   }
@@ -53,6 +63,14 @@
   }
   .equipment-editable-section{
     @media @desktop-up {
+      display: none;
+    }
+  }
+  .switch-calculators li a.empty-calc-link{
+    display: none;
+  }
+  .calc-title{
+    .add-calculator-btn{
       display: none;
     }
   }

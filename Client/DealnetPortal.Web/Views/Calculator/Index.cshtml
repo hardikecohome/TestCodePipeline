@@ -28,9 +28,18 @@
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg compare-mode">
-            <li class="active"><a href="#" data-calc="1" ng-click="retrieveCompareState()">Type 1</a></li>
-            <li><a href="#" data-calc="2">Type 2</a></li>
-            <li><a href="#" data-calc="3">Type 3</a></li>
+            <li class="active">
+                <a href="#" class="nav-tab-link" data-calc="1" ng-click="retrieveCompareState()">Type 1</a>
+                <a href="#" class="empty-calc-link">Add Type 1</a>
+            </li>
+            <li>
+                <a href="#" class="nav-tab-link" data-calc="2">Type 2</a>
+                <a href="#" class="empty-calc-link">Add Type 2</a>
+            </li>
+            <li>
+                <a href="#" class="nav-tab-link" data-calc="3">Type 3</a>
+                <a href="#" class="empty-calc-link">Add Type 3</a>
+            </li>
         </ul>
 
         <!-- Tab panes -->
@@ -155,22 +164,31 @@
                                 <div class="row form-group hidden-sm hiden-xs text-semibold compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title" data-calc="1">
-                                        Type 1
-                                        <span class="calculator-remove">
-                                            <i class="glyphicon glyphicon-remove"></i>
+                                        <span class="calc-title-inner">
+                                            Type 1
+                                            <span class="calculator-remove">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
                                         </span>
+                                        <a class="dealnet-section-edit-link add-calculator-btn">Add Type1</a>
                                     </div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title compare-mode" data-calc="2">
-                                        Type 2
-                                        <span class="calculator-remove">
-                                            <i class="glyphicon glyphicon-remove"></i>
+                                        <span class="calc-title-inner">
+                                            Type 2
+                                            <span class="calculator-remove">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
                                         </span>
+                                        <a class="dealnet-section-edit-link add-calculator-btn">Add Type2</a>
                                     </div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type3 calc-title compare-mode" data-calc="3">
-                                        Type 3
-                                        <span class="calculator-remove">
-                                            <i class="glyphicon glyphicon-remove"></i>
+                                        <span class="calc-title-inner">
+                                            Type 3
+                                            <span class="calculator-remove">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
                                         </span>
+                                        <a class="dealnet-section-edit-link add-calculator-btn">Add Type3</a>
                                     </div>
                                 </div>
                                 <div class="row form-group  hidden-sm hiden-xs compare-mode">
@@ -669,7 +687,7 @@
         }
 
         function checkEmptyCalc() {
-            if ($('.switch-calculators li.active a').hasClass('empty-calc')) {
+            if ($('.switch-calculators li.active .empty-calc-link').hasClass('visible-btn')) {
                 $('#clearCalcBtn').hide();
             } else {
                 $('#clearCalcBtn').show();
@@ -677,16 +695,19 @@
         }
 
         function clearCalculator(calculatorNumber) {
+
             $('.calc-field-type' + calculatorNumber)
                 .not('.calc-title')
                 .not('.calc-field-edit')
                 .html('$ <span>-</span>');
+
             $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').hide();
 
-            $('.calc-field-type' + calculatorNumber + '.calc-title')
-                .html('<a class="dealnet-section-edit-link add-calculator-btn">Add Type' + calculatorNumber + '</a>')
-                .find('.calculator-remove').hide();
-            $('.switch-calculators li a[data-calc="' + calculatorNumber + '"]').addClass('empty-calc').html('Add Type ' + calculatorNumber);
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').hide();
+
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').show();
+
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().parents('li').find('.empty-calc-link').addClass('visible-btn').show();
 
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').on('click', function() {
                 addCalculator(calculatorNumber);
@@ -694,7 +715,8 @@
                 return false;
             });
 
-            if ($('.empty-calc').length === 2) {
+
+            if ($('.empty-calc-link').length === 2) {
                 $('.initial-standalone-calculator').removeClass('compare-mode');
             }
 
@@ -705,14 +727,18 @@
             $('.calc-field-type' + calculatorNumber)
                 .addClass('.calc-title')
                 .addClass('.calc-field-edit');
+
+
+
+
             $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').show();
 
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').off('click');
-            $('.calc-field-type' + calculatorNumber + '.calc-title')
-                .text('Type ' + calculatorNumber);
-            $('.calc-field-type' + calculatorNumber + '.calc-title')
-                .find('.calculator-remove').show();
-            $('.switch-calculators li a[data-calc="' + calculatorNumber + '"]').removeClass('empty-calc').html('Type ' + calculatorNumber);
+
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').show()
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').hide();
+
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().parents('li').find('.empty-calc-link').removeClass('visible-btn').show();
         }
     </script>
 }
