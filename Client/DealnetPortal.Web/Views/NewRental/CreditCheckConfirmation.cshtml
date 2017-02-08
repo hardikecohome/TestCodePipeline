@@ -444,7 +444,7 @@
                                 @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder="Street" })
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder="St." })
                                     </div>
                                 </div>
                             </div>
@@ -784,6 +784,85 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
     </div>
 
 </div>
+
+<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional-prev-address-modal-@(i + 1)">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">Editing Previous Address Information</div>
+			</div>
+			<div class="modal-body">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					<form id="additional-address-section-modal-@(i + 1)">
+						<div class="row">
+							<div class="col-md-9">
+								<div class="form-group">
+									<label for="additional-prev-street-@(i + 1)" class="dealnet-field-caption">Street</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" id="additional-prev-street-@(i + 1)" class="form-control dealnet-input" placeholder="St.">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="additional-prev-unit-@(i + 1)" class="dealnet-field-caption">Unit #</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" id="additional-prev-unit-@(i + 1)" class="form-control dealnet-input" placeholder="12345">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="additional-prev-city-@(i + 1)" class="dealnet-field-caption">City</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" id="additional-prev-city-@(i + 1)" class="form-control dealnet-input" placeholder="City">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="additional-prev-province-@(i + 1)" class="dealnet-field-caption">Province</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" id="additional-prev-province-@(i + 1)" class="form-control dealnet-input" placeholder="Province">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="additional-prev-postal-code-@(i + 1)" class="dealnet-field-caption">Postal Code</label>
+									<div class="dealnet-field-holder">
+										<div class="control-group">
+											<input type="text" id="additional-prev-postal-code-@(i + 1)" class="form-control dealnet-input" placeholder="12345">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
+					<button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
     }
 }
 
@@ -977,7 +1056,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 									@Html.Label("mailing_street", "Street", new { @class = "dealnet-field-caption" })
 									<div class="dealnet-field-holder">
 										<div class="control-group">
-											@Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder="Street" })
+											@Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder="St." })
 											@Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Street, "", new { @class = "text-danger" })
 										</div>
 									</div>
