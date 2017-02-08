@@ -1,5 +1,6 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Models.Contract
 @using Microsoft.Ajax.Utilities
 @model DealnetPortal.Web.Models.LoanCalculatorViewModel
 
@@ -211,7 +212,7 @@
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedEquipmentCashPrice2">-</span></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">HST</div>
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label" id="tax-label">HST</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="hst" ng-bind="displayedHst0">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedHst1">-</span></div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedHst2">-</span></div>
@@ -422,6 +423,13 @@
 
     <script type="text/javascript">
         var taxRate = 0;
+        @{
+            @: var provinceTaxRates = [];
+            foreach (var ptr in Model.ProvinceTaxRates)
+            {
+                @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate, description:"@ptr.Description"};
+            }
+        }
     </script>
 
     @Scripts.Render("~/bundles/jqueryval")
@@ -648,7 +656,10 @@
                 $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost ? typeof state.totalBorrowingCost === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost : '-';
             };
             $scope.assignTaxRate = function() {
-                taxRate = $('#province-tax-rate').val();
+                var provinceSelection = $('#province-tax-rate');
+                taxRate = provinceSelection.val();
+                var provinceTaxRate = provinceTaxRates[provinceSelection.children("option:selected").text()];
+                $("#tax-label").text(provinceTaxRate.description);
                 $scope.calculateLoanValues();
             };
             $scope.addCalculator = function (calcNumber) {
