@@ -16,6 +16,7 @@
 .switch-calculators{
   li{
     a{
+      display: inline-block;
       &.empty-calc-link{
         .dealnet-info-link;
         color: @button-link-color !important;
@@ -66,8 +67,13 @@
       display: none;
     }
   }
-  .switch-calculators li a.nav-tab-link{
-    display: none;
+  .switch-calculators li a{
+    &.nav-tab-link{
+      display: none;
+    }
+    &.block-btn{
+      display: block !important;
+    }
   }
   .calc-title{
     .calc-title-inner{
