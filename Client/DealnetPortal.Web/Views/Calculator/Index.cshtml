@@ -516,6 +516,9 @@
                 $scope.compareStates[activeCalcNumber] = state;
             };
             $scope.addCompareState = function() {
+                if($(this).parents('.modal')){
+                    $('.calculators-hold').removeClass('stick');
+                }
                 var form = $('#formToCompare');
                 form.validate();
                 if (!form.valid()) {
@@ -768,8 +771,8 @@
                     }
                 }
             } else {
-                $('.calculators-hold').removeClass('sticker').removeClass('stick');
-                $('.equipment-calculator').removeClass('sticker').removeClass('stick');
+                /*$('.calculators-hold').removeClass('sticker').removeClass('stick');
+                $('.equipment-calculator').removeClass('sticker').removeClass('stick');*/
             }
         }
 
@@ -798,23 +801,21 @@
 
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').show();
 
-            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().parents('li').find('.empty-calc-link') /*.addClass('visible-btn')*/.show();
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().removeClass('block-btn').parents('li').find('.empty-calc-link').show().addClass('block-btn');
 
             //checkEmptyCalc();
         }
 
         function addCalculator(calculatorNumber) {
-            $('.calc-field-type' + calculatorNumber)
-                .addClass('.calc-title')
-                .addClass('.calc-field-edit');
-
+            $('.calc-field-type' + calculatorNumber+'.calc-title').find('.calc-title-inner').show();
+            $('.calc-field-type' + calculatorNumber+'.calc-field-edit').find('.dealnet-section-edit-link').show();
 
             $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').show();
 
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').show();
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').hide();
 
-            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').show().parents('li').find('.empty-calc-link') /*.removeClass('visible-btn')*/.hide();
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').show().addClass('block-btn').parents('li').find('.empty-calc-link').removeClass('block-btn').hide();
         }
     </script>
 }
