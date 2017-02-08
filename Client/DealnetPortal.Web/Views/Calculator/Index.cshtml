@@ -691,11 +691,6 @@
                     var activeCalcNumber = $('.switch-calculators li.active a').attr('data-calc');
                     clearCalculator(activeCalcNumber)
                 });
-
-                $('.calculator-remove').on('click', function() {
-                    var activeCalcNumber = $(this).parents('.calc-title').attr('data-calc');
-                    clearCalculator(activeCalcNumber);
-                });
                 $('.calc-field-edit a').hide();
             });
 
@@ -791,15 +786,6 @@
 
             $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().parents('li').find('.empty-calc-link').addClass('visible-btn').show();
 
-            //$('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').on('click', function() {
-            //    addCalculator(calculatorNumber);
-            //    //$('#calculator-modal').modal();
-            //    return false;
-            //});
-
-
-            
-
             checkEmptyCalc();
         }
 
@@ -810,8 +796,6 @@
 
 
             $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').show();
-
-            //$('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').off('click');
 
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').show();
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').hide();
