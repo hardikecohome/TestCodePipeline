@@ -396,6 +396,11 @@
             <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
             <input type="hidden" name="AdditionalApplicants.Index" value="@i" />
 
+            <div class="well well-info position-well">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                Borrower is over 75 years, you should add mandatory additional applicant
+            </div>
+
             @if (!ViewBag.IsMobileRequest)
             {
             <div class="row scanlicence-button">
@@ -646,7 +651,7 @@
                 <label for="add-applicant-checkbox@(i+1)" class="align-middle custom-checkbox">
                     <input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Addtitional Applicant is homeowner</span>
+                    <span>Mandatory Additional Applicant is homeowner</span>
                 </label>
             </div>
         </div>
