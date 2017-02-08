@@ -29,15 +29,15 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg compare-mode">
             <li class="active">
-                <a href="#" class="nav-tab-link" data-calc="0" ng-click="trySaveActiveChanges(); retrieveCompareState(0);">Type 1</a>
+                <a href="#" class="nav-tab-link" data-calc="0" ng-click="trySaveActiveChanges(); switchTab(0); retrieveCompareState(0);">Type 1</a>
                 <a href="#" class="empty-calc-link" ng-click="addCalculator(0)">Add Type 1</a>
             </li>
             <li>
-                <a href="#" class="nav-tab-link" data-calc="1" ng-click="trySaveActiveChanges(); retrieveCompareState(1);">Type 2</a>
+                <a href="#" class="nav-tab-link" data-calc="1" ng-click="trySaveActiveChanges(); switchTab(1); retrieveCompareState(1);">Type 2</a>
                 <a href="#" class="empty-calc-link" ng-click="addCalculator(1)">Add Type 2</a>
             </li>
             <li>
-                <a href="#" class="nav-tab-link" data-calc="2" ng-click="trySaveActiveChanges(); retrieveCompareState(2);">Type 3</a>
+                <a href="#" class="nav-tab-link" data-calc="2" ng-click="trySaveActiveChanges(); switchTab(2); retrieveCompareState(2);">Type 3</a>
                 <a href="#" class="empty-calc-link" ng-click="addCalculator(2)">Add Type 3</a>
             </li>
         </ul>
@@ -452,6 +452,7 @@
             var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
             var defaultDefferalType = '@loanDeferralTypes.First().Value';
             $scope.compareStates = [];
+            $scope.activeTabIndex = 0;
             $scope.activeDeferralType = defaultDefferalType;
             $scope.activeEquipment = [];
             $scope.addActiveEquipment = function() {
@@ -508,8 +509,10 @@
                 if (!form.valid()) {
                     return;
                 }
-                var activeCalcNumber = parseInt($('.switch-calculators li.active a').attr('data-calc'));
+                var activeCalcNumber = $scope.activeTabIndex;
                 var state = $scope.createActiveState();
+                //$scope.compareStates.splice(activeCalcNumber, 1);
+                //$scope.compareStates.splice(activeCalcNumber, 0, state);
                 $scope.compareStates[activeCalcNumber] = state;
             };
             $scope.addCompareState = function() {
@@ -670,12 +673,16 @@
                 return false;
             };
             $scope.removeCalculatorAndSwitch = function () {
-                var activeCalcNumber = parseInt($('.switch-calculators li.active a').attr('data-calc'));
+                var activeCalcNumber = $scope.activeTabIndex;
                 if (!$scope.removeCalculator(activeCalcNumber)) {
                     var indexOfLastLeft = findLastNotNullIndex($scope.compareStates);
                     $scope.retrieveCompareState(indexOfLastLeft);
-                    switchTab(indexOfLastLeft);
+                    $scope.switchTab(indexOfLastLeft);
                 }
+            };
+            $scope.switchTab = function(index) {
+                switchTab(index);
+                $scope.activeTabIndex = index;
             };
             for (var i = 0; i <= 3; i++) {
                 $scope.resetDisplayedValues(i);
@@ -692,14 +699,6 @@
                     makeStickCalendar();
                 }).on('scroll', function() {
                     makeStickCalendar();
-                });
-
-                $('.switch-calculators li a.nav-tab-link').on('click', function () {
-                    var currLi = $(this).parent('li');
-                    //var currCalcNumber = $(this).attr('data-calc');
-                    currLi.addClass('active').siblings().removeClass('active');
-                    //switchCalcs(currCalcNumber);
-                    //checkEmptyCalc();
                 });
 
                 $('.calc-field-edit a').hide();
@@ -745,9 +744,9 @@
 
         function displayCompareCalcs() {
             if ($(window).width() < 1023) {
-                var activeCalcNumber = $('.switch-calculators li.active a').attr('data-calc');
-                $('div[class*="calc-field-type"]').hide();
-                $('.calc-field-type' + activeCalcNumber).show();
+                //var activeCalcNumber = $('.switch-calculators li.active a').attr('data-calc');
+                var activeCalcNumber = 0;
+                $('div[class*="calc-field-type"]').not(".calc-field-type" + activeCalcNumber).hide();
             } else {
                 $('div[class*="calc-field-type"]').show();
             }
