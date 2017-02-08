@@ -88,17 +88,15 @@ function showTable() {
                     { "data": "TransactionId" },
                     { "data": "CustomerName" },
                     { "data": "Status" },
+                    { "data": "AgreementType"},
                     { "data": "Email" },
                     { "data": "Phone" },
                     { "data": "Date" },
                     { "data": "Equipment" },
+                    { "data": "SalesRep" },
                     { "data": "Value" },
                     {
                         "data": "RemainingDescription",
-                        "visible": false
-                    },
-                    {
-                        "data": "AgreementType",
                         "visible": false
                     },
                     {
@@ -218,14 +216,14 @@ function (settings, data, dataIndex) {
     var equipment = $("#equipment-input").val();
     var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
     var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-    var date = Date.parseExact(data[6], "M/d/yyyy");
-    var value = parseFloat(data[8].replace(/[\$,]/g, ''));
+    var date = Date.parseExact(data[7], "M/d/yyyy");
+    var value = parseFloat(data[10].replace(/[\$,]/g, ''));
     var valueOfDeal = parseFloat($("#deal-value").val());
     if ((!status || status === data[3]) &&
         (!dateTo || date <= dateTo) &&
         (!dateFrom || date >= dateFrom) &&
-        (!agreementType || agreementType === data[10]) &&
-        (!paymentType || paymentType === data[11]) &&
+        (!agreementType || agreementType === data[4]) &&
+        (!paymentType || paymentType === data[12]) &&
         (!equipment || data[7].match(new RegExp(equipment, "i"))) &&
         (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {
         return true;
@@ -293,7 +291,7 @@ function getIntValue(value) {
 
 function recalculateGrandTotal() {
     var sum = 0;
-    table.column(8, { search: 'applied' }).data().each(function (value, index) {
+    table.column(10, { search: 'applied' }).data().each(function (value, index) {
         sum += getIntValue(value);
     });
 
