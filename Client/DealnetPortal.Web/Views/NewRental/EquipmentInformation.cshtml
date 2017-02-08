@@ -135,7 +135,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4 equipment-cost-col loan-col-md-6">
+                                    <div class="col-md-4 equipment-cost-col loan-col-md-8">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].Cost)
                                             <div class="control-group has-addon-left">
@@ -181,8 +181,8 @@
                 <br class="rental-element">
                 <hr class="loan-element">
 
-                <div class="row loan-element">
-                    <div class="col-md-6 initial-width">
+                <div class="row">
+                    <div class="col-md-4 loan-col-md-8">
                         <div class="form-group">
                             <label for="">Estimated Installation Date</label>
                             <div class="control-group">
@@ -190,7 +190,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4 rental-element">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TotalMonthlyPayment)
+                            <div class="control-group has-addon-left">
+                                <div class="control-group-addon">$</div>
+                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", placeholder = "Total Monthly Payment" })
+                                @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <hr class="rental-element">
+
                 <div class="row loan-element">
                     <div class="col-md-4 initial-width">
                         <div class="form-group">
@@ -222,29 +235,6 @@
                 </div>
 
                 <hr class="loan-element">
-
-                <div class="row rental-element">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Estimated Installation Date</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input date-input" placeholder="Installation Date">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.TotalMonthlyPayment)
-                            <div class="control-group has-addon-left">
-                                <div class="control-group-addon">$</div>
-                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", placeholder = "Total Monthly Payment" })
-                                @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="rental-element">
 
                 <div class="rental-element">
                     <div class="row form-group">

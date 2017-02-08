@@ -699,9 +699,21 @@ select.dealnet-disabled-input{
     .equipment-editable-section div[class*="col-"]:not(.initial-width){
       width: 100% !important;
     }
-    .equipment-editable-section div[class*="col-"].loan-col-md-6{
-      @media @desktop-up {
-        width: 50% !important;
+    .equipment-editable-section div[class*="col-"]{
+      &.loan-col-md-6{
+        @media @desktop-up {
+          width: 50% !important;
+        }
+      }
+      &.loan-col-md-4{
+        @media @desktop-up {
+          width: 33.33333333% !important;
+        }
+      }
+      &.loan-col-md-8{
+        @media @desktop-up {
+          width: 66.66666667% !important;
+        }
       }
     }
 
