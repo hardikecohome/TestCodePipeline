@@ -565,11 +565,11 @@
             $scope.updateDisplayedValues = function(state, index) {
                 var allEquipmentTypes = '';
                 $.each(state.equipment, function(ind, value) {
-                    allEquipmentTypes += ind !== 0 ? ',' + value.type : value.type;
+                    allEquipmentTypes += ind !== 0 ? ', ' + value.type : value.type;
                 });
                 var allDescriptions = '';
                 $.each(state.equipment, function(ind, value) {
-                    allDescriptions += ind !== 0 ? ',' + value.description : value.description;
+                    allDescriptions += ind !== 0 ? ', ' + value.description : value.description;
                 });
                 $scope['displayedEquipmentType' + index] = allEquipmentTypes;
                 $scope['displayedEquipmentDescription' + index] = allDescriptions;
