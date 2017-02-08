@@ -97,16 +97,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group">
-					<div class="row">
-						@Html.LabelFor(m => m.HomeOwner.AddressInformation.ResidenceType, new { @class = "dealnet-field-caption col-xs-6" })
-						<div class="dealnet-field-holder col-xs-6">
-							<div class="control-group">
-								@Html.EnumDropDownListFor(m => m.HomeOwner.AddressInformation.ResidenceType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input form-control", id = "" })
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -167,6 +157,17 @@
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
                                 @Html.TextBoxFor(m => Model.HomeOwner.DriverLicenseNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                            </div>
+                        </div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+                        <div class="dealnet-field-holder col-xs-6">
+                            <div class="control-group">
+	                            <input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
                             </div>
                         </div>
 					</div>
@@ -369,7 +370,16 @@
                                 </div>
                             </div>
                         </div>
-
+	                    <div class="form-group">
+		                    <div class="row">
+			                    <label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+			                    <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+					                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+				                    </div>
+			                    </div>
+		                    </div>
+	                    </div>
                         <div class="dealnet-agrees form-group">
                             <label class="align-middle custom-checkbox">
                                 @Html.CheckBox("additional" + (i + 1) + "-agrees", new { id = "additional" + (i + 1) + "-agrees" })
@@ -491,16 +501,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, new { @class = "dealnet-field-caption col-xs-6" })
-                                <div class="dealnet-field-holder col-xs-6">
-                                    <div class="control-group">
-                                        @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input form-control", id = "" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
             }
@@ -594,6 +594,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+	                                <div class="dealnet-field-caption dealnet-label hidden-sm hidden-xs">&nbsp;</div>
+	                                <div class="vertical-aligned-cell">
+		                                <label for="homeowner-checkbox" class="align-middle custom-checkbox">
+			                                <input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>
+			                                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+			                                <span>Borrower is homeowner</span>
+		                                </label>
+	                                </div>
+                                </div>
+                            </div>
 					    </div>
 					</form>
 				</div>
@@ -680,7 +692,19 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
                                     </div>
                                 </div>
                             </div>
-					    </div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<div class="dealnet-field-caption dealnet-label hidden-sm hidden-xs">&nbsp;</div>
+									<div class="vertical-aligned-cell">
+										<label for="additional-homeowner-checkbox@(i+1)" class="align-middle custom-checkbox">
+											<input type="checkbox" class="dealnet-checkbox" id="additional-homeowner-checkbox@(i+1)" checked="checked"/>
+											<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+											<span>Borrower is homeowner</span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
 					</form>
 				</div>
 				<div class="btn-container">
@@ -757,17 +781,6 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
                                         <div class="control-group">
                                             @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1)})
                                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new {@class = "text-danger"})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.ResidenceType, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, null, new { @class = "form-control", id = "additional-residence-" + (i + 1) })
-                                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -936,17 +949,6 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 						            </div>
 						        </div>
 						    </div>
-                            <!--<div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.HomeOwner.AddressInformation.ResidenceType, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.EnumDropDownListFor(m => m.HomeOwner.AddressInformation.ResidenceType, null, new { @class = "form-control", id = "residence" })
-                                            @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.ResidenceType, "", new {@class = "text-danger"})
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>-->
 						</div>
 					</form>
 				</div>
