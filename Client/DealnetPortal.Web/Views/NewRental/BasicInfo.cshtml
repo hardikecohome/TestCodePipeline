@@ -323,7 +323,7 @@
         <div class="row" id="mailing-address1">
             <div class="col-md-6 col-lg-6">
                 <div class="form-group">
-                    <label for="mailing_street">Mailing Address</label>
+                    <label for="mailing_street">Street</label>
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = "St.", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Street, "", new { @class = "text-danger" })
@@ -579,7 +579,7 @@
                 <div class="row address-info1">
                     <div class="col-md-6 col-lg-6">
                         <div class="form-group">
-                            <label for="additional-street-@(i+1)">Installation Address</label>
+                            <label for="additional-street-@(i+1)">Street</label>
                             <div class="control-group">
                                 @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = "St." })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, "", new { @class = "text-danger" })
