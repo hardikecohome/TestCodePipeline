@@ -744,8 +744,8 @@
 
         function displayCompareCalcs() {
             if ($(window).width() < 1023) {
-                //var activeCalcNumber = $('.switch-calculators li.active a').attr('data-calc');
                 var activeCalcNumber = 0;
+                $('.switch-calculators li a[data-calc="0"]').parents('li').addClass('active').siblings().removeClass('active');
                 $('div[class*="calc-field-type"]').not(".calc-field-type" + activeCalcNumber).hide();
             } else {
                 $('div[class*="calc-field-type"]').show();
