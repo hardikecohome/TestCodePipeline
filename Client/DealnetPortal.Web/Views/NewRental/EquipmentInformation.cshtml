@@ -157,10 +157,10 @@
                                     </div>
                                     <!--<div class="col-md-4">
                                         <div class="form-group">
-                                            @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new {@for = "estimated-installation-date-" + i})
+                                            @/*Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new {@for = "estimated-installation-date-" + i})*/
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date-" + i, placeholder = "mm/dd/yyyy", data_val_date = ""})
-                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedInstallationDate, "", new {@class = "text-danger"})
+                                                @/*Html.TextBoxFor(m => m.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date-" + i, placeholder = "mm/dd/yyyy", data_val_date = ""})*/
+                                                @/*Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedInstallationDate, "", new {@class = "text-danger"})*/
                                             </div>
                                         </div>
                                     </div>-->
@@ -184,9 +184,10 @@
                 <div class="row loan-element">
                     <div class="col-md-6 initial-width">
                         <div class="form-group">
-                            <label for="">Estimated Installation Date</label>
+                            @Html.LabelFor(m => m.EstimatedInstallationDate)
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input date-input" placeholder="Installation Date">
+                                Html.TextBoxFor(m => m.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = "Installation Date", data_val_date = ""})
+                                Html.ValidationMessageFor(m => m.EstimatedInstallationDate, "", new { @class = "text-danger"})
                             </div>
                         </div>
                     </div>
@@ -226,9 +227,10 @@
                 <div class="row rental-element">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="">Estimated Installation Date</label>
+                            @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate)
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input date-input" placeholder="Installation Date">
+                                @Html.TextBoxFor(m => m.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = "Installation Date", data_val_date = ""})
+                                @Html.ValidationMessageFor(m => m.EstimatedInstallationDate, "", new {@class = "text-danger"})
                             </div>
                         </div>
                     </div>

@@ -560,6 +560,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.InstallationDate = dbEquipment.InstallationDate;
                 }
+                if (!equipmentInfo.EstimatedInstallationDate.HasValue)
+                {
+                    equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
+                }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
                 dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);

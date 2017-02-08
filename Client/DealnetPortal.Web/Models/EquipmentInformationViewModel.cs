@@ -74,7 +74,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public decimal? CreditAmount { get; set; }
 
-        public double? ValueOfDeal { get; set; }        
+        public double? ValueOfDeal { get; set; }
+
+        [Display(Name = "Estimated Installation Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime EstimatedInstallationDate { get; set; }
     }
 
     public class CheckEquipmentsCostAttribute : ValidationAttribute, IClientValidatable
