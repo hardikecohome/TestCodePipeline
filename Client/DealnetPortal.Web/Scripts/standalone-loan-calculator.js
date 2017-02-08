@@ -20,24 +20,27 @@
     calculationState.hst = hst;
     var totalCashPrice = equipmentCashPrice + hst;
     calculationState.totalCashPrice = totalCashPrice;
-    var adminFee = calculationState.adminFee;
+    var adminFee = parseFloat(calculationState.adminFee);
     if (isNaN(adminFee) || adminFee < 0) {
         adminFee = 0;
     }
-    var downPayment = calculationState.downPayment;
+    var downPayment = parseFloat(calculationState.downPayment);
     if (isNaN(downPayment) || downPayment < 0) {
         downPayment = 0;
     }
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
     calculationState.totalAmountFinanced = totalAmountFinanced;
-    if (isNaN(calculationState.loanTerm) || calculationState.loanTerm <= 0 || isNaN(calculationState.amortizationTerm) || calculationState.amortizationTerm <= 0 || isNaN(calculationState.customerRate) || calculationState.customerRate <= 0) { return; }
-    var totalMonthlyPayment = totalAmountFinanced * pmt(calculationState.customerRate / 100 / 12, calculationState.amortizationTerm, -1, 0, 0);
+    var loanTerm = parseInt(calculationState.loanTerm);
+    var amortizationTerm = parseInt(calculationState.amortizationTerm);
+    var customerRate = parseFloat(calculationState.customerRate);
+    if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate <= 0) { return; }
+    var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
     calculationState.totalMonthlyPayment = totalMonthlyPayment;
-    var totalAllMonthlyPayments = totalMonthlyPayment * calculationState.loanTerm;
+    var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
     calculationState.totalAllMonthlyPayments = totalAllMonthlyPayments;
     var residualBalance = 0;
-    if (calculationState.loanTerm !== calculationState.amortizationTerm) {
-        residualBalance = -pv(calculationState.customerRate / 100 / 12, calculationState.amortizationTerm - calculationState.loanTerm, totalMonthlyPayment, 0) * (1 + calculationState.customerRate / 100 / 12);
+    if (loanTerm !== amortizationTerm) {
+        residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
     calculationState.residualBalance = residualBalance;
     var totalObligation = totalAllMonthlyPayments + residualBalance;
