@@ -529,11 +529,11 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 new DocumentType()  {Id = (int)DocumentTemplateType.SignedContract, Description = "Signed contract", Prefix = "SC_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation certificate", Prefix = "SIC_"},
-                new DocumentType()  {Id = 3, Description = "Invoice", Prefix = "INV_"},
-                new DocumentType()  {Id = 4, Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
-                new DocumentType()  {Id = 5, Description = "Extended Warranty Form", Prefix = "EWF_"},
-                new DocumentType()  {Id = 6, Description = "Third party verification call", Prefix = "TPV_"},
-                new DocumentType()  {Id = 7, Description = "Other", Prefix = ""},
+                new DocumentType()  {Id = (int)DocumentTemplateType.Invoice, Description = "Invoice", Prefix = "INV_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.VoidPersonalCheque, Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.ExtendedWarrantyForm, Description = "Extended Warranty Form", Prefix = "EWF_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.VerificationCall, Description = "Third party verification call", Prefix = "TPV_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.Other, Description = "Other", Prefix = ""},
             };
             //leave existing data
             documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));

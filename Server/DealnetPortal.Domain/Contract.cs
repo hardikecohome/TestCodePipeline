@@ -33,6 +33,11 @@ namespace DealnetPortal.Domain
         public Customer PrimaryCustomer { get; set; }
 
         /// <summary>
+        /// Installation address are linked to a deal
+        /// </summary>
+        //public Location InstallationAddress { get; set; }
+
+        /// <summary>
         /// Aspire dealer for contract
         /// </summary>
         public string ExternalSubDealerName { get; set; }
