@@ -463,8 +463,17 @@ select.dealnet-disabled-input{
   &.well-info{
     background-color: rgba(168, 216, 238, 0.17);
     border: solid 1px #90d0ee;
-    .icon-email{
+    .icon-info-well, .icon-email{
       color: #2f9cd0;
+    }
+    &.position-well{
+      position: relative;
+      padding: 15px 20px 13px 60px;
+      .icon-info-well{
+        position: absolute;
+        top: 13px;
+        left: 18px;
+      }
     }
   }
   &.success-well{
@@ -500,7 +509,17 @@ select.dealnet-disabled-input{
       position: absolute;
       top: 14px;
       left: 18px;
-      color: rgb(218, 46, 0);;
+      color: rgb(218, 46, 0);
+    }
+  }
+  &.over-aged-well{
+    position: relative;
+    padding: 16px 20px 14px 60px;
+    .icon-info-well{
+      position: absolute;
+      top: 13px;
+      left: 18px;
+      color: rgb(218, 46, 0);
     }
   }
   .summary-emails-header{

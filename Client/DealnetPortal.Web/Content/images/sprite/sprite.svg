@@ -30,6 +30,9 @@
         <symbol id="icon-info-grey" viewBox="0 0 20 20">
             <path fill="currentColor" fill-rule="evenodd" d="M0 10C0 4.477 4.477 0 10 0s10 4.477 10 10-4.477 10-10 10S0 15.523 0 10zm18 0c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8 8-3.582 8-8zM9 4h2v2H9V4zm0 4h2v7H9V8z"/>
         </symbol>
+        <symbol id="icon-info-well" viewBox="0 0 24 24">
+            <path fill="currentColor" fill-rule="evenodd" d="M12 23C5.925 23 1 18.075 1 12S5.925 1 12 1s11 4.925 11 11-4.925 11-11 11zm-1-13v8h2v-8h-2zm0-4v2h2V6h-2z"/>
+        </symbol>
         <symbol id="icon-reports-side" viewBox="0 0 20 20">
             <path fill="currentColor" fill-rule="evenodd" d="M5 12h2v4H5v-4zm4-3h2v7H9V9zm4-4h2v11h-2V5z"/>
         </symbol>

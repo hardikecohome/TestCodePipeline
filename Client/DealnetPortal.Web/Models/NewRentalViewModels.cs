@@ -49,7 +49,7 @@ namespace DealnetPortal.Web.Models
     public class MailingAddressInformation : AddressInformation
     {
         [Required]
-        [Display(Name = "Mailing Address")]
+        [Display(Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
         public override string Street { get; set; }
@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.Models
     public class AddressInformation
     {
         [Required]
-        [Display(Name = "Installation Address")]
+        [Display(Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
         public virtual string Street { get; set; }
