@@ -201,9 +201,9 @@
                                 </div>
                                 <div class="row form-group  hidden-sm hiden-xs compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Description</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type0 text-uppercase">{{displayedEquipmentDescription0}}</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">{{displayedEquipmentDescription1}}</div>
-                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">{{displayedEquipmentDescription2}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type0">{{displayedEquipmentDescription0}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1">{{displayedEquipmentDescription1}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2">{{displayedEquipmentDescription2}}</div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label">Cash Price of Equipment</div>
@@ -429,6 +429,11 @@
             {
                 @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate, description:"@ptr.Description"};
             }
+            @: var equipmentTypes = [];
+            foreach (var type in Model.EquipmentTypes)
+            {
+                @: equipmentTypes["@type.Type"] = '@type.Description';
+            }
         }
     </script>
 
@@ -573,7 +578,8 @@
             $scope.updateDisplayedValues = function(state, index) {
                 var allEquipmentTypes = '';
                 $.each(state.equipment, function(ind, value) {
-                    allEquipmentTypes += ind !== 0 ? ', ' + value.type : value.type;
+                    var description = equipmentTypes[value.type];
+                    allEquipmentTypes += ind !== 0 ? ', ' + description : description;
                 });
                 var allDescriptions = '';
                 $.each(state.equipment, function(ind, value) {
