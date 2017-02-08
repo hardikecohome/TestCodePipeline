@@ -282,7 +282,7 @@
                     <div class="col-md-12">
                         <div class="button-proceed">
                             <input type="submit" value="Add to Comparison" class="btn dealnet-button dealnet-success-button initial-mode" ng-click="tryCopyActiveToCompare()">
-                            <button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg compare-mode" id="clearCalcBtn">Remove</button>
+                            <button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg compare-mode" id="clearCalcBtn" ng-click="removeCalculatorAndSwitch()">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -662,6 +662,16 @@
                     $scope.retrieveCompareState(0);
                     $scope.compareStates = [];
                     $('.initial-standalone-calculator').removeClass('compare-mode');
+                    return true;
+                }
+                return false;
+            };
+            $scope.removeCalculatorAndSwitch = function () {
+                var activeCalcNumber = parseInt($('.switch-calculators li.active a').attr('data-calc'));
+                if (!$scope.removeCalculator(activeCalcNumber)) {
+                    var indexOfLastLeft = findLastNotNullIndex($scope.compareStates);
+                    $scope.retrieveCompareState(indexOfLastLeft);
+                    switchTab(indexOfLastLeft);
                 }
             };
             for (var i = 0; i <= 3; i++) {
@@ -689,10 +699,6 @@
                     //checkEmptyCalc();
                 });
 
-                $('#clearCalcBtn').on('click', function() {
-                    var activeCalcNumber = $('.switch-calculators li.active a').attr('data-calc');
-                    clearCalculator(activeCalcNumber)
-                });
                 $('.calc-field-edit a').hide();
                 $('.switch-calculators li .nav-tab-link').hide();
             });
@@ -708,6 +714,12 @@
             form.find('.equipment-cost').each(function() {
                 $(this).rules("add", "required");
             });
+        }
+
+        function switchTab(index) {
+            var link = $('.switch-calculators li .nav-tab-link[data-calc="' + index + '"]');
+            var currLi = link.parent('li');
+            currLi.addClass('active').siblings().removeClass('active');
         }
 
         function findLastNotNullIndex(array) {
