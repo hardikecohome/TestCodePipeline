@@ -57,8 +57,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<EquipmentInformationViewModel, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
                 .ForMember(x => x.ValueOfDeal, d => d.Ignore())
-                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType : src.RentalDeferralType))
-                .ForMember(x => x.ExistingEquipment, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType : src.RentalDeferralType));
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType : src.RentalDeferralType));
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
@@ -226,14 +225,14 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
-                cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
-                cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
-                    .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
-                    .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
-                    .ForMember(x => x.CreditAmount, d => d.Ignore())
-                    .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.DeferralType : 0))
-                    .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != AgreementType.LoanApplication ? src.DeferralType : 0))
-                    .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ));
+            cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
+            cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
+                .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
+                .ForMember(x => x.CreditAmount, d => d.Ignore())
+                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ));
 
             cfg.CreateMap<CommentDTO, CommentViewModel>();
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()

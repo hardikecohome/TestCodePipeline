@@ -600,6 +600,10 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
                         }
+                        if (!ne.EstimatedInstallationDate.HasValue)
+                        {
+                            ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
+                        }
                         _dbContext.NewEquipment.AddOrUpdate(ne);
                     }
                 });

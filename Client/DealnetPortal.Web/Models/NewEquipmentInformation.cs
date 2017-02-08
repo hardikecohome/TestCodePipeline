@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(Name = "Estimated Installation Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime EstimatedInstallationDate{ get; set; }
+        public DateTime? EstimatedInstallationDate{ get; set; }
 
         public int Id { get; set; }
     }
