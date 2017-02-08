@@ -29,16 +29,16 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg compare-mode">
             <li class="active">
-                <a href="#" class="nav-tab-link" data-calc="0" ng-click="retrieveCompareState()">Type 1</a>
-                <a href="#" class="empty-calc-link">Add Type 1</a>
+                <a href="#" class="nav-tab-link" data-calc="0" ng-click="trySaveActiveChanges(); retrieveCompareState(0);">Type 1</a>
+                <a href="#" class="empty-calc-link" ng-click="addCalculator(0)">Add Type 1</a>
             </li>
             <li>
-                <a href="#" class="nav-tab-link" data-calc="1">Type 2</a>
-                <a href="#" class="empty-calc-link">Add Type 2</a>
+                <a href="#" class="nav-tab-link" data-calc="1" ng-click="trySaveActiveChanges(); retrieveCompareState(1);">Type 2</a>
+                <a href="#" class="empty-calc-link" ng-click="addCalculator(1)">Add Type 2</a>
             </li>
             <li>
-                <a href="#" class="nav-tab-link" data-calc="2">Type 3</a>
-                <a href="#" class="empty-calc-link">Add Type 3</a>
+                <a href="#" class="nav-tab-link" data-calc="2" ng-click="trySaveActiveChanges(); retrieveCompareState(2);">Type 3</a>
+                <a href="#" class="empty-calc-link" ng-click="addCalculator(2)">Add Type 3</a>
             </li>
         </ul>
 
@@ -167,29 +167,29 @@
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0 calc-title" data-calc="0">
                                         <span class="calc-title-inner">
                                             Type 1
-                                            <span class="calculator-remove">
+                                            <span class="calculator-remove" ng-click="removeCalculator(0)">
                                                 <i class="glyphicon glyphicon-remove"></i>
                                             </span>
                                         </span>
-                                        <a class="dealnet-section-edit-link add-calculator-btn">Add Type1</a>
+                                        <a class="dealnet-section-edit-link add-calculator-btn" ng-click="addCalculator(0)">Add Type 1</a>
                                     </div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title compare-mode" data-calc="1">
                                         <span class="calc-title-inner">
                                             Type 2
-                                            <span class="calculator-remove">
+                                            <span class="calculator-remove" ng-click="removeCalculator(1)">
                                                 <i class="glyphicon glyphicon-remove"></i>
                                             </span>
                                         </span>
-                                        <a class="dealnet-section-edit-link add-calculator-btn">Add Type2</a>
+                                        <a class="dealnet-section-edit-link add-calculator-btn" ng-click="addCalculator(1)">Add Type 2</a>
                                     </div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title compare-mode" data-calc="2">
                                         <span class="calc-title-inner">
                                             Type 3
-                                            <span class="calculator-remove">
+                                            <span class="calculator-remove" ng-click="removeCalculator(2)">
                                                 <i class="glyphicon glyphicon-remove"></i>
                                             </span>
                                         </span>
-                                        <a class="dealnet-section-edit-link add-calculator-btn">Add Type3</a>
+                                        <a class="dealnet-section-edit-link add-calculator-btn" ng-click="addCalculator(2)">Add Type 3</a>
                                     </div>
                                 </div>
                                 <div class="row form-group  hidden-sm hiden-xs compare-mode">
@@ -477,8 +477,8 @@
                 $scope.equipmentToCompare.splice(index, 1);
             }
             $scope.addEquipmentToCompare();
-            $scope.addActiveToCompareStates = function() {
-                var state = {
+            $scope.createActiveState = function() {
+                return {
                     equipment: JSON.parse(JSON.stringify($scope.activeEquipment)),
                     adminFee: $scope.activeAdminFee,
                     downPayment: $scope.activeDownPayment,
@@ -496,8 +496,21 @@
                     totalObligation: $scope.displayedTotalObligation0,
                     totalBorrowingCost: $scope.displayedTotalBorrowingCost0
                 };
+            };
+            $scope.addActiveToCompareStates = function() {
+                var state = $scope.createActiveState();
                 $scope.compareStates.push(state);
                 $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
+            };
+            $scope.trySaveActiveChanges = function () {
+                var form = $('#activeForm');
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                }
+                var activeCalcNumber = parseInt($('.switch-calculators li.active a').attr('data-calc'));
+                var state = $scope.createActiveState();
+                $scope.compareStates[activeCalcNumber] = state;
             };
             $scope.addCompareState = function() {
                 var form = $('#formToCompare');
@@ -532,7 +545,7 @@
                 }
                 $('#calculator-modal').modal('hide');
             };
-            $scope.retrieveCompareState = function (index) {
+            $scope.retrieveCompareState = function(index) {
                 var state = $scope.compareStates[index];
                 $scope.activeEquipment = JSON.parse(JSON.stringify(state.equipment));
                 $scope.activeAdminFee = state.adminFee;
@@ -541,16 +554,7 @@
                 $scope.activeLoanTerm = state.loanTerm;
                 $scope.activeAmortizationTerm = state.amortizationTerm;
                 $scope.activeDeferralType = state.deferralType;
-                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice;
-                $scope.displayedHst0 = state.hst;
-                $scope.displayedTotalCashPrice0 = state.totalCashPrice;
-                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced;
-                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment;
-                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments;
-                $scope.displayedResidualBalance0 = state.residualBalance;
-                $scope.displayedTotalObligation0 = state.totalObligation;
-                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost;
-                $scope.updateDisplayedValues(state, index);
+                $scope.updateDisplayedCalculations(state);
             };
             $scope.updateDisplayedValues = function(state, index) {
                 var allEquipmentTypes = '';
@@ -564,16 +568,16 @@
                 $scope['displayedEquipmentType' + index] = allEquipmentTypes;
                 $scope['displayedEquipmentDescription' + index] = allDescriptions;
                 $scope['displayedEquipmentCashPrice' + index] = typeof state.equipmentCashPrice === 'number' ? state.equipmentCashPrice.toFixed(2) : state.equipmentCashPrice;
-                $scope['displayedHst' + index] = typeof state.equipmentCashPrice === 'number' ? state.hst.toFixed(2) : state.hst;
-                $scope['displayedTotalCashPrice' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice;
-                $scope['displayedTotalAmountFinanced' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced;
-                $scope['displayedTotalMonthlyPayment' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment;
-                $scope['displayedTotalAllMonthlyPayments' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments;
-                $scope['displayedResidualBalance' + index] = typeof state.equipmentCashPrice === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance;
-                $scope['displayedTotalObligation' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation;
-                $scope['displayedTotalBorrowingCost' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost;
+                $scope['displayedHst' + index] = typeof state.hst === 'number' ? state.hst.toFixed(2) : state.hst;
+                $scope['displayedTotalCashPrice' + index] = typeof state.totalCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice;
+                $scope['displayedTotalAmountFinanced' + index] = typeof state.totalAmountFinanced === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced;
+                $scope['displayedTotalMonthlyPayment' + index] = typeof state.totalMonthlyPayment === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment;
+                $scope['displayedTotalAllMonthlyPayments' + index] = typeof state.totalAllMonthlyPayments === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments;
+                $scope['displayedResidualBalance' + index] = typeof state.residualBalance === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance;
+                $scope['displayedTotalObligation' + index] = typeof state.totalObligation === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation;
+                $scope['displayedTotalBorrowingCost' + index] = typeof state.totalBorrowingCost === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost;
             };
-            $scope.resetDisplayedValues = function (index) {
+            $scope.resetDisplayedValues = function(index) {
                 $scope['displayedEquipmentType' + index] = '-';
                 $scope['displayedEquipmentDescription' + index] = '-';
                 $scope['displayedEquipmentCashPrice' + index] = '-';
@@ -624,32 +628,31 @@
                     deferralType: $scope.activeDeferralType
                 };
                 calculateAndAssign(state);
-                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice ? state.equipmentCashPrice.toFixed(2) : '-';
-                $scope.displayedHst0 = state.hst ? state.hst.toFixed(2) : '-';
-                $scope.displayedTotalCashPrice0 = state.totalCashPrice ? state.totalCashPrice.toFixed(2) : '-';
-                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced ? state.totalAmountFinanced.toFixed(2) : '-';
-                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment ? state.totalMonthlyPayment.toFixed(2) : '-';
-                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments ? state.totalAllMonthlyPayments.toFixed(2) : '-';
-                $scope.displayedResidualBalance0 = state.residualBalance ? state.residualBalance.toFixed(2) : '-';
-                $scope.displayedTotalObligation0 = state.totalObligation ? state.totalObligation.toFixed(2) : '-';
-                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost ? state.totalBorrowingCost.toFixed(2) : '-';
+                $scope.updateDisplayedCalculations(state);
+            };
+            $scope.updateDisplayedCalculations = function(state) {
+                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice ? typeof state.equipmentCashPrice === 'number' ? state.equipmentCashPrice.toFixed(2) : state.equipmentCashPrice : '-';
+                $scope.displayedHst0 = state.hst ? typeof state.hst === 'number' ? state.hst.toFixed(2) : state.hst : '-';
+                $scope.displayedTotalCashPrice0 = state.totalCashPrice ? typeof state.totalCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice : '-';
+                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced ? typeof state.totalAmountFinanced === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced : '-';
+                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment ? typeof state.totalMonthlyPayment === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment : '-';
+                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments ? typeof state.totalAllMonthlyPayments === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments : '-';
+                $scope.displayedResidualBalance0 = state.residualBalance ? typeof state.residualBalance === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance : '-';
+                $scope.displayedTotalObligation0 = state.totalObligation ? typeof state.totalObligation === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation : '-';
+                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost ? typeof state.totalBorrowingCost === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost : '-';
             };
             $scope.assignTaxRate = function() {
                 taxRate = $('#province-tax-rate').val();
                 $scope.calculateLoanValues();
             };
-            $('.add-calculator-btn').on('click', function() {
-                var calcNumber = $(this).parents('.calc-title').attr('data-calc');
+            $scope.addCalculator = function (calcNumber) {
                 $scope.copyStateToCompare(findLastNotNullIndex($scope.compareStates));
-                $scope.editIndex = parseInt(calcNumber);
-                $scope.$apply();
-            });
-            $('.calculator-remove').on('click', function() {
-                var calcNumber = $(this).parents('.calc-title').attr('data-calc');
+                $scope.editIndex = calcNumber;
+            };
+            $scope.removeCalculator = function(calcNumber) {
                 clearCalculator(calcNumber);
-                var index = parseInt(calcNumber);
-                $scope.resetDisplayedValues(index);
-                $scope.compareStates[index] = null;
+                $scope.resetDisplayedValues(calcNumber);
+                $scope.compareStates[calcNumber] = null;
                 if (countNotNullElements($scope.compareStates) === 1) {
                     var indexOfLastLeft = findLastNotNullIndex($scope.compareStates);
                     clearCalculator(indexOfLastLeft);
@@ -660,8 +663,7 @@
                     $scope.compareStates = [];
                     $('.initial-standalone-calculator').removeClass('compare-mode');
                 }
-                $scope.$apply();
-            });
+            };
             for (var i = 0; i <= 3; i++) {
                 $scope.resetDisplayedValues(i);
             }
@@ -679,12 +681,12 @@
                     makeStickCalendar();
                 });
 
-                $('.switch-calculators li a').on('click', function() {
+                $('.switch-calculators li a.nav-tab-link').on('click', function () {
                     var currLi = $(this).parent('li');
-                    var currCalcNumber = $(this).attr('data-calc');
+                    //var currCalcNumber = $(this).attr('data-calc');
                     currLi.addClass('active').siblings().removeClass('active');
-                    switchCalcs(currCalcNumber);
-                    checkEmptyCalc();
+                    //switchCalcs(currCalcNumber);
+                    //checkEmptyCalc();
                 });
 
                 $('#clearCalcBtn').on('click', function() {
@@ -692,6 +694,7 @@
                     clearCalculator(activeCalcNumber)
                 });
                 $('.calc-field-edit a').hide();
+                $('.switch-calculators li .nav-tab-link').hide();
             });
 
         function resetFormValidator(formId) {
@@ -784,9 +787,9 @@
 
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').show();
 
-            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().parents('li').find('.empty-calc-link').addClass('visible-btn').show();
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().parents('li').find('.empty-calc-link') /*.addClass('visible-btn')*/.show();
 
-            checkEmptyCalc();
+            //checkEmptyCalc();
         }
 
         function addCalculator(calculatorNumber) {
@@ -800,7 +803,7 @@
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').show();
             $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').hide();
 
-            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').hide().parents('li').find('.empty-calc-link').removeClass('visible-btn').show();
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]').show().parents('li').find('.empty-calc-link') /*.removeClass('visible-btn')*/.hide();
         }
     </script>
 }
