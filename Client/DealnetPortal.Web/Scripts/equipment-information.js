@@ -54,6 +54,8 @@ $(document)
                 });
                 if (initAgreementType === '0') {
                     recalculateTotalCashPrice();
+                } else {
+                    recalculateTotalMonthlyPayment();
                 }
             });
 
@@ -213,6 +215,15 @@ function recalculateTotalMonthlyPayment() {
     });
     
     $("#total-monthly-payment").val(sum.toFixed(2));
+    recalculateTotalMonthlyPaymentHst();
+}
+
+function recalculateTotalMonthlyPaymentHst() {
+    var sum = $("#total-monthly-payment").val();
+    var totalHst = sum * taxRate / 100;
+    var totalMp = sum * 1 + totalHst;
+    $("#total-hst").text(totalHst.toFixed(2));
+    $("#total-monthly-payment-hst").text(totalMp.toFixed(2));
 }
 
 function recalculateTotalCashPrice() {

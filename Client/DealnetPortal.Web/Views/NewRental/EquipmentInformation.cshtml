@@ -187,7 +187,7 @@
                             @Html.LabelFor(m => m.TotalMonthlyPayment)
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
-                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", placeholder = "Total Monthly Payment" })
+                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", placeholder = "Total Monthly Payment", onchange = "recalculateTotalMonthlyPaymentHst();" })
                                 @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -230,12 +230,12 @@
 
                 <div class="rental-element">
                     <div class="row form-group">
-                        <div class="col-md-5 col-xs-8">HST</div>
-                        <div class="col-md-3 col-xs-4 text-right text-semibold">$ 2,400.00</div>
+                        <div class="col-md-5 col-xs-8">@(Model.ProvinceTaxRate.Description ?? "Tax")</div>
+                        <div class="col-md-3 col-xs-4 text-right text-semibold">$ <span id="total-hst">-</span></div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-5 col-xs-8">Total Monthly Payment (tax incl.)</div>
-                        <div class="col-md-3 col-xs-4 text-right text-semibold">$ 22,459.95</div>
+                        <div class="col-md-3 col-xs-4 text-right text-semibold">$ <span id="total-monthly-payment-hst">-</span></div>
                     </div>
                 </div>
 
