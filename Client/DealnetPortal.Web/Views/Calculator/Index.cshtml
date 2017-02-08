@@ -499,7 +499,7 @@
                 $scope.compareStates.push(state);
                 $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
             };
-            $scope.addCompareState = function () {
+            $scope.addCompareState = function() {
                 var form = $('#formToCompare');
                 form.validate();
                 if (!form.valid()) {
@@ -532,14 +532,34 @@
                 }
                 $('#calculator-modal').modal('hide');
             };
+            $scope.retrieveCompareState = function (index) {
+                var state = $scope.compareStates[index];
+                $scope.activeEquipment = JSON.parse(JSON.stringify(state.equipment));
+                $scope.activeAdminFee = state.adminFee;
+                $scope.activeDownPayment = state.downPayment;
+                $scope.activeCustomerRate = state.customerRate;
+                $scope.activeLoanTerm = state.loanTerm;
+                $scope.activeAmortizationTerm = state.amortizationTerm;
+                $scope.activeDeferralType = state.deferralType;
+                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice;
+                $scope.displayedHst0 = state.hst;
+                $scope.displayedTotalCashPrice0 = state.totalCashPrice;
+                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced;
+                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment;
+                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments;
+                $scope.displayedResidualBalance0 = state.residualBalance;
+                $scope.displayedTotalObligation0 = state.totalObligation;
+                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost;
+                $scope.updateDisplayedValues(state, index);
+            };
             $scope.updateDisplayedValues = function(state, index) {
                 var allEquipmentTypes = '';
-                $.each(state.equipment, function(index, value) {
-                    allEquipmentTypes += index !== 0 ? ',' + value.type : value.type;
+                $.each(state.equipment, function(ind, value) {
+                    allEquipmentTypes += ind !== 0 ? ',' + value.type : value.type;
                 });
                 var allDescriptions = '';
-                $.each(state.equipment, function(index, value) {
-                    allDescriptions += index !== 0 ? ',' + value.description : value.description;
+                $.each(state.equipment, function(ind, value) {
+                    allDescriptions += ind !== 0 ? ',' + value.description : value.description;
                 });
                 $scope['displayedEquipmentType' + index] = allEquipmentTypes;
                 $scope['displayedEquipmentDescription' + index] = allDescriptions;
@@ -552,6 +572,19 @@
                 $scope['displayedResidualBalance' + index] = typeof state.equipmentCashPrice === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance;
                 $scope['displayedTotalObligation' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation;
                 $scope['displayedTotalBorrowingCost' + index] = typeof state.equipmentCashPrice === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost;
+            };
+            $scope.resetDisplayedValues = function (index) {
+                $scope['displayedEquipmentType' + index] = '-';
+                $scope['displayedEquipmentDescription' + index] = '-';
+                $scope['displayedEquipmentCashPrice' + index] = '-';
+                $scope['displayedHst' + index] = '-';
+                $scope['displayedTotalCashPrice' + index] = '-';
+                $scope['displayedTotalAmountFinanced' + index] = '-';
+                $scope['displayedTotalMonthlyPayment' + index] = '-';
+                $scope['displayedTotalAllMonthlyPayments' + index] = '-';
+                $scope['displayedResidualBalance' + index] = '-';
+                $scope['displayedTotalObligation' + index] = '-';
+                $scope['displayedTotalBorrowingCost' + index] = '-';
             };
             $scope.tryCopyActiveToCompare = function() {
                 var form = $('#activeForm');
@@ -568,7 +601,7 @@
                 $scope.deferralTypeToCompare = $scope.activeDeferralType;
                 $('#calculator-modal').modal();
             };
-            $scope.copyStateToCompare = function (index) {
+            $scope.copyStateToCompare = function(index) {
                 var state = $scope.compareStates[index];
                 $scope.equipmentToCompare = JSON.parse(JSON.stringify(state.equipment));
                 $scope.adminFeeToCompare = state.adminFee;
@@ -600,23 +633,38 @@
                 $scope.displayedResidualBalance0 = state.residualBalance ? state.residualBalance.toFixed(2) : '-';
                 $scope.displayedTotalObligation0 = state.totalObligation ? state.totalObligation.toFixed(2) : '-';
                 $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost ? state.totalBorrowingCost.toFixed(2) : '-';
-            }
+            };
             $scope.assignTaxRate = function() {
                 taxRate = $('#province-tax-rate').val();
                 $scope.calculateLoanValues();
-            }
-            $('.add-calculator-btn').on('click', function () {
+            };
+            $('.add-calculator-btn').on('click', function() {
                 var calcNumber = $(this).parents('.calc-title').attr('data-calc');
                 $scope.copyStateToCompare(findLastNotNullIndex($scope.compareStates));
                 $scope.editIndex = parseInt(calcNumber);
                 $scope.$apply();
             });
-            $('.calculator-remove').on('click', function () {
+            $('.calculator-remove').on('click', function() {
                 var calcNumber = $(this).parents('.calc-title').attr('data-calc');
                 clearCalculator(calcNumber);
-                $scope.compareStates[parseInt(calcNumber)] = null;
+                var index = parseInt(calcNumber);
+                $scope.resetDisplayedValues(index);
+                $scope.compareStates[index] = null;
+                if (countNotNullElements($scope.compareStates) === 1) {
+                    var indexOfLastLeft = findLastNotNullIndex($scope.compareStates);
+                    clearCalculator(indexOfLastLeft);
+                    $scope.resetDisplayedValues(indexOfLastLeft);
+                    var state = $scope.compareStates[indexOfLastLeft];
+                    $scope.compareStates[0] = state;
+                    $scope.retrieveCompareState(0);
+                    $scope.compareStates = [];
+                    $('.initial-standalone-calculator').removeClass('compare-mode');
+                }
                 $scope.$apply();
             });
+            for (var i = 0; i <= 3; i++) {
+                $scope.resetDisplayedValues(i);
+            }
         });
         $(document)
             .ready(function() {
@@ -649,7 +697,6 @@
                     clearCalculator(activeCalcNumber);
                 });
                 $('.calc-field-edit a').hide();
-                //clearCalculator(3);
             });
 
         function resetFormValidator(formId) {
@@ -671,6 +718,16 @@
                     return i;
                 }
             }
+        }
+
+        function countNotNullElements(array) {
+            var count = 0;
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] != null) {
+                    count++;
+                }
+            }
+            return count;
         }
 
         function displayCompareCalcs() {
@@ -724,8 +781,7 @@
 
             $('.calc-field-type' + calculatorNumber)
                 .not('.calc-title')
-                .not('.calc-field-edit')
-                .html('$ <span>-</span>');
+                .not('.calc-field-edit');
 
             $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').hide();
 
@@ -742,9 +798,7 @@
             //});
 
 
-            if ($('.empty-calc-link').length === 2) {
-                $('.initial-standalone-calculator').removeClass('compare-mode');
-            }
+            
 
             checkEmptyCalc();
         }
@@ -753,8 +807,6 @@
             $('.calc-field-type' + calculatorNumber)
                 .addClass('.calc-title')
                 .addClass('.calc-field-edit');
-
-
 
 
             $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').show();
