@@ -362,7 +362,7 @@ function assignDatepicker() {
         changeYear: true,
         changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
-        minDate: new Date(),
+        minDate: (input.hasClass('exlude-min-date')) ? Date.parse("1900-01-01") : new Date(),
         onClose: function(){
             onDateSelect($(this));
         }
