@@ -513,6 +513,9 @@
                 $scope.compareStates[activeCalcNumber] = state;
             };
             $scope.addCompareState = function() {
+                if($(this).parents('.modal')){
+                    $('.calculators-hold').removeClass('stick');
+                }
                 var form = $('#formToCompare');
                 form.validate();
                 if (!form.valid()) {
@@ -769,8 +772,8 @@
                     }
                 }
             } else {
-                $('.calculators-hold').removeClass('sticker').removeClass('stick');
-                $('.equipment-calculator').removeClass('sticker').removeClass('stick');
+                /*$('.calculators-hold').removeClass('sticker').removeClass('stick');
+                $('.equipment-calculator').removeClass('sticker').removeClass('stick');*/
             }
         }
 

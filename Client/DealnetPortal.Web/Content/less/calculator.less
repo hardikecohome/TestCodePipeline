@@ -67,7 +67,16 @@
       display: none;
     }
   }
+  .switch-calculators li{
+    @media @mobile {
+      width: auto;
+    }
+  }
   .switch-calculators li a{
+    @media @mobile {
+      padding: 10px;
+      font-size: 16px;
+    }
     &.nav-tab-link{
       display: none;
     }
