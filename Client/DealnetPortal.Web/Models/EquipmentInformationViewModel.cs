@@ -17,7 +17,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
         [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessage = "Total Monthly Payment is in incorrect format")]
-        [Display(Name = "Total Monthly Payment")]
+        [Display(Name = "Total Monthly Payment")]        
         public double? TotalMonthlyPayment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
@@ -118,8 +118,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         protected string GetErrorMessage(Type containerType, string displayName)
         {
-            const string DefaultErrorMessage =
-            "Total equipments cost cannot be greater than Credit Amount";
+            const string DefaultErrorMessage = "Total equipments cost cannot be greater than Credit Amount";
             ModelMetadata metadata = ModelMetadataProviders.Current.GetMetadataForProperty(null, containerType,
                                                                                            _costProperty);
             var otherDisplayName = metadata.GetDisplayName();
