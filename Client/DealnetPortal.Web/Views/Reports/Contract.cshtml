@@ -621,7 +621,7 @@
 	@if (Model.EquipmentInfo?.NewEquipment != null)
 	{
 	    var i = 0;
-	    <div class="row credit-check-info-hold equipment-info">
+	    <div class="row credit-check-info-hold equipment-info no-top-margin">
 	        @foreach (var equipment in Model.EquipmentInfo.NewEquipment)
 	        {
 	            <div class="col-md-6 grid-column">
@@ -685,19 +685,25 @@
                                 </div>
                             </div>
                         }
-                        <div class="form-group">
-	                        <div class="row">
-	                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
-	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                <div class="control-group">
-	                                    @equipment.EstimatedInstallationDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
 	                </div>
 	            </div>
 	        }
+		    <div class="clearfix">
+			    <div class="col-md-6 grid-column">
+				    <div class="dealnet-credit-check-section">
+					    <div class="form-group">
+						    <div class="row">
+							    <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
+							    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+								    <div class="control-group">
+									    02/15/2017
+								    </div>
+							    </div>
+						    </div>
+				        </div>
+					</div>
+			    </div>
+		    </div>
 	    </div>
 	}
         <div class="row">
