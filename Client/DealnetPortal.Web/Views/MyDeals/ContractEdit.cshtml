@@ -560,7 +560,7 @@
 			        </div>
 		        </div>
 		    </div>
-			<div class="col-md-6 grid-column">
+<!--			<div class="col-md-6 grid-column">
 				<div class="dealnet-credit-check-section" id="prev-address-section">
 					<h3 class="dealnet-section-title">Previous Address Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
 					<div class="form-group">
@@ -616,7 +616,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 		    @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
 		    {
                 <div class="col-md-6 grid-column">
@@ -823,7 +823,7 @@
 	                                </div>
                                 </div>
                             </div>
-			                <div class="col-md-6 grid-column">
+			                <!--<div class="col-md-6 grid-column">
 				                <div class="dealnet-credit-check-section" id="additional-prev-address-section-@(i+1)">
 					                <h3 class="dealnet-section-title">Previous Address Information <a href="#" class="dealnet-section-edit-link pull-right">Edit</a></h3>
 					                <div class="form-group">
@@ -879,7 +879,7 @@
 						                </div>
 					                </div>
 				                </div>
-			                </div>
+			                </div>-->
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                     <h3 class="dealnet-section-title">
@@ -942,7 +942,7 @@
                             </div>
 	                    </div>
                     }
-	                <div class="credit-check-info-hold shift-to-basic-info">
+	                <div class="credit-check-info-hold">
 		                <div class="col-md-6 grid-column">
 			                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-coborrowers-form-" + (i + 1), @class = "credit-check-info-hold" }))
 			                {
