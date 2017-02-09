@@ -49,15 +49,15 @@ function showTable() {
                         }
                     },
                     columns: [
-                        { "data": "TransactionId" },
-                        { "data": "CustomerName" },
-                        { "data": "Status" },
-                        { "data": "Type" },
-                        { "data": "Email" },
-                        { "data": "Phone" },
-                        { "data": "Date" },
+                        { "data": "TransactionId", className: 'contract-cell' },
+                        { "data": "CustomerName", className: 'customer-cell' },
+                        { "data": "Status", className: 'status-cell' },
+                        { "data": "Type", className: 'type-cell' },
+                        { "data": "Email", className: 'email-cell' },
+                        { "data": "Phone", className: 'phone-cell' },
+                        { "data": "Date", className: 'date-cell' },
                         { "data": "Equipment" },
-                        { "data": "SalesRep" },
+                        { "data": "SalesRep", className:"sales-rep-cell" },
                         { "data": "Value" },
                         {
                             "data": "RemainingDescription",
@@ -71,18 +71,16 @@ function showTable() {
                                 } else {
                                     return '';
                                 }
-                            }
+                            },
+                            className: 'edit-cell',
+                            orderable: false
                         },
                         {
                             "data": "Id",
                             "visible": false
                         }
                     ],
-                    columnDefs: [
-                      { targets  : [-1], orderable: false},
-                      { className: 'customer-cell', targets: 1},
-                      { className: 'edit-cell', targets: -1}
-                    ],
+
                     dom:
                         "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                             "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +

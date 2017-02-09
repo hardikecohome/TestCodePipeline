@@ -144,6 +144,7 @@ table.dataTable thead .sorting_desc {
   }
   th, td{
     &:not(.checkbox-cell),
+    &:not(.contract-cell),
     &:not(.id-cell),
     &:not(.edit-cell),
     &:not(.controls-cell){
@@ -155,9 +156,6 @@ table.dataTable thead .sorting_desc {
       padding: 0 !important;
       text-align: center;
       white-space: nowrap;
-      @media @tablet-up {
-
-      }
 
       .contract-controls{
         .icon-link{
@@ -173,6 +171,22 @@ table.dataTable thead .sorting_desc {
       }
     }
 
+    &.contract-cell{
+      min-width: 50px;
+      width: 50px;
+      @media @desktop-down {
+        min-width: 100px;
+        width: 100px;
+      }
+      @media @mobile {
+        min-width: 90px !important;
+        width: 90px !important;
+      }
+      @media (max-width: 374px) {
+        min-width: 60px !important;
+        width: 90px !important;
+      }
+    }
     &.edit-cell{
       text-align: center;
       width: 40px !important;
@@ -183,10 +197,44 @@ table.dataTable thead .sorting_desc {
         margin: 0 auto;
       }
     }
+    &.type-cell{
+      min-width: 60px;
+      width: 60px;
+    }
+    &.phone-cell{
+      min-width: 80px;
+      width: 80px;
+    }
+
+    &.date-cell{
+      min-width: 80px;
+      width: 80px;
+    }
 
     &.customer-cell{
       @media @mobile {
         width: 60% !important;
+      }
+    }
+
+    &.email-cell{
+      @media @desktop-up {
+        min-width: 100px;
+        width: 100px;
+
+      }
+    }
+    &.status-cell{
+      @media @desktop-lg-up {
+        min-width: 120px;
+        width: 120px;
+
+      }
+    }
+    &.sales-rep-cell{
+      @media @desktop-up {
+        min-width: 70px;
+        width: 70px;
       }
     }
 
@@ -221,6 +269,9 @@ table.dataTable thead .sorting_desc {
     }
   }
 }
+table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > td.sorting{
+  padding-right: 20px !important;
+}
 
 #work-items-table_wrapper.home-page-table th {
 
@@ -236,7 +287,12 @@ table.dataTable thead .sorting_desc {
 .dataTables_info {
   display: none;
 }
-
+table.dataTable thead th, table.dataTable thead td{
+  padding: 10px 8px;
+}
+table.dataTable tbody th, table.dataTable tbody td{
+  padding: 8px 8px;
+}
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
 table.dataTable thead .sorting{
