@@ -583,6 +583,10 @@
     <Content Include="Content\less\main-dealer.less" />
     <Content Include="Content\less\settings\variables-dealer.less" />
     <Content Include="Content\less\components\tabs.less" />
+    <Content Include="Content\less\components\table-common.less" />
+    <Content Include="Content\less\components\table-home.less" />
+    <Content Include="Content\less\components\table-my-deals.less" />
+    <Content Include="Content\less\components\table-reports.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

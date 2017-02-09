@@ -1,3 +1,12 @@
+/*
+@import "table-common";
+@import "table-home";
+@import "table-my-deals";
+@import "table-reports";*/
+
+/*Need divided styles for separates pages with table*/
+
+
 table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child,
 table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child{
   padding-left: 10px !important;
@@ -211,9 +220,16 @@ table.dataTable thead .sorting_desc {
       width: 80px;
     }
 
+    &.action-cell{
+      @media @desktop-up {
+        min-width: 120px;
+        width: 120px;
+      }
+    }
+
     &.customer-cell{
       @media @mobile {
-        width: 60% !important;
+        //width: 60% !important;
       }
     }
 
@@ -269,6 +285,28 @@ table.dataTable thead .sorting_desc {
     }
   }
 }
+/*.dataTable.home-page-table {
+  th,
+  td{
+    @media @desktop-down {
+      width: 30%;
+    }
+    @media @mobile {
+      .customer-cell{
+        width: auto !important;
+      }
+      //width: 30% !important;
+    }
+    &.edit-cell{
+      width: 30px !important;
+      min-width: 30px !important;
+    }
+    &.contract-cell{
+      width: 60px !important;
+      min-width: 60px !important;
+    }
+  }
+}*/
 table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > td.sorting{
   padding-right: 20px !important;
 }
