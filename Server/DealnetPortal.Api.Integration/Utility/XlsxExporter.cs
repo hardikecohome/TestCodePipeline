@@ -24,11 +24,13 @@ namespace DealnetPortal.Api.Integration.Utility
                 worksheet.Cells[1, 1].Value = "Contract #";
                 worksheet.Cells[1, 2].Value = "Customer";
                 worksheet.Cells[1, 3].Value = "Status";
-                worksheet.Cells[1, 4].Value = "Email";
-                worksheet.Cells[1, 5].Value = "Phone";
-                worksheet.Cells[1, 6].Value = "Date";
-                worksheet.Cells[1, 7].Value = "Equipment";
-                worksheet.Cells[1, 8].Value = "Value";
+                worksheet.Cells[1, 4].Value = "Type";
+                worksheet.Cells[1, 5].Value = "Email";
+                worksheet.Cells[1, 6].Value = "Phone";
+                worksheet.Cells[1, 7].Value = "Date";
+                worksheet.Cells[1, 8].Value = "Equipment";
+                worksheet.Cells[1, 9].Value = "Sales Rep";
+                worksheet.Cells[1, 10].Value = "Value";
                 var counter = 1;
                 foreach (var contract in contracts)
                 {
@@ -36,20 +38,22 @@ namespace DealnetPortal.Api.Integration.Utility
                     worksheet.Cells[counter, 1].Value = contract.Details?.TransactionId ?? contract.Id.ToString();
                     worksheet.Cells[counter, 2].Value = contract.PrimaryCustomer?.FirstName + " " + contract.PrimaryCustomer?.LastName;
                     worksheet.Cells[counter, 3].Value = contract.ContractState.GetEnumDescription();
-                    worksheet.Cells[counter, 4].Value =
+                    worksheet.Cells[counter, 4].Value = contract.Equipment?.AgreementType.GetEnumDescription();
+                    worksheet.Cells[counter, 5].Value =
                         contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
-                    worksheet.Cells[counter, 5].Value = contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum ?? contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
-                    worksheet.Cells[counter, 6].Value = contract.LastUpdateTime?.ToString(CultureInfo.CurrentCulture);
-                    worksheet.Cells[counter, 7].Value = contract.Equipment?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma();
+                    worksheet.Cells[counter, 6].Value = contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum ?? contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
+                    worksheet.Cells[counter, 7].Value = contract.LastUpdateTime?.ToString(CultureInfo.CurrentCulture);
+                    worksheet.Cells[counter, 8].Value = contract.Equipment?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma();
+                    worksheet.Cells[counter, 9].Value = contract.Equipment?.SalesRep;
                     if (contract.Equipment?.ValueOfDeal != null)
                     {
-                        worksheet.Cells[counter, 8].Value = Math.Round(contract.Equipment.ValueOfDeal.Value, 2);
+                        worksheet.Cells[counter, 10].Value = Math.Round(contract.Equipment.ValueOfDeal.Value, 2);
                     }
                 }
-                worksheet.Cells[1, 1, 1, 8].Style.Font.Bold = true;
-                worksheet.Cells[1, 1, 1, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[1, 1, 1, 10].Style.Font.Bold = true;
+                worksheet.Cells[1, 1, 1, 10].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
-                for (var i = 1; i <= 8; i++)
+                for (var i = 1; i <= 10; i++)
                 {
                     worksheet.Column(i).Width = worksheet.Column(i).Width + 1;
                 }
