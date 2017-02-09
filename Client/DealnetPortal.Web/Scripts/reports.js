@@ -33,6 +33,7 @@ function showTable() {
         var statusOptions = [];
         var paymentOptions = [];
         var agrTypeOptions = [];
+        var salesRepOptions = [];
         $.each(data, function (i, e) {
             if ($.inArray(e["Status"], statusOptions) == -1)
                 if (e["Status"]) {
@@ -46,6 +47,10 @@ function showTable() {
                 if (e["AgreementType"]) {
                     agrTypeOptions.push(e["AgreementType"]);
                 }
+            if ($.inArray(e["SalesRep"], salesRepOptions) == -1)
+                if (e["SalesRep"]) {
+                    salesRepOptions.push(e["SalesRep"]);
+                }
         });
         $.each(statusOptions, function (i, e) {
             $("#deal-status").append($("<option />").val(e).text(e));
@@ -55,6 +60,9 @@ function showTable() {
         });
         $.each(paymentOptions, function (i, e) {
             $("#payment-type").append($("<option />").val(e).text(e));
+        });
+        $.each(salesRepOptions, function (i, e) {
+            $("#sales-rep").append($("<option />").val(e).text(e));
         });
 
             table = $('#work-items-table')
@@ -201,6 +209,7 @@ function (settings, data, dataIndex) {
     var status = $("#deal-status").val();
     var agreementType = $("#agreement-type").val();
     var paymentType = $("#payment-type").val();
+    var salesRep = $("#sales-rep").val();
     var equipment = $("#equipment-input").val();
     var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
     var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
@@ -211,6 +220,7 @@ function (settings, data, dataIndex) {
         (!dateTo || date <= dateTo) &&
         (!dateFrom || date >= dateFrom) &&
         (!agreementType || agreementType === data[4]) &&
+        (!salesRep || salesRep === data[9]) &&
         (!paymentType || paymentType === data[12]) &&
         (!equipment || data[7].match(new RegExp(equipment, "i"))) &&
         (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {

@@ -2,11 +2,11 @@
             .ready(function () {
                 showTable();
                 assignDatepicker($(".date-control"));
-                $('#deal-status option').each(function () {
+                $('.select-filter option').each(function () {
                     $(this).val($(this).text());
                 });
-                $('<option selected value="">- not selected -</option>').prependTo($('#deal-status'));
-                $('#deal-status').val($('#deal-status > option:first').val());
+                $('<option selected value="">- not selected -</option>').prependTo($('.select-filter'));
+                $('.select-filter').val($('.select-filter > option:first').val());
             });
 
 function assignDatepicker(input) {
@@ -28,14 +28,32 @@ function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
+            var agrTypeOptions = [];
+            var salesRepOptions = [];
             $.each(data, function (i, e) {
                 if ($.inArray(e["Status"], statusOptions) == -1)
                     if (e["Status"]) {
                         statusOptions.push(e["Status"]);
                     }
+
+                if ($.inArray(e["AgreementType"], agrTypeOptions) == -1)
+                    if (e["AgreementType"]) {
+                        agrTypeOptions.push(e["AgreementType"]);
+                    }
+
+                if ($.inArray(e["SalesRep"], salesRepOptions) == -1)
+                    if (e["SalesRep"]) {
+                        salesRepOptions.push(e["SalesRep"]);
+                    }
             });
             $.each(statusOptions, function (i, e) {
                 $("#deal-status").append($("<option />").val(e).text(e));
+            });
+            $.each(agrTypeOptions, function (i, e) {
+                $("#agreement-type").append($("<option />").val(e).text(e));
+            });
+            $.each(salesRepOptions, function (i, e) {
+                $("#sales-rep").append($("<option />").val(e).text(e));
             });
 
             var table = $('#work-items-table')
@@ -52,7 +70,7 @@ function showTable() {
                         { "data": "TransactionId", className: 'contract-cell' },
                         { "data": "CustomerName", className: 'customer-cell' },
                         { "data": "Status", className: 'status-cell' },
-                        { "data": "Type", className: 'type-cell' },
+                        { "data": "AgreementType", className: 'type-cell' },
                         { "data": "Email", className: 'email-cell' },
                         { "data": "Phone", className: 'phone-cell' },
                         { "data": "Date", className: 'date-cell' },
@@ -104,7 +122,7 @@ function showTable() {
                 $('#expand-table-filter').slideToggle();
             });
             $('#expand-table-filter').html($('.expand-filter-template').detach());
-            $("#filter-button").click(function () {
+            $('.filter-button').click(function () {
                 table.draw();
             });
 
@@ -118,10 +136,16 @@ function showTable() {
 $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var status = $("#deal-status").val();
+        var agreementType = $("#agreement-type").val();
+        var salesRep = $("#sales-rep").val();
         var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
         var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
-        if ((!status || status === data[2]) && (!dateTo || valueEntered <= dateTo) && (!dateFrom || valueEntered >= dateFrom)) {
+        if ((!status || status === data[2]) &&
+            (!agreementType || agreementType === data[3]) &&
+            (!salesRep || salesRep === data[8]) &&
+            (!dateTo || valueEntered <= dateTo) &&
+            (!dateFrom || valueEntered >= dateFrom)) {
             return true;
         }
         return false;

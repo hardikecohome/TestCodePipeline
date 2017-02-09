@@ -29,9 +29,7 @@
 						<div class="form-group">
 							<label for="deal-type">Deal Type</label>
 							<div class="control-group">
-								<select id="deal-type" class = "form-control">
-									<option value="">- not selected -</option>
-								</select>
+								<select id="agreement-type" class="form-control select-filter"></select>
 							</div>
 						</div>
 					</div>
@@ -56,13 +54,13 @@
 							<label for="">Deal Status</label>
 							<div class="control-group">
 								@*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
-								<select id="deal-status" class = "form-control"></select>
+								<select id="deal-status" class = "form-control select-filter"></select>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-6">
 						<div class="form-group">
-							<button class="btn dealnet-button dealnet-success-button block-button" id="filter-button">Filter</button>
+							<button class="btn dealnet-button dealnet-success-button block-button filter-button">Filter</button>
 						</div>
 					</div>
 				</div>
@@ -75,9 +73,7 @@
 						<div class="form-group">
 							<label for="">Sales Rep</label>
 							<div class="control-group">
-								<select class="form-control filter-input select-filter" id="">
-									<option value="">- not selected -</option>
-								</select>
+								<select class="form-control filter-input select-filter" id="sales-rep"></select>
 							</div>
 						</div>
 					</div>
