@@ -63,13 +63,13 @@ namespace DealnetPortal.Api.Tests.Repositories
         {
             var documentTypes = new[]
             {
-                new DocumentType()  {Description = "Signed contract", Prefix = "SC_"},
-                new DocumentType()  {Description = "Signed Installation certificate", Prefix = "SIC_"},
-                new DocumentType()  {Description = "Invoice", Prefix = "INV_"},
-                new DocumentType()  {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
-                new DocumentType()  {Description = "Extended Warranty Form", Prefix = "EWF_"},
-                new DocumentType()  {Description = "Third party verification call", Prefix = "TPV_"},
-                new DocumentType()  {Description = "Other", Prefix = ""},
+                new DocumentType() {Description = "Signed contract", Prefix = "SC_"},
+                new DocumentType() {Description = "Signed Installation certificate", Prefix = "SIC_"},
+                new DocumentType() {Description = "Invoice", Prefix = "INV_"},
+                new DocumentType() {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
+                new DocumentType() {Description = "Extended Warranty Form", Prefix = "EWF_"},
+                new DocumentType() {Description = "Third party verification call", Prefix = "TPV_"},
+                new DocumentType() {Description = "Other", Prefix = ""},
             };
             _databaseFactory.Get().DocumentTypes.AddRange(documentTypes);
             _unitOfWork.Save();
@@ -98,9 +98,9 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.IsNotNull(contract);
             Assert.AreEqual(contract.ContractState, ContractState.Started);
             var contractId = contract.Id;
-            //repository should to return the same contract for the same user, if started contract didn't changed
+            //repository should not return the same contract for the same user, if started contract didn't changed
             contract = _contractRepository.CreateContract(_user.Id);
-            Assert.AreEqual(contract.Id, contractId);
+            Assert.AreNotEqual(contract.Id, contractId);
             var isDeleted = _contractRepository.DeleteContract(_user.Id, contractId);
             _unitOfWork.Save();
             Assert.IsTrue(isDeleted);
@@ -333,7 +333,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             };
 
             var dbCustomer = _contractRepository.UpdateCustomer(customer);
-            _unitOfWork.Save();            
+            _unitOfWork.Save();
             dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
 
             customer = new Customer()
@@ -350,7 +350,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                         PhoneNum = "456"
                     }
                 }
-            };         
+            };
 
             _contractRepository.UpdateCustomer(customer);
             try
@@ -362,7 +362,7 @@ namespace DealnetPortal.Api.Tests.Repositories
 
             }
             dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
- 
+
         }
 
         [TestMethod]
@@ -376,7 +376,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 ContractId = contract.Id,
                 DocumentName = "doc1",
-                DocumentTypeId = 1                
+                DocumentTypeId = 1
             };
 
             _contractRepository.AddDocumentToContract(contract.Id, doc, _user.Id);
@@ -410,6 +410,70 @@ namespace DealnetPortal.Api.Tests.Repositories
 
             docs = _contractRepository.GetContractDocumentsList(contract.Id, _user.Id);
             Assert.AreEqual(docs.Count, 2);
+        }
+
+        [TestMethod]
+        public void TestAddAndUpdateHomeOwners()
+        {
+            var contract = _contractRepository.CreateContract(_user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(contract);
+
+            var contractData = new ContractData()
+            {
+                Id = contract.Id
+            };
+            contractData.PrimaryCustomer = new Customer()
+            {
+                FirstName = "First name",
+                LastName = "Last name",
+                DateOfBirth = DateTime.Today
+            };
+            contractData.SecondaryCustomers = new List<Customer>()
+            {
+                new Customer()
+                {
+                    FirstName = "Add 1 fst name",
+                    LastName = "Add 1 lst name",
+                    DateOfBirth = DateTime.Today
+                },
+                new Customer()
+                {
+                    FirstName = "Add 2 fst name",
+                    LastName = "Add 2 lst name",
+                    DateOfBirth = DateTime.Today
+                }
+            };
+
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+
+            Assert.IsNotNull(contract);
+            Assert.IsNotNull(contract.PrimaryCustomer);
+            Assert.IsNotNull(contract.SecondaryCustomers);
+            Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
+
+            contractData.HomeOwners = new List<Customer>()
+            {
+                new Customer() {Id = contract.PrimaryCustomer.Id},
+                new Customer() {Id = contract.SecondaryCustomers.First().Id}
+            };
+
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+            Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
+            Assert.AreEqual(contract.HomeOwners.Count, 2);
+
+            //try to remove 1st
+            contractData.HomeOwners.RemoveAt(0);
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+            Assert.AreEqual(contract.HomeOwners.Count, 1);
         }
     }
 }

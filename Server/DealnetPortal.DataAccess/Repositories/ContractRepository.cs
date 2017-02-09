@@ -42,6 +42,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     .Include(c => c.PrimaryCustomer)
                     .Include(c => c.PrimaryCustomer.Locations)
                     .Include(c => c.SecondaryCustomers)
+                    .Include(c => c.HomeOwners)
                     .Include(c => c.Equipment)
                     .Include(c => c.Equipment.ExistingEquipment)
                     .Include(c => c.Equipment.NewEquipment)
@@ -53,9 +54,10 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId)
         {
             var contracts = _dbContext.Contracts
-                    .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -91,6 +93,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -104,6 +107,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -205,6 +209,13 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
+                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
+                    }
+
+                    if (contractData.HomeOwners != null)
+                    {
+                        AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
@@ -911,6 +922,27 @@ namespace DealnetPortal.DataAccess.Repositories
             });
 
             contract.LastUpdateTime = DateTime.Now;
+
+            return true;
+        }
+
+        private bool AddOrUpdateHomeOwners(Contract contract, IList<Customer> homeOwners)
+        {
+            var existingEntities =
+                contract.HomeOwners.Where(
+                    ho => homeOwners.Any(cho => cho.Id == ho.Id)).ToList();
+            var entriesForDelete = contract.HomeOwners.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => contract.HomeOwners.Remove(e));
+
+            var entriesForAdd = homeOwners.Where(ho => contract.HomeOwners.All(cho => cho.Id != ho.Id));
+            entriesForAdd.ForEach(ho =>
+            {
+                var sc = _dbContext.Customers.Find(ho.Id);
+                if (sc != null)
+                {
+                    contract.HomeOwners.Add(sc);
+                }
+            });
 
             return true;
         }

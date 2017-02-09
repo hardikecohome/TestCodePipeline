@@ -34,6 +34,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string ExternalSubDealerId { get; set; }
 
         public List<CustomerDTO> SecondaryCustomers { get; set; }
+        public IList<CustomerDTO> HomeOwners { get; set; }
 
         public ContractDetailsDTO Details { get; set; }
 
