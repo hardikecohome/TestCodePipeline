@@ -92,6 +92,13 @@ namespace DealnetPortal.Api.Integration.Services
         public static string IsPAD = "IsPAD";
         public static string IsPAD1 = "IsPAD1";
         public static string IsPAD15 = "IsPAD15";
+        public static string BankNumber = "BankNumber";
+        public static string TransitNumber = "TransitNumber";
+        public static string AccountNumber = "AccountNumber";
+        public static string Bn = "BN";
+        public static string Tn = "TN";
+        public static string An = "AN";
+
 
         //Dealer and SalesRep fields
         public static string SalesRep = "SalesRep";
