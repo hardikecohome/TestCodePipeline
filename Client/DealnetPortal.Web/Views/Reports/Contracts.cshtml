@@ -129,8 +129,9 @@
                 </div>
             </div>
         <br/>
+        <br/>
             <h3 class="dealnet-section-title">Deal Information</h3>
-			<div class="row credit-check-info-hold">
+			<div class="row credit-check-info-hold no-top-margin">
 				<div class="col-md-6 col-md-push-6 grid-column">
 					<div class="dealnet-credit-check-section">
                         <div class="form-group">
@@ -277,7 +278,65 @@
 				<div class="row credit-check-info-hold">
 					<div class="col-md-6 grid-column">
 						<div class="dealnet-credit-check-section">
-							<h3 class="dealnet-section-title">Home Owner Information</h3>
+							<h3 class="dealnet-section-title">Installation Address Information</h3>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Street</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Unit #</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">City</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.City)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Province</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Postal Code</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											<span class="postal-code">@(contract.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row credit-check-info-hold">
+					<div class="col-md-6 grid-column">
+						<div class="dealnet-credit-check-section">
+							<h3 class="dealnet-section-title">Borrower Information</h3>
 							<div class="form-group">
 								<div class="row">
 									<label class="dealnet-field-caption col-xs-6">First Name</label>
@@ -318,17 +377,28 @@
                                     </div>
                                 </div>
                             </div>
+
+							<div class="form-group">
+								<div class="row">
+									<label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											<input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Address Information</h3>
+                            <h3 class="dealnet-section-title">Previous Address Information</h3>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Installation Address</label>
+                                    <label class="dealnet-field-caption col-xs-6">Street</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+	                                        Rita Ave
                                         </div>
                                     </div>
                                 </div>
@@ -338,7 +408,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Unit #</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
+	                                        80
                                         </div>
                                     </div>
                                 </div>
@@ -348,7 +418,7 @@
                                     <label class="dealnet-field-caption col-xs-6">City</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.City)
+	                                        Ottawa
                                         </div>
                                     </div>
                                 </div>
@@ -358,7 +428,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Province</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+	                                        Nepean
                                         </div>
                                     </div>
                                 </div>
@@ -368,17 +438,7 @@
                                     <label class="dealnet-field-caption col-xs-6">Postal Code</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            <span class="postal-code">@(contract.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(contract.BasicInfo?.HomeOwner?.AddressInformation?.ResidenceType.GetEnumDescription())
+                                            <span class="postal-code">ON K2G 2H1</span>
                                         </div>
                                     </div>
                                 </div>
@@ -392,7 +452,7 @@
                                 <h3 class="dealnet-section-title">Mailing Address</h3>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
+                                        <label class="dealnet-field-caption col-xs-6">Street</label>
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
@@ -539,8 +599,74 @@
 	                                    </div>
 	                                </div>
 	                            </div>
+
+								<div class="form-group">
+									<div class="row">
+										<label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+										<div class="dealnet-field-holder col-xs-6">
+											<div class="control-group">
+												<input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
+	                    <div class="col-md-6 grid-column">
+		                    <div class="dealnet-credit-check-section">
+			                    <h3 class="dealnet-section-title">Previous Address Information</h3>
+			                    <div class="form-group">
+				                    <div class="row">
+					                    <label class="dealnet-field-caption col-xs-6">Street</label>
+					                    <div class="dealnet-field-holder col-xs-6">
+						                    <div class="control-group">
+							                    Rita Ave
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+			                    <div class="form-group">
+				                    <div class="row">
+					                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
+					                    <div class="dealnet-field-holder col-xs-6">
+						                    <div class="control-group">
+							                    80
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+			                    <div class="form-group">
+				                    <div class="row">
+					                    <label class="dealnet-field-caption col-xs-6">City</label>
+					                    <div class="dealnet-field-holder col-xs-6">
+						                    <div class="control-group">
+							                    Ottawa
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+			                    <div class="form-group">
+				                    <div class="row">
+					                    <label class="dealnet-field-caption col-xs-6">Province</label>
+					                    <div class="dealnet-field-holder col-xs-6">
+						                    <div class="control-group">
+							                    Nepean
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+			                    <div class="form-group">
+				                    <div class="row">
+					                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+					                    <div class="dealnet-field-holder col-xs-6">
+						                    <div class="control-group">
+							                    <span class="postal-code">ON K2G 2H1</span>
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+		                    </div>
+		                </div>
 	                    <div class="col-md-6 grid-column">
 	                        <div class="dealnet-credit-check-section">
 	                            <h3 class="dealnet-section-title">Mailing Address</h3>
