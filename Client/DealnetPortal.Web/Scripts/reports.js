@@ -83,18 +83,19 @@ function showTable() {
                                 return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                             }                            
                         },
-                        className: 'checkbox-cell'
+                        className: 'checkbox-cell',
+                        orderable: false
                     },                    
-                    { "data": "TransactionId" },
-                    { "data": "CustomerName" },
-                    { "data": "Status" },
-                    { "data": "AgreementType"},
-                    { "data": "Email" },
-                    { "data": "Phone" },
-                    { "data": "Date" },
-                    { "data": "Equipment" },
-                    { "data": "SalesRep" },
-                    { "data": "Value" },
+                    { "data": "TransactionId", className: 'contract-cell' },
+                    { "data": "CustomerName", className: 'customer-cell' },
+                    { "data": "Status", className: 'status-cell' },
+                    { "data": "AgreementType", className: 'type-cell'},
+                    { "data": "Email", className: 'email-cell' },
+                    { "data": "Phone", className: 'phone-cell' },
+                    { "data": "Date", className: 'date-cell' },
+                    { "data": "Equipment", className: 'equipment-cell' },
+                    { "data": "SalesRep", className: 'sales-rep-cell' },
+                    { "data": "Value", className: 'value-cell' },
                     {
                         "data": "RemainingDescription",
                         "visible": false
@@ -111,22 +112,9 @@ function showTable() {
                                 return '';
                             }
                         },
-                        className: 'controls-cell'
+                        className: 'controls-cell',
+                        orderable: false
                     }
-            ],
-            columnDefs: [
-                {
-                    className: 'control id-cell',
-                    targets: 1
-                },
-                {
-                    className: 'customer-cell',
-                    targets: 2
-                },
-                {
-                    targets: [0, -1],
-                    orderable: false
-                }
             ],
             dom:
             "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +

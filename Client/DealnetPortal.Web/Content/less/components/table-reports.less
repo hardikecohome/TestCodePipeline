@@ -1,0 +1,84 @@
+.dataTable.table-reports{
+  th, td{
+
+    &.controls-cell{
+      padding: 0 !important;
+      text-align: center;
+      white-space: nowrap;
+      width: 80px;
+
+      .contract-controls{
+        width: 80px;
+        .icon-link{
+          display: inline-block;
+          padding: 5px;
+          margin: 0 5px;
+          color: #9a9a99;
+          cursor: pointer;
+          @media @mobile {
+            padding: 2px;
+            margin: 0 2px;
+          }
+        }
+      }
+    }
+
+    &.checkbox-cell{
+      width: 22px !important;
+      padding: 0;
+      text-align: center;
+      .custom-checkbox{
+        display: block;
+        padding: 10px;
+        width: 38px !important;
+        margin: 0;
+        @media @mobile {
+          width: 28px !important;
+          padding: 5px !important;
+        }
+        &:focus{
+          outline: none;
+        }
+      }
+      .checkbox-icon{
+        margin: 0;
+      }
+    }
+
+  }
+}
+
+body.mobile-device{
+  .dataTable.table-reports{
+    th, td{
+      &.contract-cell{
+        @media @mobile and (orientation: portrait) {
+          width: 60px;
+          min-width: 60px;
+        }
+      }
+      &.controls-cell{
+        @media @mobile and (orientation: portrait) {
+          width: 60px;
+          min-width: 60px;
+          .contract-controls{
+            width: 60px;
+          }
+        }
+      }
+      &.customer-cell{
+        @media @mobile and (orientation: portrait) {
+          width: 60%;
+        }
+      }
+
+      &.customer-cell,
+      &.status-cell,
+      &.action-cell{
+        @media @mobile and (orientation: landscape) {
+          width: 40%;
+        }
+      }
+    }
+  }
+}

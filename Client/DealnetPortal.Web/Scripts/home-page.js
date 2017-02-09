@@ -122,7 +122,7 @@ function showTable() {
                       { "data": "CustomerName", className: 'customer-cell' },
                       { "data": "Status", className: 'status-cell' },
                       { "data": "Action", className: 'action-cell' },
-                      { "data": "Email" },
+                      { "data": "Email", className: 'email-cell' },
                       { "data": "Phone", className: 'phone-cell' },
                       { "data": "Date", className: 'date-cell' },
                       {// this is Actions Column

@@ -1,5 +1,7 @@
 ﻿$(document)
     .ready(function () {
+      isMobile();
+
       if(detectIE()){
         $('body').addClass('ie');
       }
@@ -90,6 +92,7 @@
       $(window).on('scroll', function(){
         detectPageHeight();
       }).on('resize', function(){
+        isMobile();
         detectPageHeight();
         documentsColHeight();
       });
@@ -499,6 +502,38 @@ function recoverPassword(){
     return false;
   }
 
+function isMobile(){
+  var isMobile = {
+    Android: function() {
+      return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+      return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+      return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+      return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+      return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+  };
+
+  if(isMobile.any()) {
+    if(viewport().width < 768){
+      $('body').addClass('mobile-device').removeClass('tablet-device')
+    }else{
+      $('body').addClass('tablet-device').removeClass('mobile-device')
+    }
+  }else{
+    $('body').removeClass('mobile-device').removeClass('tablet-device')
+  }
+}
 
 function viewport() {
   var e = window, a = 'inner';
