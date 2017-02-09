@@ -249,68 +249,6 @@
         </div>
     <!--END Borrower Information-->
 
-    <!--Living time-->
-    <div id="living-time" class="form-group">
-        <label for="living-time-checkbox" class="align-middle custom-checkbox">
-            <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox" onChange="$(this).is(':checked') ? $('#previous-address').slideDown() : $('#previous-address').slideUp()"/>
-            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>Lived at current address less than 6 month</span>
-        </label>
-    </div>
-    <div id="previous-address" style="display: none;">
-        <h2 class="dealnet-middle-header address-info-label no-margin-top">Previous Address Information</h2>
-        <div class="row address-info1">
-            <div class="col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label for="street">Street</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="St.">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-lg-2">
-                <div class="form-group">
-                    <label for="unit_number">Unit #</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="12345">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="locality">City</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row address-info2">
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="administrative_area_level_1">Province</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="Nepean">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="postal_code">Postal Code</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="12345">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <a href="#" class="dealnet-disabled-text clear-address">
-                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!--End Living time-->
-
     <!--Mailing Address-->
     <div id="mailing-address-different" class="form-group">
         <label for="mailing-address-checkbox" class="align-middle custom-checkbox">
@@ -395,11 +333,6 @@
         <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text>  }>
             <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
             <input type="hidden" name="AdditionalApplicants.Index" value="@i" />
-
-            <div class="well well-info position-well">
-                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                Borrower is over 75 years, you should add mandatory additional applicant
-            </div>
 
             @if (!ViewBag.IsMobileRequest)
             {
@@ -497,67 +430,6 @@
 
             </div>
 
-            <!--Living time-->
-            <div id="living-time-add-app@(i+1)" class="form-group">
-                <label for="living-time-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox-add-app@(i+1)" onChange="$(this).is(':checked') ? $('#previous-address-add-app@(i+1)').slideDown() : $('#previous-address-add-app@(i+1)').slideUp()"/>
-                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Lived at current address less than 6 month</span>
-                </label>
-            </div>
-            <div id="previous-address-add-app@(i+1)" style="display: none;">
-                <h2 class="dealnet-middle-header address-info-label no-margin-top">Additional Applicant Previous Address Information</h2>
-                <div class="row address-info1">
-                    <div class="col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <label for="street">Street</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="St.">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-lg-2">
-                        <div class="form-group">
-                            <label for="unit_number">Unit #</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="12345">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                            <label for="locality">City</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row address-info2">
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                            <label for="administrative_area_level_1">Province</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Nepean">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                            <label for="postal_code">Postal Code</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="12345">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <a href="#" class="dealnet-disabled-text clear-address">
-                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!--End Living time-->
 
             <!--Mailing Address-->
             <div id="mailing-address-different-add-app@(i+1)" class="form-group">
@@ -658,17 +530,16 @@
     }
     <!--END Add Additional Applicant-->
 
-    <!--Warning Section If Borrower over 75 year-->
-<!--    <div class="well danger-well over-aged-well">
+
+    <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        Borrower is over 75 years, you should add mandatory additional applicant
-    </div>-->
-    <!--End Warning Section If Borrower over 75 year-->
+        At least one applicant should be aged 75 or less
+    </div>
 
     <!--Warning Section if isn't chosen homeowner checkbox-->
     <div class="well danger-well over-aged-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At lest one of the applicants should be home owner
+        At least one applicant should be aged 75 or less
     </div>
     <!--End Warning Section if isn't chosen homeowner checkbox-->
 
