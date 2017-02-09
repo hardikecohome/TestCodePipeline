@@ -462,6 +462,24 @@
             };
         });
         app.controller("calculator", function($scope) {
+            $scope.isMobileMode = false;
+            $(document)
+                .ready(function() {
+                    if ($(window).width() < 1023) {
+                        $scope.isMobileMode = true;
+                    }
+                    $(window).on('resize', function() {
+                        if ($(window).width() < 1023) {
+                            $scope.isMobileMode = true;
+                        } else {
+                            $scope.isMobileMode = false;
+                        }
+                        displayCompareCalcs();
+                        makeStickCalendar();
+                    }).on('scroll', function() {
+                        makeStickCalendar();
+                    });
+                });
             var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
             var defaultDefferalType = '@loanDeferralTypes.First().Value';
             $scope.compareStates = [];
@@ -516,7 +534,7 @@
                 $scope.compareStates.push(state);
                 $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
             };
-            $scope.trySaveActiveChanges = function () {
+            $scope.trySaveActiveChanges = function() {
                 var form = $('#activeForm');
                 form.validate();
                 if (!form.valid()) {
@@ -529,14 +547,12 @@
                 $scope.compareStates[activeCalcNumber] = state;
             };
             $scope.addCompareState = function() {
-                if($(this).parents('.modal')){
-                    $('.calculators-hold').removeClass('stick');
-                }
                 var form = $('#formToCompare');
                 form.validate();
                 if (!form.valid()) {
                     return;
                 }
+                $('.calculators-hold').removeClass('stick');
                 $('.initial-standalone-calculator').addClass('compare-mode');
                 if ($scope.compareStates.length === 0) {
                     addCalculator(0);
@@ -561,6 +577,10 @@
                     $scope.compareStates.push(state);
                     $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
                     addCalculator($scope.compareStates.length - 1);
+                }
+                if ($scope.isMobileMode) {
+                    $scope.retrieveCompareState($scope.editIndex || $scope.compareStates.length - 1);
+                    $scope.switchTab($scope.editIndex || $scope.compareStates.length - 1);
                 }
                 $('#calculator-modal').modal('hide');
             };
@@ -668,7 +688,7 @@
                 $("#tax-label").text(provinceTaxRate.description);
                 $scope.calculateLoanValues();
             };
-            $scope.addCalculator = function (calcNumber) {
+            $scope.addCalculator = function(calcNumber) {
                 $scope.copyStateToCompare(findLastNotNullIndex($scope.compareStates));
                 $scope.editIndex = calcNumber;
             };
@@ -689,7 +709,7 @@
                 }
                 return false;
             };
-            $scope.removeCalculatorAndSwitch = function () {
+            $scope.removeCalculatorAndSwitch = function() {
                 var activeCalcNumber = $scope.activeTabIndex;
                 if (!$scope.removeCalculator(activeCalcNumber)) {
                     var indexOfLastLeft = findLastNotNullIndex($scope.compareStates);
@@ -710,13 +730,6 @@
                 displayCompareCalcs();
                 makeStickCalendar();
                 $('#province-tax-rate').change();
-
-                $(window).on('resize', function() {
-                    displayCompareCalcs();
-                    makeStickCalendar();
-                }).on('scroll', function() {
-                    makeStickCalendar();
-                });
 
                 $('.calc-field-edit a').hide();
                 $('.switch-calculators li .nav-tab-link').hide();
@@ -824,8 +837,8 @@
         }
 
         function addCalculator(calculatorNumber) {
-            $('.calc-field-type' + calculatorNumber+'.calc-title').find('.calc-title-inner').show();
-            $('.calc-field-type' + calculatorNumber+'.calc-field-edit').find('.dealnet-section-edit-link').show();
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').show();
+            $('.calc-field-type' + calculatorNumber + '.calc-field-edit').find('.dealnet-section-edit-link').show();
 
             $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').show();
 
