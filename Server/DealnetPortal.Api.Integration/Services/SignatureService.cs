@@ -1030,12 +1030,46 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Ean}{ch}", Value = $"{ean[ch-1]}" });
                         }                        
-                    }
+                    }                    
                 }
                 else
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsPAD, Value = "true" });
-                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? PdfFormFields.IsPAD1 : PdfFormFields.IsPAD15, Value = "true" });                    
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? PdfFormFields.IsPAD1 : PdfFormFields.IsPAD15, Value = "true" });
+
+                    if (!string.IsNullOrEmpty(contract.PaymentInfo.BlankNumber))
+                    {
+                        var bn = contract.PaymentInfo.BlankNumber.Replace(" ", "");
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BankNumber, Value = bn });
+                        for (int ch = 1;
+                            ch <= Math.Min(bn.Length, 3);
+                            ch++)
+                        {
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Bn}{ch}", Value = $"{bn[ch - 1]}" });
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(contract.PaymentInfo.TransitNumber))
+                    {
+                        var tn = contract.PaymentInfo.TransitNumber.Replace(" ", "");
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TransitNumber, Value = tn });
+                        for (int ch = 1;
+                            ch <= Math.Min(tn.Length, 5);
+                            ch++)
+                        {
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Tn}{ch}", Value = $"{tn[ch - 1]}" });
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(contract.PaymentInfo.AccountNumber))
+                    {
+                        var an = contract.PaymentInfo.AccountNumber.Replace(" ", "");
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AccountNumber, Value = an });
+                        for (int ch = 1;
+                            ch <= Math.Min(an.Length, 12);
+                            ch++)
+                        {
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.An}{ch}", Value = $"{an[ch - 1]}" });
+                        }
+                    }
                 }                
             }        
         }
