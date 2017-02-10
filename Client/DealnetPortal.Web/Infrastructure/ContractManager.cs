@@ -181,10 +181,13 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
         {
-            var checkHomeOwner = new Func<int?, bool>(cId => cId.HasValue && (contract?.HomeOwners?.Any(ho => ho.Id == cId) ?? false));            
+            var checkHomeOwner = new Func<int?, bool>(cId => cId != null && (contract?.HomeOwners?.Any(ho => ho.Id == cId) ?? false));            
 
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
-            basicInfo.HomeOwner.IsHomeOwner = checkHomeOwner(basicInfo.HomeOwner?.CustomerId);
+            if (basicInfo.HomeOwner != null)
+            {
+                basicInfo.HomeOwner.IsHomeOwner = checkHomeOwner(basicInfo.HomeOwner?.CustomerId);
+            }
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
             basicInfo.AdditionalApplicants?.ForEach(c => c.IsHomeOwner = checkHomeOwner(c.CustomerId));
 

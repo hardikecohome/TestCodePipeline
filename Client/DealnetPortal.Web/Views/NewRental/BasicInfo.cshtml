@@ -320,7 +320,8 @@
     <!--Home Owner Information-->
     <div id="borrower-is-homeowner" class="form-group">
         <label for="homeowner-checkbox" class="align-middle custom-checkbox">
-            <input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>
+            @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox", id = "homeowner-checkbox" })
+            @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             <span>Borrower is homeowner</span>
         </label>
@@ -534,8 +535,9 @@
 
             <!--Additional Applicant Information-->
             <div id="add-applicant-is-homeowner@(i+1)" class="form-group">
-                <label for="add-applicant-checkbox@(i+1)" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>
+                <label for="add-applicant-checkbox@(i + 1)" class="align-middle custom-checkbox">
+                    @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox", id = "add-applicant-checkbox@(i+1)" })
+                    @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                     <span>Additional Applicant is homeowner</span>
                 </label>
