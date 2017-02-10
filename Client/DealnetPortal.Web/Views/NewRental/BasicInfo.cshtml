@@ -151,47 +151,95 @@
     <!--Borrower Information-->
     <h2 class="dealnet-middle-header">Borrower Information</h2>
         <!--scanlicence-button-->
-            if (!ViewBag.IsMobileRequest)
-            {
-            <div class="row scanlicence-button">
-                <div class="col-md-12">
-                    <div class="scanlicence-hold">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
-                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                            <span>Scan License</span>
-                        </button>
-                        <a href="#" class="scanlicence-info-link">
-                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                        </a>
-                        <div class="scanlicence-info-text well well-info">
-                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+        if (!ViewBag.IsMobileRequest)
+        {
+        <div class="row scanlicence-button">
+            <div class="col-md-12">
+                <div class="scanlicence-hold">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>Scan License</span>
+                    </button>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    </div>
+                </div>
+                <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
+            </div>
+        </div>
+        }
+        else
+        {
+        <div class="row scanlicence-button">
+            <div class="col-md-12">
+                <div class="scanlicence-hold">
+                    <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>Scan License</span>
+                        <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
+                    </div>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    </div>
+                </div>
+                <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
+            </div>
+        </div>
+        }
+
+        if (!ViewBag.IsMobileRequest)
+        {
+        <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div class="dealnet-middle-header">Scan License</div>
+                        <div class="dealnet-middle-header-2" id="you-want">Select scanning method</div>
+
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Use Camera</a></li>
+                            <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Upload</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                <div id="capture-area">
+                                    <video autoplay class="capture-frame" id="video"></video>
+                                    <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                    <canvas id="big-capture-canvas"></canvas>
+                                    <div id="capture-buttons">
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
+                                        <div id="capture-buttons-2">
+                                            <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
+                                            <div id="retake" onclick="retakePhoto()">Retake</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="profile">
+                                <div id="upload-area">
+                                    <div id="upload-buttons">
+                                        <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                                            <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
+                                            <span>Upload Photo</span>
+                                            <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
                 </div>
             </div>
-            }
-            else
-            {
-            <div class="row scanlicence-button">
-                <div class="col-md-12">
-                    <div class="scanlicence-hold">
-                        <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
-                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                            <span>Scan License</span>
-                            <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
-                        </div>
-                        <a href="#" class="scanlicence-info-link">
-                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                        </a>
-                        <div class="scanlicence-info-text well well-info">
-                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
-                        </div>
-                    </div>
-                    <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
-                </div>
-            </div>
-            }
+        </div>
+        }
         <!--END scanlicence-button-->
 
         <div class="owner-info">
