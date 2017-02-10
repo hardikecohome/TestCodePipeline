@@ -28,7 +28,11 @@
                                     }
                                     else
                                     {
-                                        @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+		                                @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+		                                if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+		                                {
+		                                <i class="mandatory-icon">*</i>
+		                                }
                                     }
                                 </a>
                             </li>
@@ -43,12 +47,16 @@
                             {
                                 continue;
                             }
-                            var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
-                            <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item tab-container-@(i + 1)">
-                                <a href="#tab@(i + 1)" class="documents-pills-link" role="tab" data-toggle="tab">
-                                    @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
-                                </a>
-                            </div>
+		                    var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+		                    <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
+		                    <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
+			                    @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+			                    @if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+			                    {
+			                    <i class="mandatory-icon">*</i>
+			                    }
+		                    </a>
+	                    </div>
                             <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
                                 <h3 class="document-pane-header">
                                     @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
@@ -235,7 +243,65 @@
 		<div class="row credit-check-info-hold">
 			<div class="col-md-6 grid-column">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Home Owner Information</h3>
+					<h3 class="dealnet-section-title">Installation Address Information</h3>
+					<div class="form-group">
+						<div class="row">
+							<label class="dealnet-field-caption col-xs-6">Street</label>
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									@(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="dealnet-field-caption col-xs-6">Unit #</label>
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									@(Model.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="dealnet-field-caption col-xs-6">City</label>
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									@(Model.BasicInfo?.HomeOwner?.AddressInformation?.City)
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="dealnet-field-caption col-xs-6">Province</label>
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									@(Model.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="dealnet-field-caption col-xs-6">Postal Code</label>
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									<span class="postal-code">@(Model.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row credit-check-info-hold">
+			<div class="col-md-6 grid-column">
+				<div class="dealnet-credit-check-section">
+					<h3 class="dealnet-section-title">Borrower Information</h3>
 					<div class="form-group">
 						<div class="row">
 							<label class="dealnet-field-caption col-xs-6">First Name</label>
@@ -276,17 +342,28 @@
                             </div>
                         </div>
                     </div>
+
+					<div class="form-group">
+						<div class="row">
+							<label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									<input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-            <div class="col-md-6 grid-column">
+            <!--<div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section">
-                    <h3 class="dealnet-section-title">Address Information</h3>
+                    <h3 class="dealnet-section-title">Previous Address Information</h3>
                     <div class="form-group">
                         <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Installation Address</label>
+                            <label class="dealnet-field-caption col-xs-6">Street</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+	                                Rita Ave
                                 </div>
                             </div>
                         </div>
@@ -296,7 +373,7 @@
                             <label class="dealnet-field-caption col-xs-6">Unit #</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
+	                                80
                                 </div>
                             </div>
                         </div>
@@ -306,7 +383,7 @@
                             <label class="dealnet-field-caption col-xs-6">City</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.City)
+	                                Ottawa
                                 </div>
                             </div>
                         </div>
@@ -316,7 +393,7 @@
                             <label class="dealnet-field-caption col-xs-6">Province</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+	                                Nepean
                                 </div>
                             </div>
                         </div>
@@ -326,23 +403,13 @@
                             <label class="dealnet-field-caption col-xs-6">Postal Code</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    <span class="postal-code">@(Model.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Residence</label>
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.ResidenceType.GetEnumDescription())
+                                    <span class="postal-code">ON K2G 2H1</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             @if (Model.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
             {
                 <div class="col-md-6 grid-column">
@@ -350,7 +417,7 @@
                         <h3 class="dealnet-section-title">Mailing Address</h3>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
+                                <label class="dealnet-field-caption col-xs-6">Street</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
@@ -497,8 +564,74 @@
                                      </div>
                                  </div>
                              </div>
+
+	                         <div class="form-group">
+		                         <div class="row">
+			                         <label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+			                         <div class="dealnet-field-holder col-xs-6">
+				                         <div class="control-group">
+					                         <input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+				                         </div>
+			                         </div>
+		                         </div>
+	                         </div>
                          </div>
                      </div>
+					 <!--<div class="col-md-6 grid-column">
+						<div class="dealnet-credit-check-section">
+							<h3 class="dealnet-section-title">Previous Address Information</h3>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Street</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Unit #</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">City</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.City)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Province</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">Postal Code</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											<span class="postal-code">@(Model.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>-->
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
                             <h3 class="dealnet-section-title">Mailing Address</h3>
@@ -548,16 +681,6 @@
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType.GetEnumDescription())
                                         </div>
                                     </div>
                                 </div>

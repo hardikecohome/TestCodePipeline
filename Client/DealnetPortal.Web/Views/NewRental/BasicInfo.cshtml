@@ -151,47 +151,95 @@
     <!--Borrower Information-->
     <h2 class="dealnet-middle-header">Borrower Information</h2>
         <!--scanlicence-button-->
-            if (!ViewBag.IsMobileRequest)
-            {
-            <div class="row scanlicence-button">
-                <div class="col-md-12">
-                    <div class="scanlicence-hold">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
-                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                            <span>Scan License</span>
-                        </button>
-                        <a href="#" class="scanlicence-info-link">
-                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                        </a>
-                        <div class="scanlicence-info-text well well-info">
-                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+        if (!ViewBag.IsMobileRequest)
+        {
+        <div class="row scanlicence-button">
+            <div class="col-md-12">
+                <div class="scanlicence-hold">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>Scan License</span>
+                    </button>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    </div>
+                </div>
+                <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
+            </div>
+        </div>
+        }
+        else
+        {
+        <div class="row scanlicence-button">
+            <div class="col-md-12">
+                <div class="scanlicence-hold">
+                    <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>Scan License</span>
+                        <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
+                    </div>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
+                    </div>
+                </div>
+                <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
+            </div>
+        </div>
+        }
+
+        if (!ViewBag.IsMobileRequest)
+        {
+        <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div class="dealnet-middle-header">Scan License</div>
+                        <div class="dealnet-middle-header-2" id="you-want">Select scanning method</div>
+
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Use Camera</a></li>
+                            <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Upload</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                <div id="capture-area">
+                                    <video autoplay class="capture-frame" id="video"></video>
+                                    <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                    <canvas id="big-capture-canvas"></canvas>
+                                    <div id="capture-buttons">
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
+                                        <div id="capture-buttons-2">
+                                            <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
+                                            <div id="retake" onclick="retakePhoto()">Retake</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="profile">
+                                <div id="upload-area">
+                                    <div id="upload-buttons">
+                                        <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                                            <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
+                                            <span>Upload Photo</span>
+                                            <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
                 </div>
             </div>
-            }
-            else
-            {
-            <div class="row scanlicence-button">
-                <div class="col-md-12">
-                    <div class="scanlicence-hold">
-                        <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
-                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                            <span>Scan License</span>
-                            <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
-                        </div>
-                        <a href="#" class="scanlicence-info-link">
-                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                        </a>
-                        <div class="scanlicence-info-text well well-info">
-                            Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.
-                        </div>
-                    </div>
-                    <span class="scanlicence-notify">Scan license and this info will be filled out automatically</span>
-                </div>
-            </div>
-            }
+        </div>
+        }
         <!--END scanlicence-button-->
 
         <div class="owner-info">
@@ -248,68 +296,6 @@
             </div>
         </div>
     <!--END Borrower Information-->
-
-    <!--Living time-->
-    <div id="living-time" class="form-group">
-        <label for="living-time-checkbox" class="align-middle custom-checkbox">
-            <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox" onChange="$(this).is(':checked') ? $('#previous-address').slideDown() : $('#previous-address').slideUp()"/>
-            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>Lived at current address less than 6 month</span>
-        </label>
-    </div>
-    <div id="previous-address" style="display: none;">
-        <h2 class="dealnet-middle-header address-info-label no-margin-top">Previous Address Information</h2>
-        <div class="row address-info1">
-            <div class="col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label for="street">Street</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="St.">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-lg-2">
-                <div class="form-group">
-                    <label for="unit_number">Unit #</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="12345">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="locality">City</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row address-info2">
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="administrative_area_level_1">Province</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="Nepean">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    <label for="postal_code">Postal Code</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input" placeholder="12345">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <a href="#" class="dealnet-disabled-text clear-address">
-                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!--End Living time-->
 
     <!--Mailing Address-->
     <div id="mailing-address-different" class="form-group">
@@ -389,17 +375,33 @@
     </div>
     <!--Home Owner Information-->
 
+
+
+    <div class="well well-info position-well">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        At least one applicant should be aged 75 or less
+    </div>
+
+    <!--Warning Section if more then 75 checkbox-->
+    <div class="well danger-well over-aged-well">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        At least one applicant should be aged 75 or less
+    </div>
+    <!--End Warning Section if more then 75 checkbox-->
+
+    <!--Warning Section if isn't chosen homeowner checkbox-->
+    <div class="well danger-well over-aged-well">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        At lest one of the applicants should be home owner
+    </div>
+    <!--End Warning Section if isn't chosen homeowner checkbox-->
+
     <!--Add Additional Applicant-->
     for (var i = 0; i < 3; i++)
     {
         <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text>  }>
             <div class="dealnet-middle-header owner-info-label">Additional Applicant Information<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
             <input type="hidden" name="AdditionalApplicants.Index" value="@i" />
-
-            <div class="well well-info position-well">
-                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                Borrower is over 75 years, you should add mandatory additional applicant
-            </div>
 
             @if (!ViewBag.IsMobileRequest)
             {
@@ -497,67 +499,6 @@
 
             </div>
 
-            <!--Living time-->
-            <div id="living-time-add-app@(i+1)" class="form-group">
-                <label for="living-time-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox-add-app@(i+1)" onChange="$(this).is(':checked') ? $('#previous-address-add-app@(i+1)').slideDown() : $('#previous-address-add-app@(i+1)').slideUp()"/>
-                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Lived at current address less than 6 month</span>
-                </label>
-            </div>
-            <div id="previous-address-add-app@(i+1)" style="display: none;">
-                <h2 class="dealnet-middle-header address-info-label no-margin-top">Additional Applicant Previous Address Information</h2>
-                <div class="row address-info1">
-                    <div class="col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <label for="street">Street</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="St.">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-lg-2">
-                        <div class="form-group">
-                            <label for="unit_number">Unit #</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="12345">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                            <label for="locality">City</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row address-info2">
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                            <label for="administrative_area_level_1">Province</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Nepean">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                            <label for="postal_code">Postal Code</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="12345">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <a href="#" class="dealnet-disabled-text clear-address">
-                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!--End Living time-->
 
             <!--Mailing Address-->
             <div id="mailing-address-different-add-app@(i+1)" class="form-group">
@@ -651,26 +592,13 @@
                 <label for="add-applicant-checkbox@(i+1)" class="align-middle custom-checkbox">
                     <input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Mandatory Additional Applicant is homeowner</span>
+                    <span>Additional Applicant is homeowner</span>
                 </label>
             </div>
         </div>
     }
     <!--END Add Additional Applicant-->
 
-    <!--Warning Section If Borrower over 75 year-->
-<!--    <div class="well danger-well over-aged-well">
-        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        Borrower is over 75 years, you should add mandatory additional applicant
-    </div>-->
-    <!--End Warning Section If Borrower over 75 year-->
-
-    <!--Warning Section if isn't chosen homeowner checkbox-->
-    <div class="well danger-well over-aged-well">
-        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At lest one of the applicants should be home owner
-    </div>
-    <!--End Warning Section if isn't chosen homeowner checkbox-->
 
     <div id="add-additional-applicant">
         <div class="align-middle">
