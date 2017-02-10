@@ -25,7 +25,6 @@
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
       }).on('shown.bs.modal', function(){
-
           $('textarea').each(function(){
             has_scrollbar($(this), 'textarea-has-scroll');
           });
@@ -426,12 +425,22 @@ function addIconsToFields(fields){
   var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
-  var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
-  var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
-  var iconPassField = $('<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>');
-  iconCalendar.appendTo(fieldDateParent);
-  iconClearField.appendTo(fieldParent);
-  iconPassField.appendTo(fieldPassParent);
+  var iconCalendar = '<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>';
+  var iconClearField = '<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>';
+  var iconPassField = '<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>';
+
+  if(fieldDateParent.children('.icon-calendar').length === 0){
+    fieldDateParent.append(iconCalendar);
+  }
+
+  if(fieldParent.children('.clear-input').length === 0){
+    fieldParent.append(iconClearField);
+  }
+
+  if(fieldPassParent.children('.recover-pass-link').length === 0){
+    fieldPassParent.append(iconPassField);
+  }
+
   setTimeout(function(){
     fields.each(function(){
       if($(this).val().length > 0){
@@ -457,7 +466,6 @@ function toggleClearInputIcon(fields){
     $(this).siblings('input, textarea').val('').change();
     $(this).hide();
   });
-
 }
 
 function recoverPassword(){
@@ -544,8 +552,5 @@ function customDPSelect(){
   }
   if($('select.ui-datepicker-month').length){
     $('.ui-datepicker-prev, .ui-datepicker-next').hide();
-    console.log('1')
-  }else{
-    console.log(12)
   }
 }
