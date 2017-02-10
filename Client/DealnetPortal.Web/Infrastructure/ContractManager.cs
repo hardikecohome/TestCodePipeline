@@ -181,8 +181,13 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
         {
+            var checkHomeOwner = new Func<int?, bool>(cId => cId.HasValue && (contract?.HomeOwners?.Any(ho => ho.Id == cId) ?? false));            
+
             basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
+            basicInfo.HomeOwner.IsHomeOwner = checkHomeOwner(basicInfo.HomeOwner?.CustomerId);
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
+            basicInfo.AdditionalApplicants?.ForEach(c => c.IsHomeOwner = checkHomeOwner(c.CustomerId));
+
             basicInfo.SubmittingDealerId = contract.ExternalSubDealerId ?? contract.DealerId;
             basicInfo.SubDealers = new List<SubDealer>();
             var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
@@ -248,6 +253,11 @@ namespace DealnetPortal.Web.Infrastructure
                 mailAddress.AddressType = AddressType.MailAddress;
                 contractData.PrimaryCustomer.Locations.Add(mailAddress);
             }
+            contractData.HomeOwners = new List<CustomerDTO>();
+            if (basicInfo.HomeOwner.IsHomeOwner)
+            {
+                contractData.HomeOwners.Add(contractData.PrimaryCustomer);
+            }
 
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             basicInfo.AdditionalApplicants?.ForEach(a =>
@@ -261,6 +271,11 @@ namespace DealnetPortal.Web.Infrastructure
                     customer.Locations.Add(mailAddress);
                 }
                 contractData.SecondaryCustomers.Add(customer);
+
+                if (a.IsHomeOwner)
+                {
+                    contractData.HomeOwners.Add(customer);
+                }
             });
             return await _contractServiceAgent.UpdateContractData(contractData);
         }

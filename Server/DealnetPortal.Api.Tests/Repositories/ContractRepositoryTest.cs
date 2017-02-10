@@ -444,6 +444,15 @@ namespace DealnetPortal.Api.Tests.Repositories
                     DateOfBirth = DateTime.Today
                 }
             };
+            contractData.HomeOwners = new List<Customer>()
+            {
+                new Customer()
+                {
+                    FirstName = "Add 1 fst name",
+                    LastName = "Add 1 lst name",
+                    DateOfBirth = DateTime.Today
+                }
+            };
 
             _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
@@ -454,6 +463,8 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.IsNotNull(contract.PrimaryCustomer);
             Assert.IsNotNull(contract.SecondaryCustomers);
             Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
+            Assert.IsNotNull(contract.HomeOwners);
+            Assert.AreEqual(contract.HomeOwners.Count, 1);
 
             contractData.HomeOwners = new List<Customer>()
             {

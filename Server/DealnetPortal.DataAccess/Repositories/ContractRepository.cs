@@ -937,11 +937,31 @@ namespace DealnetPortal.DataAccess.Repositories
             var entriesForAdd = homeOwners.Where(ho => contract.HomeOwners.All(cho => cho.Id != ho.Id));
             entriesForAdd.ForEach(ho =>
             {
-                var sc = _dbContext.Customers.Find(ho.Id);
+                Customer sc = null;
+                if (ho.Id != 0)
+                {
+                    sc = _dbContext.Customers.Find(ho.Id);
+                }
+                // new created
+                if (sc == null && ho.Id == 0)
+                {
+                    if (contract.PrimaryCustomer.FirstName == ho.FirstName &&
+                        contract.PrimaryCustomer.LastName == ho.LastName &&
+                        contract.PrimaryCustomer.DateOfBirth == ho.DateOfBirth)
+                    {
+                        sc = contract.PrimaryCustomer;
+                    }
+                    else
+                    {
+                        sc =
+                            contract.SecondaryCustomers.FirstOrDefault(
+                                c => c.FirstName == ho.FirstName && c.LastName == ho.LastName && c.DateOfBirth == ho.DateOfBirth);
+                    }
+                }
                 if (sc != null)
                 {
                     contract.HomeOwners.Add(sc);
-                }
+                }                
             });
 
             return true;

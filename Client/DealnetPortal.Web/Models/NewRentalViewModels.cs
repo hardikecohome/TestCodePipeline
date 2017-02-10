@@ -39,9 +39,9 @@ namespace DealnetPortal.Web.Models
         public string Sin { get; set; } 
         [Display(Name = "Driver License Number")]
         public string DriverLicenseNumber { get; set; }
-
         public AddressInformation AddressInformation { get; set; }
         public MailingAddressInformation MailingAddressInformation { get; set; }
+        public bool IsHomeOwner { get; set; }
         public int? ContractId { get; set; }
     }
 
