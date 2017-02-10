@@ -368,16 +368,14 @@
     <!--Home Owner Information-->
     <div id="borrower-is-homeowner" class="form-group">
         <label for="homeowner-checkbox" class="align-middle custom-checkbox">
-            @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox", id = "homeowner-checkbox" })
+            @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
             @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             <span>Borrower is homeowner</span>
+            @Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
         </label>
     </div>
     <!--Home Owner Information-->
-
-
-
     <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         At least one applicant should be aged 75 or less
@@ -391,12 +389,12 @@
     <!--End Warning Section if more then 75 checkbox-->
 
     <!--Warning Section if isn't chosen homeowner checkbox-->
-    <div class="well danger-well over-aged-well">
+    <div class="well danger-well over-aged-well" id="proceed-homeowner-errormessage" style="display: none;">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         At lest one of the applicants should be home owner
     </div>
-    <!--End Warning Section if isn't chosen homeowner checkbox-->
-
+    <!--End Warning Section if isn't chosen homeowner checkbox-->    
+    
     <!--Add Additional Applicant-->
     for (var i = 0; i < 3; i++)
     {
@@ -591,7 +589,7 @@
             <!--Additional Applicant Information-->
             <div id="add-applicant-is-homeowner@(i+1)" class="form-group">
                 <label for="add-applicant-checkbox@(i + 1)" class="align-middle custom-checkbox">
-                    @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox", id = "add-applicant-checkbox@(i+1)" })
+                    @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "add-applicant-checkbox@(i+1)" })
                     @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                     <span>Additional Applicant is homeowner</span>

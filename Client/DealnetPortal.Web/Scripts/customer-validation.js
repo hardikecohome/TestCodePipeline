@@ -12,3 +12,11 @@
     });
     return isApprovalAge;
 };
+
+function checkHomeOwner() {
+    var isHomeOwner = false;
+    $('.check-homeowner').each(function () {
+        isHomeOwner = isHomeOwner || $(this).prop('checked');
+    });
+    return isHomeOwner;
+};

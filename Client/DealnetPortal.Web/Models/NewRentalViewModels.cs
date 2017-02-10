@@ -94,6 +94,7 @@ namespace DealnetPortal.Web.Models
     {
         public string SubmittingDealerId { get; set; }
         [CheckCustomersAge("AdditionalApplicants", 75)]
+        [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public List<SubDealer> SubDealers { get; set; }

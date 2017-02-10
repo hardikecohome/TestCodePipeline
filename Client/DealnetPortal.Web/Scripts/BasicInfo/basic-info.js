@@ -152,9 +152,13 @@ $(document).ready(function () {
         hideAditional3Section();
     });
 
-    $("#save-and-proceed-button").click(function (event) {
-        var isApprovalAge = checkApplicantsAge();
-        if (!isApprovalAge) {
+    $("#saveproceed-button").click(function (event) {
+        //var isApprovalAge = checkApplicantsAge();
+        var isHomeOwner = checkHomeOwner();
+        if (!isHomeOwner) {
+            $("#proceed-homeowner-errormessage").show();
+        }
+        if (!isHomeOwner) {
             event.preventDefault();
             //$("#proceed-error-message").show();
         }
