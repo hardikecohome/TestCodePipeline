@@ -454,6 +454,8 @@
                     }, function() {
                         $scope.$evalAsync(function() {
                             var form = element.parent().closest('form');
+                            addIconsToFields();
+                            toggleClearInputIcon();
                             customizeSelect();
                             resetFormValidator(form);
                         });
@@ -637,6 +639,7 @@
                 if (!form.valid()) {
                     return;
                 }
+
                 $scope.equipmentToCompare = JSON.parse(JSON.stringify($scope.activeEquipment));
                 $scope.adminFeeToCompare = $scope.activeAdminFee;
                 $scope.downPaymentToCompare = $scope.activeDownPayment;
@@ -728,6 +731,7 @@
         });
         $(document)
             .ready(function() {
+                toggleClearInputIcon();
                 displayCompareCalcs();
                 makeStickCalendar();
                 $('#province-tax-rate').change();
