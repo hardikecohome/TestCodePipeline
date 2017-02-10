@@ -44,7 +44,7 @@
 	<div class="row credit-check-info-hold">
 		<div class="col-md-6 grid-column">
 			<div class="dealnet-credit-check-section" id="address-section">
-				<h3 class="dealnet-section-title">Installation Address Information <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+				<h3 class="dealnet-section-title">Installation Address Information @*<a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>*@</h3>
 				<div class="form-group">
 					<div class="row">
 						@Html.LabelFor(m => Model.HomeOwner.AddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
@@ -104,7 +104,7 @@
 	<div class="row credit-check-info-hold">
 		<div class="col-md-6 grid-column">
 			<div class="dealnet-credit-check-section" id="home-owner-section">
-			    <h3 class="dealnet-section-title">Borrower Information <a href="#" onclick="copyFormData($('#home-owner-section'), $('#home-owner-section-modal'), false); $('#home-owner-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+			    <h3 class="dealnet-section-title">Borrower Information @*<a href="#" onclick="copyFormData($('#home-owner-section'), $('#home-owner-section-modal'), false); $('#home-owner-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>*@
 			    </h3>
                 @Html.HiddenFor(m => m.HomeOwner.CustomerId)
 				<div class="form-group">
@@ -244,7 +244,7 @@
 
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section" id="mailing-address-section">
-                    <h3 class="dealnet-section-title">Mailing Address <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+                    <h3 class="dealnet-section-title">Mailing Address @*<a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>*@</h3>
                     <div class="form-group">
                         <div class="row">
                             @Html.Label("", "Street", new { @class = "dealnet-field-caption col-xs-6" })
@@ -313,7 +313,7 @@
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="additional@(i+1)-section">
                         <h3 class="dealnet-section-title">
-                            Additional Applicant #@(i + 1) <a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                            Additional Applicant #@(i + 1) @*<a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>*@
                         </h3>
                         @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId)
                         <div class="form-group">
@@ -391,7 +391,7 @@
                 </div>
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="additional-address-section-@(i+1)">
-                        <h3 class="dealnet-section-title">Mailing Address <a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+                        <h3 class="dealnet-section-title">Mailing Address @*<a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a>*@</h3>
                         <div class="form-group">
                             <div class="row">
                                 @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
@@ -480,7 +480,7 @@
 </div>
 }
 
-<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="home-owner-modal">
+@*<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="home-owner-modal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -1080,7 +1080,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 		</div>
 	</div>
 </div>
-}
+}*@
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 
