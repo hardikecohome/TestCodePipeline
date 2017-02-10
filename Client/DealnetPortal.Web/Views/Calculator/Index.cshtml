@@ -580,8 +580,9 @@
                     addCalculator($scope.compareStates.length - 1);
                 }
                 if ($scope.isMobileMode) {
-                    $scope.retrieveCompareState($scope.editIndex || $scope.compareStates.length - 1);
-                    $scope.switchTab($scope.editIndex || $scope.compareStates.length - 1);
+                    var indexToRetrieve = $scope.editIndex === null ? $scope.compareStates.length - 1 : $scope.editIndex;
+                    $scope.retrieveCompareState(indexToRetrieve);
+                    $scope.switchTab(indexToRetrieve);
                 }
                 $('#calculator-modal').modal('hide');
             };
