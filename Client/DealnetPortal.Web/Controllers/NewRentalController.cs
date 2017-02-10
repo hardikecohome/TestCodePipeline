@@ -111,7 +111,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(basicInfo);
             }
             var contractResult = basicInfo.ContractId == null ?
                 await _contractServiceAgent.CreateContract() :
@@ -152,6 +152,11 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (!ModelState.IsValid)
+            {
+                return View(basicInfo);
+            }
             //Initiate a credit check here!
             var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
 

@@ -31,7 +31,7 @@ $(document).ready(function () {
             return true;
         },
         "Please enter a valid date!"
-    );
+    );    
 
     addAdditionalButton = $("#add-additional-applicant");
     aditional1Section = $("#additional1-section");
@@ -151,6 +151,32 @@ $(document).ready(function () {
     $("#additional3-remove").click(function () {
         hideAditional3Section();
     });
+
+    $("#save-and-proceed-button").click(function (event) {
+        var isApprovalAge = checkApplicantsAge();
+        if (!isApprovalAge) {
+            event.preventDefault();
+            //$("#proceed-error-message").show();
+        }
+    });
+
+    //function checkSubmitAllDocumentsAvailability() {
+    //    var submitEnabled = true;
+    //    $('.mandatory').each(function () {
+    //        submitEnabled = submitEnabled && $(this).hasClass('uploaded');
+    //    });
+    //    if (submitEnabled && !isSentToAudit) {
+    //        $('button.disabled, input.disabled').removeClass('disabled');
+    //        $('button.disabled, input.disabled').removeProp('disabled');
+    //        $('.before-all-documents-submitted').hide();
+    //    } else {
+    //        if (isSentToAudit) {
+    //            $('.before-all-documents-submitted').hide();
+    //            $('#all-documents-submitted-message').show();
+    //        }
+    //    }
+    //}
+
 });
 function hideAditional1Section() {
     aditional1Section.hide();
