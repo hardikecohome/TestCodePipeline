@@ -461,10 +461,16 @@ namespace DealnetPortal.Api.Integration.Services
                                 Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
                             };
 
-                            //TODO:
+                            var submitString = "Ready For Audit";
+                            var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
                             request.Payload.Documents = new List<Document>()
                             {
                                 new Document()
+                                {
+                                    Name = "ReadyForAudit",
+                                    Data = submitStrBase64,
+                                    Ext = "txt"
+                                }
                             };
 
                             var docUploadResponse =
