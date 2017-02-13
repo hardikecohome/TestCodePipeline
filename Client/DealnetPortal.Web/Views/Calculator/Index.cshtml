@@ -538,7 +538,7 @@
                 if (!form.valid()) {
                     return;
                 }
-                $('.calculators-hold').removeClass('stick');
+                $('.calculators-hold').removeClass('sticker').removeClass('stick');
                 $('.initial-standalone-calculator').addClass('compare-mode');
                 if ($scope.compareStates.length === 0) {
                     addCalculator(0);
@@ -805,25 +805,19 @@
 
         function makeStickCalendar() {
             if ($(document).height() > $(window).height()) {
-                if ($('.compare-standalone-calculator').css('display') !== 'none') {
-                    $('.calculators-hold').addClass('sticker');
-                    if ($('.calculators-hold.sticker').length) {
-                        $('.calculators-hold.sticker').each(function() {
-                            stickySection($(this));
-                        });
-                    }
+                $('.calculators-hold').addClass('sticker');
+                if($('.calculators-hold.sticker').length && viewport().width >= 768){
+                    $('.calculators-hold.sticker').each(function(){
+                        if($('body').hasClass('ios-device')){
+                            stickySection($(this), 'tablet-ios');
+                        }else{
+                            stickySection($(this), 'all');
+                        }
+                    });
                 }
-                if ($('.initial-standalone-calculator').css('display') !== 'none') {
-                    $('.equipment-calculator').addClass('sticker');
-                    if ($('.equipment-calculator.sticker').length) {
-                        $('.equipment-calculator.sticker').each(function() {
-                            stickySection($(this));
-                        });
-                    }
-                }
-            } else {
-                /*$('.calculators-hold').removeClass('sticker').removeClass('stick');
-                $('.equipment-calculator').removeClass('sticker').removeClass('stick');*/
+            }
+            if(viewport().width >= 1024 && $('.initial-standalone-calculator').hasClass('compare-mode')){
+                $('.calculators-hold').removeClass('sticker');
             }
         }
 

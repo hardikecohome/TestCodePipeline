@@ -4,6 +4,42 @@
       var tabletOnly = viewport().width > 768 && viewport().width <= 1024;
       var desktopUp = viewport().width > 1024;
 
+      var isMobile = {
+        Android: function() {
+          return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+          return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+          return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+          return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+          return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+          return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+      };
+
+      if(isMobile.any()) {
+        if(viewport().width < 768){
+          $('body').addClass('mobile-device').removeClass('tablet-device')
+        }else{
+          $('body').addClass('tablet-device').removeClass('mobile-device')
+        }
+      }else{
+        $('body').removeClass('mobile-device').removeClass('tablet-device')
+      }
+      if(isMobile.iOS()){
+        $('body').addClass('ios-device')
+      }else{
+        $('body').removeClass('ios-device')
+      }
+
       if(detectIE()){
         $('body').addClass('ie');
       }
@@ -138,17 +174,26 @@
       });
 
 
-      if($('.loan-sticker').length){
+      if($('.loan-sticker').length && viewport().width >= 768){
         $('.loan-sticker').each(function(){
-          stickySection($(this));
+          if(isMobile.iOS()){
+            stickySection($(this), 'tablet-ios');
+          }else{
+            stickySection($(this), 'all');
+          }
         });
+
       }
-      if($('.compare-sticker').length){
+/*
+      if($('.compare-sticker').length && viewport().width >= 768){
         $('.compare-sticker').each(function(){
-          stickySection($(this));
+          if(isMobile.iOS()){
+            stickySection($(this), 'tablet-ios');
+          }else{
+            stickySection($(this), 'all');
+          }
         });
-      }
-      
+      }*/
 
       addIconsToFields();
       toggleClearInputIcon();
@@ -211,36 +256,77 @@
       }
 });
 
-function stickySection(elem){
-    var fixedHeaderHeight;
-    var s = elem;
-    var parentDiv = s.parents('.sticker-parent');
-    var windowpos;
-    var parentOffsetTop;
-    var parentOffsetLeft;
-    var stikerTopPos;
-    var stickerWidth;
+function fixedOnKeyboardShownIos(fixedElem){
+  var $navbar = fixedElem;
+  var topPadding = 10;
+
+  function fixFixedPosition() {
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $('.navbar-header').height() + topPadding;
+    $navbar.addClass('absoluted-div').css({
+      top: absoluteTopCoord + 'px',
+    }).fadeIn('slow')
+  }
+  function resetFixedPosition() {
+    $navbar.removeClass('absoluted-div').css({
+      top: $('.navbar-header').height() + topPadding,
+    });
+    $(document).off('scroll', updateScrollTop);
+  }
+  function updateScrollTop() {
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $('.navbar-header').height() + topPadding;
+    $navbar.css('top', absoluteTopCoord + 'px');
+  }
+
+  $('input, textarea, [contenteditable=true]').on({
+    focus: function() {
+      fixedElem.hide();
+      setTimeout(fixFixedPosition, 100);
+      $(document).scroll(updateScrollTop);
+    },
+    blur: resetFixedPosition
+  });
+}
+
+
+function stickySection(elem, device){
+  var fixedHeaderHeight,
+      parentDiv = elem.parents('.sticker-parent'),
+      windowTopPos,
+      parentOffsetTop,
+      parentOffsetLeft,
+      stickerTopPos,
+      stickerWidth,
+      stickerLeftPos,
+      topPadding = 10,
+      device = device || 'all'; // iOS or other devices(desktop and android)
+
     $(window).on('scroll resize', function(){
       fixedHeaderHeight = $('.navbar-header').height();
-      windowpos = $(window).scrollTop() + fixedHeaderHeight;
+      windowTopPos = $(window).scrollTop() + fixedHeaderHeight;
       parentOffsetTop = parentDiv.offset().top;
       parentOffsetLeft = parentDiv.offset().left;
       stickerWidth = parentDiv.width();
-      stikerLeftPos = parentOffsetLeft;
-      if (windowpos >= parentOffsetTop) {
-        s.addClass("stick");
-        stikerTopPos = fixedHeaderHeight+10;
-      } else {
-        s.removeClass("stick");
-        stikerTopPos = 0;
-      }
+      stickerLeftPos = parentOffsetLeft;
 
-      s.css({
-        top: stikerTopPos + 'px',
-        width: 'auto',
-        right: 0,
-        left: stikerLeftPos + 'px'
-      });
+
+        if (windowTopPos >= parentOffsetTop) {
+          elem.addClass("stick");
+          stickerTopPos = fixedHeaderHeight + topPadding;
+
+          if(device === 'tablet-ios'){
+            fixedOnKeyboardShownIos(elem);
+          }else{
+            elem.css({
+              top: stickerTopPos + 'px',
+              width: 'auto',
+              right: 0,
+              left: stickerLeftPos + 'px'
+            });
+          }
+        } else {
+          elem.removeClass("stick");
+          stickerTopPos = 0;
+        }
     });
 }
 
@@ -256,7 +342,7 @@ function has_scrollbar(elem, className)
 
 function inputDateFocus(input){
   input.on('click touchend', function(){
-    if((viewport().width < 768))
+    if(viewport().width < 768)
     {
       if($('body').not('.hasDatepicker')){
         $('body').addClass('hasDatepicker');
@@ -524,7 +610,6 @@ function recoverPassword(){
     // other browser
     return false;
   }
-
 
 function viewport() {
   var e = window, a = 'inner';
