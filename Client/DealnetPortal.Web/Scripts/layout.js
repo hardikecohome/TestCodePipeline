@@ -65,10 +65,11 @@
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
       }).on('shown.bs.modal', function(){
+        var modalMarginBottom = 30;
         if(isMobile.iOS()){
           $('input, textarea, [contenteditable=true], select').on({
             focus: function() {
-              keyboardHeight = totalWindowHeight - window.innerHeight;
+              keyboardHeight = modalMarginBottom + totalWindowHeight - window.innerHeight;
                 if($(window).height() < $('.modal.in').find('.modal-dialog').height()){
                   $('.modal.in').find('.modal-dialog').css({
                     'margin-bottom':  keyboardHeight + 'px'
@@ -76,10 +77,9 @@
                 }
             },
             blur: function(){
-              keyboardHeight = 30;
               if($(window).height() < $('.modal.in').find('.modal-dialog').height()){
                 $('.modal.in').find('.modal-dialog').css({
-                  'margin-bottom':  keyboardHeight + 'px'
+                  'margin-bottom':  modalMarginBottom + 'px'
                 })
               }
             }
@@ -279,7 +279,7 @@ function fixedOnKeyboardShownIos(fixedElem){
     var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
     $navbar.addClass('absoluted-div').css({
       top: absoluteTopCoord + 'px',
-    }).fadeIn('slow')
+    }).fadeIn('fast')
   }
   function resetFixedPosition() {
     $navbar.removeClass('absoluted-div').css({
