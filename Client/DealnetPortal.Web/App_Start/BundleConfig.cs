@@ -32,20 +32,17 @@ namespace DealnetPortal.Web
                      "~/Scripts/datatables/dataTables.responsive.js"));
             bundles.Add(new ScriptBundle("~/bundles/home-page").Include(
                 "~/Scripts/chart.js", "~/Scripts/home-page.js"));
-            bundles.Add(new ScriptBundle("~/bundles/basic-info").IncludeDirectory(
-                "~/Scripts/BasicInfo", "*.js").Include(
+            bundles.Add(new ScriptBundle("~/bundles/basic-info").Include("~/Scripts/customer-validation.js")
+                .IncludeDirectory("~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/camera-capturing.js")
-                .Include("~/Scripts/customer-validation.js"));
-            bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").IncludeDirectory(
-                "~/Scripts/BasicInfo", "*.js").Include(
-                "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/customer-validation.js"));
+                .Include("~/Scripts/camera-capturing.js"));
+            bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").Include("~/Scripts/customer-validation.js")
+                .IncludeDirectory("~/Scripts/BasicInfo", "*.js").Include(
+                "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include("~/Scripts/datejs.js"));
             bundles.Add(new ScriptBundle("~/bundles/credit-check").Include(
                 "~/Scripts/credit-check.js").Include("~/Scripts/datejs.js").Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
-                .Include("~/Scripts/editable-in-modal.js")
-                .Include("~/Scripts/customer-validation.js"));
+                .Include("~/Scripts/editable-in-modal.js"));
             bundles.Add(new ScriptBundle("~/bundles/equipment-information").Include("~/Scripts/loan-calculator.js")
                 .Include("~/Scripts/equipment-information.js").Include("~/Scripts/datejs.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/contact-and-payment").Include("~/Scripts/custom-validation.js")

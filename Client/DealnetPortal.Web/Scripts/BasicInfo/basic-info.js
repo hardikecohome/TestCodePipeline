@@ -10,6 +10,15 @@ $(document).ready(function () {
     assignDatepicker($("#additional-birth-date-1"));
     assignDatepicker($("#additional-birth-date-2"));
     assignDatepicker($("#additional-birth-date-3"));
+    $('.check-age').change(function () {
+        var atLeastOneValid = checkApplicantsAge();
+        if (atLeastOneValid) {
+            $('#age-warning-message').hide();
+            $('#age-error-message').hide();
+        } else {
+            $('#age-warning-message').show();
+        }
+    });
     $.validator.addMethod(
         "date",
         function (value, element) {
@@ -156,27 +165,10 @@ $(document).ready(function () {
         var isApprovalAge = checkApplicantsAge();
         if (!isApprovalAge) {
             event.preventDefault();
-            //$("#proceed-error-message").show();
+            $('#age-warning-message').hide();
+            $('#age-error-message').show();
         }
     });
-
-    //function checkSubmitAllDocumentsAvailability() {
-    //    var submitEnabled = true;
-    //    $('.mandatory').each(function () {
-    //        submitEnabled = submitEnabled && $(this).hasClass('uploaded');
-    //    });
-    //    if (submitEnabled && !isSentToAudit) {
-    //        $('button.disabled, input.disabled').removeClass('disabled');
-    //        $('button.disabled, input.disabled').removeProp('disabled');
-    //        $('.before-all-documents-submitted').hide();
-    //    } else {
-    //        if (isSentToAudit) {
-    //            $('.before-all-documents-submitted').hide();
-    //            $('#all-documents-submitted-message').show();
-    //        }
-    //    }
-    //}
-
 });
 function hideAditional1Section() {
     aditional1Section.hide();

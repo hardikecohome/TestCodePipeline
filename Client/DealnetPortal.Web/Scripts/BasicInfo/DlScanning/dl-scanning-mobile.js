@@ -24,7 +24,9 @@
                         //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                        $("#" + bdToFill).datepicker("setDate", date);
+                        var dateInput = $("#" + bdToFill);
+                        dateInput.datepicker("setDate", date);
+                        dateInput.change();
                         document.getElementById(dlToFill).value = json.Id;
                         document.getElementById(stToFill).value = json.Street;
                         document.getElementById(ctToFill).value = json.City;

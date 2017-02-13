@@ -267,7 +267,7 @@
                     <div class="form-group">
                         <label for="birth-date">Date of Birth</label>
                         <div class="control-group date-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = ""})
+                            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "birth-date", placeholder = "mm/dd/yyyy", data_val_date = ""})
                             @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -377,17 +377,15 @@
 
 
 
-    <div class="well well-info position-well">
+    <div class="well well-info position-well collapse" id="age-warning-message">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         At least one applicant should be aged 75 or less
     </div>
 
-    <!--Warning Section if more then 75 checkbox-->
-    <div class="well danger-well over-aged-well">
+    <div class="well danger-well over-aged-well collapse" id="age-error-message">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         At least one applicant should be aged 75 or less
     </div>
-    <!--End Warning Section if more then 75 checkbox-->
 
     <!--Warning Section if isn't chosen homeowner checkbox-->
     <div class="well danger-well over-aged-well">
@@ -470,7 +468,7 @@
                     <div class="form-group">
                         <label for="additional-birth-date-@(i+1)">Date of Birth</label>
                         <div class="control-group date-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = "additional-birth-date-" + (i + 1), placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input check-age", id = "additional-birth-date-" + (i + 1), placeholder = "mm/dd/yyyy", disabled = "disabled", data_val_date = "" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -609,7 +607,7 @@
 
     <div class="row" id="saveproceed-button">
         <div class="col-xs-12 col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-success-button">
+            <button class="btn dealnet-button dealnet-success-button" id="save-and-proceed-button">
                 Save and Proceed
             </button>
         </div>
