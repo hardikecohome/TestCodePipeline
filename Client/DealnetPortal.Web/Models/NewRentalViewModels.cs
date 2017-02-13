@@ -42,6 +42,7 @@ namespace DealnetPortal.Web.Models
         public string DriverLicenseNumber { get; set; }
         public AddressInformation AddressInformation { get; set; }
         public MailingAddressInformation MailingAddressInformation { get; set; }
+        [Display(Name = "Home Owner")]
         public bool IsHomeOwner { get; set; }
         public int? ContractId { get; set; }
     }

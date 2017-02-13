@@ -197,10 +197,11 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.IsHomeOwner, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
-                                <input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+                                @Html.HiddenFor(m => m.BasicInfo.HomeOwner.IsHomeOwner)
+                                <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? "Yes" : "No" )>
                             </div>
                         </div>
                     </div>
@@ -470,10 +471,11 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+                                                    @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner)
+                                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? "Yes" : "No" )>
                                                 </div>
                                             </div>
                                         </div>
