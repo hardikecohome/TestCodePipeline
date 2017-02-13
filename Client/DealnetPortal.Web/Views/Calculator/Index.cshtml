@@ -465,23 +465,6 @@
         });
         app.controller("calculator", function($scope) {
             $scope.isMobileMode = false;
-            $(document)
-                .ready(function() {
-                    if ($(window).width() < 1023) {
-                        $scope.isMobileMode = true;
-                    }
-                    $(window).on('resize', function() {
-                        if ($(window).width() < 1023) {
-                            $scope.isMobileMode = true;
-                        } else {
-                            $scope.isMobileMode = false;
-                        }
-                        displayCompareCalcs();
-                        makeStickCalendar();
-                    }).on('scroll', function() {
-                        makeStickCalendar();
-                    });
-                });
             var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
             var defaultDefferalType = '@loanDeferralTypes.First().Value';
             $scope.compareStates = [];
@@ -582,8 +565,9 @@
                     addCalculator($scope.compareStates.length - 1);
                 }
                 if ($scope.isMobileMode) {
-                    $scope.retrieveCompareState($scope.editIndex || $scope.compareStates.length - 1);
-                    $scope.switchTab($scope.editIndex || $scope.compareStates.length - 1);
+                    var indexToRetrieve = $scope.editIndex === null ? $scope.compareStates.length - 1 : $scope.editIndex;
+                    $scope.retrieveCompareState(indexToRetrieve);
+                    $scope.switchTab(indexToRetrieve);
                 }
                 $('#calculator-modal').modal('hide');
             };
@@ -725,6 +709,38 @@
                 switchTab(index);
                 $scope.activeTabIndex = index;
             };
+            $(document)
+                .ready(function() {
+                    if ($(window).width() < 1023) {
+                        $scope.isMobileMode = true;
+                    }
+                    $(window).on('resize', function() {
+                        displayCompareCalcs();
+                        makeStickCalendar();
+                        if ($(window).width() < 1023) {
+                            if (!$scope.isMobileMode && $scope.compareStates.length) {
+                                $scope.retrieveCompareState($scope.activeTabIndex);
+                                $scope.$apply();
+                            }
+                            $scope.isMobileMode = true;
+                        } else {
+                            if ($scope.isMobileMode && $scope.compareStates.length) {
+                                $scope.trySaveActiveChanges();
+                                for (var i = 0; i < $scope.compareStates.length; i++) {
+                                    var state = $scope.compareStates[i];
+                                    if (state === null) {
+                                        continue;
+                                    }
+                                    $scope.updateDisplayedValues(state, i);
+                                }
+                                $scope.$apply();
+                            }
+                            $scope.isMobileMode = false;
+                        }
+                    }).on('scroll', function() {
+                        makeStickCalendar();
+                    });
+                });
             for (var i = 0; i <= 3; i++) {
                 $scope.resetDisplayedValues(i);
             }
