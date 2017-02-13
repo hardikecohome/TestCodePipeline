@@ -17,7 +17,10 @@
 function checkHomeOwner() {
     var isHomeOwner = false;
     $('.check-homeowner').each(function () {
-        isHomeOwner = isHomeOwner || $(this).prop('checked');
+        if ($(this).prop('checked')) {
+            isHomeOwner = true;
+            return false;
+        }
     });
     return isHomeOwner;
 };

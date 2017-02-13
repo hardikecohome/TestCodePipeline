@@ -161,16 +161,18 @@ $(document).ready(function () {
         hideAditional3Section();
     });
 
-    $("#saveproceed-button").click(function (event) {
-        //var isApprovalAge = checkApplicantsAge();
+    $("#save-and-proceed-button").click(function (event) {
+        var isApprovalAge = checkApplicantsAge();
         var isHomeOwner = checkHomeOwner();
+        if (!isApprovalAge) {
+            $('#age-warning-message').hide();
+            $('#age-error-message').show();
+        }
         if (!isHomeOwner) {
             $("#proceed-homeowner-errormessage").show();
         }
-        if (!isHomeOwner) {
+        if (!isHomeOwner || !isApprovalAge) {
             event.preventDefault();
-            $('#age-warning-message').hide();
-            $('#age-error-message').show();
         }
     });
 });
