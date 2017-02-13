@@ -162,7 +162,7 @@
                         </div><!--equipment-editable-section END-->
 
                         <div class="col-md-6 col-sm-6 sticker-parent compare-table-calculator">
-                            <div class="calculators-hold">
+                            <div class="calculators-hold sticker">
                                 <div class="row form-group hidden-sm hidden-xs text-semibold compare-mode">
                                     <div class="col-xs-8 col-sm-8 col-md-9 calc-label ">Comparing</div>
                                     <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0 calc-title" data-calc="0">
@@ -538,7 +538,7 @@
                 if (!form.valid()) {
                     return;
                 }
-                $('.calculators-hold').removeClass('sticker').removeClass('stick');
+                $('.calculators-hold').removeClass('stick');
                 $('.initial-standalone-calculator').addClass('compare-mode');
                 if ($scope.compareStates.length === 0) {
                     addCalculator(0);
@@ -570,6 +570,10 @@
                     $scope.switchTab(indexToRetrieve);
                 }
                 $('#calculator-modal').modal('hide');
+
+                if($(window).width() > 1023 && $('.initial-standalone-calculator').hasClass('compare-mode')){
+                    $('.calculators-hold').removeClass('sticker');
+                }
             };
             $scope.retrieveCompareState = function(index) {
                 var state = $scope.compareStates[index];
@@ -714,16 +718,22 @@
                     if ($(window).width() < 1023) {
                         $scope.isMobileMode = true;
                     }
+                    makeStickCalendar();
                     $(window).on('resize', function() {
                         displayCompareCalcs();
-                        makeStickCalendar();
                         if ($(window).width() < 1023) {
+                            if($('.initial-standalone-calculator').hasClass('compare-mode')){
+                                $('.calculators-hold').addClass('sticker');
+                            }
                             if (!$scope.isMobileMode && $scope.compareStates.length) {
                                 $scope.retrieveCompareState($scope.activeTabIndex);
                                 $scope.$apply();
                             }
                             $scope.isMobileMode = true;
                         } else {
+                            if($('.initial-standalone-calculator').hasClass('compare-mode')){
+                                $('.calculators-hold').removeClass('sticker');
+                            }
                             if ($scope.isMobileMode && $scope.compareStates.length) {
                                 $scope.trySaveActiveChanges();
                                 for (var i = 0; i < $scope.compareStates.length; i++) {
@@ -737,8 +747,6 @@
                             }
                             $scope.isMobileMode = false;
                         }
-                    }).on('scroll', function() {
-                        makeStickCalendar();
                     });
                 });
             for (var i = 0; i <= 3; i++) {
@@ -749,7 +757,6 @@
             .ready(function() {
                 toggleClearInputIcon();
                 displayCompareCalcs();
-                makeStickCalendar();
                 $('#province-tax-rate').change();
 
                 $('.calc-field-edit a').hide();
@@ -804,20 +811,14 @@
         }
 
         function makeStickCalendar() {
-            if ($(document).height() > $(window).height()) {
-                $('.calculators-hold').addClass('sticker');
-                if($('.calculators-hold.sticker').length && viewport().width >= 768){
-                    $('.calculators-hold.sticker').each(function(){
-                        if($('body').hasClass('ios-device')){
-                            stickySection($(this), 'tablet-ios');
-                        }else{
-                            stickySection($(this), 'all');
-                        }
-                    });
-                }
-            }
-            if(viewport().width >= 1024 && $('.initial-standalone-calculator').hasClass('compare-mode')){
-                $('.calculators-hold').removeClass('sticker');
+            if($('.calculators-hold.sticker').length && viewport().width >= 768){
+                $('.calculators-hold.sticker').each(function(){
+                    if($('body').hasClass('ios-device')){
+                        stickySection($(this), 'tablet-ios');
+                    }else{
+                        stickySection($(this), 'all');
+                    }
+                });
             }
         }
 

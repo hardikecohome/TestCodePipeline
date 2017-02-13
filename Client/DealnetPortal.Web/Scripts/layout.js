@@ -4,6 +4,10 @@
       var tabletOnly = viewport().width > 768 && viewport().width <= 1024;
       var desktopUp = viewport().width > 1024;
 
+
+      var totalWindowHeight = window.innerHeight;
+      var keyboardHeight;
+
       var isMobile = {
         Android: function() {
           return navigator.userAgent.match(/Android/i);
@@ -61,9 +65,30 @@
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
       }).on('shown.bs.modal', function(){
-          $('textarea').each(function(){
-            has_scrollbar($(this), 'textarea-has-scroll');
+        if(isMobile.iOS()){
+          $('input, textarea, [contenteditable=true], select').on({
+            focus: function() {
+              keyboardHeight = totalWindowHeight - window.innerHeight;
+                if($(window).height() < $('.modal.in').find('.modal-dialog').height()){
+                  $('.modal.in').find('.modal-dialog').css({
+                    'margin-bottom':  keyboardHeight + 'px'
+                  })
+                }
+            },
+            blur: function(){
+              keyboardHeight = 30;
+              if($(window).height() < $('.modal.in').find('.modal-dialog').height()){
+                $('.modal.in').find('.modal-dialog').css({
+                  'margin-bottom':  keyboardHeight + 'px'
+                })
+              }
+            }
           });
+        }
+
+        $('textarea').each(function(){
+          has_scrollbar($(this), 'textarea-has-scroll');
+        });
       }).on('hidden.bs.modal', function () {
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
@@ -182,18 +207,8 @@
             stickySection($(this), 'all');
           }
         });
-
       }
-/*
-      if($('.compare-sticker').length && viewport().width >= 768){
-        $('.compare-sticker').each(function(){
-          if(isMobile.iOS()){
-            stickySection($(this), 'tablet-ios');
-          }else{
-            stickySection($(this), 'all');
-          }
-        });
-      }*/
+
 
       addIconsToFields();
       toggleClearInputIcon();
@@ -261,7 +276,7 @@ function fixedOnKeyboardShownIos(fixedElem){
   var topPadding = 10;
 
   function fixFixedPosition() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $('.navbar-header').height() + topPadding;
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
     $navbar.addClass('absoluted-div').css({
       top: absoluteTopCoord + 'px',
     }).fadeIn('slow')
@@ -273,11 +288,11 @@ function fixedOnKeyboardShownIos(fixedElem){
     $(document).off('scroll', updateScrollTop);
   }
   function updateScrollTop() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $('.navbar-header').height() + topPadding;
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
     $navbar.css('top', absoluteTopCoord + 'px');
   }
 
-  $('input, textarea, [contenteditable=true]').on({
+  $('input, textarea, [contenteditable=true], select').on({
     focus: function() {
       fixedElem.hide();
       setTimeout(fixFixedPosition, 100);
