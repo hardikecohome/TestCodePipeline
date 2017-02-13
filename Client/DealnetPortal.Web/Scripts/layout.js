@@ -5,7 +5,8 @@
       var desktopUp = viewport().width > 1024;
 
 
-      var totalWindowHeight = window.innerHeight;
+      var totalWindowHeight = window.innerHeight,
+          windowHeightAfterResize;
       var keyboardHeight;
 
       var isMobile = {
@@ -154,6 +155,25 @@
       $(window).on('scroll', function(){
         detectPageHeight();
       }).on('resize', function(){
+        //Detect keyboard height for ipad to increase scroll area for modal window
+        windowHeightAfterResize = window.innerHeight;
+        keyboardHeight = totalWindowHeight - windowHeightAfterResize;
+
+          if(window.innerHeight < $('.modal.in').find('.modal-dialog').height()){
+            setTimeout(function(){
+              $('.modal.in').find('.modal-dialog').css({
+                'margin-bottom':  keyboardHeight + 'px'
+              })
+            }, 300);
+          }else{
+            setTimeout(function(){
+              $('.modal.in').find('.modal-dialog').css({
+                'margin-bottom':  0 + 'px'
+              })
+            }, 300);
+          }
+        //End Detect keyboard height for ipad to increase scroll area for modal window
+
         detectPageHeight();
         documentsColHeight();
       });
