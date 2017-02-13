@@ -636,7 +636,10 @@
                 $scope.loanTermToCompare = $scope.activeLoanTerm;
                 $scope.amortizationTermToCompare = $scope.activeAmortizationTerm;
                 $scope.deferralTypeToCompare = $scope.activeDeferralType;
-                $('#calculator-modal').modal();
+                setTimeout(function () {
+                    $('#calculator-modal').modal();
+                }, 300);
+
             };
             $scope.copyStateToCompare = function(index) {
                 var state = $scope.compareStates[index];
@@ -648,7 +651,10 @@
                 $scope.amortizationTermToCompare = state.amortizationTerm;
                 $scope.deferralTypeToCompare = state.deferralType;
                 $scope.editIndex = index;
-                $('#calculator-modal').modal();
+                setTimeout(function () {
+                    $('#calculator-modal').modal();
+                }, 300);
+
             };
             $scope.calculateLoanValues = function() {
                 var state = {
