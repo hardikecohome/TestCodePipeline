@@ -302,6 +302,9 @@ function fixedOnKeyboardShownIos(fixedElem){
     }).fadeIn('fast')
   }
   function resetFixedPosition() {
+    $('.navbar-header').css({
+      top: '0px',
+    });
     $navbar.removeClass('absoluted-div').css({
       top: $('.navbar-header').height() + topPadding,
     });
