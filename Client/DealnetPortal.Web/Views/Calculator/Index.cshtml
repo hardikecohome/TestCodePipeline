@@ -454,6 +454,7 @@
                     }, function() {
                         $scope.$evalAsync(function() {
                             var form = element.parent().closest('form');
+                            updateModalHeightIpad();
                             addIconsToFields();
                             toggleClearInputIcon();
                             customizeSelect();
