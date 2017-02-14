@@ -26,6 +26,7 @@ namespace DealnetPortal.Web.Models
 
         public string Date { get; set; }
         public string Equipment { get; set; }
+        public string SalesRep { get; set; }
         public string Value { get; set; }
         public string RemainingDescription { get; set; }
         public string AgreementType { get; set; }

@@ -1,0 +1,24 @@
+.dataTable.home-page-table{
+  th, td{
+
+  }
+}
+body.mobile-device{
+  .dataTable.home-page-table{
+    th, td{
+      &.customer-cell{
+        @media @mobile and (orientation: portrait) {
+          width: 60%;
+        }
+      }
+
+      &.customer-cell,
+      &.status-cell,
+      &.action-cell{
+        @media @mobile and (orientation: landscape) {
+          width: 30%;
+        }
+      }
+    }
+  }
+}
