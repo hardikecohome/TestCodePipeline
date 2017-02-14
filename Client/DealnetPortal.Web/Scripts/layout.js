@@ -135,7 +135,9 @@
       }).on('resize', function(){
 
         if(isMobile.iOS() && viewport().width >= 768){
-          setModalMarginForIpad();
+          if($('.modal.in').length === 1){
+            setModalMarginForIpad();
+          }
         }
 
         detectPageHeight();
@@ -297,7 +299,9 @@ function fixedOnKeyboardShownIos(fixedElem){
     focus: function() {
       fixedElem.hide();
       setTimeout(fixFixedPosition, 100);
-      setModalMarginForIpad();
+      if($(this).parents('.modal.in').length === 1){
+        setModalMarginForIpad();
+      }
       $(document).scroll(updateScrollTop);
     },
     blur: resetFixedPosition
