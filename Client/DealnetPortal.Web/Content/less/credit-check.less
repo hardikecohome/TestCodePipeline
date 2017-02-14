@@ -154,11 +154,9 @@ select.dealnet-disabled-input{
   width: 100% !important;
 }
 
-/*
-.dealnet-modal-section>div:first-child {
+/*.dealnet-modal-section>div:first-child {
   display: none !important;
-}
-*/
+}*/
 
 .dealnet-credit-check-section {
   width: 100%;
@@ -716,52 +714,44 @@ select.dealnet-disabled-input{
       max-width: 100% !important;
     }
 
-
-    .equipment-editable-section div[class*="col-"]:not(.initial-width){
+    .equipment-editable-section div[class*="col-"]:not(.initial-width) {
       width: 100% !important;
     }
-    .equipment-editable-section div[class*="col-"].loan-col-md-6 {
-      &.loan-col-md-6{
+    .equipment-editable-section div[class*="col-"] {
+      &.loan-col-md-6 {
         @media @desktop-up {
-        width: 50% !important;
+          width: 50% !important;
         }
       }
-      &.loan-col-md-4{
+      &.loan-col-md-4 {
         @media @desktop-up {
           width: 33.33333333% !important;
         }
       }
-      &.loan-col-md-8{
+      &.loan-col-md-8 {
         @media @desktop-up {
           width: 66.66666667% !important;
         }
       }
-      &.loan-col-sm-4{
+      &.loan-col-sm-4 {
         @media @tablet-up {
           width: 33.33333333% !important;
+        }
+      }
+      &.loan-col-sm-8 {
+        @media @tablet-up {
+          width: 66.66666667% !important;
+        }
+      }
     }
-
   }
-      &.loan-col-sm-8{
-        @media @tablet-up {
-          width: 66.66666667% !important;
-        }
-       }
+}
 
 
 .sticker{
   &:not(.stick){
     width: 100% !important;
-    }
-    }
-
-
-
   }
-  &.standalone-calculator{
-
-  }
-
 }
 
 body:not(.ios-device){
@@ -782,6 +772,7 @@ body:not(.ios-device){
     }
   }
 }
+
 body.tablet-device.ios-device{
   .sticker-parent{
     position: relative;
@@ -797,7 +788,4 @@ body.tablet-device.ios-device{
       top: 0;
     }
   }
-  &:not(.stick){
-    width: 100% !important;
-  }
-}}
+}

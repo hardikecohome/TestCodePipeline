@@ -966,7 +966,8 @@
                     }
 	                if (Model.ContactAndPaymentInfo.PaymentInfo != null)
                         {
-                            using (Html.BeginForm(null, null, FormMethod.Post, new {id = "contact-info-coborrowers-form-" + (i + 1), @class = "credit-check-info-hold"}))
+	                        <div class="credit-check-info-hold">
+                            @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "contact-info-coborrowers-form-" + (i + 1), @class = "credit-check-info-hold"}))
                             {
                                 <input type="hidden" name="ContactAndPaymentInfo.CoBorrowersContactInfo.Index" value="@i"/>
                                 @Html.AntiForgeryToken()
@@ -1021,10 +1022,11 @@
                                     </div>
                                 </div>
                             }
+		                    </div>
                         }
                     }
-                </div>
-            </div>
+	        </div>
+	    </div>
     }
 
     @if (contractState == ContractState.CreditCheckDeclined)
