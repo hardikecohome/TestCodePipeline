@@ -1,9 +1,5 @@
 ﻿$(document)
     .ready(function () {
-/*      var tabletUp = viewport().width > 768;
-      var tabletOnly = viewport().width > 768 && viewport().width <= 1024;
-      var desktopUp = viewport().width > 1024;*/
-
       var isMobile = {
         Android: function() {
           return navigator.userAgent.match(/Android/i);
@@ -25,20 +21,8 @@
         }
       };
 
-      if(isMobile.any()) {
-        if(viewport().width < 768){
-          $('body').addClass('mobile-device').removeClass('tablet-device')
-        }else{
-          $('body').addClass('tablet-device').removeClass('mobile-device')
-        }
-      }else{
-        $('body').removeClass('mobile-device').removeClass('tablet-device')
-      }
-      if(isMobile.iOS()){
-        $('body').addClass('ios-device')
-      }else{
-        $('body').removeClass('ios-device')
-      }
+      setDeviceClasses();
+
 
       if(detectIE()){
         $('body').addClass('ie');
@@ -133,13 +117,12 @@
       $(window).on('scroll', function(){
         detectPageHeight();
       }).on('resize', function(){
-
+        setDeviceClasses();
         if(isMobile.iOS() && viewport().width >= 768){
           if($('.modal.in').length === 1){
             setModalMarginForIpad();
           }
         }
-
         detectPageHeight();
         documentsColHeight();
       });
@@ -632,7 +615,7 @@ function recoverPassword(){
     return false;
   }
 
-function isMobile(){
+function setDeviceClasses(){
   var isMobile = {
     Android: function() {
       return navigator.userAgent.match(/Android/i);
@@ -663,7 +646,13 @@ function isMobile(){
   }else{
     $('body').removeClass('mobile-device').removeClass('tablet-device')
   }
+  if(isMobile.iOS()){
+    $('body').addClass('ios-device')
+  }else{
+    $('body').removeClass('ios-device')
+  }
 }
+
 function viewport() {
   var e = window, a = 'inner';
   if (!('innerWidth' in window )) {
