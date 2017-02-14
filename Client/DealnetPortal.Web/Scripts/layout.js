@@ -289,6 +289,7 @@ function fixedOnKeyboardShownIos(fixedElem){
       top: $('.navbar-header').height() + topPadding,
     });
     $(document).off('scroll', updateScrollTop);
+    resetModalDialogMarginForIpad();
   }
   function updateScrollTop() {
     var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
