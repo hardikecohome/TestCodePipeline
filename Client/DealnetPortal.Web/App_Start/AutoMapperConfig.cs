@@ -164,6 +164,7 @@ namespace DealnetPortal.Web.App_Start
                     ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum))                
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
                     (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
+                .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
                     {
                         var equipment = src.Equipment?.NewEquipment;
