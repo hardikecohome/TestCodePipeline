@@ -1,13 +1,8 @@
 ﻿$(document)
     .ready(function () {
-      var tabletUp = viewport().width > 768;
+/*      var tabletUp = viewport().width > 768;
       var tabletOnly = viewport().width > 768 && viewport().width <= 1024;
-      var desktopUp = viewport().width > 1024;
-
-
-      var totalWindowHeight = window.innerHeight,
-          windowHeightAfterResize;
-      var keyboardHeight;
+      var desktopUp = viewport().width > 1024;*/
 
       var isMobile = {
         Android: function() {
@@ -66,31 +61,14 @@
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
       }).on('shown.bs.modal', function(){
-        var modalMarginBottom = 30;
-        if(isMobile.iOS()){
-          $('input, textarea, [contenteditable=true], select').on({
-            focus: function() {
-              keyboardHeight = modalMarginBottom + totalWindowHeight - window.innerHeight;
-                if($(window).height() < $('.modal.in').find('.modal-dialog').height()){
-                  $('.modal.in').find('.modal-dialog').css({
-                    'margin-bottom':  keyboardHeight + 'px'
-                  })
-                }
-            },
-            blur: function(){
-              if($(window).height() < $('.modal.in').find('.modal-dialog').height()){
-                $('.modal.in').find('.modal-dialog').css({
-                  'margin-bottom':  modalMarginBottom + 'px'
-                })
-              }
-            }
-          });
-        }
-
         $('textarea').each(function(){
           has_scrollbar($(this), 'textarea-has-scroll');
         });
       }).on('hidden.bs.modal', function () {
+        if(isMobile.iOS() && viewport().width >= 768){
+          resetModalDialogMarginForIpad();
+        }
+
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
         }
@@ -155,24 +133,10 @@
       $(window).on('scroll', function(){
         detectPageHeight();
       }).on('resize', function(){
-        //Detect keyboard height for ipad to increase scroll area for modal window
-        windowHeightAfterResize = window.innerHeight;
-        keyboardHeight = totalWindowHeight - windowHeightAfterResize;
 
-          if(window.innerHeight < $('.modal.in').find('.modal-dialog').height()){
-            setTimeout(function(){
-              $('.modal.in').find('.modal-dialog').css({
-                'margin-bottom':  keyboardHeight + 'px'
-              })
-            }, 300);
-          }else{
-            setTimeout(function(){
-              $('.modal.in').find('.modal-dialog').css({
-                'margin-bottom':  0 + 'px'
-              })
-            }, 300);
-          }
-        //End Detect keyboard height for ipad to increase scroll area for modal window
+        if(isMobile.iOS() && viewport().width >= 768){
+          setModalMarginForIpad();
+        }
 
         detectPageHeight();
         documentsColHeight();
@@ -291,6 +255,23 @@
       }
 });
 
+function resetModalDialogMarginForIpad(){
+  $('.modal.in').find('.modal-dialog').css({
+    'margin-bottom':  30 + 'px'
+  });
+}
+
+function setModalMarginForIpad(){
+  if(window.innerHeight < window.innerWidth){
+    keyboardHeight = 60
+  }else{
+    keyboardHeight = 40
+  }
+  $('.modal.in').find('.modal-dialog').css({
+    'margin-bottom':  keyboardHeight + 'vh'
+  });
+}
+
 function fixedOnKeyboardShownIos(fixedElem){
   var $navbar = fixedElem;
   var topPadding = 10;
@@ -302,9 +283,6 @@ function fixedOnKeyboardShownIos(fixedElem){
     }).fadeIn('fast')
   }
   function resetFixedPosition() {
-    $('.navbar-header').css({
-      top: '0px',
-    });
     $navbar.removeClass('absoluted-div').css({
       top: $('.navbar-header').height() + topPadding,
     });
@@ -319,6 +297,7 @@ function fixedOnKeyboardShownIos(fixedElem){
     focus: function() {
       fixedElem.hide();
       setTimeout(fixFixedPosition, 100);
+      setModalMarginForIpad();
       $(document).scroll(updateScrollTop);
     },
     blur: resetFixedPosition
