@@ -511,7 +511,7 @@ function customizeSelect(){
 }
 
 function addIconsToFields(fields){
-  var fields = fields || $('.control-group input:not(".dealnet-disabled-input"), .control-group textarea:not(".dealnet-disabled-input")');
+  var fields = fields || ($('.control-group input:not(:hidden), textarea:not(:hidden)').not(".dealnet-disabled-input"));
   var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
