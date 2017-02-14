@@ -154,9 +154,11 @@ select.dealnet-disabled-input{
   width: 100% !important;
 }
 
-/*.dealnet-modal-section>div:first-child {
+/*
+.dealnet-modal-section>div:first-child {
   display: none !important;
-}*/
+}
+*/
 
 .dealnet-credit-check-section {
   width: 100%;
@@ -678,39 +680,39 @@ select.dealnet-disabled-input{
 }
 
 
-.equipment-form-container{
-    margin-top: 30px;
-    .equipment-proceed-success{
-      font-weight: bold;
-      font-size: 16px;
-      @media @mobile {
-        font-size: 14px;
-      }
+.equipment-form-container {
+  margin-top: 30px;
+  .equipment-proceed-success {
+    font-weight: bold;
+    font-size: 16px;
+    @media @mobile {
+      font-size: 14px;
     }
-    .owner-info-label{
-      margin: 15px 0 10px;
-    }
-    .add-equip-link{
-      margin: 10px 0 0;
-    }
-    @media @desktop-only {
-      .row{
+  }
+  .owner-info-label {
+    margin: 15px 0 10px;
+  }
+  .add-equip-link {
+    margin: 10px 0 0;
+  }
+  @media @desktop-only {
+    .row {
       /*  margin-left: -10px;
         margin-right: -10px;*/
-        & > div[class*="col-"]{
-         // padding: 0 10px;
-        }
+      & > div[class*="col-"] {
+        // padding: 0 10px;
       }
     }
-  &:not(.has-loan-calc){
-    .equipment-editable-section{
+  }
+  &:not(.has-loan-calc) {
+    .equipment-editable-section {
       width: 100% !important;
     }
   }
 
-  &.has-loan-calc{
+  &.has-loan-calc {
     max-width: 100% !important;
-    .form-section{
+    .form-section {
       max-width: 100% !important;
     }
 
@@ -718,10 +720,10 @@ select.dealnet-disabled-input{
     .equipment-editable-section div[class*="col-"]:not(.initial-width){
       width: 100% !important;
     }
-    .equipment-editable-section div[class*="col-"]{
+    .equipment-editable-section div[class*="col-"].loan-col-md-6 {
       &.loan-col-md-6{
         @media @desktop-up {
-          width: 50% !important;
+        width: 50% !important;
         }
       }
       &.loan-col-md-4{
@@ -737,13 +739,20 @@ select.dealnet-disabled-input{
       &.loan-col-sm-4{
         @media @tablet-up {
           width: 33.33333333% !important;
-        }
-      }
+    }
+
+  }
       &.loan-col-sm-8{
         @media @tablet-up {
           width: 66.66666667% !important;
         }
        }
+
+
+.sticker{
+  &:not(.stick){
+    width: 100% !important;
+    }
     }
 
 
@@ -755,22 +764,40 @@ select.dealnet-disabled-input{
 
 }
 
-.sticker{
-  width: 100%;
-  @media @mobile {
-    position: static;
-    margin-top: 0;
+body:not(.ios-device){
+  .sticker{
+    width: 100%;
+    @media @mobile {
+      position: static;
+      margin-top: 0;
+    }
+    &.stick{
+      @media @tablet-up {
+        position: fixed;
+        top: 0px;
+        padding: 0 15px 0;
+        right: 0;
+        box-sizing: content-box;
+      }
+    }
   }
-  &.stick{
-    @media @tablet-up {
-      position: fixed;
-      top: 0px;
-      padding: 0 15px 0;
-      right: 0;
-      box-sizing: content-box;
+}
+body.tablet-device.ios-device{
+  .sticker-parent{
+    position: relative;
+  }
+  .stick{
+    position: fixed;
+    top: 60px;
+    width: calc(~"50% - 30px");
+    right: 15px;
+    &.absoluted-div{
+      position: absolute;
+      width: calc(~"100% - 30px");
+      top: 0;
     }
   }
   &:not(.stick){
     width: 100% !important;
   }
-}
+}}

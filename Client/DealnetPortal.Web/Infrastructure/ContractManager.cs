@@ -420,14 +420,12 @@ namespace DealnetPortal.Web.Infrastructure
         {
             summary.BasicInfo = new BasicInfoViewModel();
             summary.BasicInfo.ContractId = contractId;
-            await MapBasicInfo(summary.BasicInfo, contract);
-            summary.EquipmentInfo = new EquipmentInformationViewModel();
-            summary.EquipmentInfo.ContractId = contractId;
-            summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
-            summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
+            await MapBasicInfo(summary.BasicInfo, contract);            
+            summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);                        
             if (summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
+                summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
             }
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
