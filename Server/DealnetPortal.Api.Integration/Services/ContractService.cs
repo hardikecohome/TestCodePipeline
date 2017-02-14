@@ -99,46 +99,15 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (aspireDeals?.Any() ?? false)
             {
-                var statusWasUpdated = false;
-                foreach (var aspireDeal in aspireDeals)
+                var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
+
+                var unlinkedDeals = aspireDeals.Where(ad => ad.Details?.TransactionId != null &&
+                                                            contracts.All(c => (!c.Details?.TransactionId?.Contains(ad.Details.TransactionId) ?? true))).ToList();
+                if (unlinkedDeals.Any())
                 {
-                    if (aspireDeal.Details?.TransactionId == null)
-                    {
-                        continue;
-                    }
-                    var contract =
-                        contracts.FirstOrDefault(
-                            c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
-                    if (contract != null)
-                    {
-                        if (contract.Details.Status != aspireDeal.Details.Status)
-                        {
-                            contract.Details.Status = aspireDeal.Details.Status;
-                            var aspireStatus = _contractRepository.GetAspireStatus(aspireDeal.Details.Status);
-                            if (aspireStatus != null)
-                            {
-                                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                                    contract.ContractState == ContractState.SentToAudit)
-                                {
-                                    contract.ContractState = ContractState.Completed;
-                                    contract.LastUpdateTime = DateTime.Now;
-                                }
-                                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                                         contract.ContractState != ContractState.SentToAudit)
-                                {
-                                    contract.ContractState = ContractState.SentToAudit;
-                                    contract.LastUpdateTime = DateTime.Now;
-                                }
-                            }
-                            statusWasUpdated = true;
-                        }
-                    }
-                    else
-                    {
-                        contractDTOs.Add(aspireDeal);
-                    }
+                    contractDTOs.AddRange(unlinkedDeals);
                 }
-                if (statusWasUpdated)
+                if (isContractsUpdated)
                 {
                     try
                     {
@@ -147,8 +116,8 @@ namespace DealnetPortal.Api.Integration.Services
                     catch (Exception ex)
                     {
                         _loggingService.LogError("Cannot update Aspire deals status", ex);
-                    }                    
-                }
+                    }
+                }                                
             }
 
             var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
@@ -1020,6 +989,66 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
             return new List<Alert>(alerts);
+        }
+
+        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
+        {
+            bool isChanged = false;
+            foreach (var aspireDeal in aspireDeals)
+            {
+                if (aspireDeal.Details?.TransactionId == null)
+                {
+                    continue;
+                }
+                var contract =
+                    contractsForUpdate.FirstOrDefault(
+                        c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
+                if (contract != null)
+                {
+                    if (contract.Details.Status != aspireDeal.Details.Status)
+                    {
+                        contract.Details.Status = aspireDeal.Details.Status;
+                        contract.LastUpdateTime = DateTime.Now;
+                        isChanged = true;                                                
+                    }
+                    //update contract state in any case
+                    UpdateContractState(contract);
+                }                
+            }
+            return isChanged;
+        }
+
+        /// <summary>
+        /// Logic for update internal contract state by Aspire state
+        /// </summary>
+        /// <param name="contract"></param>
+        private void UpdateContractState(Contract contract)
+        {
+            var aspireStatus = _contractRepository.GetAspireStatus(contract.Details?.Status);
+            if (aspireStatus != null)
+            {
+                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                    contract.ContractState == ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.Completed;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                         contract.ContractState != ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.SentToAudit;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+            }
+            else
+            {
+                // if current status is SentToAudit reset it to Completed
+                if (contract.ContractState == ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.Completed;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+            }
         }
     }
 }
