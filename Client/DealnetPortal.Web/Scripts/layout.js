@@ -298,7 +298,6 @@ function fixedOnKeyboardShownIos(fixedElem){
 
   $('input, textarea, [contenteditable=true], select').on({
     focus: function() {
-      fixedElem.hide();
       setTimeout(fixFixedPosition, 100);
       if($(this).parents('.modal.in').length === 1){
         setModalMarginForIpad();
