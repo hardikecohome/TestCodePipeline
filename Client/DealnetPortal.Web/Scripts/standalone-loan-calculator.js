@@ -33,7 +33,7 @@
     var loanTerm = parseInt(calculationState.loanTerm);
     var amortizationTerm = parseInt(calculationState.amortizationTerm);
     var customerRate = parseFloat(calculationState.customerRate);
-    if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate <= 0) { return; }
+    if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return; }
     var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
     calculationState.totalMonthlyPayment = totalMonthlyPayment;
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;

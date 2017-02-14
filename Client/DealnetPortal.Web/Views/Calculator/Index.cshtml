@@ -746,6 +746,7 @@
                                 for (var i = 0; i < $scope.compareStates.length; i++) {
                                     var state = $scope.compareStates[i];
                                     if (state === null) {
+                                        $scope.resetDisplayedValues(i);
                                         continue;
                                     }
                                     $scope.updateDisplayedValues(state, i);
