@@ -676,6 +676,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
                     {
                         formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner, Value = "true" });
+                        formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = $"{PdfFormFields.IsHomeOwner}_2", Value = "true"});
                     }
                     formFields.Add(new FormField()
                     {
@@ -770,6 +771,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner2, Value = "true" });
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = $"{PdfFormFields.IsHomeOwner2}_2", Value = "true" });
                 }
 
             }

@@ -37,7 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string CustomerName = "CustomerName";
         public static string CustomerName2 = "CustomerName_2";
         public static string IsHomeOwner = "IsHomeOwner";
-        public static string IsHomeOwner2 = "IsHomeOwner_2";
+        public static string IsHomeOwner2 = "IsHomeOwner2";
 
         //Equipment Fields
         public static string IsFurnace = "IsFurnace";
