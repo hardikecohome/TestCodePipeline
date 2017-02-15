@@ -673,7 +673,17 @@ namespace DealnetPortal.Api.Integration.Services
                         formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MailingAddress, Value =
                             $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}" });                        
                     }
-                }
+                    //if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
+                    //{
+                    //    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner, Value = "true" });
+                    //}
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CustomerName,
+                        Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
+                    });
+               }
             }
 
             if (contract.PrimaryCustomer?.Emails?.Any() ?? false)
@@ -749,6 +759,14 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.CellPhone2, Value = cellPhone.PhoneNum });
                 }
+
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.CustomerName2,
+                    Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                });
+
             }
         }
 
@@ -1133,24 +1151,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
         private void FillInstallCertificateFields(List<FormField> formFields, Contract contract)
-        {
-            formFields.Add(new FormField()
-            {
-                FieldType = FieldType.Text,
-                Name = PdfFormFields.CustomerName,
-                Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
-            });
-
-            if (contract.SecondaryCustomers?.Any() ?? false)
-            {
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.CustomerName2,
-                    Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
-                });
-            }
-
+        {            
             formFields.Add(new FormField()
             {
                 FieldType = FieldType.Text,
