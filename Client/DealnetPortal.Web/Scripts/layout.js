@@ -258,32 +258,45 @@ function setModalMarginForIpad(){
 }
 
 function fixedOnKeyboardShownIos(fixedElem){
-  var $navbar = fixedElem;
+  var $navbar = $('.navbar-fixed-side');
+
+  var $fixedElement = fixedElem;
   var topPadding = 10;
 
   function fixFixedPosition() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $navbar.height()  + topPadding;
+
     $navbar.addClass('absoluted-div').css({
+      top: document.body.scrollTop + 'px'
+    }).show();
+
+    $fixedElement.addClass('absoluted-div').css({
       top: absoluteTopCoord + 'px',
     }).fadeIn('fast')
   }
   function resetFixedPosition() {
     $navbar.removeClass('absoluted-div').css({
+      top: 0,
+    });
+
+    $fixedElement.removeClass('absoluted-div').css({
       top: $('.navbar-header').height() + topPadding,
     });
     $(document).off('scroll', updateScrollTop);
     resetModalDialogMarginForIpad();
   }
   function updateScrollTop() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
-    $navbar.css('top', absoluteTopCoord + 'px');
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $navbar.height() + topPadding;
+    $fixedElement.css('top', absoluteTopCoord + 'px');
+    $navbar.css('top', document.body.scrollTop + 'px');
   }
 
   $('input, textarea, [contenteditable=true], select').on({
     focus: function() {
-      setTimeout(fixFixedPosition, 100);
       if($(this).parents('.modal.in').length === 1){
         setModalMarginForIpad();
+      }else{
+        setTimeout(fixFixedPosition, 100);
       }
       $(document).scroll(updateScrollTop);
     },
@@ -668,7 +681,8 @@ function setDeviceClasses(){
     $('body').removeClass('mobile-device').removeClass('tablet-device')
   }
   if(isMobile.iOS()){
-    $('body').addClass('ios-device')
+    $('body').addClass('ios-device');
+    $('.modal').removeClass('fade').addClass('fade-on-ios');
   }else{
     $('body').removeClass('ios-device')
   }
