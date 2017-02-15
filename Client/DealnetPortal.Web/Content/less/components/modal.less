@@ -49,6 +49,21 @@
     font-family: @usual-font-family;
   }
 }
+
+.modal.fade-on-ios{
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  opacity: 0;
+  -webkit-transition: opacity 0.3s linear, -webkit-transform 0.3s ease-out;
+  transition: opacity 0.3s linear, transform 0.3s ease-out;
+}
+
+.modal.fade-on-ios.in{
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  opacity: 1;
+}
+
 #payment-info-modal{
   .file-upload{
     @media @tablet-only {

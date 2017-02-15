@@ -393,18 +393,24 @@ namespace DealnetPortal.Web.Infrastructure
                     var contractData = new ContractDataDTO()
                     {
                         Id = newContractRes.Item1.Id,
-                        PrimaryCustomer = customer,
-                        PaymentInfo = new PaymentInfoDTO()
+                        PrimaryCustomer = customer,                        
+                    };
+
+                    if (contractRes.Item1.PaymentInfo != null)
+                    {
+                        contractData.PaymentInfo = new PaymentInfoDTO()
                         {
                             AccountNumber = contractRes.Item1.PaymentInfo.AccountNumber,
                             BlankNumber = contractRes.Item1.PaymentInfo.BlankNumber,
-                            EnbridgeGasDistributionAccount = contractRes.Item1.PaymentInfo.EnbridgeGasDistributionAccount,
+                            EnbridgeGasDistributionAccount =
+                                contractRes.Item1.PaymentInfo.EnbridgeGasDistributionAccount,
                             MeterNumber = contractRes.Item1.PaymentInfo.MeterNumber,
                             PaymentType = contractRes.Item1.PaymentInfo.PaymentType,
                             PrefferedWithdrawalDate = contractRes.Item1.PaymentInfo.PrefferedWithdrawalDate,
                             TransitNumber = contractRes.Item1.PaymentInfo.TransitNumber
-                        }
-                    };
+                        };
+                    }
+
                     var updateRes = await _contractServiceAgent.UpdateContractData(contractData);
                     if (updateRes.Any())
                     {
