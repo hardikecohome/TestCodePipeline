@@ -172,7 +172,9 @@ $(document).ready(function () {
             $("#proceed-homeowner-errormessage").show();
         }
         if (!isHomeOwner || !isApprovalAge) {
-            event.preventDefault();
+            if ($('#main-form').valid()) {
+                event.preventDefault();
+            }
         }
     });
 });
