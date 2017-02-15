@@ -13,6 +13,7 @@ namespace DealnetPortal.Domain
         public Contract()
         {
             SecondaryCustomers = new HashSet<Customer>();
+            HomeOwners = new HashSet<Customer>();
             Details = new ContractDetails();
             Documents = new HashSet<ContractDocument>();
         }
@@ -33,12 +34,22 @@ namespace DealnetPortal.Domain
         public Customer PrimaryCustomer { get; set; }
 
         /// <summary>
+        /// Installation address are linked to a deal
+        /// </summary>
+        //public Location InstallationAddress { get; set; }
+
+        /// <summary>
         /// Aspire dealer for contract
         /// </summary>
         public string ExternalSubDealerName { get; set; }
         public string ExternalSubDealerId { get; set; }
 
         public ICollection<Customer> SecondaryCustomers { get; set; }
+
+        /// <summary>
+        /// Same customers or borrower can be home owner
+        /// </summary>
+        public ICollection<Customer> HomeOwners { get; set; }
 
         public virtual PaymentInfo PaymentInfo { get; set; }
         

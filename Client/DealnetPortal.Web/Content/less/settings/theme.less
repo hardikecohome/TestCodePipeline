@@ -83,6 +83,9 @@
 .dealnet-middle-header {
   font: 700 20px @usual-font-family;
   color: @heading-text-color;
+&.no-margin-top{
+    margin-top: 0;
+  }
 }
 .equipment-number-header{
   .owner-info-label;
@@ -245,4 +248,10 @@ body.modal-open .pac-container{
   &+.dealnet-disabled-input{
     text-transform: uppercase;
   }
+}
+
+.vertical-aligned-cell{
+  height: 40px;
+  display: table-cell;
+  vertical-align: middle;
 }

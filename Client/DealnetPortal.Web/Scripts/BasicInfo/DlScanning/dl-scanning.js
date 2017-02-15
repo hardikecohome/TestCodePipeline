@@ -17,7 +17,9 @@
                 document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                 var date = new Date(json.DateOfBirthStr);
                 date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
+                var dateInput = $("#" + modal.getAttribute('data-bdToFill'));
+                dateInput.datepicker("setDate", date);
+                dateInput.change();
                 document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
                 document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
                 document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;
@@ -59,9 +61,9 @@ function submitUpload(sender, uploadUrl) {
                         document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                        //date = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
-                        //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
-                        $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
+                        var dateInput = $("#" + modal.getAttribute('data-bdToFill'));
+                        dateInput.datepicker("setDate", date);
+                        dateInput.change();
                         document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
                         document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;

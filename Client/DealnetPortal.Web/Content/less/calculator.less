@@ -1,0 +1,92 @@
+.initial-standalone-calculator{
+  .calculator-remove{
+    float: right;
+    margin-left: 5px;
+    padding: 2px 5px;
+    margin-right: -5px;
+    cursor: pointer;
+  }
+  .calc-title{
+    .dealnet-section-edit-link{
+      font-size: 14px;
+    }
+  }
+}
+
+.switch-calculators{
+  li{
+    a{
+      display: inline-block;
+      &.empty-calc-link{
+        .dealnet-info-link;
+        color: @button-link-color !important;
+
+        &:focus{
+          color: @button-link-color !important;
+        }
+        &:hover{
+          color: @button-link-hover-color !important;
+        }
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 22px;
+      }
+    }
+  }
+}
+
+.initial-standalone-calculator:not(.compare-mode){
+  .compare-mode{
+    display: none !important;
+  }
+}
+
+.initial-standalone-calculator.compare-mode{
+  .compare-table-calculator{
+    @media @desktop-up {
+      width: 100% !important;
+      .calc-label{
+        width: 40%;
+      }
+      div[class*="calc-field-type"]{
+        width: 20%;
+        &.empty-field{
+          display: none;
+        }
+      }
+    }
+  }
+  .initial-mode{
+    display: none !important;
+  }
+  .no-top-margin-compare-mode{
+    margin-top: 0;
+  }
+  .equipment-editable-section{
+    @media @desktop-up {
+      display: none;
+    }
+  }
+  .switch-calculators li{
+    @media @mobile {
+      width: auto;
+    }
+  }
+  .switch-calculators li a{
+    @media @mobile {
+      padding: 10px;
+      font-size: 16px;
+    }
+    &.nav-tab-link{
+      display: none;
+    }
+    &.block-btn{
+      display: block !important;
+    }
+  }
+  .calc-title{
+    .calc-title-inner{
+      display: none;
+    }
+  }
+}

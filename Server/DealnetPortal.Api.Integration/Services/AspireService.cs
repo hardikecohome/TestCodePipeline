@@ -461,10 +461,16 @@ namespace DealnetPortal.Api.Integration.Services
                                 Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
                             };
 
-                            //TODO:
+                            var submitString = "Ready For Audit";
+                            var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
                             request.Payload.Documents = new List<Document>()
                             {
                                 new Document()
+                                {
+                                    Name = "ReadyForAudit",
+                                    Data = submitStrBase64,
+                                    Ext = "txt"
+                                }
                             };
 
                             var docUploadResponse =
@@ -1025,17 +1031,13 @@ namespace DealnetPortal.Api.Integration.Services
                 int.TryParse(response.Payload.ScorecardPoints, out scorePoints))
             {
                 checkResult.ScorecardPoints = scorePoints;
-                if (scorePoints > 180 && scorePoints <= 190)
-                {
-                    checkResult.CreditAmount = 12000;
-                }
-                if (scorePoints > 190 && scorePoints <= 200)
+                if (scorePoints > 180 && scorePoints <= 220)
                 {
                     checkResult.CreditAmount = 15000;
                 }
-                if (scorePoints > 200 && scorePoints < 1000)
+                if (scorePoints > 220 && scorePoints < 1000)
                 {
-                    checkResult.CreditAmount = 20000;
+                    checkResult.CreditAmount = 25000;
                 }
             }
 

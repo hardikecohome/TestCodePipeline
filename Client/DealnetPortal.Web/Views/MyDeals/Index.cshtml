@@ -5,59 +5,106 @@
 <div id="label-steps">
 	<div class="dealnet-action-link">My Deals</div> >
 </div>
-<!--<div class="dealnet-large-header">My Deals</div>-->
+
 <div class="expand-filter-template">
-	<div class="reset-form-inline">
-		<div class="label-caption">Filter</div>
-		<div class="row">
-			<div class="col-sm-6 col-md-3 col-lg-4">
-				<div class="form-group">
-					<label for="">Deal Status</label>
-					<div class="control-group">
-					    @*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
-                        <select id="deal-status" class = "form-control"></select>
+	<h2 class="dealnet-middle-header">Filter</h2>
+
+	<div class="expand-filter-navigation">
+		<a class="clear-data-link" id="clear-filters">
+			<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">Clear Filters</span>
+		</a>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#deal-info-tab" aria-controls="deal-info-tab" role="tab" data-toggle="tab">Deal Info</a></li>
+			<li role="presentation"><a href="#detailed-info-tab" aria-controls="profile" role="tab" data-toggle="tab">Detailed Info</a></li>
+		</ul>
+	</div>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="deal-info-tab">
+			<div class="reset-form-inline">
+				<div class="row">
+					<div class="col-sm-6 col-md-3 col-lg-4">
+						<div class="form-group">
+							<label for="deal-type">Deal Type</label>
+							<div class="control-group">
+								<select id="agreement-type" class="form-control select-filter"></select>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-3 col-sm-6">
+						<div class="form-group">
+							<label for="">Date From</label>
+							<div class="control-group date-group">
+								<input type="text" class="form-control date-control" id="date-from">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-3 col-sm-6">
+						<div class="form-group">
+							<label for="">Date To</label>
+							<div class="control-group date-group">
+								<input type="text" class="form-control date-control" id="date-to">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3 col-lg-4">
+						<div class="form-group">
+							<label for="">Deal Status</label>
+							<div class="control-group">
+								@*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
+								<select id="deal-status" class = "form-control select-filter"></select>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-6">
+						<div class="form-group">
+							<button class="btn dealnet-button dealnet-success-button block-button filter-button">Filter</button>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-2 col-md-3 col-sm-6">
-				<div class="form-group">
-					<label for="">Date From</label>
-					<div class="control-group date-group">
-						<input type="text" class="form-control date-control" id="date-from">
+		</div>
+		<div role="tabpanel" class="tab-pane" id="detailed-info-tab">
+			<div class="reset-form-inline">
+				<div class="row">
+					<div class="col-sm-6 col-md-4 col-lg-4">
+						<div class="form-group">
+							<label for="">Sales Rep</label>
+							<div class="control-group">
+								<select class="form-control filter-input select-filter" id="sales-rep"></select>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-lg-2 col-md-3 col-sm-6">
-				<div class="form-group">
-					<label for="">Date To</label>
-					<div class="control-group date-group">
-						<input type="text" class="form-control date-control" id="date-to">
+					<div class="col-lg-5 col-md-5 hidden-sm hidden-xs"></div>
+					<div class="col-lg-3 col-md-3 col-sm-6">
+						<div class="form-group">
+							<button class="btn dealnet-button dealnet-success-button block-button filter-button">Filter</button>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-3 col-sm-6">
-				<div class="form-group">
-					<button class="btn dealnet-button dealnet-success-button block-button" id="filter-button">Filter</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<table id="work-items-table" class="display responsive" width="100%">
+<table id="work-items-table" class="display responsive my-deals-table" width="100%">
     <thead>
     <tr>
-        <th class="all">Contract&nbsp;#</th>
+        <th class="all contract-cell">Contract&nbsp;#</th>
         <th class="all customer-cell">Customer</th>
-        <th class="min-tablet-p">Status</th>
-        <th class="min-desktop">Email</th>
-        <th class="min-desktop">Phone</th>
-        <th class="min-desktop">Date</th>
+        <th class="min-tablet-p status-cell">Status</th>
+        <th class="min-desktop type-cell">Type</th>
+        <th class="min-desktop email-cell">Email</th>
+        <th class="min-desktop phone-cell">Phone</th>
+        <th class="min-desktop date-cell">Date</th>
         <th class="min-desktop">Equipment</th>
+        <th class="min-desktop sales-rep-cell">Sales Rep</th>
         <th class="min-desktop">Value</th>
-        <th class="min-desktop hidden">RemainingDescription</th>
+        <th class="hidden">RemainingDescription</th>
         <th class="all edit-cell"></th>
-        <th class="all id-cell hidden">Id</th>
+        <th class="id-cell hidden">Id</th>
     </tr>
     </thead>
 </table>

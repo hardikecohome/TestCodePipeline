@@ -164,6 +164,7 @@ namespace DealnetPortal.Web.App_Start
                     ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum))                
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
                     (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
+                .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
                     {
                         var equipment = src.Equipment?.NewEquipment;
@@ -216,7 +217,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
                 .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
-                .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)));
+                .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)))
+                .ForMember(x => x.IsHomeOwner, d => d.Ignore());
             cfg.CreateMap<LocationDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));

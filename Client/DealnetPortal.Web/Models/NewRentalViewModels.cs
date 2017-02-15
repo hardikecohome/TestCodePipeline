@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models.EquipmentInformation;
+using DealnetPortal.Web.Models.Validation;
 
 namespace DealnetPortal.Web.Models
 {
@@ -39,16 +40,17 @@ namespace DealnetPortal.Web.Models
         public string Sin { get; set; } 
         [Display(Name = "Driver License Number")]
         public string DriverLicenseNumber { get; set; }
-
         public AddressInformation AddressInformation { get; set; }
         public MailingAddressInformation MailingAddressInformation { get; set; }
+        [Display(Name = "Home Owner")]
+        public bool IsHomeOwner { get; set; }
         public int? ContractId { get; set; }
     }
 
     public class MailingAddressInformation : AddressInformation
     {
         [Required]
-        [Display(Name = "Mailing Address")]
+        [Display(Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Mailing Address is in incorrect format")]
         public override string Street { get; set; }
@@ -57,7 +59,7 @@ namespace DealnetPortal.Web.Models
     public class AddressInformation
     {
         [Required]
-        [Display(Name = "Installation Address")]
+        [Display(Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessage = "Installation Address is in incorrect format")]
         public virtual string Street { get; set; }
@@ -92,6 +94,8 @@ namespace DealnetPortal.Web.Models
     public class BasicInfoViewModel
     {
         public string SubmittingDealerId { get; set; }
+        [CheckCustomersAge("AdditionalApplicants", 75)]
+        [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public List<SubDealer> SubDealers { get; set; }

@@ -463,8 +463,17 @@ select.dealnet-disabled-input{
   &.well-info{
     background-color: rgba(168, 216, 238, 0.17);
     border: solid 1px #90d0ee;
-    .icon-email{
+    .icon-info-well, .icon-email{
       color: #2f9cd0;
+    }
+    &.position-well{
+      position: relative;
+      padding: 15px 20px 13px 60px;
+      .icon-info-well{
+        position: absolute;
+        top: 13px;
+        left: 18px;
+      }
     }
   }
   &.success-well{
@@ -500,7 +509,17 @@ select.dealnet-disabled-input{
       position: absolute;
       top: 14px;
       left: 18px;
-      color: rgb(218, 46, 0);;
+      color: rgb(218, 46, 0);
+    }
+  }
+  &.over-aged-well{
+    position: relative;
+    padding: 16px 20px 14px 60px;
+    .icon-info-well{
+      position: absolute;
+      top: 13px;
+      left: 18px;
+      color: rgb(218, 46, 0);
     }
   }
   .summary-emails-header{
@@ -659,99 +678,114 @@ select.dealnet-disabled-input{
 }
 
 
-.equipment-form-container{
-    margin-top: 30px;
-    .equipment-proceed-success{
-      font-weight: bold;
-      font-size: 16px;
-      @media @mobile {
-        font-size: 14px;
-      }
+.equipment-form-container {
+  margin-top: 30px;
+  .equipment-proceed-success {
+    font-weight: bold;
+    font-size: 16px;
+    @media @mobile {
+      font-size: 14px;
     }
-    .owner-info-label{
-      margin: 15px 0 10px;
-    }
-    .add-equip-link{
-      margin: 10px 0 0;
-    }
-    @media @desktop-only {
-      .row{
+  }
+  .owner-info-label {
+    margin: 15px 0 10px;
+  }
+  .add-equip-link {
+    margin: 10px 0 0;
+  }
+  @media @desktop-only {
+    .row {
       /*  margin-left: -10px;
         margin-right: -10px;*/
-        & > div[class*="col-"]{
-         // padding: 0 10px;
-        }
+      & > div[class*="col-"] {
+        // padding: 0 10px;
       }
     }
-  &:not(.has-loan-calc){
-    .equipment-editable-section{
+  }
+  &:not(.has-loan-calc) {
+    .equipment-editable-section {
       width: 100% !important;
     }
   }
 
-  &.has-loan-calc{
+  &.has-loan-calc {
     max-width: 100% !important;
-    .form-section{
+    .form-section {
       max-width: 100% !important;
     }
 
-
-    .equipment-editable-section div[class*="col-"]:not(.initial-width){
+    .equipment-editable-section div[class*="col-"]:not(.initial-width) {
       width: 100% !important;
     }
-    .equipment-editable-section div[class*="col-"]{
-      &.loan-col-md-6{
+    .equipment-editable-section div[class*="col-"] {
+      &.loan-col-md-6 {
         @media @desktop-up {
           width: 50% !important;
         }
       }
-      &.loan-col-md-4{
+      &.loan-col-md-4 {
         @media @desktop-up {
           width: 33.33333333% !important;
         }
       }
-      &.loan-col-md-8{
+      &.loan-col-md-8 {
         @media @desktop-up {
           width: 66.66666667% !important;
         }
       }
-      &.loan-col-sm-4{
+      &.loan-col-sm-4 {
         @media @tablet-up {
           width: 33.33333333% !important;
         }
       }
-      &.loan-col-sm-8{
+      &.loan-col-sm-8 {
         @media @tablet-up {
           width: 66.66666667% !important;
         }
-       }
+      }
     }
-
-
-
   }
-  &.standalone-calculator{
-
-  }
-
 }
 
+
 .sticker{
-  width: 100%;
-  @media @mobile {
-    position: static;
-    margin-top: 0;
-  }
-  &.stick{
-    @media @tablet-up {
-      position: fixed;
-      top: 0px;
-      padding: 0 15px 0;
-      right: 0;
-      box-sizing: content-box;
-    }
-  }
   &:not(.stick){
     width: 100% !important;
+  }
+}
+
+body:not(.ios-device){
+  .sticker{
+    width: 100%;
+    @media @mobile {
+      position: static;
+      margin-top: 0;
+    }
+    &.stick{
+      @media @tablet-up {
+        position: fixed;
+        top: 0px;
+        padding: 0 15px 0;
+        right: 0;
+        box-sizing: content-box;
+      }
+    }
+  }
+}
+
+body.tablet-device.ios-device{
+  .sticker-parent{
+    position: relative;
+  }
+  .sticker.stick{
+    position: fixed;
+    top: 60px;
+    width: calc(~"50% - 30px");
+    right: 15px;
+    &.absoluted-div{
+      position: absolute;
+      width: calc(~"100% - 30px");
+      top: 0;
+    }
   }
 }

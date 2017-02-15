@@ -39,10 +39,10 @@
 .scanlicence-notify{
   color: #989897;
   display: block;
-  margin: 25px 0 15px 0;
+  margin: 20px 0 0 0;
   @media ( max-width: 1023px ){
     display: block;
-    margin: 10px 0 15px;
+    margin: 10px 0 0;
   }
 }
 
@@ -72,35 +72,40 @@
 .address-info-label {
   margin-top: 37px;
 }
-
-.address-info1 {
+.get-location-section{
+  margin-bottom: 20px;
+}
+/*.address-info1 {
   margin-top: 37px;
 }
 
 .address-info2 {
   margin-top: 16px;
-}
+}*/
 
+/*
 #mailing-adress-different {
   margin-top: 25px;
 }
+*/
 
 #mailing-adress-different > input{
   margin-right: 9px;
   vertical-align: top;
 }
 
-#saveproceed-button {
-  margin-top: 15px;
+#saveproceed-button,
+.save-proceed-btn-hold{
+  margin-top: 30px;
 }
 
-#mailing-adress1 {
+/*#mailing-adress1 {
   margin-top: 16px;
 }
 
 #mailing-adress2 {
   margin-top: 16px;
-}
+}*/
 
 .clear-address{
   vertical-align: middle;
@@ -220,12 +225,14 @@
   @media @tablet-only {
     position: absolute;
     left: 50%;
-    top: 9px;
+    top: 15px;
     margin-left: 197px;
     display: block;
   }
   @media @mobile {
     display: none;
+/*    width:  20px;
+    margin: 20px auto 0;*/
   }
   &.active{
     &+.scanlicence-info-text{

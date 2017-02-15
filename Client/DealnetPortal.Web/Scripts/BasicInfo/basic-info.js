@@ -10,6 +10,15 @@ $(document).ready(function () {
     assignDatepicker($("#additional-birth-date-1"));
     assignDatepicker($("#additional-birth-date-2"));
     assignDatepicker($("#additional-birth-date-3"));
+    $('.check-age').change(function () {
+        var atLeastOneValid = checkApplicantsAge();
+        if (atLeastOneValid) {
+            $('#age-warning-message').hide();
+            $('#age-error-message').hide();
+        } else {
+            $('#age-warning-message').show();
+        }
+    });
     $.validator.addMethod(
         "date",
         function (value, element) {
@@ -31,7 +40,7 @@ $(document).ready(function () {
             return true;
         },
         "Please enter a valid date!"
-    );
+    );    
 
     addAdditionalButton = $("#add-additional-applicant");
     aditional1Section = $("#additional1-section");
@@ -52,10 +61,10 @@ $(document).ready(function () {
     } else {
         hideAditional3Section();
     }
-    mailingAddress = $("#mailing-adress");
-    mailingAddressCheckbox = $("#mailing-adress-checkbox");
+    mailingAddress = $("#mailing-address");
+    mailingAddressCheckbox = $("#mailing-address-checkbox");
     if (!mailingAddressCheckbox.is(":checked")) {
-        mailingAddress.hide();
+        mailingAddress.slideUp();
     } else {
         enableMailingAddress();
     }
@@ -151,6 +160,21 @@ $(document).ready(function () {
     $("#additional3-remove").click(function () {
         hideAditional3Section();
     });
+
+    $("#save-and-proceed-button").click(function (event) {
+        var isApprovalAge = checkApplicantsAge();
+        var isHomeOwner = checkHomeOwner();
+        if (!isApprovalAge) {
+            $('#age-warning-message').hide();
+            $('#age-error-message').show();
+        }
+        if (!isHomeOwner) {
+            $("#proceed-homeowner-errormessage").show();
+        }
+        if (!isHomeOwner || !isApprovalAge) {
+            event.preventDefault();
+        }
+    });
 });
 function hideAditional1Section() {
     aditional1Section.hide();
@@ -182,10 +206,10 @@ function enableMailingAddress() {
     $("#mailing_locality").prop("disabled", false);
     $("#mailing_administrative_area_level_1").prop("disabled", false);
     $("#mailing_postal_code").prop("disabled", false);
-    mailingAddress.show(300);
+    mailingAddress.slideDown();
 }
 function disableMailingAddress() {
-    mailingAddress.hide(200);
+    mailingAddress.slideUp();
     $("#mailing_street").prop("disabled", true);
     $("#mailing_unit_number").prop("disabled", true);
     $("#mailing_locality").prop("disabled", true);
