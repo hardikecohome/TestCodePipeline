@@ -291,6 +291,21 @@ function fixedOnKeyboardShownIos(fixedElem){
   });
 }
 
+function updateModalHeightIpad(){
+
+  //If focus on input inside modal in new added blocks (which were display none when modal appears)
+
+  if($('body').is('.ios-device.tablet-device') && viewport().width >= 768) {
+    $('input, textarea, [contenteditable=true], select').on({
+      focus: function() {
+        setModalMarginForIpad();
+      },
+      blur: function(){
+        resetModalDialogMarginForIpad();
+      }
+    });
+  }
+}
 
 function stickySection(elem, device){
   var fixedHeaderHeight,
