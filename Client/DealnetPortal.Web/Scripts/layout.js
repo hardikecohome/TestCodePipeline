@@ -44,10 +44,22 @@
 
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
+        if(isMobile.iOS() && viewport().width >= 768) {
+          $('.navbar-fixed-side').css({
+            'position': 'fixed',
+            'top': 0
+          });
+        }
       }).on('shown.bs.modal', function(){
         $('textarea').each(function(){
           has_scrollbar($(this), 'textarea-has-scroll');
         });
+        if(isMobile.iOS() && viewport().width >= 768) {
+          $('.navbar-fixed-side').css({
+            'position': 'fixed',
+            'top': 0
+          });
+        }
       }).on('hidden.bs.modal', function () {
         if(isMobile.iOS() && viewport().width >= 768){
           resetModalDialogMarginForIpad();
