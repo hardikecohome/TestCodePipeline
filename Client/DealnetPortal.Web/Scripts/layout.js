@@ -258,32 +258,45 @@ function setModalMarginForIpad(){
 }
 
 function fixedOnKeyboardShownIos(fixedElem){
-  var $navbar = fixedElem;
+  var $navbar = $('.navbar-fixed-side');
+
+  var $fixedElement = fixedElem;
   var topPadding = 10;
 
   function fixFixedPosition() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $navbar.height()  + topPadding;
+
     $navbar.addClass('absoluted-div').css({
+      top: document.body.scrollTop + 'px'
+    }).show();
+
+    $fixedElement.addClass('absoluted-div').css({
       top: absoluteTopCoord + 'px',
     }).fadeIn('fast')
   }
   function resetFixedPosition() {
     $navbar.removeClass('absoluted-div').css({
+      top: 0,
+    });
+
+    $fixedElement.removeClass('absoluted-div').css({
       top: $('.navbar-header').height() + topPadding,
     });
     $(document).off('scroll', updateScrollTop);
     resetModalDialogMarginForIpad();
   }
   function updateScrollTop() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
-    $navbar.css('top', absoluteTopCoord + 'px');
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $navbar.height() + topPadding;
+    $fixedElement.css('top', absoluteTopCoord + 'px');
+    $navbar.css('top', document.body.scrollTop + 'px');
   }
 
   $('input, textarea, [contenteditable=true], select').on({
     focus: function() {
-      setTimeout(fixFixedPosition, 100);
       if($(this).parents('.modal.in').length === 1){
         setModalMarginForIpad();
+      }else{
+        setTimeout(fixFixedPosition, 100);
       }
       $(document).scroll(updateScrollTop);
     },
@@ -526,8 +539,8 @@ function customizeSelect(){
 }
 
 function addIconsToFields(fields){
-  var fields = fields || ($('.control-group input:not(:hidden), textarea:not(:hidden)').not(".dealnet-disabled-input"));
-  var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
+  var fields = fields || ($('.control-group input, .control-group textarea'));
+  //var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
   var iconCalendar = '<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>';
@@ -538,9 +551,15 @@ function addIconsToFields(fields){
     fieldDateParent.append(iconCalendar);
   }
 
-  if(fieldParent.children('.clear-input').length === 0){
-    fieldParent.append(iconClearField);
-  }
+  fields.each(function(){
+    var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
+    if(!$(this).is(".dealnet-disabled-input") && $(this).attr("type") !== "hidden"){
+      if(fieldParent.children('.clear-input').length === 0){
+        fieldParent.append(iconClearField);
+      }
+    }
+  })
+
 
   if(fieldPassParent.children('.recover-pass-link').length === 0){
     fieldPassParent.append(iconPassField);
@@ -662,7 +681,8 @@ function setDeviceClasses(){
     $('body').removeClass('mobile-device').removeClass('tablet-device')
   }
   if(isMobile.iOS()){
-    $('body').addClass('ios-device')
+    $('body').addClass('ios-device');
+    $('.modal').removeClass('fade').addClass('fade-on-ios');
   }else{
     $('body').removeClass('ios-device')
   }
