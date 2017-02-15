@@ -755,17 +755,23 @@
                                 </div>
                             </div>
                         }
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
-                                </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row credit-check-info-hold equipment-info">
+            <div class="col-md-6 grid-column">
+                <div class="dealnet-credit-check-section">
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="" class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
+                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                <input type="text" class="dealnet-disabled-input" readonly = "readonly" value="10/10/2017"/>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
         </div>
         <p class="summary-tax-notification">** Before taxes. Payments are subject to change over the course of the term upon at least thirty (30) days written notice. See the attached Terms and Conditions.</p>
     </div>
@@ -1460,7 +1466,7 @@
                                          </div>
                                      </div>
                                  }
-                                 <div class="col-md-12">
+                                 <!--<div class="col-md-12">
                                      <div class="form-group">
                                          @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new {@class = "dealnet-field-caption"})
                                          <div class="dealnet-field-holder">
@@ -1470,9 +1476,22 @@
                                              </div>
                                          </div>
                                      </div>
-                                 </div>
+                                 </div>-->
                              </div>
                         }
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="" class="dealnet-field-caption">Estimated Installation Date</label>
+                                <div class="dealnet-field-holder">
+                                    <div class="control-group">
+                                        <input type="text" placeholder="mm/dd/yyyy" class="form-control dealnet-input date-input" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
                     }
                 </div>
