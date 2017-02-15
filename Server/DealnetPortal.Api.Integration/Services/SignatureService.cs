@@ -673,10 +673,10 @@ namespace DealnetPortal.Api.Integration.Services
                         formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MailingAddress, Value =
                             $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}" });                        
                     }
-                    //if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
-                    //{
-                    //    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner, Value = "true" });
-                    //}
+                    if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
+                    {
+                        formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner, Value = "true" });
+                    }
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
@@ -766,6 +766,11 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.CustomerName2,
                     Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
                 });
+
+                if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner2, Value = "true" });
+                }
 
             }
         }
