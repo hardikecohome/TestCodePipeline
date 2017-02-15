@@ -526,8 +526,8 @@ function customizeSelect(){
 }
 
 function addIconsToFields(fields){
-  var fields = fields || ($('.control-group input:not(:hidden), textarea:not(:hidden)').not(".dealnet-disabled-input"));
-  var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
+  var fields = fields || ($('.control-group input, .control-group textarea'));
+  //var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
   var iconCalendar = '<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>';
@@ -538,9 +538,15 @@ function addIconsToFields(fields){
     fieldDateParent.append(iconCalendar);
   }
 
-  if(fieldParent.children('.clear-input').length === 0){
-    fieldParent.append(iconClearField);
-  }
+  fields.each(function(){
+    var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
+    if(!$(this).is(".dealnet-disabled-input") && $(this).attr("type") !== "hidden"){
+      if(fieldParent.children('.clear-input').length === 0){
+        fieldParent.append(iconClearField);
+      }
+    }
+  })
+
 
   if(fieldPassParent.children('.recover-pass-link').length === 0){
     fieldPassParent.append(iconPassField);
