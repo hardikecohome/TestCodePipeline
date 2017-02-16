@@ -307,10 +307,11 @@ if (creditCheckError != null)
 
 		@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
 		{
+
+			for (int i = 0; i < Model.AdditionalApplicants.Count; i++)
+			{
 		<hr>
 		<div class="row credit-check-info-hold">
-			@for (int i = 0; i < Model.AdditionalApplicants.Count; i++)
-			{
 
 			    <div class="col-md-6 grid-column">
 			        <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
@@ -392,7 +393,7 @@ if (creditCheckError != null)
 			            </div>
 			        </div>
 			    </div>
-			    if (Model.AdditionalApplicants[i].MailingAddressInformation != null)
+			    @if (Model.AdditionalApplicants[i].MailingAddressInformation != null)
 			    {
 			        <div class="col-md-6 grid-column">
 			            <div class="dealnet-credit-check-section" id="additional-address-section-@(i + 1)">
@@ -452,9 +453,8 @@ if (creditCheckError != null)
 			            </div>
 			        </div>
 			    }
-			}
-
 		</div>
+			}
 		}
 
 		<div class="row" id="saveproceed-button">
