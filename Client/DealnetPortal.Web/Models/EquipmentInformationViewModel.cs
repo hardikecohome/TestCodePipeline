@@ -25,11 +25,13 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Requested Term is in incorrect format")]
         [Display(Name = "Requested Term")]
         public int? RequestedTerm { get; set; }
-        
+
+        [Range(0, 999, ErrorMessage = "Loan Term must be maximum 3 digits long")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Loan Term is in incorrect format")]
         [Display(Name = "Loan Term")]
         public int? LoanTerm { get; set; }
 
+        [Range(0, 999, ErrorMessage = "Amortization Term must be maximum 3 digits long")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Amortization Term is in incorrect format")]
         [Display(Name = "Amortization Term")]
         public int? AmortizationTerm { get; set; }

@@ -671,15 +671,15 @@
                 $scope.updateDisplayedCalculations(state);
             };
             $scope.updateDisplayedCalculations = function(state) {
-                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice ? typeof state.equipmentCashPrice === 'number' ? state.equipmentCashPrice.toFixed(2) : state.equipmentCashPrice : '-';
-                $scope.displayedHst0 = state.hst ? typeof state.hst === 'number' ? state.hst.toFixed(2) : state.hst : '-';
-                $scope.displayedTotalCashPrice0 = state.totalCashPrice ? typeof state.totalCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice : '-';
-                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced ? typeof state.totalAmountFinanced === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced : '-';
-                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment ? typeof state.totalMonthlyPayment === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment : '-';
-                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments ? typeof state.totalAllMonthlyPayments === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments : '-';
-                $scope.displayedResidualBalance0 = state.residualBalance ? typeof state.residualBalance === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance : '-';
-                $scope.displayedTotalObligation0 = state.totalObligation ? typeof state.totalObligation === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation : '-';
-                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost ? typeof state.totalBorrowingCost === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost : '-';
+                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice != null ? typeof state.equipmentCashPrice === 'number' ? state.equipmentCashPrice.toFixed(2) : state.equipmentCashPrice : '-';
+                $scope.displayedHst0 = state.hst != null ? typeof state.hst === 'number' ? state.hst.toFixed(2) : state.hst : '-';
+                $scope.displayedTotalCashPrice0 = state.totalCashPrice != null ? typeof state.totalCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice : '-';
+                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced != null ? typeof state.totalAmountFinanced === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced : '-';
+                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment != null ? typeof state.totalMonthlyPayment === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment : '-';
+                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments != null ? typeof state.totalAllMonthlyPayments === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments : '-';
+                $scope.displayedResidualBalance0 = state.residualBalance != null ? typeof state.residualBalance === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance : '-';
+                $scope.displayedTotalObligation0 = state.totalObligation != null ? typeof state.totalObligation === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation : '-';
+                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost != null ? typeof state.totalBorrowingCost === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost : '-';
             };
             $scope.assignTaxRate = function() {
                 var provinceSelection = $('#province-tax-rate');
