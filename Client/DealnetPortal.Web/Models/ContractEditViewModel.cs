@@ -18,6 +18,6 @@ namespace DealnetPortal.Web.Models
         public List<CommentViewModel> Comments { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
         public UploadDocumentsViewModel UploadDocumentsInfo { get; set; }
-        
+        public CertificateInformationViewModel InstallCertificateInformation { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models.EquipmentInformation;
+using DealnetPortal.Web.Models.Validation;
 
 namespace DealnetPortal.Web.Models
 {
@@ -39,16 +40,17 @@ namespace DealnetPortal.Web.Models
         public string Sin { get; set; } 
         [Display(ResourceType = typeof (Resources.Resources), Name = "DriverLicenseNumber")]
         public string DriverLicenseNumber { get; set; }
-
         public AddressInformation AddressInformation { get; set; }
         public MailingAddressInformation MailingAddressInformation { get; set; }
+        [Display(Name = "Home Owner")]
+        public bool IsHomeOwner { get; set; }
         public int? ContractId { get; set; }
     }
 
     public class MailingAddressInformation : AddressInformation
     {
         [Required]
-        [Display(ResourceType = typeof (Resources.Resources), Name = "MailingAddress")]
+        [Display(Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MailingAddressIncorrectFormat")]
         public override string Street { get; set; }
@@ -57,7 +59,7 @@ namespace DealnetPortal.Web.Models
     public class AddressInformation
     {
         [Required]
-        [Display(ResourceType = typeof (Resources.Resources), Name = "InstallationAddress")]
+        [Display(Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InstallationAddressIncorrectFormat")]
         public virtual string Street { get; set; }
@@ -94,10 +96,13 @@ namespace DealnetPortal.Web.Models
     public class BasicInfoViewModel
     {
         public string SubmittingDealerId { get; set; }
+        [CheckCustomersAge("AdditionalApplicants", 75)]
+        [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
         public List<SubDealer> SubDealers { get; set; }
         public int? ContractId { get; set; }
+        public ContractState ContractState { get; set; }
     }
 
     public class PaymentInfoViewModel
@@ -164,6 +169,8 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof (Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
         public int? ContractId { get; set; }
+
+        public bool IsApplicantsInfoEditAvailable { get; set; }
     }
 
     public class AdditionalInfoViewModel

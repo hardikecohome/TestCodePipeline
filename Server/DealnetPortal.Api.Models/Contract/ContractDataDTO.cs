@@ -21,6 +21,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public CustomerDTO PrimaryCustomer { get; set; }
         public IList<CustomerDTO> SecondaryCustomers { get; set; }
+        public IList<CustomerDTO> HomeOwners { get; set; }
 
         public ContractDetailsDTO Details { get; set; }
 

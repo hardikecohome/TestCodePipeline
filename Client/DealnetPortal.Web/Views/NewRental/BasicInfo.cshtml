@@ -7,12 +7,12 @@
         for (var i = Model.AdditionalApplicants.Count; i < 3; i++)
         {
             Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
-        } 
+        }
     }
 }
 
 <div id="label-steps">
-    <div class="dealnet-action-link">@Resources.NewApplication</div> >
+    <div class="dealnet-action-link">@Resources.NewApplication</div> &gt;
 </div>
 
 <div class="dealnet-large-header" id="basic-info">@Resources.BasicInfo</div>
@@ -36,7 +36,7 @@
 </div>
 <div class="form-container basic-info-form">
     <div class="form-section">
-@using (Html.BeginForm())
+@using (Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
@@ -62,10 +62,83 @@
         @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)*@
         @*@Html.Hidden("SubmittingDealerId", "")*@
     }
-    <div class="dealnet-middle-header owner-info-label">@Resources.HomeOwnerInformation</div>
 
-    if (!ViewBag.IsMobileRequest)
-    {
+    <div class="well well-info position-well">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        At least one of the applicants should be home owner
+    </div>
+
+    <!--Instalation Address-->
+    <h2 class="dealnet-middle-header address-info-label">Installation Address Information</h2>
+    <div class="row">
+        <div class="col-md-12 get-location-section">
+            <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
+                <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use></svg>
+                <span>Get My Location</span>
+            </div>
+        </div>
+    </div>
+    <div class="row address-info1">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="street">Street</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <div class="form-group">
+                <label for="unit_number">Unit #</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="locality">City</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row address-info2">
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="administrative_area_level_1">Province</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="form-group">
+                <label for="postal_code">Postal Code</label>
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <a href="#" class="dealnet-disabled-text clear-address">
+                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+            </a>
+        </div>
+    </div>
+    <!--END Instalation Address-->
+
+    <!--Borrower Information-->
+    <h2 class="dealnet-middle-header">Borrower Information</h2>
+        <!--scanlicence-button-->
+        if (!ViewBag.IsMobileRequest)
+        {
         <div class="row scanlicence-button">
             <div class="col-md-12">
                 <div class="scanlicence-hold">
@@ -83,9 +156,9 @@
                 <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
             </div>
         </div>
-    }
-    else
-    {
+        }
+        else
+        {
         <div class="row scanlicence-button">
             <div class="col-md-12">
                 <div class="scanlicence-hold">
@@ -104,10 +177,10 @@
                 <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
             </div>
         </div>
-    }
+        }
 
-    if (!ViewBag.IsMobileRequest)
-    {
+        if (!ViewBag.IsMobileRequest)
+        {
         <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -152,381 +225,364 @@
                 </div>
             </div>
         </div>
-    }
+        }
+        <!--END scanlicence-button-->
 
-    <div class="row owner-info">
-        @Html.HiddenFor(m => m.HomeOwner.CustomerId)
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
+        <div class="owner-info">
+            <div class="row">
+                @Html.HiddenFor(m => m.HomeOwner.CustomerId)
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
                 @Html.LabelFor(m => m.HomeOwner.FirstName, new { @for = "first-name" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
+                        <div class="control-group">
+                    	    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                	@Html.LabelFor(m => m.HomeOwner.LastName, new { @for = "last-name" })
+                        <div class="control-group">
+                    	    @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                	@Html.LabelFor(m => m.HomeOwner.BirthDate, new { @for = "birth-date" })
+                        <div class="control-group date-group">
+                            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = ""})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.LastName, new { @for = "last-name" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                	@Html.LabelFor(m => m.HomeOwner.Sin, new { @for = "sin-number" })
+                        <div class="control-group">
+                    	    @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", placeholder = Resources.Sin})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.BirthDate, new { @for = "birth-date" })
-                <div class="control-group date-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = ""})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.Sin, new { @for = "sin-number" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", placeholder = Resources.Sin})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new { @for = "dl-number" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", placeholder = Resources.DriverLicenseNumber})
-                    @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new {@class = "text-danger"})
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                	@Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new { @for = "dl-number" })
+                        <div class="control-group">
+                    	    @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", placeholder = Resources.DriverLicenseNumber})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    <!--END Borrower Information-->
+
+    <!--Mailing Address-->
+    <div id="mailing-address-different" class="form-group">
+        <label for="mailing-address-checkbox" class="align-middle custom-checkbox">
+            <input type="checkbox" class="dealnet-checkbox mailing-address-checkbox" id="mailing-address-checkbox" @if (Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address" />
+            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+            <span>Mailing address is not the same as Installation Address</span>
+        </label>
     </div>
-
-    <p class="dealnet-middle-header address-info-label">@Resources.AddressInformation</p>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
-                <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use></svg>
-                <span>@Resources.GetMyLocation</span>
-            </div>
-        </div>
-    </div>
-
-        <div class="row address-info1">
+    <div id="mailing-address">
+        <div class="row" id="mailing-address1">
             <div class="col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.AddressInformation.Street, new { @for = "street" })
+                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @for = "mailing_street" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street", placeholder = Resources.StreetPlaceholder })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "mailing_street", placeholder = Resources.StreetPlaceholder, disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-2 col-lg-2">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @for = "unit_number" })
+                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @for = "mailing_unit_number" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new {@class = "form-control dealnet-input", id = "unit_number", placeholder = "12345"})
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new {@class = "text-danger"})
+                        @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.AddressInformation.City, new { @for = "locality" })
+                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.City, new { @for = "mailing_locality" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new {@class = "form-control dealnet-input", id = "locality", placeholder = Resources.Ottawa})
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.City, new {@class = "form-control dealnet-input", id = "mailing_locality", placeholder = Resources.Ottawa, disabled = "disabled"})
+                        @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row address-info2">
+        <div class="row" id="mailing-adress2">
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "administrative_area_level_1" })
+                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Province, new { @for = "mailing_administrative_area_level_1" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = Resources.Nepean})
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Province, new {@class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder = Resources.Nepean, disabled = "disabled"})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Province, "", new {@class = "text-danger"})
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @for = "postal_code" })
+                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.PostalCode, new { @for = "mailing_postal_code" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345"})
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled"})
+                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.PostalCode, "", new {@class = "text-danger"})
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.HomeOwner.AddressInformation.ResidenceType)
-                            @Html.EnumDropDownListFor(m => m.HomeOwner.AddressInformation.ResidenceType, null, new { @class = "form-control", id = "residence" })
-                            @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.ResidenceType, "", new { @class = "text-danger" })
+                <a href="#" class="dealnet-disabled-text clear-address" id="clear-mailing-address">
+                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--End Mailing Address-->
+
+
+    <!--Home Owner Information-->
+    <div id="borrower-is-homeowner" class="form-group">
+        <label for="homeowner-checkbox" class="align-middle custom-checkbox">
+            @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
+            @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
+            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+            <span>Borrower is homeowner</span>
+            @Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
+        </label>
+    </div>
+    <!--Home Owner Information-->
+    <div class="well well-info position-well collapse" id="age-warning-message">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        At least one applicant should be aged 75 or less
+    </div>
+
+    <div class="well danger-well over-aged-well collapse" id="age-error-message">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        At least one applicant should be aged 75 or less
+    </div>
+
+    <!--Warning Section if isn't chosen homeowner checkbox-->
+    <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        At least one of the applicants should be home owner
+    </div>
+    <!--End Warning Section if isn't chosen homeowner checkbox-->    
+    
+    <!--Add Additional Applicant-->
+    for (var i = 0; i < 3; i++)
+    {
+        <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text>   }>
+            <div class="personal-info-section">
+                <div class="dealnet-middle-header owner-info-label">@Resources.AdditionalApplicantInformation<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
+                <input type="hidden" name="AdditionalApplicants.Index" value="@i" />
+
+                @if (!ViewBag.IsMobileRequest)
+                {
+                    <div class="row scanlicence-button">
+                        <div class="col-md-12">
+                            <div class="scanlicence-hold">
+                                <button type="button" class="btn dealnet-button dealnet-success-button" id="additional@(i+1)-scan-button" data-toggle="modal" data-target="#camera-modal">
+                                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                                <span>@Resources.ScanLicense</span>
+                                </button>
+                                <a href="#" class="scanlicence-info-link">
+                                    <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                                </a>
+                                <div class="scanlicence-info-text well well-info">
+                                @Resources.TurnLicenseOver
+                                </div>
+                            </div>
+                        <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                }
+                else
+                {
+                    <div class="row scanlicence-button">
+                        <div class="col-md-12">
+                            <div class="scanlicence-hold">
+                                <div class="file-upload btn dealnet-button dealnet-success-button">
+                                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                                <span>@Resources.ScanLicense</span>
+                                    <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-@(i+1)', 'additional-last-name-@(i+1)', 'additional-birth-date-@(i+1)', 'additional-dl-number-@(i+1)', 'additional-street-@(i+1)', 'additional-locality-@(i+1)', 'additional-administrative_area_level_1-@(i+1)', 'additional-postal_code-@(i+1)')" />
+                                </div>
+                                <a href="#" class="scanlicence-info-link">
+                                    <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                                </a>
+                                <div class="scanlicence-info-text well well-info">
+                                @Resources.TurnLicenseOver
+                                </div>
+                            </div>
+                        <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
+                        </div>
+                    </div>
+                }
+
+                <div class="owner-info">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].FirstName, new { @for = "additional-first-name-"+ (i + 1) })
+                                <div class="control-group">
+                                    @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId, new { @class = "form-control dealnet-input", id = "additional-id-" + (i + 1), disabled = "disabled" })
+                            	    @Html.TextBoxFor(m => m.AdditionalApplicants[i].FirstName, new {@class = "form-control dealnet-input", id = "additional-first-name-" + (i + 1), placeholder = Resources.FirstName, disabled = "disabled"})
+                                    @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].LastName, new { @for = "additional-last-name-" + (i + 1) })
+                                <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].LastName, new {@class = "form-control dealnet-input", id = "additional-last-name-" + (i + 1), placeholder = Resources.LastName, disabled = "disabled"})
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].LastName, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].BirthDate, new { @for = "additional-birth-date-" + (i + 1) })
+                                <div class="control-group date-group">
+                                    @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input check-age", id = "additional-birth-date-" + (i + 1), placeholder = Resources.DateFormat, disabled = "disabled", data_val_date = "" })
+                                    @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].Sin, new { @for = "additional-sin-number-" + (i + 1) })
+                                <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-" + (i + 1), placeholder = Resources.Sin })
+                                    @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].Sin, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                        	@Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @for = "additional-dl-number-" + (i + 1) })
+                                <div class="control-group">
+                            	@Html.TextBoxFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "additional-dl-number-" + (i + 1), placeholder = Resources.DriverLicenseNumber })
+                                    @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!--Mailing Address-->
+            <div id="mailing-address-different-add-app@(i+1)" class="form-group">
+                <label for="mailing-address-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
+                    <input type="checkbox" class="dealnet-checkbox mailing-address-checkbox" id="mailing-address-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address-add-app@(i+1)" onChange="$(this).is(':checked') ? $('#mailing-address-add-app@(i+1)').slideDown() : $('#mailing-address-add-app@(i+1)').slideUp()" />
+                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                    <span>Mailing address is not the same as Installation Address</span>
+                </label>
+            </div>
+            <div id="mailing-address-add-app@(i+1)" style="display: none;">
+
+                <h2 class="dealnet-middle-header no-margin-top">Additional Applicant Mailing Address Information</h2>
+
+
+                <!-- <div class="owner-info">
+                                    <a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">Use Home Owner address information</a>
+                                </div>
+                -->
+                <div class="row address-info1">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new { @for = "additional-street-" + (i + 1) })
+                            <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = Resources.StreetPlaceholder})
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-lg-2">
+                        <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @for = "additional-unit_number-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @for = "additional-locality-" + (i + 1) })
+                            <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = Resources.Ottawa })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row address-info2">
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
+                            <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1), placeholder = Resources.Nepean })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @for = "additional-postal_code-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1), placeholder = "12345" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
                         <a href="#" class="dealnet-disabled-text clear-address">
-                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div id="mailing-adress-different" class="form-group">
-            <label for="mailing-adress-checkbox" class="align-middle custom-checkbox">
-                <input type="checkbox" class="dealnet-checkbox" id="mailing-adress-checkbox" @if (Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } />
-                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                <span>@Resources.MailingAddressDifferent</span>
-            </label>
-        </div>
-
-        <div id="mailing-adress">
-            <div class="row" id="mailing-adress1">
-                <div class="col-md-6 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @for = "mailing_street" })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "mailing_street", placeholder = Resources.StreetPlaceholder, disabled = "disabled"})
-                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Street, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-lg-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @for = "mailing_unit_number" })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new {@class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled"})
-                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.City, new { @for = "mailing_locality" })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.City, new {@class = "form-control dealnet-input", id = "mailing_locality", placeholder = Resources.Ottawa, disabled = "disabled"})
-                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.City, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" id="mailing-adress2">
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Province, new { @for = "mailing_administrative_area_level_1" })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Province, new {@class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder = Resources.Nepean, disabled = "disabled"})
-                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Province, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.PostalCode, new { @for = "mailing_postal_code" })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "mailing_postal_code", placeholder = "12345", disabled = "disabled"})
-                            @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.PostalCode, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <a href="#" class="dealnet-disabled-text clear-address" id="clear-mailing-address">
-                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    for (var i = 0; i < 3; i++)
-    {
-        <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text>  }>
-            <div class="dealnet-middle-header owner-info-label">@Resources.AdditionalApplicantInformation<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
-            <input type="hidden" name="AdditionalApplicants.Index" value="@i" />
-            @if (!ViewBag.IsMobileRequest)
-            {
-                <div class="row scanlicence-button">
-                    <div class="col-md-12">
-                        <div class="scanlicence-hold">
-                            <button type="button" class="btn dealnet-button dealnet-success-button" id="additional@(i+1)-scan-button" data-toggle="modal" data-target="#camera-modal">
-                                <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                                <span>@Resources.ScanLicense</span>
-                            </button>
-                            <a href="#" class="scanlicence-info-link">
-                                <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                            </a>
-                            <div class="scanlicence-info-text well well-info">
-                                @Resources.TurnLicenseOver
-                            </div>
-                        </div>
-                        <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="row scanlicence-button">
-                    <div class="col-md-12">
-                        <div class="scanlicence-hold">
-                            <div class="file-upload btn dealnet-button dealnet-success-button">
-                                <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                                <span>@Resources.ScanLicense</span>
-                                <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-@(i+1)', 'additional-last-name-@(i+1)', 'additional-birth-date-@(i+1)', 'additional-dl-number-@(i+1)', 'additional-street-@(i+1)', 'additional-locality-@(i+1)', 'additional-administrative_area_level_1-@(i+1)', 'additional-postal_code-@(i+1)')" />
-                            </div>
-                            <a href="#" class="scanlicence-info-link">
-                                <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                            </a>
-                            <div class="scanlicence-info-text well well-info">
-                                @Resources.TurnLicenseOver
-                            </div>
-                        </div>
-                        <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
-                    </div>
-                </div>
-            }
-
-            <div class="row owner-info">
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].FirstName, new { @for = "additional-first-name-"+ (i + 1) })
-                        <div class="control-group">
-                            @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId, new {@class = "form-control dealnet-input", id = "additional-id-" + (i + 1), disabled = "disabled"})
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].FirstName, new {@class = "form-control dealnet-input", id = "additional-first-name-" + (i + 1), placeholder = Resources.FirstName, disabled = "disabled"})
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].FirstName, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].LastName, new { @for = "additional-last-name-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].LastName, new {@class = "form-control dealnet-input", id = "additional-last-name-" + (i + 1), placeholder = Resources.LastName, disabled = "disabled"})
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].LastName, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].BirthDate, new { @for = "additional-birth-date-" + (i + 1) })
-                        <div class="control-group date-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = "additional-birth-date-" + (i + 1), placeholder = Resources.DateFormat, disabled = "disabled", data_val_date = ""})
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].Sin, new { @for = "additional-sin-number-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-" + (i + 1), placeholder = Resources.Sin })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].Sin, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @for = "additional-dl-number-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "additional-dl-number-" + (i + 1), placeholder = Resources.DriverLicenseNumber })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="owner-info">
-                <a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">@Resources.UseHomeOwnerAddressInfo</a>
-            </div>
-            <p class="dealnet-middle-header address-info-label">@Resources.AdditionalApplicantMailingAddressInfo</p>
-
-            <div class="row address-info1">
-                <div class="col-md-6 col-lg-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new { @for = "additional-street-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = Resources.StreetPlaceholder})
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-lg-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @for = "additional-unit_number-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @for = "additional-locality-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = Resources.Ottawa })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row address-info2">
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1), placeholder = Resources.Nepean })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @for = "additional-postal_code-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1), placeholder = "12345" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType)
-                                @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, null, new { @class = "form-control", id = "additional-residence-" + (i + 1) })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.ResidenceType, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <a href="#" class="dealnet-disabled-text clear-address">
-                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <!--End Mailing Address-->
+            <!--Additional Applicant Information-->
+            <div id="add-applicant-is-homeowner@(i+1)" class="form-group personal-info-section">
+                <label for="add-applicant-checkbox@(i+1)" class="align-middle custom-checkbox">
+                    @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "add-applicant-checkbox" + (i + 1) })
+                    @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
+                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                    <span>Additional Applicant is homeowner</span>
+                </label>
             </div>
         </div>
     }
+    <!--END Add Additional Applicant-->
+
 
     <div id="add-additional-applicant">
-            <div class="align-middle">
-                <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+        <div class="align-middle">
+            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
                 <span>@Resources.AddAdditionalApplicant</span>
-            </div>
         </div>
+    </div>
 
-    <div class="row" id="saveproceed-button">
+    <div class="row save-proceed-btn-hold">
         <div class="col-xs-12 col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-success-button">
+            <button class="btn dealnet-button dealnet-success-button" id="save-and-proceed-button">
                 @Resources.SaveAndProceed
             </button>
         </div>

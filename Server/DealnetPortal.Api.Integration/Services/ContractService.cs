@@ -100,46 +100,15 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (aspireDeals?.Any() ?? false)
             {
-                var statusWasUpdated = false;
-                foreach (var aspireDeal in aspireDeals)
+                var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
+
+                var unlinkedDeals = aspireDeals.Where(ad => ad.Details?.TransactionId != null &&
+                                                            contracts.All(c => (!c.Details?.TransactionId?.Contains(ad.Details.TransactionId) ?? true))).ToList();
+                if (unlinkedDeals.Any())
                 {
-                    if (aspireDeal.Details?.TransactionId == null)
-                    {
-                        continue;
-                    }
-                    var contract =
-                        contracts.FirstOrDefault(
-                            c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
-                    if (contract != null)
-                    {
-                        if (contract.Details.Status != aspireDeal.Details.Status)
-                        {
-                            contract.Details.Status = aspireDeal.Details.Status;
-                            var aspireStatus = _contractRepository.GetAspireStatus(aspireDeal.Details.Status);
-                            if (aspireStatus != null)
-                            {
-                                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                                    contract.ContractState == ContractState.SentToAudit)
-                                {
-                                    contract.ContractState = ContractState.Completed;
-                                    contract.LastUpdateTime = DateTime.Now;
-                                }
-                                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                                         contract.ContractState != ContractState.SentToAudit)
-                                {
-                                    contract.ContractState = ContractState.SentToAudit;
-                                    contract.LastUpdateTime = DateTime.Now;
-                                }
-                            }
-                            statusWasUpdated = true;
-                        }
-                    }
-                    else
-                    {
-                        contractDTOs.Add(aspireDeal);
-                    }
+                    contractDTOs.AddRange(unlinkedDeals);
                 }
-                if (statusWasUpdated)
+                if (isContractsUpdated)
                 {
                     try
                     {
@@ -148,8 +117,8 @@ namespace DealnetPortal.Api.Integration.Services
                     catch (Exception ex)
                     {
                         _loggingService.LogError("Cannot update Aspire deals status", ex);
-                    }                    
-                }
+                    }
+                }                                
             }
 
             var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
@@ -327,14 +296,82 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, string contractOwnerId)
+        public Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string contractOwnerId)
         {
-            return _signatureService.CheckPrintAgreementAvailable(contractId, contractOwnerId).GetAwaiter().GetResult();
+            return _signatureService.CheckPrintAgreementAvailable(contractId, documentTypeId, contractOwnerId).GetAwaiter().GetResult();
         }
 
         public Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId)
         {
             return _signatureService.GetPrintAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
+        }
+
+        public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId)
+        {
+            return _signatureService.GetInstallCertificate(contractId, contractOwnerId).GetAwaiter().GetResult();
+        }
+
+        public IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData,
+            string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                var contract = _contractRepository.GetContract(installationCertificateData.ContractId, contractOwnerId);
+
+                if (contract != null)
+                {
+                    if (contract.Equipment != null)
+                    {
+                        if (!string.IsNullOrEmpty(installationCertificateData.InstallerFirstName))
+                        {
+                            contract.Equipment.InstallerFirstName = installationCertificateData.InstallerFirstName;
+                        }
+                        if (!string.IsNullOrEmpty(installationCertificateData.InstallerLastName))
+                        {
+                            contract.Equipment.InstallerLastName = installationCertificateData.InstallerLastName;
+                        }
+                        if (installationCertificateData.InstallationDate.HasValue)
+                        {
+                            contract.Equipment.InstallationDate = installationCertificateData.InstallationDate;
+                        }
+                        if (installationCertificateData.InstalledEquipments?.Any() ?? false)
+                        {
+                            installationCertificateData.InstalledEquipments.ForEach(ie =>
+                            {
+                                var eq = contract.Equipment.NewEquipment.FirstOrDefault(e => e.Id == ie.Id);
+                                if (eq != null)
+                                {
+                                    if (!string.IsNullOrEmpty(ie.Model))
+                                    {
+                                        eq.InstalledModel = ie.Model;
+                                    }
+                                    if (!string.IsNullOrEmpty(ie.SerialNumber))
+                                    {
+                                        eq.InstalledSerialNumber = ie.SerialNumber;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.CreditCheckFailed,
+                        Message = "Cannot find a contract [{contractId}] for initiate credit check"
+                    });
+                }                                       
+            }
+            catch (Exception ex)
+            {            
+                _loggingService.LogError($"Cannot update installation data for contract {installationCertificateData.ContractId}", ex);    
+            }            
+            return alerts;
         }
 
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)
@@ -953,6 +990,66 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
             return new List<Alert>(alerts);
+        }
+
+        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
+        {
+            bool isChanged = false;
+            foreach (var aspireDeal in aspireDeals)
+            {
+                if (aspireDeal.Details?.TransactionId == null)
+                {
+                    continue;
+                }
+                var contract =
+                    contractsForUpdate.FirstOrDefault(
+                        c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
+                if (contract != null)
+                {
+                    if (contract.Details.Status != aspireDeal.Details.Status)
+                    {
+                        contract.Details.Status = aspireDeal.Details.Status;
+                        contract.LastUpdateTime = DateTime.Now;
+                        isChanged = true;                                                
+                    }
+                    //update contract state in any case
+                    UpdateContractState(contract);
+                }                
+            }
+            return isChanged;
+        }
+
+        /// <summary>
+        /// Logic for update internal contract state by Aspire state
+        /// </summary>
+        /// <param name="contract"></param>
+        private void UpdateContractState(Contract contract)
+        {
+            var aspireStatus = _contractRepository.GetAspireStatus(contract.Details?.Status);
+            if (aspireStatus != null)
+            {
+                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                    contract.ContractState == ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.Completed;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                         contract.ContractState != ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.SentToAudit;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+            }
+            else
+            {
+                // if current status is SentToAudit reset it to Completed
+                if (contract.ContractState == ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.Completed;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+            }
         }
     }
 }

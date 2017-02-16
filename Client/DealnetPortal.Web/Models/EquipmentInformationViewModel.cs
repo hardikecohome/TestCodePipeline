@@ -40,7 +40,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
         public Common.Enumeration.RentalDeferralType RentalDeferralType { get; set; }
 
-	    [RegularExpression(@"^[1-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
+	    [RegularExpression(@"(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]
         public double? CustomerRate { get; set; }
 
@@ -70,9 +70,11 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsAllInfoCompleted { get; set; }
 
+        public bool IsApplicantsInfoEditAvailable { get; set; }
+
         public decimal? CreditAmount { get; set; }
 
-        public double? ValueOfDeal { get; set; }
+        public double? ValueOfDeal { get; set; }        
     }
 
     public class CheckEquipmentsCostAttribute : ValidationAttribute, IClientValidatable

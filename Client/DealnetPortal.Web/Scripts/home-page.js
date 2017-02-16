@@ -24,6 +24,7 @@ function showChart() {
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
+                    cache: false,
                     data: {
                         type: $('.dealnet-chart-switch-button-selected').attr('data-type')
                     }
@@ -99,7 +100,7 @@ function showChart() {
 };
 
 function showTable() {
-    $.when($.ajax(itemsUrl, { mode: 'GET' }))
+    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
     .done(function (data) {
       var table = $('#work-items-table')
             .DataTable({
@@ -119,13 +120,13 @@ function showTable() {
                   "sZeroRecords": translations['NoMatchingRecordsFound']
                 },
                 columns: [                    
-                      { "data" : "TransactionId" },
-                      { "data": "CustomerName" },
-                      { "data": "Status" },
-                      { "data": "Action" },
-                      { "data": "Email" },
-                      { "data": "Phone" },
-                      { "data": "Date"},
+                      { "data" : "TransactionId", className: 'contract-cell' },
+                      { "data": "CustomerName", className: 'customer-cell' },
+                      { "data": "Status", className: 'status-cell' },
+                      { "data": "Action", className: 'action-cell' },
+                      { "data": "Email", className: 'email-cell' },
+                      { "data": "Phone", className: 'phone-cell' },
+                      { "data": "Date", className: 'date-cell' },
                       {// this is Actions Column
                           "render": function (sdata, type, row) {
                               if (row.Id != 0) {
@@ -133,22 +134,15 @@ function showTable() {
                               } else {
                                   return '';
                               }
-                          }
+                          },
+                          className: 'edit-cell',
+                          orderable: false
                       },
                       {
                           "data": "Id",
                           "visible": false
                       }
                   ],
-
-                columnDefs: [                   
-                  { responsivePriority: 8, targets: -1 },
-                  { width: "40px", targets: -1 },
-                  { className: 'customer-cell', targets: 1},
-                  { className: 'id-cell', targets: 8},
-                  { className: 'edit-cell', targets: -1},
-                  { targets  : [-1], orderable: false}
-                ],
                 dom:
                 "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                 "<'row'<'col-md-12 col-sm-6'l>>" +

@@ -17,6 +17,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
@@ -49,22 +50,19 @@ namespace DealnetPortal.Web.Controllers
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
-                if (contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
-                {
-                    return RedirectToAction("BasicInfo", new { contractId });
-                }
                 if (contractResult.Item1.ContractState == ContractState.CreditContirmed)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
-                if (contractResult.Item1.ContractState == ContractState.Completed)
+                if (contractResult.Item1.ContractState >= ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
                 {
                     return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
                 }
             }
             else
             {
-                return RedirectToAction("Error", "Info", new { alers = contractResult?.Item2 });
+                TempData[PortalConstants.CurrentAlerts] = contractResult?.Item2;
+                return RedirectToAction("Error", "Info");
             }
             return RedirectToAction("BasicInfo", new { contractId = contractId});
         }
@@ -83,11 +81,27 @@ namespace DealnetPortal.Web.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Error", "Info", new {alers = contract?.Item2});
-                }
+                    TempData[PortalConstants.CurrentAlerts] = contract?.Item2;
+                    return RedirectToAction("Error", "Info");
+                }                
             }
 
-            return View(await _contractManager.GetBasicInfoAsync(contractId.Value));
+            var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
+            if (viewModel?.ContractState >= ContractState.Completed)
+            {
+                var alerts = new List<Alert>()
+                        {
+                            new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Message = "Cannot edit applicants information for submitted contracts",
+                                Header = "Cannot edit contract"
+                            }
+                        };
+                TempData[PortalConstants.CurrentAlerts] = alerts;
+                return RedirectToAction("Error", "Info");
+            }
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -97,7 +111,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(basicInfo);
             }
             var contractResult = basicInfo.ContractId == null ?
                 await _contractServiceAgent.CreateContract() :
@@ -107,7 +121,8 @@ namespace DealnetPortal.Web.Controllers
                 var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
                 if (updateResult.Any(r => r.Type == AlertType.Error))
                 {
-                    return RedirectToAction("Error", "Info", new { alers = updateResult });
+                    TempData[PortalConstants.CurrentAlerts] = updateResult;
+                    return RedirectToAction("Error", "Info");
                 }
             }
             return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
@@ -115,13 +130,33 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
-            return View(await _contractManager.GetBasicInfoAsync(contractId));
+            var viewModel = await _contractManager.GetBasicInfoAsync(contractId);
+            if (viewModel?.ContractState >= ContractState.Completed)
+            {
+                var alerts = new List<Alert>()
+                        {
+                            new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Message = "Cannot edit applicants information for submitted contracts",
+                                Header = "Cannot edit contract"
+                            }
+                        };
+                TempData[PortalConstants.CurrentAlerts] = alerts;
+                return RedirectToAction("Error", "Info");
+            }
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (!ModelState.IsValid)
+            {
+                return View(basicInfo);
+            }
             //Initiate a credit check here!
             var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
 
@@ -162,7 +197,8 @@ namespace DealnetPortal.Web.Controllers
 
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
-                return RedirectToAction("Error", "Info", new { alers = checkResult.Item2 });
+                TempData[PortalConstants.CurrentAlerts] = checkResult.Item2;
+                return RedirectToAction("Error", "Info");
             }
 
             switch (checkResult?.Item1.CreditCheckState)
@@ -222,7 +258,8 @@ namespace DealnetPortal.Web.Controllers
 
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
-                var redirectStr = Url.Action("Error", "Info", new { alers = checkResult.Item2 });
+                TempData[PortalConstants.CurrentAlerts] = checkResult.Item2;
+                var redirectStr = Url.Action("Error", "Info");
                 return Json(redirectStr);
             }
 
@@ -266,7 +303,8 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return RedirectToAction("Error", "Info", new { alers = updateResult });
+                TempData[PortalConstants.CurrentAlerts] = updateResult;
+                return RedirectToAction("Error", "Info");
             }
             return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
         }
@@ -289,7 +327,8 @@ namespace DealnetPortal.Web.Controllers
             var updateResult = await _contractManager.UpdateContractAsync(contactAndPaymentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
-                return RedirectToAction("Error", "Info", new { alers = updateResult });
+                TempData[PortalConstants.CurrentAlerts] = updateResult;
+                return RedirectToAction("Error", "Info");
             }
             return RedirectToAction("SummaryAndConfirmation", new {contractId = contactAndPaymentInfo.ContractId});
         }
@@ -386,7 +425,8 @@ namespace DealnetPortal.Web.Controllers
             var contract = await _contractServiceAgent.GetContract(contractId);
             if (contract.Item1 == null || (contract.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
-                return RedirectToAction("Error", "Info", new { alers = contract?.Item2 });
+                TempData[PortalConstants.CurrentAlerts] = contract.Item2;
+                return RedirectToAction("Error", "Info");
             }
 
             var sendEmails = new SendEmailsViewModel();
@@ -427,7 +467,8 @@ namespace DealnetPortal.Web.Controllers
             }
             else
             {
-                return RedirectToAction("Error", "Info", new { alers = result?.Item2 });
+                TempData[PortalConstants.CurrentAlerts] = result.Item2;
+                return RedirectToAction("Error", "Info");
             }
         }
         

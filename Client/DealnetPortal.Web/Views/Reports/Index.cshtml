@@ -2,22 +2,23 @@
 <div id="label-steps">
 	<div class="dealnet-action-link">@Resources.Reports</div> >
 </div>
-<!--<div class="dealnet-large-header">My Deals</div>-->
 <div class="expand-filter-template reports-expanded-filter">
-	<a class="clear-data-link" id="clear-filters">
+	<h2 class="dealnet-middle-header">Filter</h2>
+	<div class="expand-filter-navigation">
+		<a class="clear-data-link" id="clear-filters">
         <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
-	</a>
-	<!-- Nav tabs -->
-	<ul class="nav nav-tabs" role="tablist">
+		</a>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#deal-info-tab" aria-controls="deal-info-tab" role="tab" data-toggle="tab">@Resources.DealInfo</a></li>
 		<li role="presentation"><a href="#detailed-info-tab" aria-controls="profile" role="tab" data-toggle="tab">@Resources.DetailedInfo</a></li>
-	</ul>
+		</ul>
+	</div>
 
 	<!-- Tab panes -->
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="deal-info-tab">
 			<div class="reset-form-inline">
-				<div class="label-caption">@Resources.Filter</div>
 				<div class="row">
 					<div class="col-sm-6 col-md-3 col-lg-4">
 						<div class="form-group">
@@ -63,7 +64,6 @@
 		</div>
 		<div role="tabpanel" class="tab-pane" id="detailed-info-tab">
 			<div class="reset-form-inline">
-				<div class="label-caption">@Resources.Filter</div>
 				<div class="row">
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="form-group">
@@ -84,9 +84,17 @@
 					</div>
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="form-group">
-							<label for="">@Resources.ValueOfDeal</label>
+							<label for="">Deal Value Starting From</label>
 							<div class="control-group">
 								<input type="text" class="form-control dealnet-input filter-input" id="deal-value">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4 col-lg-4">
+						<div class="form-group">
+							<label for="">Sales Rep</label>
+							<div class="control-group">
+								<select class="form-control filter-input select-filter" id="sales-rep"></select>
 							</div>
 						</div>
 					</div>
@@ -105,16 +113,17 @@
 	<thead>
 		<tr>
 		    <th class="all checkbox-cell"></th>
-		    <th class="all">@Resources.Contract&nbsp;#</th>            
+		    <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
 			<th class="all customer-cell">@Resources.Customer</th>
 		    <th class="min-tablet-p status-cell">@Resources.Status</th>
+			<th class="min-desktop type-cell">Type</th>
 			<th class="min-desktop email-cell">@Resources.Email</th>
 			<th class="min-desktop phone-cell">@Resources.Phone</th>
 			<th class="min-desktop date-cell">@Resources.Date</th>
-			<th class="min-desktop equipment-cell">@Resources.Equipment</th>
+			<th class="min-desktop equipment-cell">@Resources.Equipment</th>			
+			<th class="min-desktop sales-rep-cell">Sales Rep</th>
 			<th class="min-desktop value-cell">@Resources.Value</th>
             <th class="min-desktop hidden">RemainingDescription</th>
-            <th class="min-desktop hidden">AgreementType</th>
             <th class="min-desktop hidden">PaymentType</th>
 		    <th class="all controls-cell"></th>            
 		</tr>

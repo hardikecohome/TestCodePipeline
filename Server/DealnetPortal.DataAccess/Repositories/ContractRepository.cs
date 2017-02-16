@@ -42,6 +42,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     .Include(c => c.PrimaryCustomer)
                     .Include(c => c.PrimaryCustomer.Locations)
                     .Include(c => c.SecondaryCustomers)
+                    .Include(c => c.HomeOwners)
                     .Include(c => c.Equipment)
                     .Include(c => c.Equipment.ExistingEquipment)
                     .Include(c => c.Equipment.NewEquipment)
@@ -53,9 +54,10 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId)
         {
             var contracts = _dbContext.Contracts
-                    .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -91,6 +93,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -104,6 +107,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -205,6 +209,13 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
+                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
+                    }
+
+                    if (contractData.HomeOwners != null)
+                    {
+                        AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
                         contract.ContractState = ContractState.CustomerInfoInputted;
                         contract.LastUpdateTime = DateTime.Now;
                     }
@@ -547,6 +558,20 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.Contract = contract;
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
+
+                if (string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
+                {
+                    equipmentInfo.InstallerFirstName = dbEquipment.InstallerFirstName;
+                }
+                if (string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
+                {
+                    equipmentInfo.InstallerLastName = dbEquipment.InstallerLastName;
+                }
+                if (!equipmentInfo.InstallationDate.HasValue)
+                {
+                    equipmentInfo.InstallationDate = dbEquipment.InstallationDate;
+                }
+
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
                 dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
             }          
@@ -573,6 +598,14 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (ne.AssetNumber == null)
                         {
                             ne.AssetNumber = curEquipment.AssetNumber;
+                        }
+                        if (string.IsNullOrEmpty(ne.InstalledModel))
+                        {
+                            ne.InstalledModel = curEquipment.InstalledModel;
+                        }
+                        if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
+                        {
+                            ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
                         }
                         _dbContext.NewEquipment.AddOrUpdate(ne);
                     }
@@ -889,6 +922,47 @@ namespace DealnetPortal.DataAccess.Repositories
             });
 
             contract.LastUpdateTime = DateTime.Now;
+
+            return true;
+        }
+
+        private bool AddOrUpdateHomeOwners(Contract contract, IList<Customer> homeOwners)
+        {
+            var existingEntities =
+                contract.HomeOwners.Where(
+                    ho => homeOwners.Any(cho => cho.Id == ho.Id)).ToList();
+            var entriesForDelete = contract.HomeOwners.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => contract.HomeOwners.Remove(e));
+
+            var entriesForAdd = homeOwners.Where(ho => contract.HomeOwners.All(cho => cho.Id != ho.Id));
+            entriesForAdd.ForEach(ho =>
+            {
+                Customer sc = null;
+                if (ho.Id != 0)
+                {
+                    sc = _dbContext.Customers.Find(ho.Id);
+                }
+                // new created
+                if (sc == null && ho.Id == 0)
+                {
+                    if (contract.PrimaryCustomer.FirstName == ho.FirstName &&
+                        contract.PrimaryCustomer.LastName == ho.LastName &&
+                        contract.PrimaryCustomer.DateOfBirth == ho.DateOfBirth)
+                    {
+                        sc = contract.PrimaryCustomer;
+                    }
+                    else
+                    {
+                        sc =
+                            contract.SecondaryCustomers.FirstOrDefault(
+                                c => c.FirstName == ho.FirstName && c.LastName == ho.LastName && c.DateOfBirth == ho.DateOfBirth);
+                    }
+                }
+                if (sc != null)
+                {
+                    contract.HomeOwners.Add(sc);
+                }                
+            });
 
             return true;
         }

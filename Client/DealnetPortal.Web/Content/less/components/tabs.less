@@ -26,6 +26,12 @@
 
 .nav-tabs, .nav-pills {
   text-align:center;
+  &.text-left{
+    text-align: left;
+    li{
+      text-align: center;
+    }
+  }
 }
 .nav-tabs > li > a {
   border: none;
@@ -249,11 +255,16 @@
       padding: 20px 0 !important;
     }
   }
-  .file-upload.btn{
+  .download-certificate-link{
+    .icon-download{
+      margin-right: 10px;
+    }
+  }
+  .file-upload{
     @media @desktop-up {
       float: left !important;
     }
-    margin: 20px auto 0 !important
+    margin-top: 20px;
   }
   .documents-list{
     h4{
@@ -275,6 +286,10 @@
       color: @icon-gray-color;
       &.icon-audio{
         margin-top: -3px;
+      }
+      &.icon-pdf{
+        position: relative;
+        top: -1px;
       }
     }
     .upload-doc-link{
@@ -340,4 +355,12 @@
   margin: 0 0 30px;
   color: @heading-text-color;
   font-family: @usual-font-family;
+}
+
+
+
+.compare-standalone-calculator{
+  .tab-content{
+    padding: 0;
+  }
 }

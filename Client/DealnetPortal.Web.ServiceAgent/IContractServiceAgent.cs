@@ -79,12 +79,28 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns></returns>
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId);
 
+        Task<IList<Alert>> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData);
+
+        /// <summary>
+        /// Get contract installation certificate (pdf)
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns></returns>
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallationCertificate(int contractId);
+
         /// <summary>
         /// Check is contract print (pdf) agreement available
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
         Task<Tuple<bool, IList<Alert>>> CheckContractAgreementAvailable(int contractId);
+
+        /// <summary>
+        /// Check is installation certificate (pdf) available
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns></returns>
+        Task<Tuple<bool, IList<Alert>>> CheckInstallationCertificateAvailable(int contractId);
 
         /// <summary>
         /// Reports info about deals flowing

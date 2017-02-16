@@ -21,6 +21,8 @@
             return false;
         });
 
+        checkSubmitAllDocumentsAvailability();
+
         if (!isMobileBrowser) {
             $('.base-comment-text').keypress(function(e) {
                 if (e.which == 13 && !e.shiftKey) {
@@ -94,7 +96,7 @@
                     var percentVal = '0%';                              
                     progressBar.width(percentVal);
                     progressBarValue.html(percentVal);
-                    documentNaming.text(input.val().match(/[\w-]+\.\w+/gi));
+                    documentNaming.text(input.val().replace(/^.*[\\\/]/, ''));
                     documentItem.show();
                     progressContainer.show();
                 },
@@ -114,6 +116,7 @@
                         errorDesc.hide();
                         tabContainers.removeClass('error');
                         tabContainers.addClass('uploaded');
+                        checkSubmitAllDocumentsAvailability();
                     } else if (result.isError) {
                         afterError(result.errorMessage);
                     } else if (result.wasCancelled) {
@@ -259,8 +262,8 @@ function managePaymentFormElements(paymentType) {
 function auditConfirmModal() {
     var data = {
         class: "audit-alert-modal",
-        message: translations['IfYouSendToAuditNoChanges'],
-        title: translations['SendToAuditQuestion'],
+        message: "Did you upload all the documents needed? After proceeding you won't have a possibility to make any other changes",
+        title: "Final check",
         confirmBtnText: translations['Proceed']
     };
     dynamicAlertModal(data);
@@ -280,6 +283,7 @@ function submitAllDocumentsUploaded() {
                 $('.disablable').addClass('disabled');
                 $('button.disabled, input.disabled').attr('disabled', 'disabled');
                 $('.dealnet-section-edit-link').hide();
+                isSentToAudit = true;
             } else if (result.isError) {
                 alert(translations['AnErrorWhileSendingReport']);
             }
@@ -291,6 +295,23 @@ function submitAllDocumentsUploaded() {
             hideDynamicAlertModal();
         }
     });
+}
+
+function checkSubmitAllDocumentsAvailability() {
+    var submitEnabled = true;
+    $('.mandatory').each(function () {
+        submitEnabled = submitEnabled && $(this).hasClass('uploaded');
+    });
+    if (submitEnabled && !isSentToAudit) {
+        $('button.disabled, input.disabled').removeClass('disabled');
+        $('button.disabled, input.disabled').removeProp('disabled');
+        $('.before-all-documents-submitted').hide();
+    } else {
+        if (isSentToAudit) {
+            $('.before-all-documents-submitted').hide();
+            $('#all-documents-submitted-message').show();
+        }
+    }
 }
 
 function addReplyFrom() {
@@ -341,7 +362,7 @@ function assignDatepicker() {
         changeYear: true,
         changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
-        minDate: new Date(),
+        minDate: (input.hasClass('exlude-min-date')) ? Date.parse("1900-01-01") : new Date(),
         onClose: function(){
             onDateSelect($(this));
         }
@@ -463,4 +484,40 @@ function assignAutocompletes() {
                 initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
             }
         });
+}
+
+function printCertificate(checkUrl, form) {
+
+    $.get({
+        type: "POST",
+        url: checkUrl,
+        success: function(json) {
+            if (json == true) {
+                $('#certificate-error-message').hide();
+                form.validate();
+                if (!form.valid()) {
+                    return;
+                };
+                form.ajaxSubmit({
+                    url: form.attr("action"),
+                    method: form.attr("method"),  // post
+                    success: function (json) {
+                        if (json != null) {
+                            window.location = json;
+                        } else {
+                            $('#certificate-error-message').show();
+                        }
+                    },
+                    error: function (xhr, status, p3) {
+                        $('#certificate-error-message').show();
+                    }
+                });                
+            } else {
+                $('#certificate-error-message').show();
+            }
+        },
+        error: function(xhr, status, p3) {
+            $('#certificate-error-message').show();
+        }
+    });
 }

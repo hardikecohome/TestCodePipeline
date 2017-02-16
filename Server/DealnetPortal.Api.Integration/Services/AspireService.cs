@@ -439,65 +439,89 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract != null)
             {
-                var request = new DocumentUploadRequest();
-
-                var userResult = GetAspireUser(contractOwnerId);
-                if (userResult.Item2.Any())
+                if (new[] { (int) DocumentTemplateType.SignedContract, (int) DocumentTemplateType.SignedInstallationCertificate, 3, 4}.
+                    All(x => contract.Documents.Any(d => d.DocumentTypeId == x)))
                 {
-                    alerts.AddRange(userResult.Item2);
-                }
-                if (alerts.All(a => a.Type != AlertType.Error))
-                {
-                    request.Header = userResult.Item1;
+                    var request = new DocumentUploadRequest();
 
-                    try
+                    var userResult = GetAspireUser(contractOwnerId);
+                    if (userResult.Item2.Any())
                     {
-                        request.Payload = new DocumentUploadPayload()
-                        {
-                            TransactionId = contract.Details.TransactionId,
-                            Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
-                        };
+                        alerts.AddRange(userResult.Item2);
+                    }
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        request.Header = userResult.Item1;
 
-                        //TODO:
-                        request.Payload.Documents = new List<Document>()
+                        try
                         {
-                            new Document()
-                        };
+                            request.Payload = new DocumentUploadPayload()
+                            {
+                                TransactionId = contract.Details.TransactionId,
+                                Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
+                            };
 
-                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeResponse(docUploadResponse, contract);
-                        if (rAlerts.Any())
-                        {
-                            alerts.AddRange(rAlerts);
+                            var submitString = "Ready For Audit";
+                            var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
+                            request.Payload.Documents = new List<Document>()
+                            {
+                                new Document()
+                                {
+                                    Name = "ReadyForAudit",
+                                    Data = submitStrBase64,
+                                    Ext = "txt"
+                                }
+                            };
+
+                            var docUploadResponse =
+                                await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+                            var rAlerts = AnalyzeResponse(docUploadResponse, contract);
+                            if (rAlerts.Any())
+                            {
+                                alerts.AddRange(rAlerts);
+                            }
+
+                            //if (contract.ContractState != ContractState.SentToAudit)
+                            //{
+                            //    alerts.Add(new Alert()
+                            //    {
+                            //        Header = "Deal wasn't sent to audit",
+                            //        Message = $"Deal wasn't sent to audit for contract with id {contractId}",
+                            //        Type = AlertType.Error
+                            //    });
+                            //    _loggingService.LogError($"Deal wasn't sent to audit for contract with id {contractId}");
+                            //}
+
+                            if (rAlerts.All(a => a.Type != AlertType.Error))
+                            {
+                                contract.ContractState = ContractState.SentToAudit;
+                                _unitOfWork.Save();
+                                _loggingService.LogInfo(
+                                    $"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
+                            }
                         }
-
-                        if (contract.ContractState != ContractState.SentToAudit)
+                        catch (Exception ex)
                         {
                             alerts.Add(new Alert()
                             {
-                                Header = "Deal wasn't sent to audit",
-                                Message = $"Deal wasn't sent to audit for contract with id {contractId}",
+                                Code = ErrorCodes.AspireConnectionFailed,
+                                Header = "Can't upload document",
+                                Message = ex.ToString(),
                                 Type = AlertType.Error
                             });
-                            _loggingService.LogError($"Deal wasn't sent to audit for contract with id {contractId}");
-                        }
-
-                        if (rAlerts.All(a => a.Type != AlertType.Error))
-                        {
-                            _loggingService.LogInfo($"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
+                            _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
                         }
                     }
-                    catch (Exception ex)
+                }
+                else
+                {
+                    alerts.Add(new Alert()
                     {
-                        alerts.Add(new Alert()
-                        {
-                            Code = ErrorCodes.AspireConnectionFailed,
-                            Header = "Can't upload document",
-                            Message = ex.ToString(),
-                            Type = AlertType.Error
-                        });
-                        _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
-                    }
+                        Header = "Not all mandatory documents were uploaded",
+                        Message = $"Not all mandatory documents were uploaded for contract with id {contractId}",
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Not all mandatory documents were uploaded for contract with id {contractId}");
                 }
             }
             else
@@ -1007,17 +1031,13 @@ namespace DealnetPortal.Api.Integration.Services
                 int.TryParse(response.Payload.ScorecardPoints, out scorePoints))
             {
                 checkResult.ScorecardPoints = scorePoints;
-                if (scorePoints > 180 && scorePoints <= 190)
-                {
-                    checkResult.CreditAmount = 12000;
-                }
-                if (scorePoints > 190 && scorePoints <= 200)
+                if (scorePoints > 180 && scorePoints <= 220)
                 {
                     checkResult.CreditAmount = 15000;
                 }
-                if (scorePoints > 200 && scorePoints < 1000)
+                if (scorePoints > 220 && scorePoints < 1000)
                 {
-                    checkResult.CreditAmount = 20000;
+                    checkResult.CreditAmount = 25000;
                 }
             }
 

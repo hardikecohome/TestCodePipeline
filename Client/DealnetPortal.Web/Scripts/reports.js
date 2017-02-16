@@ -33,6 +33,7 @@ function showTable() {
         var statusOptions = [];
         var paymentOptions = [];
         var agrTypeOptions = [];
+        var salesRepOptions = [];
         $.each(data, function (i, e) {
             if ($.inArray(e["Status"], statusOptions) == -1)
                 if (e["Status"]) {
@@ -46,6 +47,10 @@ function showTable() {
                 if (e["AgreementType"]) {
                     agrTypeOptions.push(e["AgreementType"]);
                 }
+            if ($.inArray(e["SalesRep"], salesRepOptions) == -1)
+                if (e["SalesRep"]) {
+                    salesRepOptions.push(e["SalesRep"]);
+                }
         });
         $.each(statusOptions, function (i, e) {
             $("#deal-status").append($("<option />").val(e).text(e));
@@ -55,6 +60,9 @@ function showTable() {
         });
         $.each(paymentOptions, function (i, e) {
             $("#payment-type").append($("<option />").val(e).text(e));
+        });
+        $.each(salesRepOptions, function (i, e) {
+            $("#sales-rep").append($("<option />").val(e).text(e));
         });
 
             table = $('#work-items-table')
@@ -85,22 +93,21 @@ function showTable() {
                                 return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                             }                            
                         },
-                        className: 'checkbox-cell'
+                        className: 'checkbox-cell',
+                        orderable: false
                     },                    
-                    { "data": "TransactionId" },
-                    { "data": "CustomerName" },
-                    { "data": "Status" },
-                    { "data": "Email" },
-                    { "data": "Phone" },
-                    { "data": "Date" },
-                    { "data": "Equipment" },
-                    { "data": "Value" },
+                    { "data": "TransactionId", className: 'contract-cell' },
+                    { "data": "CustomerName", className: 'customer-cell' },
+                    { "data": "Status", className: 'status-cell' },
+                    { "data": "AgreementType", className: 'type-cell'},
+                    { "data": "Email", className: 'email-cell' },
+                    { "data": "Phone", className: 'phone-cell' },
+                    { "data": "Date", className: 'date-cell' },
+                    { "data": "Equipment", className: 'equipment-cell' },
+                    { "data": "SalesRep", className: 'sales-rep-cell' },
+                    { "data": "Value", className: 'value-cell' },
                     {
                         "data": "RemainingDescription",
-                        "visible": false
-                    },
-                    {
-                        "data": "AgreementType",
                         "visible": false
                     },
                     {
@@ -115,22 +122,9 @@ function showTable() {
                                 return '';
                             }
                         },
-                        className: 'controls-cell'
+                        className: 'controls-cell',
+                        orderable: false
                     }
-            ],
-            columnDefs: [
-                {
-                    className: 'control id-cell',
-                    targets: 1
-                },
-                {
-                    className: 'customer-cell',
-                    targets: 2
-                },
-                {
-                    targets: [0, -1],
-                    orderable: false
-                }
             ],
             dom:
             "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
@@ -217,17 +211,19 @@ function (settings, data, dataIndex) {
     var status = $("#deal-status").val();
     var agreementType = $("#agreement-type").val();
     var paymentType = $("#payment-type").val();
+    var salesRep = $("#sales-rep").val();
     var equipment = $("#equipment-input").val();
     var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
     var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-    var date = Date.parseExact(data[6], "M/d/yyyy");
-    var value = parseFloat(data[8].replace(/[\$,]/g, ''));
+    var date = Date.parseExact(data[7], "M/d/yyyy");
+    var value = parseFloat(data[10].replace(/[\$,]/g, ''));
     var valueOfDeal = parseFloat($("#deal-value").val());
     if ((!status || status === data[3]) &&
         (!dateTo || date <= dateTo) &&
         (!dateFrom || date >= dateFrom) &&
-        (!agreementType || agreementType === data[10]) &&
-        (!paymentType || paymentType === data[11]) &&
+        (!agreementType || agreementType === data[4]) &&
+        (!salesRep || salesRep === data[9]) &&
+        (!paymentType || paymentType === data[12]) &&
         (!equipment || data[7].match(new RegExp(equipment, "i"))) &&
         (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {
         return true;
@@ -295,7 +291,7 @@ function getIntValue(value) {
 
 function recalculateGrandTotal() {
     var sum = 0;
-    table.column(8, { search: 'applied' }).data().each(function (value, index) {
+    table.column(10, { search: 'applied' }).data().each(function (value, index) {
         sum += getIntValue(value);
     });
 

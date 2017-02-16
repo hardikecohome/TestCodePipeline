@@ -224,6 +224,38 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PutAsync<InstallationCertificateDataDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateInstallationData", installationCertificateData);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update installation certificate data", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallationCertificate(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsync<Tuple<AgreementDocument, IList<Alert>>>(
+                            $"{_fullUri}/GetInstallationCertificate?contractId={contractId}");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get installation certificate", ex);
+                throw;
+            }
+        }
+
         public async Task<Tuple<bool, IList<Alert>>> CheckContractAgreementAvailable(int contractId)
         {
             try
@@ -236,6 +268,22 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't check contract print agreement", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<bool, IList<Alert>>> CheckInstallationCertificateAvailable(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsync<Tuple<bool, IList<Alert>>>(
+                            $"{_fullUri}/CheckInstallationCertificateAvailable?contractId={contractId}");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't check installation certificate", ex);
                 throw;
             }
         }

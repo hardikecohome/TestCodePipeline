@@ -19,10 +19,24 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a href="@Url.Action("BasicInfo", new { contractId = Model.ContractId })" data-warning="true" class="step-item">1</a>
+        @if (Model.IsApplicantsInfoEditAvailable)
+        {
+            <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
+        }
+        else
+        {
+            <div id="step1" class="step-item">1</div>
+        }
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a href="@Url.Action("CreditCheckConfirmation", new { contractId = Model.ContractId })" data-warning="true" id="step2" class="step-item">2</a>
+        @if (Model.IsApplicantsInfoEditAvailable)
+        {
+            <a href="@Url.Action("CreditCheckConfirmation", new {contractId = Model.ContractId})" data-warning="true" id="step2" class="step-item">2</a>
+        }
+        else
+        {
+            <div id="step2" class="step-item">2</div>
+        }
 
         <div id="step3" class="step-item step-active">3</div>
     </div>
@@ -92,10 +106,11 @@
                         for (var i = 0; i < Model.NewEquipment.Count; i++)
                         {
                             <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
+                                @Html.HiddenFor(m => m.NewEquipment[i].Id)
                                 <div class="dealnet-middle-header owner-info-label">
                                     <span class="equipment-number">№@(i + 1)</span>
                                     @if (i != 0)
-                        {
+                                    {
                                         <div id="new-equipment-remove-@(i)" class="additional-remove" onclick="removeNewEquipment(@(i)); recalculateTotalMonthlyPayment(); recalculateTotalCashPrice();">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </div>
@@ -106,8 +121,8 @@
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].Type)
                                             @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
-                        new { @class = "form-control" })
+                                                ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type}),
+                                                new {@class = "form-control"})
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-md-6">
@@ -115,39 +130,39 @@
                                             @Html.LabelFor(m => m.NewEquipment[i].Description)
                                             <div class="control-group">
                                                 @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description })
-                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
+                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4 equipment-cost-col">
+                                    <div class="col-md-4 loan-col-md-6 equipment-cost-col">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].Cost)
                                             <div class="control-group has-addon-left">
                                                 <div class="control-group-addon">$</div>
                                                 @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", placeholder = Resources.Cost, onchange = "recalculateTotalCashPrice();" })
-                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new { @class = "text-danger" })
+                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 monthly-cost-col">
+                                    <div class="col-md-4 loan-col-md-6 monthly-cost-col">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
                                             <div class="control-group has-addon-left">
                                                 <div class="control-group-addon">$</div>
                                                 @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", placeholder = Resources.MonthlyCost, onchange = "recalculateTotalMonthlyPayment();" })
-                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
+                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 loan-col-md-6">
                                         <div class="form-group">
-                                            @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new { @for = "estimated-installation-date-" + i })
+                                            @Html.LabelFor(m => m.NewEquipment[i].EstimatedInstallationDate, new {@for = "estimated-installation-date-" + i})
                                             <div class="control-group">
                                                 @Html.TextBoxFor(m => m.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date-" + i, placeholder = Resources.DateFormat, data_val_date = "" })
-                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedInstallationDate, "", new { @class = "text-danger" })
+                                                @Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedInstallationDate, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +181,7 @@
                 </div>
                 <hr class="loan-element">
                 <div class="row loan-element">
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdminFee)
                             <div class="control-group">
@@ -175,7 +190,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.DownPayment)
                             <div class="control-group">
@@ -184,7 +199,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.CustomerRate)
                             <div class="control-group">
@@ -270,8 +285,8 @@
 
                 </div>
         </div>
-        <div class="col-md-6 col-sm-6">
-            <div class="equipment-calculator sticker">
+        <div class="col-md-6 col-sm-6 sticker-parent">
+            <div class="equipment-calculator sticker loan-sticker">
                 <div class="loan-element">
                     <div class="row form-group">
                         <div class="col-xs-8 col-sm-8 col-md-9">@Resources.CashPriceOfEquipment</div>
@@ -392,6 +407,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 @Html.LabelFor(m => m.ExistingEquipment[i].Model)
@@ -459,12 +476,12 @@
 
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="button-proceed">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="button-proceed">
                         <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" />
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -502,7 +519,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4 equipment-cost-col">
+                <div class="col-md-4 loan-col-md-6 equipment-cost-col">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].Cost)
                         <div class="control-group has-addon-left">
@@ -512,7 +529,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 monthly-cost-col">
+                <div class="col-md-4 loan-col-md-6 monthly-cost-col">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
                         <div class="control-group has-addon-left">
@@ -522,7 +539,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 loan-col-md-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate, new { @for = "estimated-installation-date-0" })
                         <div class="control-group">
@@ -586,7 +603,8 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div class="row">
                 <div class="col-sm-12 col-md-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.ExistingEquipment[0].Model)
@@ -614,6 +632,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.ExistingEquipment[0].Notes)

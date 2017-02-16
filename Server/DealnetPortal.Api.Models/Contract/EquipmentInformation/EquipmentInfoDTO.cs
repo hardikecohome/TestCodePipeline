@@ -1,4 +1,5 @@
-﻿using DealnetPortal.Api.Common.Enumeration;
+﻿using System;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 {
@@ -32,6 +33,12 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public string SalesRep { get; set; }
 
         public string Notes { get; set; }
+
+        public DateTime? InstallationDate { get; set; }
+
+        public string InstallerFirstName { get; set; }
+
+        public string InstallerLastName { get; set; }
 
         public int ContractId { get; set; }
     }

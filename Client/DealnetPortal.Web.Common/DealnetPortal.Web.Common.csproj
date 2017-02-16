@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\PortalConstants.cs" />
     <Compile Include="Enumeration\AgreementType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Enumeration\LoanDeferralType.cs" />

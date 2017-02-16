@@ -1,3 +1,19 @@
+.modal{
+  text-align: center;
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+}
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
 .modal.modal-wide {
   padding: 0 15px !important;
   .modal-dialog{
@@ -14,6 +30,12 @@
   .modal-body{
     padding: 30px 15px 20px;
     min-height: 120px;
+    &.no-padding-top{
+      padding-top: 0;
+    }
+  }
+  .modal-header+.modal-body{
+    padding-top: 0;
   }
   .btn-container{
     width: 335px;
@@ -27,6 +49,21 @@
     font-family: @usual-font-family;
   }
 }
+
+.modal.fade-on-ios{
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  opacity: 0;
+  -webkit-transition: opacity 0.3s linear, -webkit-transform 0.3s ease-out;
+  transition: opacity 0.3s linear, transform 0.3s ease-out;
+}
+
+.modal.fade-on-ios.in{
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  opacity: 1;
+}
+
 #payment-info-modal{
   .file-upload{
     @media @tablet-only {
@@ -138,9 +175,21 @@
   &.audit-alert-modal{
     .modal-body{
       @media @desktop-up {
-        padding-left: 92px;
-        padding-right: 92px;
+        padding-left: 70px;
+        padding-right: 70px;
       }
     }
+  }
+}
+
+#download-certificate-modal{
+  .certificate-equipment{
+    margin-bottom: 15px;
+  }
+}
+
+#calculator-modal{
+  .add-equip-link{
+    margin-top: 32px;
   }
 }

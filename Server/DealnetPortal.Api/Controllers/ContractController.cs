@@ -57,7 +57,7 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetCompletedContracts()
         {
             var contracts = ContractService.GetContracts(LoggedInUser.UserId);
-            return Ok(contracts.Where(c => c.ContractState == ContractState.Completed));
+            return Ok(contracts.Where(c => c.ContractState >= ContractState.Completed));
         }
 
         //Get: api/Contract/{contractId}
@@ -245,7 +245,37 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = ContractService.CheckPrintAgreementAvailable(contractId, LoggedInUser?.UserId);
+                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetInstallationCertificate")]
+        [HttpGet]
+        public IHttpActionResult GetInstallationCertificate(int contractId)
+        {
+            try
+            {                
+                var result = ContractService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("CheckInstallationCertificateAvailable")]
+        [HttpGet]
+        public IHttpActionResult CheckInstallationCertificateAvailable(int contractId)
+        {
+            try
+            {
+                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -313,6 +343,21 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var alerts = ContractService.UpdateCustomers(customers, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("UpdateInstallationData")]
+        [HttpPut]
+        public IHttpActionResult UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData)
+        {
+            try
+            {
+                var alerts = ContractService.UpdateInstallationData(installationCertificateData, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)

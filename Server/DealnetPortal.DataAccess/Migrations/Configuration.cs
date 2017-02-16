@@ -39,6 +39,7 @@ namespace DealnetPortal.DataAccess.Migrations
             SetAspireStatuses(context);
             SetDocumentTypes(context);
             var templates = SetDocuSignTemplates(context);
+            SetInstallationCertificateTemplates(context);
             SetPdfTemplates(context, templates);
             var seedNames = templates.Select(at => at.TemplateName).ToArray();
             var dbTemplateNames =
@@ -526,13 +527,13 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             var documentTypes = new List<DocumentType>
             {
-                new DocumentType()  {Description = "Signed contract", DescriptionResource = "SignedContract", Prefix = "SC_"},
-                new DocumentType()  {Description = "Signed Installation certificate", DescriptionResource = "SignedInstallationCertificate", Prefix = "SIC_"},
-                new DocumentType()  {Description = "Invoice", DescriptionResource = "Invoice", Prefix = "INV_"},
-                new DocumentType()  {Description = "Copy of Void Personal Cheque", DescriptionResource = "VoidPersonalChequeCopy", Prefix = "VPC_"},
-                new DocumentType()  {Description = "Extended Warranty Form", DescriptionResource = "ExtendedWarrantyForm", Prefix = "EWF_"},
-                new DocumentType()  {Description = "Third party verification call", DescriptionResource = "ThirdPartyVerificationCall", Prefix = "TPV_"},
-                new DocumentType()  {Description = "Other", DescriptionResource = "Other", Prefix = ""},
+                new DocumentType()  {Id = (int)DocumentTemplateType.SignedContract, Description = "Signed contract", DescriptionResource = "SignedContract", Prefix = "SC_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation certificate", DescriptionResource = "SignedInstallationCertificate", Prefix = "SIC_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.Invoice, Description = "Invoice", DescriptionResource = "Invoice", Prefix = "INV_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.VoidPersonalCheque, Description = "Copy of Void Personal Cheque", DescriptionResource = "VoidPersonalChequeCopy", Prefix = "VPC_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.ExtendedWarrantyForm, Description = "Extended Warranty Form", DescriptionResource = "ExtendedWarrantyForm", Prefix = "EWF_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.VerificationCall, Description = "Third party verification call", DescriptionResource = "ThirdPartyVerificationCall", Prefix = "TPV_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.Other, Description = "Other", DescriptionResource = "Other", Prefix = ""},
             };
             //leave existing data
             //documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
@@ -550,6 +551,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "96f6775e-a18a-466b-b275-a845d63c6f6c",//"a8c47648-542c-4edf-b222-3168d39d4d68",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecosmart")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecosmart"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecosmart"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -561,6 +563,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "d2310353-8088-4ba0-9ea3-18278e6f168a",//"b6f6aa88-d405-4921-85c2-e1a4bd2162cd",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("canadianhome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("canadianhome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("canadianhome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -572,6 +575,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "37c64c0e-5de3-4e78-a931-683e3b735ec5",//"36301cc8-07b1-4205-a96e-e9e647e7e110",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("enertech"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -583,6 +587,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "ad0280c0-1312-4a29-96ac-ef6a69e29b98",//"567ece58-44ab-45f8-8085-6a6e68457e0e",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -595,6 +600,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "369af238-2db8-43e0-b1af-16d7377e5df5",//"78f231cf-6d08-4fdc-8eaa-f06c5552153c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("efficiency"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -607,6 +613,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "0153d9ad-7d65-4c8b-9322-a594686529ba",//"c68e3bf5-b6c5-4291-9392-82102371948b",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -617,6 +624,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "8d0ad210-99a3-41b7-99f8-8e2f8ec79088",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
 
@@ -627,6 +635,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "5a46958f-2697-4042-8e3b-b7de9bed3864", //"67b4cff0-d95c-43ed-9696-1b9c7fa2d1f3",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("ecoenergy"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -638,6 +647,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "74b92c48-9b15-4bf3-9caf-0b5afdf8ba97",//"598be4b6-855b-4684-a0ee-fb5c83eb1eeb",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Apex")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Apex"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Apex"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -649,6 +659,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "a1abda2a-c1ef-46ff-b15c-2617b25e7013", //"a7ef2bce-abfb-4643-8133-884b19f0b354",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Ontario"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -660,6 +671,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "2c252e19-8341-4ab2-8618-04bcf3d4ebfe", //"6af6000b-6079-4ffd-970c-41bfb1639e5c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Green")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Green"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Ontario Green"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -671,6 +683,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "5e362fbc-2ba0-43ed-882b-8ffe10f26379",//"dc11e414-b7c6-4f9a-bdaf-7e09c8c79f63",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("EcoLife"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             //context.AgreementTemplates.Add(template);
             templates.Add(template);
@@ -684,6 +697,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "294a0dfb-6b32-4c23-975f-449f78986f6a",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
 
@@ -696,6 +710,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "a81ef5aa-d65b-43f0-86bf-7020f6c74e14",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
 
@@ -708,6 +723,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
 
@@ -720,9 +736,31 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "b89a15e1-77e7-4506-83f6-be23e7272a21",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
-
+            template = new AgreementTemplate()
+            {
+                State = "AB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome  (AB)  Financial Credit Application and Loan Agreement (Alberta)",
+                ExternalDealerName = "Dangelo",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "BC",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (BC)  Financial EHF Credit Application and Loan Agreement Aug 20",
+                ExternalDealerName = "Dangelo",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
             template = new AgreementTemplate()
             {
                 State = "ON",
@@ -731,6 +769,29 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "AB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome  (AB)  Financial Credit Application and Loan Agreement (Alberta)",
+                ExternalDealerName = "lifetimewater",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "BC",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (BC)  Financial EHF Credit Application and Loan Agreement Aug 20",
+                ExternalDealerName = "lifetimewater",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
             template = new AgreementTemplate()
@@ -741,6 +802,29 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "BC",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (BC)  Financial EHF Credit Application and Loan Agreement Aug 20",
+                ExternalDealerName = "phphome",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "AB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome  (AB)  Financial Credit Application and Loan Agreement (Alberta)",
+                ExternalDealerName = "phphome",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
             template = new AgreementTemplate()
@@ -752,6 +836,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
             template = new AgreementTemplate()
@@ -763,16 +848,40 @@ namespace DealnetPortal.DataAccess.Migrations
                 ExternalTemplateId = "7a543d1a-f581-4f93-9903-decc3db38a99",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
             template = new AgreementTemplate()
             {
+                State = "ON",
                 AgreementType = AgreementType.RentalApplication,
-                TemplateName = "EcoHome (ON) rental HVAC Other Equipment",
+                TemplateName = "EcoHome HVAC Other Equipment - GENERIC 11.99% (ON) NOV M 2016",
                 ExternalDealerName = "fahrhall",
-                ExternalTemplateId = "b89a15e1-77e7-4506-83f6-be23e7272a21",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "AB",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "EcoHome Rental Agreement - Alberta M 11.99% - NOV 2016",
+                ExternalDealerName = "fahrhall",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "BC",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (BC)  Financial EHF Credit Application and Loan Agreement Aug 20",
+                ExternalDealerName = "fahrhall",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
 
@@ -789,7 +898,8 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var dir = HostingEnvironment.MapPath("~/SeedData");
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
                     {
@@ -805,7 +915,52 @@ namespace DealnetPortal.DataAccess.Migrations
                     // ignored
                 }
             });
-        }        
+        }
+
+        private void SetInstallationCertificateTemplates(ApplicationDbContext context)
+        {
+            List<AgreementTemplate> templates = new List<AgreementTemplate>();
+
+            var template = new AgreementTemplate()
+            {                
+                TemplateName = "ONE DEALER Completion Certificate - Rental",
+                Application = context.Applications.First(x => x.Id == OdiAppId),
+                ApplicationId = context.Applications.First(x => x.Id == OdiAppId)?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                TemplateName = "EcoHome Completion Certificate - Rentals",
+                Application = context.Applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = context.Applications.First(x => x.Id == EcohomeAppId)?.Id,
+                AgreementType = AgreementType.RentalApplication,
+                DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                TemplateName = "EcoHome Completion Certificate - Rentals",
+                Application = context.Applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = context.Applications.First(x => x.Id == EcohomeAppId)?.Id,
+                AgreementType = AgreementType.RentalApplicationHwt,
+                DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                TemplateName = "EcoHome Certificate of Completion - Loans",
+                Application = context.Applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = context.Applications.First(x => x.Id == EcohomeAppId)?.Id,
+                AgreementType = AgreementType.LoanApplication,
+                DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
+            };
+            templates.Add(template);
+
+            templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName && at.DealerId == t.DealerId && at.AgreementType == t.AgreementType && at.ApplicationId == t.ApplicationId));
+            AddOrUpdate(context, t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());
+        }
 
         private void SetExistingPdfTemplates(ApplicationDbContext context)
         {
@@ -813,7 +968,8 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var dir = HostingEnvironment.MapPath("~/SeedData");
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
                     {
