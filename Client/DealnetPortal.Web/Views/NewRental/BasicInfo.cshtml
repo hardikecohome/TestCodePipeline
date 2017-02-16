@@ -65,7 +65,7 @@
 
     <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one of the applicants should be a home owner.
+        @Resources.AtLeastOneHomeOwner
     </div>
 
     <!--Instalation Address-->
@@ -74,23 +74,23 @@
         <div class="col-md-12 get-location-section">
             <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
                 <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use></svg>
-                <span>Get My Location</span>
+                <span>@Resources.GetMyLocation</span>
             </div>
         </div>
     </div>
     <div class="row address-info1">
         <div class="col-md-6 col-lg-6">
             <div class="form-group">
-                <label for="street">Street</label>
+                @Html.LabelFor(m => m.HomeOwner.AddressInformation.Street)
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", id = "street", placeholder = "St." })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street", placeholder = Resources.StreetPlaceholder})
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>
         <div class="col-md-2 col-lg-2">
             <div class="form-group">
-                <label for="unit_number">Unit #</label>
+                @Html.LabelFor(m => m.HomeOwner.AddressInformation.UnitNumber)
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
@@ -99,9 +99,9 @@
         </div>
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label for="locality">City</label>
+                @Html.LabelFor(m => m.HomeOwner.AddressInformation.City)
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = "Ottawa" })
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = Resources.Ottawa })
                     @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -110,16 +110,16 @@
     <div class="row address-info2">
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label for="administrative_area_level_1">Province</label>
+                @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province)
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = "Nepean" })
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = Resources.Nepean })
                     @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label for="postal_code">Postal Code</label>
+                @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode)
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
@@ -128,14 +128,14 @@
         </div>
         <div class="col-md-4 col-lg-4">
             <a href="#" class="dealnet-disabled-text clear-address">
-                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
             </a>
         </div>
     </div>
     <!--END Instalation Address-->
 
     <!--Borrower Information-->
-    <h2 class="dealnet-middle-header">Borrower Information</h2>
+    <h2 class="dealnet-middle-header">@Resources.BorrowerInformation</h2>
         <!--scanlicence-button-->
         if (!ViewBag.IsMobileRequest)
         {
@@ -288,7 +288,7 @@
         <label for="mailing-address-checkbox" class="align-middle custom-checkbox">
             <input type="checkbox" class="dealnet-checkbox mailing-address-checkbox" id="mailing-address-checkbox" @if (Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address" />
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>Mailing address is not the same as Installation Address</span>
+            <span>@Resources.MailingAddressNotSameAsInstallation</span>
         </label>
     </div>
     <div id="mailing-address">
@@ -357,25 +357,25 @@
             @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
             @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>Borrower is home owner.</span>
+            <span>@Resources.BorrowerIsHomeOwner</span>
             @Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
         </label>
     </div>
     <!--Home Owner Information-->
     <div class="well well-info position-well collapse" id="age-warning-message">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one of the applicants should be aged 75 or less.
+        @Resources.AtLeastOne75OrLess
     </div>
 
     <div class="well danger-well over-aged-well collapse" id="age-error-message">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one of the applicants should be aged 75 or less.
+        @Resources.AtLeastOne75OrLess
     </div>
 
     <!--Warning Section if isn't chosen homeowner checkbox-->
     <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one of the applicants should be a home owner.
+        @Resources.AtLeastOneHomeOwner
     </div>
     <!--End Warning Section if isn't chosen homeowner checkbox-->    
     
@@ -490,12 +490,12 @@
                 <label for="mailing-address-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
                     <input type="checkbox" class="dealnet-checkbox mailing-address-checkbox" id="mailing-address-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address-add-app@(i+1)" onChange="$(this).is(':checked') ? $('#mailing-address-add-app@(i+1)').slideDown() : $('#mailing-address-add-app@(i+1)').slideUp()" />
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Mailing address is not the same as Installation Address</span>
+                    <span>@Resources.MailingAddressNotSameAsInstallation</span>
                 </label>
             </div>
             <div id="mailing-address-add-app@(i+1)" style="display: none;">
 
-                <h2 class="dealnet-middle-header no-margin-top">Additional Applicant Mailing Address Information</h2>
+                <h2 class="dealnet-middle-header no-margin-top">@Resources.AdditionalApplicantMailingAddressInfo</h2>
 
 
                 <!-- <div class="owner-info">
@@ -565,7 +565,7 @@
                     @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "add-applicant-checkbox" + (i + 1) })
                     @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Additional Applicant is home owner.</span>
+                    <span>@Resources.AdditionalIsHomeOwner</span>
                 </label>
             </div>
         </div>

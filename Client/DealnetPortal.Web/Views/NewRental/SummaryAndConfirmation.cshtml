@@ -79,10 +79,10 @@
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section" id="address-section">
                     <h3 class="dealnet-section-title">
-                        Address Information
+                        @Resources.AddressInformation
                         @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
                         {
-                        <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                        <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                         }
                     </h3>
                     <div class="form-group">
@@ -145,7 +145,7 @@
     <div class="credit-check-info-hold fit-to-next-grid">
         <div class="col-md-6 grid-column">
             <div class="dealnet-credit-check-section" id="home-owner-section">
-                <h3 class="dealnet-section-title">Borrower Information</h3>
+                <h3 class="dealnet-section-title">@Resources.BorrowerInformation</h3>
                 <div class="form-group">
                     <div class="row">
                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.FirstName, new {@class = "dealnet-field-caption col-xs-6"})
@@ -195,7 +195,7 @@
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
                                 @Html.HiddenFor(m => m.BasicInfo.HomeOwner.IsHomeOwner)
-                                <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? "Yes" : "No" )>
+                                <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? Resources.Yes : Resources.No )>
                             </div>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
 
         <!--<div class="col-md-6 grid-column">
             <div class="dealnet-credit-check-section" id="prev-address-section">
-                <h3 class="dealnet-section-title">Previous Address Information <a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+                <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation <a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a></h3>
                 <div class="form-group">
                     <div class="row">
                         <label for="" class="dealnet-field-caption col-xs-6">Street</label>
@@ -268,7 +268,7 @@
                             @Resources.MailingAddress  
                             @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
                             {
-                                <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                                <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                             }
                         </h3>
                         <div class="form-group">
@@ -469,7 +469,7 @@
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
                                                     @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner)
-                                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? "Yes" : "No" )>
+                                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No )>
                                                 </div>
                                             </div>
                                         </div>
@@ -479,7 +479,7 @@
 
                             <!--<div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="additional-prev-address-section-@(i+1)">
-                                    <h3 class="dealnet-section-title">Previous Address Information <a href="#" onclick="copyFormData($('#additional-prev-address-section-@(i+1)'), $('#additional-prev-address-modal-@(i+1)'), false); $('#additional-prev-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
+                                    <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation <a href="#" onclick="copyFormData($('#additional-prev-address-section-@(i+1)'), $('#additional-prev-address-modal-@(i+1)'), false); $('#additional-prev-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a></h3>
                                     <div class="form-group">
                                         <div class="row">
                                             <label for="" class="dealnet-field-caption col-xs-6">Street</label>
@@ -541,7 +541,7 @@
                                         @Resources.MailingAddress 
                                         @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
                                         {
-                                            <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">Edit</a>
+                                            <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                                         }
                                     </h3>
                                     <div class="form-group">
@@ -1125,7 +1125,7 @@
                                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street", placeholder="St."})
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street", placeholder=Resources.StreetPlaceholder })
                                                 @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
@@ -1149,7 +1149,7 @@
                                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.City, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.City, new {@class = "form-control dealnet-input", id = "locality", placeholder="City"})
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.City, new {@class = "form-control dealnet-input", id = "locality", placeholder= Resources.City})
                                                 @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.City, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
@@ -1160,7 +1160,7 @@
                                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder="Province"})
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder=Resources.Province})
                                                 @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
@@ -1194,7 +1194,7 @@
 </div>
 
 @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
-{
+                                                {
     <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="mailing-address-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -1399,20 +1399,20 @@
                                          @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "dealnet-field-caption"})
                                          <div class="dealnet-field-holder">
                                              <div class="control-group">
-                                                 @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "form-control dealnet-input", placeholder="Description"})
+                                                 @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "form-control dealnet-input", placeholder= Resources.Description})
                                                  @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Description, "", new {@class = "text-danger"})
                                              </div>
                                          </div>
                                      </div>
                                  </div>
                                  @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                                 {
+                                                {
                                      <div class="col-md-12">
                                          <div class="form-group">
                                              @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption"})
                                              <div class="dealnet-field-holder">
                                                  <div class="control-group">
-                                                     @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "form-control dealnet-input equipment-cost", id="", placeholder="Cost" })
+                                                     @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "form-control dealnet-input equipment-cost", id="", placeholder= Resources.Cost })
                                                      @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Cost, "", new {@class = "text-danger"})
                                                  </div>
                                              </div>
@@ -1426,7 +1426,7 @@
                                              @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "dealnet-field-caption"})
                                              <div class="dealnet-field-holder">
                                                  <div class="control-group">
-                                                     @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "form-control dealnet-input monthly-cost", id = "", placeholder="Monthly Cost" })
+                                                     @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "form-control dealnet-input monthly-cost", id = "", placeholder= Resources.MonthlyCost })
                                                      @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, "", new {@class = "text-danger"})
                                                  </div>
                                              </div>
@@ -1438,7 +1438,7 @@
                                          @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, new {@class = "dealnet-field-caption"})
                                          <div class="dealnet-field-holder">
                                              <div class="control-group">
-                                                 @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", placeholder="mm/dd/yyyy"})
+                                                 @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", placeholder= Resources.DateFormat})
                                                  @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].EstimatedInstallationDate, "", new {@class = "text-danger"})
                                              </div>
                                          </div>
@@ -1881,8 +1881,8 @@
                             }
                         </div>
                         <div class="btn-container">
-                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional-mailing-address-section-modal-@(i + 1)'), $('#additional-mailing-address-section-@(i + 1)'), '@Url.Action("UpdateApplicants", "NewRental")', $('#additional-basic-info-form-@(i + 1)'))) { $('#additional-mailing-address-modal-@(i + 1)').modal('hide'); }">Save changes</button>
-                            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional-mailing-address-section-modal-@(i + 1)'), $('#additional-mailing-address-section-@(i + 1)'), '@Url.Action("UpdateApplicants", "NewRental")', $('#additional-basic-info-form-@(i + 1)'))) { $('#additional-mailing-address-modal-@(i + 1)').modal('hide'); }">@Resources.SaveChanges</button>
+                            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -1894,7 +1894,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <div class="modal-title dealnet-large-header">Editing Previous Address Information</div>
+                        <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.PreviousAddressInformation</div>
                     </div>
                     <div class="modal-body">
                         <div class="dealnet-credit-check-section dealnet-modal-section">
@@ -2006,7 +2006,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="modal-title dealnet-large-header">Editing Previous Address Information</div>
+                <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.PreviousAddressInformation</div>
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">

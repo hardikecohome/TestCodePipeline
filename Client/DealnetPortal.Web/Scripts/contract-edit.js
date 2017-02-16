@@ -262,8 +262,8 @@ function managePaymentFormElements(paymentType) {
 function auditConfirmModal() {
     var data = {
         class: "audit-alert-modal",
-        message: "Did you upload all the documents needed? After proceeding you won't have a possibility to make any other changes",
-        title: "Final check",
+        message: translations['DidYouUploadAllDocuments'],
+        title: translations['FinalCheck'],
         confirmBtnText: translations['Proceed']
     };
     dynamicAlertModal(data);

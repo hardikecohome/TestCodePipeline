@@ -277,10 +277,10 @@
 				<div class="row credit-check-info-hold">
 					<div class="col-md-6 grid-column">
 						<div class="dealnet-credit-check-section">
-							<h3 class="dealnet-section-title">Installation Address Information</h3>
+							<h3 class="dealnet-section-title">@Resources.InstallationAddressInformation</h3>
 							<div class="form-group">
 								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Street</label>
+									@Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
 									<div class="dealnet-field-holder col-xs-6">
 										<div class="control-group">
 											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.Street)
@@ -290,7 +290,7 @@
 							</div>
 							<div class="form-group">
 								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Unit #</label>
+									@Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
 									<div class="dealnet-field-holder col-xs-6">
 										<div class="control-group">
 											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
@@ -300,7 +300,7 @@
 							</div>
 							<div class="form-group">
 								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">City</label>
+									@Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
 									<div class="dealnet-field-holder col-xs-6">
 										<div class="control-group">
 											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.City)
@@ -310,7 +310,7 @@
 							</div>
 							<div class="form-group">
 								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Province</label>
+									@Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
 									<div class="dealnet-field-holder col-xs-6">
 										<div class="control-group">
 											@(contract.BasicInfo?.HomeOwner?.AddressInformation?.Province)
@@ -320,7 +320,7 @@
 							</div>
 							<div class="form-group">
 								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Postal Code</label>
+									@Html.LabelFor(m => contract.BasicInfo.HomeOwner.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
 									<div class="dealnet-field-holder col-xs-6">
 										<div class="control-group">
 											<span class="postal-code">@(contract.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
@@ -335,7 +335,7 @@
 				<div class="row credit-check-info-hold">
 					<div class="col-md-6 grid-column">
 						<div class="dealnet-credit-check-section">
-							<h3 class="dealnet-section-title">Borrower Information</h3>
+							<h3 class="dealnet-section-title">@Resources.BorrowerInformation</h3>
 							<div class="form-group">
 							    <div class="row">
 							        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.FirstName, new { @class = "dealnet-field-caption col-xs-6" })
@@ -391,7 +391,7 @@
 					</div>
                     <!--<div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Previous Address Information</h3>
+                            <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
                             <div class="form-group">
                                 <div class="row">
                                     <label class="dealnet-field-caption col-xs-6">Street</label>
@@ -451,7 +451,7 @@
                                 <h3 class="dealnet-section-title">@Resources.MailingAddress</h3>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Street</label>
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(contract.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
@@ -613,7 +613,7 @@
 						</div>
 	                    <!--<div class="col-md-6 grid-column">
 		                    <div class="dealnet-credit-check-section">
-			                    <h3 class="dealnet-section-title">Previous Address Information</h3>
+			                    <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
 			                    <div class="form-group">
 				                    <div class="row">
 					                    <label class="dealnet-field-caption col-xs-6">Street</label>

@@ -50,12 +50,10 @@ namespace DealnetPortal.Web.Models.Validation
 
         protected string GetErrorMessage(Type containerType, string displayName)
         {
-            const string DefaultErrorMessage =
-                "At least one of applicants should be under 75 age";
             ModelMetadata metadata = ModelMetadataProviders.Current.GetMetadataForProperty(null, containerType,
                                                                                            _addApplicantsProperty);
             var otherDisplayName = metadata.GetDisplayName();
-            return ErrorMessage ?? DefaultErrorMessage;
+            return ErrorMessage ?? Resources.Resources.AtLeastOne75OrLess;
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

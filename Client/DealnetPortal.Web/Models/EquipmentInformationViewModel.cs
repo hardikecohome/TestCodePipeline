@@ -26,12 +26,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "RequestedTerm")]
         public int? RequestedTerm { get; set; }
 
-        [Range(0, 999, ErrorMessage = "Loan Term must be maximum 3 digits long")]
+        [Range(0, 999, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "LoanTermMustBe3Max")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LoanTermIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "LoanTerm")]
         public int? LoanTerm { get; set; }
 
-        [Range(0, 999, ErrorMessage = "Amortization Term must be maximum 3 digits long")]
+        [Range(0, 999, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AmortizationTermMustBe3Max")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AmortizationTermIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AmortizationTerm")]
         public int? AmortizationTerm { get; set; }

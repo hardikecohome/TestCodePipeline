@@ -3,7 +3,7 @@
 	<div class="dealnet-action-link">@Resources.Reports</div> >
 </div>
 <div class="expand-filter-template reports-expanded-filter">
-	<h2 class="dealnet-middle-header">Filter</h2>
+	<h2 class="dealnet-middle-header">@Resources.Filter</h2>
 	<div class="expand-filter-navigation">
 		<a class="clear-data-link" id="clear-filters">
         <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
@@ -84,7 +84,7 @@
 					</div>
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="form-group">
-							<label for="">Deal Value Starting From</label>
+							<label for="">@Resources.DealValueStartingFrom</label>
 							<div class="control-group">
 								<input type="text" class="form-control dealnet-input filter-input" id="deal-value">
 							</div>
@@ -92,7 +92,7 @@
 					</div>
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="form-group">
-							<label for="">Sales Rep</label>
+							<label for="">@Resources.SalesRep</label>
 							<div class="control-group">
 								<select class="form-control filter-input select-filter" id="sales-rep"></select>
 							</div>
@@ -116,12 +116,12 @@
 		    <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
 			<th class="all customer-cell">@Resources.Customer</th>
 		    <th class="min-tablet-p status-cell">@Resources.Status</th>
-			<th class="min-desktop type-cell">Type</th>
+			<th class="min-desktop type-cell">@Resources.Type</th>
 			<th class="min-desktop email-cell">@Resources.Email</th>
 			<th class="min-desktop phone-cell">@Resources.Phone</th>
 			<th class="min-desktop date-cell">@Resources.Date</th>
 			<th class="min-desktop equipment-cell">@Resources.Equipment</th>			
-			<th class="min-desktop sales-rep-cell">Sales Rep</th>
+			<th class="min-desktop sales-rep-cell">@Resources.SalesRep</th>
 			<th class="min-desktop value-cell">@Resources.Value</th>
             <th class="min-desktop hidden">RemainingDescription</th>
             <th class="min-desktop hidden">PaymentType</th>

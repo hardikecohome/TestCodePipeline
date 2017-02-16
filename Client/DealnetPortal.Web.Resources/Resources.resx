@@ -1076,4 +1076,104 @@
   <data name="TwoMonth" xml:space="preserve">
     <value>2 Month</value>
   </data>
+  <data name="AdditionalIsHomeOwner" xml:space="preserve">
+    <value>Additional Applicant is home owner.</value>
+  </data>
+  <data name="AddToComparison" xml:space="preserve">
+    <value>Add to Comparison</value>
+  </data>
+  <data name="AddType" xml:space="preserve">
+    <value>Add Type</value>
+  </data>
+  <data name="AtLeastOne75OrLess" xml:space="preserve">
+    <value>At least one of the applicants should be aged 75 or less.</value>
+  </data>
+  <data name="AtLeastOneHomeOwner" xml:space="preserve">
+    <value>At least one of the applicants should be a home owner.</value>
+  </data>
+  <data name="BorrowerInformation" xml:space="preserve">
+    <value>Borrower Information</value>
+  </data>
+  <data name="BorrowerIsHomeOwner" xml:space="preserve">
+    <value>Borrower is home owner.</value>
+  </data>
+  <data name="Calculator" xml:space="preserve">
+    <value>Calculator</value>
+  </data>
+  <data name="CannotGetCertificateForPrint" xml:space="preserve">
+    <value>Cannot get installation certificate for Print</value>
+  </data>
+  <data name="ChooseProvince" xml:space="preserve">
+    <value>Choose province</value>
+  </data>
+  <data name="CompareTo" xml:space="preserve">
+    <value>Compare to</value>
+  </data>
+  <data name="Comparing" xml:space="preserve">
+    <value>Comparing</value>
+    <comment>It's noun, like 'comparison'</comment>
+  </data>
+  <data name="DealValueStartingFrom" xml:space="preserve">
+    <value>Deal Value Starting From</value>
+  </data>
+  <data name="DidYouUploadAllDocuments" xml:space="preserve">
+    <value>Did you upload all the documents needed? After proceeding you won't have a possibility to make any other changes</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadCertificateTemplate" xml:space="preserve">
+    <value>Download Certificate Template</value>
+  </data>
+  <data name="FinalCheck" xml:space="preserve">
+    <value>Final check</value>
+  </data>
+  <data name="HomeOwner" xml:space="preserve">
+    <value>Home Owner</value>
+  </data>
+  <data name="InstallationAddressInformation" xml:space="preserve">
+    <value>Installation Address Information</value>
+  </data>
+  <data name="InstallationDate" xml:space="preserve">
+    <value>Installation Date</value>
+  </data>
+  <data name="InstalledEquipmentModel" xml:space="preserve">
+    <value>Installed Equipment Model</value>
+  </data>
+  <data name="InstalledEquipmentSerialNumber" xml:space="preserve">
+    <value>Installed Equipment Serial Number</value>
+  </data>
+  <data name="InstallerFirstName" xml:space="preserve">
+    <value>Installer First Name</value>
+  </data>
+  <data name="InstallerLastName" xml:space="preserve">
+    <value>Installer Last Name</value>
+  </data>
+  <data name="MailingAddressNotSameAsInstallation" xml:space="preserve">
+    <value>Mailing address is not the same as Installation Address</value>
+  </data>
+  <data name="MandatoryDocuments" xml:space="preserve">
+    <value>Mandatory documents</value>
+  </data>
+  <data name="PleaseUploadAllMandatoryDocuments" xml:space="preserve">
+    <value>Please upload all mandatory documents</value>
+  </data>
+  <data name="PreviousAddressInformation" xml:space="preserve">
+    <value>Previous Address Information</value>
+  </data>
+  <data name="ReadyForAudit" xml:space="preserve">
+    <value>Ready for Audit</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="LoanTermMustBe3Max" xml:space="preserve">
+    <value>Loan Term must be maximum 3 digits long</value>
+  </data>
+  <data name="AmortizationTermMustBe3Max" xml:space="preserve">
+    <value>Amortization Term must be maximum 3 digits long</value>
+  </data>
 </root>

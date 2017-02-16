@@ -42,7 +42,7 @@ namespace DealnetPortal.Web.Models
         public string DriverLicenseNumber { get; set; }
         public AddressInformation AddressInformation { get; set; }
         public MailingAddressInformation MailingAddressInformation { get; set; }
-        [Display(Name = "Home Owner")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "HomeOwner")]
         public bool IsHomeOwner { get; set; }
         public int? ContractId { get; set; }
     }
@@ -50,7 +50,7 @@ namespace DealnetPortal.Web.Models
     public class MailingAddressInformation : AddressInformation
     {
         [Required]
-        [Display(Name = "Street")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MailingAddressIncorrectFormat")]
         public override string Street { get; set; }
@@ -59,7 +59,7 @@ namespace DealnetPortal.Web.Models
     public class AddressInformation
     {
         [Required]
-        [Display(Name = "Street")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InstallationAddressIncorrectFormat")]
         public virtual string Street { get; set; }

@@ -45,12 +45,10 @@ namespace DealnetPortal.Web.Models.Validation
 
         protected string GetErrorMessage(Type containerType, string displayName)
         {
-            const string DefaultErrorMessage =
-                "At lest one of the applicants should be home owner";
             ModelMetadata metadata = ModelMetadataProviders.Current.GetMetadataForProperty(null, containerType,
                                                                                            _addApplicantsProperty);
             var otherDisplayName = metadata.GetDisplayName();
-            return ErrorMessage ?? DefaultErrorMessage;
+            return ErrorMessage ?? Resources.Resources.AtLeastOneHomeOwner;
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

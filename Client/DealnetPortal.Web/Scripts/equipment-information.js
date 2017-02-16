@@ -15,7 +15,7 @@ $(document)
                         var monthPayment = $("#total-monthly-payment").val();
                         if (isNaN(monthPayment) || (monthPayment == 0)) {
                             event.preventDefault();
-                            $('#new-equipment-validation-message').text("Total monthly payment must be greater than zero");
+                            $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
                     }
                 });                
