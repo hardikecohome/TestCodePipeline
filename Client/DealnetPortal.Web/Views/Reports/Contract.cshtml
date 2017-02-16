@@ -349,7 +349,7 @@
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@Html.HiddenFor(m => m.BasicInfo.HomeOwner.IsHomeOwner)
-                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? "Yes" : "No" )>
+                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? Resources.Yes : Resources.No )>
 								</div>
 							</div>
 						</div>
@@ -572,7 +572,7 @@
 			                         <div class="dealnet-field-holder col-xs-6">
 				                         <div class="control-group">
 					                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner)
-                                            <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? "Yes" : "No" )>
+                                            <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No )>
 				                         </div>
 			                         </div>
 		                         </div>

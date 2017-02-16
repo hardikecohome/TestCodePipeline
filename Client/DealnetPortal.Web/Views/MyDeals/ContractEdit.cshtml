@@ -565,7 +565,7 @@
 			                <div class="dealnet-field-holder col-xs-6">
 			                    <div class="control-group">
 			                        @Html.HiddenFor(m => m.BasicInfo.HomeOwner.IsHomeOwner)
-                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? "Yes" : "No" )>			                        
+                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? Resources.Yes : Resources.No )>			                        
 			                    </div>
 			                </div>
 			            </div>
@@ -836,7 +836,7 @@
 	                                        <div class="dealnet-field-holder col-xs-6">
 	                                            <div class="control-group">
 	                                                @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner)
-                                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? "Yes" : "No" )>
+                                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No )>
 	                                            </div>
 	                                        </div>
 	                                    </div>
@@ -905,9 +905,9 @@
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                         <h3 class="dealnet-section-title">
-                                        @Resources.MailingAddress @if(contractState == ContractState.CreditCheckDeclined) { <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" @*onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>}
+                                        @Resources.MailingAddress @if(contractState == ContractState.CreditCheckDeclined)
                                                             {
-                                                                <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" @*onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();"*@ class="dealnet-section-edit-link pull-right">Edit</a>
+                                                                <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" @*onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                                                             }
                                         </h3>
                                         <div class="form-group">
