@@ -65,7 +65,7 @@
 
     <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one of the applicants should be home owner
+        At least one of the applicants should be a home owner.
     </div>
 
     <!--Instalation Address-->
@@ -357,25 +357,25 @@
             @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
             @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>Borrower is homeowner</span>
+            <span>Borrower is home owner.</span>
             @Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
         </label>
     </div>
     <!--Home Owner Information-->
     <div class="well well-info position-well collapse" id="age-warning-message">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one applicant should be aged 75 or less
+        At least one of the applicants should be aged 75 or less.
     </div>
 
     <div class="well danger-well over-aged-well collapse" id="age-error-message">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one applicant should be aged 75 or less
+        At least one of the applicants should be aged 75 or less.
     </div>
 
     <!--Warning Section if isn't chosen homeowner checkbox-->
     <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        At least one of the applicants should be home owner
+        At least one of the applicants should be a home owner.
     </div>
     <!--End Warning Section if isn't chosen homeowner checkbox-->    
     
@@ -565,7 +565,7 @@
                     @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "add-applicant-checkbox" + (i + 1) })
                     @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Additional Applicant is homeowner</span>
+                    <span>Additional Applicant is home owner.</span>
                 </label>
             </div>
         </div>
