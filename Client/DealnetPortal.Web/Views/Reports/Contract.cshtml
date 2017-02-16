@@ -345,10 +345,11 @@
 
 					<div class="form-group">
 						<div class="row">
-							<label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+							@Html.LabelFor(m => m.BasicInfo.HomeOwner.IsHomeOwner, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
-									<input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+									@Html.HiddenFor(m => m.BasicInfo.HomeOwner.IsHomeOwner)
+                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? "Yes" : "No" )>
 								</div>
 							</div>
 						</div>
@@ -567,126 +568,130 @@
 
 	                         <div class="form-group">
 		                         <div class="row">
-			                         <label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+			                         @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-field-caption col-xs-6" })
 			                         <div class="dealnet-field-holder col-xs-6">
 				                         <div class="control-group">
-					                         <input type="text" readonly="readonly" class="dealnet-disabled-input" value="Yes">
+					                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner)
+                                            <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? "Yes" : "No" )>
 				                         </div>
 			                         </div>
 		                         </div>
 	                         </div>
                          </div>
                      </div>
-					 <!--<div class="col-md-6 grid-column">
-						<div class="dealnet-credit-check-section">
-							<h3 class="dealnet-section-title">Previous Address Information</h3>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Street</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Unit #</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">City</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.City)
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Province</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											@(Model.BasicInfo?.HomeOwner?.AddressInformation?.Province)
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<label class="dealnet-field-caption col-xs-6">Postal Code</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											<span class="postal-code">@(Model.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>-->
-                    <div class="col-md-6 grid-column">
-                        <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Mailing Address</h3>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
+				<!--<div class="col-md-6 grid-column">
+				    <div class="dealnet-credit-check-section">
+				        <h3 class="dealnet-section-title">Previous Address Information</h3>
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">Street</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">Unit #</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        @(Model.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">City</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        @(Model.BasicInfo?.HomeOwner?.AddressInformation?.City)
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">Province</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        <div class="form-group">
+				            <div class="row">
+				                <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+				                <div class="dealnet-field-holder col-xs-6">
+				                    <div class="control-group">
+				                        <span class="postal-code">@(Model.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>-->
+                    @if (Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation != null)
+                    {
+                        <div class="col-md-6 grid-column">
+                            <div class="dealnet-credit-check-section">
+                                <h3 class="dealnet-section-title">Mailing Address</h3>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="dealnet-field-caption col-xs-6">Unit #</label>
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">City</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="dealnet-field-caption col-xs-6">City</label>
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Province</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="dealnet-field-caption col-xs-6">Province</label>
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
                             <h3 class="dealnet-section-title">Contact Information</h3>
