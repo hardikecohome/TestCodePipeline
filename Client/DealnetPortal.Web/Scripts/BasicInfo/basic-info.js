@@ -157,9 +157,11 @@ $(document).ready(function () {
         if (!isApprovalAge) {
             $('#age-warning-message').hide();
             $('#age-error-message').show();
+            scrollPageTo($('#age-error-message'));
         }
         if (!isHomeOwner) {
             $("#proceed-homeowner-errormessage").show();
+            scrollPageTo($("#borrower-is-homeowner"));
         }
         if (!isHomeOwner || !isApprovalAge) {
             if ($('#main-form').valid()) {
