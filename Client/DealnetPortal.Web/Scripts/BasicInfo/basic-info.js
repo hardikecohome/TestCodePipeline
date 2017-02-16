@@ -19,6 +19,18 @@ $(document).ready(function () {
             $('#age-warning-message').show();
         }
     });
+    $('.check-homeowner').change(function () {
+        var atLeastOneValid = false;
+        $('.check-homeowner').each(function () {
+            if ($(this).prop('checked')) {
+                atLeastOneValid = true;
+                return false;
+            }
+        });
+        if (atLeastOneValid) {
+            $("#proceed-homeowner-errormessage").hide();
+        }
+    });
     $.validator.addMethod(
         "date",
         function (value, element) {

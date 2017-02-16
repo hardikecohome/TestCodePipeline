@@ -48,22 +48,10 @@
 
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
-        if(isMobile.iOS() && viewport().width >= 768) {
-          $('.navbar-fixed-side').css({
-            'position': 'fixed',
-            'top': 0
-          });
-        }
       }).on('shown.bs.modal', function(){
         $('textarea').each(function(){
           has_scrollbar($(this), 'textarea-has-scroll');
         });
-        if(isMobile.iOS() && viewport().width >= 768) {
-          $('.navbar-fixed-side').css({
-            'position': 'fixed',
-            'top': 0
-          });
-        }
       }).on('hidden.bs.modal', function () {
         if(isMobile.iOS() && viewport().width >= 768){
           resetModalDialogMarginForIpad();
@@ -274,27 +262,17 @@ function setModalMarginForIpad(){
 }
 
 function fixedOnKeyboardShownIos(fixedElem){
-  var $navbar = $('.navbar-fixed-side');
-
   var $fixedElement = fixedElem;
   var topPadding = 10;
 
   function fixFixedPosition() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $navbar.height()  + topPadding;
-
-    $navbar.addClass('absoluted-div').css({
-      top: document.body.scrollTop + 'px'
-    }).show();
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
 
     $fixedElement.addClass('absoluted-div').css({
       top: absoluteTopCoord + 'px',
     }).fadeIn('fast')
   }
   function resetFixedPosition() {
-    $navbar.removeClass('absoluted-div').css({
-      top: 0,
-    });
-
     $fixedElement.removeClass('absoluted-div').css({
       top: $('.navbar-header').height() + topPadding,
     });
@@ -302,9 +280,8 @@ function fixedOnKeyboardShownIos(fixedElem){
     resetModalDialogMarginForIpad();
   }
   function updateScrollTop() {
-    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + $navbar.height() + topPadding;
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
     $fixedElement.css('top', absoluteTopCoord + 'px');
-    $navbar.css('top', document.body.scrollTop + 'px');
   }
 
   $('input, textarea, [contenteditable=true], select').on({

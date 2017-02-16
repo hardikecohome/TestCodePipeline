@@ -96,7 +96,7 @@ namespace DealnetPortal.Web.Models
     public class BasicInfoViewModel
     {
         public string SubmittingDealerId { get; set; }
-        [CheckCustomersAge("AdditionalApplicants", 75)]
+        [CheckCustomersAge("AdditionalApplicants", 76)]
         [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }

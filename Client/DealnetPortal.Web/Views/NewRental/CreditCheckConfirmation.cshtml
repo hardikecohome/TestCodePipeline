@@ -312,143 +312,146 @@ if (creditCheckError != null)
 			@for (int i = 0; i < Model.AdditionalApplicants.Count; i++)
 			{
 
-			<div class="col-md-6 grid-column">
-				<div class="dealnet-credit-check-section" id="additional@(i+1)-section">
-					<h3 class="dealnet-section-title">
+			    <div class="col-md-6 grid-column">
+			        <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
+			            <h3 class="dealnet-section-title">
 						@Resources.AdditionalApplicant #@(i + 1) @*<a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@
-					</h3>
-					@Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId)
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].FirstName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-								</div>
-							</div>
-						</div>
-					</div>
+			            </h3>
+			            @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId)
+			            <div class="form-group">
+			                <div class="row">
+			                    @Html.LabelFor(m => Model.AdditionalApplicants[i].FirstName, new {@class = "dealnet-field-caption col-xs-6"})
+			                    <div class="dealnet-field-holder col-xs-6">
+			                        <div class="control-group">
+			                            @Html.TextBoxFor(m => Model.AdditionalApplicants[i].FirstName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
 
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].LastName, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].LastName, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-								</div>
-							</div>
-						</div>
+			            <div class="form-group">
+			                <div class="row">
+			                    @Html.LabelFor(m => Model.AdditionalApplicants[i].LastName, new {@class = "dealnet-field-caption col-xs-6"})
+			                    <div class="dealnet-field-holder col-xs-6">
+			                        <div class="control-group">
+			                            @Html.TextBoxFor(m => Model.AdditionalApplicants[i].LastName, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+			                        </div>
+			                    </div>
+			                </div>
 
-					</div>
-					<div class="form-group">
-						<div class="row">
+			            </div>
+			            <div class="form-group">
+			                <div class="row">
                                 			@Html.LabelFor(m => Model.AdditionalApplicants[i].BirthDate, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group date-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = "" })
-								</div>
-							</div>
-						</div>
-					</div>
+			                    <div class="dealnet-field-holder col-xs-6">
+			                        <div class="control-group date-group">
+			                            @Html.TextBoxFor(m => Model.AdditionalApplicants[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly", id = "", data_val_date = ""})
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
 
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].Sin, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].Sin, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-								</div>
-							</div>
-						</div>
-					</div>
+			            <div class="form-group">
+			                <div class="row">
+			                    @Html.LabelFor(m => Model.AdditionalApplicants[i].Sin, new {@class = "dealnet-field-caption col-xs-6"})
+			                    <div class="dealnet-field-holder col-xs-6">
+			                        <div class="control-group">
+			                            @Html.TextBoxFor(m => Model.AdditionalApplicants[i].Sin, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
 
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].DriverLicenseNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.HiddenFor(m => m.AdditionalApplicants[i].IsHomeOwner)
-									<input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.AdditionalApplicants[i].IsHomeOwner ? "Yes" : "No" )>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="dealnet-agrees form-group">
-						<label class="align-middle custom-checkbox">
-							@Html.CheckBox("additional" + (i + 1) + "-agrees", new { id = "additional" + (i + 1) + "-agrees" })
-							<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+			            <div class="form-group">
+			                <div class="row">
+			                    @Html.LabelFor(m => Model.AdditionalApplicants[i].DriverLicenseNumber, new {@class = "dealnet-field-caption col-xs-6"})
+			                    <div class="dealnet-field-holder col-xs-6">
+			                        <div class="control-group">
+			                            @Html.TextBoxFor(m => Model.AdditionalApplicants[i].DriverLicenseNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			            <div class="form-group">
+			                <div class="row">
+			                    @Html.LabelFor(m => m.AdditionalApplicants[i].IsHomeOwner, new {@class = "dealnet-field-caption col-xs-6"})
+			                    <div class="dealnet-field-holder col-xs-6">
+			                        <div class="control-group">
+			                            @Html.HiddenFor(m => m.AdditionalApplicants[i].IsHomeOwner)
+			                            <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.AdditionalApplicants[i].IsHomeOwner ? "Yes" : "No" )>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			            <div class="dealnet-agrees form-group">
+			                <label class="align-middle custom-checkbox">
+			                    @Html.CheckBox("additional" + (i + 1) + "-agrees", new {id = "additional" + (i + 1) + "-agrees"})
+			                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                                 			<span>@Resources.AgreesToSendPersonalDataToCreditCheck</span>
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 grid-column">
-				<div class="dealnet-credit-check-section" id="additional-address-section-@(i+1)">
+			                </label>
+			            </div>
+			        </div>
+			    </div>
+			    if (Model.AdditionalApplicants[i].MailingAddressInformation != null)
+			    {
+			        <div class="col-md-6 grid-column">
+			            <div class="dealnet-credit-check-section" id="additional-address-section-@(i + 1)">
 					<h3 class="dealnet-section-title">@Resources.AddressInformation @*<a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@</h3>
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder="St." })
-								</div>
-							</div>
-						</div>
-					</div>
+			                <div class="form-group">
+			                    <div class="row">
+			                        @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "dealnet-field-caption col-xs-6"})
+			                        <div class="dealnet-field-holder col-xs-6">
+			                            <div class="control-group">
+			                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder = "St."})
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
 
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder="12345" })
-								</div>
-							</div>
-						</div>
-					</div>
+			                <div class="form-group">
+			                    <div class="row">
+			                        @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new {@class = "dealnet-field-caption col-xs-6"})
+			                        <div class="dealnet-field-holder col-xs-6">
+			                            <div class="control-group">
+			                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder = "12345"})
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
 
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder="City" })
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder="Province" })
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							@Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "dealnet-field-caption col-xs-6"})
-							<div class="dealnet-field-holder col-xs-6">
-								<div class="control-group">
-									@Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "", placeholder="12345"})
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			                <div class="form-group">
+			                    <div class="row">
+			                        @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.City, new {@class = "dealnet-field-caption col-xs-6"})
+			                        <div class="dealnet-field-holder col-xs-6">
+			                            <div class="control-group">
+			                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.City, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder = "City"})
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="form-group">
+			                    <div class="row">
+			                        @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Province, new {@class = "dealnet-field-caption col-xs-6"})
+			                        <div class="dealnet-field-holder col-xs-6">
+			                            <div class="control-group">
+			                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Province, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder = "Province"})
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="form-group">
+			                    <div class="row">
+			                        @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "dealnet-field-caption col-xs-6"})
+			                        <div class="dealnet-field-holder col-xs-6">
+			                            <div class="control-group">
+			                                @Html.TextBoxFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "", placeholder = "12345"})
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    }
 			}
 
 		</div>
@@ -547,7 +550,7 @@ if (creditCheckError != null)
 										<label for="homeowner-checkbox" class="align-middle custom-checkbox">
 											<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>
 											<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-											<span>Borrower is homeowner</span>
+											<span>Borrower is home owner.</span>
 										</label>
 									</div>
 								</div>
@@ -645,7 +648,7 @@ for (var i = 0; i < Model.AdditionalApplicants.Count; i++)
 										<label for="additional-homeowner-checkbox@(i+1)" class="align-middle custom-checkbox">
 											<input type="checkbox" class="dealnet-checkbox" id="additional-homeowner-checkbox@(i+1)" checked="checked"/>
 											<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-											<span>Borrower is homeowner</span>
+											<span>Additional Applicant is home owner.</span>
 										</label>
 									</div>
 								</div>
