@@ -240,6 +240,14 @@
       }
 });
 
+function scrollPageTo(elem){
+  if(elem.offset().top < $(window).scrollTop() || elem.offset().top > $(window).scrollTop()+ window.innerHeight){
+    $('html, body').animate({
+      scrollTop: elem.offset().top - elem.outerHeight(true) - 10
+    }, 2000);
+  }
+}
+
 function resetModalDialogMarginForIpad(){
   $('.modal.in').find('.modal-dialog').css({
     'margin-bottom':  30 + 'px'
