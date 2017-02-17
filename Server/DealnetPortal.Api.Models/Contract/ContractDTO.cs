@@ -32,10 +32,7 @@ namespace DealnetPortal.Api.Models.Contract
         /// </summary>
         public string ExternalSubDealerName { get; set; }
         public string ExternalSubDealerId { get; set; }
-
         public List<CustomerDTO> SecondaryCustomers { get; set; }
-        public IList<CustomerDTO> HomeOwners { get; set; }
-
         public ContractDetailsDTO Details { get; set; }
 
         public PaymentInfoDTO PaymentInfo { get; set; }

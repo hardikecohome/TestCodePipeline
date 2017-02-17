@@ -105,6 +105,13 @@ namespace DealnetPortal.Web.Models
         public ContractState ContractState { get; set; }
     }
 
+    public class ApplicantsViewModel
+    {
+        public ApplicantPersonalInfo HomeOwner { get; set; }
+        public List<ApplicantPersonalInfo> AdditionalApplicants { get; set; }
+        public int? ContractId { get; set; }
+    }
+
     public class PaymentInfoViewModel
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "PaymentType")]
