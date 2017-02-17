@@ -117,7 +117,236 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ContractWasDeclined" xml:space="preserve">
+    <value>Le contrat {0} a été refusé</value>
+  </data>
+  <data name="ContractWasSuccessfullyChanged" xml:space="preserve">
+    <value>Le contrat {0} a été modifié avec succès</value>
+  </data>
   <data name="ContractWasSuccessfullySubmitted" xml:space="preserve">
-    <value>Le contrat {0} a été envoyé avec succès</value>
+    <value>Le contrat {0} a été soumis avec succès</value>
+  </data>
+  <data name="HomeOwnersName" xml:space="preserve">
+    <value>Nom du propriétaire:</value>
+  </data>
+  <data name="PleaseSignAgreement" xml:space="preserve">
+    <value>Veuillez signer l’entente</value>
+  </data>
+  <data name="TypeOfApplication" xml:space="preserve">
+    <value>Type de demande :</value>
+  </data>
+  <data name="AirConditioner" xml:space="preserve">
+    <value>Climatiseur</value>
+  </data>
+  <data name="AirHandler" xml:space="preserve">
+    <value>Centrale de traitement de l’air</value>
+  </data>
+  <data name="AndThenYouPromptedToChangePass" xml:space="preserve">
+    <value>puis vous serez invité à modifier le mot de passe.</value>
+  </data>
+  <data name="BasementRepair" xml:space="preserve">
+    <value>Réparations du sous-sol</value>
+  </data>
+  <data name="Bathroom" xml:space="preserve">
+    <value>Salle de bains</value>
+  </data>
+  <data name="Boiler" xml:space="preserve">
+    <value>Chaudière</value>
+  </data>
+  <data name="Doors" xml:space="preserve">
+    <value>Portes</value>
+  </data>
+  <data name="EexternalLoginAlreadyAssociated" xml:space="preserve">
+    <value>La connexion externe est déjà associée à un compte.</value>
+  </data>
+  <data name="ErrorOnRegisterUser" xml:space="preserve">
+    <value>Erreur lors de l’enregistrement de l’utilisateur</value>
+  </data>
+  <data name="ExtendedWarrantyForm" xml:space="preserve">
+    <value>Formulaire de prolongation de la garantie</value>
+  </data>
+  <data name="ExternalLoginFailure" xml:space="preserve">
+    <value>Ouverture de session externe échouée.</value>
+  </data>
+  <data name="ExternalServiceUnavailable" xml:space="preserve">
+    <value>Le service externe n’est pas disponible</value>
+  </data>
+  <data name="Fireplace" xml:space="preserve">
+    <value>Foyer</value>
+  </data>
+  <data name="Flooring" xml:space="preserve">
+    <value>Plancher</value>
+  </data>
+  <data name="Furnace" xml:space="preserve">
+    <value>Fournaise</value>
+  </data>
+  <data name="Gst" xml:space="preserve">
+    <value>TPS</value>
+  </data>
+  <data name="GstPst" xml:space="preserve">
+    <value>TPS + TVP</value>
+  </data>
+  <data name="GstQst" xml:space="preserve">
+    <value>TPS + TVQ</value>
+  </data>
+  <data name="HeatPump" xml:space="preserve">
+    <value>Thermopompe</value>
+  </data>
+  <data name="HepaSystem" xml:space="preserve">
+    <value>Système HEPA</value>
+  </data>
+  <data name="Hrv" xml:space="preserve">
+    <value>HRV</value>
+  </data>
+  <data name="Hst" xml:space="preserve">
+    <value>TVH</value>
+  </data>
+  <data name="Hwt" xml:space="preserve">
+    <value>HWT</value>
+  </data>
+  <data name="InvalidUserEmail" xml:space="preserve">
+    <value>Courriel de l’utilisateur invalide.</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Facture</value>
+  </data>
+  <data name="Kitchen" xml:space="preserve">
+    <value>Cuisine</value>
+  </data>
+  <data name="OntimePassCorrectNowChange" xml:space="preserve">
+    <value>Votre mot de passe à usage unique est correct; maintenant, veuillez modifier votre mot de passe</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Autre</value>
+  </data>
+  <data name="PleaseUseToLoginPortal" xml:space="preserve">
+    <value>Veuillez l’utiliser pour ouvrir une session sur le portail</value>
+    <comment>Context: This is your password. Please use it to...</comment>
+  </data>
+  <data name="Plumbing" xml:space="preserve">
+    <value>Plomberie</value>
+  </data>
+  <data name="PorchEnclosure" xml:space="preserve">
+    <value>Véranda</value>
+  </data>
+  <data name="Roofing" xml:space="preserve">
+    <value>Toiture</value>
+  </data>
+  <data name="SecuritySystem" xml:space="preserve">
+    <value>Système de sécurité</value>
+  </data>
+  <data name="Siding" xml:space="preserve">
+    <value>Revêtement</value>
+  </data>
+  <data name="SignedContract" xml:space="preserve">
+    <value>Contrat signé</value>
+  </data>
+  <data name="SignedInstallationCertificate" xml:space="preserve">
+    <value>Certificat d’installation signé</value>
+  </data>
+  <data name="Sunrooms" xml:space="preserve">
+    <value>Solariums</value>
+  </data>
+  <data name="TanklessWaterHeater" xml:space="preserve">
+    <value>Chauffe-eau sans réservoir</value>
+  </data>
+  <data name="ThirdPartyVerificationCall" xml:space="preserve">
+    <value>Visite de vérification par un tiers</value>
+  </data>
+  <data name="ThisIsYourOnetimePass" xml:space="preserve">
+    <value>Voici votre mot de passe à usage unique :</value>
+  </data>
+  <data name="ThisIsYourPass" xml:space="preserve">
+    <value>Voici votre mot de passe :</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Inconnu</value>
+  </data>
+  <data name="UnknownApplicationToLogIn" xml:space="preserve">
+    <value>Demande d’ouverture de session inconnue.</value>
+  </data>
+  <data name="UnknownApplicationToRegister" xml:space="preserve">
+    <value>Demande d’enregistrement inconnue</value>
+  </data>
+  <data name="UserNamerPasswordIncorrect" xml:space="preserve">
+    <value>Le nom ou le mot de passe de l’utilisateur est incorrect.</value>
+  </data>
+  <data name="VoidPersonalChequeCopy" xml:space="preserve">
+    <value>Copie du chèque personnel annulé</value>
+  </data>
+  <data name="WaterTreatmentSystem" xml:space="preserve">
+    <value>Système de traitement de l’eau</value>
+  </data>
+  <data name="Windows" xml:space="preserve">
+    <value>Fenêtres</value>
+  </data>
+  <data name="YourOneTimePassword" xml:space="preserve">
+    <value>Voici votre mot de passe à usage unique</value>
+  </data>
+  <data name="YourPassword" xml:space="preserve">
+    <value>Votre mot de passe</value>
+  </data>
+  <data name="ApplicationSubmitted" xml:space="preserve">
+    <value>Demande soumises</value>
+  </data>
+  <data name="ClientDataInputted" xml:space="preserve">
+    <value>Données client saisies</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Contrat</value>
+  </data>
+  <data name="CreditCheckApproved" xml:space="preserve">
+    <value>Vérification du crédit approuvée</value>
+  </data>
+  <data name="CreditCheckDeclined" xml:space="preserve">
+    <value>Vérification du crédit refusée</value>
+  </data>
+  <data name="CreditCheckInitiated" xml:space="preserve">
+    <value>Vérification du crédit amorcée</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Adresse électronique</value>
+  </data>
+  <data name="Equipment" xml:space="preserve">
+    <value>Équipement</value>
+  </data>
+  <data name="LoanApplication" xml:space="preserve">
+    <value>Demande de prêt</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Téléphone</value>
+  </data>
+  <data name="RentalApplication" xml:space="preserve">
+    <value>Demande de location</value>
+  </data>
+  <data name="RentalApplicationHwt" xml:space="preserve">
+    <value>Demande de location (HWT)</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Rapports</value>
+  </data>
+  <data name="SalesRep" xml:space="preserve">
+    <value>Représentant</value>
+  </data>
+  <data name="SentToAudit" xml:space="preserve">
+    <value>Envoyer à la vérification</value>
+  </data>
+  <data name="StartedToFillNewContract" xml:space="preserve">
+    <value>Le contrat a commencé à être rempli</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>État</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valeur</value>
   </data>
 </root>

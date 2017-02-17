@@ -120,28 +120,1033 @@
   <data name="AboutUs" xml:space="preserve">
     <value>À propos de nous</value>
   </data>
+  <data name="ActionReq" xml:space="preserve">
+    <value>Action requise</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Ajouter un commentaire</value>
+  </data>
+  <data name="AdditionalApplicant" xml:space="preserve">
+    <value>Demandeur additionnel</value>
+  </data>
+  <data name="AdditionalContractInformation" xml:space="preserve">
+    <value>Information supplémentaire sur le contrat</value>
+  </data>
+  <data name="AddressInformation" xml:space="preserve">
+    <value>Information sur l’adresse</value>
+  </data>
+  <data name="Anonymous" xml:space="preserve">
+    <value>Anonyme</value>
+  </data>
+  <data name="Answers" xml:space="preserve">
+    <value>réponse(s)</value>
+  </data>
+  <data name="BackToTop" xml:space="preserve">
+    <value>Retour au haut de la page</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="ChangeYourPassword" xml:space="preserve">
+    <value>Modifier le mot de passe</value>
+  </data>
+  <data name="ClearFilters" xml:space="preserve">
+    <value>Effacer les filtres</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Commentaires</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Coordonnées de la personne ressource</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Nous contacter</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Contrat</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Du</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>Au</value>
+  </data>
+  <data name="DealerName" xml:space="preserve">
+    <value>Nom du détaillant</value>
+  </data>
+  <data name="DealFlowOverview" xml:space="preserve">
+    <value>Aperçu du flux des transactions</value>
+  </data>
+  <data name="DealInfo" xml:space="preserve">
+    <value>Info sur la transaction</value>
+  </data>
+  <data name="DealInformation" xml:space="preserve">
+    <value>Information sur la transaction</value>
+  </data>
+  <data name="DealStatus" xml:space="preserve">
+    <value>Statut de la transaction</value>
+  </data>
+  <data name="DealType" xml:space="preserve">
+    <value>Type de transactions</value>
+  </data>
+  <data name="DetailedInfo" xml:space="preserve">
+    <value>Information détaillée</value>
+  </data>
+  <data name="DocumentNameEmpty" xml:space="preserve">
+    <value>Le nom d’un document ne peut être vide</value>
+  </data>
+  <data name="EcoHomeAbout1" xml:space="preserve">
+    <value>EcoHome Financial est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
+  </data>
+  <data name="EcoHomeAbout2" xml:space="preserve">
+    <value>Nous collaborons avec les principaux distributeurs et fabricants afin d’offrir ce qu’il faut pour réussir dans l’environnement concurrentiel, grâce à des programmes de financement sans problèmes pour les courtiers et leurs clients.</value>
+  </data>
+  <data name="EcoHomeAbout3" xml:space="preserve">
+    <value> Offrez à vos clients la possibilité d’acheter maintenant et aussi d’acheter plus. Nous avons ce dont vous avez besoin pour réussir.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Modification</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Adresse électronique</value>
+  </data>
+  <data name="Entries" xml:space="preserve">
+    <value>entrées</value>
+  </data>
+  <data name="Equipment" xml:space="preserve">
+    <value>Équipement</value>
+  </data>
+  <data name="EquipmentInformation" xml:space="preserve">
+    <value>Information sur l’équipement</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="ErrorWhileAddingComment" xml:space="preserve">
+    <value>Une erreur s’est produite au moment de l’ajout du commentaire</value>
+  </data>
+  <data name="ErrorWhileRemovingComment" xml:space="preserve">
+    <value>Une erreur s’est produite au moment du retrait du commentaire</value>
+  </data>
+  <data name="ErrorWhileUploadingFile" xml:space="preserve">
+    <value>Une erreur s’est produite lors du téléversement du dossier.</value>
+  </data>
+  <data name="ExistingEquipmentInformation" xml:space="preserve">
+    <value>Information sur l’équipement existant</value>
+  </data>
+  <data name="ExportAllToExcel" xml:space="preserve">
+    <value>Exporter tout sur Excel</value>
+  </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>Exporter sur Excel</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtrer</value>
+  </data>
+  <data name="FindUs" xml:space="preserve">
+    <value>Pour nous trouver</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Mot de passe oublié</value>
+  </data>
+  <data name="FundingChecklist" xml:space="preserve">
+    <value>Liste de vérification du financement</value>
+  </data>
+  <data name="GoToApp" xml:space="preserve">
+    <value>Aller à la demande</value>
+  </data>
+  <data name="GoToStep" xml:space="preserve">
+    <value>Aller à Étape</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Grand total :</value>
+  </data>
+  <data name="GreatWork" xml:space="preserve">
+    <value>Beau travail!</value>
+  </data>
+  <data name="HomeOwnerInformation" xml:space="preserve">
+    <value>Information sur le propriétaire</value>
+  </data>
   <data name="HomePage" xml:space="preserve">
-    <value>Page d'accueil</value>
+    <value>Page d’accueil</value>
+  </data>
+  <data name="GstHst" xml:space="preserve">
+    <value>TPS/TVH</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Identifiant</value>
   </data>
   <data name="IfYouChangeInfo" xml:space="preserve">
-    <value>Si vous changez d'informations sur le propriétaire, vous devrez refaire l'étape de vérification du crédit</value>
+    <value>Si vous modifiez l’information sur le propriétaire, vous devrez aller de nouveau à l’étape de la vérification du crédit</value>
   </data>
-  <data name="LoanApplication" xml:space="preserve">
-    <value>LoanApplicationVASYA</value>
+  <data name="IsRental" xml:space="preserve">
+    <value>S’agit-il d’une location?</value>
+  </data>
+  <data name="LoanTerm" xml:space="preserve">
+    <value>Durée du prêt</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Ouverture de session</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Se déconnecter</value>
+  </data>
+  <data name="MailingAddress" xml:space="preserve">
+    <value>Adresse postale</value>
+  </data>
+  <data name="MaximumFileSize" xml:space="preserve">
+    <value>La taille maximale du dossier se limite à 50 Mo chacun.</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="MonthlyPayment" xml:space="preserve">
+    <value>PAIEMENT MENSUEL</value>
   </data>
   <data name="MyDeals" xml:space="preserve">
-    <value>Mes offres</value>
+    <value>Mes transactions</value>
+  </data>
+  <data name="MyWorkItems" xml:space="preserve">
+    <value>Mes tâches</value>
+  </data>
+  <data name="NavigateToStep" xml:space="preserve">
+    <value>Aller à l’étape</value>
   </data>
   <data name="NewApplication" xml:space="preserve">
-    <value>Nouvelle application</value>
+    <value>Nouvelle demande</value>
   </data>
-  <data name="RentalApplication" xml:space="preserve">
-    <value>RentalApplicationVasya</value>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
   </data>
-  <data name="RentalApplicationHwt" xml:space="preserve">
-    <value>RentalApplicationHwtVasya</value>
+  <data name="NoMatchingRecordsFound" xml:space="preserve">
+    <value>Aucun dossier correspondant n’a été trouvé</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>non sélectionné</value>
+  </data>
+  <data name="NowYouCanLogIn" xml:space="preserve">
+    <value>Vous pouvez maintenant ouvrir une session avec votre nouveau mot de passe.</value>
+  </data>
+  <data name="OnThisEmail" xml:space="preserve">
+    <value>Vous obtiendrez un nouveau mot de passe dans ce courriel</value>
+  </data>
+  <data name="OtherDocuments" xml:space="preserve">
+    <value>Autres documents</value>
+  </data>
+  <data name="PasswordWasChanged" xml:space="preserve">
+    <value>Votre mot de passe a été modifié avec succès.</value>
+  </data>
+  <data name="PaymentInformation" xml:space="preserve">
+    <value>Information sur le paiement</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Téléphone</value>
+  </data>
+  <data name="PleaseCheckEmail" xml:space="preserve">
+    <value>veuillez vérifier votre adresse courriel pour obtenir votre mot de passe à usage unique.</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Prévisualisation</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>S’enregistrer</value>
+  </data>
+  <data name="Registration" xml:space="preserve">
+    <value>Inscription</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Vous vous souvenez de moi?</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Répondre</value>
+  </data>
+  <data name="ReportForContract" xml:space="preserve">
+    <value>Rapport pour le contrat</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Rapports</value>
+  </data>
+  <data name="RequestedTerm" xml:space="preserve">
+    <value>Modalités demandées</value>
+  </data>
+  <data name="Reupload" xml:space="preserve">
+    <value>Téléverser de nouveau</value>
+  </data>
+  <data name="SalesRep" xml:space="preserve">
+    <value>Représentant</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Enregistrer les modifications</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Envoyer</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Afficher</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>État</value>
+  </data>
+  <data name="SubDealer" xml:space="preserve">
+    <value>Sous-courtier</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Heure</value>
+  </data>
+  <data name="TotalForSelected" xml:space="preserve">
+    <value>Total pour l’élément sélectionné :</value>
+  </data>
+  <data name="TotalMonthlyPaymentWithTaxes" xml:space="preserve">
+    <value>PAIEMENT MENSUEL TOTAL (TAXE COMPRISE)</value>
+  </data>
+  <data name="TotalValue" xml:space="preserve">
+    <value>VALEUR TOTALE</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type </value>
+  </data>
+  <data name="TypeOfEquipment" xml:space="preserve">
+    <value>Type d’équipement</value>
+  </data>
+  <data name="TypeOfPayment" xml:space="preserve">
+    <value>Type de paiement</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Téléverser</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+  <data name="ValueOfDeal" xml:space="preserve">
+    <value>Valeur de la transaction</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Semaine</value>
+  </data>
+  <data name="WriteReply" xml:space="preserve">
+    <value>Rédigez une réponse...</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Année</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="YouHaveBeenRegistered" xml:space="preserve">
+    <value>Vous avez été enregistré avec succès,</value>
+  </data>
+  <data name="YourComment" xml:space="preserve">
+    <value>votre commentaire</value>
+  </data>
+  <data name="Contracts" xml:space="preserve">
+    <value>Contrats</value>
+  </data>
+  <data name="ReportForContracts" xml:space="preserve">
+    <value>Rapport pour les contrats</value>
+  </data>
+  <data name="ShowMoreInfo" xml:space="preserve">
+    <value>Afficher plus d’information</value>
+  </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>Tentative d’ouverture de session invalide.</value>
+  </data>
+  <data name="CreditCheckErrorMessage" xml:space="preserve">
+    <value>Impossible de se connecter au système externe pour la vérification du crédit. Tentez de faire la vérification du crédit plus tard.</value>
+  </data>
+  <data name="ErrorWhileUpdatingData" xml:space="preserve">
+    <value>Une erreur s’est produite lors de la mise à jour des données</value>
+  </data>
+  <data name="MustBeAtLeastLong" xml:space="preserve">
+    <value>Le {0} doit comprendre au moins {2} caractères.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirmer le mot de passe</value>
+  </data>
+  <data name="PasswordAndConfirmationNotMatch" xml:space="preserve">
+    <value>Le mot de passe et le mot de passe de confirmation ne correspondent pas.</value>
+  </data>
+  <data name="TypeOfAgreement" xml:space="preserve">
+    <value>Type d’entente</value>
+  </data>
+  <data name="TotalMonthlyPayment" xml:space="preserve">
+    <value>Paiement mensuel total</value>
+  </data>
+  <data name="TotalMonthlyPaymentIncorrectFormat" xml:space="preserve">
+    <value>Le format du paiement mensuel total est incorrect</value>
+  </data>
+  <data name="RequestedTermIncorrectFormat" xml:space="preserve">
+    <value>Le format des modalités demandées est incorrect</value>
+  </data>
+  <data name="LoanTermIncorrectFormat" xml:space="preserve">
+    <value>Le format des modalités du prêt est incorrect</value>
+  </data>
+  <data name="AmortizationTermIncorrectFormat" xml:space="preserve">
+    <value>Le format de la durée de l’amortissement est incorrect</value>
+  </data>
+  <data name="AmortizationTerm" xml:space="preserve">
+    <value>Durée de l’amortissement</value>
+  </data>
+  <data name="CustomerRateIncorrectFormat" xml:space="preserve">
+    <value>Le format du taux client est incorrect</value>
+  </data>
+  <data name="CustomerRatePercentage" xml:space="preserve">
+    <value>Taux client (%)</value>
+  </data>
+  <data name="AdminFeeIncorrectFormat" xml:space="preserve">
+    <value>Le format des frais d’administration est incorrect</value>
+  </data>
+  <data name="AdminFee" xml:space="preserve">
+    <value>Frais d’administration</value>
+  </data>
+  <data name="DownPaymentIncorrectFormat" xml:space="preserve">
+    <value>Le format de l’acompte est incorrect</value>
+  </data>
+  <data name="DownPayment" xml:space="preserve">
+    <value>Acompte</value>
+  </data>
+  <data name="SalesRepIncorrectFormat" xml:space="preserve">
+    <value>Le format du représentant est incorrect</value>
+  </data>
+  <data name="ContractNotes" xml:space="preserve">
+    <value>Remarques liées au contrat</value>
+  </data>
+  <data name="TotalCostGreaterThanAmount" xml:space="preserve">
+    <value>Le coût total de l’équipement ne peut pas être supérieur au montant du crédit</value>
+  </data>
+  <data name="RentalCompany" xml:space="preserve">
+    <value>Société de location</value>
+  </data>
+  <data name="EstimatedAge" xml:space="preserve">
+    <value>Âge estimé</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Numéro de série</value>
+  </data>
+  <data name="GeneralCondition" xml:space="preserve">
+    <value>État général</value>
+  </data>
+  <data name="CostIncorrectFormat" xml:space="preserve">
+    <value>Le format du coût est incorrect</value>
+  </data>
+  <data name="MonthlyCostIncorrectFormat" xml:space="preserve">
+    <value>Le format du coût mensuel est incorrect</value>
+  </data>
+  <data name="MonthlyCost" xml:space="preserve">
+    <value>Coût mensuel</value>
+  </data>
+  <data name="EstimatedInstallationDate" xml:space="preserve">
+    <value>Date d’installation estimée</value>
+  </data>
+  <data name="AdditionalApplicantEmail" xml:space="preserve">
+    <value>Adresse de courriel du demandeur additionnel</value>
+  </data>
+  <data name="InvalidEmailAddress" xml:space="preserve">
+    <value>Adresse de courriel non valide</value>
+  </data>
+  <data name="HomeOwnerEmail" xml:space="preserve">
+    <value>Adresse de courriel du propriétaire</value>
+  </data>
+  <data name="SalesRepEmail" xml:space="preserve">
+    <value>Adresse de courriel du représentant</value>
+  </data>
+  <data name="PleaseSelectDocumentFile" xml:space="preserve">
+    <value>Veuillez sélectionner un fichier</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
+  <data name="FirstNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du prénom est incorrect</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Nom de famille</value>
+  </data>
+  <data name="LastNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom de famille est incorrect</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Date de naissance</value>
+  </data>
+  <data name="ApplicantNeedsToBeOver18" xml:space="preserve">
+    <value>Le demandeur doit avoir plus de 18 ans</value>
+  </data>
+  <data name="SinWithDescription" xml:space="preserve">
+    <value>Numéro d’assurance sociale</value>
+  </data>
+  <data name="SinMustBeLong" xml:space="preserve">
+    <value>Le numéro d’assurance social doit compter 9 chiffres</value>
+  </data>
+  <data name="SinIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro d’assurance social est incorrect</value>
+  </data>
+  <data name="DriverLicenseNumber" xml:space="preserve">
+    <value>Numéro du permis de conduire</value>
+  </data>
+  <data name="MailingAddressIncorrectFormat" xml:space="preserve">
+    <value>Le format de l’adresse postale est incorrect</value>
+  </data>
+  <data name="InstallationAddress" xml:space="preserve">
+    <value>Adresse de l’installation</value>
+  </data>
+  <data name="InstallationAddressIncorrectFormat" xml:space="preserve">
+    <value>Le format de l’adresse de l’installation est incorrect</value>
+  </data>
+  <data name="UnitNumber" xml:space="preserve">
+    <value>No de l’unité</value>
+  </data>
+  <data name="UnitNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de l’unité est incorrect</value>
+  </data>
+  <data name="CityIncorrectFormat" xml:space="preserve">
+    <value>Le format de la ville est incorrect</value>
+  </data>
+  <data name="ProvinceIncorrectFormat" xml:space="preserve">
+    <value>Le format de la province est incorrect</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Code postal</value>
+  </data>
+  <data name="PostalCodeIncorrectFormat" xml:space="preserve">
+    <value>Le format du code postal est incorrect</value>
+  </data>
+  <data name="Residence" xml:space="preserve">
+    <value>Résidence</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Type de paiement</value>
+  </data>
+  <data name="PrefferedWithdrawalDateIncorrectFormat" xml:space="preserve">
+    <value>Date de retrait préférée</value>
+  </data>
+  <data name="BankNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de la banque est incorrect</value>
+  </data>
+  <data name="BlankNumber" xml:space="preserve">
+    <value>Numéro de la banque</value>
+  </data>
+  <data name="TransitNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de transit est incorrect</value>
+  </data>
+  <data name="TransitNumber" xml:space="preserve">
+    <value>Numéro de transit</value>
+  </data>
+  <data name="AccountNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de compte est incorrect</value>
+  </data>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>Numéro de compte</value>
+  </data>
+  <data name="EnbridgeGasDistributionAccountIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de compte de Enbridge Gas Distribution est incorrect </value>
+  </data>
+  <data name="EnbridgeGasDistributionAccount" xml:space="preserve">
+    <value>Numéro de compte de Enbridge Gas Distribution</value>
+  </data>
+  <data name="MeterNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de compteur est incorrect</value>
+  </data>
+  <data name="MeterNumber" xml:space="preserve">
+    <value>Numéro de compteur</value>
+  </data>
+  <data name="HomePhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone résidentiel est incorrect</value>
+  </data>
+  <data name="HomePhone" xml:space="preserve">
+    <value>Numéro de téléphone résidentiel</value>
+  </data>
+  <data name="CellPhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro du téléphone cellulaire est incorrect</value>
+  </data>
+  <data name="CellPhone" xml:space="preserve">
+    <value>Téléphone cellulaire</value>
+  </data>
+  <data name="BusinessPhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro du téléphone au travail est incorrect</value>
+  </data>
+  <data name="BusinessPhone" xml:space="preserve">
+    <value>Numéro de téléphone au travail</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Adresse de courriel</value>
+  </data>
+  <data name="HouseSizeSquareFeet" xml:space="preserve">
+    <value>Dimensions de la maison (pieds carrés)</value>
+  </data>
+  <data name="AddAdditionalApplicant" xml:space="preserve">
+    <value>Ajouter un demandeur additionnel</value>
+  </data>
+  <data name="AddAdditionalEquipment" xml:space="preserve">
+    <value>Ajouter de l’équipement additionnel</value>
+  </data>
+  <data name="AdditionalApplicantInformation" xml:space="preserve">
+    <value>Information supplémentaire sur le demandeur</value>
+  </data>
+  <data name="AdditionalApplicantMailingAddressInfo" xml:space="preserve">
+    <value>Information supplémentaire sur l’adresse postale du demandeur</value>
+  </data>
+  <data name="AgreesToSendPersonalDataToCreditCheck" xml:space="preserve">
+    <value>Accepte d’envoyer ses renseignements personnels pour la vérification du crédit</value>
+  </data>
+  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+    <value>Solde à la fin des paiements mensuels (solde résiduel)</value>
+  </data>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Information de base</value>
+  </data>
+  <data name="BrowserNotSupportFileUpload" xml:space="preserve">
+    <value>Le navigateur ne prend pas en charge le téléversement de fichiers HTML5!</value>
+  </data>
+  <data name="CannotRecognizeDriverLicense" xml:space="preserve">
+    <value>Le permis de conduire ne peut pas être reconnu</value>
+  </data>
+  <data name="CashPriceOfEquipment" xml:space="preserve">
+    <value>Prix de l’équipement au comptant</value>
+  </data>
+  <data name="CheckCredit" xml:space="preserve">
+    <value>Vérifier le crédit</value>
+  </data>
+  <data name="ChooseSubDealer" xml:space="preserve">
+    <value>Choisir un sous-courtier</value>
+  </data>
+  <data name="ClearAddress" xml:space="preserve">
+    <value>Effacer l’adresse</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Coût</value>
+  </data>
+  <data name="CreditCheckConfirmation" xml:space="preserve">
+    <value>Confirmation de la vérification du crédit</value>
+  </data>
+  <data name="CreditCheckProcessedSuccessfully" xml:space="preserve">
+    <value>La vérification du crédit a été effectuée avec succès!</value>
+  </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>mm/jj/aaaa</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="EnterValidDate" xml:space="preserve">
+    <value>Veuillez saisir une date valide!</value>
+  </data>
+  <data name="GetMyLocation" xml:space="preserve">
+    <value>Obtenir Mon emplacement</value>
+  </data>
+  <data name="MailingAddressDifferent" xml:space="preserve">
+    <value>L’adresse postale est différente</value>
+  </data>
+  <data name="Make" xml:space="preserve">
+    <value>Marque</value>
+  </data>
+  <data name="Model" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="Nepean" xml:space="preserve">
+    <value>Nepean</value>
+  </data>
+  <data name="NewEquipmentInformation" xml:space="preserve">
+    <value>Information sur le nouvel équipement</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Remarques</value>
+  </data>
+  <data name="Ottawa" xml:space="preserve">
+    <value>Ottawa</value>
+  </data>
+  <data name="PreApprovedFor" xml:space="preserve">
+    <value>Préautorisé pour</value>
+  </data>
+  <data name="ProcessingImage" xml:space="preserve">
+    <value>Traitement de l’image en cours...</value>
+  </data>
+  <data name="Retake" xml:space="preserve">
+    <value>Reprise</value>
+  </data>
+  <data name="SaveAndProceed" xml:space="preserve">
+    <value>Enregistrer et continuer</value>
+  </data>
+  <data name="ScanAndFillAutomatically" xml:space="preserve">
+    <value>Numérisez le permis et cette information sera générée automatiquement</value>
+  </data>
+  <data name="ScanLicense" xml:space="preserve">
+    <value>Numériser le permis</value>
+  </data>
+  <data name="SelectScanningMethod" xml:space="preserve">
+    <value>Sélectionner la méthode de numérisation</value>
+  </data>
+  <data name="Sin" xml:space="preserve">
+    <value>NAS</value>
+  </data>
+  <data name="StreetPlaceholder" xml:space="preserve">
+    <value>rue</value>
+  </data>
+  <data name="TermAndRep" xml:space="preserve">
+    <value>Modalité et représentant</value>
+  </data>
+  <data name="TheApplicantNeedsToBeOver18" xml:space="preserve">
+    <value>Le demandeur doit avoir plus de 18 ans</value>
+  </data>
+  <data name="TheDateMustBeInCorrectFormat" xml:space="preserve">
+    <value>La date doit être fournie dans le format approprié</value>
+  </data>
+  <data name="TheDateMustBeOver1900" xml:space="preserve">
+    <value>L’année de la date doit être plus de 1900</value>
+  </data>
+  <data name="TotalAllMonthlyPayments" xml:space="preserve">
+    <value>Total de tous les paiements mensuels</value>
+  </data>
+  <data name="TotalAmountFinanced" xml:space="preserve">
+    <value>Total du montant financé</value>
+  </data>
+  <data name="TotalCashPrice" xml:space="preserve">
+    <value>Prix total au comptant</value>
+  </data>
+  <data name="TotalCostOfBorrowing" xml:space="preserve">
+    <value>Coût total de l’emprunt</value>
+  </data>
+  <data name="TotalObligation" xml:space="preserve">
+    <value>Total de l’obligation</value>
+  </data>
+  <data name="TurnLicenseOver" xml:space="preserve">
+    <value>Retourner le permis afin de numériser le code à barres au dos du permis. Évitez l’éblouissement et désactivez le flash.</value>
+  </data>
+  <data name="UploadPhoto" xml:space="preserve">
+    <value>Téléverser la photo</value>
+  </data>
+  <data name="UseCamera" xml:space="preserve">
+    <value>Utiliser un appareil photo</value>
+  </data>
+  <data name="UseHomeOwnerAddressInfo" xml:space="preserve">
+    <value>Utiliser l’information sur l’adresse du propriétaire</value>
+  </data>
+  <data name="Years" xml:space="preserve">
+    <value>Années</value>
+  </data>
+  <data name="YouCannotProceedUntilAllAgree" xml:space="preserve">
+    <value>Vous ne pouvez pas continuer tant que tous les demandeurs n’aient accepté d’envoyer leurs renseignements personnels aux fins de la vérification du crédit</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Ville</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="AddPhoto" xml:space="preserve">
+    <value>Ajouter une photo</value>
+  </data>
+  <data name="Agreement" xml:space="preserve">
+    <value>entente</value>
+  </data>
+  <data name="AgreementSubmittedSuccessfully" xml:space="preserve">
+    <value>L’entente a été soumise avec succès!</value>
+  </data>
+  <data name="BeforeTaxesPaymentsAreSubject" xml:space="preserve">
+    <value>** Taxes en sus. Les paiements peuvent être modifiés pendant la période de location sur présentation d’un avis écrit d’au moins trente (30) jours. Voir les modalités et conditions ci-jointes.</value>
+  </data>
+  <data name="CannotGetAgreementForPrint" xml:space="preserve">
+    <value>Impossible d’obtenir l’entente contractuelle pour l’imprimer</value>
+  </data>
+  <data name="CannotRecognizeVoidCheque" xml:space="preserve">
+    <value>Le chèque annulé ne peut pas être reconnu</value>
+  </data>
+  <data name="ContactAndPaymentInfo" xml:space="preserve">
+    <value>Information sur le contrat et le paiement</value>
+  </data>
+  <data name="ContainingCopyOfAgreement" xml:space="preserve">
+    <value>renfermant une copie de l’entente ratifiée.</value>
+    <comment>Context: You will receive an email ... containing a copy of...</comment>
+  </data>
+  <data name="CreateAnotherApplicationForThis" xml:space="preserve">
+    <value>Créer une autre demande pour ce propriétaire</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>Refusé</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="InvitesForSigningWillBeSent" xml:space="preserve">
+    <value>La ou les invitation(s) pour la signature numérique du contrat doivent être envoyées aux adresses de courriel suivantes</value>
+  </data>
+  <data name="InvitesWereSentToEmails" xml:space="preserve">
+    <value>Les invitations ont été envoyées aux adresses de courriel</value>
+  </data>
+  <data name="Loan" xml:space="preserve">
+    <value>Prêt</value>
+  </data>
+  <data name="NewEquipment" xml:space="preserve">
+    <value>Nouvel équipement</value>
+  </data>
+  <data name="PhotoOfVoidCheque" xml:space="preserve">
+    <value>Photo du chèque annulé</value>
+  </data>
+  <data name="PlatformIsPreparingCheck" xml:space="preserve">
+    <value>La plateforme pour la signature numérique est en train de préparer le document pour la signature. Cela peut prendre jusqu’à 2 minutes. Vérifiez vos courriels</value>
+  </data>
+  <data name="PleaseEnterEmailsAndClickSend" xml:space="preserve">
+    <value>Veuillez saisir les adresses de courriel des demandeurs ci-dessous puis cliquer sur Envoyer les courriels.</value>
+  </data>
+  <data name="PrintTheContract" xml:space="preserve">
+    <value>Imprimer le contrat</value>
+  </data>
+  <data name="Rental" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="ResendEmails" xml:space="preserve">
+    <value>Envoyer les courriels de nouveau</value>
+  </data>
+  <data name="ScanVoidCheque" xml:space="preserve">
+    <value>Numériser le chèque annulé</value>
+  </data>
+  <data name="SeeContractDetails" xml:space="preserve">
+    <value>Voir les détails du contrat</value>
+  </data>
+  <data name="SendContractForEsignature" xml:space="preserve">
+    <value>Envoyer le contrat pour la signature électronique</value>
+  </data>
+  <data name="SendEmails" xml:space="preserve">
+    <value>Envoyer les courriels</value>
+  </data>
+  <data name="SevenDigitsNumber" xml:space="preserve">
+    <value>Numéro (7 chiffres)</value>
+  </data>
+  <data name="SummaryAndConfirmation" xml:space="preserve">
+    <value>Récapitulatif et confirmation</value>
+  </data>
+  <data name="ThankYouForCompleting" xml:space="preserve">
+    <value>Merci, {0}, d’avoir complété l’{1}entente.</value>
+    <comment>Context: Thank you, John Doe, for completing Rental agreement</comment>
+  </data>
+  <data name="TwelveDigitsNumber" xml:space="preserve">
+    <value>Numéro (12 chiffres)</value>
+  </data>
+  <data name="UnableToProcessApplication" xml:space="preserve">
+    <value>(Raison : Nous ne pouvons pas traiter cette demande)</value>
+  </data>
+  <data name="WillReceiveEmailShortly" xml:space="preserve">
+    <value>Vous recevrez un courriel sous peu à</value>
+  </data>
+  <data name="WishToReceiveEmailsAndMessages" xml:space="preserve">
+    <value>Oui, je souhaite recevoir des courriels et des messages textes. Je comprends que je peux retirer mon consentement à tout moment.</value>
+  </data>
+  <data name="SubmitDeal" xml:space="preserve">
+    <value>Soumettre la transaction</value>
+  </data>
+  <data name="DeferralType" xml:space="preserve">
+    <value>Type de report</value>
+  </data>
+  <data name="EnbridgeGasDistributionAccountMustBeLong" xml:space="preserve">
+    <value>Le compte de Enbridge Gas Distribution doit compter 12 chiffres</value>
+  </data>
+  <data name="HomePhoneMustBeLong" xml:space="preserve">
+    <value>Le champ du téléphone résidentiel doit compter 10 chiffres</value>
+  </data>
+  <data name="CellPhoneMustBeLong" xml:space="preserve">
+    <value>Le champ du téléphone cellulaire doit compter 10 chiffres</value>
+  </data>
+  <data name="BusinessPhoneMustBeLong" xml:space="preserve">
+    <value>Le champ du téléphone au travail doit compter 10 chiffres</value>
+  </data>
+  <data name="AfterProvinceChangeTotalMustBeGreater" xml:space="preserve">
+    <value>Le paiement mensuel total après le changement apporté à la taxe provinciale doit être supérieur à zéro</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Taxe</value>
+  </data>
+  <data name="TotalMonthlyPaymentMustBeGreaterZero" xml:space="preserve">
+    <value>Le paiement mensuel total doit être supérieur à zéro</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Nom d’utilisateur</value>
+  </data>
+  <data name="PasswordAndConfirmNotMatch" xml:space="preserve">
+    <value>Le mot de passe et le mot de passe de confirmation ne correspondent pas.</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nouveau mot de passe</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Mot de passe actuel</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirmer le nouveau mot de passe</value>
+  </data>
+  <data name="LoanApplication" xml:space="preserve">
+    <value>Demande de prêt</value>
+  </data>
+  <data name="RentalApplicationHwt" xml:space="preserve">
+    <value>Demande de location (HWT)</value>
+  </data>
+  <data name="RentalApplication" xml:space="preserve">
+    <value>Demande de location</value>
+  </data>
+  <data name="StartedToFillNewContract" xml:space="preserve">
+    <value>Le contrat a commencé à être rempli</value>
+  </data>
+  <data name="ClientDataInputted" xml:space="preserve">
+    <value>Données client saisies</value>
+  </data>
+  <data name="CreditCheckInitiated" xml:space="preserve">
+    <value>Vérification du crédit amorcée</value>
+  </data>
+  <data name="CreditCheckDeclined" xml:space="preserve">
+    <value>Vérification du crédit refusée</value>
+  </data>
+  <data name="CreditCheckApproved" xml:space="preserve">
+    <value>Vérification du crédit approuvée</value>
+  </data>
+  <data name="ApplicationSubmitted" xml:space="preserve">
+    <value>Demande soumises</value>
+  </data>
+  <data name="NoDeferral" xml:space="preserve">
+    <value>Aucun report</value>
+  </data>
+  <data name="ThreeMonth" xml:space="preserve">
+    <value>3 mois</value>
+  </data>
+  <data name="SixMonth" xml:space="preserve">
+    <value>6 mois</value>
+  </data>
+  <data name="EnbridgeCapital" xml:space="preserve">
+    <value>ENBRIDGE</value>
+  </data>
+  <data name="PapCapital" xml:space="preserve">
+    <value>PAP</value>
+  </data>
+  <data name="Own" xml:space="preserve">
+    <value>Possède</value>
+  </data>
+  <data name="OneSt" xml:space="preserve">
+    <value>1er</value>
+  </data>
+  <data name="FifteenTh" xml:space="preserve">
+    <value>15e</value>
+  </data>
+  <data name="SentToAudit" xml:space="preserve">
+    <value>Envoyer à la vérification</value>
+  </data>
+  <data name="AllDocumentsChecked" xml:space="preserve">
+    <value>Tous les documents sont vérifiés</value>
+  </data>
+  <data name="AnErrorWhileSendingReport" xml:space="preserve">
+    <value>Une erreur s’est produite pendant la transmission du rapport</value>
+  </data>
+  <data name="DealSubmittedForAudit" xml:space="preserve">
+    <value>La transaction a été soumise à la vérification</value>
+  </data>
+  <data name="IfDocumentsUploadedSendReport" xml:space="preserve">
+    <value>Si tous les documents requis pour la ratification du contrat ont été téléversés, veuillez envoyer un rapport</value>
+  </data>
+  <data name="IfYouSendToAuditNoChanges" xml:space="preserve">
+    <value>Si vous envoyez des documents à la vérification, vous ne pourrez plus apporter de modifications à ce contrat ni téléverser un document</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
+  <data name="SendToAudit" xml:space="preserve">
+    <value>Envoyer à la vérification</value>
+  </data>
+  <data name="SendToAuditQuestion" xml:space="preserve">
+    <value>Envoyer à la vérification?</value>
+  </data>
+  <data name="YouNeedToUploadMoreDocuments" xml:space="preserve">
+    <value>Vous devez téléverser d’autres documents et confirmer de nouveau</value>
+  </data>
+  <data name="NineMonth" xml:space="preserve">
+    <value>9 mois</value>
+  </data>
+  <data name="TwelveMonth" xml:space="preserve">
+    <value>12 mois</value>
+  </data>
+  <data name="TwoMonth" xml:space="preserve">
+    <value>2 mois</value>
+  </data>
+  <data name="AddToComparison" xml:space="preserve">
+    <value>Ajouter à Comparaison</value>
+  </data>
+  <data name="AddType" xml:space="preserve">
+    <value>Ajouter un Type</value>
+  </data>
+  <data name="AtLeastOne75OrLess" xml:space="preserve">
+    <value>Au moins un demandeur doit être âgé de 75 ans ou moins</value>
+  </data>
+  <data name="AtLeastOneHomeOwner" xml:space="preserve">
+    <value>Au moins un demandeur doit être propriétaire d'une résidence</value>
+  </data>
+  <data name="BorrowerInformation" xml:space="preserve">
+    <value>Renseignements sur l'emprunteur</value>
+  </data>
+  <data name="Calculator" xml:space="preserve">
+    <value>Calculatrice</value>
+  </data>
+  <data name="ChooseProvince" xml:space="preserve">
+    <value>Sélectionner une province</value>
+  </data>
+  <data name="CompareTo" xml:space="preserve">
+    <value>Comparer à</value>
+  </data>
+  <data name="Comparing" xml:space="preserve">
+    <value>Comparaison...</value>
+    <comment>It's noun, like 'comparison'</comment>
+  </data>
+  <data name="DealValueStartingFrom" xml:space="preserve">
+    <value>Valeur de transaction à partir de</value>
+  </data>
+  <data name="DidYouUploadAllDocuments" xml:space="preserve">
+    <value>Avez-vous téléversé tous les documents nécessaires? Une fois le traitement terminé, vous n'aurez pas l'occasion de faire des modifications.</value>
+  </data>
+  <data name="FinalCheck" xml:space="preserve">
+    <value>Vérification finale</value>
+  </data>
+  <data name="HomeOwner" xml:space="preserve">
+    <value>Propriétaire de résidence</value>
+  </data>
+  <data name="InstallationAddressInformation" xml:space="preserve">
+    <value>Adresse d'installation</value>
+  </data>
+  <data name="InstallationDate" xml:space="preserve">
+    <value>Date d'installation</value>
+  </data>
+  <data name="InstalledEquipmentModel" xml:space="preserve">
+    <value>Modèle de l'équipement installé</value>
+  </data>
+  <data name="InstalledEquipmentSerialNumber" xml:space="preserve">
+    <value>N° de série de l'équipement installé</value>
+  </data>
+  <data name="InstallerFirstName" xml:space="preserve">
+    <value>Prénom de l'installateur</value>
+  </data>
+  <data name="InstallerLastName" xml:space="preserve">
+    <value>Nom de l'installateur</value>
+  </data>
+  <data name="MailingAddressNotSameAsInstallation" xml:space="preserve">
+    <value>Adresse, si différente de l'adresse d'installation</value>
+  </data>
+  <data name="PreviousAddressInformation" xml:space="preserve">
+    <value>Adresse précédente</value>
+  </data>
+  <data name="ReadyForAudit" xml:space="preserve">
+    <value>Prêt pour la vérification</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Retirer</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Rue</value>
   </data>
 </root>

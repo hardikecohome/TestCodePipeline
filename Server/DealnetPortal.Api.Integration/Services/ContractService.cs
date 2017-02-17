@@ -579,7 +579,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         break;
                     case FlowingSummaryType.Week:
-                        var weekDays = DateTimeFormatInfo.InvariantInfo.DayNames;
+                        var weekDays = DateTimeFormatInfo.CurrentInfo.DayNames;
                         DayOfWeek fstWeekDay;
                         int curDayIdx = Array.IndexOf(weekDays, DateTime.Today.DayOfWeek.ToString());
                         Enum.TryParse(weekDays[0], out fstWeekDay);
@@ -607,7 +607,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         break;
                     case FlowingSummaryType.Year:
-                        var months = DateTimeFormatInfo.InvariantInfo.MonthNames;
+                        var months = DateTimeFormatInfo.CurrentInfo.MonthNames;
                         var grMonths = dealerContracts.Where(c => c.CreationTime.Year == DateTime.Today.Year).GroupBy(c => c.CreationTime.Month);
 
                         for (int i = 0; i < months.Length; i++)
@@ -623,7 +623,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                             summary.Add(new FlowingSummaryItemDTO()
                             {
-                                ItemLabel = DateTimeFormatInfo.InvariantInfo.MonthNames[i], ItemCount = contractsM?.Count() ?? 0, ItemData = totalSum
+                                ItemLabel = DateTimeFormatInfo.CurrentInfo.MonthNames[i], ItemCount = contractsM?.Count() ?? 0, ItemData = totalSum
                             });
                         }
                         break;

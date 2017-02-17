@@ -20,17 +20,17 @@ namespace DealnetPortal.Api.Integration.Utility
         {
             using (var package = new ExcelPackage(stream))
             {
-                var worksheet = package.Workbook.Worksheets.Add("Reports");
-                worksheet.Cells[1, 1].Value = "Contract #";
-                worksheet.Cells[1, 2].Value = "Customer";
-                worksheet.Cells[1, 3].Value = "Status";
-                worksheet.Cells[1, 4].Value = "Type";
-                worksheet.Cells[1, 5].Value = "Email";
-                worksheet.Cells[1, 6].Value = "Phone";
-                worksheet.Cells[1, 7].Value = "Date";
-                worksheet.Cells[1, 8].Value = "Equipment";
-                worksheet.Cells[1, 9].Value = "Sales Rep";
-                worksheet.Cells[1, 10].Value = "Value";
+                var worksheet = package.Workbook.Worksheets.Add(Resources.Resources.Reports);
+                worksheet.Cells[1, 1].Value = Resources.Resources.Contract + " #";
+                worksheet.Cells[1, 2].Value = Resources.Resources.Customer;
+                worksheet.Cells[1, 3].Value = Resources.Resources.Status;
+                worksheet.Cells[1, 4].Value = Resources.Resources.Type;
+                worksheet.Cells[1, 5].Value = Resources.Resources.Email;
+                worksheet.Cells[1, 6].Value = Resources.Resources.Phone;
+                worksheet.Cells[1, 7].Value = Resources.Resources.Date;
+                worksheet.Cells[1, 8].Value = Resources.Resources.Equipment;
+                worksheet.Cells[1, 9].Value = Resources.Resources.SalesRep;
+                worksheet.Cells[1, 10].Value = Resources.Resources.Value;
                 var counter = 1;
                 foreach (var contract in contracts)
                 {

@@ -10,11 +10,11 @@ namespace DealnetPortal.Api.Common.Enumeration
 {
     public enum AgreementType
     {
-        [Display(Name = "Loan Application")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "LoanApplication")]
         LoanApplication = 0,
-        [Display(Name = "Rental Application (HWT)")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "RentalApplicationHwt")]
         RentalApplicationHwt = 1,
-        [Display(Name = "Rental Application")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "RentalApplication")]
         RentalApplication = 2
     }
 }
