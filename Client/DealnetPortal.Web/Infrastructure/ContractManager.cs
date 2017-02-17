@@ -320,7 +320,7 @@ namespace DealnetPortal.Web.Infrastructure
             return alerts;
         }
 
-        public async Task<IList<Alert>> UpdateApplicants(BasicInfoViewModel basicInfo)
+        public async Task<IList<Alert>> UpdateApplicants(ApplicantsViewModel basicInfo)
         {
             var customers = new List<CustomerDataDTO>();
             if (basicInfo.HomeOwner != null)

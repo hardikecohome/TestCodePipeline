@@ -48,7 +48,7 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> UpdateApplicants(BasicInfoViewModel basicInfo)
+        public async Task<JsonResult> UpdateApplicants(ApplicantsViewModel basicInfo)
         {
             if (!ModelState.IsValid || basicInfo.ContractId == null)
             {

@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Infrastructure
 
         Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo);
 
-        Task<IList<Alert>> UpdateApplicants(BasicInfoViewModel basicInfo);
+        Task<IList<Alert>> UpdateApplicants(ApplicantsViewModel basicInfo);
 
         /// <summary>
         /// Create a new contract (application) with a same home owner
