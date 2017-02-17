@@ -862,10 +862,10 @@
 			                <div class="dealnet-credit-check-section">
 				                <div class="form-group">
 					                <div class="row">
-                                        @Html.LabelFor(m => equipment.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                        @Html.LabelFor(m => contract.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
 						                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
 							                <div class="control-group">
-								                02/15/2017
+                                                @contract.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
 							                </div>
 						                </div>
 					                </div>

@@ -179,7 +179,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.EstimatedInstallationDate)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = "Installation Date", data_val_date = ""})
+                                @Html.TextBoxFor(m => m.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = ""})
                                 @Html.ValidationMessageFor(m => m.EstimatedInstallationDate, "", new { @class = "text-danger"})
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                             @Html.LabelFor(m => m.TotalMonthlyPayment)
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
-                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", placeholder = "Total Monthly Payment", onchange = "recalculateTotalMonthlyPaymentHst();" })
+                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", placeholder = Resources.TotalMonthlyPayment, onchange = "recalculateTotalMonthlyPaymentHst();" })
                                 @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -232,11 +232,11 @@
 
                 <div class="rental-element">
                     <div class="row form-group">
-                        <div class="col-md-5 col-xs-8">@(Model.ProvinceTaxRate.Description ?? "Tax")</div>
+                        <div class="col-md-5 col-xs-8">@(Model.ProvinceTaxRate.Description ?? Resources.Tax)</div>
                         <div class="col-md-3 col-xs-4 text-right text-semibold">$ <span id="total-hst">-</span></div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-5 col-xs-8">Total Monthly Payment (tax incl.)</div>
+                        <div class="col-md-5 col-xs-8">@Resources.TotalMonthlyPaymentWithTaxes</div>
                         <div class="col-md-3 col-xs-4 text-right text-semibold">$ <span id="total-monthly-payment-hst">-</span></div>
                     </div>
                 </div>

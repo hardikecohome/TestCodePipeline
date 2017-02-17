@@ -78,10 +78,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public double? ValueOfDeal { get; set; }
 
-        [Display(Name = "Estimated Installation Date")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "EstimatedInstallationDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime EstimatedInstallationDate { get; set; }
+        public DateTime? EstimatedInstallationDate { get; set; }
     }
 
     public class CheckEquipmentsCostAttribute : ValidationAttribute, IClientValidatable

@@ -1130,9 +1130,9 @@
 				    <div class="dealnet-credit-check-section">
 					    <div class="form-group">
 						    <div class="row">
-							    <label for="" class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
+							    @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
 							    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-								    <input type="text" readonly="readonly" class = "dealnet-disabled-input" value="10/10/2017" />
+								    @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", data_val_date = "" })
 							    </div>
 						    </div>
 					    </div>
@@ -2005,10 +2005,11 @@ foreach (var comment in comments)
 	                    <div class="row">
 		                    <div class="col-md-12">
 			                    <div class="form-group">
-				                    <label for="" class="dealnet-field-caption">Estimated Installation Date</label>
+                                    @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption" })
 				                    <div class="dealnet-field-holder">
 					                    <div class="control-group">
-						                    <input type="text" class="form-control dealnet-input date-input" placeholder="mm/dd/yyyy">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input"})
+                                            @Html.ValidationMessageFor(m => m.EquipmentInfo.EstimatedInstallationDate, "", new { @class = "text-danger" })
 					                    </div>
 				                    </div>
 			                    </div>

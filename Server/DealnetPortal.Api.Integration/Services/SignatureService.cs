@@ -989,14 +989,14 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
-                if (contract.Equipment.NewEquipment.First().EstimatedInstallationDate.HasValue)
+                if (contract.Equipment.EstimatedInstallationDate.HasValue)
                 {
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.InstallDate,
                         Value =
-                            contract.Equipment.NewEquipment.First().EstimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                            contract.Equipment.EstimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                     });
                 }
             }
