@@ -22,6 +22,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public bool? AllowCommunicate { get; set; }
 
+        public bool? IsHomeOwner { get; set; }
+
         public List<LocationDTO> Locations { get; set; }
 
         public List<PhoneDTO> Phones { get; set; }

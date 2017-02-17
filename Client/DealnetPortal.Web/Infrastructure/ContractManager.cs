@@ -181,15 +181,8 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
         {
-            var checkHomeOwner = new Func<int?, bool>(cId => cId != null && (contract?.HomeOwners?.Any(ho => ho.Id == cId) ?? false));            
-
-            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
-            if (basicInfo.HomeOwner != null)
-            {
-                basicInfo.HomeOwner.IsHomeOwner = checkHomeOwner(basicInfo.HomeOwner?.CustomerId);
-            }
+            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);            
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
-            basicInfo.AdditionalApplicants?.ForEach(c => c.IsHomeOwner = checkHomeOwner(c.CustomerId));
 
             basicInfo.SubmittingDealerId = contract.ExternalSubDealerId ?? contract.DealerId;
             basicInfo.SubDealers = new List<SubDealer>();
@@ -255,12 +248,7 @@ namespace DealnetPortal.Web.Infrastructure
                 var mailAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.MailingAddressInformation);
                 mailAddress.AddressType = AddressType.MailAddress;
                 contractData.PrimaryCustomer.Locations.Add(mailAddress);
-            }
-            contractData.HomeOwners = new List<CustomerDTO>();
-            if (basicInfo.HomeOwner.IsHomeOwner)
-            {
-                contractData.HomeOwners.Add(contractData.PrimaryCustomer);
-            }
+            }            
 
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             basicInfo.AdditionalApplicants?.ForEach(a =>
@@ -273,12 +261,7 @@ namespace DealnetPortal.Web.Infrastructure
                     mailAddress.AddressType = AddressType.MailAddress;
                     customer.Locations.Add(mailAddress);
                 }
-                contractData.SecondaryCustomers.Add(customer);
-
-                if (a.IsHomeOwner)
-                {
-                    contractData.HomeOwners.Add(customer);
-                }
+                contractData.SecondaryCustomers.Add(customer);                
             });
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
