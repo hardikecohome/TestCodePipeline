@@ -717,33 +717,41 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
-                if (c.Locations?.Any() ?? false)
+                var location = c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                                      c.Locations?.FirstOrDefault();
+                if (location == null)
                 {
-                    var loc = c.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
-                              c.Locations.FirstOrDefault();
+                    // try to get primary customer location
+                    location = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                                      contract.PrimaryCustomer?.Locations?.FirstOrDefault();
+                }
+
+                if (location != null)
+                {                    
                     account.Address = new Address()
                     {
-                        City = loc.City,
+                        City = location.City,
                         Province = new Province()
                         {
-                            Abbrev = loc.State.ToProvinceCode()
+                            Abbrev = location.State.ToProvinceCode()
                         },
-                        Postalcode = loc.PostalCode,
+                        Postalcode = location.PostalCode,
                         Country = new Country()
                         {
                             Abbrev = "CAN"
                         },
-                        StreetName = loc.Street,
-                        SuiteNo = loc.Unit,
+                        StreetName = location.Street,
+                        SuiteNo = location.Unit,
                         StreetNo = string.Empty
                     };
 
                     account.UDFs.Add(new UDF()
                     {
                         Name = "Residence",
-                        Value = loc.ResidenceType == ResidenceType.Own ? "O" : "R" //<!—other value is R for rent  and O for own-->
+                        Value = location.ResidenceType == ResidenceType.Own ? "O" : "R" //<!—other value is R for rent  and O for own-->
                     });
                 }
+                
                 if (c.Phones?.Any() ?? false)
                 {
                     var phone = c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ??
