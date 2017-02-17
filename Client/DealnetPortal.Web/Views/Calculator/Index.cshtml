@@ -1,23 +1,14 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Common.Enumeration
 @using Microsoft.Ajax.Utilities
 @model DealnetPortal.Web.Models.LoanCalculatorViewModel
 
 @{
-    var loanDeferralTypes = Enum.GetValues(typeof(DeferralType))
-                         .Cast<DeferralType>()
-                         .Where(e => e == DeferralType.NoDeferral ||
-                         e == DeferralType.ThreeMonth ||
-                         e == DeferralType.SixMonth ||
-                         e == DeferralType.NineMonth ||
-                         e == DeferralType.TwelveMonth)
-                         .Select(e => new SelectListItem
-                         {
-                             Value = ((int)e).ToString(),
-                             Text = e.GetEnumDescription()
-                         }).ToList();
+    var deferralType = LoanDeferralType.ThreeMonth;
 }
+
 <div id="main-div" ng-app="calculator" ng-controller="calculator">
     <!-- Provide standalone payment calculator screen -->
     <div id="label-steps">
@@ -155,7 +146,7 @@
                                 <div class="col-md-4 initial-width">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanDeferralType)
-                                        @Html.DropDownListFor(m => loanDeferralTypes, loanDeferralTypes, new { @class = "form-control", ng_model = "activeDeferralType" })
+                                        @Html.EnumDropDownListFor(m => deferralType, new { @class = "form-control", ng_model = "activeDeferralType" })
                                     </div>
                                 </div>
                             </div>
@@ -398,7 +389,7 @@
                                 <div class="col-md-4 initial-width">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanDeferralType)
-                                        @Html.DropDownListFor(m => loanDeferralTypes, loanDeferralTypes, new {@class = "form-control", ng_model = "deferralTypeToCompare"})
+                                        @Html.EnumDropDownListFor(m => deferralType, new {@class = "form-control", ng_model = "deferralTypeToCompare"})
                                     </div>
                                 </div>
                             </div>
@@ -467,7 +458,7 @@
         app.controller("calculator", function($scope) {
             $scope.isMobileMode = false;
             var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
-            var defaultDefferalType = '@loanDeferralTypes.First().Value';
+            var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[])Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
             $scope.compareStates = [];
             $scope.activeTabIndex = 0;
             $scope.activeDeferralType = defaultDefferalType;
