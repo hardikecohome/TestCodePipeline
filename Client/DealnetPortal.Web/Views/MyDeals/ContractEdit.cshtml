@@ -775,7 +775,7 @@
             <div class="row">
                 @for (var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                 {
-                    using (Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-basic-info-form-" + (i + 1), @class = "credit-check-info-hold" }))
+                    using (Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-basic-info-form-" + (i + 1), @class = "grid-parent" }))
                     {
                         <hr style="clear: both">
                         <input type="hidden" name="BasicInfo.AdditionalApplicants.Index" value="@i" />
@@ -971,12 +971,12 @@
 	                if (Model.ContactAndPaymentInfo.PaymentInfo != null)
                         {
 	                        <div class="credit-check-info-hold">
+		                        <div class="col-md-6 grid-column">
                             @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "contact-info-coborrowers-form-" + (i + 1), @class = "credit-check-info-hold"}))
                             {
                                 <input type="hidden" name="ContactAndPaymentInfo.CoBorrowersContactInfo.Index" value="@i"/>
                                 @Html.AntiForgeryToken()
                                 @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
-                                <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="contact-info-section@(i + 1)-coborrower">
                                         @Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CustomerId)
                                         <h3 class="dealnet-section-title">
@@ -1024,8 +1024,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             }
+		                        </div>
 		                    </div>
                         }
                     }

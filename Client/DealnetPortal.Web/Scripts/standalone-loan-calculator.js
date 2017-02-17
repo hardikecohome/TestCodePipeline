@@ -45,6 +45,6 @@
     calculationState.residualBalance = residualBalance;
     var totalObligation = totalAllMonthlyPayments + residualBalance;
     calculationState.totalObligation = totalObligation;
-    var totalBorrowingCost = totalObligation - totalAmountFinanced;
+    var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced);
     calculationState.totalBorrowingCost = totalBorrowingCost;
 }

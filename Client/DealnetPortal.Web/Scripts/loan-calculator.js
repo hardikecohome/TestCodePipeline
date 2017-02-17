@@ -48,7 +48,7 @@
     residualBalanceLabel.text(residualBalance.toFixed(2));
     var totalObligation = totalAllMonthlyPayments + residualBalance;
     totalObligationLabel.text(totalObligation.toFixed(2));
-    var totalBorrowingCost = totalObligation - totalAmountFinanced;
+    var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced);
     totalBorrowingCostLabel.text(totalBorrowingCost.toFixed(2));
 }
 
