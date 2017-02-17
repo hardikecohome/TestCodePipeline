@@ -37,6 +37,8 @@ namespace DealnetPortal.Domain
         
         public string Notes { get; set; }
 
+        public DateTime? EstimatedInstallationDate { get; set; }
+
         public DateTime? InstallationDate { get; set; }
 
         public string InstallerFirstName { get; set; }

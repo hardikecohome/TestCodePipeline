@@ -571,6 +571,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.InstallationDate = dbEquipment.InstallationDate;
                 }
+                if (!equipmentInfo.EstimatedInstallationDate.HasValue)
+                {
+                    equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
+                }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
                 dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
@@ -606,6 +610,10 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
                         {
                             ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
+                        }
+                        if (!ne.EstimatedInstallationDate.HasValue)
+                        {
+                            ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
                         }
                         _dbContext.NewEquipment.AddOrUpdate(ne);
                     }
