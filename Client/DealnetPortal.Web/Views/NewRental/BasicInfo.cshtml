@@ -92,7 +92,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.HomeOwner.AddressInformation.UnitNumber)
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "unit_number", placeholder = "12345" })
+                    @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type="number", id = "unit_number", placeholder = "12345" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -264,7 +264,7 @@
                     <div class="form-group">
                 	@Html.LabelFor(m => m.HomeOwner.Sin, new { @for = "sin-number" })
                         <div class="control-group">
-                    	    @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", placeholder = Resources.Sin})
+                    	    @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", type="number", placeholder = Resources.Sin})
                             @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -306,7 +306,7 @@
                 <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @for = "mailing_unit_number" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
+                        @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type="number", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
                         @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -465,7 +465,7 @@
                             <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].Sin, new { @for = "additional-sin-number-" + (i + 1) })
                                 <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-" + (i + 1), placeholder = Resources.Sin })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-" + (i + 1), type="number", placeholder = Resources.Sin })
                                     @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].Sin, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -516,7 +516,7 @@
                         <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @for = "additional-unit_number-" + (i + 1) })
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type="number", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
