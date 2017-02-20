@@ -222,7 +222,7 @@ function (settings, data, dataIndex) {
         (!agreementType || agreementType === data[4]) &&
         (!salesRep || salesRep === data[9]) &&
         (!paymentType || paymentType === data[12]) &&
-        (!equipment || data[7].match(new RegExp(equipment, "i"))) &&
+        (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
         (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {
         return true;
     }
@@ -318,7 +318,7 @@ function getTotalForSelectedCheckboxes() {
         var tr = $(this).parents('tr');
         tr.toggleClass('selected');
         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
-        var val = parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""));
+        var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
         var isSelected = tr.is(".selected");
         selectedSum = isSelected ? selectedSum + val : selectedSum - val;
