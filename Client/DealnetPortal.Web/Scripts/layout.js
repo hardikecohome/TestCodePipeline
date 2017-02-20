@@ -27,9 +27,16 @@
       if(detectIE()){
         $('body').addClass('ie');
       }
+
       $('.chosen-language-link').on('click', function(){
         $(this).parents('.lang-switcher').toggleClass('open');
         return false;
+      });
+
+      $('html').click(function () {
+        if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
+          $('.lang-switcher').removeClass('open')
+        }
       });
 
         $("input, textarea").placeholder();
