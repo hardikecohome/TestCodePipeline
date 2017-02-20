@@ -1000,38 +1000,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) ?? contract.Equipment.NewEquipment.First().EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                     });
                 }
-            }
-            if (contract.Equipment != null)
-            {
-                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id, ownerUserId);
-
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalPayment, Value = paySummary.TotalPayment?.ToString("F", CultureInfo.InvariantCulture) });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TotalMonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.Hst, Value = paySummary.Hst?.ToString("F",CultureInfo.InvariantCulture) });
-
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.RequestedTerm,
-                    Value = (contract.Equipment.AgreementType == AgreementType.LoanApplication) ? contract.Equipment.LoanTerm?.ToString() : contract.Equipment.RequestedTerm?.ToString() });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AmortizationTerm, Value = contract.Equipment.AmortizationTerm?.ToString() });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.DownPayment, Value = contract.Equipment.DownPayment?.ToString("F", CultureInfo.InvariantCulture) });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AdmeenFee, Value = contract.Equipment.AdminFee?.ToString("F", CultureInfo.InvariantCulture) });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.CustomerRate, Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture) });
-
-                if (contract.Equipment.AgreementType == AgreementType.LoanApplication && paySummary?.LoanDetails != null)
-                {
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanTotalCashPrice, Value = paySummary.LoanDetails.TotalCashPrice.ToString("F", CultureInfo.InvariantCulture) });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanAmountFinanced, Value = paySummary.LoanDetails.TotalAmountFinanced.ToString("F", CultureInfo.InvariantCulture) });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanTotalObligation, Value = paySummary.LoanDetails.TotalObligation.ToString("F", CultureInfo.InvariantCulture) });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanBalanceOwing, Value = paySummary.LoanDetails.ResidualBalance.ToString("F", CultureInfo.InvariantCulture) });
-                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.LoanTotalBorowingCost, Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture) });
-                }
-
-                if (
-                    });
-                }
-                else
-
-            }
+            }           
             if (contract.Equipment != null)
             {
                 var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id, ownerUserId);
