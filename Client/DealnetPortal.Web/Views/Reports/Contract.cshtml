@@ -13,7 +13,13 @@
 		<div class="dealnet-large-header">Report for contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
         <br />
         <div class="documents-container">
-            <h3 class="dealnet-section-title">Funding Checklist</h3>
+	        <div class="row">
+		        <div class="col-md-6">
+			        <h3 class="dealnet-section-title">Funding Checklist
+				        <span class="mandatory-title"><i class="mandatory-icon">*</i> &mdash; Mandatory documents</span>
+			        </h3>
+		        </div>
+	        </div>
             <div class="tabs tabs-vertical row responsive-tabs">
                 <div class="col-md-6">
                     <ul class="nav nav-pills nav-stacked documents-pills">

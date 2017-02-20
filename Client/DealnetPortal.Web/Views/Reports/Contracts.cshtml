@@ -52,7 +52,13 @@
 			<div class="dealnet-large-header">Report for contract #@(contract.AdditionalInfo.TransactionId ?? contract.BasicInfo.ContractId.ToString())</div>
             <br />
             <div class="documents-container">
-                <h3 class="dealnet-section-title">Funding Checklist</h3>
+	            <div class="row">
+		            <div class="col-md-6">
+			            <h3 class="dealnet-section-title">Funding Checklist
+				            <span class="mandatory-title"><i class="mandatory-icon">*</i> &mdash; Mandatory documents</span>
+			            </h3>
+		            </div>
+	            </div>
                 <div class="tabs tabs-vertical row responsive-tabs">
                     <div class="col-md-6">
                         <ul class="nav nav-pills nav-stacked documents-pills">
@@ -68,6 +74,7 @@
                                         else
                                         {
                                             @(contract.UploadDocumentsInfo.DocumentTypes[i].Text)
+	                                        <i class="mandatory-icon">*</i>
                                         }
                                     </a>
                                 </li>
@@ -86,6 +93,7 @@
                                 <div class="@(i == 0 && contractCount == 1 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item">
                                     <a href="#tab@(contractCount*10 + (i+1))" class="documents-pills-link" aria-controls="tab@(contractCount*10 + (i+1))" role="tab" data-toggle="tab">
                                         @(contract.UploadDocumentsInfo.DocumentTypes[i].Text)
+	                                    <i class="mandatory-icon">*</i>
                                     </a>
                                 </div>
                                 <div role="tabpanel" class="tab-pane @(i == 0 && contractCount == 1 ? "active" : "")" id="tab@(contractCount*10 + (i+1))">
