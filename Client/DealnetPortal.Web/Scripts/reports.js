@@ -318,7 +318,7 @@ function getTotalForSelectedCheckboxes() {
         var tr = $(this).parents('tr');
         tr.toggleClass('selected');
         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
-        var val = parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""));
+        var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
         var isSelected = tr.is(".selected");
         selectedSum = isSelected ? selectedSum + val : selectedSum - val;
