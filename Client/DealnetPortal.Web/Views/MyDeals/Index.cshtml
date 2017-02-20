@@ -26,7 +26,7 @@
 						<div class="form-group">
 							<label for="deal-type">@Resources.DealType</label>
 							<div class="control-group">
-								<select id="agreement-type" class="form-control select-filter"></select>
+								<select id="agreement-type" class="form-control select-filter filter-input"></select>
 							</div>
 						</div>
 					</div>
@@ -34,7 +34,7 @@
 						<div class="form-group">
 							<label for="">@Resources.DateFrom</label>
 							<div class="control-group date-group">
-								<input type="text" class="form-control date-control" id="date-from">
+								<input type="text" class="form-control date-control filter-input" id="date-from">
 							</div>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 						<div class="form-group">
 					<label for="">@Resources.DateTo</label>
 							<div class="control-group date-group">
-								<input type="text" class="form-control date-control" id="date-to">
+								<input type="text" class="form-control date-control filter-input" id="date-to">
 							</div>
 						</div>
 					</div>
@@ -51,7 +51,7 @@
 							<label for="">@Resources.DealStatus</label>
 							<div class="control-group">
 								@*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
-								<select id="deal-status" class = "form-control select-filter"></select>
+								<select id="deal-status" class = "form-control select-filter filter-input"></select>
 							</div>
 						</div>
 					</div>

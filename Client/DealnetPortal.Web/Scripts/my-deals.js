@@ -132,6 +132,10 @@ function showTable() {
               redrawDataTablesSvgIcons();
               resetDataTablesExpandedRows(table);
             });
+            $('#clear-filters').click(function () {
+                $('.filter-input').val("");
+                table.search('').draw();
+            });
         });
 };
 

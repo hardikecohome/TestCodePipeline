@@ -942,8 +942,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var entriesForDelete = contract.HomeOwners.Except(existingEntities).ToList();
             entriesForDelete.ForEach(e => contract.HomeOwners.Remove(e));
 
-            var entriesForAdd = homeOwners.Where(ho => contract.HomeOwners.All(cho => cho.Id != ho.Id));
-            entriesForAdd.ForEach(ho =>
+            homeOwners.ForEach(ho =>
             {
                 Customer sc = null;
                 if (ho.Id != 0)
