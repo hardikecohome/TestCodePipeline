@@ -222,7 +222,7 @@ function (settings, data, dataIndex) {
         (!agreementType || agreementType === data[4]) &&
         (!salesRep || salesRep === data[9]) &&
         (!paymentType || paymentType === data[12]) &&
-        (!equipment || data[7].match(new RegExp(equipment, "i"))) &&
+        (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
         (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {
         return true;
     }
