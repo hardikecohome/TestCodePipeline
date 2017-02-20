@@ -32,11 +32,13 @@ namespace DealnetPortal.Web
                      "~/Scripts/datatables/dataTables.responsive.js"));
             bundles.Add(new ScriptBundle("~/bundles/home-page").Include(
                 "~/Scripts/chart.js", "~/Scripts/home-page.js"));
-            bundles.Add(new ScriptBundle("~/bundles/basic-info").Include("~/Scripts/customer-validation.js")
+            bundles.Add(new ScriptBundle("~/bundles/basic-info").Include("~/Scripts/general-address-autocomplete.js")
+                .Include("~/Scripts/customer-validation.js")
                 .IncludeDirectory("~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning.js").Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/camera-capturing.js"));
-            bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").Include("~/Scripts/customer-validation.js")
+            bundles.Add(new ScriptBundle("~/bundles/basic-info-mobile").Include("~/Scripts/general-address-autocomplete.js")
+                .Include("~/Scripts/customer-validation.js")
                 .IncludeDirectory("~/Scripts/BasicInfo", "*.js").Include(
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js").Include("~/Scripts/datejs.js"));
             bundles.Add(new ScriptBundle("~/bundles/credit-check").Include(

@@ -74,7 +74,7 @@ $(document).ready(function () {
     } else {
         hideAditional3Section();
     }
-    $('.mailing-address-checkbox').each(function() {
+    $('.address-checkbox').each(function() {
         var checkBox = $(this);
         var correspondingSection = $('#' + checkBox.data('section'));
         if (!checkBox.is(":checked")) {

@@ -248,7 +248,13 @@ namespace DealnetPortal.Web.Infrastructure
                 var mailAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.MailingAddressInformation);
                 mailAddress.AddressType = AddressType.MailAddress;
                 contractData.PrimaryCustomer.Locations.Add(mailAddress);
-            }            
+            }
+            if (basicInfo.HomeOwner.PreviousAddressInformation != null)
+            {
+                var previousAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.PreviousAddressInformation);
+                previousAddress.AddressType = AddressType.PreviousAddress;
+                contractData.PrimaryCustomer.Locations.Add(previousAddress);
+            }
 
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             basicInfo.AdditionalApplicants?.ForEach(a =>
@@ -260,6 +266,12 @@ namespace DealnetPortal.Web.Infrastructure
                     var mailAddress = Mapper.Map<LocationDTO>(a.MailingAddressInformation);
                     mailAddress.AddressType = AddressType.MailAddress;
                     customer.Locations.Add(mailAddress);
+                }
+                if (a.PreviousAddressInformation != null)
+                {
+                    var previousAddress = Mapper.Map<LocationDTO>(a.PreviousAddressInformation);
+                    previousAddress.AddressType = AddressType.PreviousAddress;
+                    customer.Locations.Add(previousAddress);
                 }
                 contractData.SecondaryCustomers.Add(customer);                
             });
@@ -336,15 +348,30 @@ namespace DealnetPortal.Web.Infrastructure
                     mailAddress.AddressType = AddressType.MailAddress;
                     customerDTO.Locations.Add(mailAddress);
                 }
+                if (basicInfo.HomeOwner.PreviousAddressInformation != null)
+                {
+                    var previousAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.PreviousAddressInformation);
+                    previousAddress.AddressType = AddressType.PreviousAddress;
+                    customerDTO.Locations.Add(previousAddress);
+                }
                 customers.Add(customerDTO);
             }
             basicInfo.AdditionalApplicants?.ForEach(applicant =>
             {
                 var customerDTO = Mapper.Map<CustomerDataDTO>(applicant);
                 customerDTO.Locations = new List<LocationDTO>();
-                var mailAddress = Mapper.Map<LocationDTO>(applicant.MailingAddressInformation);
-                mailAddress.AddressType = AddressType.MailAddress;
-                customerDTO.Locations.Add(mailAddress);
+                if (applicant.MailingAddressInformation != null)
+                {
+                    var mailAddress = Mapper.Map<LocationDTO>(applicant.MailingAddressInformation);
+                    mailAddress.AddressType = AddressType.MailAddress;
+                    customerDTO.Locations.Add(mailAddress);
+                }
+                if (applicant.PreviousAddressInformation != null)
+                {
+                    var previousAddress = Mapper.Map<LocationDTO>(applicant.PreviousAddressInformation);
+                    previousAddress.AddressType = AddressType.PreviousAddress;
+                    customerDTO.Locations.Add(previousAddress);
+                }
                 customers.Add(customerDTO);
             });
             customers.ForEach(c => c.ContractId = basicInfo.ContractId);

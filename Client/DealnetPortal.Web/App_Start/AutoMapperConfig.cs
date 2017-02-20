@@ -47,12 +47,6 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.AddressType, d => d.Ignore())
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.CustomerId, d => d.Ignore());
-            cfg.CreateMap<MailingAddressInformation, LocationDTO>()
-                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
-                .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
-                .ForMember(x => x.AddressType, d => d.Ignore())
-                .ForMember(x => x.Id, d => d.Ignore())
-                .ForMember(x => x.CustomerId, d => d.Ignore());
 
             cfg.CreateMap<EquipmentInformationViewModel, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
@@ -221,13 +215,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
                 .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)))
+                .ForMember(x => x.PreviousAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.PreviousAddress)))
                 .ForMember(x => x.IsHomeOwner, d => d.ResolveUsing(src => src?.IsHomeOwner == true));
             cfg.CreateMap<LocationDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
-            cfg.CreateMap<LocationDTO, MailingAddressInformation>()
-                    .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
-                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();

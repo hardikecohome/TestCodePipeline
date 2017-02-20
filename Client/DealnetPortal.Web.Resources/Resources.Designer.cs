@@ -160,6 +160,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant Previous Address Information.
+        /// </summary>
+        public static string AdditionalApplicantPreviousAddressInformation {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantPreviousAddressInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Contract Information.
         /// </summary>
         public static string AdditionalContractInformation {
@@ -1695,6 +1704,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LastNameIncorrectFormat {
             get {
                 return ResourceManager.GetString("LastNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lived at current address less than 6 month.
+        /// </summary>
+        public static string LivedAtCurrentLessThan {
+            get {
+                return ResourceManager.GetString("LivedAtCurrentLessThan", resourceCulture);
             }
         }
         
