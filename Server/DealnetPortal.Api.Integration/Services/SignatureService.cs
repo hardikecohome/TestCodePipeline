@@ -787,7 +787,7 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString() });
-                //formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.EquipmentCost}_2", Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString()});
 
                 var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)
