@@ -16,6 +16,7 @@ $(document).ready(function () {
             $('#age-warning-message').hide();
             $('#age-error-message').hide();
         } else {
+            $('#age-error-message').hide();
             $('#age-warning-message').show();
         }
     });
