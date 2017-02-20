@@ -80,7 +80,7 @@
                                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
                                                 <div class="control-group has-addon-left">
                                                     <div class="control-group-addon">$</div>
-                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = Resources.Cost, ng_change = "calculateLoanValues();", ng_model = "item.cost" })
+                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", type="number", placeholder = Resources.Cost, ng_change = "calculateLoanValues();", ng_model = "item.cost" })
                                                     @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost", @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -99,7 +99,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AdminFee)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", placeholder = Resources.AdminFee, id = "admin-fee", ng_change = "calculateLoanValues()", ng_model = "activeAdminFee" })
+                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", type="number", placeholder = Resources.AdminFee, id = "admin-fee", ng_change = "calculateLoanValues()", ng_model = "activeAdminFee" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AdminFee, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.DownPayment)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", placeholder = @Resources.DownPayment, id = "down-payment", ng_change = "calculateLoanValues()", ng_model = "activeDownPayment" })
+                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", type="number", placeholder = @Resources.DownPayment, id = "down-payment", ng_change = "calculateLoanValues()", ng_model = "activeDownPayment" })
                                             @Html.ValidationMessageFor(m => m.Equipment.DownPayment, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.CustomerRate)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", id= "customer-rate", placeholder = @Resources.CustomerRatePercentage, ng_change = "calculateLoanValues()", ng_model = "activeCustomerRate" })
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", type="number", id= "customer-rate", placeholder = @Resources.CustomerRatePercentage, ng_change = "calculateLoanValues()", ng_model = "activeCustomerRate" })
                                             @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -129,7 +129,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", id= "loan-term", placeholder = Resources.LoanTerm, ng_change = "calculateLoanValues()", value = "120", ng_model = "activeLoanTerm" })
+                                            @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", type="number", id= "loan-term", placeholder = Resources.LoanTerm, ng_change = "calculateLoanValues()", value = "120", ng_model = "activeLoanTerm" })
                                             @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -138,7 +138,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AmortizationTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", id= "amortization-term", placeholder = Resources.AmortizationTerm, ng_change = "calculateLoanValues()", ng_model = "activeAmortizationTerm" })
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", type="number", id= "amortization-term", placeholder = Resources.AmortizationTerm, ng_change = "calculateLoanValues()", ng_model = "activeAmortizationTerm" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -327,7 +327,7 @@
                                             @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
                                             <div class="control-group has-addon-left">
                                                 <div class="control-group-addon">$</div>
-                                                @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", placeholder = Resources.Cost, ng_model = "item.cost" })
+                                                @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", type="number", placeholder = Resources.Cost, ng_model = "item.cost" })
                                                 @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost", @class = "text-danger" })
                                             </div>
                                         </div>
@@ -344,7 +344,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AdminFee)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", placeholder = Resources.AdminFee, ng_model = "adminFeeToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", type="number", placeholder = Resources.AdminFee, ng_model = "adminFeeToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AdminFee, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -353,7 +353,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.DownPayment)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, ng_model = "downPaymentToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", type="number", placeholder = Resources.DownPayment, ng_model = "downPaymentToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.DownPayment, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -362,7 +362,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.CustomerRate)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", placeholder = Resources.CustomerRatePercentage, ng_model = "customerRateToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", type="number", placeholder = Resources.CustomerRatePercentage, ng_model = "customerRateToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -373,7 +373,7 @@
                                 <div class="col-md-4 initial-width">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.LoanTerm)
-                                        @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", placeholder = Resources.LoanTerm, value = "120", ng_model = "loanTermToCompare" })
+                                        @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", type="number", placeholder = Resources.LoanTerm, value = "120", ng_model = "loanTermToCompare" })
                                         @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -381,7 +381,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Equipment.AmortizationTerm)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", placeholder = Resources.AmortizationTerm, ng_model = "amortizationTermToCompare" })
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", type="number", placeholder = Resources.AmortizationTerm, ng_model = "amortizationTermToCompare" })
                                             @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
