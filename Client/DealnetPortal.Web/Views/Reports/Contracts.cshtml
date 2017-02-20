@@ -865,7 +865,7 @@
                                         @Html.LabelFor(m => contract.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
 						                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
 							                <div class="control-group">
-                                                @contract.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                                                @(contract.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
 							                </div>
 						                </div>
 					                </div>
