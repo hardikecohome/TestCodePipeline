@@ -37,7 +37,7 @@ namespace DealnetPortal.Api.Integration.Utility
                     counter++;
                     worksheet.Cells[counter, 1].Value = contract.Details?.TransactionId ?? contract.Id.ToString();
                     worksheet.Cells[counter, 2].Value = contract.PrimaryCustomer?.FirstName + " " + contract.PrimaryCustomer?.LastName;
-                    worksheet.Cells[counter, 3].Value = contract.ContractState.GetEnumDescription();
+                    worksheet.Cells[counter, 3].Value = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
                     worksheet.Cells[counter, 4].Value = contract.Equipment?.AgreementType.GetEnumDescription();
                     worksheet.Cells[counter, 5].Value =
                         contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
