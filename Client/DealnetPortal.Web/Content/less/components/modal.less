@@ -30,7 +30,10 @@
   }
   .modal-body{
     padding: 30px 15px 20px;
-    min-height: 120px;
+    &+.modal-footer{
+      padding-top: 0;
+    }
+
     &.no-padding-top{
       padding-top: 0;
     }
