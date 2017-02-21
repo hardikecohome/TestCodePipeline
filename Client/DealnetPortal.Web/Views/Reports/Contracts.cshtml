@@ -403,61 +403,64 @@
 							</div>
 						</div>
 					</div>
-                    <div class="col-md-6 grid-column">
-                        <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Street</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-	                                        Rita Ave
+				    @if (contract.BasicInfo?.HomeOwner?.PreviousAddressInformation != null)
+				    {
+				        <div class="col-md-6 grid-column">
+				            <div class="dealnet-credit-check-section">
+				                <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.PreviousAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(contract.BasicInfo?.HomeOwner?.PreviousAddressInformation.Street)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-	                                        80
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.PreviousAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(contract.BasicInfo?.HomeOwner?.PreviousAddressInformation.UnitNumber)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">City</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-	                                        Ottawa
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.PreviousAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(contract.BasicInfo?.HomeOwner?.PreviousAddressInformation.City)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Province</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-	                                        Nepean
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.PreviousAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(contract.BasicInfo?.HomeOwner?.PreviousAddressInformation.Province)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            <span class="postal-code">ON K2G 2H1</span>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => contract.BasicInfo.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                <span class="postal-code">@(contract.BasicInfo?.HomeOwner?.PreviousAddressInformation.PostalCode)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+				            </div>
+				        </div>
+				    }
                     @if (contract.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
                     {
                         <div class="col-md-6 grid-column">
@@ -625,61 +628,74 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 grid-column">
-						    <div class="dealnet-credit-check-section">
-				                    <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
-						        <div class="form-group">
-						            <div class="row">
-						                <label class="dealnet-field-caption col-xs-6">Street</label>
-						                <div class="dealnet-field-holder col-xs-6">
-						                    <div class="control-group">
-						                        Rita Ave
-						                    </div>
-						                </div>
-						            </div>
-						        </div>
-						        <div class="form-group">
-						            <div class="row">
-						                <label class="dealnet-field-caption col-xs-6">Unit #</label>
-						                <div class="dealnet-field-holder col-xs-6">
-						                    <div class="control-group">
-						                        80
-						                    </div>
-						                </div>
-						            </div>
-						        </div>
-						        <div class="form-group">
-						            <div class="row">
-						                <label class="dealnet-field-caption col-xs-6">City</label>
-						                <div class="dealnet-field-holder col-xs-6">
-						                    <div class="control-group">
-						                        Ottawa
-						                    </div>
-						                </div>
-						            </div>
-						        </div>
-						        <div class="form-group">
-						            <div class="row">
-						                <label class="dealnet-field-caption col-xs-6">Province</label>
-						                <div class="dealnet-field-holder col-xs-6">
-						                    <div class="control-group">
-						                        Nepean
-						                    </div>
-						                </div>
-						            </div>
-						        </div>
-						        <div class="form-group">
-						            <div class="row">
-						                <label class="dealnet-field-caption col-xs-6">Postal Code</label>
-						                <div class="dealnet-field-holder col-xs-6">
-						                    <div class="control-group">
-						                        <span class="postal-code">ON K2G 2H1</span>
-						                    </div>
-						                </div>
-						            </div>
+						@if (contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
+						{
+						    <div class="col-md-6 grid-column">
+						        <div class="dealnet-credit-check-section">
+						            <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @(contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @(contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @(contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @(contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    <span class="postal-code">@(contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.ResidenceType, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @(contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.ResidenceType.GetEnumDescription())
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 						        </div>
 						    </div>
-						</div>
+						}
                         @if (contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation != null)
                         {
                             <div class="col-md-6 grid-column">
