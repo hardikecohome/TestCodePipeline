@@ -118,8 +118,8 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<ContractDataDTO, ContractData>()
                 .ForMember(x => x.HomeOwners, d => d.Ignore())
-                .AfterMap((d, c) =>
-                {
+                .AfterMap((d, c, rc) =>
+                {                    
                     if (d?.PrimaryCustomer?.IsHomeOwner == true || (d?.SecondaryCustomers?.Any(sc => sc.IsHomeOwner == true) ?? false))
                     {
                         c.HomeOwners = new List<Customer>();
@@ -129,7 +129,7 @@ namespace DealnetPortal.Api.App_Start
                         }
                         d?.SecondaryCustomers?.Where(sc => sc.IsHomeOwner == true).ForEach(sc =>
                         {
-                            c.HomeOwners.Add(c.SecondaryCustomers.FirstOrDefault(csc => csc.Id == sc.Id));
+                            c.HomeOwners.Add(rc.Mapper.Map<Customer>(sc));
                         });
                     }
                 });
