@@ -82,6 +82,12 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contract != null)
             {
                 contract.ContractState = newState;
+
+                if (contract.ContractState == ContractState.CreditCheckDeclined)
+                {
+                    contract.WasDeclined = true;
+                }
+
                 contract.LastUpdateTime = DateTime.Now;
             }
             return contract;
@@ -217,6 +223,12 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
                         contract.ContractState = ContractState.CustomerInfoInputted;
+                        contract.LastUpdateTime = DateTime.Now;
+                    }
+
+                    if (!contract.WasDeclined.HasValue || contract.WasDeclined == false)
+                    {
+                        AddOrUpdateInitialCustomers(contract);
                         contract.LastUpdateTime = DateTime.Now;
                     }
 
@@ -973,5 +985,27 @@ namespace DealnetPortal.DataAccess.Repositories
 
             return true;
         }
-    }
+
+        private bool AddOrUpdateInitialCustomers(Contract contract)
+        {
+            var currentCustomers = new List<Customer>();
+            if (contract.PrimaryCustomer != null)
+            {
+                currentCustomers.Add(contract.PrimaryCustomer);
+            }
+            if (contract.SecondaryCustomers?.Any() ?? false)
+            {
+                currentCustomers.AddRange(contract.SecondaryCustomers);
+            }
+
+            var existingEntities =
+                contract.InitialCustomers.Where(
+                    ic => currentCustomers.Any(cc => cc == ic)).ToList();
+            var entriesForDelete = contract.InitialCustomers.Except(existingEntities).ToList();
+            var entriesForAdd = existingEntities.Except(contract.InitialCustomers).ToList();
+            entriesForDelete.ForEach(e => contract.InitialCustomers.Remove(e));
+            entriesForAdd.ForEach(e => contract.InitialCustomers.Add(e));
+
+            return true;
+        }
 }
