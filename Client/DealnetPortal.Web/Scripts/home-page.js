@@ -127,6 +127,10 @@ function showTable() {
                       { "data": "Email", className: 'email-cell' },
                       { "data": "Phone", className: 'phone-cell' },
                       { "data": "Date", className: 'date-cell' },
+                      {
+                          "data": "RemainingDescription",
+                          "visible": false
+                      },
                       {// this is Actions Column
                           "render": function (sdata, type, row) {
                               if (row.Id != 0) {
