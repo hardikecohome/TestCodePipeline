@@ -695,34 +695,47 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
+                // update only new customers for declined deals
                 if (customers?.Any() ?? false)
                 {
+                    var contractId = customers.FirstOrDefault(c => c.ContractId.HasValue)?.ContractId;
+                    var contract = contractId.HasValue ? _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId) : null;
+
+                    var customersUpdated = false;
+
                     customers.ForEach(c =>
                     {
-                        _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo), Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails));
-                    });
-                }
-                _unitOfWork.Save();
-
-                //TODO: update customers on aspire
-                if (customers?.Any() ?? false)
-                {
-                    var contractId = customers.First().ContractId;
-                    if (contractId.HasValue)
-                    {
-                        var contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
-                        if (contract.ContractState == ContractState.Completed)
+                        if (contract == null || contract.WasDeclined != true ||
+                            (contract.InitialCustomers?.All(ic => ic.Id != c.Id) ?? false))
                         {
-                            var contractDTO = Mapper.Map<ContractDTO>(contract);
-                            Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
+                            _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
+                                Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
+                                Mapper.Map<IList<Email>>(c.Emails));
+                            customersUpdated = true;
                         }
-                        _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
-                        //if (aspireAlerts?.Any() ?? false)
-                        //{
-                        //    alerts.AddRange(aspireAlerts);
-                        //}
+                    });
+
+                    if (customersUpdated == true)
+                    {
+                        _unitOfWork.Save();
+
+                        // get latest contract changes
+                        if (contractId.HasValue)
+                        {                            
+                            contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
+                        }
+                        // update customers on aspire
+                        if (contract != null)
+                        {
+                            if (contract.ContractState == ContractState.Completed)
+                            {
+                                var contractDTO = Mapper.Map<ContractDTO>(contract);
+                                Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
+                            }
+                            _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
+                        }                                                
                     }
-                }                
+                }                                             
             }
             catch (Exception ex)
             {
@@ -731,7 +744,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error, Header = "Failed to update customers data", Message = ex.ToString()
                 });
-                //throw;
             }
 
             return alerts;
