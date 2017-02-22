@@ -194,7 +194,6 @@ namespace DealnetPortal.Web.App_Start
                         src.Equipment?.NewEquipment?.ForEach(x =>
                         {
                             stb.AppendLine(x.Description);
-                            stb.AppendLine(x.Description);
                         });
                         stb.AppendLine(src.Equipment?.SalesRep);
                         stb.AppendLine(src.PaymentInfo?.EnbridgeGasDistributionAccount);

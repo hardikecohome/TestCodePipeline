@@ -232,7 +232,7 @@
 
                 <div class="rental-element">
                     <div class="row form-group">
-                        <div class="col-md-5 col-xs-8">@(Model.ProvinceTaxRate.Description ?? Resources.Tax)</div>
+                        <div class="col-md-5 col-xs-8">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>
                         <div class="col-md-3 col-xs-4 text-right text-semibold">$ <span id="total-hst">-</span></div>
                     </div>
                     <div class="row form-group">
