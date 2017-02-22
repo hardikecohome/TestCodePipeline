@@ -123,13 +123,16 @@ namespace DealnetPortal.Api.Tests.Repositories
                 City = "London",
                 PostalCode = "348042",
                 Street = "Street",
-                Unit = "1"
+                Unit = "1",
+                AddressType = AddressType.MainAddress,
+                ResidenceType = ResidenceType.Own
             };
             contractData.PrimaryCustomer = new Customer()
             {
                 FirstName = "FstName",
                 LastName = "LstName",
-                DateOfBirth = DateTime.Today
+                DateOfBirth = DateTime.Today,
+                Locations = new List<Location>() { address }
             };
             //contractData.Locations = new List<Location> {address};
 
@@ -147,8 +150,8 @@ namespace DealnetPortal.Api.Tests.Repositories
                 AddressType = AddressType.MailAddress
             };
 
-            contractData.PrimaryCustomer = null;
-            //contractData.Locations = new List<Location>() {address, address2};
+            //contractData.PrimaryCustomer = null;
+            contractData.PrimaryCustomer.Locations = new List<Location>() {address, address2};
 
             _contractRepository.UpdateContractData(contractData, _user.Id);
             _unitOfWork.Save();
@@ -219,6 +222,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 Notes = "Equipment Notes",
                 RequestedTerm = 60,
+                AmortizationTerm = 60,
                 SalesRep = "Sales Rep",
                 NewEquipment = new List<NewEquipment>(),
                 ExistingEquipment = new List<ExistingEquipment>()
@@ -240,7 +244,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 Notes = "Existing Equipment notes",
                 RentalCompany = "Rental company",
                 SerialNumber = "Serial number",
-                GeneralCondition = "General condition"
+                GeneralCondition = "General condition",
             });
             contractData.Equipment = equipmentInfo;
             this._contractRepository.UpdateContractData(contractData, _user.Id);
@@ -485,6 +489,80 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
             Assert.AreEqual(contract.HomeOwners.Count, 1);
+        }
+
+        [TestMethod]
+        public void TestDeclinedContractsAndInitialCustomers()
+        {
+            var contract = _contractRepository.CreateContract(_user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(contract);
+
+            var contractData = new ContractData()
+            {
+                Id = contract.Id
+            };
+            contractData.PrimaryCustomer = new Customer()
+            {
+                FirstName = "First name",
+                LastName = "Last name",
+                DateOfBirth = DateTime.Today
+            };
+
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+
+            Assert.IsNotNull(contract);
+            Assert.IsNotNull(contract.PrimaryCustomer);
+            Assert.IsNotNull(contract.InitialCustomers);
+            Assert.AreEqual(contract.InitialCustomers.Count, 1);            
+
+            contractData.SecondaryCustomers = new List<Customer>()
+            {
+                new Customer()
+                {
+                    FirstName = "Add 1 fst name",
+                    LastName = "Add 1 lst name",
+                    DateOfBirth = DateTime.Today
+                }
+            };            
+
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+
+            Assert.IsNotNull(contract);
+            Assert.IsNotNull(contract.PrimaryCustomer);
+            Assert.IsNotNull(contract.SecondaryCustomers);
+            Assert.AreEqual(contract.SecondaryCustomers.Count, 1);
+            Assert.IsNotNull(contract.InitialCustomers);
+            Assert.AreEqual(contract.InitialCustomers.Count, 2);
+
+            _contractRepository.UpdateContractState(contract.Id, _user.Id, ContractState.CreditCheckDeclined);
+            // after contract stated is changed to Declined, we shouldn't allow to modify info for previously added applicants
+            contractData.SecondaryCustomers.First().Id = contract.SecondaryCustomers.First().Id;
+            contractData.SecondaryCustomers.First().FirstName = "Name changed";
+            contractData.SecondaryCustomers.Add(new Customer()
+            {
+                FirstName = "Add 2 fst name",
+                LastName = "Add 2 lst name",
+                DateOfBirth = DateTime.Today
+            });
+
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+
+            contract = this._contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+            Assert.IsNotNull(contract);
+            Assert.IsNotNull(contract.PrimaryCustomer);
+            Assert.IsNotNull(contract.SecondaryCustomers);
+            Assert.AreEqual(contract.SecondaryCustomers.Count, 2);
+            Assert.IsNotNull(contract.InitialCustomers);
+            // initial customers should be unchanged
+            Assert.AreEqual(contract.InitialCustomers.Count, 2);
         }
     }
 }

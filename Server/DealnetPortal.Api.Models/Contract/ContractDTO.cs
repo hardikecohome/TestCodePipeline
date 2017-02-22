@@ -42,5 +42,7 @@ namespace DealnetPortal.Api.Models.Contract
         public List<CommentDTO> Comments { get; set; }
         
         public List<ContractDocumentDTO> Documents { get; set; }
+
+        public bool? WasDeclined { get; set; }
     }
 }
