@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Web.Models
+﻿@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Web.Models
 @model DealnetPortal.Web.Models.BasicInfoViewModel
 
 @{
@@ -35,31 +36,25 @@
     </div>
 </div>
 
-<!--Show/hide warning depend on status-deal-submitted-->
-<div class="well well-info position-well">
-    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-    You can't edit information about borrower and additional applicant because this deal was already submitted. You can add additional applicants
-</div>
-
-<div class="form-container basic-info-form">
-    <div class="form-section">
-@using (Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+@if (Model.ContractWasDeclined)
 {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.ContractId)
+    <!--Show/hide warning depend on status-deal-submitted-->
+    <div class="well well-info position-well">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        You can't edit information about borrower and additional applicant because this deal was already submitted. You can add additional applicants
+    </div>
 
     <!--Show/hide "Installation address information" depend on status-deal-submitted-->
-    <!--Installation address information (the html code was taken from 2 step )-->
     <div class="row credit-check-info-hold">
         <div class="col-md-6 grid-column">
             <div class="dealnet-credit-check-section" id="address-section">
-                <h3 class="dealnet-section-title">@Resources.InstallationAddressInformation @*<a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a>*@</h3>
+                <h3 class="dealnet-section-title">@Resources.InstallationAddressInformation</h3>
                 <div class="form-group">
                     <div class="row">
                         @Html.LabelFor(m => Model.HomeOwner.AddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
-                                @Html.TextBoxFor(m => Model.HomeOwner.AddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                @(Model.HomeOwner.AddressInformation.Street)
                             </div>
                         </div>
                     </div>
@@ -70,7 +65,7 @@
                         @Html.LabelFor(m => Model.HomeOwner.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
-                                @Html.TextBoxFor(m => Model.HomeOwner.AddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                @(Model.HomeOwner.AddressInformation.UnitNumber)
                             </div>
                         </div>
                     </div>
@@ -81,7 +76,7 @@
                         @Html.LabelFor(m => Model.HomeOwner.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
-                                @Html.TextBoxFor(m => Model.HomeOwner.AddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                @(Model.HomeOwner.AddressInformation.City)
                             </div>
                         </div>
                     </div>
@@ -91,17 +86,17 @@
                         @Html.LabelFor(m => Model.HomeOwner.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
-                                @Html.TextBoxFor(m => Model.HomeOwner.AddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                @(Model.HomeOwner.AddressInformation.Province)
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        @Html.LabelFor(m => Model.HomeOwner.AddressInformation.PostalCode, new {@class = "dealnet-field-caption col-xs-6"})
+                        @Html.LabelFor(m => Model.HomeOwner.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                         <div class="dealnet-field-holder col-xs-6">
                             <div class="control-group">
-                                @Html.TextBoxFor(m => Model.HomeOwner.AddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = ""})
+                                <span class="postal-code">@(Model.HomeOwner.AddressInformation.PostalCode)</span>
                             </div>
                         </div>
                     </div>
@@ -109,12 +104,66 @@
             </div>
         </div>
     </div>
-    <!--END Installation address information-->
+}
 
+@if (!ViewBag.IsMobileRequest)
+{
+    <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="dealnet-middle-header">@Resources.ScanLicense</div>
+                    <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
 
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
+                        <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div id="capture-area">
+                                <video autoplay class="capture-frame" id="video"></video>
+                                <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                <canvas id="big-capture-canvas"></canvas>
+                                <div id="capture-buttons">
+                                    <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()" />
+                                    <div id="capture-buttons-2">
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
+                                        <div id="retake" onclick="retakePhoto()">@Resources.Retake</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            <div id="upload-area">
+                                <div id="upload-buttons">
+                                    <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                                        <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
+                                        <span>@Resources.Upload Photo</span>
+                                        <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="form-container basic-info-form">
+    <div class="form-section">
+@using (Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ContractId)
+    
     <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
-    <div style="display: none">
-        if (Model?.SubDealers?.Any() ?? false)
+    <div @if (Model.ContractWasDeclined) { <text>class="hidden"</text> }>
+        @if (Model?.SubDealers?.Any() ?? false)
         {
             <div class="dealnet-middle-header">@Resources.SubDealer</div>
             <div class="row">
@@ -210,7 +259,7 @@
         <!--Borrower Information-->
         <h2 class="dealnet-middle-header">@Resources.BorrowerInformation</h2>
             <!--scanlicence-button-->
-            if (!ViewBag.IsMobileRequest)
+            @if (!ViewBag.IsMobileRequest)
             {
             <div class="row scanlicence-button">
                 <div class="col-md-12">
@@ -248,54 +297,6 @@
                         </div>
                     </div>
                     <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
-                </div>
-            </div>
-            }
-
-            if (!ViewBag.IsMobileRequest)
-            {
-            <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <div class="dealnet-middle-header">@Resources.ScanLicense</div>
-                            <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
-
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
-                                <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
-                            </ul>
-
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade in active" id="home">
-                                    <div id="capture-area">
-                                        <video autoplay class="capture-frame" id="video"></video>
-                                        <canvas id="capture-canvas" class="capture-frame"></canvas>
-                                        <canvas id="big-capture-canvas"></canvas>
-                                        <div id="capture-buttons">
-                                            <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture" onclick="takePhoto()"/>
-                                            <div id="capture-buttons-2">
-                                                <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
-                                                <div id="retake" onclick="retakePhoto()">@Resources.Retake</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="profile">
-                                    <div id="upload-area">
-                                        <div id="upload-buttons">
-                                            <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
-                                                <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
-                                                <span>@Resources.Upload Photo</span>
-                                                <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             }
@@ -522,7 +523,7 @@
     <!--Add Additional Applicant-->
     for (var i = 0; i < 3; i++)
     {
-        <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text>   }>
+        <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text> if (Model.ContractWasDeclined && (Model.AdditionalApplicants[i]?.IsInitialCustomer ?? false)) { <text>class="hidden"</text> }  }>
             <div class="personal-info-section">
                 <div class="dealnet-middle-header owner-info-label">@Resources.AdditionalApplicantInformation<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
                 <input type="hidden" name="AdditionalApplicants.Index" value="@i" />

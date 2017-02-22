@@ -45,6 +45,7 @@ namespace DealnetPortal.Web.Models
         public AddressInformation PreviousAddressInformation { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "HomeOwner")]
         public bool IsHomeOwner { get; set; }
+        public bool? IsInitialCustomer { get; set; }
         public int? ContractId { get; set; }
     }
 
@@ -95,6 +96,7 @@ namespace DealnetPortal.Web.Models
         public List<SubDealer> SubDealers { get; set; }
         public int? ContractId { get; set; }
         public ContractState ContractState { get; set; }
+        public bool ContractWasDeclined { get; set; }
     }
 
     public class ApplicantsViewModel

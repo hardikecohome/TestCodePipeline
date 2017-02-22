@@ -205,6 +205,7 @@ namespace DealnetPortal.Web.Infrastructure
                 }
             }
             basicInfo.ContractState = contract.ContractState;
+            basicInfo.ContractWasDeclined = contract.WasDeclined ?? false;
         }
 
         public void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
