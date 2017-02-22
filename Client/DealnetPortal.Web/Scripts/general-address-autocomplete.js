@@ -33,6 +33,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
             var addressType = place.address_components[i].types[0];
             if (addressType == 'locality') {
                 cityInput.value = place.address_components[i][addressForm[addressType]];
+                $(cityInput).removeClass('pac-placeholder').removeClass('placeholder');
                 break;
             }
         }
@@ -43,6 +44,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
             var addressType = place.address_components[i].types[0];
             if (addressType == 'administrative_area_level_1') {
                 provenceInput.value = place.address_components[i][addressForm[addressType]];
+                $(provenceInput).removeClass('pac-placeholder').removeClass('placeholder');
                 break;
             }
         }
@@ -72,22 +74,27 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
                 }
                 if (addressType == 'locality') {
                     cityInput.value = val;
+                    $(cityInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'administrative_area_level_1') {
                     provenceInput.value = val;
+                    $(provenceInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                     postalCodeInput.value = val.replace(/\s+/g, '');
+                    $(postalCodeInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
             }
         }
         if (street) {
             streetInput.value = street;
+            $(streetInput).removeClass('pac-placeholder').removeClass('placeholder');
         } else {
             streetInput.value = '';
+            $(streetInput).placeholder();
         }
     });
 }

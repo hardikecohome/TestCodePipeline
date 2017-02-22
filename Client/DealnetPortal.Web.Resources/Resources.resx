@@ -1176,4 +1176,10 @@
   <data name="AmortizationTermMustBe3Max" xml:space="preserve">
     <value>Amortization Term must be maximum 3 digits long</value>
   </data>
+  <data name="AdditionalApplicantPreviousAddressInformation" xml:space="preserve">
+    <value>Additional Applicant Previous Address Information</value>
+  </data>
+  <data name="LivedAtCurrentLessThan" xml:space="preserve">
+    <value>Lived at current address less than 6 month</value>
+  </data>
 </root>

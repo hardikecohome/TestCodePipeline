@@ -183,64 +183,69 @@ if (creditCheckError != null)
 					</div>
 				</div>
 			</div>
-			<!--		<div class="col-md-6 grid-column">
-						<div class="dealnet-credit-check-section" id="prev-address-section">
-							<h3 class="dealnet-section-title">@Resources.PreviousAddressInformation <a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">Edit</a></h3>
-							<div class="form-group">
-								<div class="row">
-									<label for="" class="dealnet-field-caption col-xs-6">Street</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											<input type="text" class="dealnet-disabled-input" readonly="readonly" value="Rita Ave">
-										</div>
-									</div>
-								</div>
-							</div>
+		@if (Model.HomeOwner.PreviousAddressInformation != null)
+		{
+		    <div class="col-md-6 grid-column">
+		        <div class="dealnet-credit-check-section" id="prev-address-section">
+		            <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation @*<a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@
+		            </h3>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => Model.HomeOwner.PreviousAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.HomeOwner.PreviousAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => Model.HomeOwner.PreviousAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.HomeOwner.PreviousAddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                </div>
+                            </div>
+                        </div>
 
-							<div class="form-group">
-								<div class="row">
-									<label for="" class="dealnet-field-caption col-xs-6">Unit #</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											<input type="text" class="dealnet-disabled-input" readonly="readonly" value="80">
-										</div>
-									</div>
-								</div>
-							</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => Model.HomeOwner.PreviousAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.HomeOwner.PreviousAddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                </div>
+                            </div>
+                        </div>
 
-							<div class="form-group">
-								<div class="row">
-									<label for="" class="dealnet-field-caption col-xs-6">City</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											<input type="text" class="dealnet-disabled-input" readonly="readonly" value="Ottawa">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<label for="" class="dealnet-field-caption col-xs-6">Province</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											<input type="text" class="dealnet-disabled-input" readonly="readonly" value="Nepean">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<label for="" class="dealnet-field-caption col-xs-6">Postal Code</label>
-									<div class="dealnet-field-holder col-xs-6">
-										<div class="control-group">
-											<input type="text" class="dealnet-disabled-input" readonly="readonly" value="ON K2G 2H1">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>-->
-			@if (Model.HomeOwner.MailingAddressInformation != null)
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => Model.HomeOwner.PreviousAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.HomeOwner.PreviousAddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => Model.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => Model.HomeOwner.PreviousAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+		        </div>
+		    </div>
+		}
+            @if (Model.HomeOwner.MailingAddressInformation != null)
 			{
 
 			<div class="col-md-6 grid-column">
@@ -393,7 +398,68 @@ if (creditCheckError != null)
 			            </div>
 			        </div>
 			    </div>
-			    @if (Model.AdditionalApplicants[i].MailingAddressInformation != null)
+		    @if (Model.AdditionalApplicants[i].PreviousAddressInformation != null)
+		    {
+		        <div class="col-md-6 grid-column">
+		            <div class="dealnet-credit-check-section" id="additional-prev-address-section-@(i + 1)">
+		                <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation @*<a href="#" onclick="copyFormData($('#additional-prev-address-section-@(i + 1)'), $('#additional-prev-address-modal-@(i + 1)'), false); $('#additional-prev-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@
+		                </h3>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder = "St." })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder = "City" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", placeholder = "Province" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => Model.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+		            </div>
+		        </div>
+		    }
+                @if (Model.AdditionalApplicants[i].MailingAddressInformation != null)
 			    {
 			        <div class="col-md-6 grid-column">
 			            <div class="dealnet-credit-check-section" id="additional-address-section-@(i + 1)">
