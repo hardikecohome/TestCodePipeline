@@ -1182,4 +1182,7 @@
   <data name="LivedAtCurrentLessThan" xml:space="preserve">
     <value>Lived at current address less than 6 month</value>
   </data>
+  <data name="YouCantEditBecauseSubmittedYouCanAddAdditional" xml:space="preserve">
+    <value>You can't edit information about borrower and additional applicant because this deal was already submitted. You can add additional applicants</value>
+  </data>
 </root>

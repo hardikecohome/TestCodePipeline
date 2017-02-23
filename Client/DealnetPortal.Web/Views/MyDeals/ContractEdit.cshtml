@@ -18,13 +18,14 @@
 	<div class="form-section">
 		<div class="dealnet-large-header">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
 		<br />
-		<!--Show/hide warning depend on status-deal-submitted-->
-		<div class="well well-info position-well">
-			<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-			You can't edit information about borrower and additional applicant because this deal was already submitted. You can add additional applicants
-		</div>
-		<!--We have to hide edit button for information which has been submitted-->
-
+	    @if (Model.BasicInfo.ContractWasDeclined)
+	    {
+	        <!--Show/hide warning depend on status-deal-submitted-->
+	        <div class="well well-info position-well">
+	            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+	            @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
+	        </div>
+	    }
 		<div class="documents-container">
 			<div class="row">
 				<div class="col-md-6">
@@ -585,7 +586,7 @@
 			    <div class="col-md-6 grid-column">
 			        <div class="dealnet-credit-check-section" id="prev-address-section">
                         <h3 class="dealnet-section-title">
-                            @Resources.PreviousAddressInformation @if (contractState == ContractState.CreditCheckDeclined){ <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();"*@>@Resources.Edit</a> }
+                            @Resources.PreviousAddressInformation
                         </h3>
                         <div class="form-group">
                             <div class="row">
@@ -647,7 +648,7 @@
 		    {
                 <div class="col-md-6 grid-column">
 		            <div class="dealnet-credit-check-section"  id="mailing-address-section">
-		                <h3 class="dealnet-section-title">@Resources.MailingAddress @if(contractState == ContractState.CreditCheckDeclined) { <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();"*@>@Resources.Edit</a> }
+		                <h3 class="dealnet-section-title">@Resources.MailingAddress
 		                </h3>
                         <div class="form-group">
                             <div class="row">
@@ -862,10 +863,7 @@
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional-prev-address-section-@(i + 1)">
                                         <h3 class="dealnet-section-title">
-                                            @Resources.PreviousAddressInformation @if (contractState == ContractState.CreditCheckDeclined)
-                                            {
-                                                <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" @*onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
-                                            }
+                                            @Resources.PreviousAddressInformation
                                         </h3>
                                         <div class="form-group">
                                             <div class="row">
@@ -928,10 +926,7 @@
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                         <h3 class="dealnet-section-title">
-                                        @Resources.MailingAddress @if(contractState == ContractState.CreditCheckDeclined)
-                                                            {
-                                                                <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" @*onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
-                                                            }
+                                        @Resources.MailingAddress
                                         </h3>
                                         <div class="form-group">
                                             <div class="row">
