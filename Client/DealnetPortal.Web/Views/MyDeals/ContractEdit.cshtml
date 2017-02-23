@@ -132,8 +132,8 @@
                             @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1")
                             {
                                 <a href="#" onclick="checkPrintedContract('@Url.Action("CheckContractAgreement", "NewRental", new {@contractId = Model.BasicInfo.ContractId})', '@Url.Action("PrintContract", "NewRental", new {@contractId = Model.BasicInfo.ContractId})');"
-                                   class="dealnet-info-link doc-tab-print-link">
-                                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
+                                   class="dealnet-info-link doc-tab-print-link @if (contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> } ">
+                                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
                                 </a>
 
                                 <div class="well danger-well error-descr collapse" id="print-error-message">
