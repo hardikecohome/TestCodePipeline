@@ -218,11 +218,14 @@ namespace DealnetPortal.Web.Controllers
             }            
         }
 
-        public ActionResult CreditDeclined(int contractId)
+        public async Task<ActionResult> CreditDeclined(int contractId)
         {
+            var contract = (await _contractServiceAgent.GetContract(contractId)).Item1;
             var viewModel = new CreditRejectedViewModel()
             {
-                ContractId = contractId
+                ContractId = contractId,
+                DisableAdditionalButton = TempData["DisableAdditionaApplicantAtDeclined"] != null && (bool)TempData["DisableAdditionaApplicantAtDeclined"] ||
+                  contract != null && contract.SecondaryCustomers?.Count == 3
             };
 
             return View(viewModel);
@@ -346,6 +349,7 @@ namespace DealnetPortal.Web.Controllers
 
             if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
             {
+                TempData["DisableAdditionaApplicantAtDeclined"] = true;
                 return RedirectToAction("CreditDeclined", new { contractId });
             }
             return RedirectToAction("AgreementSubmitSuccess", new { contractId });            

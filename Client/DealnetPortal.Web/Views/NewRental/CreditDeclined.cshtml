@@ -17,10 +17,17 @@
                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</li>
                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-            </ol>*@ 
+            </ol>*@
 
             <div class="button-container bttns-center">
-                @*@Html.ActionLink("Add Additional Applicant", "BasicInfo", new { contractId = Model }, new {@class="btn dealnet-button dealnet-success-button"})*@
+                @if (!Model.DisableAdditionalButton)
+                {
+                    <div class="text-center">
+                        <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button btn-long-text">
+                            <span>@Resources.AddAdditionalApplicant</span>
+                        </a>
+                    </div>
+                }
                 <div class="text-center">
                     <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button btn-long-text">
                         <span>@Resources.CreateAnotherApplicationForThis</span>

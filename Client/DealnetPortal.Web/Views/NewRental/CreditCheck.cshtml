@@ -36,7 +36,7 @@
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("GetCreditCheckRedirection", new {@contractId = Model })',
-                    success: function (json) {
+                    success: function (json) { 
                         window.location = json;
                     },
                     error: function (xhr, status, p3) {
