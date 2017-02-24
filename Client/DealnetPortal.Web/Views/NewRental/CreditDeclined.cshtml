@@ -19,20 +19,16 @@
                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
             </ol>*@
 
-            <div class="button-container bttns-center">
+            <div class="button-container">
                 @if (!Model.DisableAdditionalButton)
                 {
-                    <div class="text-center">
-                        <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button btn-long-text">
+                        <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text">
                             <span>@Resources.AddAdditionalApplicant</span>
                         </a>
-                    </div>
                 }
-                <div class="text-center">
-                    <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button btn-long-text">
+                    <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text">
                         <span>@Resources.CreateAnotherApplicationForThis</span>
                     </a>
-                </div>
             </div>
         </div>    
     </div>
