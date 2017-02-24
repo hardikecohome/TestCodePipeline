@@ -217,7 +217,8 @@ function (settings, data, dataIndex) {
     var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
     var date = Date.parseExact(data[7], "M/d/yyyy");
     var value = parseFloat(data[10].replace(/[\$,]/g, ''));
-    var valueOfDeal = parseFloat($("#deal-value").val());
+    var valueOfDealFrom = parseFloat($("#deal-value-from").val());
+    var valueOfDealTo = parseFloat($("#deal-value-to").val());
     if ((!status || status === data[3]) &&
         (!dateTo || date <= dateTo) &&
         (!dateFrom || date >= dateFrom) &&
@@ -225,7 +226,8 @@ function (settings, data, dataIndex) {
         (!salesRep || salesRep === data[9]) &&
         (!paymentType || paymentType === data[12]) &&
         (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
-        (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {
+        (isNaN(valueOfDealFrom) || !isNaN(value) && value >= valueOfDealFrom) &&
+        (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo)) {
         return true;
     }
     return false;

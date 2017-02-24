@@ -988,11 +988,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deal Value From.
+        /// </summary>
+        public static string DealValueFrom {
+            get {
+                return ResourceManager.GetString("DealValueFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deal Value Starting From.
         /// </summary>
         public static string DealValueStartingFrom {
             get {
                 return ResourceManager.GetString("DealValueStartingFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deal Value To.
+        /// </summary>
+        public static string DealValueTo {
+            get {
+                return ResourceManager.GetString("DealValueTo", resourceCulture);
             }
         }
         

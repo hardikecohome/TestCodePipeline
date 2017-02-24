@@ -1185,4 +1185,10 @@
   <data name="YouCantEditBecauseSubmittedYouCanAddAdditional" xml:space="preserve">
     <value>You can't edit information about borrower and additional applicant because this deal was already submitted. You can add additional applicants</value>
   </data>
+  <data name="DealValueFrom" xml:space="preserve">
+    <value>Deal Value From</value>
+  </data>
+  <data name="DealValueTo" xml:space="preserve">
+    <value>Deal Value To</value>
+  </data>
 </root>
