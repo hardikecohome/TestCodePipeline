@@ -1,29 +1,29 @@
-﻿@using DealnetPortal.Api.Common.Enumeration
+﻿@using DealnetPortal.Web.Common.Enumeration
 @model DealnetPortal.Web.Models.SendEmailsViewModel
 
 <div class="rental-successful-page">
     <div class="row">
         <div class="col-xs-12">
-            <div class="message-header text-center">@(Model.AgreementType == AgreementType.LoanApplication ? "Loan" : "Rental") Agreement submitted successfully!</div>
+            <div class="message-header text-center">@(Model.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental) @Resources.AgreementSubmittedSuccessfully</div>
             <div class="links-container">
                 <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="dealnet-info-link">
-                    See contract details
+                    @Resources.SeeContractDetails
                 </a>
                 @*<a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="dealnet-info-link">*@
                 <a href="#" onclick="checkPrintedContract('@Url.Action("CheckContractAgreement", "NewRental", new {@contractId = Model.ContractId})', '@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})');"
                    class="dealnet-info-link">
-                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>Print the contract
+                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
                 </a>
 
                 <div class="well danger-well error-descr collapse" id="print-error-message">
                     <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                    Cannot get contract agreement for Print
+                    @Resources.CannotGetAgreementForPrint
                 </div>
             </div>
             @if (ViewBag.IsEsignatureEnabled)
             {
                 <div class="sent-contract-section">
-                    <h2 class="dealnet-large-header">Send contract for e-signature</h2>
+                    <h2 class="dealnet-large-header">@Resources.SendContractForEsignature</h2>
                     @using (Html.BeginForm("SummaryAndConfirmation", "NewRental", FormMethod.Post, new {id = "send-mails-form", @class = "clearfix"}))
                     {
                         @Html.HiddenFor(m => m.ContractId)
@@ -33,13 +33,13 @@
                         <div class="well rental-summary-emails well-info">
                             <p class="summary-emails-header">
                                 <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
-                                Please enter emails of applicants below and click Send Emails.
+                                @Resources.PleaseEnterEmailsAndClickSend
                             </p>
-                            <p>Invite(s) for digital signing of the contract will be sent to the following emails</p>
+                            <p>@Resources.InvitesForSigningWillBeSent</p>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="homeOwnerEmail">Home Owner Email</label>
+                                        @Html.LabelFor(m => m.HomeOwnerEmail)
                                         <div class="control-group">
                                             @Html.TextBoxFor(m => m.HomeOwnerEmail, new {@class = "dealnet-input form-control", type = "email"})
                                             @Html.ValidationMessageFor(m => m.HomeOwnerEmail, "", new {@class = "text-danger"})
@@ -52,7 +52,7 @@
                                     {
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="addApplicantEmail@(i)">Additional Applicant #@(i + 1) Email</label>
+                                                <label for="addApplicantEmail@(i)">@Resources.AdditionalApplicant #@(i + 1) @Resources.Email</label>
                                                 <div class="control-group">
                                                     @Html.HiddenFor(m => m.AdditionalApplicantsEmails[i].CustomerId)
                                                     @Html.TextBoxFor(m => m.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
@@ -64,7 +64,7 @@
                                 }
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="homeOwnerEmail">Sales Rep Email</label>
+                                        @Html.LabelFor(m => m.SalesRepEmail)
                                         <div class="control-group">
                                             @Html.TextBoxFor(m => m.SalesRepEmail, new {id = "salesRepEmail", @class = "dealnet-input form-control", type = "email"})
                                             @Html.ValidationMessageFor(m => m.SalesRepEmail, "", new {@class = "text-danger"})
@@ -75,14 +75,14 @@
                                 <div class="col-md-4">
                                     <div class="form-group btn-container">
                                         <button type="button" class="btn dealnet-button dealnet-success-button" id="send-email-button" onclick="submitEmailsAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'));">
-                                            Send Emails
+                                            @Resources.SendEmails
                                         </button>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="sent-email-msg text-center" style="display: none;">
-                                        <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>Invites were sent to emails</h4>
-                                        Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails
+                                        <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>@Resources.InvitesWereSentToEmails</h4>
+                                        @Resources.PlatformIsPreparingCheck
                                     </div>
                                 </div>
                             </div>
@@ -91,21 +91,26 @@
                 </div>
             }
 
-            <div class="message-desc">Thank you, @Model.HomeOwnerFullName, for completing the @(Model.AgreementType == AgreementType.LoanApplication ? "loan" : "rental") agreement.
-            @if (!string.IsNullOrEmpty(Model.HomeOwnerEmail))
-            {
-                @:You will receive an email shortly at <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> containing a copy of the completed agreement.
-            }            
+            <div class="message-desc">@(string.Format(Resources.ThankYouForCompleting, Model.HomeOwnerFullName, Model.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental))
+                @if (!string.IsNullOrEmpty(Model.HomeOwnerEmail))
+                {
+                    @:@Resources.WillReceiveEmailShortly <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> @Resources.ContainingCopyOfAgreement
+                }
             </div>
 
             <div class="text-center">
                 <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button dealnet-success-button wide-button">
-                    Create another application for this home owner
+                    @Resources.CreateAnotherApplicationForThis
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+@section Translations
+{
+    translations['ResendEmails'] = "@Resources.ResendEmails";
+}
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/agreement-submit-success")    

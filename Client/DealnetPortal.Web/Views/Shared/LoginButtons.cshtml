@@ -15,7 +15,7 @@
         }
         else
         {
-            @:Anonymous
+            @Resources.Anonymous
                             }
         <span class="caret"></span>
     </a>
@@ -23,16 +23,16 @@
         @if (User.Identity.IsAuthenticated)
         {
             <li>
-                @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })
+                @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-link" })
             </li>
         }
         else
         {
             <li>
-                @Html.ActionLink("Login", "Login", "Account", null, new { @class = "dealnet-link" })
+                @Html.ActionLink(Resources.Login, "Login", "Account", null, new { @class = "dealnet-link" })
             </li>
             <li>
-                @Html.ActionLink("Register", "Register", "Account", null, new { @class = "dealnet-link" })
+                @Html.ActionLink(Resources.Register, "Register", "Account", null, new { @class = "dealnet-link" })
             </li>
         }
     </ul>

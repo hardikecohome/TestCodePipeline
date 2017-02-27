@@ -2,11 +2,11 @@
             .ready(function () {
                 showTable();
                 assignDatepicker($(".date-control"));
-                $('#deal-status option').each(function () {
+                $('.select-filter option').each(function () {
                     $(this).val($(this).text());
                 });
-                $('<option selected value="">- not selected -</option>').prependTo($('#deal-status'));
-                $('#deal-status').val($('#deal-status > option:first').val());
+                $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+                $('.select-filter').val($('.select-filter > option:first').val());
             });
 
 function assignDatepicker(input) {
@@ -28,34 +28,56 @@ function showTable() {
     $.when($.ajax(itemsUrl, { mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
+            var agrTypeOptions = [];
+            var salesRepOptions = [];
             $.each(data, function (i, e) {
                 if ($.inArray(e["Status"], statusOptions) == -1)
                     if (e["Status"]) {
                         statusOptions.push(e["Status"]);
                     }
+
+                if ($.inArray(e["AgreementType"], agrTypeOptions) == -1)
+                    if (e["AgreementType"]) {
+                        agrTypeOptions.push(e["AgreementType"]);
+                    }
+
+                if ($.inArray(e["SalesRep"], salesRepOptions) == -1)
+                    if (e["SalesRep"]) {
+                        salesRepOptions.push(e["SalesRep"]);
+                    }
             });
             $.each(statusOptions, function (i, e) {
                 $("#deal-status").append($("<option />").val(e).text(e));
+            });
+            $.each(agrTypeOptions, function (i, e) {
+                $("#agreement-type").append($("<option />").val(e).text(e));
+            });
+            $.each(salesRepOptions, function (i, e) {
+                $("#sales-rep").append($("<option />").val(e).text(e));
             });
 
             var table = $('#work-items-table')
                 .DataTable({
                     data: data,
                     oLanguage: {
-                        "sSearch": '<span class="label-caption">Search</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
                         "oPaginate": {
                             "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                             "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
-                        }
+                        },
+                        "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
+                        "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     columns: [
-                        { "data": "TransactionId" },
-                        { "data": "CustomerName" },
-                        { "data": "Status" },
-                        { "data": "Email" },
-                        { "data": "Phone" },
-                        { "data": "Date" },
+                        { "data": "TransactionId", className: 'contract-cell' },
+                        { "data": "CustomerName", className: 'customer-cell' },
+                        { "data": "Status", className: 'status-cell' },
+                        { "data": "AgreementType", className: 'type-cell' },
+                        { "data": "Email", className: 'email-cell' },
+                        { "data": "Phone", className: 'phone-cell' },
+                        { "data": "Date", className: 'date-cell' },
                         { "data": "Equipment" },
+                        { "data": "SalesRep", className:"sales-rep-cell" },
                         { "data": "Value" },
                         {
                             "data": "RemainingDescription",
@@ -65,23 +87,20 @@ function showTable() {
                             // this is Actions Column
                             "render": function (sdata, type, row) {
                                 if (row.Id != 0) {
-                                    return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="Edit"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                                    return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                                 } else {
                                     return '';
                                 }
-                            }
+                            },
+                            className: 'edit-cell',
+                            orderable: false
                         },
                         {
                             "data": "Id",
                             "visible": false
                         }
                     ],
-                    columnDefs: [
-                      { targets  : [-1], orderable: false},
-                      { className: 'customer-cell', targets: 1},
-                      { className: 'id-cell', targets: 9},
-                      { className: 'edit-cell', targets: -1}
-                    ],
+
                     dom:
                         "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                             "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
@@ -95,7 +114,7 @@ function showTable() {
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
-            $('#table-title').html('<div class="dealnet-large-header">My Work Items <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+            $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
                 $(this).toggleClass('active');
                 $('#work-items-table_filter').slideToggle();
@@ -105,7 +124,7 @@ function showTable() {
                 $('#expand-table-filter').slideToggle();
             });
             $('#expand-table-filter').html($('.expand-filter-template').detach());
-            $("#filter-button").click(function () {
+            $('.filter-button').click(function () {
                 table.draw();
             });
 
@@ -113,16 +132,26 @@ function showTable() {
               redrawDataTablesSvgIcons();
               resetDataTablesExpandedRows(table);
             });
+            $('#clear-filters').click(function () {
+                $('.filter-input').val("");
+                table.search('').draw();
+            });
         });
 };
 
 $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var status = $("#deal-status").val();
+        var agreementType = $("#agreement-type").val();
+        var salesRep = $("#sales-rep").val();
         var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var valueEntered = Date.parseExact(data[5], "M/d/yyyy");
-        if ((!status || status === data[2]) && (!dateTo || valueEntered <= dateTo) && (!dateFrom || valueEntered >= dateFrom)) {
+        var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
+        if ((!status || status === data[2]) &&
+            (!agreementType || agreementType === data[3]) &&
+            (!salesRep || salesRep === data[8]) &&
+            (!dateTo || valueEntered <= dateTo) &&
+            (!dateFrom || valueEntered >= dateFrom)) {
             return true;
         }
         return false;

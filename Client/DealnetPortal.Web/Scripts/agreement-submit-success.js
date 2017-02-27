@@ -4,7 +4,7 @@
         return;
     };
     $('.sent-email-msg').show();
-    $("#send-email-button").text('Resend Emails');
+    $("#send-email-button").text(translations['ResendEmails']);
     form.ajaxSubmit({
         type: "POST",
         url: url,

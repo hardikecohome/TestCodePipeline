@@ -10,10 +10,10 @@ namespace DealnetPortal.Web.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Installed Equipment Model")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "InstalledEquipmentModel")]
         public string Model { get; set; }
 
-        [Display(Name = "Installed Equipment Serial Number")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "InstalledEquipmentSerialNumber")]
         public string SerialNumber { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Web.Common
+﻿@using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Web.Common
 @using DealnetPortal.Web.Infrastructure
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,7 @@
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
     @RenderSection("Styles", false)
-    @switch (ApplicationSettingsManager.PortalType)
+    @*@switch (ApplicationSettingsManager.PortalType)
     {
         case PortalType.Ecohome:
         default:
@@ -23,12 +24,17 @@
             @Styles.Render("~/Content/less/main-dealer.less")
             <link rel="shortcut icon" href="~/favicon-dealer.ico?=1" type="image/x-icon" />
             break;
-    }
+    }*@
     <script type="text/javascript">
         //Next two lines for IE (God Damn It! What is that shit made of?!)
         if (!window.console) window.console = {};
         if (!window.console.log) window.console.log = function () { };
         var urlContent = "@Url.Content("~/")";
+        var translations = {};
+        translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
+        translations['NavigateToStep'] = "@Resources.NavigateToStep";
+        translations['GoToStep'] = "@Resources.GoToStep";
+        @RenderSection("Translations", false)
     </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
@@ -51,6 +57,7 @@
             break;
     }
 }
+
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
     <div class="container-fluid">
         <div class="row">
@@ -73,6 +80,52 @@
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
                             </div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                            <div class="lang-switcher pull-right">
+                                <div class="chosen-language">
+                                    <div class="lang-item">
+                                        @switch (CultureHelper.CurrentCultureType)
+                                        {
+                                            case CultureType.English:
+                                                @:<span class="flag-icon english-flag"></span>
+                                                    break;
+                                            case CultureType.French:
+                                                @:<span class="flag-icon french-flag"></span>
+                                                    break;
+                                        }
+                                        <a href="#" class="chosen-language-link">
+                                            @switch (CultureHelper.CurrentCultureType)
+                                            {
+                                                case CultureType.English:
+                                                    @:English
+                                                    break;
+                                                case CultureType.French:
+                                                    @:Français
+                                                    break;
+                                            }
+                                            <span class="caret"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <ul class="lang-list">
+                                    @if (CultureHelper.CurrentCultureType != CultureType.English)
+                                    {
+                                        <li class="lang-item active">
+                                            <span class="flag-icon english-flag"></span>
+                                            @Html.ActionLink("English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
+                                        </li>
+                                    }
+                                    @if (CultureHelper.CurrentCultureType != CultureType.French)
+                                    {
+                                        <li class="lang-item">
+                                            <span class="flag-icon  french-flag"></span>
+                                            @Html.ActionLink("Français", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            }
                         </div>
                     </div>
                 </nav>
@@ -109,37 +162,60 @@
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Home page", "Index", "Home", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.HomePage, "Index", "Home", null, new { @class = "dealnet-link" })</div>
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-newrental">
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental-side")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("New Application", "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })</div>
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("My Deals", "Index", "MyDeals", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-link" })</div>
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-reports">
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-reports-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-side")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.Reports, "Index", "Reports", null, new { @class = "dealnet-link" })</div>
+                        </li>
+                        <li class="dealnet-sidebar-item" id="sidebar-item-calculator">
+                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
+                                <svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg>
+                            </div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new { @class = "dealnet-link" })</div>
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-about">
                             <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
                                 <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
                             </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink("About us", "About", "Home", null, new { @class = "dealnet-link" })</div>
+                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.AboutUs, "About", "Home", null, new {@class = "dealnet-link"})</div>
                         </li>
                     </ul>
 
+
                     <div class="dealnet-sidebar-logout">
                         <div class="dealnet-sidebar-item">
-                            @Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "dealnet-link" })
+                            <div class="sidebar-lang-item">
+                                @switch (CultureHelper.CurrentCultureType)
+                                {
+                                    case CultureType.English:
+                                        @:<span class="flag-icon french-flag"></span>
+                                        @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-link" })
+                                                    break;
+                                    case CultureType.French:
+                                        @:<span class="flag-icon english-flag"></span>
+                                        @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "dealnet-link" })
+                                                    break;
+                                }
+                                
+                            </div>
+                        </div>
+                        <div class="dealnet-sidebar-item">
+                            @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-link" })                            
                         </div>
                     </div>
                 </div>
@@ -167,8 +243,8 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">Yes</button>
-                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
+                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
                 </div>
             </div>
         </div>

@@ -10,6 +10,28 @@ $(document).ready(function () {
     assignDatepicker($("#additional-birth-date-1"));
     assignDatepicker($("#additional-birth-date-2"));
     assignDatepicker($("#additional-birth-date-3"));
+    $('.check-age').change(function () {
+        var atLeastOneValid = checkApplicantsAge();
+        if (atLeastOneValid) {
+            $('#age-warning-message').hide();
+            $('#age-error-message').hide();
+        } else {
+            $('#age-error-message').hide();
+            $('#age-warning-message').show();
+        }
+    });
+    $('.check-homeowner').change(function () {
+        var atLeastOneValid = false;
+        $('.check-homeowner').each(function () {
+            if ($(this).prop('checked')) {
+                atLeastOneValid = true;
+                return false;
+            }
+        });
+        if (atLeastOneValid) {
+            $("#proceed-homeowner-errormessage").hide();
+        }
+    });
     $.validator.addMethod(
         "date",
         function (value, element) {
@@ -17,21 +39,21 @@ $(document).ready(function () {
             var maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
             var valueEntered = Date.parseExact(value, "M/d/yyyy");
             if (!valueEntered) {
-                $.validator.messages.date = "The date must be in correct format";
+                $.validator.messages.date = translations['TheDateMustBeInCorrectFormat'];
                 return false;
             }
             if (valueEntered < minDate) {
-                $.validator.messages.date = "The date must be over 1900 year";
+                $.validator.messages.date = translations['TheDateMustBeOver1900'];
                 return false;
             }
             if (valueEntered > maxDate) {
-                $.validator.messages.date = "The applicant needs to be over 18 years old";
+                $.validator.messages.date = translations['TheApplicantNeedsToBeOver18'];
                 return false;
             }
             return true;
         },
-        "Please enter a valid date!"
-    );
+        translations['EnterValidDate']
+    );    
 
     addAdditionalButton = $("#add-additional-applicant");
     aditional1Section = $("#additional1-section");
@@ -52,19 +74,21 @@ $(document).ready(function () {
     } else {
         hideAditional3Section();
     }
-    mailingAddress = $("#mailing-adress");
-    mailingAddressCheckbox = $("#mailing-adress-checkbox");
-    if (!mailingAddressCheckbox.is(":checked")) {
-        mailingAddress.hide();
-    } else {
-        enableMailingAddress();
-    }
-    mailingAddressCheckbox.click(function () {
-        if ($(this).is(":checked")) {
-            enableMailingAddress();
+    $('.address-checkbox').each(function() {
+        var checkBox = $(this);
+        var correspondingSection = $('#' + checkBox.data('section'));
+        if (!checkBox.is(":checked")) {
+            disableMailingAddress(correspondingSection);
         } else {
-            disableMailingAddress();
+            enableMailingAddress(correspondingSection);
         }
+        checkBox.click(function () {
+            if ($(this).is(":checked")) {
+                enableMailingAddress(correspondingSection);
+            } else {
+                disableMailingAddress(correspondingSection);
+            }
+        });
     });
     $(".clear-address").on('click', function () {
         var addressInfo2 = $(this).parent().closest('.address-info2');
@@ -101,37 +125,13 @@ $(document).ready(function () {
         modal.setAttribute('data-pcToFill', "postal_code");
     });
     $("#additional1-scan-button").click(function () {
-        var modal = document.getElementById('camera-modal');
-        modal.setAttribute('data-fnToFill', 'additional-first-name-1');
-        modal.setAttribute('data-lnToFill', 'additional-last-name-1');
-        modal.setAttribute('data-bdToFill', 'additional-birth-date-1');
-        modal.setAttribute('data-dlToFill', 'additional-dl-number-1');
-        modal.setAttribute('data-stToFill', 'additional-street-1');
-        modal.setAttribute('data-ctToFill', 'additional-locality-1');
-        modal.setAttribute('data-prToFill', "additional-administrative_area_level_1-1");
-        modal.setAttribute('data-pcToFill', "additional-postal_code-1");
+        setDataAttrInModal(1);
     });
     $("#additional2-scan-button").click(function () {
-        var modal = document.getElementById('camera-modal');
-        modal.setAttribute('data-fnToFill', 'additional-first-name-2');
-        modal.setAttribute('data-lnToFill', 'additional-last-name-2');
-        modal.setAttribute('data-bdToFill', 'additional-birth-date-2');
-        modal.setAttribute('data-dlToFill', 'additional-dl-number-2');
-        modal.setAttribute('data-stToFill', 'additional-street-2');
-        modal.setAttribute('data-ctToFill', 'additional-locality-2');
-        modal.setAttribute('data-prToFill', "additional-administrative_area_level_1-2");
-        modal.setAttribute('data-pcToFill', "additional-postal_code-2");
+        setDataAttrInModal(2);
     });
     $("#additional3-scan-button").click(function () {
-        var modal = document.getElementById('camera-modal');
-        modal.setAttribute('data-fnToFill', 'additional-first-name-3');
-        modal.setAttribute('data-lnToFill', 'additional-last-name-3');
-        modal.setAttribute('data-bdToFill', 'additional-birth-date-3');
-        modal.setAttribute('data-dlToFill', 'additional-dl-number-3');
-        modal.setAttribute('data-stToFill', 'additional-street-3');
-        modal.setAttribute('data-ctToFill', 'additional-locality-3');
-        modal.setAttribute('data-prToFill', "additional-administrative_area_level_1-3");
-        modal.setAttribute('data-pcToFill', "additional-postal_code-3");
+        setDataAttrInModal(3);
     });
     $("#add-additional-applicant").click(function () {
         if (!aditional1Section.is(':visible')) {
@@ -151,11 +151,41 @@ $(document).ready(function () {
     $("#additional3-remove").click(function () {
         hideAditional3Section();
     });
+
+    $("#save-and-proceed-button").click(function (event) {
+        var isApprovalAge = checkApplicantsAge();
+        var isHomeOwner = checkHomeOwner();
+        if (!isApprovalAge) {
+            $('#age-warning-message').hide();
+            $('#age-error-message').show();
+            scrollPageTo($('#age-error-message'));
+        }
+        if (!isHomeOwner) {
+            $("#proceed-homeowner-errormessage").show();
+            scrollPageTo($("#borrower-is-homeowner"));
+        }
+        if (!isHomeOwner || !isApprovalAge) {
+            if ($('#main-form').valid()) {
+                event.preventDefault();
+            }
+        }
+    });
 });
+function setDataAttrInModal (index) {
+    var modal = document.getElementById('camera-modal');
+    modal.setAttribute('data-fnToFill', 'additional-first-name-' + index);
+    modal.setAttribute('data-lnToFill', 'additional-last-name-' + index);
+    modal.setAttribute('data-bdToFill', 'additional-birth-date-' + index);
+    modal.setAttribute('data-dlToFill', 'additional-dl-number-' + index);
+    modal.setAttribute('data-stToFill', 'additional-street-' + index);
+    modal.setAttribute('data-ctToFill', 'additional-locality-' + index);
+    modal.setAttribute('data-prToFill', 'additional-administrative_area_level_1-' + index);
+    modal.setAttribute('data-pcToFill', 'additional-postal_code-' + index);
+}
 function hideAditional1Section() {
     aditional1Section.hide();
     //Needed for validation
-    aditional1Section.find('input, select').each(function() {
+    aditional1Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     addAdditionalButton.show();
@@ -163,7 +193,7 @@ function hideAditional1Section() {
 function hideAditional2Section() {
     aditional2Section.hide();
     //Needed for validation
-    aditional2Section.find('input, select').each(function () {
+    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     addAdditionalButton.show();
@@ -171,30 +201,26 @@ function hideAditional2Section() {
 function hideAditional3Section() {
     aditional3Section.hide();
     //Needed for validation
-    aditional3Section.find('input, select').each(function () {
+    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     addAdditionalButton.show();
 }
-function enableMailingAddress() {
-    $("#mailing_street").prop("disabled", false);
-    $("#mailing_unit_number").prop("disabled", false);
-    $("#mailing_locality").prop("disabled", false);
-    $("#mailing_administrative_area_level_1").prop("disabled", false);
-    $("#mailing_postal_code").prop("disabled", false);
-    mailingAddress.show(300);
+function enableMailingAddress(section) {
+    section.find('input, select').each(function () {
+        $(this).prop("disabled", false);
+    });
+    section.slideDown();
 }
-function disableMailingAddress() {
-    mailingAddress.hide(200);
-    $("#mailing_street").prop("disabled", true);
-    $("#mailing_unit_number").prop("disabled", true);
-    $("#mailing_locality").prop("disabled", true);
-    $("#mailing_administrative_area_level_1").prop("disabled", true);
-    $("#mailing_postal_code").prop("disabled", true);
+function disableMailingAddress(section) {
+    section.slideUp();
+    section.find('input, select').each(function () {
+        $(this).prop("disabled", true);
+    });
 }
 function showAditional1Section() {
     aditional1Section.show();
-    aditional1Section.find('input, select').each(function () {
+    aditional1Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
@@ -203,7 +229,7 @@ function showAditional1Section() {
 }
 function showAditional2Section() {
     aditional2Section.show();
-    aditional2Section.find('input, select').each(function () {
+    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
@@ -212,7 +238,7 @@ function showAditional2Section() {
 }
 function showAditional3Section() {
     aditional3Section.show();
-    aditional3Section.find('input, select').each(function () {
+    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     addAdditionalButton.hide();

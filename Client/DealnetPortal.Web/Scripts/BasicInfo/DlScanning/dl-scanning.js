@@ -1,6 +1,6 @@
 ﻿function uploadCaptured(uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
-    showLoader('Processing image...');
+    showLoader(translations['ProcessingImage']);
     $.ajax({
         type: "POST",
         url: uploadUrl,
@@ -10,14 +10,16 @@
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("Can't recognize driver license");
+                alert(translations['CannotRecognizeDriverLicense']);
             } else {
                 var modal = document.getElementById('camera-modal');
                 document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
                 document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                 var date = new Date(json.DateOfBirthStr);
                 date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
+                var dateInput = $("#" + modal.getAttribute('data-bdToFill'));
+                dateInput.datepicker("setDate", date);
+                dateInput.change();
                 document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
                 document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
                 document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;
@@ -52,16 +54,16 @@ function submitUpload(sender, uploadUrl) {
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize driver license");
+                        alert(translations['CannotRecognizeDriverLicense']);
                     } else {
                         var modal = document.getElementById('camera-modal');
                         document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
                         document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                        //date = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
-                        //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
-                        $("#" + modal.getAttribute('data-bdToFill')).datepicker("setDate", date);
+                        var dateInput = $("#" + modal.getAttribute('data-bdToFill'));
+                        dateInput.datepicker("setDate", date);
+                        dateInput.change();
                         document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
                         document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;
@@ -77,7 +79,7 @@ function submitUpload(sender, uploadUrl) {
             });
             $("#upload-file").val("");
         } else {
-            alert("Browser doesn't support HTML5 file upload!");
+            alert(translations['BrowserNotSupportFileUpload']);
         }
     }
 }

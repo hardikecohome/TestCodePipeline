@@ -673,7 +673,18 @@ namespace DealnetPortal.Api.Integration.Services
                         formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MailingAddress, Value =
                             $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}" });                        
                     }
-                }
+                    if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
+                    {
+                        formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner, Value = "true" });
+                        formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = $"{PdfFormFields.IsHomeOwner}_2", Value = "true"});
+                    }
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CustomerName,
+                        Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
+                    });
+               }
             }
 
             if (contract.PrimaryCustomer?.Emails?.Any() ?? false)
@@ -749,6 +760,20 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.CellPhone2, Value = cellPhone.PhoneNum });
                 }
+
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.CustomerName2,
+                    Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                });
+
+                if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsHomeOwner2, Value = "true" });
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = $"{PdfFormFields.IsHomeOwner2}_2", Value = "true" });
+                }
+
             }
         }
 
@@ -762,7 +787,7 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString() });
-                //formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.MonthlyPayment, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.EquipmentCost}_2", Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString()});
 
                 var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)
@@ -964,17 +989,18 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
-                if (contract.Equipment.NewEquipment.First().EstimatedInstallationDate.HasValue)
+                // support old contracts with EstimatedInstallationDate in Equipment
+                if (contract.Equipment.EstimatedInstallationDate.HasValue || 
+                    ((contract.Equipment.NewEquipment?.First()?.EstimatedInstallationDate.HasValue) ?? false))
                 {
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.InstallDate,
-                        Value =
-                            contract.Equipment.NewEquipment.First().EstimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                        Value = contract.Equipment.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) ?? contract.Equipment.NewEquipment.First().EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                     });
                 }
-            }
+            }           
             if (contract.Equipment != null)
             {
                 var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id, ownerUserId);
@@ -1030,12 +1056,46 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Ean}{ch}", Value = $"{ean[ch-1]}" });
                         }                        
-                    }
+                    }                    
                 }
                 else
                 {
                     formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsPAD, Value = "true" });
-                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? PdfFormFields.IsPAD1 : PdfFormFields.IsPAD15, Value = "true" });                    
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? PdfFormFields.IsPAD1 : PdfFormFields.IsPAD15, Value = "true" });
+
+                    if (!string.IsNullOrEmpty(contract.PaymentInfo.BlankNumber))
+                    {
+                        var bn = contract.PaymentInfo.BlankNumber.Replace(" ", "");
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.BankNumber, Value = bn });
+                        for (int ch = 1;
+                            ch <= Math.Min(bn.Length, 3);
+                            ch++)
+                        {
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Bn}{ch}", Value = $"{bn[ch - 1]}" });
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(contract.PaymentInfo.TransitNumber))
+                    {
+                        var tn = contract.PaymentInfo.TransitNumber.Replace(" ", "");
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.TransitNumber, Value = tn });
+                        for (int ch = 1;
+                            ch <= Math.Min(tn.Length, 5);
+                            ch++)
+                        {
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.Tn}{ch}", Value = $"{tn[ch - 1]}" });
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(contract.PaymentInfo.AccountNumber))
+                    {
+                        var an = contract.PaymentInfo.AccountNumber.Replace(" ", "");
+                        formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.AccountNumber, Value = an });
+                        for (int ch = 1;
+                            ch <= Math.Min(an.Length, 12);
+                            ch++)
+                        {
+                            formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.An}{ch}", Value = $"{an[ch - 1]}" });
+                        }
+                    }
                 }                
             }        
         }
@@ -1099,24 +1159,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
         private void FillInstallCertificateFields(List<FormField> formFields, Contract contract)
-        {
-            formFields.Add(new FormField()
-            {
-                FieldType = FieldType.Text,
-                Name = PdfFormFields.CustomerName,
-                Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
-            });
-
-            if (contract.SecondaryCustomers?.Any() ?? false)
-            {
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.CustomerName2,
-                    Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
-                });
-            }
-
+        {            
             formFields.Add(new FormField()
             {
                 FieldType = FieldType.Text,

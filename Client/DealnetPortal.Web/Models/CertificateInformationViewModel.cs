@@ -12,17 +12,17 @@ namespace DealnetPortal.Web.Models
 
         public List<CertificateEquipmentInfoViewModel> Equipments { get; set; }
 
-        [Display(Name = "Installer First Name")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "InstallerFirstName")]
         [StringLength(20, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "First Name is in incorrect format")]
         public string InstallerFirstName { get; set; }
 
-        [Display(Name = "Installer Last Name")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "InstallerLastName")]
         [StringLength(20, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "Last Name is in incorrect format")]
         public string InstallerLastName { get; set; }
 
-        [Display(Name = "Installation Date")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "InstallationDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? InstallationDate { get; set; }

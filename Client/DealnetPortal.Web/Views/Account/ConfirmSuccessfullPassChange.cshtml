@@ -3,10 +3,10 @@
 		<div class="align-middle registration-success-header">
 			<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
 			<div>
-				Great work!<br> Your password was successfully changed.<br class="br-t-min" /> Now you can log in with your new password.
+				@Resources.GreatWork<br> @Resources.PasswordWasChanged<br class="br-t-min" /> @Resources.NowYouCanLogIn
 			</div>
 
-			@Html.ActionLink("Go to app", "Login", "Account", null, new { @class = "btn dealnet-button dealnet-success-button" })
+			@Html.ActionLink(Resources.GoToApp, "Login", "Account", null, new { @class = "btn dealnet-button dealnet-success-button" })
 
 		</div>
 	</div>

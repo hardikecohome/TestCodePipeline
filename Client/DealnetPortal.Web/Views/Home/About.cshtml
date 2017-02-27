@@ -1,7 +1,7 @@
 ﻿@using DealnetPortal.Web.Common
 @using DealnetPortal.Web.Infrastructure
 @{
-    ViewBag.Title = "About us";
+    ViewBag.Title = Resources.AboutUs;
 }
 @switch (ApplicationSettingsManager.PortalType)
 {
@@ -11,12 +11,12 @@
             <div class="page-section promo-section">
                 <h2 class="dealnet-large-header">@ViewBag.Title</h2>
                 <!--<h3>@ViewBag.Message</h3>-->
-                <p>EcoHome Financial is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house.</p>
-                <p>We partner with leading dealers and manufacturers to deliver what is needed to succeed in today’s competitive arena – hassle free finance programs for dealers and their customers.</p>
-                <p>Give your customers the ability to purchase now, and the ability to purchase more. We deliver what you need to succeed.</p>
+                <p>@Resources.EcoHomeAbout1</p>
+                <p>@Resources.EcoHomeAbout2</p>
+                <p>@Resources.EcoHomeAbout3</p>
             </div>
             <div class="page-section">
-                <h2 class="dealnet-large-header">Contact us</h2>
+                <h2 class="dealnet-large-header">@Resources.ContactUs</h2>
                 <ul class="contact-info-list">
                     <li class="contact-tel">
                         <a href="tel:+1-866-382-7468" class="tel" rel="nofollow"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>1-866-382-7468</a>
@@ -26,7 +26,7 @@
                 </ul>
             </div>
             <div class="page-section">
-                <h2 class="dealnet-large-header">Find us</h2>
+                <h2 class="dealnet-large-header">@Resources.FindUs</h2>
                 <div class="vcard">
                     <div class="hidden"><span class="fn org">EcoHome</span></div>
                     <div class="adr">
@@ -41,7 +41,7 @@
     case PortalType.Odi:
         <div class="about-page">
             <div class="page-section">
-                <h2 class="dealnet-large-header">Find us</h2>
+                <h2 class="dealnet-large-header">@Resources.FindUs</h2>
                 <div class="vcard">
                     <div class="hidden"><span class="fn org">One Dealer Financial</span></div>
                     <div class="adr">
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="page-section">
-                <h2 class="dealnet-large-header">Contact us</h2>
+                <h2 class="dealnet-large-header">@Resources.ContactUs</h2>
                 <ul class="contact-info-list">
                     <li class="contact-tel">
                         <a href="tel:+1-888-859-0204" class="tel" rel="nofollow"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>888-859-0204</a>

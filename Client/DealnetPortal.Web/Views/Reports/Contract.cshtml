@@ -1,19 +1,25 @@
 @using System
 @using System.Globalization
 @using System.Linq
-@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Web.Common.Enumeration
 @model DealnetPortal.Web.Models.ContractViewModel
 <div id="label-steps">
-	@Html.ActionLink("Reports", "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  &gt;
+	@Html.ActionLink(Resources.Reports, "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  &gt;
 </div>
 
 <div class="form-container">
 	<div class="form-section">
-		<div class="dealnet-large-header">Report for contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
+		<div class="dealnet-large-header">@Resources.ReportForContract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
         <br />
         <div class="documents-container">
-            <h3 class="dealnet-section-title">Funding Checklist</h3>
+	        <div class="row">
+		        <div class="col-md-6">
+			        <h3 class="dealnet-section-title">@Resources.FundingChecklist
+				        <span class="mandatory-title"><i class="mandatory-icon">*</i> &mdash; @Resources.MandatoryDocuments</span>
+			        </h3>
+		        </div>
+	        </div>
             <div class="tabs tabs-vertical row responsive-tabs">
                 <div class="col-md-6">
                     <ul class="nav nav-pills nav-stacked documents-pills">
@@ -24,11 +30,15 @@
                                 <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
                                     @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                     {
-                                        <text>Other Documents</text>
+                                        <text>@Resources.OtherDocuments</text>
                                     }
                                     else
                                     {
-                                        @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+		                                @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+		                                if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+		                                {
+		                                <i class="mandatory-icon">*</i>
+		                                }
                                     }
                                 </a>
                             </li>
@@ -43,12 +53,16 @@
                             {
                                 continue;
                             }
-                            var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
-                            <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item tab-container-@(i + 1)">
-                                <a href="#tab@(i + 1)" class="documents-pills-link" role="tab" data-toggle="tab">
-                                    @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
-                                </a>
-                            </div>
+		                    var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+		                    <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
+		                    <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
+			                    @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+			                    @if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+			                    {
+			                    <i class="mandatory-icon">*</i>
+			                    }
+		                    </a>
+	                    </div>
                             <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
                                 <h3 class="document-pane-header">
                                     @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
@@ -67,12 +81,12 @@
 
                         <div class="@(Model.UploadDocumentsInfo.ExistingDocuments.Any(x => x.DocumentTypeId == 7) ? "uploaded" : "") documents-pills-item">
                             <a href="#tab7" class="documents-pills-link" aria-controls="tab7" role="tab" data-toggle="tab">
-                                Other Documents
+                                @Resources.OtherDocuments
                             </a>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="tab7">
                             <h3 class="document-pane-header">
-                                Other Documents
+                                @Resources.OtherDocuments
                             </h3>
                             <div class="documents-list" id="other-documents-list">
                                 @foreach (var document in Model.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
@@ -97,10 +111,10 @@
             <div class="row credit-check-info-hold">
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
-                        <div class="dealnet-section-title">Sub-Dealer</div>
+                        <div class="dealnet-section-title">@Resources.SubDealer</div>
                         <div class="form-group">
                             <div class="row">
-                                <label for="" class="dealnet-field-caption col-xs-6">Dealer Name</label>
+                                <label for="" class="dealnet-field-caption col-xs-6">@Resources.DealerName</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
@@ -112,13 +126,13 @@
                 </div>
             </div>
         }
-		<h3 class="dealnet-section-title">Deal Information</h3>
+		<h3 class="dealnet-section-title">@Resources.DealInformation</h3>
         <div class="row credit-check-info-hold no-top-margin">
 			<div class="col-md-6 col-md-push-6 grid-column">
 				<div class="dealnet-credit-check-section">
                     <div class="form-group">
                         <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">TOTAL VALUE</label>
+                            <label class="dealnet-field-caption col-xs-6">@Resources.TotalValue</label>
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
                                     $ @($"{Model.EquipmentInfo?.ValueOfDeal:0.00}")
@@ -130,7 +144,7 @@
 				    {
 				        <div class="form-group">
 				            <div class="row">
-				                <label class="dealnet-field-caption col-xs-6">Loan Term</label>
+				                @Html.LabelFor(m => m.EquipmentInfo.LoanTerm, new { @class = "dealnet-field-caption col-xs-6" })
 				                <div class="dealnet-field-holder col-xs-6">
 				                    <div class="control-group">
 				                        @(Model.EquipmentInfo?.LoanTerm)
@@ -140,7 +154,7 @@
 				        </div>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Deferral Type</label>
+                                @Html.LabelFor(m => m.EquipmentInfo.LoanDeferralType, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.EquipmentInfo?.LoanDeferralType.GetEnumDescription())
@@ -153,7 +167,7 @@
                     {
 				        <div class="form-group">
 				            <div class="row">
-				                <label class="dealnet-field-caption col-xs-6">Requested Term</label>
+				                @Html.LabelFor(m => m.EquipmentInfo.RequestedTerm, new { @class = "dealnet-field-caption col-xs-6" })
 				                <div class="dealnet-field-holder col-xs-6">
 				                    <div class="control-group">
 				                        @(Model.EquipmentInfo?.RequestedTerm)
@@ -163,7 +177,7 @@
 				        </div>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Deferral Type</label>
+                                @Html.LabelFor(m => m.EquipmentInfo.RentalDeferralType, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.EquipmentInfo?.RentalDeferralType.GetEnumDescription())
@@ -174,7 +188,7 @@
                     }
                     <div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Sales Rep</label>
+                            @Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.EquipmentInfo?.SalesRep)
@@ -188,7 +202,7 @@
 				<div class="dealnet-credit-check-section">
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Status</label>
+							@Html.LabelFor(m => m.AdditionalInfo.Status, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.AdditionalInfo?.Status)
@@ -198,7 +212,7 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Type</label>
+							@Html.LabelFor(m => m.EquipmentInfo.AgreementType, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.EquipmentInfo?.AgreementType.GetEnumDescription())
@@ -208,7 +222,7 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Date</label>
+							@Html.LabelFor(m => m.AdditionalInfo.LastUpdateTime, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.AdditionalInfo?.LastUpdateTime?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -218,7 +232,7 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Type of Equipment</label>
+							<label class="dealnet-field-caption col-xs-6">@Resources.TypeOfEquipment</label>
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
@@ -235,20 +249,78 @@
 		<div class="row credit-check-info-hold">
 			<div class="col-md-6 grid-column">
 				<div class="dealnet-credit-check-section">
-					<h3 class="dealnet-section-title">Home Owner Information</h3>
+					<h3 class="dealnet-section-title">@Resources.InstallationAddressInformation</h3>
+					<div class="form-group">
+					    <div class="row">
+					        @Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+					        <div class="dealnet-field-holder col-xs-6">
+					            <div class="control-group">
+					                @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+					            </div>
+					        </div>
+					    </div>
+					</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">First Name</label>
+							@Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
-									@(Model.BasicInfo?.HomeOwner?.FirstName)
+									@(Model.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<label class="dealnet-field-caption col-xs-6">Last Name</label>
+							@Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									@(Model.BasicInfo?.HomeOwner?.AddressInformation?.City)
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							@Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									@(Model.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							@Html.LabelFor(m => m.BasicInfo.HomeOwner.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									<span class="postal-code">@(Model.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row credit-check-info-hold">
+			<div class="col-md-6 grid-column">
+				<div class="dealnet-credit-check-section">
+					<h3 class="dealnet-section-title">@Resources.BorrowerInformation</h3>
+					<div class="form-group">
+					    <div class="row">
+					        @Html.LabelFor(m => m.BasicInfo.HomeOwner.FirstName, new { @class = "dealnet-field-caption col-xs-6" })
+					        <div class="dealnet-field-holder col-xs-6">
+					            <div class="control-group">
+					                @(Model.BasicInfo?.HomeOwner?.FirstName)
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							@Html.LabelFor(m => m.BasicInfo.HomeOwner.LastName, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
 								<div class="control-group">
 									@(Model.BasicInfo?.HomeOwner?.LastName)
@@ -258,7 +330,7 @@
 					</div>
 				    <div class="form-group">
 				        <div class="row">
-				            <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
+				            @Html.LabelFor(m => m.BasicInfo.HomeOwner.BirthDate, new { @class = "dealnet-field-caption col-xs-6" })
 				            <div class="dealnet-field-holder col-xs-6">
 				                <div class="control-group">
 				                    @(Model.BasicInfo?.HomeOwner?.BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -268,7 +340,7 @@
 				    </div>
                     <div class="form-group">
                         <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
+                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
                                     @(Model.BasicInfo?.HomeOwner?.DriverLicenseNumber)
@@ -276,81 +348,86 @@
                             </div>
                         </div>
                     </div>
+
+					<div class="form-group">
+						<div class="row">
+							@Html.LabelFor(m => m.BasicInfo.HomeOwner.IsHomeOwner, new { @class = "dealnet-field-caption col-xs-6" })
+							<div class="dealnet-field-holder col-xs-6">
+								<div class="control-group">
+									@Html.HiddenFor(m => m.BasicInfo.HomeOwner.IsHomeOwner)
+                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.HomeOwner.IsHomeOwner ? Resources.Yes : Resources.No )>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-            <div class="col-md-6 grid-column">
-                <div class="dealnet-credit-check-section">
-                    <h3 class="dealnet-section-title">Address Information</h3>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Installation Address</label>
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Street)
+		    @if (Model.BasicInfo?.HomeOwner?.PreviousAddressInformation != null)
+		    {
+		        <div class="col-md-6 grid-column">
+		            <div class="dealnet-credit-check-section">
+		                <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @(Model.BasicInfo?.HomeOwner?.PreviousAddressInformation.Street)
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Unit #</label>
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.UnitNumber)
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @(Model.BasicInfo?.HomeOwner?.PreviousAddressInformation.UnitNumber)
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">City</label>
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.City)
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @(Model.BasicInfo?.HomeOwner?.PreviousAddressInformation.City)
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Province</label>
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.Province)
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @(Model.BasicInfo?.HomeOwner?.PreviousAddressInformation.Province)
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Postal Code</label>
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    <span class="postal-code">@(Model.BasicInfo?.HomeOwner?.AddressInformation?.PostalCode)</span>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        <span class="postal-code">@(Model.BasicInfo?.HomeOwner?.PreviousAddressInformation.PostalCode)</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Residence</label>
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.BasicInfo?.HomeOwner?.AddressInformation?.ResidenceType.GetEnumDescription())
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+		            </div>
+		        </div>
+		    }
             @if (Model.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
             {
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
-                        <h3 class="dealnet-section-title">Mailing Address</h3>
+                        <h3 class="dealnet-section-title">@Resources.MailingAddress</h3>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.Street)
@@ -360,7 +437,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Unit #</label>
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.UnitNumber)
@@ -370,7 +447,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">City</label>
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.City)
@@ -380,7 +457,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Province</label>
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.Province)
@@ -390,7 +467,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Postal Code</label>
+                                @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         <span class="postal-code">@(Model.BasicInfo?.HomeOwner?.MailingAddressInformation.PostalCode)</span>
@@ -403,10 +480,10 @@
             }
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section">
-                    <h3 class="dealnet-section-title">Contact Information</h3>
+                    <h3 class="dealnet-section-title">@Resources.ContactInformation</h3>
                     <div class="form-group">
                         <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Home Phone</label>
+                            @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
                                     @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.HomePhone)
@@ -416,7 +493,7 @@
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+                            @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
                                     @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.CellPhone)
@@ -426,7 +503,7 @@
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Business Phone</label>
+                            @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
                                     @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.BusinessPhone)
@@ -436,7 +513,7 @@
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <label class="dealnet-field-caption col-xs-6">Email Address</label>
+                            @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
                                     @(Model.ContactAndPaymentInfo?.HomeOwnerContactInfo?.EmailAddress)
@@ -456,10 +533,10 @@
 				<div class="credit-check-info-hold">
                      <div class="col-md-6 grid-column">
                          <div class="dealnet-credit-check-section">
-                             <h3 class="dealnet-section-title">Additional Applicant</h3>
+                             <h3 class="dealnet-section-title">@Resources.AdditionalApplicant</h3>
                              <div class="form-group">
                                  <div class="row">
-                                     <label class="dealnet-field-caption col-xs-6">First Name</label>
+                                     @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6" })
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
                                              @Model.BasicInfo.AdditionalApplicants[i].FirstName
@@ -469,7 +546,7 @@
                              </div>
                              <div class="form-group">
                                  <div class="row">
-                                     <label class="dealnet-field-caption col-xs-6">Last Name</label>
+                                     @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].LastName, new { @class = "dealnet-field-caption col-xs-6" })
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
                                              @Model.BasicInfo.AdditionalApplicants[i].LastName
@@ -479,7 +556,7 @@
                              </div>
                              <div class="form-group">
                                  <div class="row">
-                                     <label class="dealnet-field-caption col-xs-6">Date of Birth</label>
+                                     @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].BirthDate, new { @class = "dealnet-field-caption col-xs-6" })
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
                                              @(Model.BasicInfo.AdditionalApplicants[i].BirthDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -489,7 +566,7 @@
                              </div>
                              <div class="form-group">
                                  <div class="row">
-                                     <label class="dealnet-field-caption col-xs-6">Driver License Number</label>
+                                     @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                      <div class="dealnet-field-holder col-xs-6">
                                          <div class="control-group">
                                              @Model.BasicInfo.AdditionalApplicants[i].DriverLicenseNumber
@@ -497,79 +574,142 @@
                                      </div>
                                  </div>
                              </div>
+
+	                         <div class="form-group">
+		                         <div class="row">
+			                         @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-field-caption col-xs-6" })
+			                         <div class="dealnet-field-holder col-xs-6">
+				                         <div class="control-group">
+					                        @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner)
+                                            <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No )>
+				                         </div>
+			                         </div>
+		                         </div>
+	                         </div>
                          </div>
                      </div>
-                    <div class="col-md-6 grid-column">
-                        <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Mailing Address</h3>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Mailing Address</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
+				    @if (Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
+				    {
+				        <div class="col-md-6 grid-column">
+				            <div class="dealnet-credit-check-section">
+				                <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Unit #</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">City</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Province</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Postal Code</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Residence</label>
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        <div class="control-group">
-                                            @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.ResidenceType.GetEnumDescription())
+				            </div>
+				        </div>
+				    }
+                    @if (Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation != null)
+                    {
+                        <div class="col-md-6 grid-column">
+                            <div class="dealnet-credit-check-section">
+                            <h3 class="dealnet-section-title">@Resources.MailingAddress</h3>
+                                <div class="form-group">
+                                    <div class="row">
+                                    @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                    @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                    @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                    @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                    @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                <span class="postal-code">@(Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode)</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">Contact Information</h3>
+                            <h3 class="dealnet-section-title">@Resources.ContactInformation</h3>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Home Phone</label>
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].HomePhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.HomePhone)
@@ -579,7 +719,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Cell Phone</label>
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CellPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.CellPhone)
@@ -589,7 +729,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Business Phone</label>
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].BusinessPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.BusinessPhone)
@@ -599,7 +739,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-6">Email Address</label>
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
                                             @(Model.ContactAndPaymentInfo?.CoBorrowersContactInfo[i]?.EmailAddress)
@@ -621,14 +761,14 @@
 	@if (Model.EquipmentInfo?.NewEquipment != null)
 	{
 	    var i = 0;
-	    <div class="row credit-check-info-hold equipment-info">
+	    <div class="row credit-check-info-hold equipment-info no-top-margin">
 	        @foreach (var equipment in Model.EquipmentInfo.NewEquipment)
 	        {
 	            <div class="col-md-6 grid-column">
 	                <div class="dealnet-credit-check-section">
 	                    @if (i == 0)
 	                    {
-	                        <h3 class="dealnet-section-title">Equipment Information</h3>
+	                        <h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
                         }
                         else
                         {
@@ -641,17 +781,17 @@
 	                    </div>
 	                    <div class="form-group">
 	                        <div class="row">
-	                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Type</label>
+	                            @Html.LabelFor(x => equipment.TypeDescription, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                <div class="control-group">	                                    
-                                        @equipment.TypeDescription
+	                                <div class="control-group">
+	                                    @equipment.TypeDescription
 	                                </div>
 	                            </div>
 	                        </div>
 	                    </div>
 	                    <div class="form-group">
 	                        <div class="row">
-	                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Description</label>
+	                            @Html.LabelFor(x => equipment.Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
 	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
 	                                <div class="control-group">
 	                                    @equipment.Description
@@ -663,7 +803,7 @@
                         {
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Cost</label>
+                                    @Html.LabelFor(x => equipment.Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                         <div class="control-group">
                                             @equipment.Cost
@@ -676,7 +816,7 @@
                         {
                             <div class="form-group">
                                 <div class="row">
-                                    <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Monthly Cost</label>
+                                    @Html.LabelFor(x => equipment.MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                         <div class="control-group">
                                             @equipment.MonthlyCost
@@ -685,19 +825,25 @@
                                 </div>
                             </div>
                         }
-                        <div class="form-group">
-	                        <div class="row">
-	                            <label class="dealnet-field-caption col-xs-5 col-sm-4 col-md-5">Estimated Installation Date</label>
-	                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-	                                <div class="control-group">
-	                                    @equipment.EstimatedInstallationDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
 	                </div>
 	            </div>
 	        }
+		    <div class="clearfix">
+			    <div class="col-md-6 grid-column">
+				    <div class="dealnet-credit-check-section">
+					    <div class="form-group">
+						    <div class="row">
+	                            @Html.LabelFor(x => Model.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+							    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+								    <div class="control-group">
+									   @(Model.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+								    </div>
+							    </div>
+						    </div>
+				        </div>
+					</div>
+			    </div>
+		    </div>
 	    </div>
 	}
         <div class="row">
@@ -707,7 +853,7 @@
 						<div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
 							<div class="row">
 								<div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-									MONTHLY PAYMENT
+									@Resources.MonthlyPayment
 								</div>
 								<div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                     @if (Model.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
@@ -726,20 +872,20 @@
 					        <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
 					            <div class="row">
 					                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-						                @Model.ProvinceTaxRate.Description
+                                        @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
 					                </div>
 					                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
+					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)* (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
 					                </div>
 					            </div>
 					        </div>
 					        <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
 					            <div class="row">
 					                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-					                    TOTAL MONTHLY PAYMENT (TAX INCL.)
+					                    @Resources.TotalMonthlyPaymentWithTaxes
 					                </div>
 					                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)*Model.ProvinceTaxRate.Rate/100, 2))
+					                    $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo?.TotalMonthlyPayment ?? 0)* (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
 					                </div>
 					            </div>
 					        </div>
@@ -754,10 +900,10 @@
             <div class="row credit-check-info-hold">
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
-                        <h3 class="dealnet-section-title">Payment Information</h3>
+                        <h3 class="dealnet-section-title">@Resources.PaymentInformation</h3>
                         <div class="form-group">
                             <div class="row">
-                                <label class="dealnet-field-caption col-xs-6">Payment Type</label>
+                                @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @class = "dealnet-field-caption col-xs-6" })
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
                                         @(Model.ContactAndPaymentInfo.PaymentInfo.PaymentType.GetEnumDescription())
@@ -767,10 +913,10 @@
                         </div>
                         @switch (Model.ContactAndPaymentInfo.PaymentInfo.PaymentType)
                         {
-                            case PaymentType.Enbridge:
+                            case DealnetPortal.Web.Common.Enumeration.PaymentType.Enbridge:
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Enbridge Acct #</label>
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(Model.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount)
@@ -780,7 +926,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Meter #</label>
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(Model.ContactAndPaymentInfo.PaymentInfo.MeterNumber)
@@ -789,10 +935,10 @@
                                     </div>
                                 </div>
                                 break;
-                            case PaymentType.Pap:
+                            case DealnetPortal.Web.Common.Enumeration.PaymentType.Pap:
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Account #</label>
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(Model.ContactAndPaymentInfo.PaymentInfo.AccountNumber)
@@ -802,7 +948,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Bank #</label>
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(Model.ContactAndPaymentInfo.PaymentInfo.BlankNumber)
@@ -812,7 +958,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="dealnet-field-caption col-xs-6">Transit #</label>
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 @(Model.ContactAndPaymentInfo.PaymentInfo.TransitNumber)
@@ -831,25 +977,23 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="summary-return-equipment">
-                    <h3 class="dealnet-section-title">Existing Equipment Information</h3>
+                    <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation</h3>
                     @foreach (var equipment in Model.EquipmentInfo.ExistingEquipment)
                     {
                         <div class="summury-return-equip-item">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        Is rental?
+                                        @Resources.IsRental
                                     </div>
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-                                        @(equipment.IsRental ? "Yes" : "No")
+                                        @(equipment.IsRental ? Resources.Yes : Resources.No)
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        Rental Company
-                                    </div>
+                                    @Html.LabelFor(x => equipment.RentalCompany, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.RentalCompany
                                     </div>
@@ -857,9 +1001,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        General Condition
-                                    </div>
+                                    @Html.LabelFor(x => equipment.GeneralCondition, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.GeneralCondition
                                     </div>
@@ -867,9 +1009,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        Estimated Age
-                                    </div>
+                                    @Html.LabelFor(x => equipment.EstimatedAge, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.EstimatedAge
                                     </div>
@@ -877,9 +1017,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        Make
-                                    </div>
+                                    @Html.LabelFor(x => equipment.Make, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.Make
                                     </div>
@@ -887,9 +1025,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        Model
-                                    </div>
+                                    @Html.LabelFor(x => equipment.Model, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.Model
                                     </div>
@@ -897,9 +1033,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        Serial Number
-                                    </div>
+                                    @Html.LabelFor(x => equipment.SerialNumber, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         @equipment.SerialNumber
                                     </div>
@@ -907,9 +1041,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2">
-                                        Notes
-                                    </div>
+                                    @Html.LabelFor(x => equipment.Notes, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
                                     <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                         <span style="white-space: pre-wrap">@equipment.Notes</span>
                                     </div>
@@ -929,15 +1061,15 @@
 					<div class="col-md-6 grid-column" id="edit-add-contract-section">
 						<div class="dealnet-credit-check-section">
 							<h3 class="dealnet-section-title">
-								Additional Contract Information
+								@Resources.AdditionalContractInformation
 							</h3>
 							<div class="form-group">
-								<div class="row">
-									<label for="" class="dealnet-field-caption col-xs-12">Contract Notes</label>
-									<div class="dealnet-field-holder text-left col-xs-12">
-										<span style="white-space: pre-wrap">@(Model.EquipmentInfo?.Notes)</span>
-									</div>
-								</div>
+							    <div class="row">
+							        @Html.LabelFor(m => m.EquipmentInfo.Notes, new { @class = "dealnet-field-caption col-xs-12" })
+							        <div class="dealnet-field-holder text-left col-xs-12">
+							            <span style="white-space: pre-wrap">@(Model.EquipmentInfo?.Notes)</span>
+							        </div>
+							    </div>
 							</div>
 						</div>
 					</div>
@@ -948,5 +1080,5 @@
 	</div>
 </div>
 <div class="text-center back-to-top-hold">
-	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>Back to top</a>
+	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>@Resources.BackToTop</a>
 </div>

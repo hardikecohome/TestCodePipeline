@@ -40,7 +40,7 @@
         var validateFileSize = function(errorAction) {
             try {
                 if (this.files[0].size / 1024 / 1024 > 50) {
-                    errorAction('Maximum file size is limited to 50 MB for a single file.');
+                    errorAction(translations['MaximumFileSize']);
                     $(this).val('');
                     return false;
                 }
@@ -64,7 +64,7 @@
             var prevDocumentName = documentNaming.text();;
             var wasCancelled;
             var afterError = function(message) {
-                form.find('.error-message').text(message || 'An error occurred while uploading file.');
+                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 documentNaming.text(prevDocumentName);
                 if (!prevDocumentName) {
@@ -145,7 +145,7 @@
             var errorDesc = form.find('.error-descr');
             var wasCancelled;
             var afterError = function(message) {
-                form.find('.error-message').text(message || 'An error occurred while uploading file.');
+                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
@@ -262,9 +262,9 @@ function managePaymentFormElements(paymentType) {
 function auditConfirmModal() {
     var data = {
         class: "audit-alert-modal",
-        message: "Did you upload all the documents needed? After proceeding you won't have a possibility to make any other changes",
-        title: "Final check",
-        confirmBtnText: "Proceed"
+        message: translations['DidYouUploadAllDocuments'],
+        title: translations['FinalCheck'],
+        confirmBtnText: translations['Proceed']
     };
     dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {
@@ -285,7 +285,7 @@ function submitAllDocumentsUploaded() {
                 $('.dealnet-section-edit-link').hide();
                 isSentToAudit = true;
             } else if (result.isError) {
-                alert('An error occurred while sending report');
+                alert(translations['AnErrorWhileSendingReport']);
             }
         },
         error: function () {
@@ -362,7 +362,7 @@ function assignDatepicker() {
         changeYear: true,
         changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
-        minDate: new Date(),
+        minDate: (input.hasClass('exlude-min-date')) ? Date.parse("1900-01-01") : new Date(),
         onClose: function(){
             onDateSelect($(this));
         }
@@ -377,7 +377,7 @@ function submitComment(form, addComment) {
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("An error occurred while adding comment");
+                alert(translations['ErrorWhileAddingComment']);
             } else {
                 var comment = addComment(form, json);
                 comment.find('.write-reply-link').on('click', addReplyFrom);
@@ -408,7 +408,7 @@ function submitCommentRemoval(comment, commentId) {
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("An error occurred while removing comment");
+                alert(translations['ErrorWhileRemovingComment']);
             } else {
                 var parentComment = comment.parent().closest('ul').prev('.comment');
                 var replies = comment.next('ul');

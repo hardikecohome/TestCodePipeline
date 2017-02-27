@@ -3,25 +3,21 @@ $(document)
             .ready(function () {
                 $('#equipment-form').submit(function (event) {
                     var agreementType = $("#agreement-type").find(":selected").val();
-                    if (agreementType === "0") {
-                        //var sum = 0;
-                        //$(".equipment-cost").each(function () {
-                        //    var numberValue = parseFloat(this.value);
-                        //    if (!isNaN(numberValue)) {
-                        //        sum += numberValue;
-                        //    }
-                        //});
-                        //if (sum > creditAmount) {
-                        //    event.preventDefault();
-                        //    $('#new-equipment-validation-message').text("Total equipments cost cannot be greater than Credit Amount");
-                        //}
+                    if (agreementType === "0") {                        
+                        isCalculationValid = false;
+                        recalculateTotalCashPrice();
                         if (!isCalculationValid) {
                             event.preventDefault();
-                            $('#new-equipment-validation-message').text("Total monthly payment must be greater than zero");
+                            $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
+                        }
+                    } else {
+                        var monthPayment = $("#total-monthly-payment").val();
+                        if (isNaN(monthPayment) || (monthPayment == 0)) {
+                            event.preventDefault();
+                            $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
                     }
-                });
-                
+                });                
 
                 $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
@@ -57,6 +53,8 @@ $(document)
                 });
                 if (initAgreementType === '0') {
                     recalculateTotalCashPrice();
+                } else {
+                    recalculateTotalMonthlyPaymentHst();
                 }
             });
 
@@ -132,6 +130,7 @@ function addExistingEquipment() {
     document.getElementById('existing-equipments').appendChild(newDiv);
     resetFormValidator("#equipment-form");
     customizeSelect();
+    toggleClearInputIcon($(newDiv).find('textarea, input'));
     sessionStorage.existingEquipmets = nextNumber;
     resetPlacehoder($(newDiv).find('textarea, input'));
 }
@@ -216,6 +215,15 @@ function recalculateTotalMonthlyPayment() {
     });
     
     $("#total-monthly-payment").val(sum.toFixed(2));
+    recalculateTotalMonthlyPaymentHst();
+}
+
+function recalculateTotalMonthlyPaymentHst() {
+    var sum = $("#total-monthly-payment").val();
+    var totalHst = sum * taxRate / 100;
+    var totalMp = sum * 1 + totalHst;
+    $("#total-hst").text(totalHst.toFixed(2));
+    $("#total-monthly-payment-hst").text(totalMp.toFixed(2));
 }
 
 function recalculateTotalCashPrice() {

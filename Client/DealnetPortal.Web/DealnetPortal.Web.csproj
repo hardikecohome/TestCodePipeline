@@ -56,6 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
     </Reference>
+    <Reference Include="DealnetPortal.Api.Resources">
+      <HintPath>..\..\lib\DealnetPortal.Api.Resources.dll</HintPath>
+    </Reference>
     <Reference Include="DealnetPortal.Utilities">
       <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
     </Reference>
@@ -183,6 +186,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsyncCancellationController.cs" />
+    <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
@@ -200,6 +204,7 @@
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
     <Compile Include="Infrastructure\IContractManager.cs" />
+    <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
@@ -210,11 +215,14 @@
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
+    <Compile Include="Models\LoanCalculatorViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewEquipmentInformation.cs" />
     <Compile Include="Models\NewRentalViewModels.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
+    <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
+    <Compile Include="Models\Validation\CheckHomeOwnerAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -371,6 +379,12 @@
     <Content Include="Content\images\dataTables\sort_both.png" />
     <Content Include="Content\images\dataTables\sort_desc.png" />
     <Content Include="Content\images\dataTables\sort_desc_disabled.png" />
+    <Content Include="Content\images\icon-english%402x.png" />
+    <Content Include="Content\images\icon-english%403x.png" />
+    <Content Include="Content\images\icon-english.png" />
+    <Content Include="Content\images\icon-french%402x.png" />
+    <Content Include="Content\images\icon-french%403x.png" />
+    <Content Include="Content\images\icon-french.png" />
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\logo-one-dealer%402x.png" />
     <Content Include="Content\images\logo-one-dealer%403x.png" />
@@ -383,6 +397,7 @@
     <Content Include="Content\images\sprite\get-location.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
     <Content Include="Content\images\sprite\icon-audio.svg" />
+    <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
@@ -395,6 +410,7 @@
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
+    <Content Include="Content\images\sprite\icon-info-well.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
     <Content Include="Content\images\sprite\icon-my-deals-side.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
@@ -555,6 +571,7 @@
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\components\loader.less" />
+    <Content Include="Content\less\components\lang-swither.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Content\less\components\icons.less" />
     <Content Include="Content\less\partials\layout.less" />
@@ -588,6 +605,12 @@
     <Content Include="Content\less\main-dealer.less" />
     <Content Include="Content\less\settings\variables-dealer.less" />
     <Content Include="Content\less\components\tabs.less" />
+    <Content Include="Content\less\calculator.less" />
+    <Content Include="Content\less\components\table-common.less" />
+    <Content Include="Content\less\components\table-home.less" />
+    <Content Include="Content\less\components\table-my-deals.less" />
+    <Content Include="Content\less\components\table-reports.less" />
+    <Content Include="Content\less\components\table-filter.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -597,10 +620,12 @@
     <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
+    <Content Include="Scripts\customer-validation.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
     <Content Include="Scripts\editable-in-modal.js" />
     <Content Include="Scripts\equipment-information.js" />
+    <Content Include="Scripts\financial-functions.js" />
     <Content Include="Scripts\general-address-autocomplete.js" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
@@ -710,6 +735,7 @@
     <Content Include="Scripts\reports.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\standalone-loan-calculator.js" />
     <Content Include="Scripts\svgxuse.min.js" />
     <Content Include="Scripts\summary-and-confirmation.js" />
     <Content Include="Scripts\vc-scanning.js" />
@@ -758,10 +784,12 @@
     <Content Include="Views\Reports\Contracts.cshtml" />
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
+    <Content Include="Views\Calculator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
+    <Folder Include="Resources\" />
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
@@ -784,6 +812,10 @@
     <ProjectReference Include="..\DealnetPortal.Web.Models\DealnetPortal.Web.Models.csproj">
       <Project>{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}</Project>
       <Name>DealnetPortal.Web.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Web.Resources\DealnetPortal.Web.Resources.csproj">
+      <Project>{e996df6c-67cd-4178-a6ad-3df9c1583677}</Project>
+      <Name>DealnetPortal.Web.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Web.ServiceAgent\DealnetPortal.Web.ServiceAgent.csproj">
       <Project>{9d034d24-d090-4ffd-9f50-7ff073568343}</Project>

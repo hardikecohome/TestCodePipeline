@@ -111,7 +111,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(basicInfo);
             }
             var contractResult = basicInfo.ContractId == null ?
                 await _contractServiceAgent.CreateContract() :
@@ -152,6 +152,11 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (!ModelState.IsValid)
+            {
+                return View(basicInfo);
+            }
             //Initiate a credit check here!
             var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
 
@@ -186,7 +191,7 @@ namespace DealnetPortal.Web.Controllers
 
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
-                TempData["CreditCheckErrorMessage"] = "Can't connect to external system for Credit Check. Try to perform Credit Check later.";
+                TempData["CreditCheckErrorMessage"] = Resources.Resources.CreditCheckErrorMessage;
                 return RedirectToAction("CreditCheckConfirmation", new { contractId });
             }
 
@@ -213,11 +218,14 @@ namespace DealnetPortal.Web.Controllers
             }            
         }
 
-        public ActionResult CreditDeclined(int contractId)
+        public async Task<ActionResult> CreditDeclined(int contractId)
         {
+            var contract = (await _contractServiceAgent.GetContract(contractId)).Item1;
             var viewModel = new CreditRejectedViewModel()
             {
-                ContractId = contractId
+                ContractId = contractId,
+                DisableAdditionalButton = TempData["DisableAdditionaApplicantAtDeclined"] != null && (bool)TempData["DisableAdditionaApplicantAtDeclined"] ||
+                  contract != null && contract.SecondaryCustomers?.Count == 3
             };
 
             return View(viewModel);
@@ -246,7 +254,7 @@ namespace DealnetPortal.Web.Controllers
 
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
-                TempData["CreditCheckErrorMessage"] = "Can't connect to external system for Credit Check. Try to perform Credit Check later.";
+                TempData["CreditCheckErrorMessage"] = Resources.Resources.CreditCheckErrorMessage;
                 var redirectStr = Url.Action("CreditCheckConfirmation", new { contractId });
                 return Json(redirectStr);
             }
@@ -341,6 +349,7 @@ namespace DealnetPortal.Web.Controllers
 
             if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
             {
+                TempData["DisableAdditionaApplicantAtDeclined"] = true;
                 return RedirectToAction("CreditDeclined", new { contractId });
             }
             return RedirectToAction("AgreementSubmitSuccess", new { contractId });            
@@ -446,7 +455,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 sendEmails.SalesRepEmail = dealer.Email;
             }
-            sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType ?? AgreementType.LoanApplication;
+            sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType.ConvertTo<Common.Enumeration.AgreementType>() ?? Common.Enumeration.AgreementType.LoanApplication;
 
             ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
 
@@ -558,16 +567,6 @@ namespace DealnetPortal.Web.Controllers
         {            
             var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
             return Json(result.Item1);
-        }
-
-        private JsonResult GetSuccessJson()
-        {
-            return Json(new {isSuccess = true});
-        }
-
-        private JsonResult GetErrorJson()
-        {
-            return Json(new {isError = true});
         }
     }
 }

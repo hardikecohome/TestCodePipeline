@@ -461,10 +461,16 @@ namespace DealnetPortal.Api.Integration.Services
                                 Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
                             };
 
-                            //TODO:
+                            var submitString = "Ready For Audit";
+                            var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
                             request.Payload.Documents = new List<Document>()
                             {
                                 new Document()
+                                {
+                                    Name = "ReadyForAudit",
+                                    Data = submitStrBase64,
+                                    Ext = "txt"
+                                }
                             };
 
                             var docUploadResponse =
@@ -625,27 +631,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
-        }
-
-        private void InitRequestPayload(DealUploadRequest request)
-        {
-            if (request.Payload == null)
-            {
-                request.Payload = new Payload();
-            }
-            if (request.Payload.Lease == null)
-            {
-                request.Payload.Lease = new Lease();
-            }
-            if (request.Payload.Lease.Accounts == null)
-            {
-                request.Payload.Lease.Accounts = new List<Account>();
-            }
-            if (request.Payload.Lease.Application == null)
-            {
-                request.Payload.Lease.Application = new Application();
-            }
-        }
+        }        
 
         private string GetTransactionId(Domain.Contract contract)
         {
@@ -668,7 +654,6 @@ namespace DealnetPortal.Api.Integration.Services
             const string GuarRole = "GUAR";
 
             var accounts = new List<Account>();
-            //InitRequestPayload(request);     
             var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];            
 
             Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
@@ -711,42 +696,60 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
-                if (c.Locations?.Any() ?? false)
+                var location = c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                                      c.Locations?.FirstOrDefault();
+                if (location == null)
                 {
-                    var loc = c.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
-                              c.Locations.FirstOrDefault();
+                    // try to get primary customer location
+                    location = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                                      contract.PrimaryCustomer?.Locations?.FirstOrDefault();
+                }
+
+                if (location != null)
+                {                    
                     account.Address = new Address()
                     {
-                        City = loc.City,
+                        City = location.City,
                         Province = new Province()
                         {
-                            Abbrev = loc.State.ToProvinceCode()
+                            Abbrev = location.State.ToProvinceCode()
                         },
-                        Postalcode = loc.PostalCode,
+                        Postalcode = location.PostalCode,
                         Country = new Country()
                         {
                             Abbrev = "CAN"
                         },
-                        StreetName = loc.Street,
-                        SuiteNo = loc.Unit,
+                        StreetName = location.Street,
+                        SuiteNo = location.Unit,
                         StreetNo = string.Empty
                     };
 
                     account.UDFs.Add(new UDF()
                     {
                         Name = "Residence",
-                        Value = loc.ResidenceType == ResidenceType.Own ? "O" : "R" //<!—other value is R for rent  and O for own-->
+                        Value = location.ResidenceType == ResidenceType.Own ? "O" : "R" //<!—other value is R for rent  and O for own-->
                     });
                 }
+                
                 if (c.Phones?.Any() ?? false)
                 {
-                    var phone = c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ??
-                                c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ??
+                    var phone = c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ??
+                                c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ??
                                 c.Phones.FirstOrDefault()?.PhoneNum;
                     account.Telecomm = new Telecomm()
                     {
                         Phone = phone
                     };
+                }
+                if (c.Emails?.Any() ?? false)
+                {
+                    var email = c.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                                c.Emails.FirstOrDefault()?.EmailAddress;
+                    if (account.Telecomm == null)
+                    {
+                        account.Telecomm = new Telecomm();
+                    }
+                    account.Telecomm.Email = email;
                 }
 
                 if (string.IsNullOrEmpty(c.AccountId))
@@ -1025,17 +1028,13 @@ namespace DealnetPortal.Api.Integration.Services
                 int.TryParse(response.Payload.ScorecardPoints, out scorePoints))
             {
                 checkResult.ScorecardPoints = scorePoints;
-                if (scorePoints > 180 && scorePoints <= 190)
-                {
-                    checkResult.CreditAmount = 12000;
-                }
-                if (scorePoints > 190 && scorePoints <= 200)
+                if (scorePoints > 180 && scorePoints <= 220)
                 {
                     checkResult.CreditAmount = 15000;
                 }
-                if (scorePoints > 200 && scorePoints < 1000)
+                if (scorePoints > 220 && scorePoints < 1000)
                 {
-                    checkResult.CreditAmount = 20000;
+                    checkResult.CreditAmount = 25000;
                 }
             }
 

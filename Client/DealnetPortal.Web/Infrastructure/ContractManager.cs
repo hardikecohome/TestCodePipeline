@@ -181,8 +181,9 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
         {
-            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
+            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);            
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
+
             basicInfo.SubmittingDealerId = contract.ExternalSubDealerId ?? contract.DealerId;
             basicInfo.SubDealers = new List<SubDealer>();
             var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
@@ -204,6 +205,7 @@ namespace DealnetPortal.Web.Infrastructure
                 }
             }
             basicInfo.ContractState = contract.ContractState;
+            basicInfo.ContractWasDeclined = contract.WasDeclined ?? false;
         }
 
         public void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract)
@@ -248,6 +250,12 @@ namespace DealnetPortal.Web.Infrastructure
                 mailAddress.AddressType = AddressType.MailAddress;
                 contractData.PrimaryCustomer.Locations.Add(mailAddress);
             }
+            if (basicInfo.HomeOwner.PreviousAddressInformation != null)
+            {
+                var previousAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.PreviousAddressInformation);
+                previousAddress.AddressType = AddressType.PreviousAddress;
+                contractData.PrimaryCustomer.Locations.Add(previousAddress);
+            }
 
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             basicInfo.AdditionalApplicants?.ForEach(a =>
@@ -260,7 +268,13 @@ namespace DealnetPortal.Web.Infrastructure
                     mailAddress.AddressType = AddressType.MailAddress;
                     customer.Locations.Add(mailAddress);
                 }
-                contractData.SecondaryCustomers.Add(customer);
+                if (a.PreviousAddressInformation != null)
+                {
+                    var previousAddress = Mapper.Map<LocationDTO>(a.PreviousAddressInformation);
+                    previousAddress.AddressType = AddressType.PreviousAddress;
+                    customer.Locations.Add(previousAddress);
+                }
+                contractData.SecondaryCustomers.Add(customer);                
             });
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
@@ -319,7 +333,7 @@ namespace DealnetPortal.Web.Infrastructure
             return alerts;
         }
 
-        public async Task<IList<Alert>> UpdateApplicants(BasicInfoViewModel basicInfo)
+        public async Task<IList<Alert>> UpdateApplicants(ApplicantsViewModel basicInfo)
         {
             var customers = new List<CustomerDataDTO>();
             if (basicInfo.HomeOwner != null)
@@ -335,15 +349,30 @@ namespace DealnetPortal.Web.Infrastructure
                     mailAddress.AddressType = AddressType.MailAddress;
                     customerDTO.Locations.Add(mailAddress);
                 }
+                if (basicInfo.HomeOwner.PreviousAddressInformation != null)
+                {
+                    var previousAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.PreviousAddressInformation);
+                    previousAddress.AddressType = AddressType.PreviousAddress;
+                    customerDTO.Locations.Add(previousAddress);
+                }
                 customers.Add(customerDTO);
             }
             basicInfo.AdditionalApplicants?.ForEach(applicant =>
             {
                 var customerDTO = Mapper.Map<CustomerDataDTO>(applicant);
                 customerDTO.Locations = new List<LocationDTO>();
-                var mailAddress = Mapper.Map<LocationDTO>(applicant.MailingAddressInformation);
-                mailAddress.AddressType = AddressType.MailAddress;
-                customerDTO.Locations.Add(mailAddress);
+                if (applicant.MailingAddressInformation != null)
+                {
+                    var mailAddress = Mapper.Map<LocationDTO>(applicant.MailingAddressInformation);
+                    mailAddress.AddressType = AddressType.MailAddress;
+                    customerDTO.Locations.Add(mailAddress);
+                }
+                if (applicant.PreviousAddressInformation != null)
+                {
+                    var previousAddress = Mapper.Map<LocationDTO>(applicant.PreviousAddressInformation);
+                    previousAddress.AddressType = AddressType.PreviousAddress;
+                    customerDTO.Locations.Add(previousAddress);
+                }
                 customers.Add(customerDTO);
             });
             customers.ForEach(c => c.ContractId = basicInfo.ContractId);
@@ -375,18 +404,24 @@ namespace DealnetPortal.Web.Infrastructure
                     var contractData = new ContractDataDTO()
                     {
                         Id = newContractRes.Item1.Id,
-                        PrimaryCustomer = customer,
-                        PaymentInfo = new PaymentInfoDTO()
+                        PrimaryCustomer = customer,                        
+                    };
+
+                    if (contractRes.Item1.PaymentInfo != null)
+                    {
+                        contractData.PaymentInfo = new PaymentInfoDTO()
                         {
                             AccountNumber = contractRes.Item1.PaymentInfo.AccountNumber,
                             BlankNumber = contractRes.Item1.PaymentInfo.BlankNumber,
-                            EnbridgeGasDistributionAccount = contractRes.Item1.PaymentInfo.EnbridgeGasDistributionAccount,
+                            EnbridgeGasDistributionAccount =
+                                contractRes.Item1.PaymentInfo.EnbridgeGasDistributionAccount,
                             MeterNumber = contractRes.Item1.PaymentInfo.MeterNumber,
                             PaymentType = contractRes.Item1.PaymentInfo.PaymentType,
                             PrefferedWithdrawalDate = contractRes.Item1.PaymentInfo.PrefferedWithdrawalDate,
                             TransitNumber = contractRes.Item1.PaymentInfo.TransitNumber
-                        }
-                    };
+                        };
+                    }
+
                     var updateRes = await _contractServiceAgent.UpdateContractData(contractData);
                     if (updateRes.Any())
                     {
@@ -402,14 +437,12 @@ namespace DealnetPortal.Web.Infrastructure
         {
             summary.BasicInfo = new BasicInfoViewModel();
             summary.BasicInfo.ContractId = contractId;
-            await MapBasicInfo(summary.BasicInfo, contract);
-            summary.EquipmentInfo = new EquipmentInformationViewModel();
-            summary.EquipmentInfo.ContractId = contractId;
-            summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
-            summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
+            await MapBasicInfo(summary.BasicInfo, contract);            
+            summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);                        
             if (summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
+                summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
             }
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
@@ -420,7 +453,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
                         
             summary.AdditionalInfo = new AdditionalInfoViewModel();
-            summary.AdditionalInfo.ContractState = contract.ContractState;
+            summary.AdditionalInfo.ContractState = contract.ContractState.ConvertTo<Common.Enumeration.ContractState>();
             summary.AdditionalInfo.Status = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
             summary.AdditionalInfo.TransactionId = contract.Details?.TransactionId;

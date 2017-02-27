@@ -46,7 +46,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
 
-        private const string EmailSubject = "Please Sign Agreement";
+        //private const string EmailSubject = "Please Sign Agreement";
 
         private const string NotificationEndpointName = "api/Storage/NotifySignatureStatus";
 
@@ -437,7 +437,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         {
             EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition()
             {
-                EmailSubject = EmailSubject
+                EmailSubject = Resources.Resources.PleaseSignAgreement
             };
 
             if (_templateUsed)

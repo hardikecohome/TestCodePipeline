@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
 
@@ -18,13 +19,14 @@ namespace DealnetPortal.Api.Controllers
     [RoutePrefix("api/dict")]
     public class DictionaryController : BaseApiController
     {
-
+        private readonly IUnitOfWork _unitOfWork;
         private IContractRepository ContractRepository { get; set; }
         private IAspireStorageService AspireStorageService { get; set; }
 
-        public DictionaryController(IContractRepository contractRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
+        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
             : base(loggingService)
         {
+            _unitOfWork = unitOfWork;
             ContractRepository = contractRepository;
             AspireStorageService = aspireStorageService;
         }             
@@ -169,6 +171,33 @@ namespace DealnetPortal.Api.Controllers
                 }
 
                 return Ok(dealerDto);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/GetDealerCulture
+        [Route("GetDealerCulture")]
+        public string GetDealerCulture()
+        {
+            return ContractRepository.GetDealer(LoggedInUser?.UserId).Culture;            
+        }
+
+        [Authorize]
+        [HttpPut]
+        // GET api/Account/PutDealerCulture
+        [Route("PutDealerCulture")]
+        public IHttpActionResult PutDealerCulture(string culture)
+        {
+            try
+            {
+                ContractRepository.GetDealer(LoggedInUser?.UserId).Culture = culture;
+                _unitOfWork.Save();
+                return Ok();
             }
             catch (Exception ex)
             {

@@ -1,6 +1,6 @@
 ﻿function uploadCaptured(uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
-    showLoader('Processing image...');
+    showLoader(translations['ProcessingImage']);
     $.ajax({
         type: "POST",
         url: uploadUrl,
@@ -10,7 +10,7 @@
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("Can't recognize void cheque");
+                alert(translations['CannotRecognizeVoidCheque']);
             } else {
                 document.getElementById('bank-number').value = json.BankNumber;
                 document.getElementById('transit-number').value = json.TransitNumber;
@@ -34,7 +34,7 @@ function submitUpload(sender, uploadUrl) {
             for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
             }
-            showLoader('Processing image...');
+            showLoader(translations['ProcessingImage']);
             $.ajax({
                 type: "POST",
                 url: uploadUrl,
@@ -44,7 +44,7 @@ function submitUpload(sender, uploadUrl) {
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize void cheque");
+                        alert(translations['CannotRecognizeVoidCheque']);
                     } else {
                         document.getElementById('bank-number').value = json.BankNumber;
                         document.getElementById('transit-number').value = json.TransitNumber;
@@ -59,7 +59,7 @@ function submitUpload(sender, uploadUrl) {
             });
             $("#upload-file").val("");
         } else {
-            alert("Browser doesn't support HTML5 file upload!");
+            alert(translations['BrowserNotSupportFileUpload']);
         }
     }
 }

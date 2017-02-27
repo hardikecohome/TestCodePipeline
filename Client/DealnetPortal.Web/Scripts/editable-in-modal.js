@@ -21,7 +21,7 @@ function copyFormData(form1, form2, validate, additionalValidation) {
     $(':input[name]', form2).val(function () {
         var sourceInput = $(':input[name=\'' + this.name + '\']', form1);
         if (!sourceInput.length) {
-            console.log(this.value);
+            //console.log(this.value);
             return this.value;
         }
         return sourceInput.val();
@@ -57,7 +57,7 @@ function submitChanges(url, mainform) {
         success: function (json) {
             hideLoader();
             if (json.isError) {
-                alert("An error occurred while updating data");
+                alert(translations['ErrorWhileUpdatingData']);
             }
         },
         error: function (xhr, status, p3) {

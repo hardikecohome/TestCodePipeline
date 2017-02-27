@@ -84,7 +84,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 sqlStatement = string.Format(sqlStatement, dealerUserName);
-                var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerItem);
+                var list = GetListFromQuery(sqlStatement, _databaseService, ReadDealerInfoItem);
                 if (list?.Any() ?? false)
                 {
                     return list[0];

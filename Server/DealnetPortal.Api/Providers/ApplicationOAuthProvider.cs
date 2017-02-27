@@ -59,7 +59,7 @@ namespace DealnetPortal.Api.Providers
                     user = null;
                     if (aspireRes?.Item2?.Any(e => e.Code == ErrorCodes.AspireConnectionFailed) ?? false)
                     {
-                        context.SetError(ErrorConstants.ServiceFailed, "External service is unavailable");
+                        context.SetError(ErrorConstants.ServiceFailed, Resources.Resources.ExternalServiceUnavailable);
                         return;
                     }                    
                 }
@@ -71,7 +71,7 @@ namespace DealnetPortal.Api.Providers
 
             if (user == null)
             {
-                context.SetError(ErrorConstants.InvalidGrant, "The user name or password is incorrect.");
+                context.SetError(ErrorConstants.InvalidGrant, Resources.Resources.UserNamerPasswordIncorrect);
                 return;
             }
 
@@ -79,13 +79,13 @@ namespace DealnetPortal.Api.Providers
 
             if (user.ApplicationId != applicationId)
             {
-                context.SetError(ErrorConstants.UnknownApplication, "Unknown application to log in.");
+                context.SetError(ErrorConstants.UnknownApplication, Resources.Resources.UnknownApplicationToLogIn);
                 return;
             }
 
             if (_authType != AuthType.AuthProviderOneStepRegister && !user.EmailConfirmed)
             {
-                context.SetError(ErrorConstants.ResetPasswordRequired, "Your on-time password is correct, now please change the password");
+                context.SetError(ErrorConstants.ResetPasswordRequired, Resources.Resources.OntimePassCorrectNowChange);
                 return;
             }
 

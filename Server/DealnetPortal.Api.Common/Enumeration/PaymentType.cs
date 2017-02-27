@@ -11,10 +11,8 @@ namespace DealnetPortal.Api.Common.Enumeration
     public enum PaymentType
     {
         [Display(Name = "ENBRIDGE")]
-        [Description("ENBRIDGE")]
         Enbridge,
         [Display(Name = "PAP")]
-        [Description("PAP")]
         Pap
     }
 }

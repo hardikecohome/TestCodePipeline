@@ -36,5 +36,9 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetDocumentTypes();
 
         Task<ApplicationUserDTO> GetDealerInfo();
+
+        Task<string> GetDealerCulture();
+
+        Task ChangeDealerCulture(string culture);
     }
 }

@@ -95,5 +95,32 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<string> GetDealerCulture()
+        {
+            try
+            {
+                return await Client.GetAsync<string>(
+                            $"{_fullUri}/GetDealerCulture");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get dealers culture", ex);
+                throw;
+            }
+        }
+
+        public async Task ChangeDealerCulture(string culture)
+        {
+            try
+            {
+                await Client.PutAsync(
+                            $"{_fullUri}/PutDealerCulture?culture={culture}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't change dealers culture", ex);
+                throw;
+            }
+        }
     }
 }

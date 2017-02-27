@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DealnetPortal.Web;
 using DealnetPortal.Web.Controllers;
+using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.ServiceAgent;
 using Moq;
 
@@ -16,19 +17,21 @@ namespace DealnetPortal.Web.Tests.Controllers
     {
         private Mock<IContractServiceAgent> _contractServiceAgentMock;
         private Mock<IDictionaryServiceAgent> _dictionaryServiceAgentMock;
+        private Mock<ICultureManager> _cultureManagerMock;
 
         [TestInitialize]
         public void Intialize()
         {
             _contractServiceAgentMock = new Mock<IContractServiceAgent>();
             _dictionaryServiceAgentMock = new Mock<IDictionaryServiceAgent>();
+            _cultureManagerMock = new Mock<ICultureManager>();
         }
 
         [TestMethod]
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureManagerMock.Object);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -41,7 +44,7 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureManagerMock.Object);
 
             // Act
             ViewResult result = controller.About() as ViewResult;
@@ -54,7 +57,7 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void Contact()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureManagerMock.Object);
 
             // Act
             ViewResult result = controller.Contact() as ViewResult;

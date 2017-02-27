@@ -7,7 +7,7 @@
             for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
             }
-            showLoader('Processing image...');
+            showLoader(translations['ProcessingImage']);
             $.ajax({
                 type: "POST",
                 url: uploadUrl,
@@ -17,14 +17,16 @@
                 success: function (json) {
                     hideLoader();
                     if (json.isError) {
-                        alert("Can't recognize driver license");
+                        alert(translations['CannotRecognizeDriverLicense']);
                     } else {
                         document.getElementById(fnToFill).value = json.FirstName;
                         document.getElementById(lnToFill).value = json.LastName;
                         //var date = new Date(parseInt(json.DateOfBirth.substr(6)));
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                        $("#" + bdToFill).datepicker("setDate", date);
+                        var dateInput = $("#" + bdToFill);
+                        dateInput.datepicker("setDate", date);
+                        dateInput.change();
                         document.getElementById(dlToFill).value = json.Id;
                         document.getElementById(stToFill).value = json.Street;
                         document.getElementById(ctToFill).value = json.City;
@@ -39,7 +41,7 @@
             });
             sender.val("");
         } else {
-            alert("Browser doesn't support HTML5 file upload!");
+            alert(translations['BrowserNotSupportFileUpload']);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -99,46 +100,15 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (aspireDeals?.Any() ?? false)
             {
-                var statusWasUpdated = false;
-                foreach (var aspireDeal in aspireDeals)
+                var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
+
+                var unlinkedDeals = aspireDeals.Where(ad => ad.Details?.TransactionId != null &&
+                                                            contracts.All(c => (!c.Details?.TransactionId?.Contains(ad.Details.TransactionId) ?? true))).ToList();
+                if (unlinkedDeals.Any())
                 {
-                    if (aspireDeal.Details?.TransactionId == null)
-                    {
-                        continue;
-                    }
-                    var contract =
-                        contracts.FirstOrDefault(
-                            c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
-                    if (contract != null)
-                    {
-                        if (contract.Details.Status != aspireDeal.Details.Status)
-                        {
-                            contract.Details.Status = aspireDeal.Details.Status;
-                            var aspireStatus = _contractRepository.GetAspireStatus(aspireDeal.Details.Status);
-                            if (aspireStatus != null)
-                            {
-                                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                                    contract.ContractState == ContractState.SentToAudit)
-                                {
-                                    contract.ContractState = ContractState.Completed;
-                                    contract.LastUpdateTime = DateTime.Now;
-                                }
-                                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                                         contract.ContractState != ContractState.SentToAudit)
-                                {
-                                    contract.ContractState = ContractState.SentToAudit;
-                                    contract.LastUpdateTime = DateTime.Now;
-                                }
-                            }
-                            statusWasUpdated = true;
-                        }
-                    }
-                    else
-                    {
-                        contractDTOs.Add(aspireDeal);
-                    }
+                    contractDTOs.AddRange(unlinkedDeals);
                 }
-                if (statusWasUpdated)
+                if (isContractsUpdated)
                 {
                     try
                     {
@@ -147,8 +117,8 @@ namespace DealnetPortal.Api.Integration.Services
                     catch (Exception ex)
                     {
                         _loggingService.LogError("Cannot update Aspire deals status", ex);
-                    }                    
-                }
+                    }
+                }                                
             }
 
             var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
@@ -609,7 +579,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         break;
                     case FlowingSummaryType.Week:
-                        var weekDays = DateTimeFormatInfo.InvariantInfo.DayNames;
+                        var weekDays = DateTimeFormatInfo.CurrentInfo.DayNames;
                         DayOfWeek fstWeekDay;
                         int curDayIdx = Array.IndexOf(weekDays, DateTime.Today.DayOfWeek.ToString());
                         Enum.TryParse(weekDays[0], out fstWeekDay);
@@ -637,7 +607,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         break;
                     case FlowingSummaryType.Year:
-                        var months = DateTimeFormatInfo.InvariantInfo.MonthNames;
+                        var months = DateTimeFormatInfo.CurrentInfo.MonthNames;
                         var grMonths = dealerContracts.Where(c => c.CreationTime.Year == DateTime.Today.Year).GroupBy(c => c.CreationTime.Month);
 
                         for (int i = 0; i < months.Length; i++)
@@ -653,7 +623,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                             summary.Add(new FlowingSummaryItemDTO()
                             {
-                                ItemLabel = DateTimeFormatInfo.InvariantInfo.MonthNames[i], ItemCount = contractsM?.Count() ?? 0, ItemData = totalSum
+                                ItemLabel = DateTimeFormatInfo.CurrentInfo.MonthNames[i], ItemCount = contractsM?.Count() ?? 0, ItemData = totalSum
                             });
                         }
                         break;
@@ -725,34 +695,47 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
+                // update only new customers for declined deals
                 if (customers?.Any() ?? false)
                 {
+                    var contractId = customers.FirstOrDefault(c => c.ContractId.HasValue)?.ContractId;
+                    var contract = contractId.HasValue ? _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId) : null;
+
+                    var customersUpdated = false;
+
                     customers.ForEach(c =>
                     {
-                        _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo), Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones), Mapper.Map<IList<Email>>(c.Emails));
-                    });
-                }
-                _unitOfWork.Save();
-
-                //TODO: update customers on aspire
-                if (customers?.Any() ?? false)
-                {
-                    var contractId = customers.First().ContractId;
-                    if (contractId.HasValue)
-                    {
-                        var contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
-                        if (contract.ContractState == ContractState.Completed)
+                        if (contract == null || contract.WasDeclined != true ||
+                            (contract.InitialCustomers?.All(ic => ic.Id != c.Id) ?? false))
                         {
-                            var contractDTO = Mapper.Map<ContractDTO>(contract);
-                            Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
+                            _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
+                                Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
+                                Mapper.Map<IList<Email>>(c.Emails));
+                            customersUpdated = true;
                         }
-                        _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
-                        //if (aspireAlerts?.Any() ?? false)
-                        //{
-                        //    alerts.AddRange(aspireAlerts);
-                        //}
+                    });
+
+                    if (customersUpdated == true)
+                    {
+                        _unitOfWork.Save();
+
+                        // get latest contract changes
+                        if (contractId.HasValue)
+                        {                            
+                            contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
+                        }
+                        // update customers on aspire
+                        if (contract != null)
+                        {
+                            if (contract.ContractState == ContractState.Completed)
+                            {
+                                var contractDTO = Mapper.Map<ContractDTO>(contract);
+                                Task.Run(async () => await _mailService.SendChangeNotification(contractDTO, contract.Dealer.Email));
+                            }
+                            _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
+                        }                                                
                     }
-                }                
+                }                                             
             }
             catch (Exception ex)
             {
@@ -761,7 +744,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error, Header = "Failed to update customers data", Message = ex.ToString()
                 });
-                //throw;
             }
 
             return alerts;
@@ -858,7 +840,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
         {
-            equipment?.ForEach(eq => eq.TypeDescription = equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.Description);
+            equipment?.ForEach(eq => eq.TypeDescription = ResourceHelper.GetGlobalStringResource(equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.DescriptionResource));
         }
 
         private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
@@ -904,7 +886,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     {
                                         d.Equipment.NewEquipment.FirstOrDefault().Type = equipment.Type;
                                         d.Equipment.NewEquipment.FirstOrDefault().TypeDescription =
-                                            equipment.Description;
+                                            ResourceHelper.GetGlobalStringResource(equipment.Description);
                                     }
                                     else
                                     {
@@ -1020,6 +1002,66 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
             return new List<Alert>(alerts);
+        }
+
+        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
+        {
+            bool isChanged = false;
+            foreach (var aspireDeal in aspireDeals)
+            {
+                if (aspireDeal.Details?.TransactionId == null)
+                {
+                    continue;
+                }
+                var contract =
+                    contractsForUpdate.FirstOrDefault(
+                        c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
+                if (contract != null)
+                {
+                    if (contract.Details.Status != aspireDeal.Details.Status)
+                    {
+                        contract.Details.Status = aspireDeal.Details.Status;
+                        contract.LastUpdateTime = DateTime.Now;
+                        isChanged = true;                                                
+                    }
+                    //update contract state in any case
+                    UpdateContractState(contract);
+                }                
+            }
+            return isChanged;
+        }
+
+        /// <summary>
+        /// Logic for update internal contract state by Aspire state
+        /// </summary>
+        /// <param name="contract"></param>
+        private void UpdateContractState(Contract contract)
+        {
+            var aspireStatus = _contractRepository.GetAspireStatus(contract.Details?.Status);
+            if (aspireStatus != null)
+            {
+                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                    contract.ContractState == ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.Completed;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                         contract.ContractState != ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.SentToAudit;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+            }
+            else
+            {
+                // if current status is SentToAudit reset it to Completed
+                if (contract.ContractState == ContractState.SentToAudit)
+                {
+                    contract.ContractState = ContractState.Completed;
+                    contract.LastUpdateTime = DateTime.Now;
+                }
+            }
         }
     }
 }

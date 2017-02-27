@@ -8,26 +8,19 @@ namespace DealnetPortal.Api.Common.Enumeration
     /// </summary>
     public enum ContractState
     {
-        [Display(Name = "Started to fill new contract")]
-        [Description("Started to fill new contract")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "StartedToFillNewContract")]
         Started = 0,
-        [Display(Name = "Client data inputted")]
-        [Description("Client data inputted")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "ClientDataInputted")]
         CustomerInfoInputted = 1,
-        [Display(Name = "Credit check initiated")]
-        [Description("Credit check initiated")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckInitiated")]
         CreditCheckInitiated = 2,
-        [Display(Name = "Credit check declined")]
-        [Description("Credit check declined")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckDeclined")]
         CreditCheckDeclined = 3,
-        [Display(Name = "Credit check approved")]
-        [Description("Credit check approved")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckApproved")]
         CreditContirmed = 4,
-        [Display(Name = "Application submitted")]
-        [Description("Application submitted")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "ApplicationSubmitted")]
         Completed = 5,
-        [Display(Name = "Sent to audit")]
-        [Description("Sent to audit")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "SentToAudit")]
         SentToAudit = 6
     }
 }

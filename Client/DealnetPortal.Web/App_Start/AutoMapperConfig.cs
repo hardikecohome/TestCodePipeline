@@ -39,15 +39,10 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.Phones, d => d.Ignore())
                     .ForMember(x => x.Emails, d => d.Ignore())
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
-                    .ForMember(x => x.AllowCommunicate, d => d.Ignore());
+                    .ForMember(x => x.AllowCommunicate, d => d.Ignore())
+                    .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
 
             cfg.CreateMap<AddressInformation, LocationDTO>()
-                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
-                .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
-                .ForMember(x => x.AddressType, d => d.Ignore())
-                .ForMember(x => x.Id, d => d.Ignore())
-                .ForMember(x => x.CustomerId, d => d.Ignore());
-            cfg.CreateMap<MailingAddressInformation, LocationDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
                 .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
                 .ForMember(x => x.AddressType, d => d.Ignore())
@@ -57,7 +52,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<EquipmentInformationViewModel, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
                 .ForMember(x => x.ValueOfDeal, d => d.Ignore())
-                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType : src.RentalDeferralType));
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == Common.Enumeration.AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
@@ -126,6 +121,9 @@ namespace DealnetPortal.Web.App_Start
                     AllowCommunicate = src.AllowCommunicate                    
                 }));
 
+            cfg.CreateMap<RegisterViewModel, RegisterBindingModel>();
+            cfg.CreateMap<ChangePasswordAnonymouslyViewModel, ChangePasswordAnonymouslyBindingModel>();
+            cfg.CreateMap<ForgotPasswordViewModel, ForgotPasswordBindingModel>();
             cfg.CreateMap<CertificateEquipmentInfoViewModel, InstalledEquipmentDTO>();
             cfg.CreateMap<CertificateInformationViewModel, InstallationCertificateDataDTO>()
                 .ForMember(x => x.InstalledEquipments, d => d.MapFrom(src => src.Equipments));
@@ -155,15 +153,16 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? src.ContractState.GetEnumDescription()))
-                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.Equipment?.AgreementType.GetEnumDescription()))
-                .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.GetEnumDescription()))
+                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? (src.ContractState.ConvertTo<Common.Enumeration.ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.Equipment?.AgreementType.ConvertTo<Common.Enumeration.AgreementType>().GetEnumDescription()))
+                .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Common.Enumeration.PaymentType>().GetEnumDescription() ))
                 .ForMember(d => d.Action, s => s.Ignore())
                 .ForMember(d => d.Email, s => s.ResolveUsing(src => src.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))                
-                .ForMember(d => d.Phone, s => s.ResolveUsing(src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum
-                    ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum))                
+                .ForMember(d => d.Phone, s => s.ResolveUsing(src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
+                    ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))                
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
                     (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
+                .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
                     {
                         var equipment = src.Equipment?.NewEquipment;
@@ -196,7 +195,6 @@ namespace DealnetPortal.Web.App_Start
                         src.Equipment?.NewEquipment?.ForEach(x =>
                         {
                             stb.AppendLine(x.Description);
-                            stb.AppendLine(x.Description);
                         });
                         stb.AppendLine(src.Equipment?.SalesRep);
                         stb.AppendLine(src.PaymentInfo?.EnbridgeGasDistributionAccount);
@@ -216,22 +214,22 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
                 .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
-                .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)));
+                .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)))
+                .ForMember(x => x.PreviousAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.PreviousAddress)))
+                .ForMember(x => x.IsHomeOwner, d => d.ResolveUsing(src => src?.IsHomeOwner == true));
             cfg.CreateMap<LocationDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
-            cfg.CreateMap<LocationDTO, MailingAddressInformation>()
-                    .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
-                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
-                cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
-                cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
-                    .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
-                    .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
-                    .ForMember(x => x.CreditAmount, d => d.Ignore())
-                    .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.DeferralType : 0))
-                    .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != AgreementType.LoanApplication ? src.DeferralType : 0));
+            cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
+            cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
+                .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
+                .ForMember(x => x.CreditAmount, d => d.Ignore())
+                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ));
 
             cfg.CreateMap<CommentDTO, CommentViewModel>();
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()

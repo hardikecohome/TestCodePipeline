@@ -132,6 +132,10 @@
       <Project>{68167614-D9F6-48BC-AF28-1519BA5C67FD}</Project>
       <Name>DealnetPortal.Api.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Api.Resources\DealnetPortal.Api.Resources.csproj">
+      <Project>{783de205-0ee3-429c-a85e-09f83f86dd4a}</Project>
+      <Name>DealnetPortal.Api.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.DataAccess\DealnetPortal.DataAccess.csproj">
       <Project>{5981D1A4-2F9D-4438-947B-4BE667530BFC}</Project>
       <Name>DealnetPortal.DataAccess</Name>

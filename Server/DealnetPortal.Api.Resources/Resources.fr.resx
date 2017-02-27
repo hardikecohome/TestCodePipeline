@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ContractWasDeclined" xml:space="preserve">
+    <value>Le contrat {0} a été refusé</value>
+  </data>
+  <data name="ContractWasSuccessfullyChanged" xml:space="preserve">
+    <value>Le contrat {0} a été modifié avec succès</value>
+  </data>
+  <data name="ContractWasSuccessfullySubmitted" xml:space="preserve">
+    <value>Le contrat {0} a été soumis avec succès</value>
+  </data>
+  <data name="HomeOwnersName" xml:space="preserve">
+    <value>Nom du propriétaire:</value>
+  </data>
+  <data name="PleaseSignAgreement" xml:space="preserve">
+    <value>Veuillez signer l’entente</value>
+  </data>
+  <data name="TypeOfApplication" xml:space="preserve">
+    <value>Type de demande :</value>
+  </data>
+  <data name="AirConditioner" xml:space="preserve">
+    <value>Climatiseur</value>
+  </data>
+  <data name="AirHandler" xml:space="preserve">
+    <value>Centrale de traitement de l’air</value>
+  </data>
+  <data name="AndThenYouPromptedToChangePass" xml:space="preserve">
+    <value>puis vous serez invité à modifier le mot de passe.</value>
+  </data>
+  <data name="BasementRepair" xml:space="preserve">
+    <value>Réparations du sous-sol</value>
+  </data>
+  <data name="Bathroom" xml:space="preserve">
+    <value>Salle de bains</value>
+  </data>
+  <data name="Boiler" xml:space="preserve">
+    <value>Chaudière</value>
+  </data>
+  <data name="Doors" xml:space="preserve">
+    <value>Portes</value>
+  </data>
+  <data name="EexternalLoginAlreadyAssociated" xml:space="preserve">
+    <value>La connexion externe est déjà associée à un compte.</value>
+  </data>
+  <data name="ErrorOnRegisterUser" xml:space="preserve">
+    <value>Erreur lors de l’enregistrement de l’utilisateur</value>
+  </data>
+  <data name="ExtendedWarrantyForm" xml:space="preserve">
+    <value>Formulaire de prolongation de la garantie</value>
+  </data>
+  <data name="ExternalLoginFailure" xml:space="preserve">
+    <value>Ouverture de session externe échouée.</value>
+  </data>
+  <data name="ExternalServiceUnavailable" xml:space="preserve">
+    <value>Le service externe n’est pas disponible</value>
+  </data>
+  <data name="Fireplace" xml:space="preserve">
+    <value>Foyer</value>
+  </data>
+  <data name="Flooring" xml:space="preserve">
+    <value>Plancher</value>
+  </data>
+  <data name="Furnace" xml:space="preserve">
+    <value>Fournaise</value>
+  </data>
+  <data name="Gst" xml:space="preserve">
+    <value>TPS</value>
+  </data>
+  <data name="GstPst" xml:space="preserve">
+    <value>TPS + TVP</value>
+  </data>
+  <data name="GstQst" xml:space="preserve">
+    <value>TPS + TVQ</value>
+  </data>
+  <data name="HeatPump" xml:space="preserve">
+    <value>Thermopompe</value>
+  </data>
+  <data name="HepaSystem" xml:space="preserve">
+    <value>Système HEPA</value>
+  </data>
+  <data name="Hrv" xml:space="preserve">
+    <value>HRV</value>
+  </data>
+  <data name="Hst" xml:space="preserve">
+    <value>TVH</value>
+  </data>
+  <data name="Hwt" xml:space="preserve">
+    <value>HWT</value>
+  </data>
+  <data name="InvalidUserEmail" xml:space="preserve">
+    <value>Courriel de l’utilisateur invalide.</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Facture</value>
+  </data>
+  <data name="Kitchen" xml:space="preserve">
+    <value>Cuisine</value>
+  </data>
+  <data name="OntimePassCorrectNowChange" xml:space="preserve">
+    <value>Votre mot de passe à usage unique est correct; maintenant, veuillez modifier votre mot de passe</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Autre</value>
+  </data>
+  <data name="PleaseUseToLoginPortal" xml:space="preserve">
+    <value>Veuillez l’utiliser pour ouvrir une session sur le portail</value>
+    <comment>Context: This is your password. Please use it to...</comment>
+  </data>
+  <data name="Plumbing" xml:space="preserve">
+    <value>Plomberie</value>
+  </data>
+  <data name="PorchEnclosure" xml:space="preserve">
+    <value>Véranda</value>
+  </data>
+  <data name="Roofing" xml:space="preserve">
+    <value>Toiture</value>
+  </data>
+  <data name="SecuritySystem" xml:space="preserve">
+    <value>Système de sécurité</value>
+  </data>
+  <data name="Siding" xml:space="preserve">
+    <value>Revêtement</value>
+  </data>
+  <data name="SignedContract" xml:space="preserve">
+    <value>Contrat signé</value>
+  </data>
+  <data name="SignedInstallationCertificate" xml:space="preserve">
+    <value>Certificat d’installation signé</value>
+  </data>
+  <data name="Sunrooms" xml:space="preserve">
+    <value>Solariums</value>
+  </data>
+  <data name="TanklessWaterHeater" xml:space="preserve">
+    <value>Chauffe-eau sans réservoir</value>
+  </data>
+  <data name="ThirdPartyVerificationCall" xml:space="preserve">
+    <value>Visite de vérification par un tiers</value>
+  </data>
+  <data name="ThisIsYourOnetimePass" xml:space="preserve">
+    <value>Voici votre mot de passe à usage unique :</value>
+  </data>
+  <data name="ThisIsYourPass" xml:space="preserve">
+    <value>Voici votre mot de passe :</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Inconnu</value>
+  </data>
+  <data name="UnknownApplicationToLogIn" xml:space="preserve">
+    <value>Demande d’ouverture de session inconnue.</value>
+  </data>
+  <data name="UnknownApplicationToRegister" xml:space="preserve">
+    <value>Demande d’enregistrement inconnue</value>
+  </data>
+  <data name="UserNamerPasswordIncorrect" xml:space="preserve">
+    <value>Le nom ou le mot de passe de l’utilisateur est incorrect.</value>
+  </data>
+  <data name="VoidPersonalChequeCopy" xml:space="preserve">
+    <value>Copie du chèque personnel annulé</value>
+  </data>
+  <data name="WaterTreatmentSystem" xml:space="preserve">
+    <value>Système de traitement de l’eau</value>
+  </data>
+  <data name="Windows" xml:space="preserve">
+    <value>Fenêtres</value>
+  </data>
+  <data name="YourOneTimePassword" xml:space="preserve">
+    <value>Voici votre mot de passe à usage unique</value>
+  </data>
+  <data name="YourPassword" xml:space="preserve">
+    <value>Votre mot de passe</value>
+  </data>
+  <data name="ApplicationSubmitted" xml:space="preserve">
+    <value>Demande soumises</value>
+  </data>
+  <data name="ClientDataInputted" xml:space="preserve">
+    <value>Données client saisies</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Contrat</value>
+  </data>
+  <data name="CreditCheckApproved" xml:space="preserve">
+    <value>Vérification du crédit approuvée</value>
+  </data>
+  <data name="CreditCheckDeclined" xml:space="preserve">
+    <value>Vérification du crédit refusée</value>
+  </data>
+  <data name="CreditCheckInitiated" xml:space="preserve">
+    <value>Vérification du crédit amorcée</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Adresse électronique</value>
+  </data>
+  <data name="Equipment" xml:space="preserve">
+    <value>Équipement</value>
+  </data>
+  <data name="LoanApplication" xml:space="preserve">
+    <value>Demande de prêt</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Téléphone</value>
+  </data>
+  <data name="RentalApplication" xml:space="preserve">
+    <value>Demande de location</value>
+  </data>
+  <data name="RentalApplicationHwt" xml:space="preserve">
+    <value>Demande de location (HWT)</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Rapports</value>
+  </data>
+  <data name="SalesRep" xml:space="preserve">
+    <value>Représentant</value>
+  </data>
+  <data name="SentToAudit" xml:space="preserve">
+    <value>Envoyer à la vérification</value>
+  </data>
+  <data name="StartedToFillNewContract" xml:space="preserve">
+    <value>Le contrat a commencé à être rempli</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>État</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+</root>

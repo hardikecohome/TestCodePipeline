@@ -1,8 +1,36 @@
 ﻿$(document)
     .ready(function () {
+      var isMobile = {
+        Android: function() {
+          return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+          return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+          return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+          return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+          return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+          return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+      };
+
+      setDeviceClasses();
+
+
       if(detectIE()){
         $('body').addClass('ie');
       }
+      $('.chosen-language-link').on('click', function(){
+        $(this).parents('.lang-switcher').toggleClass('open');
+        return false;
+      });
 
         $("input, textarea").placeholder();
 
@@ -21,11 +49,14 @@
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
       }).on('shown.bs.modal', function(){
-
-          $('textarea').each(function(){
-            has_scrollbar($(this), 'textarea-has-scroll');
-          });
+        $('textarea').each(function(){
+          has_scrollbar($(this), 'textarea-has-scroll');
+        });
       }).on('hidden.bs.modal', function () {
+        if(isMobile.iOS() && viewport().width >= 768){
+          resetModalDialogMarginForIpad();
+        }
+
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
         }
@@ -90,6 +121,12 @@
       $(window).on('scroll', function(){
         detectPageHeight();
       }).on('resize', function(){
+        setDeviceClasses();
+        if(isMobile.iOS() && viewport().width >= 768){
+          if($('.modal.in').length === 1){
+            setModalMarginForIpad();
+          }
+        }
         detectPageHeight();
         documentsColHeight();
       });
@@ -135,9 +172,17 @@
       });
 
 
-      if($('.sticker').length){
-        stickySection($('.sticker'));
+      if($('.loan-sticker').length && viewport().width >= 768){
+        $('.loan-sticker').each(function(){
+          if(isMobile.iOS()){
+            stickySection($(this), 'tablet-ios');
+          }else{
+            stickySection($(this), 'all');
+          }
+        });
       }
+
+
       addIconsToFields();
       toggleClearInputIcon();
       customizeSelect();
@@ -199,34 +244,125 @@
       }
 });
 
-function stickySection(elem){
-    var fixedHeaderHeight;
-    var s = elem;
-    var windowpos;
-    var parentOffsetTop;
-    var parentOffsetLeft;
-    var stikerTopPos;
-    var stickerWidth;
+function scrollPageTo(elem){
+  if(elem.offset().top < $(window).scrollTop() || elem.offset().top > $(window).scrollTop()+ window.innerHeight){
+    $('html, body').animate({
+      scrollTop: elem.offset().top - elem.outerHeight(true) - 10
+    }, 2000);
+  }
+}
+
+function resetModalDialogMarginForIpad(){
+  $('.modal.in').find('.modal-dialog').css({
+    'margin-bottom':  30 + 'px'
+  });
+}
+
+function setModalMarginForIpad(){
+  if(window.innerHeight < window.innerWidth){
+    keyboardHeight = 60
+  }else{
+    keyboardHeight = 40
+  }
+  $('.modal.in').find('.modal-dialog').css({
+    'margin-bottom':  keyboardHeight + 'vh'
+  });
+}
+
+function fixedOnKeyboardShownIos(fixedElem){
+  var $fixedElement = fixedElem;
+  var topPadding = 10;
+
+  function fixFixedPosition() {
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
+
+    $fixedElement.addClass('absoluted-div').css({
+      top: absoluteTopCoord + 'px',
+    }).fadeIn('fast')
+  }
+  function resetFixedPosition() {
+    $fixedElement.removeClass('absoluted-div').css({
+      top: $('.navbar-header').height() + topPadding,
+    });
+    $(document).off('scroll', updateScrollTop);
+    resetModalDialogMarginForIpad();
+  }
+  function updateScrollTop() {
+    var absoluteTopCoord =  ($(window).scrollTop() - fixedElem.parent().offset().top ) + topPadding;
+    $fixedElement.css('top', absoluteTopCoord + 'px');
+  }
+
+  $('input, textarea, [contenteditable=true], select').on({
+    focus: function() {
+      if($(this).parents('.modal.in').length === 1){
+        setModalMarginForIpad();
+      }else{
+        setTimeout(fixFixedPosition, 100);
+      }
+      $(document).scroll(updateScrollTop);
+    },
+    blur: resetFixedPosition
+  });
+}
+
+function updateModalHeightIpad(){
+
+  //If focus on input inside modal in new added blocks (which were display none when modal appears)
+
+  if($('body').is('.ios-device.tablet-device') && viewport().width >= 768) {
+    $('input, textarea, [contenteditable=true], select').on({
+      focus: function() {
+        setModalMarginForIpad();
+      },
+      blur: function(){
+        resetModalDialogMarginForIpad();
+      }
+    });
+  }
+}
+
+function stickySection(elem, device){
+  var fixedHeaderHeight,
+      parentDiv = elem.parents('.sticker-parent'),
+      windowTopPos,
+      parentOffsetTop,
+      parentOffsetLeft,
+      stickerTopPos,
+      stickerWidth,
+      stickerLeftPos,
+      topPadding = 10,
+      device = device || 'all'; // iOS or other devices(desktop and android)
+
     $(window).on('scroll resize', function(){
       fixedHeaderHeight = $('.navbar-header').height();
-      windowpos = $(window).scrollTop() + fixedHeaderHeight;
-      parentOffsetTop = s.parent().offset().top;
-      parentOffsetLeft = s.parent().offset().left;
-      stickerWidth = s.parent().width();
-      if (windowpos >= parentOffsetTop) {
-        s.addClass("stick");
-        stikerTopPos = fixedHeaderHeight+10;
-      } else {
-        s.removeClass("stick");
-        stikerTopPos = 0;
-      }
+      windowTopPos = $(window).scrollTop() + fixedHeaderHeight;
+      parentOffsetTop = parentDiv.offset().top;
+      parentOffsetLeft = parentDiv.offset().left;
+      stickerWidth = parentDiv.width();
+      stickerLeftPos = parentOffsetLeft;
 
-      $('.equipment-form-container.has-loan-calc .sticker').css({
-        top: stikerTopPos + 'px',
-        width: stickerWidth + 'px'
-      });
+
+        if (windowTopPos >= parentOffsetTop) {
+          elem.addClass("stick");
+          stickerTopPos = fixedHeaderHeight + topPadding;
+
+          if(device === 'tablet-ios'){
+            fixedOnKeyboardShownIos(elem);
+          }else{
+            elem.css({
+              top: stickerTopPos + 'px',
+              width: 'auto',
+              right: 0,
+              left: stickerLeftPos + 'px'
+            });
+          }
+        } else {
+          elem.removeClass("stick");
+          stickerTopPos = 0;
+        }
     });
 }
+
 
 function has_scrollbar(elem, className)
 {
@@ -239,7 +375,7 @@ function has_scrollbar(elem, className)
 
 function inputDateFocus(input){
   input.on('click touchend', function(){
-    if((viewport().width < 768))
+    if(viewport().width < 768)
     {
       if($('body').not('.hasDatepicker')){
         $('body').addClass('hasDatepicker');
@@ -270,9 +406,9 @@ function navigateToStep(targetLink){
   var url = targetLink.attr('href');
   var stepName = targetLink.text();
   var data = {
-    message: "If you change Home Owner Information you will have to pass Credit Check step again",
-    title: 'Navigate to step '+stepName+'?',
-    confirmBtnText: 'Go to Step '+stepName
+      message: translations['IfYouChangeInfo'],
+      title: translations['NavigateToStep'] + ' ' + stepName + '?',
+      confirmBtnText: translations['GoToStep'] + ' ' + stepName
   };
   dynamicAlertModal(data);
 
@@ -337,6 +473,7 @@ function resetDataTablesExpandedRows(table){
 
 function redrawDataTablesSvgIcons(){
   $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
+  $('.checkbox-icon').html('<svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg>');
   $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
   $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
 }
@@ -404,16 +541,32 @@ function customizeSelect(){
 }
 
 function addIconsToFields(fields){
-  var fields = fields || $('.control-group input:not(".dealnet-disabled-input"), .control-group textarea:not(".dealnet-disabled-input")');
-  var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
+  var fields = fields || ($('.control-group input, .control-group textarea'));
+  //var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
   var fieldPassParent = fields.parent('.control-group.control-group-pass');
-  var iconCalendar = $('<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>');
-  var iconClearField = $('<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>');
-  var iconPassField = $('<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>');
-  iconCalendar.appendTo(fieldDateParent);
-  iconClearField.appendTo(fieldParent);
-  iconPassField.appendTo(fieldPassParent);
+  var iconCalendar = '<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>';
+  var iconClearField = '<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>';
+  var iconPassField = '<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>';
+
+  if(fieldDateParent.children('.icon-calendar').length === 0){
+    fieldDateParent.append(iconCalendar);
+  }
+
+  fields.each(function(){
+    var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
+    if(!$(this).is(".dealnet-disabled-input") && $(this).attr("type") !== "hidden"){
+      if(fieldParent.children('.clear-input').length === 0){
+        fieldParent.append(iconClearField);
+      }
+    }
+  })
+
+
+  if(fieldPassParent.children('.recover-pass-link').length === 0){
+    fieldPassParent.append(iconPassField);
+  }
+
   setTimeout(function(){
     fields.each(function(){
       if($(this).val().length > 0){
@@ -439,7 +592,6 @@ function toggleClearInputIcon(fields){
     $(this).siblings('input, textarea').val('').change();
     $(this).hide();
   });
-
 }
 
 function recoverPassword(){
@@ -499,6 +651,44 @@ function recoverPassword(){
     return false;
   }
 
+function setDeviceClasses(){
+  var isMobile = {
+    Android: function() {
+      return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+      return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+      return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+      return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+      return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+  };
+
+  if(isMobile.any()) {
+    if(viewport().width < 768){
+      $('body').addClass('mobile-device').removeClass('tablet-device')
+    }else{
+      $('body').addClass('tablet-device').removeClass('mobile-device')
+    }
+  }else{
+    $('body').removeClass('mobile-device').removeClass('tablet-device')
+  }
+  if(isMobile.iOS()){
+    $('body').addClass('ios-device');
+    $('.modal').removeClass('fade').addClass('fade-on-ios');
+  }else{
+    $('body').removeClass('ios-device')
+  }
+}
 
 function viewport() {
   var e = window, a = 'inner';
@@ -526,8 +716,5 @@ function customDPSelect(){
   }
   if($('select.ui-datepicker-month').length){
     $('.ui-datepicker-prev, .ui-datepicker-next').hide();
-    console.log('1')
-  }else{
-    console.log(12)
   }
 }
