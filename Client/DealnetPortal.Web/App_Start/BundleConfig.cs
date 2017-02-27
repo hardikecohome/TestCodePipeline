@@ -69,8 +69,6 @@ namespace DealnetPortal.Web
                       "~/Content/datatables/css/jquery.dataTables.css",
                       "~/Content/datatables/css/dataTables.bootstrap.css",
                       "~/Content/datatables/css/responsive.bootstrap.css"));
-
-            //bundles.Add(new LessBundle("~/Content/less/less").Include("~/Content/less/*.less"));
         }
     }
 }
