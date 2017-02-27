@@ -32,6 +32,12 @@
         return false;
       });
 
+      $('html').click(function () {
+        if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
+          $('.lang-switcher').removeClass('open')
+        }
+      });
+
         $("input, textarea").placeholder();
 
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
