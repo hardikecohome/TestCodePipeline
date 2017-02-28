@@ -684,7 +684,13 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = PdfFormFields.CustomerName,
                         Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
                     });
-               }
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.CustomerName}2",
+                        Value = $"{contract.PrimaryCustomer.LastName} {contract.PrimaryCustomer.FirstName}"
+                    });
+                }
             }
 
             if (contract.PrimaryCustomer?.Emails?.Any() ?? false)
@@ -767,6 +773,12 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.CustomerName2,
                     Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
                 });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = $"{PdfFormFields.CustomerName2}2",
+                    Value = $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                });
 
                 if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)
                 {
@@ -784,10 +796,16 @@ namespace DealnetPortal.Api.Integration.Services
                 var newEquipments = contract.Equipment.NewEquipment;
                 var fstEq = newEquipments.First();
 
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString() });
-                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description });
+                formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentQuantity, Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString() });                
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentCost, Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString() });
                 formFields.Add(new FormField() { FieldType = FieldType.Text, Name = $"{PdfFormFields.EquipmentCost}_2", Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString()});
+
+                if (fstEq != null)
+                {
+                    formFields.Add(new FormField() { FieldType = FieldType.Text, Name = PdfFormFields.EquipmentDescription, Value = fstEq.Description });
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.IsEquipment, Value = "true" });
+                    formFields.Add(new FormField() { FieldType = FieldType.CheckBox, Name = PdfFormFields.EquipmentMonthlyRental, Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture) });
+                }
 
                 var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)

@@ -84,9 +84,11 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EquipmentQuantity = "EquipmentQuantity";
         public static string EquipmentDescription = "EquipmentDescription";
         public static string EquipmentCost = "EquipmentCost";
+        //for fst eq only
+        public static string IsEquipment = "IsEquipment";
+        public static string EquipmentMonthlyRental = "EquipmentMonthlyRental";
 
         public static string InstallDate = "InstallDate";
-
         public static string HouseSize = "HouseSize";
 
         //Payment Fields
