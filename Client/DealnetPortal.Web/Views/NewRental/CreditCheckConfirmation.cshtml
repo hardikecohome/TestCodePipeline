@@ -464,7 +464,7 @@ if (creditCheckError != null)
 			    {
 			        <div class="col-md-6 grid-column">
 			            <div class="dealnet-credit-check-section" id="additional-address-section-@(i + 1)">
-					<h3 class="dealnet-section-title">@Resources.AddressInformation @*<a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@</h3>
+					<h3 class="dealnet-section-title">@Resources.MailingAddress @*<a href="#" onclick="copyFormData($('#additional-address-section-@(i+1)'), $('#additional-address-section-modal-@(i+1)'), false); $('#additional-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@</h3>
 			                <div class="form-group">
 			                    <div class="row">
 			                        @Html.LabelFor(m => Model.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "dealnet-field-caption col-xs-6"})

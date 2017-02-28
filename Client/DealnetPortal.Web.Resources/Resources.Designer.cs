@@ -3238,7 +3238,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can&apos;t edit information about borrower and additional applicant because this deal was already submitted. You can add additional applicants.
+        ///   Looks up a localized string similar to You can&apos;t edit information about borrower and additional applicant(s) because this deal was already submitted. You can add additional applicant(s).
         /// </summary>
         public static string YouCantEditBecauseSubmittedYouCanAddAdditional {
             get {
