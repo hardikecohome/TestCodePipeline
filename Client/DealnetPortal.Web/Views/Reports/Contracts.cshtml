@@ -20,8 +20,8 @@
 				<div class="dealnet-credit-check-section common-contract-information">
 					<div class="form-group">
 						<div class="row">
-							<div class="col-xs-12 col-sm-9 dealnet-field-caption">@Resources.TotalMonthlyPaymentWithTaxes</div>
-							<div class="col-xs-12 col-sm-3 dealnet-field-holder">
+							<div class="col-xs-12 col-sm-8 col-md-7 col-lg-8 dealnet-field-caption">@Resources.TotalMonthlyPaymentWithTaxes</div>
+							<div class="col-xs-12 col-sm-4 col-md-5 col-lg-4 dealnet-field-holder">
 								<div class="control-group">
                                     $ @($"{Model.Sum(c => c.EquipmentInfo == null ? 0 : c.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? c.LoanCalculatorOutput.TotalMonthlyPayment : (c.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (c.EquipmentInfo?.TotalMonthlyPayment ?? 0)* (c.ProvinceTaxRate?.Rate ?? 0) / 100 ):0.00}")
 								</div>
@@ -30,8 +30,8 @@
 					</div>
 				        <div class="form-group">
 				            <div class="row">
-				                <div class="col-xs-12 col-sm-9 dealnet-field-caption">@Resources.TotalValue</div>
-				                <div class="col-xs-12 col-sm-3 dealnet-field-holder">
+				                <div class="col-xs-12 col-sm-8 col-md-7 col-lg-8 dealnet-field-caption">@Resources.TotalValue</div>
+				                <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4 dealnet-field-holder">
 				                    <div class="control-group">
 				                        $ @($"{Model.Where(x => x.EquipmentInfo != null).Sum(c => c.EquipmentInfo.ValueOfDeal):0.00}")
 				                    </div>
