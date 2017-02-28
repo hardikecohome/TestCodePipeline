@@ -103,6 +103,13 @@
   color: @heading-text-color2;
   max-width: 100%;
   width: 100%;
+  &.has-cost-sign{
+    &+.dealnet-disabled-input-value{
+      &:before{
+        content: '$ ';
+      }
+    }
+  }
   &.dealnet-disabled-textarea{
     &+.dealnet-disabled-input-value{
       font-weight: 400;
