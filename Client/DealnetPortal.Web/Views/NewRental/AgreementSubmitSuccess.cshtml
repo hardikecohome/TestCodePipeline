@@ -23,7 +23,7 @@
             @if (ViewBag.IsEsignatureEnabled)
             {
                 <div class="sent-contract-section">
-                    <h2 class="dealnet-large-header">@Resources.SendContractForEsignature</h2>
+                    <h2 class="dealnet-large-header text-center">@Resources.SendContractForEsignature</h2>
                     @using (Html.BeginForm("SummaryAndConfirmation", "NewRental", FormMethod.Post, new {id = "send-mails-form", @class = "clearfix"}))
                     {
                         @Html.HiddenFor(m => m.ContractId)

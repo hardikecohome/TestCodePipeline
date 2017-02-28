@@ -266,7 +266,7 @@ function createFilter() {
     var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
 
     $('#table-title').html('<div class="dealnet-large-header">' + translations['Reports'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
-    $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-success-button block-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
+    $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-link-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
 
     $('#table-title .icon-search-control').on('click', function () {
         $(this).toggleClass('active');
