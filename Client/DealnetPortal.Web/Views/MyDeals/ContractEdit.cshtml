@@ -1143,18 +1143,18 @@
 	                </div>
 	            </div>
 	        }
-		    <div class="clearfix">
-			    <div class="col-md-6 grid-column">
-				    <div class="dealnet-credit-check-section">
-					    <div class="form-group">
-						    <div class="row">
-							    @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-							    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-								    @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", data_val_date = "" })
-							    </div>
+	    </div>
+	    <div class="row credit-check-info-hold equipment-info">
+		    <div class="col-md-6 grid-column">
+			    <div class="dealnet-credit-check-section">
+				    <div class="form-group">
+					    <div class="row">
+						    @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+						    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+							    @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", data_val_date = "" })
 						    </div>
 					    </div>
-					</div>
+				    </div>
 			    </div>
 		    </div>
 	    </div>
