@@ -76,6 +76,7 @@
   font-weight: 700;
   font-size: 16px;
   color: @button-link-color;
+  width: auto;
   &:hover{
     color: @button-link-hover-color;
     outline: none;
@@ -152,4 +153,14 @@ a.disabled{
   min-height: 39px;
   height: auto;
   white-space: initial;
+}
+
+#export-all-to-excel{
+  @media @tablet-up {
+    text-align: right;
+  }
+  @media @mobile {
+    text-align: center;
+    margin-bottom: 15px;
+  }
 }
