@@ -192,6 +192,7 @@
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\StubController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -794,6 +795,7 @@
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\Rentals\" />
+    <Folder Include="Views\Settings\" />
     <Folder Include="Views\UpdateData\" />
   </ItemGroup>
   <ItemGroup>

@@ -11,19 +11,17 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public class DynamicLessHandler : IHttpHandler
     {
-        private const string navBarColor = "#162d43";
-
         public void ProcessRequest(HttpContext context)
         {
             // Load less stylesheet body
-            string localPath = context.Request.Url.LocalPath;//.Replace(".dynamic", "");
-            string fileName = context.Server.MapPath(localPath);
-            string fileContent = File.ReadAllText(fileName);
+            var localPath = context.Request.Url.LocalPath;//.Replace(".dynamic", "");
+            var fileName = context.Server.MapPath(localPath);
+            var fileContent = File.ReadAllText(fileName);
 
             // Append variable to override
             var sb = new StringBuilder(fileContent);
-            sb.AppendLine("@navbar-header: " + navBarColor + ";");
-            //sb.AppendLine("@gallery-li-bg: " + dbColor2 + ";");
+            //sb.AppendLine("@navbar-header: " + navBarColor + ";");
+            //TODO: place variables here
 
             // Configure less to allow variable overrides
             var config = DotlessConfiguration.GetDefaultWeb();
@@ -34,9 +32,6 @@ namespace DealnetPortal.Web.Infrastructure
             context.Response.Write(LessWeb.Parse(sb.ToString(), config));
         }
 
-        public bool IsReusable
-        {
-            get { return true; }
-        }
+        public bool IsReusable => true;
     }
 }
