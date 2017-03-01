@@ -44,7 +44,7 @@
                         <div class="equipment-editable-section col-sm-6">
                             <div class="form-group initial-mode">
                                 <div class="row">
-                                    <div class="col-md-8 initial-width">
+                                    <div class="col-md-4 initial-width">
                                         <label>@Resources.ChooseProvince</label>
                                         @Html.DropDownListFor(m => m.ProvinceTaxRates,
                                             (Model.ProvinceTaxRates).Select(x => new SelectListItem {Value = x.Rate.ToStringInvariant(), Text = x.Province}),
@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-6 equipment-cost-col initial-width">
+                                            <div class="col-md-4 equipment-cost-col initial-width">
                                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
                                                 <div class="control-group has-addon-left">
                                                     <div class="control-group-addon">$</div>
