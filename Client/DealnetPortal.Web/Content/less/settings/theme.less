@@ -108,12 +108,12 @@
 }
 
 .dealnet-button {
-  color: @success-text-color;
+  color: @btn-success-text-color;
   box-sizing: border-box;
   display: inline-block;
   background-repeat: no-repeat;
   &:hover {
-    color: @success-text-color;
+    color: @btn-success-text-color;
   }
 
   & > p {
@@ -132,7 +132,7 @@
   vertical-align: middle;
   border-radius: 50%;
   font: 700 20px/40px @usual-font-family;
-  border: 4px solid @white-color;
+  border: 5px solid @white-color;
   box-shadow: 0 0 0 1px @default-grey-color;
   color: @default-grey-color;
   background: @white-color;
@@ -145,13 +145,13 @@
     color: @default-grey-color;
   }
   &.step-active{
-    height: 50px;
-    width: 50px;
+    height: 48px;
+    width: 48px;
     border-radius: 50%;
-    box-shadow: 0 0 0 1px @success-color;
-    background: @success-color;
-    color: @success-text-color;
-    line-height: 40px;
+    background: @btn-success-bg;
+    box-shadow: 0 0 0 1px @btn-success-bg;
+    color: @btn-success-text-color;
+    line-height: 36px;
   }
 }
 #steps {
@@ -159,7 +159,7 @@
   a.step-item{
     color: @default-grey-color;
     &.step-active{
-      color: @success-text-color;
+      color: @btn-success-text-color;
     }
     &:hover,
     &:focus{

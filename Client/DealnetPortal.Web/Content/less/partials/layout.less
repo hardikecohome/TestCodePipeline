@@ -53,7 +53,9 @@ body.no-authorized .navbar{
 }
 
 .navbar-header {
+  /*
   background-color: @navbar-header;
+  */
 
   height: 50px;
   line-height: 50px;
@@ -245,12 +247,13 @@ body.open-menu{
 .dealnet-sidebar-item .dealnet-sidebar-link{
   padding: 16px 0px 16px 53px;
   display: block;
-  color: #fff;
+  color: @navbar-link-color;
   text-decoration: none;
   &.no-icon{
     padding-left: 15px;
   }
   &:hover{
+    color: @navbar-link-active-color;
     background-color: @nav-item-active-bg;
   }
   &:focus{
@@ -258,13 +261,15 @@ body.open-menu{
   }
   &:focus, &:active, &:focus:active{
     text-decoration: none;
+    color: @navbar-link-active-color;
     background-color: @nav-item-active-bg;
-    box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.12);
+    box-shadow: @nav-item-active-box-shadow;
   }
 }
 
 .dealnet-sidebar-item-selected {
   .dealnet-sidebar-link{
+    color: @navbar-link-active-color;
     background-color: @nav-item-active-bg;
     box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.12);
   }
@@ -274,7 +279,7 @@ body.open-menu{
   background-image: @logo-img;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto 40px;
+  background-size: @logo-width @logo-height;
   display: inline-block;
   height: 50px;
   margin: 0 auto;
@@ -313,8 +318,14 @@ body.open-menu{
 }
 
 .dealnet-sidebar-header{
+  /*background: @logo-bg-color;*/
+  margin: 0 -15px 15px;
+  padding: 0 15px;
+  height: 50px;
+  /*box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.7);*/
   .dealnet-image-ecologo{
     display: inline-block;
+    height: 46px;
   }
 }
 

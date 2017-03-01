@@ -40,6 +40,19 @@
                 width: auto;
             }
         }
+       .logo-container{
+         background: @logo-bg-color;
+         display: none;
+         @media only screen and (min-width: 1279px){
+           display: block;
+           width: 16.66666667%;
+           text-align: center;
+           .main-logo{
+             margin-left: -15px;
+           }
+         }
+
+       }
         .main-logo{
             text-indent: -9999em;
             @media only screen and (max-width: 1279px){
@@ -122,6 +135,7 @@ body.ios-device.modal-open .navbar-fixed-side{
         padding: 50px 0 0;
         z-index: 9;
         border: 0;
+        box-shadow: inset -1px 1px 5px 0 rgba(0, 0, 0, 0.31);
         @media @desktop-only {
             width: 25%;
         }
@@ -131,6 +145,10 @@ body.ios-device.modal-open .navbar-fixed-side{
         }
         @media @desktop-lg-up {
             width: 16.66666667%;
+        }
+        @media only screen and (min-width: 1279px) {
+          top: 50px;
+          padding-top: 0;
         }
         .nav-sidebar{
             margin: 0 -15px;
