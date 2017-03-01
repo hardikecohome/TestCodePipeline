@@ -137,9 +137,21 @@
       $('.reports-contract-item').each(function(){
         $('.contract-hidden-info').hide();
       });
+
       $('.show-full-conract-link').on('click', function(){
         $(this).parents('.reports-contract-item').find('.contract-hidden-info').show();
         $(this).hide();
+        $('.hide-full-conract-link').show();
+        return false;
+      });
+
+      $('.hide-full-conract-link').on('click', function(){
+        $(this).parents('.reports-contract-item').find('.contract-hidden-info').hide();
+        $(this).hide();
+        $('.show-full-conract-link').show();
+       /* $('html, body').animate({
+          scrollTop: $(this).parents('.reports-contract-item').offset().top - 60
+        }, 2000);*/
         return false;
       });
 
@@ -251,7 +263,6 @@
 });
 
 function detectSidebarHeight(){
-  console.log('detect sidebar');
   if($('.sidebar-inner').height() <= $('.dealnet-sidebar').height()){
     $('.sidebar-bottom').addClass('stick-bottom');
   }else{
