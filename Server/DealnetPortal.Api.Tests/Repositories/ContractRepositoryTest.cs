@@ -15,13 +15,9 @@ namespace DealnetPortal.Api.Tests.Repositories
 {
     //[Ignore]
     [TestClass]
-    public class ContractRepositoryTest
+    public class ContractRepositoryTest : BaseRepositoryTest
     {
-        private IDatabaseFactory _databaseFactory;
-        private IUnitOfWork _unitOfWork;
-        private IContractRepository _contractRepository;
-        private ApplicationUser _user;
-
+        protected IContractRepository _contractRepository;
         public TestContext TestContext { get; set; }
 
         [ClassInitialize]
@@ -32,62 +28,10 @@ namespace DealnetPortal.Api.Tests.Repositories
         }
 
         [TestInitialize]
-        public void Intialize()
+        public void Initialize()
         {
-            Database.SetInitializer(
-                new DropCreateDatabaseAlways<ApplicationDbContext>());
-
-            _databaseFactory = new DatabaseFactory();
-            _unitOfWork = new UnitOfWork(_databaseFactory);
+            InitializeTestDatabase();
             _contractRepository = new ContractRepository(_databaseFactory);
-
-            var context = _databaseFactory.Get();
-            context.Database.Initialize(true);
-
-            InitTestData();
-        }
-
-        private void InitTestData()
-        {
-            _user = _databaseFactory.Get().Users.FirstOrDefault();
-            if (_user == null)
-            {
-                _user = CreateTestUser();
-                _databaseFactory.Get().Users.Add(_user);
-                _unitOfWork.Save();
-            }
-            SetDocumentTypes();
-        }
-
-        private void SetDocumentTypes()
-        {
-            var documentTypes = new[]
-            {
-                new DocumentType() {Description = "Signed contract", Prefix = "SC_"},
-                new DocumentType() {Description = "Signed Installation certificate", Prefix = "SIC_"},
-                new DocumentType() {Description = "Invoice", Prefix = "INV_"},
-                new DocumentType() {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
-                new DocumentType() {Description = "Extended Warranty Form", Prefix = "EWF_"},
-                new DocumentType() {Description = "Third party verification call", Prefix = "TPV_"},
-                new DocumentType() {Description = "Other", Prefix = ""},
-            };
-            _databaseFactory.Get().DocumentTypes.AddRange(documentTypes);
-            _unitOfWork.Save();
-        }
-
-        private ApplicationUser CreateTestUser()
-        {
-            var user = new ApplicationUser()
-            {
-                Email = "user@user.ru",
-                UserName = "user@user.ru",
-                EmailConfirmed = false,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-            };
-            return user;
         }
 
         [TestMethod]

@@ -51,6 +51,11 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Comment> Comments { get; set; }
 
+        public virtual DbSet<SettingKey> SettingKeys { get; set; }
+        public virtual DbSet<SettingValue> SettingValues { get; set; }
+        public virtual DbSet<UserSettings> UserSettings { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
