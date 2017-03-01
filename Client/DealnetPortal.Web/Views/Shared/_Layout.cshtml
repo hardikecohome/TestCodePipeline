@@ -136,18 +136,19 @@
             @if (User.Identity.IsAuthenticated)
             {
             <div class="dealnet-sidebar collapse navbar-collapse" aria-expanded="false">
-                <div class="dealnet-sidebar-header">
-                    <div class="dealnet-image-ecologo">
+                <div class="sidebar-inner">
+                    <div class="dealnet-sidebar-header">
+                        <div class="dealnet-image-ecologo">
+                        </div>
+                        <button class="navbar-toggle pull-right" data-target=".navbar-collapse" data-toggle="collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                     </div>
-                    <button class="navbar-toggle pull-right" data-target=".navbar-collapse" data-toggle="collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                @if (Request.IsAuthenticated)
-                {
+                    @if (Request.IsAuthenticated)
+                    {
                     {
                     @*@Html.AntiForgeryToken()*@
                     <div class="dealnet-sidebar-user">
@@ -160,66 +161,55 @@
                     }
                     <ul class="nav nav-sidebar">
                         <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
-                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                <svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg>
-                            </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.HomePage, "Index", "Home", null, new { @class = "dealnet-link" })</div>
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg></span>
+                            @Html.ActionLink(Resources.HomePage, "Index", "Home", null, new { @class = "dealnet-sidebar-link" })
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-newrental">
-                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                <svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental-side")"></use></svg>
-                            </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "dealnet-link" })</div>
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental-side")"></use></svg></span>
+                            @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "dealnet-sidebar-link" })
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
-                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                <svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg>
-                            </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-link" })</div>
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg></span>
+                            @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-reports">
-                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                <svg aria-hidden="true" class="icon icon-reports-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-side")"></use></svg>
-                            </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.Reports, "Index", "Reports", null, new { @class = "dealnet-link" })</div>
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-reports-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-side")"></use></svg></span>
+                            @Html.ActionLink(Resources.Reports, "Index", "Reports", null, new { @class = "dealnet-sidebar-link" })
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-calculator">
-                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                <svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg>
-                            </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new { @class = "dealnet-link" })</div>
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg></span>
+                            @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new { @class = "dealnet-sidebar-link" })
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-about">
-                            <div class="dealnet-sidebar-item-inner dealnet-sidebar-image">
-                                <svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg>
-                            </div>
-                            <div class="dealnet-sidebar-item-inner">@Html.ActionLink(Resources.AboutUs, "About", "Home", null, new {@class = "dealnet-link"})</div>
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
+                            @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new {@class = "dealnet-sidebar-link"})
                         </li>
                     </ul>
 
 
-                    <div class="dealnet-sidebar-logout">
+                    <div class="sidebar-bottom">
                         <div class="dealnet-sidebar-item">
                             <div class="sidebar-lang-item">
                                 @switch (CultureHelper.CurrentCultureType)
                                 {
-                                    case CultureType.English:
-                                        @:<span class="flag-icon french-flag"></span>
-                                        @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-link" })
-                                                    break;
-                                    case CultureType.French:
-                                        @:<span class="flag-icon english-flag"></span>
-                                        @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "dealnet-link" })
-                                                    break;
+                                case CultureType.English:
+                                @:<span class="sidebar-icon"><span class="flag-icon french-flag"></span></span>
+                                @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-sidebar-link" })
+                                break;
+                                case CultureType.French:
+                                @:<span class="sidebar-icon"><span class="flag-icon english-flag"></span></span>
+                                @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "dealnet-sidebar-link" })
+                                break;
                                 }
-                                
+
                             </div>
                         </div>
                         <div class="dealnet-sidebar-item">
-                            @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-link" })                            
+                            @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-sidebar-link no-icon" })
                         </div>
                     </div>
                 </div>
+            </div>
             }
             <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">
                 <div class="row">
