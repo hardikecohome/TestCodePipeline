@@ -576,6 +576,9 @@
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
+    <Content Include="Favicon_Eco_Energy.ico" />
+    <Content Include="favicon_Life_Time.ico" />
+    <Content Include="favicon_Smart_Home.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
@@ -606,6 +609,13 @@
     <Content Include="Content\less\components\table-my-deals.less" />
     <Content Include="Content\less\components\table-reports.less" />
     <Content Include="Content\less\components\table-filter.less" />
+    <Content Include="Content\less\main-common.less" />
+    <Content Include="Content\less\main-ecoenergy.less" />
+    <Content Include="Content\less\main-lifetime.less" />
+    <Content Include="Content\less\main-smarthome.less" />
+    <Content Include="Content\less\settings\variables-ecoenergy.less" />
+    <Content Include="Content\less\settings\variables-lifetime.less" />
+    <Content Include="Content\less\settings\variables-smarthome.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
