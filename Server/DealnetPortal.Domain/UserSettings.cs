@@ -17,10 +17,6 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public byte[] UserIcon { get; set; }
-
-        public byte[] Favicon { get; set; }
-
         public ICollection<SettingValue> SettingValues { get; set; }
     }
 }

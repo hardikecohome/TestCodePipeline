@@ -87,7 +87,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DocumentBytes, d => d.Ignore());
 
             mapperConfig.CreateMap<SettingValue, StringSettingDTO>()
-                .ForMember(x => x.Key, d => d.ResolveUsing(src => src.Key?.Key));
+                .ForMember(x => x.Name, d => d.ResolveUsing(src => src.Item?.Name))
+                .ForMember(x => x.Value, d => d.MapFrom(s => s.StringValue));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)

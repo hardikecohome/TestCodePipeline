@@ -18,9 +18,10 @@ namespace DealnetPortal.Domain
         public UserSettings UserSettings { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int KeyId { get; set; }
-        [ForeignKey("KeyId")]
-        public SettingKey Key { get; set; }
-        public string Value { get; set; }
+        public int ItemId { get; set; }        
+        [ForeignKey("ItemId")]
+        public SettingItem Item { get; set; }
+        public string StringValue { get; set; }
+        public byte[] BinaryValue { get; set; }
     }
 }

@@ -89,7 +89,7 @@
     <Compile Include="Signature\SignatureUsersDTO.cs" />
     <Compile Include="Storage\AgreementDocument.cs" />
     <Compile Include="Storage\AgreementTemplateDTO.cs" />
-    <Compile Include="UserSettings\ImageSettingDTO.cs" />
+    <Compile Include="UserSettings\BinarySettingDTO.cs" />
     <Compile Include="UserSettings\StringSettingDTO.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.UserSettings
 {
-    public class ImageSettingDTO
+    public class BinarySettingDTO
     {
-        public string Key { get; set; }
+        public string Name { get; set; }
         public byte[] ValueBytes { get; set; }
     }
 }

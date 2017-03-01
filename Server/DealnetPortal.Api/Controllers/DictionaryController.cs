@@ -214,7 +214,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetDealerSkinSettings")]
         public IHttpActionResult GetDealerSkinSettings()
         {
-            var settings = SettingsRepository.GetUserSettingsCollection(LoggedInUser?.UserId);
+            var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
             {
                 var list = Mapper.Map<IList<StringSettingDTO>>(settings);
@@ -223,22 +223,22 @@ namespace DealnetPortal.Api.Controllers
             return NotFound();
         }
 
-        [Authorize]
-        [HttpGet]
-        // GET api/Account/GetDealerLogoIcon
-        [Route("GetDealerLogoIcon")]
-        public IHttpActionResult GetDealerLogoIcon()
-        {
-            var settings = SettingsRepository.GetUserSettings(LoggedInUser?.UserId);
-            if (settings != null)
-            {
-                var icon = new ImageSettingDTO()
-                {
-                    ValueBytes = settings.UserIcon
-                };
-                return Ok(icon);
-            }
-            return NotFound();
-        }
+        //[Authorize]
+        //[HttpGet]
+        //// GET api/Account/GetDealerLogoIcon
+        //[Route("GetDealerLogoIcon")]
+        //public IHttpActionResult GetDealerLogoIcon()
+        //{
+        //    var settings = SettingsRepository.GetUserSettings(LoggedInUser?.UserId);
+        //    if (settings != null)
+        //    {
+        //        var icon = new BinarySettingDTO()
+        //        {
+        //            ValueBytes = settings.UserIcon
+        //        };
+        //        return Ok(icon);
+        //    }
+        //    return NotFound();
+        //}
     }
 }

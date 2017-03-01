@@ -3,6 +3,7 @@ using System.IO;
 using DealnetPortal.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.DataAccess.Repositories;
 
 namespace DealnetPortal.Api.Tests.Repositories
@@ -30,9 +31,9 @@ namespace DealnetPortal.Api.Tests.Repositories
 
         private void InitUserSettings()
         {
-            var setting1 = new SettingKey() {Key = "Setting1"};
-            var setting2 = new SettingKey() { Key = "Setting2" };
-            var keysList = new List<SettingKey> { setting1, setting2 };
+            var setting1 = new SettingItem() {Name = "Setting1", SettingType = SettingType.StringValue};
+            var setting2 = new SettingItem() { Name = "Setting2", SettingType = SettingType.StringValue };
+            var keysList = new List<SettingItem> { setting1, setting2 };
             _databaseFactory.Get().SettingKeys.AddRange(keysList);
             _unitOfWork.Save();
 
@@ -40,8 +41,8 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 SettingValues = new List<SettingValue>()
                 {
-                    new SettingValue() { Key = setting1, Value = "Value1"},
-                    new SettingValue() { Key = setting2, Value = "Value2"},
+                    new SettingValue() { Item = setting1, StringValue = "Value1"},
+                    new SettingValue() { Item = setting2, StringValue = "Value2"},
                 }
             });
             _user.Settings = userSettings;
