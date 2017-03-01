@@ -33,7 +33,7 @@
         return false;
       });
 
-      $('html').click(function () {
+      $('html').click(function (event) {
         if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
           $('.lang-switcher').removeClass('open')
         }
