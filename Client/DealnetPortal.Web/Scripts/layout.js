@@ -32,25 +32,20 @@
         return false;
       });
 
+      //If opened switch language dropdown, hide it when click anywhere accept opened dropdown
       $('html').click(function () {
         if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
           $('.lang-switcher').removeClass('open')
         }
       });
 
-        $("input, textarea").placeholder();
+      //Apply function placeholder for ie browsers
+      $("input, textarea").placeholder();
 
-        $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
-            .parents('.dealnet-sidebar-item')
-            .addClass('dealnet-sidebar-item-selected');
+      $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
+          .parents('.dealnet-sidebar-item')
+          .addClass('dealnet-sidebar-item-selected');
 
-        $('.dealnet-sidebar-item').click(function () {
-            window.location.href = $(this).find('a').attr('href');
-        });
-
-        $('.dealnet-page-button').click(function () {
-            window.location.href = $(this).find('a').attr('href');
-        });
 
       $(document).on('show.bs.modal', function () {
         saveScrollPosition();
@@ -62,7 +57,6 @@
         if(isMobile.iOS() && viewport().width >= 768){
           resetModalDialogMarginForIpad();
         }
-
         if($('.modal:visible').length == 0) {
           resetScrollPosition();
         }
@@ -75,6 +69,7 @@
       $('.navbar-toggle').click(function(){
         if($('.navbar-collapse').attr('aria-expanded') === 'false'){
           saveScrollPosition();
+          detectSidebarHeight();
           $('body').addClass('open-menu');
           $('body').addClass('menu-animated');
           $('.overlay').show();
@@ -127,6 +122,7 @@
       $(window).on('scroll', function(){
         detectPageHeight();
       }).on('resize', function(){
+        detectSidebarHeight();
         setDeviceClasses();
         if(isMobile.iOS() && viewport().width >= 768){
           if($('.modal.in').length === 1){
@@ -248,7 +244,19 @@
           currentTab.parents('.documents-pills-item').addClass('active');
         });
       }
+
+
+
 });
+
+function detectSidebarHeight(){
+  console.log('detect sidebar');
+  if($('.sidebar-inner').height() <= $('.dealnet-sidebar').height()){
+    $('.sidebar-bottom').addClass('stick-bottom');
+  }else{
+    $('.sidebar-bottom').removeClass('stick-bottom');
+  }
+}
 
 function scrollPageTo(elem){
   if(elem.offset().top < $(window).scrollTop() || elem.offset().top > $(window).scrollTop()+ window.innerHeight){
