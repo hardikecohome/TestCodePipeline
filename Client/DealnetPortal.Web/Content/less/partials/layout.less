@@ -53,7 +53,9 @@ body.no-authorized .navbar{
 }
 
 .navbar-header {
+  /*
   background-color: @navbar-header;
+  */
 
   height: 50px;
   line-height: 50px;
@@ -277,7 +279,7 @@ body.open-menu{
   background-image: @logo-img;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto 40px;
+  background-size: @logo-width @logo-height;
   display: inline-block;
   height: 50px;
   margin: 0 auto;
