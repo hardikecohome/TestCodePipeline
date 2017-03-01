@@ -19,6 +19,8 @@
 }
 .dealnet-success-button,
 .dealnet-green-button{
+  .dealnet-button;
+
   height: 39px;
   width: 235px;
   border-radius: 4px;
@@ -74,6 +76,7 @@
   font-weight: 700;
   font-size: 16px;
   color: @button-link-color;
+  width: auto;
   &:hover{
     color: @button-link-hover-color;
     outline: none;
@@ -138,4 +141,26 @@ a{
 }
 a.disabled{
   opacity: 0.6 !important;
+}
+
+
+.dealnet-button-declined {
+  .dealnet-success-button;
+  display: block;
+  width: 340px;
+  max-width: 100%;
+  margin: 0 auto 20px;
+  min-height: 39px;
+  height: auto;
+  white-space: initial;
+}
+
+#export-all-to-excel{
+  @media @tablet-up {
+    text-align: right;
+  }
+  @media @mobile {
+    text-align: center;
+    margin-bottom: 15px;
+  }
 }

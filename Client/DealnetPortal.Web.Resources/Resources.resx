@@ -1176,4 +1176,19 @@
   <data name="AmortizationTermMustBe3Max" xml:space="preserve">
     <value>Amortization Term must be maximum 3 digits long</value>
   </data>
+  <data name="AdditionalApplicantPreviousAddressInformation" xml:space="preserve">
+    <value>Additional Applicant Previous Address Information</value>
+  </data>
+  <data name="LivedAtCurrentLessThan" xml:space="preserve">
+    <value>Lived at current address less than 6 month</value>
+  </data>
+  <data name="YouCantEditBecauseSubmittedYouCanAddAdditional" xml:space="preserve">
+    <value>You can't edit information about borrower and additional applicant(s) because this deal was already submitted. You can add additional applicant(s)</value>
+  </data>
+  <data name="DealValueFrom" xml:space="preserve">
+    <value>Deal Value From</value>
+  </data>
+  <data name="DealValueTo" xml:space="preserve">
+    <value>Deal Value To</value>
+  </data>
 </root>

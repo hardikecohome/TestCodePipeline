@@ -631,27 +631,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
-        }
-
-        private void InitRequestPayload(DealUploadRequest request)
-        {
-            if (request.Payload == null)
-            {
-                request.Payload = new Payload();
-            }
-            if (request.Payload.Lease == null)
-            {
-                request.Payload.Lease = new Lease();
-            }
-            if (request.Payload.Lease.Accounts == null)
-            {
-                request.Payload.Lease.Accounts = new List<Account>();
-            }
-            if (request.Payload.Lease.Application == null)
-            {
-                request.Payload.Lease.Application = new Application();
-            }
-        }
+        }        
 
         private string GetTransactionId(Domain.Contract contract)
         {
@@ -674,7 +654,6 @@ namespace DealnetPortal.Api.Integration.Services
             const string GuarRole = "GUAR";
 
             var accounts = new List<Account>();
-            //InitRequestPayload(request);     
             var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];            
 
             Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
@@ -754,13 +733,23 @@ namespace DealnetPortal.Api.Integration.Services
                 
                 if (c.Phones?.Any() ?? false)
                 {
-                    var phone = c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ??
-                                c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ??
+                    var phone = c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ??
+                                c.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ??
                                 c.Phones.FirstOrDefault()?.PhoneNum;
                     account.Telecomm = new Telecomm()
                     {
                         Phone = phone
                     };
+                }
+                if (c.Emails?.Any() ?? false)
+                {
+                    var email = c.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                                c.Emails.FirstOrDefault()?.EmailAddress;
+                    if (account.Telecomm == null)
+                    {
+                        account.Telecomm = new Telecomm();
+                    }
+                    account.Telecomm.Email = email;
                 }
 
                 if (string.IsNullOrEmpty(c.AccountId))

@@ -11,7 +11,6 @@ $(document)
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
                     } else {
-                        recalculateTotalMonthlyPayment();
                         var monthPayment = $("#total-monthly-payment").val();
                         if (isNaN(monthPayment) || (monthPayment == 0)) {
                             event.preventDefault();
@@ -55,7 +54,7 @@ $(document)
                 if (initAgreementType === '0') {
                     recalculateTotalCashPrice();
                 } else {
-                    recalculateTotalMonthlyPayment();
+                    recalculateTotalMonthlyPaymentHst();
                 }
             });
 

@@ -44,6 +44,15 @@
     </div>
 </div>
 
+@if (Model.BasicInfo.ContractWasDeclined)
+{
+    <!--Show/hide warning depend on status-deal-submitted-->
+    <div class="well well-info position-well">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
+    </div>
+}
+
 <div class="form-container summary-info-hold">
 <div class="form-section">
 <div class="clearfix">
@@ -79,8 +88,8 @@
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section" id="address-section">
                     <h3 class="dealnet-section-title">
-                        @Resources.AddressInformation
-                        @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+                        @Resources.InstallationAddressInformation
+                        @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                         {
                         <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                         }
@@ -202,71 +211,79 @@
                 </div>
             </div>
         </div>
-
-        <!--<div class="col-md-6 grid-column">
-            <div class="dealnet-credit-check-section" id="prev-address-section">
-                <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation <a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a></h3>
-                <div class="form-group">
-                    <div class="row">
-                        <label for="" class="dealnet-field-caption col-xs-6">Street</label>
-                        <div class="dealnet-field-holder col-xs-6">
-                            <div class="control-group">
-                                <input type="text" class="dealnet-disabled-input" readonly="readonly" value="Rita Ave">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <label for="" class="dealnet-field-caption col-xs-6">Unit #</label>
-                        <div class="dealnet-field-holder col-xs-6">
-                            <div class="control-group">
-                                <input type="text" class="dealnet-disabled-input" readonly="readonly" value="80">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <label for="" class="dealnet-field-caption col-xs-6">City</label>
-                        <div class="dealnet-field-holder col-xs-6">
-                            <div class="control-group">
-                                <input type="text" class="dealnet-disabled-input" readonly="readonly" value="Ottawa">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <label for="" class="dealnet-field-caption col-xs-6">Province</label>
-                        <div class="dealnet-field-holder col-xs-6">
-                            <div class="control-group">
-                                <input type="text" class="dealnet-disabled-input" readonly="readonly" value="Nepean">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <label for="" class="dealnet-field-caption col-xs-6">Postal Code</label>
-                        <div class="dealnet-field-holder col-xs-6">
-                            <div class="control-group">
-                                <input type="text" class="dealnet-disabled-input" readonly="readonly" value="ON K2G 2H1">
-                            </div>
+@if (Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
+{
+    <div class="col-md-6 grid-column">
+        <div class="dealnet-credit-check-section" id="prev-address-section">
+            <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation
+                @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                {
+                    <a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-section-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                }
+            </h3>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Street, new {@class = "dealnet-field-caption col-xs-6"})
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Street, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
                         </div>
                     </div>
                 </div>
             </div>
-        </div>-->
-            @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.UnitNumber, new {@class = "dealnet-field-caption col-xs-6"})
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.UnitNumber, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.City, new {@class = "dealnet-field-caption col-xs-6"})
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.City, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, new {@class = "dealnet-field-caption col-xs-6"})
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.PostalCode, new {@class = "dealnet-field-caption col-xs-6"})
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.PostalCode, new {@readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = ""})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+        @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
             {
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="mailing-address-section">
                         <h3 class="dealnet-section-title">
                             @Resources.MailingAddress  
-                            @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+                            @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                             {
                                 <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                             }
@@ -476,72 +493,79 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!--<div class="col-md-6 grid-column">
+                            @if (Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
+                            {
+                            <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="additional-prev-address-section-@(i+1)">
-                                    <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation <a href="#" onclick="copyFormData($('#additional-prev-address-section-@(i+1)'), $('#additional-prev-address-modal-@(i+1)'), false); $('#additional-prev-address-modal-@(i+1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a></h3>
+                                    <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation
+                                    @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !(Model.BasicInfo.ContractWasDeclined && (Model.BasicInfo.AdditionalApplicants[i]?.IsInitialCustomer ?? false)))
+                                    {
+                                        <a href="#" onclick="copyFormData($('#additional-prev-address-section-@(i + 1)'), $('#additional-prev-address-section-modal-@(i + 1)'), false); $('#additional-prev-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>   
+                                    }
+                                    </h3>
                                     <div class="form-group">
                                         <div class="row">
-                                            <label for="" class="dealnet-field-caption col-xs-6">Street</label>
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input type="text" class="dealnet-disabled-input" readonly="readonly" value="Rita Ave">
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                    </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <label for="" class="dealnet-field-caption col-xs-6">Unit #</label>
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input type="text" class="dealnet-disabled-input" readonly="readonly" value="80">
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label for="" class="dealnet-field-caption col-xs-6">City</label>
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    <input type="text" class="dealnet-disabled-input" readonly="readonly" value="Ottawa">
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <label for="" class="dealnet-field-caption col-xs-6">Province</label>
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input type="text" class="dealnet-disabled-input" readonly="readonly" value="Nepean">
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <label for="" class="dealnet-field-caption col-xs-6">Postal Code</label>
+                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input type="text" class="dealnet-disabled-input" readonly="readonly" value="ON K2G 2H1">
+                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new { @readonly = "readonly", @class = "dealnet-disabled-input postal-code", id = "" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>-->
-
+                            </div>
+                            }
                             @if (Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation != null)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                         <h3 class="dealnet-section-title">
                                         @Resources.MailingAddress 
-                                            @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+                                            @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !(Model.BasicInfo.ContractWasDeclined && (Model.BasicInfo.AdditionalApplicants[i]?.IsInitialCustomer ?? false)))
                                             {
                                             <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                                             }
@@ -683,9 +707,18 @@
     @Html.HiddenFor(m => m.EquipmentInfo.AdminFee, new { id= "admin-fee" })
     @Html.HiddenFor(m => m.EquipmentInfo.DownPayment, new { id = "down-payment" })
     @Html.HiddenFor(m => m.EquipmentInfo.CreditAmount)
-    <h3 class="dealnet-section-title">
-        @Resources.NewEquipment <a href="#" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
-    </h3>
+
+    <div class="row credit-check-info-hold">
+        <div class="col-md-6 grid-column">
+            <div class="dealnet-credit-check-section">
+
+                <h3 class="dealnet-section-title">
+                    @Resources.NewEquipment <a href="#" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                </h3>
+
+            </div>
+        </div>
+    </div>
     <div id="new-equipment-info-section">
         <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
             @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
@@ -726,7 +759,7 @@
                                 <div class="row">
                                     @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input", id = ""})
+                                       @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign", id = ""})
                                     </div>
                                 </div>
                             </div>
@@ -969,9 +1002,17 @@
         @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
         @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
         <div class="summary-return-equipment" id="existing-equipment-section">
-            <h3 class="dealnet-section-title">
-                @Resources.ExistingEquipmentInformation <a href="#" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
-            </h3>
+            <div class="row credit-check-info-hold">
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+
+                        <h3 class="dealnet-section-title">
+                            @Resources.ExistingEquipmentInformation <a href="#" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                        </h3>
+
+                    </div>
+                </div>
+            </div>
             @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
             {
                 <div class="summury-return-equip-item">
@@ -1221,7 +1262,7 @@
                                             @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "mailing_street", placeholder="St."})
+                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "mailing_street", placeholder= Resources.StreetPlaceholder })
                                                     @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Street, "", new {@class = "text-danger"})
                                                </div>
                                             </div>
@@ -1245,7 +1286,7 @@
                                             @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.City, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.City, new {@class = "form-control dealnet-input", id = "mailing_locality", placeholder="City"})
+                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.City, new {@class = "form-control dealnet-input", id = "mailing_locality", placeholder= Resources.City })
                                                     @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.City, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1256,7 +1297,7 @@
                                             @Html.LabelFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province, new {@class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder="Province"})
+                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province, new {@class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder= Resources.Province })
                                                     @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1307,7 +1348,7 @@
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new {@class = "form-control dealnet-input home-phone", type="number", placeholder="Home Phone"})
+                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new {@class = "form-control dealnet-input home-phone", type="number", placeholder= Resources.HomePhone })
                                                     @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1318,7 +1359,7 @@
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new {@class = "form-control dealnet-input cell-phone", type="number", placeholder="Cell Phone"})
+                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, new {@class = "form-control dealnet-input cell-phone", type="number", placeholder= Resources.CellPhone })
                                                     @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CellPhone, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1331,7 +1372,7 @@
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new {@class = "form-control dealnet-input", type="number", id = "locality", placeholder="Business Phone"})
+                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, new {@class = "form-control dealnet-input", type="number", id = "locality", placeholder= Resources.BusinessPhone })
                                                     @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.BusinessPhone, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1342,7 +1383,7 @@
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", type = "email", placeholder="Email Address"})
+                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "administrative_area_level_1", type = "email", placeholder= Resources.EmailAddress })
                                                     @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.EmailAddress, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1355,7 +1396,7 @@
                                             @Html.LabelFor(m => m.ContactAndPaymentInfo.HouseSize, new {@class = "dealnet-field-caption"})
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new {@class = "form-control dealnet-input", type="number", placeholder="House Size"})
+                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.HouseSize, new {@class = "form-control dealnet-input", type="number", placeholder= Resources.HouseSizeSquareFeet})
                                                     @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.HouseSize, "", new {@class = "text-danger"})
                                                 </div>
                                             </div>
@@ -1365,7 +1406,8 @@
                             </div>
                     }
                 </div>
-	            <div class="btn-container">
+
+                <div class="btn-container">
 		            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button"  onclick="if (saveChanges($('#contact-info-section-modal'), $('#contact-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-form'))) { $('#contact-info-modal').modal('hide'); }">@Resources.SaveChanges</button>
 		            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
 	            </div>
@@ -1391,7 +1433,7 @@
                                  №@(i + 1)
                              </div>
                              <div class="row">
-                                 <div class="col-md-12">
+                                 <div class="col-sm-12 col-md-6">
                                      <div class="form-group">
                                          @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new {@class = "dealnet-field-caption"})
                                          <div class="dealnet-field-holder">
@@ -1403,7 +1445,7 @@
                                          </div>
                                      </div>
                                  </div>
-                                 <div class="col-md-12">
+                                 <div class="col-sm-12 col-md-6">
                                      <div class="form-group">
                                          @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new {@class = "dealnet-field-caption"})
                                          <div class="dealnet-field-holder">
@@ -1414,9 +1456,11 @@
                                          </div>
                                      </div>
                                  </div>
+                             </div>
+                            <div class="row">
                                  @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                                                {
-                                     <div class="col-md-12">
+                                                    {
+                                     <div class="col-sm-12 col-md-6">
                                          <div class="form-group">
                                              @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new {@class = "dealnet-field-caption"})
                                              <div class="dealnet-field-holder">
@@ -1484,109 +1528,113 @@
                 <div class="dealnet-credit-check-section dealnet-modal-section">
                     @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "payment-info-section-modal" }))
                     {
-                            <div class="row">
-                                <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new {@class = "dealnet-field-caption"})
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, null, new {@class = "form-control", id = "payment-type"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-md-4 col-sm-5">
+                                <div class="form-group">
+                                    <div class="dealnet-label dealnet-field-caption">Photo of Void Cheque</div>
+                                    <div class="equip-photo-group" style="position: relative;">
+                                        <div class="equip-photo-hold">
+                                            <div class="photo-pic">
+                                                <img src="" alt="">
+                                            </div>
+                                        </div>
+                                        <a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-7">
+                                <div class="form-group">
+                                    <div class="file-upload btn dealnet-button dealnet-success-button">
+                                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                                        <span>Add New Photo</span>
+                                        <input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="col-sm-12 col-md-6 pap-payment">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new {@class = "dealnet-field-caption"})
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new {@class = "form-control"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="enbridge-payment">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new {@class = "dealnet-field-caption"})
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "dealnet-field-caption"})
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
-                                                @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, null, new {@class = "form-control", id = "payment-type"})
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @*<div class="col-md-4 col-sm-5">
-                                    <div class="form-group">
-                                        <div class="dealnet-label dealnet-field-caption">Photo of Void Cheque</div>
-                                        <div class="equip-photo-group" style="position: relative;">
-                                            <div class="equip-photo-hold">
-                                                <div class="photo-pic">
-                                                    <img src="" alt="">
-                                                </div>
-                                            </div>
-                                            <a href="#" class="remove-link"><i class="glyphicon glyphicon-remove"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-sm-7">
-                                    <div class="form-group">
-                                        <div class="file-upload btn dealnet-button dealnet-success-button">
-                                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                                            <span>Add New Photo</span>
-                                            <input type="file" accept="image/*" class="upload" id="upload-new-photo"/>
-                                        </div>
-                                    </div>
-                                </div>*@
-                                <div class="col-md-12 pap-payment">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new {@class = "dealnet-field-caption"})
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new {@class = "form-control"})
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pap-payment">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new {@class = "dealnet-field-caption"})
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new {@class = "form-control dealnet-input", type="number", id = "account-number"})
-                                                    @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new {@class = "text-danger"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new {@class = "dealnet-field-caption"})
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new {@class = "form-control dealnet-input", type="number", id = "transit-number"})
-                                                    @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, "", new {@class = "text-danger"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "dealnet-field-caption"})
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "form-control dealnet-input", id = "bank-number", type="number"})
-                                                    @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new {@class = "text-danger"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="enbridge-payment">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "dealnet-field-caption"})
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "form-control dealnet-input", type="number", id = "enbridge-gas-distribution-account"})
-                                                    @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, "", new {@class = "text-danger"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new {@class = "dealnet-field-caption"})
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new {@class = "form-control dealnet-input", type="number", id = "meter-number"})
-                                                    @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, "", new {@class = "text-danger"})
-                                                </div>
+                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "form-control dealnet-input", type="number", id = "enbridge-gas-distribution-account"})
+                                                @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="enbridge-payment row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new {@class = "dealnet-field-caption"})
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new {@class = "form-control dealnet-input", type="number", id = "meter-number"})
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pap-payment">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new {@class = "dealnet-field-caption"})
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new {@class = "form-control dealnet-input", type="number", id = "account-number"})
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new {@class = "dealnet-field-caption"})
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new {@class = "form-control dealnet-input", type="number", id = "transit-number"})
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pap-payment">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "dealnet-field-caption"})
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new {@class = "form-control dealnet-input", id = "bank-number", type="number"})
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </div>
 
@@ -1718,6 +1766,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    if(i < Model.EquipmentInfo.ExistingEquipment.Count-1){
+                                    <hr>
+                                    }
+
                                 }
                         }
                     </div>
@@ -1818,168 +1870,179 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional-mailing-address-modal-@(i + 1)">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.MailingAddress</div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="dealnet-credit-check-section dealnet-modal-section">
-                            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-mailing-address-section-modal-" + (i + 1) }))
-                            {
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption" })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1) })
-                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "dealnet-field-caption" })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "additional-unit_number-" + (i + 1) })
-                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "dealnet-field-caption" })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1) })
-                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "dealnet-field-caption" })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
-                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "dealnet-field-caption"})
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1)})
-                                                    @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new {@class = "text-danger"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+         if (Model.BasicInfo.AdditionalApplicants[i].MailingAddressInformation != null)
+         {
+             <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional-mailing-address-modal-@(i + 1)">
+                 <div class="modal-dialog" role="document">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                             <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.MailingAddress</div>
+                         </div>
+                         <div class="modal-body">
+                             <div class="dealnet-credit-check-section dealnet-modal-section">
+                                 @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "additional-mailing-address-section-modal-" + (i + 1)}))
+                                 {
+                                     <div class="row">
+                                         <div class="col-md-9">
+                                             <div class="form-group">
+                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new {@class = "dealnet-field-caption"})
+                                                 <div class="dealnet-field-holder">
+                                                     <div class="control-group">
+                                                         @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "additional-street-" + (i + 1)})
+                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, "", new {@class = "text-danger"})
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-3">
+                                             <div class="form-group">
+                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new {@class = "dealnet-field-caption"})
+                                                 <div class="dealnet-field-holder">
+                                                     <div class="control-group">
+                                                         @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new {@class = "form-control dealnet-input", id = "additional-unit_number-" + (i + 1)})
+                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, "", new {@class = "text-danger"})
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, new {@class = "dealnet-field-caption"})
+                                                 <div class="dealnet-field-holder">
+                                                     <div class="control-group">
+                                                         @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, new {@class = "form-control dealnet-input", id = "additional-locality-" + (i + 1)})
+                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.City, "", new {@class = "text-danger"})
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, new {@class = "dealnet-field-caption"})
+                                                 <div class="dealnet-field-holder">
+                                                     <div class="control-group">
+                                                         @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, new {@class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1)})
+                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Province, "", new {@class = "text-danger"})
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "dealnet-field-caption"})
+                                                 <div class="dealnet-field-holder">
+                                                     <div class="control-group">
+                                                         @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1)})
+                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new {@class = "text-danger"})
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 }
+                             </div>
+                             <div class="btn-container">
+                                 <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional-mailing-address-section-modal-@(i + 1)'), $('#additional-mailing-address-section-@(i + 1)'), '@Url.Action("UpdateApplicants", "NewRental")', $('#additional-basic-info-form-@(i + 1)'))) { $('#additional-mailing-address-modal-@(i + 1)').modal('hide'); }">@Resources.SaveChanges</button>
+                                 <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        }
+        if (Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
+        {
+            <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional-prev-address-modal-@(i + 1)">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.PreviousAddressInformation</div>
                         </div>
-                        <div class="btn-container">
-                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional-mailing-address-section-modal-@(i + 1)'), $('#additional-mailing-address-section-@(i + 1)'), '@Url.Action("UpdateApplicants", "NewRental")', $('#additional-basic-info-form-@(i + 1)'))) { $('#additional-mailing-address-modal-@(i + 1)').modal('hide'); }">@Resources.SaveChanges</button>
-                            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                        <div class="modal-body">
+                            <div class="dealnet-credit-check-section dealnet-modal-section">
+                                @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "additional-prev-address-section-modal-" + (i + 1)}))
+                                {
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new {@class = "dealnet-field-caption"})
+                                                <div class="dealnet-field-holder">
+                                                    <div class="control-group">
+                                                        @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, new {@class = "form-control dealnet-input", id = "additional-previous-street-" + (i + 1), placeholder = "St."})
+                                                        @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, "", new {@class = "text-danger"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new {@class = "dealnet-field-caption"})
+                                                <div class="dealnet-field-holder">
+                                                    <div class="control-group">
+                                                        @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new {@class = "form-control dealnet-input", id = "additional-previous-unit_number-" + (i + 1), type = "number", placeholder = "12345"})
+                                                        @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, "", new {@class = "text-danger"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City, new {@class = "dealnet-field-caption"})
+                                                <div class="dealnet-field-holder">
+                                                    <div class="control-group">
+                                                        @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City, new {@class = "form-control dealnet-input", id = "additional-previous-locality-" + (i + 1), placeholder = "City"})
+                                                        @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.City, "", new {@class = "text-danger"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, new {@class = "dealnet-field-caption"})
+                                                <div class="dealnet-field-holder">
+                                                    <div class="control-group">
+                                                        @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, new {@class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1), placeholder = "Province"})
+                                                        @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new {@class = "text-danger"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new {@class = "dealnet-field-caption"})
+                                                <div class="dealnet-field-holder">
+                                                    <div class="control-group">
+                                                        @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "additional-previous-postal_code-" + (i + 1), placeholder = "12345"})
+                                                        @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.PostalCode, "", new {@class = "text-danger"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#additional-prev-address-section-modal-@(i + 1)'), $('#additional-prev-address-section-@(i + 1)'), '@Url.Action("UpdateApplicants", "NewRental")', $('#additional-basic-info-form-@(i + 1)'))) { $('#additional-prev-address-modal-@(i + 1)').modal('hide'); }">@Resources.SaveChanges</button>
+                                <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional-prev-address-modal-@(i + 1)">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.PreviousAddressInformation</div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="dealnet-credit-check-section dealnet-modal-section">
-                            <form id="additional-address-section-modal-@(i + 1)">
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        <div class="form-group">
-                                            <label for="additional-prev-street-@(i + 1)" class="dealnet-field-caption">Street</label>
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    <input type="text" id="additional-prev-street-@(i + 1)" class="form-control dealnet-input" placeholder="St.">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="additional-prev-unit-@(i + 1)" class="dealnet-field-caption">Unit #</label>
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    <input type="text" id="additional-prev-unit-@(i + 1)" class="form-control dealnet-input" placeholder="12345">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="additional-prev-city-@(i + 1)" class="dealnet-field-caption">City</label>
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    <input type="text" id="additional-prev-city-@(i + 1)" class="form-control dealnet-input" placeholder="City">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="additional-prev-province-@(i + 1)" class="dealnet-field-caption">Province</label>
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    <input type="text" id="additional-prev-province-@(i + 1)" class="form-control dealnet-input" placeholder="Province">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="additional-prev-postal-code-@(i + 1)" class="dealnet-field-caption">Postal Code</label>
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    <input type="text" id="additional-prev-postal-code-@(i + 1)" class="form-control dealnet-input" placeholder="12345">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="btn-container">
-                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">@Resources.SaveChanges</button>
-                            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
-                        </div>
-                    </div>
-                </div>
             </div>
-
-        </div>
+        }
     }
-}
+    }
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="edit-add-contract-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -2012,84 +2075,92 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="prev-address-modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.PreviousAddressInformation</div>
-            </div>
-            <div class="modal-body">
-                <div class="dealnet-credit-check-section dealnet-modal-section">
-                    <form id="address-section-modal">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label for="prev_street" class="dealnet-field-caption">Street</label>
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            <input type="text" id="prev_street" class="form-control dealnet-input" placeholder="St.">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="prev_unit" class="dealnet-field-caption">Unit #</label>
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            <input type="text" id="prev_unit" class="form-control dealnet-input" placeholder="12345">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="prev_city" class="dealnet-field-caption">City</label>
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            <input type="text" id="prev_city" class="form-control dealnet-input" placeholder="City">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="prev_province" class="dealnet-field-caption">Province</label>
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            <input type="text" id="prev_province" class="form-control dealnet-input" placeholder="Province">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="prev_postal_code" class="dealnet-field-caption">Postal Code</label>
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            <input type="text" id="prev_postal_code" class="form-control dealnet-input" placeholder="12345">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+@if (Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
+{
+    <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="prev-address-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.PreviousAddressInformation</div>
                 </div>
-                <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateBasicInfo", "NewRental")', $('#credit-check-form'))) { $('#address-modal').modal('hide'); }">Save changes</button>
-                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                <div class="modal-body">
+                    <div class="dealnet-credit-check-section dealnet-modal-section">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "prev-address-section-modal" }))
+                        {
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Street, new {@class = "dealnet-field-caption"})
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Street, new {@class = "form-control dealnet-input", id = "previous_street", placeholder = Resources.StreetPlaceholder })
+                                                @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Street, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.UnitNumber, new {@class = "dealnet-field-caption"})
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.UnitNumber, new {@class = "form-control dealnet-input", type = "number", placeholder = "12345"})
+                                                @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.UnitNumber, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.City, new {@class = "dealnet-field-caption"})
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.City, new {@class = "form-control dealnet-input", id = "previous_locality", placeholder = Resources.City })
+                                                @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.City, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, new {@class = "dealnet-field-caption"})
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, new {@class = "form-control dealnet-input", id = "previous_administrative_area_level_1", placeholder = Resources.Province })
+                                                @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.PostalCode, new {@class = "dealnet-field-caption"})
+                                        <div class="dealnet-field-holder">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.PostalCode, new {@class = "form-control dealnet-input postal-code", id = "previous_postal_code", placeholder = "12345"})
+                                                @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.PostalCode, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#prev-address-section-modal'), $('#prev-address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'))) { $('#prev-address-modal').modal('hide'); }">@Resources.SaveChanges</button>
+                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>
+}
 
 @section Translations
 {

@@ -14,6 +14,7 @@ namespace DealnetPortal.Domain
         {
             SecondaryCustomers = new HashSet<Customer>();
             HomeOwners = new HashSet<Customer>();
+            InitialCustomers = new HashSet<Customer>();
             Details = new ContractDetails();
             Documents = new HashSet<ContractDocument>();
         }
@@ -51,6 +52,11 @@ namespace DealnetPortal.Domain
         /// </summary>
         public ICollection<Customer> HomeOwners { get; set; }
 
+        /// <summary>
+        /// customers initially added to contract before decline: the same enties as Primary and Secondary customers
+        /// </summary>
+        public ICollection<Customer> InitialCustomers { get; set; }
+
         public virtual PaymentInfo PaymentInfo { get; set; }
         
         public EquipmentInfo Equipment { get; set; }
@@ -60,5 +66,10 @@ namespace DealnetPortal.Domain
         public virtual ICollection<Comment> Comments { get; set; }
         
         public ICollection<ContractDocument> Documents { get; set; }
+
+        /// <summary>
+        /// true, if current contract was declined early or currently in declined state
+        /// </summary>
+        public bool? WasDeclined { get; set; }
     }
 }

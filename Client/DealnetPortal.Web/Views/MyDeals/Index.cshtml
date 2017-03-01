@@ -22,11 +22,11 @@
 		<div role="tabpanel" class="tab-pane active" id="deal-info-tab">
 			<div class="reset-form-inline">
 				<div class="row">
-					<div class="col-sm-6 col-md-3 col-lg-4">
+					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
 							<label for="deal-type">@Resources.DealType</label>
 							<div class="control-group">
-								<select id="agreement-type" class="form-control select-filter"></select>
+								<select id="agreement-type" class="form-control select-filter filter-input"></select>
 							</div>
 						</div>
 					</div>
@@ -34,7 +34,7 @@
 						<div class="form-group">
 							<label for="">@Resources.DateFrom</label>
 							<div class="control-group date-group">
-								<input type="text" class="form-control date-control" id="date-from">
+								<input type="text" class="form-control date-control filter-input" id="date-from">
 							</div>
 						</div>
 					</div>
@@ -42,20 +42,20 @@
 						<div class="form-group">
 					<label for="">@Resources.DateTo</label>
 							<div class="control-group date-group">
-								<input type="text" class="form-control date-control" id="date-to">
+								<input type="text" class="form-control date-control filter-input" id="date-to">
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-6 col-md-3 col-lg-4">
+					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
 							<label for="">@Resources.DealStatus</label>
 							<div class="control-group">
 								@*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
-								<select id="deal-status" class = "form-control select-filter"></select>
+								<select id="deal-status" class = "form-control select-filter filter-input"></select>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-6">
+					<div class="col-sm-6 col-md-3 col-lg-2">
 						<div class="form-group">
 							<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
 						</div>
@@ -74,8 +74,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-5 col-md-5 hidden-sm hidden-xs"></div>
-					<div class="col-lg-3 col-md-3 col-sm-6">
+					<div class="col-lg-6 col-md-5 hidden-sm hidden-xs"></div>
+					<div class="col-sm-6 col-md-3 col-lg-2">
 						<div class="form-group">
 							<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
 						</div>

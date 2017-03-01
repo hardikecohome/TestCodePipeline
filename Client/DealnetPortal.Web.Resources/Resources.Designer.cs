@@ -160,6 +160,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant Previous Address Information.
+        /// </summary>
+        public static string AdditionalApplicantPreviousAddressInformation {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantPreviousAddressInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Contract Information.
         /// </summary>
         public static string AdditionalContractInformation {
@@ -979,11 +988,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deal Value From.
+        /// </summary>
+        public static string DealValueFrom {
+            get {
+                return ResourceManager.GetString("DealValueFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deal Value Starting From.
         /// </summary>
         public static string DealValueStartingFrom {
             get {
                 return ResourceManager.GetString("DealValueStartingFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deal Value To.
+        /// </summary>
+        public static string DealValueTo {
+            get {
+                return ResourceManager.GetString("DealValueTo", resourceCulture);
             }
         }
         
@@ -1695,6 +1722,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LastNameIncorrectFormat {
             get {
                 return ResourceManager.GetString("LastNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lived at current address less than 6 month.
+        /// </summary>
+        public static string LivedAtCurrentLessThan {
+            get {
+                return ResourceManager.GetString("LivedAtCurrentLessThan", resourceCulture);
             }
         }
         
@@ -3198,6 +3234,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YouCannotProceedUntilAllAgree {
             get {
                 return ResourceManager.GetString("YouCannotProceedUntilAllAgree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t edit information about borrower and additional applicant(s) because this deal was already submitted. You can add additional applicant(s).
+        /// </summary>
+        public static string YouCantEditBecauseSubmittedYouCanAddAdditional {
+            get {
+                return ResourceManager.GetString("YouCantEditBecauseSubmittedYouCanAddAdditional", resourceCulture);
             }
         }
         

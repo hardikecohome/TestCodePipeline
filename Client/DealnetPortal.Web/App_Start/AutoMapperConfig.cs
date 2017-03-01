@@ -39,15 +39,10 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.Phones, d => d.Ignore())
                     .ForMember(x => x.Emails, d => d.Ignore())
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
-                    .ForMember(x => x.AllowCommunicate, d => d.Ignore());
+                    .ForMember(x => x.AllowCommunicate, d => d.Ignore())
+                    .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
 
             cfg.CreateMap<AddressInformation, LocationDTO>()
-                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
-                .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
-                .ForMember(x => x.AddressType, d => d.Ignore())
-                .ForMember(x => x.Id, d => d.Ignore())
-                .ForMember(x => x.CustomerId, d => d.Ignore());
-            cfg.CreateMap<MailingAddressInformation, LocationDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
                 .ForMember(x => x.State, d => d.MapFrom(src => src.Province))
                 .ForMember(x => x.AddressType, d => d.Ignore())
@@ -163,8 +158,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Common.Enumeration.PaymentType>().GetEnumDescription() ))
                 .ForMember(d => d.Action, s => s.Ignore())
                 .ForMember(d => d.Email, s => s.ResolveUsing(src => src.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))                
-                .ForMember(d => d.Phone, s => s.ResolveUsing(src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum
-                    ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum))                
+                .ForMember(d => d.Phone, s => s.ResolveUsing(src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
+                    ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))                
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
                     (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
                 .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
@@ -200,7 +195,6 @@ namespace DealnetPortal.Web.App_Start
                         src.Equipment?.NewEquipment?.ForEach(x =>
                         {
                             stb.AppendLine(x.Description);
-                            stb.AppendLine(x.Description);
                         });
                         stb.AppendLine(src.Equipment?.SalesRep);
                         stb.AppendLine(src.PaymentInfo?.EnbridgeGasDistributionAccount);
@@ -221,13 +215,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.AddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)))
                 .ForMember(x => x.MailingAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.MailAddress)))
+                .ForMember(x => x.PreviousAddressInformation, d => d.MapFrom(src => src.Locations.FirstOrDefault(x => x.AddressType == AddressType.PreviousAddress)))
                 .ForMember(x => x.IsHomeOwner, d => d.ResolveUsing(src => src?.IsHomeOwner == true));
             cfg.CreateMap<LocationDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
-            cfg.CreateMap<LocationDTO, MailingAddressInformation>()
-                    .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
-                    .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();

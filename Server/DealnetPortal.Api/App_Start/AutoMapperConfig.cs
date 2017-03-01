@@ -47,8 +47,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.IsOwn, s => s.Ignore())
                 .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => src.Dealer.UserName));
             mapperConfig.CreateMap<Customer, CustomerDTO>()
-                .ForMember(x => x.IsHomeOwner, d => d.Ignore());
-                //.ForMember(x => x.Locations, o => o.MapFrom(src => src.Locations));
+                .ForMember(x => x.IsHomeOwner, d => d.Ignore())
+                .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();
             mapperConfig.CreateMap<ContractDetails, ContractDetailsDTO>();
             mapperConfig.CreateMap<Contract, ContractDTO>()
@@ -61,12 +61,14 @@ namespace DealnetPortal.Api.App_Start
                     if (d?.PrimaryCustomer != null)
                     {
                         d.PrimaryCustomer.IsHomeOwner = c.HomeOwners?.Any(ho => ho.Id == d.PrimaryCustomer.Id) ?? false;
+                        d.PrimaryCustomer.IsInitialCustomer = c.InitialCustomers?.Any(ho => ho.Id == d.PrimaryCustomer.Id) ?? false;
                     }
                     d?.SecondaryCustomers?.ForEach(sc =>
                     {
                         sc.IsHomeOwner = c.HomeOwners?.Any(ho => ho.Id == sc.Id) ?? false;
+                        sc.IsInitialCustomer = c.InitialCustomers?.Any(ho => ho.Id == sc.Id) ?? false;
                     });
-                });
+                });                
                 //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
                 ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
@@ -118,8 +120,8 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<ContractDataDTO, ContractData>()
                 .ForMember(x => x.HomeOwners, d => d.Ignore())
-                .AfterMap((d, c) =>
-                {
+                .AfterMap((d, c, rc) =>
+                {                    
                     if (d?.PrimaryCustomer?.IsHomeOwner == true || (d?.SecondaryCustomers?.Any(sc => sc.IsHomeOwner == true) ?? false))
                     {
                         c.HomeOwners = new List<Customer>();
@@ -129,7 +131,7 @@ namespace DealnetPortal.Api.App_Start
                         }
                         d?.SecondaryCustomers?.Where(sc => sc.IsHomeOwner == true).ForEach(sc =>
                         {
-                            c.HomeOwners.Add(c.SecondaryCustomers.FirstOrDefault(csc => csc.Id == sc.Id));
+                            c.HomeOwners.Add(rc.Mapper.Map<Customer>(sc));
                         });
                     }
                 });
@@ -140,7 +142,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Comments, s => s.Ignore())
                 .ForMember(x => x.Documents, d => d.Ignore())
                 .ForMember(x => x.Dealer, d => d.Ignore())
-                .ForMember(x => x.HomeOwners, d => d.Ignore());
+                .ForMember(x => x.HomeOwners, d => d.Ignore())
+                .ForMember(x => x.InitialCustomers, d => d.Ignore());
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
                 .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))
@@ -151,7 +154,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Application, s => s.Ignore());
                 //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
 
-            mapperConfig.CreateMap<DocumentTypeDTO, DocumentType>();
+            mapperConfig.CreateMap<DocumentTypeDTO, DocumentType>()
+                .ForMember(x => x.DescriptionResource, d => d.Ignore());
             mapperConfig.CreateMap<ContractDocumentDTO, ContractDocument>()
                 .ForMember(x => x.Contract, d => d.Ignore())
                 .ForMember(x => x.DocumentType, d => d.Ignore());

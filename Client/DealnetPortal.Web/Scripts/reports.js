@@ -217,15 +217,17 @@ function (settings, data, dataIndex) {
     var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
     var date = Date.parseExact(data[7], "M/d/yyyy");
     var value = parseFloat(data[10].replace(/[\$,]/g, ''));
-    var valueOfDeal = parseFloat($("#deal-value").val());
+    var valueOfDealFrom = parseFloat($("#deal-value-from").val());
+    var valueOfDealTo = parseFloat($("#deal-value-to").val());
     if ((!status || status === data[3]) &&
         (!dateTo || date <= dateTo) &&
         (!dateFrom || date >= dateFrom) &&
         (!agreementType || agreementType === data[4]) &&
         (!salesRep || salesRep === data[9]) &&
         (!paymentType || paymentType === data[12]) &&
-        (!equipment || data[7].match(new RegExp(equipment, "i"))) &&
-        (isNaN(valueOfDeal) || !isNaN(value) && value >= valueOfDeal)) {
+        (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
+        (isNaN(valueOfDealFrom) || !isNaN(value) && value >= valueOfDealFrom) &&
+        (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo)) {
         return true;
     }
     return false;
@@ -264,7 +266,7 @@ function createFilter() {
     var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
 
     $('#table-title').html('<div class="dealnet-large-header">' + translations['Reports'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
-    $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-success-button block-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
+    $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-link-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
 
     $('#table-title .icon-search-control').on('click', function () {
         $(this).toggleClass('active');
@@ -320,7 +322,7 @@ function getTotalForSelectedCheckboxes() {
         var tr = $(this).parents('tr');
         tr.toggleClass('selected');
         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
-        var val = parseFloat(tr.find(':nth-child(9)').html().replace(/[$,]/g, ""));
+        var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
         var isSelected = tr.is(".selected");
         selectedSum = isSelected ? selectedSum + val : selectedSum - val;

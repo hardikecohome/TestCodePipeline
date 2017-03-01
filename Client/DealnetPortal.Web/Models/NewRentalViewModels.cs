@@ -41,19 +41,12 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof (Resources.Resources), Name = "DriverLicenseNumber")]
         public string DriverLicenseNumber { get; set; }
         public AddressInformation AddressInformation { get; set; }
-        public MailingAddressInformation MailingAddressInformation { get; set; }
+        public AddressInformation MailingAddressInformation { get; set; }
+        public AddressInformation PreviousAddressInformation { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "HomeOwner")]
         public bool IsHomeOwner { get; set; }
+        public bool? IsInitialCustomer { get; set; }
         public int? ContractId { get; set; }
-    }
-
-    public class MailingAddressInformation : AddressInformation
-    {
-        [Required]
-        [Display(ResourceType = typeof (Resources.Resources), Name = "Street")]
-        [StringLength(100, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MailingAddressIncorrectFormat")]
-        public override string Street { get; set; }
     }
 
     public class AddressInformation
@@ -62,7 +55,7 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof (Resources.Resources), Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InstallationAddressIncorrectFormat")]
-        public virtual string Street { get; set; }
+        public string Street { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "UnitNumber")]
         [StringLength(10, MinimumLength = 1)]
         [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "UnitNumberIncorrectFormat")]
@@ -103,6 +96,7 @@ namespace DealnetPortal.Web.Models
         public List<SubDealer> SubDealers { get; set; }
         public int? ContractId { get; set; }
         public ContractState ContractState { get; set; }
+        public bool ContractWasDeclined { get; set; }
     }
 
     public class ApplicantsViewModel
