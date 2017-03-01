@@ -95,6 +95,8 @@
     <Compile Include="Repositories\IApplicationRepository.cs" />
     <Compile Include="Repositories\IContractRepository.cs" />
     <Compile Include="Repositories\IFileRepository.cs" />
+    <Compile Include="Repositories\ISettingsRepository.cs" />
+    <Compile Include="Repositories\SettingsRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

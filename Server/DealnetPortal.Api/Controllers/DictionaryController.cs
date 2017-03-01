@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
@@ -21,13 +22,15 @@ namespace DealnetPortal.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private IContractRepository ContractRepository { get; set; }
+        private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageService AspireStorageService { get; set; }
 
-        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
+        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             ContractRepository = contractRepository;
+            SettingsRepository = settingsRepository;
             AspireStorageService = aspireStorageService;
         }             
 
@@ -203,6 +206,39 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/GetDealerSkinSettings
+        [Route("GetDealerSkinSettings")]
+        public IHttpActionResult GetDealerSkinSettings()
+        {
+            var settings = SettingsRepository.GetUserSettingsCollection(LoggedInUser?.UserId);
+            if (settings?.Any() ?? false)
+            {
+                var list = Mapper.Map<IList<StringSettingDTO>>(settings);
+                return Ok(list);
+            }
+            return NotFound();
+        }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/GetDealerLogoIcon
+        [Route("GetDealerLogoIcon")]
+        public IHttpActionResult GetDealerLogoIcon()
+        {
+            var settings = SettingsRepository.GetUserSettings(LoggedInUser?.UserId);
+            if (settings != null)
+            {
+                var icon = new ImageSettingDTO()
+                {
+                    ValueBytes = settings.UserIcon
+                };
+                return Ok(icon);
+            }
+            return NotFound();
         }
     }
 }
