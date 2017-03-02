@@ -214,13 +214,13 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetDealerSettings")]
         public IHttpActionResult GetDealerSettings()
         {
+            IList<StringSettingDTO> list = null;
             var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
             {
-                var list = Mapper.Map<IList<StringSettingDTO>>(settings);
-                return Ok(list);
+                list = Mapper.Map<IList<StringSettingDTO>>(settings);
             }
-            return NotFound();
+            return Ok(list);
         }
 
         [Authorize]
@@ -240,7 +240,7 @@ namespace DealnetPortal.Api.Controllers
                 };
                 return Ok(bin);
             }
-            return NotFound();
+            return Ok();
         }
     }
 }

@@ -25,7 +25,7 @@
             //<link rel="shortcut icon" href="~/favicon-dealer.ico?=1" type="image/x-icon" />
             break;
     }
-    <link rel="shortcut icon" href=@Url.Action("Favicon", "Settings") type="image/x-icon" />
+    <link rel="shortcut icon" href=@Url.Action("Favicon", "Settings", new { v = DateTime.Now.Ticks.ToString() }) type="image/x-icon" />
     <script type="text/javascript">
         //Next two lines for IE (God Damn It! What is that shit made of?!)
         if (!window.console) window.console = {};

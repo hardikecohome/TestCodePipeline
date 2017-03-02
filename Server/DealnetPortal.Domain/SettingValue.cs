@@ -20,7 +20,7 @@ namespace DealnetPortal.Domain
         [Column(Order = 1)]
         public int ItemId { get; set; }        
         [ForeignKey("ItemId")]
-        public SettingItem Item { get; set; }
+        public virtual SettingItem Item { get; set; }
         public string StringValue { get; set; }
         public byte[] BinaryValue { get; set; }
     }
