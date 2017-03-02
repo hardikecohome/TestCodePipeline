@@ -1198,6 +1198,55 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@button-link-active-color", "#007051"},
             };
             SetDealerStringSettings(context, "ecoenergy", ecoenergySettings);
+            var smarthomeSettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#29559f"},
+                { "@logo-bg-color", "rgba(6, 2, 34, 0.2)"},
+                { "@logo-width", "117px"},
+                { "@logo-height", "31px"},
+                { "@navbar-bg", "#4470ba"},
+                { "@nav-item-active-bg", "#3362b1"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#00a3e6"},
+                { "@btn-success-shadow", "0 1px 0 0 #007fb3"},
+                { "@btn-success-disabled-bg", "#52c9fa"},
+                { "@btn-success-disabled-shadow", "0 1px 0 0 #00a6ea"},
+                { "@btn-success-hover-bg", "#0092cf"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #0071a0"},
+                { "@btn-success-active-bg", "#0075a5"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #005172"},
+                { "@well-success-bg", "rgba(142, 208, 30, 0.07)"},
+                { "@well-success-border-color", "#8ed01e"},
+                { "@well-success-icon-color", "#8ed01e"},                
+                { "@well-info-icon-color", "#00a3e6"},
+                { "@info-link-color", "#76bb00"},
+                { "@info-link-hover-color", "#6aa800"},
+                { "@info-link-disable-color", "rgba(150, 220, 30, 0.45)"},
+                { "@button-link-color", "#00a3e6"},
+                { "@button-link-hover-color", "#0092ce"},
+                { "@button-link-disabled-color", "#87dafc"},
+                { "@button-link-active-color", "#0075a5"},
+            };
+            SetDealerStringSettings(context, "smarthome", smarthomeSettings);
+            var lifetimewaterSettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#0688d8"},
+                { "@logo-bg-color", "#007dc9"},
+                { "@logo-width", "100px"},
+                { "@logo-height", "29px"},
+                { "@navbar-bg", "#24a1df"},
+                { "@nav-item-active-bg", "#078fd2"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#76c900"},
+                { "@btn-success-shadow", "0 1px 0 0 #6bb500"},
+                { "@btn-success-disabled-bg", "#76c900"},
+                { "@btn-success-hover-bg", "#6ebb00"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #61a500"},
+                { "@btn-success-active-bg", "#62a700"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #599700"},
+                { "@well-success-icon-color", "#76c900"},                
+            };
+            SetDealerStringSettings(context, "lifetimewater", lifetimewaterSettings);
         }
 
         private void SetDealerStringSettings(ApplicationDbContext context, string userName, Dictionary<string, string> values)
