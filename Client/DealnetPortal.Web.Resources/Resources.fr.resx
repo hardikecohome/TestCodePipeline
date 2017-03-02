@@ -268,7 +268,7 @@
     <value>Aller à Étape</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
-    <value>Grand total :</value>
+    <value>Grand total:</value>
   </data>
   <data name="GreatWork" xml:space="preserve">
     <value>Beau travail!</value>
@@ -406,7 +406,7 @@
     <value>Heure</value>
   </data>
   <data name="TotalForSelected" xml:space="preserve">
-    <value>Total pour l’élément sélectionné :</value>
+    <value>Total pour l’élément sélectionné:</value>
   </data>
   <data name="TotalMonthlyPaymentWithTaxes" xml:space="preserve">
     <value>PAIEMENT MENSUEL TOTAL (TAXE COMPRISE)</value>

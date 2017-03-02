@@ -439,6 +439,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Borrower Contact Information.
+        /// </summary>
+        public static string BorrowerContactInfo {
+            get {
+                return ResourceManager.GetString("BorrowerContactInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Borrower Information.
         /// </summary>
         public static string BorrowerInformation {
@@ -2689,6 +2698,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Less Information.
+        /// </summary>
+        public static string ShowLessInfo {
+            get {
+                return ResourceManager.GetString("ShowLessInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show more information.
         /// </summary>
         public static string ShowMoreInfo {
@@ -2802,6 +2820,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SummaryAndConfirmation {
             get {
                 return ResourceManager.GetString("SummaryAndConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switch to English.
+        /// </summary>
+        public static string SwitchToEnglish {
+            get {
+                return ResourceManager.GetString("SwitchToEnglish", resourceCulture);
             }
         }
         
