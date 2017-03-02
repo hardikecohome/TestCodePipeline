@@ -34,7 +34,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             var setting1 = new SettingItem() {Name = "Setting1", SettingType = SettingType.StringValue};
             var setting2 = new SettingItem() { Name = "Setting2", SettingType = SettingType.StringValue };
             var keysList = new List<SettingItem> { setting1, setting2 };
-            _databaseFactory.Get().SettingKeys.AddRange(keysList);
+            _databaseFactory.Get().SettingItems.AddRange(keysList);
             _unitOfWork.Save();
 
             var userSettings = _databaseFactory.Get().UserSettings.Add(new UserSettings()

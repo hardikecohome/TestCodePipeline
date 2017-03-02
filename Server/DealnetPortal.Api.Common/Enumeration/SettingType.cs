@@ -10,8 +10,8 @@ namespace DealnetPortal.Api.Common.Enumeration
     {
         StringValue = 1,
         Favicon = 2,
-        Icon = 3,
-        Icon2X = 4,
-        Icon3X = 5,
+        LogoImage = 3,
+        LogoImage2X = 4,
+        LogoImage3X = 5,
     }
 }

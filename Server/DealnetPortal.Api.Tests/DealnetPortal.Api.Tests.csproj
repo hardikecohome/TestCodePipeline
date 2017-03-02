@@ -129,6 +129,7 @@
     <Compile Include="Aspire\AspireDbTest.cs" />
     <Compile Include="Aspire\XmlRequestsTest.cs" />
     <Compile Include="Controllers\ContractControllerTest.cs" />
+    <Compile Include="Controllers\DictionaryControllerTest.cs" />
     <Compile Include="ESignature\ESignatureServiceAgentTest.cs" />
     <Compile Include="Repositories\BaseRepositoryTest.cs" />
     <Compile Include="Repositories\SettingsRepositoryTest.cs" />
