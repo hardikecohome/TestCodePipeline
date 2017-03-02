@@ -210,9 +210,9 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/Account/GetDealerSkinSettings
-        [Route("GetDealerSkinSettings")]
-        public IHttpActionResult GetDealerSkinSettings()
+        // GET api/Account/GetDealerSettings
+        [Route("GetDealerSettings")]
+        public IHttpActionResult GetDealerSettings()
         {
             var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
@@ -223,22 +223,24 @@ namespace DealnetPortal.Api.Controllers
             return NotFound();
         }
 
-        //[Authorize]
-        //[HttpGet]
-        //// GET api/Account/GetDealerLogoIcon
-        //[Route("GetDealerLogoIcon")]
-        //public IHttpActionResult GetDealerLogoIcon()
-        //{
-        //    var settings = SettingsRepository.GetUserSettings(LoggedInUser?.UserId);
-        //    if (settings != null)
-        //    {
-        //        var icon = new BinarySettingDTO()
-        //        {
-        //            ValueBytes = settings.UserIcon
-        //        };
-        //        return Ok(icon);
-        //    }
-        //    return NotFound();
-        //}
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/GetDealerBinSetting
+        [Route("GetDealerBinSetting")]
+        public IHttpActionResult GetDealerBinSetting(int settingType)
+        {
+            SettingType sType = (SettingType) settingType;
+            var binSetting = SettingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
+            if (binSetting != null)
+            {
+                var bin = new BinarySettingDTO()
+                {
+                    Name = binSetting.Item?.Name,
+                    ValueBytes = binSetting.BinaryValue
+                };
+                return Ok(bin);
+            }
+            return NotFound();
+        }
     }
 }

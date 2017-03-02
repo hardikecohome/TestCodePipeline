@@ -26,12 +26,18 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<SettingValue> GetUserBinarySettings(string dealerId)
         {
-            throw new NotImplementedException();
+            var user = GetUserById(dealerId);
+            if (user != null)
+            {
+                return user.Settings?.SettingValues?.Where(s => s.Item?.SettingType != SettingType.StringValue).ToList() ?? new List<SettingValue>();
+            }
+            return new List<SettingValue>();
         }
 
         public SettingValue GetUserBinarySetting(SettingType settingType, string dealerId)
         {
-            throw new NotImplementedException();
+            var user = GetUserById(dealerId);
+            return user?.Settings?.SettingValues?.FirstOrDefault(s => s.Item?.SettingType == settingType);
         }
 
         public UserSettings GetUserSettings(string dealerId)
