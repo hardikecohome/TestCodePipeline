@@ -48,6 +48,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
             SetSettingItems(context);
             SetUserSettings(context);
+            SetUserLogos(context);
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -1188,7 +1189,13 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@well-info-bg", "rgba(48, 199, 255, 0.1)"},
                 { "@well-info-border-color", "rgba(32, 139, 178, 0.34)"},
                 { "@well-info-icon-color", "#208bb2"},
-
+                { "@info-link-color", "#208bb2"},
+                { "@info-link-hover-color", "#0f79a0"},
+                { "@info-link-disable-color", "#63d0f8"},
+                { "@button-link-color", "#008f71"},
+                { "@button-link-hover-color", "#007a60"},
+                { "@button-link-disabled-color", "#4db19c"},
+                { "@button-link-active-color", "#007051"},
             };
             SetDealerStringSettings(context, "ecoenergy", ecoenergySettings);
         }
@@ -1213,6 +1220,47 @@ namespace DealnetPortal.DataAccess.Migrations
                     StringValue = ns.Value
                 }));
             }
+        }
+
+        private void SetUserLogos(ApplicationDbContext context)
+        {
+            context.Users.Local.ForEach(u =>
+            {
+                try
+                {
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}") ?? "";
+
+                    var files = Directory.GetFiles(dir, $"{u.UserName}*.*");
+                    if (files.Any())
+                    {                        
+                        Enum.GetNames(typeof(SettingType)).Except(new string[] { SettingType.StringValue.ToString() }).ForEach(st =>
+                        {                            
+                            var filePath = files.FirstOrDefault(f => Path.GetFileNameWithoutExtension(f)?.ToLowerInvariant().EndsWith(st.ToLowerInvariant()) ?? false);
+                            if (!string.IsNullOrEmpty(filePath))
+                            {
+                                var logo =
+                                    u.Settings?.SettingValues.FirstOrDefault(sv => sv.Item?.SettingType.ToString() == st);
+                                if (logo == null)
+                                {
+                                    logo = new SettingValue()
+                                    {
+                                        UserSettings = u.Settings,
+                                        Item =
+                                            context.SettingItems.Local.FirstOrDefault(si => si.SettingType.ToString() == st),                                        
+                                    };
+                                    u.Settings?.SettingValues.Add(logo);
+                                }
+                                logo.BinaryValue = File.ReadAllBytes(filePath);
+                            }
+                        });
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
         public static void AddOrUpdate<TEntity>(DbContext context, Expression<Func<TEntity, object>> identifiers, params TEntity[] entities) where TEntity : class
