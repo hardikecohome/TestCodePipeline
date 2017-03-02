@@ -17,6 +17,6 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public ICollection<SettingValue> SettingValues { get; set; }
+        public virtual ICollection<SettingValue> SettingValues { get; set; }
     }
 }
