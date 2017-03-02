@@ -98,7 +98,7 @@
 
         if($(this).find('.grid-column').length % 2 !== 0){
           $(this).parents('.grid-parent').next('.credit-check-info-hold').addClass('shift-to-basic-info');
-          $(this).parents('.grid-parent').next('.grid-parent').find('.credit-check-info-hold').addClass('shift-to-basic-info');
+          $(this).parents('.grid-parent').next('.grid-parent:not(.main-parent)').find('.credit-check-info-hold').addClass('shift-to-basic-info');
         }
 
       });
