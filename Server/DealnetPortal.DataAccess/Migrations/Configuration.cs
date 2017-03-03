@@ -1251,7 +1251,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetDealerStringSettings(ApplicationDbContext context, string userName, Dictionary<string, string> values)
         {
-            var user = context.Users.Local.FirstOrDefault(u => u.UserName == userName);
+            var user = context.Users.Include(u => u.Settings).FirstOrDefault(u => u.UserName == userName);
             if (user != null)
             {
                 var userSetting = user.Settings;
@@ -1273,7 +1273,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetUserLogos(ApplicationDbContext context)
         {
-            context.Users.Local.ForEach(u =>
+            context.Users.Include(u => u.Settings).ForEach(u =>
             {
                 try
                 {

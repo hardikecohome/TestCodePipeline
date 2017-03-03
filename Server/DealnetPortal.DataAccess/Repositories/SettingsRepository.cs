@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,9 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<SettingValue> GetUserStringSettings(string dealerId)
         {            
-            var user = GetUserById(dealerId);
+            var user = _dbContext.Users
+                .Include(u => u.Settings)
+                .FirstOrDefault(u => u.Id == dealerId);
             if (user != null)
             {
                 return user.Settings?.SettingValues?.Where(s => s.Item?.SettingType == SettingType.StringValue).ToList() ?? new List<SettingValue>();
@@ -26,7 +29,9 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<SettingValue> GetUserBinarySettings(string dealerId)
         {
-            var user = GetUserById(dealerId);
+            var user = _dbContext.Users
+                .Include(u => u.Settings)
+                .FirstOrDefault(u => u.Id == dealerId);
             if (user != null)
             {
                 return user.Settings?.SettingValues?.Where(s => s.Item?.SettingType != SettingType.StringValue).ToList() ?? new List<SettingValue>();
@@ -36,13 +41,17 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public SettingValue GetUserBinarySetting(SettingType settingType, string dealerId)
         {
-            var user = GetUserById(dealerId);
+            var user = _dbContext.Users
+                .Include(u => u.Settings)
+                .FirstOrDefault(u => u.Id == dealerId);
             return user?.Settings?.SettingValues?.FirstOrDefault(s => s.Item?.SettingType == settingType);
         }
 
         public UserSettings GetUserSettings(string dealerId)
         {
-            var user = GetUserById(dealerId);
+            var user = _dbContext.Users
+                .Include(u => u.Settings)
+                .FirstOrDefault(u => u.Id == dealerId);
             return user?.Settings;
         }
     }

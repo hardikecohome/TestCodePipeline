@@ -9,21 +9,23 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Core.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
+    [AuthFromContext]
     public class SettingsController : Controller
     {
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        public SettingsController(IDictionaryServiceAgent dictionaryServiceAgent)
+        private readonly ISettingsManager _settingsManager;
+        public SettingsController(ISettingsManager settingsManager)
         {
-            _dictionaryServiceAgent = dictionaryServiceAgent;
+            _settingsManager = settingsManager;
         }
         public async Task<FileResult> LogoImage()
         {
-            var image = await _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X);
+            var image = await _settingsManager.GetUserLogoAsync(User?.Identity?.Name);                
             if (image?.ValueBytes != null)
             {
                 return File(image.ValueBytes, "application/octet-stream");
@@ -45,7 +47,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<FileResult> Favicon()
         {
-            var icon = await _dictionaryServiceAgent.GetDealerBinSetting(SettingType.Favicon);
+            var icon = await _settingsManager.GetUserFaviconAsync(User?.Identity?.Name);
             if (icon?.ValueBytes != null)
             {
                 return File(icon.ValueBytes, "application/octet-stream");

@@ -34,7 +34,7 @@ namespace DealnetPortal.Domain
 
         public int? UserSettingsId { get; set; }
         [ForeignKey("UserSettingsId")]
-        public virtual UserSettings Settings { get; set; }
+        public UserSettings Settings { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
