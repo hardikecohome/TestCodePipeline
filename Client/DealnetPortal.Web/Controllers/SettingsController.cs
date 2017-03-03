@@ -36,10 +36,10 @@ namespace DealnetPortal.Web.Controllers
             {
                 case PortalType.Ecohome:
                 default:
-                    stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-eco-home@2x.png"), FileMode.Open);
+                    stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-eco-home@2x.png"), FileMode.Open, FileAccess.Read);
                     break;
                 case PortalType.Odi:
-                    stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-one-dealer@2x.png"), FileMode.Open);
+                    stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-one-dealer@2x.png"), FileMode.Open, FileAccess.Read);
                     break;
             }
             return File(stream, "image/png");
@@ -58,10 +58,10 @@ namespace DealnetPortal.Web.Controllers
             {
                 case PortalType.Ecohome:
                 default:
-                    stream = new FileStream(Server.MapPath("~/favicon.ico"), FileMode.Open);
+                    stream = new FileStream(Server.MapPath("~/favicon.ico"), FileMode.Open, FileAccess.Read);
                     break;
                 case PortalType.Odi:
-                    stream = new FileStream(Server.MapPath("~/favicon-dealer.ico"), FileMode.Open);
+                    stream = new FileStream(Server.MapPath("~/favicon-dealer.ico"), FileMode.Open, FileAccess.Read);
                     break;
             }
             return File(stream, "image/x-icon");
