@@ -628,7 +628,7 @@
             <!--Living time-->
             <div id="living-time-add-app@(i+1)" class="form-group">
                 <label for="living-time-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.MailingAddressInformation != null) { <text> checked</text> } data-section="previous-address-add-app@(i+1)"/>
+                    <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.PreviousAddressInformation != null) { <text> checked</text> } data-section="previous-address-add-app@(i+1)"/>
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                     <span>@Resources.LivedAtCurrentLessThan</span>
                 </label>
