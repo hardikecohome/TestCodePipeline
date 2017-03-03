@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Web.Common
+﻿<!--
+@using DealnetPortal.Web.Common
 @using DealnetPortal.Web.Infrastructure
 @{
     ViewBag.Title = Resources.AboutUs;
@@ -10,7 +11,7 @@
         <div class="about-page">
             <div class="page-section promo-section">
                 <h2 class="dealnet-large-header">@ViewBag.Title</h2>
-                <!--<h3>@ViewBag.Message</h3>-->
+                &lt;!&ndash;<h3>@ViewBag.Message</h3>&ndash;&gt;
                 <p>@Resources.EcoHomeAbout1</p>
                 <p>@Resources.EcoHomeAbout2</p>
                 <p>@Resources.EcoHomeAbout3</p>
@@ -62,3 +63,47 @@
         </div>
         break;
 }
+-->
+
+<div id="label-steps">
+    <div class="dealnet-action-link">Shareable Link</div> >
+</div>
+<div class="dealnet-large-header main-heading">Shareable Link</div>
+
+<div class="shareable-link-page">
+    <div class="get-link-section">
+        <div class="form-group">
+            <div>
+                <label for="englishLink" class="dealnet-field-caption">Form in English</label>
+                <label class="checkbox-toggle">
+                    <input type="checkbox" checked>
+                    <div class="slider"></div>
+                </label>
+            </div>
+            <div class="">
+                <div class="control-group">
+                    <input type="url" id="englishLink" class="form-control dealnet-input" readonly="readonly" value="https://lorem_ipsum/lorem/Ipsum_sit_amed_wireframe_En">
+                </div>
+                <button type="button" class="btn dealnet-success-button small-btn">Copy</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="englishLink" class="dealnet-field-caption">Form in English</label>
+                <label class="checkbox-toggle">
+                    <input type="checkbox">
+                    <div class="slider"></div>
+                </label>
+            </div>
+            <div class="">
+                <div class="control-group">
+                    <input type="url" id="englishLink" class="form-control dealnet-input" readonly="readonly" value="https://lorem_ipsum/lorem/Ipsum_sit_amed_wireframe_Fr">
+                </div>
+                <button type="button" class="btn dealnet-success-button small-btn">Copy</button>
+            </div>
+        </div>
+    </div>
+    <div class="equipment-section">
+        <div class="sub-heading">Equipment/service</div>
+    </div>
+</div>
