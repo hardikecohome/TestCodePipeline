@@ -200,6 +200,7 @@
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
+    <Compile Include="Infrastructure\ModelBinders\DateTimeBinder .cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
