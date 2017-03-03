@@ -10,6 +10,7 @@ using DealnetPortal.Api.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Storage;
+using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -85,6 +86,9 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDocument, ContractDocumentDTO>()
                 .ForMember(x => x.DocumentBytes, d => d.Ignore());
 
+            mapperConfig.CreateMap<SettingValue, StringSettingDTO>()
+                .ForMember(x => x.Name, d => d.ResolveUsing(src => src.Item?.Name))
+                .ForMember(x => x.Value, d => d.MapFrom(s => s.StringValue));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)

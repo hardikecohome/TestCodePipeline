@@ -1191,4 +1191,13 @@
   <data name="DealValueTo" xml:space="preserve">
     <value>Deal Value To</value>
   </data>
+  <data name="BorrowerContactInfo" xml:space="preserve">
+    <value>Borrower Contact Information</value>
+  </data>
+  <data name="ShowLessInfo" xml:space="preserve">
+    <value>Show Less Information</value>
+  </data>
+  <data name="SwitchToEnglish" xml:space="preserve">
+    <value>Switch to English</value>
+  </data>
 </root>

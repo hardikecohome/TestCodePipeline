@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
@@ -21,13 +22,15 @@ namespace DealnetPortal.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private IContractRepository ContractRepository { get; set; }
+        private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageService AspireStorageService { get; set; }
 
-        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
+        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             ContractRepository = contractRepository;
+            SettingsRepository = settingsRepository;
             AspireStorageService = aspireStorageService;
         }             
 
@@ -203,6 +206,41 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/GetDealerSettings
+        [Route("GetDealerSettings")]
+        public IHttpActionResult GetDealerSettings()
+        {
+            IList<StringSettingDTO> list = null;
+            var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
+            if (settings?.Any() ?? false)
+            {
+                list = Mapper.Map<IList<StringSettingDTO>>(settings);
+            }
+            return Ok(list);
+        }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/GetDealerBinSetting
+        [Route("GetDealerBinSetting")]
+        public IHttpActionResult GetDealerBinSetting(int settingType)
+        {
+            SettingType sType = (SettingType) settingType;
+            var binSetting = SettingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
+            if (binSetting != null)
+            {
+                var bin = new BinarySettingDTO()
+                {
+                    Name = binSetting.Item?.Name,
+                    ValueBytes = binSetting.BinaryValue
+                };
+                return Ok(bin);
+            }
+            return Ok();
         }
     }
 }

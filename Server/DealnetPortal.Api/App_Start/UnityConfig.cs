@@ -38,6 +38,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IContractRepository, ContractRepository>();
             container.RegisterType<IFileRepository, FileRepository>();
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
+            container.RegisterType<ISettingsRepository, SettingsRepository>();
 
             container.RegisterType<IContractService, ContractService>();
 

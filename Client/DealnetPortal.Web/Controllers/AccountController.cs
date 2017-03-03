@@ -17,6 +17,7 @@ using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Core.Security;
+using DealnetPortal.Web.Core.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -30,16 +31,18 @@ namespace DealnetPortal.Web.Controllers
         private readonly IUserManagementServiceAgent _userManagementServiceAgent;
         private readonly ILoggingService _loggingService;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private readonly ISettingsManager _settingsManager;
         private AuthType _authType;
 
         public AccountController(ISecurityManager securityManager, ICultureManager cultureManager, IUserManagementServiceAgent userManagementServiceAgent,
-            ILoggingService loggingService, IDictionaryServiceAgent dictionaryServiceAgent)
+            ILoggingService loggingService, IDictionaryServiceAgent dictionaryServiceAgent, ISettingsManager settingsManager)
         {
             _securityManager = securityManager;
             _cultureManager = cultureManager;
             _userManagementServiceAgent = userManagementServiceAgent;
             _loggingService = loggingService;
             _dictionaryServiceAgent = dictionaryServiceAgent;
+            _settingsManager = settingsManager;
 
             if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
             {
@@ -91,11 +94,14 @@ namespace DealnetPortal.Web.Controllers
 
         // POST: /Account/LogOff
         [HttpGet]
+        [AuthFromContext]
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            _settingsManager.ClearUserSettings(User?.Identity?.Name);            
             _loggingService.LogInfo(string.Format("User {0} logged out", User?.Identity?.Name));
-            _securityManager.Logout();            
+            _securityManager.Logout();                        
+
             return RedirectToAction("Index", "Home");
         }
 

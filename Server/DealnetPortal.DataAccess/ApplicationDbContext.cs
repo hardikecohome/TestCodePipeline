@@ -51,14 +51,9 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Comment> Comments { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        public virtual DbSet<SettingItem> SettingItems { get; set; }
+        public virtual DbSet<SettingValue> SettingValues { get; set; }
+        public virtual DbSet<UserSettings> UserSettings { get; set; }        
 
-            //modelBuilder.Entity<Contract>()
-            //    .HasMany<Customer>(c => c.AdditionalApplicants).WithRequired(ho => ho.Contract).WillCascadeOnDelete(true);
-            base.OnModelCreating(modelBuilder);
-        }
-
-        //public DbSet<Location> ContractAddresses { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Core.Security;
+using DealnetPortal.Web.Core.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.Unity;
@@ -55,6 +56,8 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
             container.RegisterType<IDictionaryServiceAgent, DictionaryServiceAgent>();
             container.RegisterType<IContractManager, ContractManager>();
+            container.RegisterType<ICacheService, MemoryCacheService>();
+            container.RegisterType<ISettingsManager, SettingsManager>();
         }
     }
 }
