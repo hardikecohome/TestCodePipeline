@@ -134,11 +134,11 @@ $(document).ready(function () {
         setDataAttrInModal(3);
     });
     $("#add-additional-applicant").click(function () {
-        if (!aditional1Section.is(':visible')) {
+        if (!aditional1Section.data('active')) {
             showAditional1Section();
-        } else if (!aditional2Section.is(':visible')) {
+        } else if (!aditional2Section.data('active')) {
             showAditional2Section();
-        } else if (!aditional3Section.is(':visible')) {
+        } else if (!aditional3Section.data('active')) {
             showAditional3Section();
         }
     });
@@ -188,6 +188,7 @@ function hideAditional1Section() {
     aditional1Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
+    aditional1Section.data('active', false);
     addAdditionalButton.show();
 }
 function hideAditional2Section() {
@@ -196,6 +197,7 @@ function hideAditional2Section() {
     aditional2Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
+    aditional2Section.data('active', false);
     addAdditionalButton.show();
 }
 function hideAditional3Section() {
@@ -204,6 +206,7 @@ function hideAditional3Section() {
     aditional3Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
+    aditional3Section.data('active', false);
     addAdditionalButton.show();
 }
 function enableMailingAddress(section) {
@@ -223,7 +226,8 @@ function showAditional1Section() {
     aditional1Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
-    if (aditional2Section.is(':visible') && aditional3Section.is(':visible')) {
+    aditional1Section.data('active', true);
+    if (aditional2Section.data('active') && aditional3Section.data('active')) {
         addAdditionalButton.hide();
     }
 }
@@ -232,7 +236,8 @@ function showAditional2Section() {
     aditional2Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
-    if (aditional1Section.is(':visible') && aditional3Section.is(':visible')) {
+    aditional2Section.data('active', true);
+    if (aditional1Section.data('active') && aditional3Section.data('active')) {
         addAdditionalButton.hide();
     }
 }
@@ -241,6 +246,7 @@ function showAditional3Section() {
     aditional3Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
+    aditional3Section.data('active', true);
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {

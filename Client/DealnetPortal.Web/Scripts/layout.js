@@ -34,7 +34,7 @@
       });
 
       //If opened switch language dropdown, hide it when click anywhere accept opened dropdown
-      $('html').click(function () {
+      $('html').on('click touchstart', function (event) {
         if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
           $('.lang-switcher').removeClass('open')
         }
@@ -98,7 +98,7 @@
 
         if($(this).find('.grid-column').length % 2 !== 0){
           $(this).parents('.grid-parent').next('.credit-check-info-hold').addClass('shift-to-basic-info');
-          $(this).parents('.grid-parent').next('.grid-parent').find('.credit-check-info-hold').addClass('shift-to-basic-info');
+          $(this).parents('.grid-parent').next('.grid-parent:not(.main-parent)').find('.credit-check-info-hold').addClass('shift-to-basic-info');
         }
 
       });
@@ -137,9 +137,21 @@
       $('.reports-contract-item').each(function(){
         $('.contract-hidden-info').hide();
       });
+
       $('.show-full-conract-link').on('click', function(){
         $(this).parents('.reports-contract-item').find('.contract-hidden-info').show();
         $(this).hide();
+        $('.hide-full-conract-link').show();
+        return false;
+      });
+
+      $('.hide-full-conract-link').on('click', function(){
+        $(this).parents('.reports-contract-item').find('.contract-hidden-info').hide();
+        $(this).hide();
+        $('.show-full-conract-link').show();
+       /* $('html, body').animate({
+          scrollTop: $(this).parents('.reports-contract-item').offset().top - 60
+        }, 2000);*/
         return false;
       });
 
@@ -251,7 +263,6 @@
 });
 
 function detectSidebarHeight(){
-  console.log('detect sidebar');
   if($('.sidebar-inner').height() <= $('.dealnet-sidebar').height()){
     $('.sidebar-bottom').addClass('stick-bottom');
   }else{

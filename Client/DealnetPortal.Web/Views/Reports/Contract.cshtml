@@ -761,19 +761,14 @@
 	@if (Model.EquipmentInfo?.NewEquipment != null)
 	{
 	    var i = 0;
+
+		<h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
+
 	    <div class="row credit-check-info-hold equipment-info no-top-margin">
 	        @foreach (var equipment in Model.EquipmentInfo.NewEquipment)
 	        {
 	            <div class="col-md-6 grid-column">
 	                <div class="dealnet-credit-check-section">
-	                    @if (i == 0)
-	                    {
-	                        <h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
-                        }
-                        else
-                        {
-                            <h3 class="dealnet-section-title">&nbsp;</h3>
-                        }
 	                    <div class="form-group">
 	                        <div class="row">
 	                            <div class="dealnet-field-caption col-xs-12">#@(++i)</div>

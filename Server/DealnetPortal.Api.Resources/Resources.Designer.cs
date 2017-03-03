@@ -565,7 +565,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signed contract.
+        ///   Looks up a localized string similar to Signed Contract.
         /// </summary>
         public static string SignedContract {
             get {
@@ -574,7 +574,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signed Installation certificate.
+        ///   Looks up a localized string similar to Signed Installation Certificate.
         /// </summary>
         public static string SignedInstallationCertificate {
             get {
@@ -619,7 +619,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Third party verification call.
+        ///   Looks up a localized string similar to Third Party Verification Call.
         /// </summary>
         public static string ThirdPartyVerificationCall {
             get {
