@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.UserSettings;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -40,5 +42,9 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<string> GetDealerCulture();
 
         Task ChangeDealerCulture(string culture);
+
+        Task<IList<StringSettingDTO>> GetDealerSettings();
+
+        Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);
     }
 }

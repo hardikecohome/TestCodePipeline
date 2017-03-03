@@ -239,10 +239,10 @@
     <value>Siding</value>
   </data>
   <data name="SignedContract" xml:space="preserve">
-    <value>Signed contract</value>
+    <value>Signed Contract</value>
   </data>
   <data name="SignedInstallationCertificate" xml:space="preserve">
-    <value>Signed Installation certificate</value>
+    <value>Signed Installation Certificate</value>
   </data>
   <data name="Sunrooms" xml:space="preserve">
     <value>Sunrooms</value>
@@ -251,7 +251,7 @@
     <value>Tankless Water Heater</value>
   </data>
   <data name="ThirdPartyVerificationCall" xml:space="preserve">
-    <value>Third party verification call</value>
+    <value>Third Party Verification Call</value>
   </data>
   <data name="ThisIsYourOnetimePass" xml:space="preserve">
     <value>This is your one-time password:</value>

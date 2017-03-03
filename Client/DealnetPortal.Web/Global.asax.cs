@@ -12,6 +12,7 @@ using DealnetPortal.Web.App_Start;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.ModelBinders;
 
 namespace DealnetPortal.Web
 {
@@ -25,6 +26,8 @@ namespace DealnetPortal.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Configure();
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new NullableDateTimeBinder());
 
             ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator(DependencyResolver.Current.GetService<ICultureManager>())));
         }

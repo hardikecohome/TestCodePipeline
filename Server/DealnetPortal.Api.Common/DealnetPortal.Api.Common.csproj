@@ -70,6 +70,7 @@
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
+    <Compile Include="Enumeration\SettingType.cs" />
     <Compile Include="Enumeration\SignatureRole.cs" />
     <Compile Include="Enumeration\SignatureStatus.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />

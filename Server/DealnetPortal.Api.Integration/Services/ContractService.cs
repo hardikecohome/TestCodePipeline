@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -559,9 +560,9 @@ namespace DealnetPortal.Api.Integration.Services
                 switch (summaryType)
                 {
                     case FlowingSummaryType.Month:
-                        var grDaysM = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day)).GroupBy(c => c.CreationTime.Day);
+                        var grDaysM = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day)).GroupBy(c => c.CreationTime.Day).ToList();
 
-                        for (int i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+                        for (var i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
                         {
                             var contractsG = grDaysM.FirstOrDefault(g => g.Key == i);
                             double totalSum = 0;
@@ -580,18 +581,13 @@ namespace DealnetPortal.Api.Integration.Services
                         break;
                     case FlowingSummaryType.Week:
                         var weekDays = DateTimeFormatInfo.CurrentInfo.DayNames;
-                        DayOfWeek fstWeekDay;
-                        int curDayIdx = Array.IndexOf(weekDays, DateTime.Today.DayOfWeek.ToString());
-                        Enum.TryParse(weekDays[0], out fstWeekDay);
+                        var curDayIdx = Array.IndexOf(weekDays, Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek));
                         var daysDiff = -curDayIdx;
-                        var grDays = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(daysDiff)).GroupBy(c => c.CreationTime.DayOfWeek);
+                        var grDays = dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(daysDiff)).GroupBy(c => Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetDayName(c.CreationTime.DayOfWeek)).ToList();
 
                         for (int i = 0; i < weekDays.Length; i++)
                         {
-                            DayOfWeek curDay;
-                            Enum.TryParse(weekDays[i], out curDay);
-
-                            var contractsW = grDays.FirstOrDefault(g => g.Key == curDay);
+                            var contractsW = grDays.FirstOrDefault(g => g.Key == weekDays[i]);
                             double totalSum = 0;
                             contractsW?.ForEach(c =>
                             {
@@ -608,7 +604,7 @@ namespace DealnetPortal.Api.Integration.Services
                         break;
                     case FlowingSummaryType.Year:
                         var months = DateTimeFormatInfo.CurrentInfo.MonthNames;
-                        var grMonths = dealerContracts.Where(c => c.CreationTime.Year == DateTime.Today.Year).GroupBy(c => c.CreationTime.Month);
+                        var grMonths = dealerContracts.Where(c => c.CreationTime.Year == DateTime.Today.Year).GroupBy(c => c.CreationTime.Month).ToList();
 
                         for (int i = 0; i < months.Length; i++)
                         {

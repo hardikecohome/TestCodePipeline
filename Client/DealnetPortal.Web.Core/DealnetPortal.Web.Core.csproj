@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,6 +63,10 @@
     <Compile Include="Culture\ICultureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\SecurityManager.cs" />
+    <Compile Include="Services\ICacheService.cs" />
+    <Compile Include="Services\ISettingsManager.cs" />
+    <Compile Include="Services\MemoryCacheService.cs" />
+    <Compile Include="Services\SettingsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Web.Common\DealnetPortal.Web.Common.csproj">

@@ -24,8 +24,8 @@
   height: 39px;
   width: 235px;
   border-radius: 4px;
-  background-color: @success-color;
-  box-shadow: 0 1px 0 0 @success-shadow-color;
+  background-color: @btn-success-bg;
+  box-shadow: @btn-success-shadow;
   vertical-align: middle;
   line-height: 24px;
   font-weight: 600;
@@ -43,23 +43,25 @@
     display: block;
   }
 
-  &:active {
-    background-color: @success-btn-active-color;
-    outline: none;
-    box-shadow: none;
-    &:focus{
-      outline: none;
-      box-shadow: none;
-    }
-  }
+
   &:focus{
     outline: none;
-    color: @success-text-color;
-    background-color: @success-color;
+    color: @btn-success-text-color;
+    background-color: @btn-success-bg;
+    box-shadow: @btn-success-shadow;
   }
   &:hover {
-    background-color: @success-btn-hover-color;
-    box-shadow: 0 1px 0 0 @success-shadow-color;
+    background: @btn-success-hover-bg;
+    box-shadow: @btn-success-hover-shadow;
+  }
+  &:active {
+    background-color: @btn-success-active-bg;
+    box-shadow: @btn-success-active-shadow;
+    outline: none;
+    &:focus{
+      outline: none;
+      box-shadow: @btn-success-active-shadow;
+    }
   }
   .icon, span{
     display: inline-block;
@@ -97,7 +99,7 @@
 
 .dealnet-green-button-text {
   font: 700 14px @usual-font-family;
-  color: @success-text-color;
+  color: @btn-success-text-color;
 }
 
 .button-container {
@@ -133,6 +135,7 @@ button,
 .btn,
 a{
   &.disabled{
+    opacity: 0.7 !important;
     pointer-events: none !important;
     input[type="file"]{
       pointer-events: none !important;
@@ -143,7 +146,7 @@ a{
   }
 }
 a.disabled{
-  opacity: 0.6 !important;
+  opacity: 0.7 !important;
 }
 
 
