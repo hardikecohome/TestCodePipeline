@@ -33,6 +33,7 @@ namespace DealnetPortal.Web.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.LangSwitcherAvailable = true;
             return View("");
         }
         
