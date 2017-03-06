@@ -469,13 +469,6 @@ function detectPageHeight(){
 function commonDataTablesSettings(){
   if($('#work-items-table').length){
     $('#work-items-table, .total-info').hide();
-
-    /*$('#work-items-table').on( 'draw.dt', function () {
-      $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
-      $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
-      $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
-    });*/
-
     $.extend( true, $.fn.dataTable.defaults, {
       "fnInitComplete": function() {
         $('#work-items-table, .total-info').show();
@@ -498,10 +491,21 @@ function resetDataTablesExpandedRows(table){
 }
 
 function redrawDataTablesSvgIcons(){
-  $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
-  $('.checkbox-icon').html('<svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg>');
-  $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
-  $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
+  /*Redraw svg icons inside dataTable only for ie browsers*/
+  if(detectIE()){
+    if($('.dataTable .edit-control a').length > 0){
+      $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
+    }
+    if($('.dataTable .checkbox-icon').length > 0){
+      $('.checkbox-icon').html('<svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg>');
+    }
+    if($('.dataTable .contract-controls a.preview-item').length > 0){
+      $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
+    }
+    if($('.dataTable .contract-controls a.export-item').length > 0){
+      $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
+    }
+  }
 }
 
 function backToTop() {
