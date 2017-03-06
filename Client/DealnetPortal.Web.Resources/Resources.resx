@@ -1017,10 +1017,10 @@
     <value>No Deferral</value>
   </data>
   <data name="ThreeMonth" xml:space="preserve">
-    <value>3 Month</value>
+    <value>3 Months</value>
   </data>
   <data name="SixMonth" xml:space="preserve">
-    <value>6 Month</value>
+    <value>6 Months</value>
   </data>
   <data name="EnbridgeCapital" xml:space="preserve">
     <value>ENBRIDGE</value>
@@ -1068,13 +1068,13 @@
     <value>You need to upload more documents and confirm again</value>
   </data>
   <data name="NineMonth" xml:space="preserve">
-    <value>9 Month</value>
+    <value>9 Months</value>
   </data>
   <data name="TwelveMonth" xml:space="preserve">
-    <value>12 Month</value>
+    <value>12 Months</value>
   </data>
   <data name="TwoMonth" xml:space="preserve">
-    <value>2 Month</value>
+    <value>2 Months</value>
   </data>
   <data name="AdditionalIsHomeOwner" xml:space="preserve">
     <value>Additional Applicant is home owner.</value>

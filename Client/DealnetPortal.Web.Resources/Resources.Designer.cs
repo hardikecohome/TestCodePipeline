@@ -2014,7 +2014,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 9 Month.
+        ///   Looks up a localized string similar to 9 Months.
         /// </summary>
         public static string NineMonth {
             get {
@@ -2752,7 +2752,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 6 Month.
+        ///   Looks up a localized string similar to 6 Months.
         /// </summary>
         public static string SixMonth {
             get {
@@ -2887,7 +2887,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3 Month.
+        ///   Looks up a localized string similar to 3 Months.
         /// </summary>
         public static string ThreeMonth {
             get {
@@ -3049,7 +3049,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 12 Month.
+        ///   Looks up a localized string similar to 12 Months.
         /// </summary>
         public static string TwelveMonth {
             get {
@@ -3058,7 +3058,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2 Month.
+        ///   Looks up a localized string similar to 2 Months.
         /// </summary>
         public static string TwoMonth {
             get {
