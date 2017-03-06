@@ -251,7 +251,7 @@
 
 function detectSidebarHeight(){
   console.log('detect sidebar');
-  if($('.sidebar-inner').height() <= $('.dealnet-sidebar').height()){
+  if($('.sidebar-inner').height() < ($('.dealnet-sidebar').height() - 20)){
     $('.sidebar-bottom').addClass('stick-bottom');
   }else{
     $('.sidebar-bottom').removeClass('stick-bottom');
