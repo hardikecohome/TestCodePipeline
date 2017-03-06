@@ -258,9 +258,21 @@
         });
       }
 
-
+      $('.customer-loan-form-panel .panel-heading').on('click touchend', function(){
+        panelCollapsed($(this));
+      });
 
 });
+function panelCollapsed(elem){
+  var $this = elem;
+  if(!$this.hasClass('panel-collapsed')) {
+    $this.parents('.panel').find('.panel-body').slideUp();
+    $this.addClass('panel-collapsed');
+  } else {
+    $this.parents('.panel').find('.panel-body').slideDown();
+    $this.removeClass('panel-collapsed');
+  }
+};
 
 function detectSidebarHeight(){
   if($('.sidebar-inner').height() <= $('.dealnet-sidebar').height()){
