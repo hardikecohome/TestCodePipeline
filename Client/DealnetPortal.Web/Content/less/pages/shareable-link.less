@@ -8,8 +8,10 @@
       }
       @media @mobile {
         float: none;
+        display: block;
         width: 100%;
-        margin-top: 15px;
+        max-width: 355px;
+        margin: 15px auto 0;
       }
     }
     .control-group{
@@ -46,9 +48,20 @@
     }
     .tab-content{
       padding: 20px 0;
-      @media @tablet-up {
-        max-width: 420px;
+      .define-equipment-input{
+        @media @tablet-up {
+          max-width: 420px;
+        }
       }
+    }
+  }
+
+  .btn-save-proceed{
+    @media @tablet-down {
+      width: 100%;
+      display: block;
+      max-width: 355px;
+      margin: 0 auto;
     }
   }
 }
