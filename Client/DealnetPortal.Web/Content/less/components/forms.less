@@ -644,6 +644,10 @@ div.dataTables_wrapper div.dataTables_length {
   width: 30px;
   height: 15px;
   margin: 0;
+  @media @tablet-down {
+    width: 50px;
+    height: 30px;
+  }
   /* Hide default HTML checkbox */
   input {display:none;}
 
@@ -675,6 +679,10 @@ div.dataTables_wrapper div.dataTables_length {
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 50%;
+    @media @tablet-down {
+      height: 28px;
+      width: 28px;
+    }
   }
 
   input:checked + .slider {
@@ -689,6 +697,12 @@ div.dataTables_wrapper div.dataTables_length {
     -webkit-transform: translateX(15px);
     -ms-transform: translateX(15px);
     transform: translateX(15px);
+
+    @media @tablet-down {
+      -webkit-transform: translateX(20px);
+      -ms-transform: translateX(20px);
+      transform: translateX(20px);
+    }
   }
 }
 

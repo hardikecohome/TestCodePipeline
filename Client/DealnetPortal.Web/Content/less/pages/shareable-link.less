@@ -2,12 +2,31 @@
   .controls-hold {
     .clearfix;
     .btn-small{
-      width: 65px;
-      float: right;
+      @media @tablet-up {
+        width: 65px;
+        float: right;
+      }
+      @media @mobile {
+        float: none;
+        width: 100%;
+        margin-top: 15px;
+      }
     }
     .control-group{
-      float: left;
-      width: calc(~"100% - 85px");
+      @media @tablet-up {
+        float: left;
+        width: calc(~"100% - 85px");
+      }
+      @media @mobile {
+        float: none;
+        width: 100%;
+      }
+    }
+  }
+  .labels-hold{
+    margin-bottom: 7px;
+    label{
+      margin: 0;
     }
   }
   .get-link-section{
@@ -27,7 +46,9 @@
     }
     .tab-content{
       padding: 20px 0;
-      max-width: 420px;
+      @media @tablet-up {
+        max-width: 420px;
+      }
     }
   }
 }
