@@ -1,23 +1,13 @@
-.dataTable.home-page-table{
-  th, td{
-
-  }
-}
-body.mobile-device{
+@media @mobile{
   .dataTable.home-page-table{
     th, td{
-      &.customer-cell{
-        @media @mobile and (orientation: portrait) {
-          width: 60%;
-        }
-      }
-
       &.customer-cell,
       &.status-cell,
       &.action-cell{
-        @media @mobile and (orientation: landscape) {
-          width: 30%;
-        }
+        width: 30%;
+      }
+      &.customer-cell{
+        min-width: 90px;
       }
     }
   }

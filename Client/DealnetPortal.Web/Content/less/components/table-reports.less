@@ -1,3 +1,4 @@
+
 .dataTable.table-reports{
   th, td{
 
@@ -6,9 +7,15 @@
       text-align: center;
       white-space: nowrap;
       width: 80px;
+      @media @mobile {
+        width: 60px;
+      }
 
       .contract-controls{
         width: 80px;
+        @media @mobile {
+          width: 60px;
+        }
         .icon-link{
           display: inline-block;
           padding: 5px;
@@ -48,37 +55,18 @@
   }
 }
 
-body.mobile-device{
+@media @mobile{
   .dataTable.table-reports{
     th, td{
-      &.contract-cell{
-        @media @mobile and (orientation: portrait) {
-          width: 60px;
-          min-width: 60px;
-        }
-      }
-      &.controls-cell{
-        @media @mobile and (orientation: portrait) {
-          width: 60px;
-          min-width: 60px;
-          .contract-controls{
-            width: 60px;
-          }
-        }
-      }
-      &.customer-cell{
-        @media @mobile and (orientation: portrait) {
-          width: 60%;
-        }
-      }
-
       &.customer-cell,
       &.status-cell,
       &.action-cell{
-        @media @mobile and (orientation: landscape) {
-          width: 40%;
-        }
+        width: 40%;
+      }
+      &.customer-cell{
+        min-width: 60px;
       }
     }
   }
 }
+

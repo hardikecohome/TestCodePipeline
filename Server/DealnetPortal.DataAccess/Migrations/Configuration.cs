@@ -45,6 +45,10 @@ namespace DealnetPortal.DataAccess.Migrations
             var dbTemplateNames =
                 context.AgreementTemplates.Select(at => at.TemplateName).Where(tn => seedNames.All(t => t != tn)).ToArray();           
             SetExistingPdfTemplates(context);
+
+            SetSettingItems(context);
+            SetUserSettings(context);
+            SetUserLogos(context);
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -983,6 +987,322 @@ namespace DealnetPortal.DataAccess.Migrations
                     if (File.Exists(path))
                     {
                         t.AgreementForm = File.ReadAllBytes(path);                        
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
+        }
+
+        private void SetSettingItems(ApplicationDbContext context)
+        {
+            var settingItems = new List<SettingItem>
+            {
+                new SettingItem()
+                {
+                    Name = "@navbar-header",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@logo-bg-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@logo-width",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@logo-height",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@navbar-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@nav-item-active-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@nav-item-active-box-shadow",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-shadow",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-disabled-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-disabled-shadow",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-hover-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-hover-shadow",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-active-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@btn-success-active-shadow",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@well-success-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@well-success-border-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@well-success-icon-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@well-info-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@well-info-border-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@well-info-icon-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@info-link-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@info-link-hover-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@info-link-disable-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@button-link-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@button-link-hover-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@button-link-disabled-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = "@button-link-active-color",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
+                    Name = SettingType.LogoImage.ToString(),
+                    SettingType = SettingType.LogoImage
+                },
+                new SettingItem()
+                {
+                    Name = SettingType.LogoImage2X.ToString(),
+                    SettingType = SettingType.LogoImage2X
+                },
+                new SettingItem()
+                {
+                    Name = SettingType.LogoImage3X.ToString(),
+                    SettingType = SettingType.LogoImage3X
+                },
+                new SettingItem()
+                {
+                    Name = SettingType.Favicon.ToString(),
+                    SettingType = SettingType.Favicon
+                }
+            };
+            context.SettingItems.AddOrUpdate(d => new { d.Name, d.SettingType }, settingItems.ToArray());
+        }
+
+        private void SetUserSettings(ApplicationDbContext context)
+        {
+            var ecoenergySettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#0b749a"},
+                { "@logo-bg-color", "#006990"},
+                { "@logo-width", "120px"},
+                { "@logo-height", "24px"},
+                { "@navbar-bg", "#208bb2"},
+                { "@nav-item-active-bg", "#0e79a0"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#009071"},
+                { "@btn-success-shadow", "0 1px 0 0 #006953"},
+                { "@btn-success-disabled-bg", "#009071"},
+                { "@btn-success-disabled-shadow", "0 1px 0 0 #006953"},
+                { "@btn-success-hover-bg", "#007a60"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #00634e"},
+                { "@btn-success-active-bg", "#007051"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #007051"},
+                { "@well-success-bg", "#f1fffc"},
+                { "@well-success-border-color", "rgba(1, 171, 135, 0.44)"},
+                { "@well-success-icon-color", "#009071"},
+                { "@well-info-bg", "rgba(48, 199, 255, 0.1)"},
+                { "@well-info-border-color", "rgba(32, 139, 178, 0.34)"},
+                { "@well-info-icon-color", "#208bb2"},
+                { "@info-link-color", "#208bb2"},
+                { "@info-link-hover-color", "#0f79a0"},
+                { "@info-link-disable-color", "#63d0f8"},
+                { "@button-link-color", "#008f71"},
+                { "@button-link-hover-color", "#007a60"},
+                { "@button-link-disabled-color", "#4db19c"},
+                { "@button-link-active-color", "#007051"},
+            };
+            SetDealerStringSettings(context, "ecoenergy", ecoenergySettings);
+            var smarthomeSettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#29559f"},
+                { "@logo-bg-color", "rgba(6, 2, 34, 0.2)"},
+                { "@logo-width", "117px"},
+                { "@logo-height", "31px"},
+                { "@navbar-bg", "#4470ba"},
+                { "@nav-item-active-bg", "#3362b1"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#00a3e6"},
+                { "@btn-success-shadow", "0 1px 0 0 #007fb3"},
+                { "@btn-success-disabled-bg", "#52c9fa"},
+                { "@btn-success-disabled-shadow", "0 1px 0 0 #00a6ea"},
+                { "@btn-success-hover-bg", "#0092cf"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #0071a0"},
+                { "@btn-success-active-bg", "#0075a5"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #005172"},
+                { "@well-success-bg", "rgba(142, 208, 30, 0.07)"},
+                { "@well-success-border-color", "#8ed01e"},
+                { "@well-success-icon-color", "#8ed01e"},                
+                { "@well-info-icon-color", "#00a3e6"},
+                { "@info-link-color", "#76bb00"},
+                { "@info-link-hover-color", "#6aa800"},
+                { "@info-link-disable-color", "rgba(150, 220, 30, 0.45)"},
+                { "@button-link-color", "#00a3e6"},
+                { "@button-link-hover-color", "#0092ce"},
+                { "@button-link-disabled-color", "#87dafc"},
+                { "@button-link-active-color", "#0075a5"},
+            };
+            SetDealerStringSettings(context, "smarthome", smarthomeSettings);
+            var lifetimewaterSettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#0688d8"},
+                { "@logo-bg-color", "#007dc9"},
+                { "@logo-width", "100px"},
+                { "@logo-height", "29px"},
+                { "@navbar-bg", "#24a1df"},
+                { "@nav-item-active-bg", "#078fd2"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#76c900"},
+                { "@btn-success-shadow", "0 1px 0 0 #6bb500"},
+                { "@btn-success-disabled-bg", "#76c900"},
+                { "@btn-success-hover-bg", "#6ebb00"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #61a500"},
+                { "@btn-success-active-bg", "#62a700"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #599700"},
+                { "@well-success-icon-color", "#76c900"},                
+            };
+            SetDealerStringSettings(context, "lifetimewater", lifetimewaterSettings);
+        }
+
+        private void SetDealerStringSettings(ApplicationDbContext context, string userName, Dictionary<string, string> values)
+        {
+            var user = context.Users.Include(u => u.Settings).FirstOrDefault(u => u.UserName == userName);
+            if (user != null)
+            {
+                var userSetting = user.Settings;
+                if (userSetting == null)
+                {
+                    userSetting = new UserSettings();
+                    context.UserSettings.Add(userSetting);
+                    user.Settings = userSetting;
+                }               
+                var valuesForAdd = values.Where(ns => userSetting.SettingValues.All(us => us.Item?.Name != ns.Key));
+                valuesForAdd.ForEach(ns => userSetting.SettingValues.Add(new SettingValue()
+                {
+                    UserSettings = userSetting,
+                    Item = context.SettingItems.Local.FirstOrDefault(u => u.Name == ns.Key),
+                    StringValue = ns.Value
+                }));
+            }
+        }
+
+        private void SetUserLogos(ApplicationDbContext context)
+        {
+            context.Users.Include(u => u.Settings).ForEach(u =>
+            {
+                try
+                {
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}") ?? "";
+
+                    var files = Directory.GetFiles(dir, $"{u.UserName}*.*");
+                    if (files.Any())
+                    {                        
+                        Enum.GetNames(typeof(SettingType)).Except(new string[] { SettingType.StringValue.ToString() }).ForEach(st =>
+                        {                            
+                            var filePath = files.FirstOrDefault(f => Path.GetFileNameWithoutExtension(f)?.ToLowerInvariant().EndsWith(st.ToLowerInvariant()) ?? false);
+                            if (!string.IsNullOrEmpty(filePath))
+                            {
+                                var logo =
+                                    u.Settings?.SettingValues.FirstOrDefault(sv => sv.Item?.SettingType.ToString() == st);
+                                if (logo == null)
+                                {
+                                    logo = new SettingValue()
+                                    {
+                                        UserSettings = u.Settings,
+                                        Item =
+                                            context.SettingItems.Local.FirstOrDefault(si => si.SettingType.ToString() == st),                                        
+                                    };
+                                    u.Settings?.SettingValues.Add(logo);
+                                }
+                                logo.BinaryValue = File.ReadAllBytes(filePath);
+                            }
+                        });
                     }
                 }
                 catch

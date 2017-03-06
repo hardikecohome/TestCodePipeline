@@ -33,6 +33,7 @@ namespace DealnetPortal.Web.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.LangSwitcherAvailable = true;
             return View("");
         }
         
@@ -59,7 +60,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var summary = await _contractServiceAgent.GetContractsSummary(type.ToString());
             var labels = summary.Select(s => s.ItemLabel).ToList();
-            var data = summary.Select(s => $"{s.ItemData:0.00}").ToList();
+            var data = summary.Select(s => FormattableString.Invariant($"{s.ItemData:0.00}")).ToList();
             List<object> datasets = new List<object>();
             datasets.Add(new {data});
             return Json(new {labels, datasets}, JsonRequestBehavior.AllowGet);

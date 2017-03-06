@@ -469,10 +469,10 @@ select.dealnet-disabled-input{
   box-shadow: none;
   border-color: @default-grey-color;
   &.well-info{
-    background-color: rgba(168, 216, 238, 0.17);
-    border: solid 1px #90d0ee;
+    background-color: @well-info-bg;
+    border: solid 1px @well-info-border-color;
     .icon-info-well, .icon-email{
-      color: #2f9cd0;
+      color: @well-info-icon-color;
     }
     &.position-well{
       position: relative;
@@ -485,12 +485,12 @@ select.dealnet-disabled-input{
     }
   }
   &.success-well{
-    background-color: rgba(222, 255, 209, 0.38);
-    border: solid 1px #b1d9a6;
+    background-color: @well-success-bg;
+    border: solid 1px @well-success-border-color;
     padding-left: 50px;
     position: relative;
     .icon-success{
-      color: #61c53c;
+      color: @well-success-icon-color;
       position: absolute;
       left: 17px;
       top: 50%;
@@ -527,7 +527,7 @@ select.dealnet-disabled-input{
       position: absolute;
       top: 13px;
       left: 18px;
-      color: rgb(218, 46, 0);
+      color: @well-info-icon-color;
     }
   }
   .summary-emails-header{
@@ -558,13 +558,6 @@ select.dealnet-disabled-input{
   }
 }
 
-.equipment-info{
-  .dealnet-disabled-input{
-    text-align: left;
-    font-weight: 400;
-    width: 100%;
-  }
-}
 .summary-payment-info{
   margin: 20px 0;
   .dealnet-field-caption{

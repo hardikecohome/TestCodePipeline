@@ -62,6 +62,10 @@
     <Reference Include="DealnetPortal.Utilities">
       <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="dotless.Core, Version=1.5.2.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotless.1.5.2\lib\dotless.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
@@ -98,6 +102,7 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -188,6 +193,7 @@
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\StubController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -197,9 +203,11 @@
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
+    <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
+    <Compile Include="Infrastructure\ModelBinders\DateTimeBinder .cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
@@ -381,10 +389,19 @@
     <Content Include="Content\images\icon-french%403x.png" />
     <Content Include="Content\images\icon-french.png" />
     <Content Include="Content\images\loader.gif" />
-    <Content Include="Content\images\logo-one-dealer%402x.png" />
-    <Content Include="Content\images\logo-one-dealer%403x.png" />
-    <Content Include="Content\images\logo-one-dealer.png" />
-    <Content Include="Content\images\logo-one-dealer.svg" />
+    <Content Include="Content\images\logos\logo-eco-energy-w%402x.png" />
+    <Content Include="Content\images\logos\logo-eco-energy-w%403x.png" />
+    <Content Include="Content\images\logos\logo-eco-energy-w.png" />
+    <Content Include="Content\images\logos\logo-life-time-w%402x.png" />
+    <Content Include="Content\images\logos\logo-life-time-w%403x.png" />
+    <Content Include="Content\images\logos\logo-life-time-w.png" />
+    <Content Include="Content\images\logos\logo-one-dealer%402x.png" />
+    <Content Include="Content\images\logos\logo-one-dealer%403x.png" />
+    <Content Include="Content\images\logos\logo-one-dealer.png" />
+    <Content Include="Content\images\logos\logo-one-dealer.svg" />
+    <Content Include="Content\images\logos\logo-smart-home-w%402x.png" />
+    <Content Include="Content\images\logos\logo-smart-home-w%403x.png" />
+    <Content Include="Content\images\logos\logo-smart-home-w.png" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
@@ -462,10 +479,10 @@
     <Content Include="Content\images\icon-scan-licen%403x.png" />
     <Content Include="Content\images\icon-scan-licen.png" />
     <Content Include="Content\images\icon-scan-licen.svg" />
-    <Content Include="Content\images\logo-eco-home%402x.png" />
-    <Content Include="Content\images\logo-eco-home%403x.png" />
-    <Content Include="Content\images\logo-eco-home.png" />
-    <Content Include="Content\images\logo-eco-home.svg" />
+    <Content Include="Content\images\logos\logo-eco-home%402x.png" />
+    <Content Include="Content\images\logos\logo-eco-home%403x.png" />
+    <Content Include="Content\images\logos\logo-eco-home.png" />
+    <Content Include="Content\images\logos\logo-eco-home.svg" />
     <Content Include="Content\images\new-rental%402x.png" />
     <Content Include="Content\images\new-rental%403x.png" />
     <Content Include="Content\images\new-rental-btn%402x.png" />
@@ -576,6 +593,9 @@
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
+    <Content Include="Favicon_Eco_Energy.ico" />
+    <Content Include="favicon_Life_Time.ico" />
+    <Content Include="favicon_Smart_Home.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
@@ -606,6 +626,13 @@
     <Content Include="Content\less\components\table-my-deals.less" />
     <Content Include="Content\less\components\table-reports.less" />
     <Content Include="Content\less\components\table-filter.less" />
+    <Content Include="Content\less\main-common.less" />
+    <Content Include="Content\less\main-ecoenergy.less" />
+    <Content Include="Content\less\main-lifetime.less" />
+    <Content Include="Content\less\main-smarthome.less" />
+    <Content Include="Content\less\settings\variables-ecoenergy.less" />
+    <Content Include="Content\less\settings\variables-lifetime.less" />
+    <Content Include="Content\less\settings\variables-smarthome.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -789,6 +816,7 @@
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\Rentals\" />
+    <Folder Include="Views\Settings\" />
     <Folder Include="Views\UpdateData\" />
   </ItemGroup>
   <ItemGroup>

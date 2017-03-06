@@ -27,13 +27,14 @@
       if(detectIE()){
         $('body').addClass('ie');
       }
+
       $('.chosen-language-link').on('click', function(){
         $(this).parents('.lang-switcher').toggleClass('open');
         return false;
       });
 
       //If opened switch language dropdown, hide it when click anywhere accept opened dropdown
-      $('html').click(function () {
+      $('html').on('click touchstart', function (event) {
         if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
           $('.lang-switcher').removeClass('open')
         }
@@ -97,7 +98,7 @@
 
         if($(this).find('.grid-column').length % 2 !== 0){
           $(this).parents('.grid-parent').next('.credit-check-info-hold').addClass('shift-to-basic-info');
-          $(this).parents('.grid-parent').next('.grid-parent').find('.credit-check-info-hold').addClass('shift-to-basic-info');
+          $(this).parents('.grid-parent').next('.grid-parent:not(.main-parent)').find('.credit-check-info-hold').addClass('shift-to-basic-info');
         }
 
       });
@@ -136,9 +137,21 @@
       $('.reports-contract-item').each(function(){
         $('.contract-hidden-info').hide();
       });
+
       $('.show-full-conract-link').on('click', function(){
         $(this).parents('.reports-contract-item').find('.contract-hidden-info').show();
         $(this).hide();
+        $('.hide-full-conract-link').show();
+        return false;
+      });
+
+      $('.hide-full-conract-link').on('click', function(){
+        $(this).parents('.reports-contract-item').find('.contract-hidden-info').hide();
+        $(this).hide();
+        $('.show-full-conract-link').show();
+       /* $('html, body').animate({
+          scrollTop: $(this).parents('.reports-contract-item').offset().top - 60
+        }, 2000);*/
         return false;
       });
 
@@ -250,8 +263,8 @@
 });
 
 function detectSidebarHeight(){
-  console.log('detect sidebar');
   if($('.sidebar-inner').height() < ($('.dealnet-sidebar').height() - 20)){
+  if($('.sidebar-inner').height() <= $('.dealnet-sidebar').height()){
     $('.sidebar-bottom').addClass('stick-bottom');
   }else{
     $('.sidebar-bottom').removeClass('stick-bottom');
@@ -457,13 +470,6 @@ function detectPageHeight(){
 function commonDataTablesSettings(){
   if($('#work-items-table').length){
     $('#work-items-table, .total-info').hide();
-
-    /*$('#work-items-table').on( 'draw.dt', function () {
-      $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
-      $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
-      $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
-    });*/
-
     $.extend( true, $.fn.dataTable.defaults, {
       "fnInitComplete": function() {
         $('#work-items-table, .total-info').show();
@@ -486,10 +492,21 @@ function resetDataTablesExpandedRows(table){
 }
 
 function redrawDataTablesSvgIcons(){
-  $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
-  $('.checkbox-icon').html('<svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg>');
-  $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
-  $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
+  /*Redraw svg icons inside dataTable only for ie browsers*/
+  if(detectIE()){
+    if($('.dataTable .edit-control a').length > 0){
+      $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
+    }
+    if($('.dataTable .checkbox-icon').length > 0){
+      $('.checkbox-icon').html('<svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg>');
+    }
+    if($('.dataTable .contract-controls a.preview-item').length > 0){
+      $('.contract-controls a.preview-item').html('<svg aria-hidden="true" class="icon icon-preview"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-preview"></use></svg>');
+    }
+    if($('.dataTable .contract-controls a.export-item').length > 0){
+      $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
+    }
+  }
 }
 
 function backToTop() {

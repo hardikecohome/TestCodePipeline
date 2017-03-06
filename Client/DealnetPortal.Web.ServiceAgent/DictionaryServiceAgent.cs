@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Web.ServiceAgent
@@ -119,6 +121,34 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't change dealers culture", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<StringSettingDTO>> GetDealerSettings()
+        {
+            try
+            {
+                return await Client.GetAsync<IList<StringSettingDTO>>(
+                            $"{_fullUri}/GetDealerSettings").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Dealer Settings", ex);
+                throw;
+            }
+        }
+
+        public async Task<BinarySettingDTO> GetDealerBinSetting(SettingType type)
+        {
+            try
+            {
+                return await Client.GetAsync<BinarySettingDTO>(
+                            $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Dealer Binary Setting", ex);
                 throw;
             }
         }
