@@ -4,7 +4,7 @@
 }
 
 <div class="customer-loan-page">
-    <h2>Apply for financing</h2>
+    <h2 class="dealnet-large-header">Apply for financing</h2>
     <div class="equipment-customer-section">
         <div class="row">
             <div class="col-md-4 col-lg-4">
@@ -21,10 +21,11 @@
     </div>
 
     <div class="customer-loan-form-steps">
-        <div class="panel customer-loan-form-panel">
+        <div class="panel customer-loan-form-panel active-panel">
             <div class="panel-heading">
-                <h3 class="panel-title"><span class="panel-step">1</span>Your Information</h3>
-                <span class="pull-right panel-arrow"> > </span>
+                <span class="panel-step">1</span>
+                <h3 class="panel-title dealnet-middle-header">Your Information</h3>
+                <!--<span class="panel-arrow"> > </span>-->
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -48,13 +49,113 @@
                         <div class="form-group">
                             <label for="">Date of Birth</label>
                             <div class="control-group date-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="mm/dd/yyyy">
+                                <input type="text" class="form-control dealnet-input" id="birth-date-customer" placeholder="mm/dd/yyyy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">SIN (Social insurance number)</label>
+                            <div class="control-group control-hidden-value">
+                                <input type="password" class="form-control dealnet-input" placeholder="SIN (Social insurance number)">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="panel customer-loan-form-panel">
+            <div class="panel-heading">
+                <span class="panel-step">2</span>
+                <h3 class="panel-title dealnet-middle-header">Installation Address Information</h3>
+                <!--<span class="panel-arrow"> > </span>-->
+            </div>
+            <div class="panel-body">
+                <!--Home Owner Information-->
+                <div id="borrower-is-homeowner" class="form-group">
+                    <label for="homeowner-checkbox" class="align-middle custom-checkbox">
+                        <input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox"/>
+                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                        <span>I own this property</span>
+                    </label>
+                </div>
+                <!--Home Owner Information-->
+            </div>
+        </div>
+        <div class="panel customer-loan-form-panel panel-collapsed">
+            <div class="panel-heading">
+                <span class="panel-step">3</span>
+                <h3 class="panel-title dealnet-middle-header">Contact Information</h3>
+                <!--<span class="panel-arrow"> > </span>-->
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">First Name</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input" placeholder="First Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Last Name</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input" placeholder="Last Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Date of Birth</label>
+                            <div class="control-group date-group">
+                                <input type="text" class="form-control dealnet-input" id="birth-date-customer" placeholder="mm/dd/yyyy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">SIN (Social insurance number)</label>
+                            <div class="control-group control-hidden-value">
+                                <input type="password" class="form-control dealnet-input" placeholder="SIN (Social insurance number)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn dealnet-success-button btn-proceed disabled" data-title="You should fill all mandatory fields">Submit Application</button>
     </div>
 </div>
+
+<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+@section scripts
+{
+<script type="text/javascript">
+    $(document).ready(function(){
+        assignDatepicker($("#birth-date-customer"));
+    });
+    function assignDatepicker(input) {
+        inputDateFocus(input);
+
+        input.datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeYear: true,
+            changeMonth: (viewport().width < 768) ? true : false,
+            yearRange: '1900:' + (new Date().getFullYear()-18),
+            minDate: Date.parse("1900-01-01"),
+            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+            onClose: function(){
+                onDateSelect($(this));
+            }
+        });
+    }
+</script>
+}
+
 

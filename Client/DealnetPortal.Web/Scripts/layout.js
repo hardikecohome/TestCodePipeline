@@ -264,12 +264,12 @@
 
 });
 function panelCollapsed(elem){
-  var $this = elem;
+  var $this = elem.closest('.panel');
   if(!$this.hasClass('panel-collapsed')) {
-    $this.parents('.panel').find('.panel-body').slideUp();
+    $this.find('.panel-body').slideUp();
     $this.addClass('panel-collapsed');
   } else {
-    $this.parents('.panel').find('.panel-body').slideDown();
+    $this.find('.panel-body').slideDown();
     $this.removeClass('panel-collapsed');
   }
 };
@@ -584,9 +584,8 @@ function customizeSelect(){
 
 function addIconsToFields(fields){
   var fields = fields || ($('.control-group input, .control-group textarea'));
-  //var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
-  var fieldPassParent = fields.parent('.control-group.control-group-pass');
+  var fieldPassParent = fields.parent('.control-group.control-group-pass, .control-group.control-hidden-value');
   var iconCalendar = '<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>';
   var iconClearField = '<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>';
   var iconPassField = '<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>';
@@ -596,7 +595,8 @@ function addIconsToFields(fields){
   }
 
   fields.each(function(){
-    var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
+    //var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
+    var fieldParent = $(this).parent('.control-group').not(fieldDateParent).not(fieldPassParent);
     if(!$(this).is(".dealnet-disabled-input") && $(this).attr("type") !== "hidden"){
       if(fieldParent.children('.clear-input').length === 0){
         fieldParent.append(iconClearField);
@@ -639,7 +639,7 @@ function toggleClearInputIcon(fields){
 function recoverPassword(){
   var pass;
   $('.recover-pass-link').on('click', function(){
-    pass = $(this).parents('.control-group-pass').find('input');
+    pass = $(this).parents('.control-group').find('input');
     if(pass.prop('type') == "password"){
       pass.prop('type', 'text');
     }else{

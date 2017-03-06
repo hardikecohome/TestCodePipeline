@@ -9,17 +9,57 @@
 }
 .customer-loan-form-steps{
   margin: 0 -20px;
-  padding: 0 5px;
 }
 .customer-loan-form-panel{
   background: #fff;
-  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.38);
   border-radius: 4px;
   border: 0;
-  &.collapsed{
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.38);
+  &.panel-collapsed{
+    .panel-body{
+      display: none;
+    }
+  }
+  &.active-panel{
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    .panel-step{
+      background: #fff;
+      color: @btn-success-bg;
+    }
+    .panel-title{
+      font-weight: 500;
+    }
   }
   .panel-body{
     width: 100%;
+    padding: 15px 20px;
+  }
+  .panel-heading{
+    position: relative;
+    padding: 15px 15px 15px 70px;
+    line-height: 1.45;
+    cursor: pointer;
+  }
+  .panel-title{
+    line-height: inherit;
+    color: #616161;
+    font-weight: 700;
+  }
+  .panel-step{
+    position: absolute;
+    left: 20px;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    border: solid 1px @btn-success-bg;
+    background: @btn-success-bg;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50px;
+    font: 14px/28px @usual-font-family;
+  }
+  .btn-proceed{
+    margin-top: 30px;
   }
 }
