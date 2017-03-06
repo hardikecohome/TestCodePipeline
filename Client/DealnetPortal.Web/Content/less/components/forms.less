@@ -217,6 +217,7 @@ html.ie9{
   }
 
 .form-control{
+  box-shadow: none !important;
   &.input-validation-error{
     border-color: @danger-color !important;
   }
@@ -654,7 +655,8 @@ div.dataTables_wrapper div.dataTables_length {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #ffffff;
+    border: solid 1.5px rgba(0, 0, 0, 0.1);
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 34px;
@@ -665,8 +667,8 @@ div.dataTables_wrapper div.dataTables_length {
     content: "";
     height: 13px;
     width: 13px;
-    left: 1px;
-    bottom: 1px;
+    left: 0px;
+    bottom: 0px;
     background-color: #ffffff;
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 1px 0 rgba(0, 0, 0, 0.05);
     border: solid 0.5px rgba(0, 0, 0, 0.1);
@@ -676,11 +678,11 @@ div.dataTables_wrapper div.dataTables_length {
   }
 
   input:checked + .slider {
-    background-color: #61c53c;
+    background-color: @btn-success-bg;
   }
 
   input:focus + .slider {
-    background-color: #61c53c;
+    background-color: @btn-success-bg;
   }
 
   input:checked + .slider:before {

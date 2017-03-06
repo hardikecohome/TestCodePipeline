@@ -1,5 +1,4 @@
-﻿<!--
-@using DealnetPortal.Web.Common
+﻿@using DealnetPortal.Web.Common
 @using DealnetPortal.Web.Infrastructure
 @{
     ViewBag.Title = Resources.AboutUs;
@@ -11,7 +10,7 @@
         <div class="about-page">
             <div class="page-section promo-section">
                 <h2 class="dealnet-large-header">@ViewBag.Title</h2>
-                &lt;!&ndash;<h3>@ViewBag.Message</h3>&ndash;&gt;
+                <!--<h3>@ViewBag.Message</h3>-->
                 <p>@Resources.EcoHomeAbout1</p>
                 <p>@Resources.EcoHomeAbout2</p>
                 <p>@Resources.EcoHomeAbout3</p>
@@ -63,7 +62,7 @@
         </div>
         break;
 }
--->
+<!--
 
 <div id="label-steps">
     <div class="dealnet-action-link">Shareable Link</div> >
@@ -73,33 +72,33 @@
 <div class="shareable-link-page">
     <div class="get-link-section">
         <div class="form-group">
-            <div>
+            <div class="labels-hold">
                 <label for="enLink" class="dealnet-field-caption">Form in English</label>
                 <label class="checkbox-toggle">
                     <input type="checkbox" checked>
                     <div class="slider"></div>
                 </label>
             </div>
-            <div class="">
+            <div class="controls-hold">
                 <div class="control-group">
                     <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="https://lorem_ipsum/lorem/Ipsum_sit_amed_wireframe_En">
                 </div>
-                <button type="button" class="btn dealnet-success-button small-btn">Copy</button>
+                <button type="button" class="btn dealnet-success-button btn-small">Copy</button>
             </div>
         </div>
         <div class="form-group">
-            <div>
-                <label for="frLink" class="dealnet-field-caption">Form in English</label>
+            <div class="labels-hold">
+                <label for="frLink" class="dealnet-field-caption">Form in French</label>
                 <label class="checkbox-toggle">
                     <input type="checkbox">
                     <div class="slider"></div>
                 </label>
             </div>
-            <div class="">
+            <div class="controls-hold">
                 <div class="control-group">
                     <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="https://lorem_ipsum/lorem/Ipsum_sit_amed_wireframe_Fr">
                 </div>
-                <button type="button" class="btn dealnet-success-button small-btn">Copy</button>
+                <button type="button" class="btn dealnet-success-button btn-small">Copy</button>
             </div>
         </div>
     </div>
@@ -113,12 +112,12 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="equipment-en">
                 <div class="form-group">
-                    <label for="enEquipmentTags" class="dealnet-field-caption">Form in English</label>
-                    <div class="">
+                    <label for="enEquipmentTags" class="dealnet-field-caption">Define your equipment/service</label>
+                    <div class="controls-hold">
                         <div class="control-group">
                             <input type="url" id="enEquipmentTags" class="form-control dealnet-input"  value="" placeholder="Type your equipment/service">
                         </div>
-                        <button type="button" class="btn dealnet-success-button small-btn">Add</button>
+                        <button type="button" class="btn dealnet-success-button btn-small">Add</button>
                     </div>
                 </div>
                 <ul class="equipment-linked-tags tags-list">
@@ -128,14 +127,18 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="equipment-fr">
                 <div class="form-group">
-                    <label for="frEquipmentTags" class="dealnet-field-caption">Form in French</label>
-                    <div class="">
+                    <label for="frEquipmentTags" class="dealnet-field-caption">Define your equipment/service</label>
+                    <div class="controls-hold">
                         <div class="control-group">
                             <input type="url" id="frEquipmentTags" class="form-control dealnet-input"  value="" placeholder="Type your equipment/service">
                         </div>
-                        <button type="button" class="btn dealnet-success-button small-btn">Add</button>
+                        <button type="button" class="btn dealnet-success-button btn-small">Add</button>
                     </div>
                 </div>
+                <ul class="equipment-linked-tags tags-list">
+                    <li>Air Conditioner <span class="glyphicon glyphicon-remove"></span></li>
+                    <li>Furnace <span class="glyphicon glyphicon-remove"></span></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -148,4 +151,4 @@
             </button>
         </div>
     </div>
-</div>
+</div>-->
