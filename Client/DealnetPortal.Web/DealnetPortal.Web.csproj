@@ -188,12 +188,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsyncCancellationController.cs" />
     <Compile Include="Controllers\CalculatorController.cs" />
+    <Compile Include="Controllers\CustomerFormController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\ShareableLinkController.cs" />
     <Compile Include="Controllers\StubController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -808,6 +810,8 @@
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
+    <Content Include="Views\ShareableLink\Index.cshtml" />
+    <Content Include="Views\CustomerForm\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
