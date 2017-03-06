@@ -18,11 +18,9 @@
         case PortalType.Ecohome:
         default:
             @Styles.Render("~/Content/less/main.less")
-            //<link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
             break;
         case PortalType.Odi:
             @Styles.Render("~/Content/less/main-dealer.less")
-            //<link rel="shortcut icon" href="~/favicon-dealer.ico?=1" type="image/x-icon" />
             break;
     }
     <link rel="shortcut icon" href=@Url.Action("Favicon", "Settings", new { v = DateTime.Now.Ticks.ToString() }) type="image/x-icon" />
@@ -83,7 +81,7 @@
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
                             </div>
-                            @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated && ViewBag.LangSwitcherAvailable == true)
                             {
                             <div class="lang-switcher pull-right">
                                 <div class="chosen-language">
@@ -193,22 +191,25 @@
 
 
                     <div class="sidebar-bottom">
-                        <div class="dealnet-sidebar-item">
-                            <div class="sidebar-lang-item">
-                                @switch (CultureHelper.CurrentCultureType)
-                                {
-                                case CultureType.English:
-                                @:<span class="sidebar-icon"><span class="flag-icon french-flag"></span></span>
-                                @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-sidebar-link" })
-                                break;
-                                case CultureType.French:
-                                @:<span class="sidebar-icon"><span class="flag-icon english-flag"></span></span>
-                                @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "dealnet-sidebar-link" })
-                                break;
-                                }
+                        @if (ViewBag.LangSwitcherAvailable == true)
+                        {
+                            <div class="dealnet-sidebar-item">
+                                <div class="sidebar-lang-item">
+                                    @switch (CultureHelper.CurrentCultureType)
+                                    {
+                                        case CultureType.English:
+                                            @:<span class="sidebar-icon"><span class="flag-icon french-flag"></span></span>
+                                            @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "dealnet-sidebar-link"})
+                                            break;
+                                        case CultureType.French:
+                                            @:<span class="sidebar-icon"><span class="flag-icon english-flag"></span></span>
+                                            @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "dealnet-sidebar-link"})
+                                            break;
+                                    }
 
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div class="dealnet-sidebar-item">
                             @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-sidebar-link no-icon" })
                         </div>

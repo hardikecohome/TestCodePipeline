@@ -15,6 +15,7 @@ namespace DealnetPortal.Web.Core.Services
             if (item == null)
             {
                 item = getItemCallback();
+                if (item == null) { return null; }
                 CacheItemPolicy policy = new CacheItemPolicy();
                 if (durationInMinutes.HasValue)
                 {
@@ -32,6 +33,7 @@ namespace DealnetPortal.Web.Core.Services
             if (item == null)
             {
                 item = await getItemCallback();
+                if (item == null) { return null; }
                 CacheItemPolicy policy = new CacheItemPolicy();
                 if (durationInMinutes.HasValue)
                 {
