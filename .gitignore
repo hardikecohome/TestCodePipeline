@@ -252,3 +252,9 @@ Client/lib/DealnetPortal.Api.Common.dll
 /Client/DealnetPortal.Web/Logs
 /Server/deployment
 /Client/deployment
+Server/DealnetPortal.Api/SeedData/ecoenergy.Favicon.ico
+Server/DealnetPortal.Api/SeedData/ecoenergy.LogoImage2X.png
+Server/DealnetPortal.Api/SeedData/lifetimewater.Favicon.ico
+Server/DealnetPortal.Api/SeedData/lifetimewater.LogoImage2X.png
+Server/DealnetPortal.Api/SeedData/smarthome.Favicon.ico
+Server/DealnetPortal.Api/SeedData/smarthome.LogoImage2X.png

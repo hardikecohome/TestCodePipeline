@@ -799,7 +799,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create another application for this home owner.
+        ///   Looks up a localized string similar to Create another application for this borrower.
         /// </summary>
         public static string CreateAnotherApplicationForThis {
             get {

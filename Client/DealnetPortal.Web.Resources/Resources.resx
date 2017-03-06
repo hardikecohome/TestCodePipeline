@@ -872,7 +872,7 @@
     <comment>Context: You will receive an email ... containing a copy of...</comment>
   </data>
   <data name="CreateAnotherApplicationForThis" xml:space="preserve">
-    <value>Create another application for this home owner</value>
+    <value>Create another application for this borrower</value>
   </data>
   <data name="Declined" xml:space="preserve">
     <value>Declined</value>
