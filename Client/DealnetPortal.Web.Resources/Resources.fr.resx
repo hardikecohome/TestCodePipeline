@@ -987,13 +987,13 @@
     <value>Confirmer le nouveau mot de passe</value>
   </data>
   <data name="LoanApplication" xml:space="preserve">
-    <value>Demande de prêt</value>
+    <value>Prêt</value>
   </data>
   <data name="RentalApplicationHwt" xml:space="preserve">
-    <value>Demande de location (HWT)</value>
+    <value>Location (HWT)</value>
   </data>
   <data name="RentalApplication" xml:space="preserve">
-    <value>Demande de location</value>
+    <value>Location</value>
   </data>
   <data name="StartedToFillNewContract" xml:space="preserve">
     <value>Le contrat a commencé à être rempli</value>
