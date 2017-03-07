@@ -200,27 +200,69 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
                         <div class="form-group">
-                            <label for="" class="mandatory-field">Home Phone</label>)
+                            <label for="">Home Phone</label>
                             <div class="control-group">
                                 <input type="text" class="form-control dealnet-input" placeholder="Home Phone">
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group">
-                            <label for="">SIN (Social insurance number)</label>
-                            <div class="control-group control-hidden-value">
-                                <input type="password" class="form-control dealnet-input" placeholder="SIN (Social insurance number)">
+                            <label for="" class="mandatory-field">Cell Phone</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input" placeholder="Cell Phone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="">Business Phone</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input" placeholder="Business Phone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">Email Address</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input" placeholder="Email Address">
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">Add Comment</label>
+                            <div class="control-group">
+                                <textarea name="" class="form-control" placeholder="Write your comment"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="agreement1" class="align-middle custom-checkbox">
+                        <input type="checkbox" class="dealnet-checkbox" id="agreement1"/>
+                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                        <strong class="mandatory-field">I agree to pass information to credit check</strong>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="agreement2" class="align-middle custom-checkbox">
+                        <input type="checkbox" class="dealnet-checkbox" id="agreement2"/>
+                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                        <strong class="mandatory-field">I agree that dealer or its representatives may contact me by email or phone*</strong>
+                    </label>
+                </div>
+                <div class="captcha-section">
+
+                </div>
             </div>
         </div>
-        <button class="btn dealnet-success-button btn-proceed disabled btn-form-common" data-title="You should fill all mandatory fields">Submit Application</button>
+        <div class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" title="" data-content="You should fill all mandatory fields">
+            <button class="btn dealnet-success-button btn-proceed disabled btn-form-common" >Submit Application</button>
+        </div>
     </div>
 </div>
 

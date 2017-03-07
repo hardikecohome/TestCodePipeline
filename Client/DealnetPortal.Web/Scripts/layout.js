@@ -262,13 +262,11 @@
         panelCollapsed($(this));
       });
 
-      $('.customer-loan-form-steps .btn-proceed').on('click touchstart', function(){
-        var tooltipText = $(this).attr('')
-        if($(this).hasClass('.disabled')){
 
-        }
+      $('[data-toggle="popover"]').popover({
+        template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
       });
-
+     
 });
 function panelCollapsed(elem){
   var $this = elem.closest('.panel');

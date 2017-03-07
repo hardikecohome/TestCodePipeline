@@ -24,6 +24,9 @@
       }
     }
   }
+  textarea{
+    min-height: 120px;
+  }
 }
 .customer-loan-form-steps{
   @media @desktop-lg-up {
@@ -118,5 +121,22 @@
     font-weight: bold;
     color: #d33b4c;
     font-style: normal;
+  }
+}
+.btn-proceed-inline-hold{
+  display: inline-block;
+  &.btn-form-common{
+    display: block;
+  }
+}
+.customer-loan-popover.top{
+  color: #000;
+  background-color: #ffffff;
+  border: solid 1px #dcdcdc;
+  border-radius: 4px;
+  box-shadow: none;
+  margin-top: 10px;
+  @media @tablet-up {
+    margin: 10px 0 0 150px;
   }
 }
