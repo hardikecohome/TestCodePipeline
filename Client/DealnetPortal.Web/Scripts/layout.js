@@ -263,10 +263,14 @@
       });
 
 
-      $('[data-toggle="popover"]').popover({
-        template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-      });
-     
+      if($('.customer-loan-page .btn-proceed').is('.disabled')){
+        $('.btn-proceed-inline-hold[data-toggle="popover"]').popover({
+          template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+        });
+      }else{
+        $('.btn-proceed-inline-hold[data-toggle="popover"]').popover('destroy');
+      }
+
 });
 function panelCollapsed(elem){
   var $this = elem.closest('.panel');

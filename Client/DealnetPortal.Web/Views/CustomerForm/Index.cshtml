@@ -186,8 +186,14 @@
                             </a>
                         </div>
                     </div>
+                    <div class="well danger-well over-aged-well" id="age-error-message">
+                        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                        @Resources.AtLeastOne75OrLess
+                    </div>
                 </div>
                 <!--End Living time-->
+
+
             </div>
         </div>
         <div class="panel customer-loan-form-panel panel-collapsed">
@@ -261,7 +267,7 @@
             </div>
         </div>
         <div class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" title="" data-content="You should fill all mandatory fields">
-            <button class="btn dealnet-success-button btn-proceed disabled btn-form-common" >Submit Application</button>
+            <button class="btn dealnet-success-button btn-proceed disabled btn-form-common">Submit Application</button>
         </div>
     </div>
 </div>
