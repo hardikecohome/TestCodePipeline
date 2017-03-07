@@ -62,18 +62,30 @@
   }
   .panel-body{
     width: 100%;
-    padding: 15px 20px;
+    padding: 15px 15px;
+    @media @desktop-lg-up {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
   }
   .panel-heading{
     position: relative;
-    padding: 15px 15px 15px 70px;
+    padding: 15px 40px 15px 58px;
     line-height: 1.45;
     cursor: pointer;
+    @media @desktop-lg-up {
+      padding-left: 70px;
+      padding-right: 50px;
+    }
     .arrow{
       position: absolute;
-      top: 18px;
-      right: 20px;
+      top: 20px;
+      right: 15px;
       font-size: 16px;
+
+      @media @desktop-lg-up {
+        right: 20px;
+      }
     }
   }
   .panel-title{
@@ -83,7 +95,7 @@
   }
   .panel-step{
     position: absolute;
-    left: 20px;
+    left: 15px;
     top: 15px;
     width: 30px;
     height: 30px;
@@ -94,9 +106,15 @@
     text-align: center;
     border-radius: 50px;
     font: 14px/28px @usual-font-family;
+    @media @desktop-lg-up {
+      left: 20px;
+    }
   }
   .btn-proceed{
     margin-top: 30px;
+  }
+  .dealnet-middle-header{
+    color: #616161;
   }
 
 }
@@ -115,9 +133,9 @@
   position: relative;
   &:after{
     content: '*';
-    position: absolute;
+    position: relative;
     top: 0;
-    right: -10px;
+    right: -3px;
     font-weight: bold;
     color: #d33b4c;
     font-style: normal;
@@ -138,5 +156,13 @@
   margin-top: 10px;
   @media @tablet-up {
     margin: 10px 0 0 150px;
+  }
+}
+
+.captcha-section{
+  width: 340px;
+  max-width: 100%;
+  img{
+    max-width: 100%;
   }
 }
