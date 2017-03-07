@@ -53,7 +53,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwnerContactInfo.HomePhone)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new {@class = "form-control dealnet-input home-phone", type="number", placeholder = Resources.HomePhone })
+                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new {@class = "form-control dealnet-input home-phone", type="text", placeholder = Resources.HomePhone })
                         @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.HomePhone, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwnerContactInfo.CellPhone)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.CellPhone, new {@class = "form-control dealnet-input cell-phone", type="number", placeholder = Resources.CellPhone })
+                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.CellPhone, new {@class = "form-control dealnet-input cell-phone", type="text", placeholder = Resources.CellPhone })
                         @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.CellPhone, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwnerContactInfo.BusinessPhone)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new {@class = "form-control dealnet-input", id = "business-phone", type="number", placeholder = Resources.BusinessPhone })
+                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new {@class = "form-control dealnet-input", id = "business-phone", type="text", placeholder = Resources.BusinessPhone })
                         @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.BusinessPhone, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.HouseSize)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HouseSize, new {@class = "form-control dealnet-input", id = "house-size", type="number", placeholder = Resources.HouseSizeSquareFeet })
+                        @Html.TextBoxFor(m => m.HouseSize, new {@class = "form-control dealnet-input", id = "house-size", type="text", placeholder = Resources.HouseSizeSquareFeet })
                         @Html.ValidationMessageFor(m => m.HouseSize, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CoBorrowersContactInfo[i].HomePhone)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].HomePhone, new { @class = "form-control dealnet-input home-phone", type="number", placeholder = Resources.HomePhone })
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].HomePhone, new { @class = "form-control dealnet-input home-phone", type="text", placeholder = Resources.HomePhone })
                                 @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].HomePhone, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CoBorrowersContactInfo[i].CellPhone)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].CellPhone, new { @class = "form-control dealnet-input cell-phone", type="number", placeholder = Resources.CellPhone })
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].CellPhone, new { @class = "form-control dealnet-input cell-phone", type="text", placeholder = Resources.CellPhone })
                                 @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].CellPhone, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CoBorrowersContactInfo[i].BusinessPhone)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, new { @class = "form-control dealnet-input", type="number", id = "business-phone", placeholder = Resources.BusinessPhone })
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, new { @class = "form-control dealnet-input", type="text", id = "business-phone", placeholder = Resources.BusinessPhone })
                                 @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new {@class = "form-control dealnet-input", type="number", id = "bank-number", placeholder = Resources.BlankNumber})
+                            @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new {@class = "form-control dealnet-input", type="text", id = "bank-number", placeholder = Resources.BlankNumber})
                             @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "form-control dealnet-input", type="number", id = "enbridge-gas-distribution-account", placeholder = Resources.TwelveDigitsNumber })
+                            @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new {@class = "form-control dealnet-input", type="text", id = "enbridge-gas-distribution-account", placeholder = Resources.TwelveDigitsNumber })
                             @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -226,7 +226,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.MeterNumber)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new {@class = "form-control dealnet-input", type="number", id = "meter-number", placeholder = Resources.SevenDigitsNumber })
+                            @Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new {@class = "form-control dealnet-input", type="text", id = "meter-number", placeholder = Resources.SevenDigitsNumber })
                             @Html.ValidationMessageFor(m => m.PaymentInfo.MeterNumber, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -238,7 +238,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new {@class = "form-control dealnet-input", type="number", id = "transit-number", placeholder = Resources.TransitNumber })
+                        @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new {@class = "form-control dealnet-input", type="text", id = "transit-number", placeholder = Resources.TransitNumber })
                         @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -248,7 +248,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new {@class = "form-control dealnet-input", type="number", id = "account-number", placeholder = Resources.AccountNumber })
+                        @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new {@class = "form-control dealnet-input", type="text", id = "account-number", placeholder = Resources.AccountNumber })
                         @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new {@class = "text-danger"})
                     </div>
                 </div>

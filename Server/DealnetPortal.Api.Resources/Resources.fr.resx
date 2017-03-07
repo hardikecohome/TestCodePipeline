@@ -317,16 +317,16 @@
     <value>Équipement</value>
   </data>
   <data name="LoanApplication" xml:space="preserve">
-    <value>Demande de prêt</value>
+    <value>Prêt</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Téléphone</value>
   </data>
   <data name="RentalApplication" xml:space="preserve">
-    <value>Demande de location</value>
+    <value>Location</value>
   </data>
   <data name="RentalApplicationHwt" xml:space="preserve">
-    <value>Demande de location (HWT)</value>
+    <value>Location (HWT)</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Rapports</value>

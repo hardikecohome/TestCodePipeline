@@ -212,7 +212,7 @@ namespace DealnetPortal.Web.App_Start
                     {
                         if (src.Equipment != null)
                         {
-                            return $"$ {src.Equipment.ValueOfDeal:0.00}";
+                            return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                         }
                         return string.Empty;
                     }));
