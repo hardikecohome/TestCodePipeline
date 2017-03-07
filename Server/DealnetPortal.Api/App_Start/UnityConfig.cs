@@ -39,8 +39,10 @@ namespace DealnetPortal.Api
             container.RegisterType<IFileRepository, FileRepository>();
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
             container.RegisterType<ISettingsRepository, SettingsRepository>();
+            container.RegisterType<ICustomerFormRepository, CustomerFormRepository>();
 
             container.RegisterType<IContractService, ContractService>();
+            container.RegisterType<ICustomerFormService, CustomerFormService>();
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
             container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["EcoreApiUrl"]));

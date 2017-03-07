@@ -142,7 +142,7 @@
                                             @Html.LabelFor(m => m.NewEquipment[i].Cost)
                                             <div class="control-group has-addon-left">
                                                 <div class="control-group-addon">$</div>
-                                                @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", type="number", placeholder = Resources.Cost, onchange = "recalculateTotalCashPrice();" })
+                                                @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", type="text", placeholder = Resources.Cost, onchange = "recalculateTotalCashPrice();" })
                                                 @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
@@ -152,7 +152,7 @@
                                             @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
                                             <div class="control-group has-addon-left">
                                                 <div class="control-group-addon">$</div>
-                                                @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type="number", placeholder = Resources.MonthlyCost, onchange = "recalculateTotalMonthlyPayment();" })
+                                                @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type="text", placeholder = Resources.MonthlyCost, onchange = "recalculateTotalMonthlyPayment();" })
                                                 @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
@@ -189,7 +189,7 @@
                             @Html.LabelFor(m => m.TotalMonthlyPayment)
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
-                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", type="number", placeholder = Resources.TotalMonthlyPayment, onchange = "recalculateTotalMonthlyPaymentHst();" })
+                                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new { @class = "form-control dealnet-input", id = "total-monthly-payment", type="text", placeholder = Resources.TotalMonthlyPayment, onchange = "recalculateTotalMonthlyPaymentHst();" })
                                 @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -203,7 +203,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdminFee)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdminFee, new { @class = "form-control", placeholder = Resources.AdminFee, type="number", id = "admin-fee", onchange = "calculateLoanValues();" })
+                                @Html.TextBoxFor(m => m.AdminFee, new { @class = "form-control", placeholder = Resources.AdminFee, type="text", id = "admin-fee", onchange = "calculateLoanValues();" })
                                 @Html.ValidationMessageFor(m => m.AdminFee, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -212,7 +212,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.DownPayment)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type="number", id = "down-payment", onchange = "calculateLoanValues();" })
+                                @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type="text", id = "down-payment", onchange = "calculateLoanValues();" })
                                 @Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -221,7 +221,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CustomerRate)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CustomerRate, new { @class = "form-control", placeholder = Resources.CustomerRatePercentage, type="number", id = "customer-rate", onchange = "calculateLoanValues();" })
+                                @Html.TextBoxFor(m => m.CustomerRate, new { @class = "form-control", placeholder = Resources.CustomerRatePercentage, type="text", id = "customer-rate", onchange = "calculateLoanValues();" })
                                 @Html.ValidationMessageFor(m => m.CustomerRate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -248,7 +248,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.RequestedTerm)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input", type="number", placeholder = Resources.RequestedTerm, id = "requested-term"})
+                                @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input", type="text", placeholder = Resources.RequestedTerm, id = "requested-term"})
                                 @Html.ValidationMessageFor(m => m.RequestedTerm, "", new {@class = "text-danger"})
                             </div>
                         </div>
@@ -257,7 +257,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.LoanTerm)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.LoanTerm, new { @class = "form-control dealnet-input", placeholder = Resources.LoanTerm, type="number", id = "loan-term", onchange = "calculateLoanValues();" })
+                                @Html.TextBoxFor(m => m.LoanTerm, new { @class = "form-control dealnet-input", placeholder = Resources.LoanTerm, type="text", id = "loan-term", onchange = "calculateLoanValues();" })
                                 @Html.ValidationMessageFor(m => m.LoanTerm, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -266,7 +266,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AmortizationTerm)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = Resources.AmortizationTerm, type="number", id = "amortization-term", onchange = "calculateLoanValues();" })
+                                @Html.TextBoxFor(m => m.AmortizationTerm, new { @class = "form-control dealnet-input", placeholder = Resources.AmortizationTerm, type="text", id = "amortization-term", onchange = "calculateLoanValues();" })
                                 @Html.ValidationMessageFor(m => m.AmortizationTerm, "", new {@class = "text-danger"})
                             </div>
                         </div>
@@ -415,7 +415,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.ExistingEquipment[i].EstimatedAge)
                                         <div class="control-group">
-                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].EstimatedAge, new { @class = "form-control dealnet-input", type="number", placeholder = Resources.Years })
+                                    @Html.TextBoxFor(m => m.ExistingEquipment[i].EstimatedAge, new { @class = "form-control dealnet-input", type="text", placeholder = Resources.Years })
                                             @Html.ValidationMessageFor(m => m.ExistingEquipment[i].EstimatedAge, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -551,7 +551,7 @@
                         @Html.LabelFor(m => m.NewEquipment[0].Cost)
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
-                            @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input equipment-cost", type="number", placeholder = Resources.Cost, onchange = "recalculateTotalCashPrice();", @Value = "" })
+                            @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input equipment-cost", type="text", placeholder = Resources.Cost, onchange = "recalculateTotalCashPrice();", @Value = "" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -561,7 +561,7 @@
                         @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
-                            @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type="number", placeholder = Resources.MonthlyCost, onchange = "recalculateTotalMonthlyPayment();", @Value = "" })
+                            @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type="text", placeholder = Resources.MonthlyCost, onchange = "recalculateTotalMonthlyPayment();", @Value = "" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -616,7 +616,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.ExistingEquipment[0].EstimatedAge)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.ExistingEquipment[0].EstimatedAge, new { @class = "form-control dealnet-input", type="number", placeholder = Resources.Years, @Value = "" })
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].EstimatedAge, new { @class = "form-control dealnet-input", type="text", placeholder = Resources.Years, @Value = "" })
                             @Html.ValidationMessageFor(m => m.ExistingEquipment[0].EstimatedAge, "", new { @class = "text-danger" })
                         </div>
                     </div>

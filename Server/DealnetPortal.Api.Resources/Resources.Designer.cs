@@ -421,7 +421,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loan Application.
+        ///   Looks up a localized string similar to Loan.
         /// </summary>
         public static string LoanApplication {
             get {
@@ -493,7 +493,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rental Application.
+        ///   Looks up a localized string similar to Rental.
         /// </summary>
         public static string RentalApplication {
             get {
@@ -502,7 +502,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rental Application (HWT).
+        ///   Looks up a localized string similar to Rental (HWT).
         /// </summary>
         public static string RentalApplicationHwt {
             get {

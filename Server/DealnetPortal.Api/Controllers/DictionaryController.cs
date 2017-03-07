@@ -242,5 +242,21 @@ namespace DealnetPortal.Api.Controllers
             }
             return Ok();
         }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/GetShareableLinkSettings
+        [Route("GetShareableLinkSettings")]
+        public IHttpActionResult GetShareableLinkSettings()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Authorize]
+        [HttpPut]
+        public IHttpActionResult UpdateShareableLinkSettings(CustomerLinkDTO customerLinkSettings)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

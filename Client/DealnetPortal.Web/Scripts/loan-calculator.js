@@ -69,7 +69,7 @@ function checkCalculationValidity(inputCashPrice, inputTaxRate) {
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
-    if (isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate <= 0) { return false; }
+    if (isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return false; }
     var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
     return totalMonthlyPayment > 0;
 }
