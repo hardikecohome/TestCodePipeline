@@ -1,33 +1,44 @@
 .customer-loan-page{
-  width: 1040px;
+  @media @desktop-lg-up {
+    padding: 0 20px;
+    width: 1040px;
+  }
   margin: 0 auto;
-  padding: 0 20px;
   max-width: 100%;
   .equipment-customer-section{
     margin: 20px 0;
   }
 }
 .customer-loan-form-steps{
-  margin: 0 -20px;
+  @media @desktop-lg-up {
+    margin: 0 -20px;
+  }
 }
 .customer-loan-form-panel{
   background: #fff;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.38);
   border-radius: 4px;
   border: 0;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
   &.panel-collapsed{
     .panel-body{
       display: none;
     }
+    .arrow{
+      .glyphicon{
+        &:before{
+          content: "\e258";
+        }
+      }
+    }
   }
   &.active-panel{
-    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.38);
     .panel-step{
-      background: #fff;
-      color: @btn-success-bg;
+      background: @btn-success-bg;
+      color: #fff;
     }
     .panel-title{
-      font-weight: 500;
+      font-weight: 700;
     }
   }
   .panel-body{
@@ -39,11 +50,17 @@
     padding: 15px 15px 15px 70px;
     line-height: 1.45;
     cursor: pointer;
+    .arrow{
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      font-size: 16px;
+    }
   }
   .panel-title{
     line-height: inherit;
     color: #616161;
-    font-weight: 700;
+    font-weight: 500;
   }
   .panel-step{
     position: absolute;
@@ -51,9 +68,9 @@
     top: 15px;
     width: 30px;
     height: 30px;
+    background: #fff;
+    color: @btn-success-bg;
     border: solid 1px @btn-success-bg;
-    background: @btn-success-bg;
-    color: #fff;
     display: inline-block;
     text-align: center;
     border-radius: 50px;
@@ -61,5 +78,45 @@
   }
   .btn-proceed{
     margin-top: 30px;
+  }
+
+}
+
+.arrow{
+  color: @btn-success-bg;
+  font-size: 12px;
+  .glyphicon{
+    &:before{
+      content: "\e259";
+    }
+  }
+}
+
+.mandatory-field{
+  position: relative;
+  &:after{
+    content: '*';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    font-weight: bold;
+    color: #d33b4c;
+    font-style: normal;
+  }
+}
+
+.col-md-4{
+  @media @desktop-up{
+    &:nth-child(3n-2){
+      clear: both;
+    }
+  }
+}
+
+.col-sm-6{
+  @media @tablet-only {
+    &:nth-child(2n-1){
+      clear: both;
+    }
   }
 }

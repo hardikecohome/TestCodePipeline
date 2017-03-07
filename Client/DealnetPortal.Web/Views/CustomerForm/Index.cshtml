@@ -7,7 +7,7 @@
     <h2 class="dealnet-large-header">Apply for financing</h2>
     <div class="equipment-customer-section">
         <div class="row">
-            <div class="col-md-4 col-lg-4">
+            <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label for="">What equipment/service are you interested in?</label>
                     <div class="control-group">
@@ -21,41 +21,39 @@
     </div>
 
     <div class="customer-loan-form-steps">
-        <div class="panel customer-loan-form-panel active-panel">
+        <div class="panel customer-loan-form-panel panel-collapsed">
             <div class="panel-heading">
                 <span class="panel-step">1</span>
                 <h3 class="panel-title dealnet-middle-header">Your Information</h3>
-                <!--<span class="panel-arrow"> > </span>-->
+                <span class="arrow"><i class="glyphicon"></i></span>
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group">
-                            <label for="">First Name</label>
+                            <label for="" class="mandatory-field">First Name</label>
                             <div class="control-group">
                                 <input type="text" class="form-control dealnet-input" placeholder="First Name">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group">
-                            <label for="">Last Name</label>
+                            <label for="" class="mandatory-field">Last Name</label>
                             <div class="control-group">
                                 <input type="text" class="form-control dealnet-input" placeholder="Last Name">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group">
-                            <label for="">Date of Birth</label>
+                            <label for="" class="mandatory-field">Date of Birth</label>
                             <div class="control-group date-group">
                                 <input type="text" class="form-control dealnet-input" id="birth-date-customer" placeholder="mm/dd/yyyy">
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group">
                             <label for="">SIN (Social insurance number)</label>
                             <div class="control-group control-hidden-value">
@@ -66,29 +64,140 @@
                 </div>
             </div>
         </div>
-        <div class="panel customer-loan-form-panel">
+        <div class="panel customer-loan-form-panel active-panel">
             <div class="panel-heading">
                 <span class="panel-step">2</span>
                 <h3 class="panel-title dealnet-middle-header">Installation Address Information</h3>
-                <!--<span class="panel-arrow"> > </span>-->
+                <span class="arrow"><i class="glyphicon"></i></span>
             </div>
             <div class="panel-body">
+                <div id="address">
+                    <div class="row address-info1">
+                        <div class="col-sm-9 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="street" class="mandatory-field">Street</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="St.">
+                                    <span class="text-danger">dgfdsfasdf</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="unit_number" class="mandatory-field">Unit #</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="locality" class="mandatory-field">City</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="administrative_area_level_1" class="mandatory-field">Province</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Nepean">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="postal_code" class="mandatory-field">Postal Code</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            <a href="#" class="dealnet-disabled-text clear-address">
+                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <!--Home Owner Information-->
                 <div id="borrower-is-homeowner" class="form-group">
                     <label for="homeowner-checkbox" class="align-middle custom-checkbox">
                         <input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox"/>
                         <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                        <span>I own this property</span>
+                        <strong class="mandatory-field">I own this property</strong>
                     </label>
                 </div>
                 <!--Home Owner Information-->
+                <!--Living time-->
+                <div id="living-time" class="form-group">
+                    <label for="living-time-checkbox" class="align-middle custom-checkbox">
+                        <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox" onChange="$(this).is(':checked') ? $('#previous-address').slideDown() : $('#previous-address').slideUp()"/>
+                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                        <strong>Lived at current address less than 6 month</strong>
+                    </label>
+                </div>
+                <div id="previous-address" style="display: none;">
+                    <h2 class="dealnet-middle-header address-info-label no-margin-top">Previous Address Information</h2>
+                    <div class="row address-info1">
+                        <div class="col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="street" class="mandatory-field">Street</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="St.">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-lg-2">
+                            <div class="form-group">
+                                <label for="unit_number" class="mandatory-field">Unit #</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="locality" class="mandatory-field">City</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row address-info2">
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="administrative_area_level_1" class="mandatory-field">Province</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Nepean">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="postal_code" class="mandatory-field">Postal Code</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <a href="#" class="dealnet-disabled-text clear-address">
+                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--End Living time-->
             </div>
         </div>
         <div class="panel customer-loan-form-panel panel-collapsed">
             <div class="panel-heading">
                 <span class="panel-step">3</span>
                 <h3 class="panel-title dealnet-middle-header">Contact Information</h3>
-                <!--<span class="panel-arrow"> > </span>-->
+                <span class="arrow"><i class="glyphicon"></i></span>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -129,7 +238,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn dealnet-success-button btn-proceed disabled" data-title="You should fill all mandatory fields">Submit Application</button>
+        <button class="btn dealnet-success-button btn-proceed disabled btn-form-common" data-title="You should fill all mandatory fields">Submit Application</button>
     </div>
 </div>
 

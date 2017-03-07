@@ -96,7 +96,14 @@
     color: @button-link-active-color;
   }
 }
-
+.btn-form-common{
+  @media @tablet-down {
+    width: 100%;
+    display: block;
+    max-width: 355px;
+    margin: 0 auto;
+  }
+}
 .dealnet-green-button-text {
   font: 700 14px @usual-font-family;
   color: @btn-success-text-color;

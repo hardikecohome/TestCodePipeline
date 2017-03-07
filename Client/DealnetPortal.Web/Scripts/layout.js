@@ -258,20 +258,24 @@
         });
       }
 
-      $('.customer-loan-form-panel .panel-heading').on('click touchend', function(){
+      $('.customer-loan-form-panel .panel-heading').on('click', function(){
         panelCollapsed($(this));
+      });
+
+      $('.customer-loan-form-steps .btn-proceed').on('click touchstart', function(){
+        var tooltipText = $(this).attr('')
+        if($(this).hasClass('.disabled')){
+
+        }
       });
 
 });
 function panelCollapsed(elem){
   var $this = elem.closest('.panel');
-  if(!$this.hasClass('panel-collapsed')) {
-    $this.find('.panel-body').slideUp();
-    $this.addClass('panel-collapsed');
-  } else {
-    $this.find('.panel-body').slideDown();
-    $this.removeClass('panel-collapsed');
-  }
+  $this.find('.panel-body').slideToggle('fast', function(){
+    $this.toggleClass('panel-collapsed');
+  });
+
 };
 
 function detectSidebarHeight(){
