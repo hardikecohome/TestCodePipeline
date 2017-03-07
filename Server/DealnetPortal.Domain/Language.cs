@@ -10,7 +10,7 @@ namespace DealnetPortal.Domain
 {
     public class Language
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
         [MaxLength(2)]
