@@ -254,7 +254,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpPut]
-        public IHttpActionResult UpdateShareableLinkSettings()
+        public IHttpActionResult UpdateShareableLinkSettings(CustomerLinkDTO customerLinkSettings)
         {
             throw new NotImplementedException();
         }

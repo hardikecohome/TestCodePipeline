@@ -13,6 +13,6 @@ namespace DealnetPortal.DataAccess.Repositories
         IList<SettingValue> GetUserStringSettings(string dealerId);
         IList<SettingValue> GetUserBinarySettings(string dealerId);
         SettingValue GetUserBinarySetting(SettingType settingType, string dealerId);
-        UserSettings GetUserSettings(string dealerId);
+        UserSettings GetUserSettings(string dealerId);        
     }
 }
