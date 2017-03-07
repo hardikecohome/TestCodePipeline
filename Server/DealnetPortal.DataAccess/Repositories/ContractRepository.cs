@@ -96,7 +96,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
                 if (contract.ContractState == ContractState.CreditCheckDeclined)
                 {
-                    contract.WasDeclined = true;
+                    AddOrUpdateInitialCustomers(contract);
+                    contract.WasDeclined = true;                    
                 }
 
                 contract.LastUpdateTime = DateTime.Now;
