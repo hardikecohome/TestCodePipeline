@@ -24,14 +24,17 @@ namespace DealnetPortal.Api.Controllers
         private IContractRepository ContractRepository { get; set; }
         private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageService AspireStorageService { get; set; }
+        private ICustomerFormService CustomerFormService { get; set; }
 
-        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
+        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
+            IAspireStorageService aspireStorageService, ICustomerFormService customerFormService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             ContractRepository = contractRepository;
             SettingsRepository = settingsRepository;
             AspireStorageService = aspireStorageService;
+            CustomerFormService = customerFormService;
         }             
 
         [Route("DocumentTypes")]
@@ -249,14 +252,27 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetShareableLinkSettings")]
         public IHttpActionResult GetShareableLinkSettings()
         {
-            throw new NotImplementedException();
+            var linkSettings = CustomerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
+            if (linkSettings != null)
+            {
+                return Ok(linkSettings);
+            }
+            return NotFound();
         }
 
         [Authorize]
         [HttpPut]
         public IHttpActionResult UpdateShareableLinkSettings(CustomerLinkDTO customerLinkSettings)
         {
-            throw new NotImplementedException();
+            try
+            {
+                CustomerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }
