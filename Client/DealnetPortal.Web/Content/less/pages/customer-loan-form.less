@@ -8,6 +8,22 @@
   .equipment-customer-section{
     margin: 20px 0;
   }
+
+
+  .col-md-4{
+    @media @desktop-up{
+      &:nth-child(3n-2){
+        clear: both;
+      }
+    }
+  }
+  .col-sm-6{
+    @media @tablet-only {
+      &:nth-child(2n-1){
+        clear: both;
+      }
+    }
+  }
 }
 .customer-loan-form-steps{
   @media @desktop-lg-up {
@@ -102,21 +118,5 @@
     font-weight: bold;
     color: #d33b4c;
     font-style: normal;
-  }
-}
-
-.col-md-4{
-  @media @desktop-up{
-    &:nth-child(3n-2){
-      clear: both;
-    }
-  }
-}
-
-.col-sm-6{
-  @media @tablet-only {
-    &:nth-child(2n-1){
-      clear: both;
-    }
   }
 }
