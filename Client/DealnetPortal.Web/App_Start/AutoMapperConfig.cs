@@ -142,31 +142,31 @@ namespace DealnetPortal.Web.App_Start
                     {
                         return null;
                     }
-                    var enabledLanguages = new List<int>();
+                    var enabledLanguages = new List<LanguageCode>();
                     if (src.EnglishLinkEnabled)
                     {
-                        enabledLanguages.Add((int) LanguageCode.English);
+                        enabledLanguages.Add(LanguageCode.English);
                     }
                     if (src.FrenchLinkEnabled)
                     {
-                        enabledLanguages.Add((int) LanguageCode.French);
+                        enabledLanguages.Add(LanguageCode.French);
                     }
                     return enabledLanguages;
                 }))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src =>
                 {
-                    if (src.EnglishServices == null || src.FrenchServices == null)
+                    if (src.EnglishServices == null && src.FrenchServices == null)
                     {
                         return null;
                     }
-                    var services = new Dictionary<int, List<string>>();
+                    var services = new Dictionary<LanguageCode, List<string>>();
                     if (src.EnglishServices != null)
                     {
-                        services.Add((int)LanguageCode.English, src.EnglishServices);
+                        services.Add(LanguageCode.English, src.EnglishServices);
                     }
                     if (src.FrenchServices != null)
                     {
-                        services.Add((int)LanguageCode.French, src.FrenchServices);
+                        services.Add(LanguageCode.French, src.FrenchServices);
                     }
                     return services;
                 }));
@@ -297,18 +297,18 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate ?? false));
 
             cfg.CreateMap<CustomerLinkDTO, ShareableLinkViewModel>()
-                .ForMember(x => x.EnglishLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages.Contains((int)LanguageCode.English)))
-                .ForMember(x => x.FrenchLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages.Contains((int)LanguageCode.French)))
+                .ForMember(x => x.EnglishLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages.Contains(LanguageCode.English)))
+                .ForMember(x => x.FrenchLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages.Contains(LanguageCode.French)))
                 .ForMember(x => x.EnglishServices, d => d.ResolveUsing(src =>
                 {
                     List<string> services;
-                    src.Services.TryGetValue((int) LanguageCode.English, out services);
+                    src.Services.TryGetValue(LanguageCode.English, out services);
                     return services;
                 }))
                 .ForMember(x => x.FrenchServices, d => d.ResolveUsing(src =>
                 {
                     List<string> services;
-                    src.Services.TryGetValue((int)LanguageCode.French, out services);
+                    src.Services.TryGetValue(LanguageCode.French, out services);
                     return services;
                 }));
         }

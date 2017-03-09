@@ -5,9 +5,11 @@
 </div>
 <div class="dealnet-large-header main-heading">Shareable Link</div>
 
-@using (Html.BeginForm("Index", "ShareableLink", FormMethod.Post, new { id = "mainForm" }))
-{
-    <div class="shareable-link-page">
+
+<div class="shareable-link-page">
+    @using (Html.BeginForm("Index", "ShareableLink", FormMethod.Post, new {id = "mainForm"}))
+    {
+        @Html.AntiForgeryToken()
         <div class="get-link-section">
             <div class="form-group">
                 <div class="labels-hold">
@@ -19,7 +21,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="https://lorem_ipsum/lorem/Ipsum_sit_amed_wireframe_En">
+                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", dealerName = User.Identity.Name }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyEn">Copy</button>
                 </div>
@@ -34,7 +36,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="https://lorem_ipsum/lorem/Ipsum_sit_amed_wireframe_Fr">
+                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", dealerName = User.Identity.Name }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyFr">Copy</button>
                 </div>
@@ -55,7 +57,7 @@
                     </a>
                 </li>
             </ul>
-                <div class="form-group define-equipment-input">
+            <div class="form-group define-equipment-input">
                 <label for="enEquipmentTags" class="dealnet-field-caption">Define your equipment/service</label>
                 <div class="controls-hold">
                     <div class="control-group">
@@ -67,39 +69,39 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="equipment-en">
                     <ul class="equipment-linked-tags tags-list" id="englishTagsList">
-                        @if (Model.EnglishServices != null)
+                        @if (Model?.EnglishServices != null)
                         {
                             foreach (var service in Model.EnglishServices)
                             {
-                                <li><input class="hidden" name="EnglishServices" value="@service">@service <span class="glyphicon glyphicon-remove" click="$(this).parent().remove()"></span></li>
+                                <li><input class="hidden" name="EnglishServices" value="@service">@service <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
                             }
                         }
                     </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="equipment-fr">
                     <ul class="equipment-linked-tags tags-list" id="frenchTagsList">
-                        @if (Model.FrenchServices != null)
+                        @if (Model?.FrenchServices != null)
                         {
                             foreach (var service in Model.FrenchServices)
                             {
-                                <li><input class="hidden" name="FrenchServices" value="@service">@service <span class="glyphicon glyphicon-remove" click="$(this).parent().remove()"></span></li>
+                                <li><input class="hidden" name="FrenchServices" value="@service">@service <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
                             }
                         }
                     </ul>
                 </div>
             </div>
         </div>
+    }
 
-
-        <div class="row save-proceed-btn-hold">
-            <div class="col-xs-12 col-md-3 col-lg-3">
-                <button class="btn dealnet-button dealnet-success-button block-button" id="saveBtn">
-                    Save
-                </button>
-            </div>
+    <div class="row save-proceed-btn-hold">
+        <div class="col-xs-12 col-md-3 col-lg-3">
+            <button class="btn dealnet-button dealnet-success-button block-button" id="saveBtn">
+                Save
+            </button>
         </div>
     </div>
-}
+</div>
+
 
 @section scripts
 {

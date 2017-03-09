@@ -262,6 +262,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpPut]
+        [Route("UpdateShareableLinkSettings")]
         public IHttpActionResult UpdateShareableLinkSettings(CustomerLinkDTO customerLinkSettings)
         {
             try

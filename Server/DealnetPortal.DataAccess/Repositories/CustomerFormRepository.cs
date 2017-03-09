@@ -34,14 +34,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (updatedLink == null)
                 {
 
-                    updatedLink = new CustomerLink()
-                    {
-                        User = user
-                    };
+                    updatedLink = new CustomerLink();
                     user.CustomerLink = updatedLink;
                 }
 
-                updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.Id != l.Id)).ForEach(l => updatedLink.EnabledLanguages.Remove(l));
+                updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.Id != l.Id)).ToList().ForEach(l => updatedLink.EnabledLanguages.Remove(l));
                 var dbLangs = _dbContext.Languages.Where(dbl => enabledLanguages.Any(el => el.Id == dbl.Id));
                 dbLangs.ForEach(dl => updatedLink.EnabledLanguages.Add(dl));                
                 return updatedLink;
@@ -61,19 +58,18 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (updatedLink == null)
                 {
 
-                    updatedLink = new CustomerLink()
-                    {
-                        User = user
-                    };
+                    updatedLink = new CustomerLink();
                     user.CustomerLink = updatedLink;
                 }
 
                 updatedLink.Services.Where(
-                    s => dealerServices.All(dl => dl.LanguageId != s.LanguageId && dl.Service != s.Service))
-                    .ForEach(l => updatedLink.Services.Remove(l));
+                    s => dealerServices.All(dl => dl.LanguageId != s.LanguageId || dl.Service != s.Service)).ToList()
+                    .ForEach(l => _dbContext.DealerServices.Remove(l));
                 var newServices =
                     dealerServices.Where(
-                        ds => updatedLink.Services.All(s => s.LanguageId != ds.LanguageId && s.Service != ds.Service));
+                        ds => updatedLink.Services.All(
+                            s => 
+                        s.LanguageId != ds.LanguageId || s.Service != ds.Service));
                 newServices.ForEach(ns => updatedLink.Services.Add(ns));
                 return updatedLink;
             }

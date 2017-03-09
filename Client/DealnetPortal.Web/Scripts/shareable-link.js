@@ -47,7 +47,7 @@
             var value = input.val();
             if (value) {
                 var options = mapLangToSelectedOptions[activeLang];
-                options.list.append($('<li><input class="hidden" name="' + options.name + '" value="' + value + '">' + value + ' <span class="glyphicon glyphicon-remove" click="$(this).parent().remove()"></span></li>'));
+                options.list.append($('<li><input class="hidden" name="' + options.name + '" value="' + value + '">' + value + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
                 input.val('').placeholder();
             }
         });
@@ -66,7 +66,11 @@
             $('#mainForm').ajaxSubmit({
                 type: "POST",
                 success: function (json) {
-                    alert("Success");
+                    if (json.isError) {
+                        alert('Error');
+                    } else if (json.isSuccess) {
+                        alert('Success');
+                    }
                 },
                 error: function (xhr, status, p3) {
                     alert("Error");

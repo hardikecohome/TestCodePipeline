@@ -37,6 +37,14 @@ namespace DealnetPortal.Web.Controllers
                 return GetErrorJson();
             }
             var customerLinkDto = AutoMapper.Mapper.Map<CustomerLinkDTO>(customerLink);
+            if (customerLinkDto.EnabledLanguages == null)
+            {
+                customerLinkDto.EnabledLanguages = new List<LanguageCode>();
+            }
+            if (customerLinkDto.Services == null)
+            {
+                customerLinkDto.Services = new Dictionary<LanguageCode, List<string>>();
+            }
             var alerts = await _dictionaryServiceAgent.UpdateShareableLinkSettings(customerLinkDto);
             return alerts.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
