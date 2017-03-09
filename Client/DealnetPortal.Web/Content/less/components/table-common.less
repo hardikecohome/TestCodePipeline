@@ -192,23 +192,25 @@ table.dataTable > tbody > tr.child ul{
       background: @table-tr-hover-bg !important;
     }
     &.unread-deals{
-      background: rgba(141, 177, 189, 0.43) !important;
-      td.contract-cell{
-        position: relative;
-        &:before{
-          position: absolute;
-          top: 0;
-          left: 0;
-          content: 'New';
-          color: #3493dd;
-          font-weight: 600;
-          font-size: 12px;
+      td{
+        background: rgba(141, 177, 189, 0.43) !important;
+        &.contract-cell{
+          position: relative;
+          &:before{
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: 'New';
+            color: #3493dd;
+            font-weight: 600;
+            font-size: 12px;
+          }
         }
-      }
-      td:not(.contract-cell){
-        color: #38607a;
-        .icon{
-          color: inherit;
+        &:not(.contract-cell){
+          color: #38607a;
+          .icon{
+            color: inherit;
+          }
         }
       }
     }
