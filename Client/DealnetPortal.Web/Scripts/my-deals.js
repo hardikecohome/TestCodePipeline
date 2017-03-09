@@ -7,6 +7,7 @@
                 });
                 $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
                 $('.select-filter').val($('.select-filter > option:first').val());
+                $('.dataTable ')
             });
 
 function assignDatepicker(input) {
@@ -111,6 +112,8 @@ function showTable() {
                     renderer: 'bootstrap',
                     order: []
                 });
+
+            $('.dataTable tbody > tr').slice(0, 2).addClass('unread-deals');
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
