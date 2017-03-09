@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -40,7 +43,36 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+            try
+            {
+                var linkSettings = Mapper.Map<CustomerLink>(customerLinkSettings);
+                CustomerLink updatedLink = null;
+                if (linkSettings.EnabledLanguages != null)
+                {
+                    updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(linkSettings.EnabledLanguages, dealerId);
+                }
+                if (linkSettings.Services != null)
+                {
+                    updatedLink = _customerFormRepository.UpdateCustomerLinkServices(linkSettings.Services, dealerId) ?? updatedLink;
+                }
+                if (updatedLink != null)
+                {
+                    _unitOfWork.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Failed to update a customer link settings for [{dealerId}] dealer", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.FailedToUpdateSettings,
+                    Header = "Failed to update a customer link settings",
+                    Message = "Failed to update a customer link settings"
+                });
+            }
+            return alerts;
         }
     }
 }

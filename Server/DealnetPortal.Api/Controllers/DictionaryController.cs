@@ -266,8 +266,8 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                CustomerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
-                return Ok();
+                var alerts = CustomerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
+                return Ok(alerts);
             }
             catch (Exception ex)
             {
