@@ -13,5 +13,10 @@ namespace DealnetPortal.Web.Controllers
         {
             return View();
         }
+        // GET: CustomerForm
+        public ActionResult AgreementSubmitSuccess()
+        {
+            return View();
+        }
     }
 }

@@ -638,6 +638,8 @@
     <Content Include="Content\less\settings\variables-lifetime.less" />
     <Content Include="Content\less\settings\variables-smarthome.less" />
     <Content Include="Content\less\pages\shareable-link.less" />
+    <Content Include="Content\less\pages\customer-loan-form.less" />
+    <Content Include="Content\less\pages\customer-loan-success-page.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

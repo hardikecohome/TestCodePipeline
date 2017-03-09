@@ -33,7 +33,7 @@
         var renderEquipments = function (list) {
             listElm.empty()
                 .append(list.map(function (item) {
-                    var span = $('<span class="glyphicon glyphicon-remove"></span>');
+                    var span = $('<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span>');
                     span.on('click', onDeleteEquipment(item));
                     return $("<li></li>").append(item).append(span);
                 }));
