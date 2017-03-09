@@ -1,14 +1,17 @@
 ﻿$(document)
-    .ready(function () {
+    .ready(function() {
         var EN = 'EN';
         var FR = 'FR';
 
-        var selectedEnEquipments = [];
-        var selectedFrEquipments = [];
-
         var mapLangToSelectedOptions = {
-            [EN]: selectedEnEquipments,
-            [FR]: selectedFrEquipments,
+            [EN]: {
+                list: $('#englishTagsList'),
+                name: 'EnglishServices'
+            },
+            [FR]: {
+                list: $('#frenchTagsList'),
+                name: 'FrenchServices'
+            }
         };
 
         var activeLang = EN;
@@ -43,36 +46,32 @@
         addBtn.on('click', function () {
             var value = input.val();
             if (value) {
-                var selectedEquipments = mapLangToSelectedOptions[activeLang];
-                selectedEquipments.push(value);
-                renderEquipments(selectedEquipments);
-                input.val('');
+                var options = mapLangToSelectedOptions[activeLang];
+                options.list.append($('<li><input class="hidden" name="' + options.name + '" value="' + value + '">' + value + ' <span class="glyphicon glyphicon-remove" click="$(this).parent().remove()"></span></li>'));
+                input.val('').placeholder();
             }
         });
 
         $('#englishBtn').on('click', function () {
             activeLang = EN;
-            renderEquipments(mapLangToSelectedOptions[activeLang]);
+            //renderEquipments(mapLangToSelectedOptions[activeLang]);
         });
 
         $('#frenchBtn').on('click', function () {
             activeLang = FR;
-            renderEquipments(mapLangToSelectedOptions[activeLang]);
+            //renderEquipments(mapLangToSelectedOptions[activeLang]);
         });
 
         $('#saveBtn').on('click', function () {
-            // TODO: send both french and english lists to backend.
-            console.log(selectedEnEquipments, selectedFrEquipments);
-        });
-
-        $('#toggleEnLink').on('change', function () {
-            // TODO: send link status to backend
-            console.log($(this).is(':checked'));
-        });
-
-        $('#toggleFrLink').on('change', function () {
-            // TODO: send link status to backend
-            console.log($(this).is(':checked'));
+            $('#mainForm').ajaxSubmit({
+                type: "POST",
+                success: function (json) {
+                    alert("Success");
+                },
+                error: function (xhr, status, p3) {
+                    alert("Error");
+                }
+            });
         });
 
         var enLink = $('#enLink');
