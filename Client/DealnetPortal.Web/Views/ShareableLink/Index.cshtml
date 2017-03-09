@@ -1,9 +1,9 @@
 ﻿@model DealnetPortal.Web.Models.ShareableLinkViewModel
 
 <div id="label-steps">
-    <div class="dealnet-action-link">Shareable Link</div> >
+    <div class="dealnet-action-link">@Resources.ShareableLink</div> >
 </div>
-<div class="dealnet-large-header main-heading">Shareable Link</div>
+<div class="dealnet-large-header main-heading">@Resources.ShareableLink</div>
 
 
 <div class="shareable-link-page">
@@ -24,7 +24,7 @@
                     <div class="control-group">
                         <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", dealerName = User.Identity.Name }, Request.Url.Scheme)">
                     </div>
-                    <button type="button" class="btn dealnet-success-button btn-small" id="copyEn">Copy</button>
+                    <button type="button" class="btn dealnet-success-button btn-small" id="copyEn">@Resources.Copy</button>
                 </div>
             </div>
             <div class="form-group">
@@ -40,12 +40,12 @@
                     <div class="control-group">
                         <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", dealerName = User.Identity.Name }, Request.Url.Scheme)">
                     </div>
-                    <button type="button" class="btn dealnet-success-button btn-small" id="copyFr">Copy</button>
+                    <button type="button" class="btn dealnet-success-button btn-small" id="copyFr">@Resources.Copy</button>
                 </div>
             </div>
         </div>
         <div class="equipment-section">
-            <div class="sub-heading">Equipment/service</div>
+            <div class="sub-heading">@Resources.EquipmentService</div>
 
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active" id="englishBtn">
@@ -55,17 +55,17 @@
                 </li>
                 <li role="presentation" id="frenchBtn">
                     <a href="#equipment-fr" aria-controls="equipment-fr" role="tab" data-toggle="tab">
-                        French
+                        Français
                     </a>
                 </li>
             </ul>
             <div class="form-group define-equipment-input">
-                <label for="enEquipmentTags" class="dealnet-field-caption">Define your equipment/service</label>
+                <label for="enEquipmentTags" class="dealnet-field-caption">@Resources.DefineYourEquipmentService</label>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="enEquipmentTags" class="form-control dealnet-input" value="" placeholder="Type your equipment/service">
+                        <input type="url" id="enEquipmentTags" class="form-control dealnet-input" value="" placeholder="@Resources.TypeYourEquipmentService">
                     </div>
-                    <button type="button" class="btn dealnet-success-button btn-small" id="addEquipment">Add</button>
+                    <button type="button" class="btn dealnet-success-button btn-small" id="addEquipment">@Resources.Add</button>
                 </div>
             </div>
             <div class="tab-content">
@@ -98,7 +98,7 @@
     <div class="row save-proceed-btn-hold">
         <div class="col-xs-12 col-md-3 col-lg-3">
             <button class="btn dealnet-button dealnet-success-button block-button" id="saveBtn">
-                Save
+                @Resources.Save
             </button>
         </div>
     </div>
