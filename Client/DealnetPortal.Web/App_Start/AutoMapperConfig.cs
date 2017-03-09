@@ -138,7 +138,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ShareableLinkViewModel, CustomerLinkDTO>()
                 .ForMember(x => x.EnabledLanguages, d => d.ResolveUsing(src =>
                 {
-                    if (!src.EnglishLinkEnabled || !src.FrenchLinkEnabled)
+                    if (!src.EnglishLinkEnabled && !src.FrenchLinkEnabled)
                     {
                         return null;
                     }
@@ -297,18 +297,18 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate ?? false));
 
             cfg.CreateMap<CustomerLinkDTO, ShareableLinkViewModel>()
-                .ForMember(x => x.EnglishLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages.Contains(LanguageCode.English)))
-                .ForMember(x => x.FrenchLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages.Contains(LanguageCode.French)))
+                .ForMember(x => x.EnglishLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages?.Contains(LanguageCode.English) ?? false))
+                .ForMember(x => x.FrenchLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages?.Contains(LanguageCode.French) ?? false))
                 .ForMember(x => x.EnglishServices, d => d.ResolveUsing(src =>
                 {
-                    List<string> services;
-                    src.Services.TryGetValue(LanguageCode.English, out services);
+                    List<string> services = null;
+                    src.Services?.TryGetValue(LanguageCode.English, out services);
                     return services;
                 }))
                 .ForMember(x => x.FrenchServices, d => d.ResolveUsing(src =>
                 {
-                    List<string> services;
-                    src.Services.TryGetValue(LanguageCode.French, out services);
+                    List<string> services = null;
+                    src.Services?.TryGetValue(LanguageCode.French, out services);
                     return services;
                 }));
         }

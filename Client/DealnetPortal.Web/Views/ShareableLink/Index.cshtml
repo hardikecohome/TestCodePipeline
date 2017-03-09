@@ -15,8 +15,9 @@
                 <div class="labels-hold">
                     <label for="enLink" class="dealnet-field-caption">Form in English</label>
                     <label class="checkbox-toggle">
-                        @Html.CheckBoxFor(m => m.EnglishLinkEnabled)
+                        <input @if(Model.EnglishLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
                         <div class="slider"></div>
+                        <input name="EnglishLinkEnabled" type="hidden" value="false" />
                     </label>
                 </div>
                 <div class="controls-hold">
@@ -30,8 +31,9 @@
                 <div class="labels-hold">
                     <label for="frLink" class="dealnet-field-caption">Form in French</label>
                     <label class="checkbox-toggle">
-                        @Html.CheckBoxFor(m => m.FrenchLinkEnabled)
+                        <input @if(Model.FrenchLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The FrenchLinkEnabled field is required." id="FrenchLinkEnabled" name="FrenchLinkEnabled" type="checkbox" value="true" />
                         <div class="slider"></div>
+                        <input name="FrenchLinkEnabled" type="hidden" value="false" />
                     </label>
                 </div>
                 <div class="controls-hold">
