@@ -192,6 +192,12 @@ table.dataTable > tbody > tr.child ul{
       background: @table-tr-hover-bg !important;
     }
     &.unread-deals{
+      &:hover{
+        background: transparent !important;
+        td{
+          background: rgba(141, 177, 189, 0.48) !important;
+        }
+      }
       td{
         background: rgba(141, 177, 189, 0.43) !important;
         &.contract-cell{
