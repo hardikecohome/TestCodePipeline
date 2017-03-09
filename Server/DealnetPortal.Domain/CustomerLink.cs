@@ -18,6 +18,6 @@ namespace DealnetPortal.Domain
 
         public virtual ICollection<Language> EnabledLanguages { get; set; }
         public virtual ICollection<DealerService> Services { get; set; }
-        public Customer Customer { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

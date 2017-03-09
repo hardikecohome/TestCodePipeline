@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
@@ -28,10 +30,15 @@ namespace DealnetPortal.Api.Integration.Services
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
         {
-            throw new NotImplementedException();
+            var linkSettings = _customerFormRepository.GetCustomerLinkSettings(dealerId);
+            if (linkSettings != null)
+            {
+                return Mapper.Map<CustomerLinkDTO>(linkSettings);
+            }
+            return null;
         }
 
-        public void UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId)
+        public IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId)
         {
             throw new NotImplementedException();
         }

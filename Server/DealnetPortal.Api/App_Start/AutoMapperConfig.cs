@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using AutoMapper;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Helpers;
 using DealnetPortal.Api.Models;
@@ -89,6 +90,11 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<SettingValue, StringSettingDTO>()
                 .ForMember(x => x.Name, d => d.ResolveUsing(src => src.Item?.Name))
                 .ForMember(x => x.Value, d => d.MapFrom(s => s.StringValue));
+
+            mapperConfig.CreateMap<CustomerLink, CustomerLinkDTO>()
+                .ForMember(x => x.EnabledLanguages,
+                    d => d.ResolveUsing(src => src.EnabledLanguages.Select(l => l.Id).Cast<LanguageCode>().ToList()))
+                .ForMember(x => x.Services, d => d.ResolveUsing(src => src.Services.GroupBy(k => k.LanguageId).ToDictionary(ds => (LanguageCode)ds.Key, ds => ds.Select(s => s.Service).ToList())));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)

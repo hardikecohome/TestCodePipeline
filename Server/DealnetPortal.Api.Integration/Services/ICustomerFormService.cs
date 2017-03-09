@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -7,6 +9,6 @@ namespace DealnetPortal.Api.Integration.Services
     {
         CustomerLinkDTO GetCustomerLinkSettings(string dealerId);
 
-        void UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId);
+        IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract
 {
@@ -11,7 +12,7 @@ namespace DealnetPortal.Api.Models.Contract
         /// <summary>
         /// Codes of enabled languages
         /// </summary>
-        public List<int> EnabledLanguages { get; set; }
-        public Dictionary<int, List<string>> Services { get; set; }
+        public List<LanguageCode> EnabledLanguages { get; set; }
+        public Dictionary<LanguageCode, List<string>> Services { get; set; }
     }
 }
