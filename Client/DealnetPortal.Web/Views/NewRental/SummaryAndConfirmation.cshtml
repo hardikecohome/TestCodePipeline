@@ -1494,7 +1494,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption" })
                                 <div class="dealnet-field-holder">
-                                    <div class="control-group">
+                                    <div class="control-group date-group">
                                         @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", placeholder = Resources.DateFormat })
                                         @Html.ValidationMessageFor(m => m.EquipmentInfo.EstimatedInstallationDate, "", new { @class = "text-danger" })
                                     </div>
