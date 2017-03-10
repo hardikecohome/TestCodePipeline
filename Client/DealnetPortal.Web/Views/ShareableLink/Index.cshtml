@@ -15,7 +15,7 @@
                 <div class="labels-hold">
                     <label for="enLink" class="dealnet-field-caption">Form in English</label>
                     <label class="checkbox-toggle">
-                        <input @if(Model.EnglishLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
+                        <input class="toggle-language-link" @if(Model.EnglishLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
                         <div class="slider"></div>
                         <input name="EnglishLinkEnabled" type="hidden" value="false" />
                     </label>
@@ -31,7 +31,7 @@
                 <div class="labels-hold">
                     <label for="frLink" class="dealnet-field-caption">Form in French</label>
                     <label class="checkbox-toggle">
-                        <input @if(Model.FrenchLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The FrenchLinkEnabled field is required." id="FrenchLinkEnabled" name="FrenchLinkEnabled" type="checkbox" value="true" />
+                        <input class="toggle-language-link" @if(Model.FrenchLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The FrenchLinkEnabled field is required." id="FrenchLinkEnabled" name="FrenchLinkEnabled" type="checkbox" value="true" />
                         <div class="slider"></div>
                         <input name="FrenchLinkEnabled" type="hidden" value="false" />
                     </label>
@@ -99,18 +99,22 @@
         <button class="btn dealnet-button dealnet-success-button btn-form-common" id="saveBtn">
             @Resources.Save
         </button>
-        <div class="well success-well">
+        <div class="well success-well success-message collapse" id="success-message-enabled">
             <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-            Your form was successfully updated and customers can already use it.
+            @Resources.FormUpdatedCustomersCanUse
         </div>
 
-        <div class="well success-well" style="display: none">
+        <div class="well success-well success-message collapse" id="success-message-disabled">
             <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-            Your form was successfully updated but now is disabled and customers won't be able to use it.
+            @Resources.FormUpdatedButCustomersNotAbleToUse
         </div>
     </div>
 </div>
 
+@section Translations
+{
+    translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
+}
 
 @section scripts
 {

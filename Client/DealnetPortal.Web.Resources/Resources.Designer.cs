@@ -1447,6 +1447,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your form was successfully updated but now is disabled and customers won&apos;t be able to use it..
+        /// </summary>
+        public static string FormUpdatedButCustomersNotAbleToUse {
+            get {
+                return ResourceManager.GetString("FormUpdatedButCustomersNotAbleToUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your form was successfully updated and customers can already use it..
+        /// </summary>
+        public static string FormUpdatedCustomersCanUse {
+            get {
+                return ResourceManager.GetString("FormUpdatedCustomersCanUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Funding Checklist.
         /// </summary>
         public static string FundingChecklist {

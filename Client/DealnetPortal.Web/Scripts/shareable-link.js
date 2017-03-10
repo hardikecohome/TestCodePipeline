@@ -16,29 +16,6 @@
 
         var activeLang = EN;
 
-        var onDeleteEquipment = function (item) {
-            return function () {
-                var selectedEquipments = mapLangToSelectedOptions[activeLang];
-
-                var index = selectedEquipments.indexOf(item);
-                if (index !== -1) {
-                    selectedEquipments.splice(index);
-                    renderEquipments(selectedEquipments);
-                }
-            };
-        };
-
-        // render list
-        var listElm = $('#tagsList');
-        var renderEquipments = function (list) {
-            listElm.empty()
-                .append(list.map(function (item) {
-                    var span = $('<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span>');
-                    span.on('click', onDeleteEquipment(item));
-                    return $("<li></li>").append(item).append(span);
-                }));
-        };
-
         // action handlers
         var input = $('#enEquipmentTags');
         var addBtn = $('#addEquipment');
@@ -54,26 +31,35 @@
 
         $('#englishBtn').on('click', function () {
             activeLang = EN;
-            //renderEquipments(mapLangToSelectedOptions[activeLang]);
         });
 
         $('#frenchBtn').on('click', function () {
             activeLang = FR;
-            //renderEquipments(mapLangToSelectedOptions[activeLang]);
         });
 
         $('#saveBtn').on('click', function () {
+            showLoader();
             $('#mainForm').ajaxSubmit({
                 type: "POST",
                 success: function (json) {
+                    hideLoader();
                     if (json.isError) {
-                        alert('Error');
+                        $('.success-message').hide();
+                        alert(translations['ErrorWhileUpdatingData']);
                     } else if (json.isSuccess) {
-                        alert('Success');
+                        if ($('.toggle-language-link:checked').length) {
+                            $('#success-message-disabled').hide();
+                            $('#success-message-enabled').show();
+                        } else {
+                            $('#success-message-enabled').hide();
+                            $('#success-message-disabled').show();
+                        }
                     }
                 },
                 error: function (xhr, status, p3) {
-                    alert("Error");
+                    hideLoader();
+                    $('.success-message').hide();
+                    alert(translations['ErrorWhileUpdatingData']);
                 }
             });
         });
