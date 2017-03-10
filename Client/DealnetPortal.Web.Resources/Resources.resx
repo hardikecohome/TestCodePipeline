@@ -1203,4 +1203,7 @@
   <data name="BorrowerEmail" xml:space="preserve">
     <value>Borrower Email</value>
   </data>
+  <data name="Borrower" xml:space="preserve">
+    <value>Borrower</value>
+  </data>
 </root>

@@ -31,59 +31,70 @@
                         @Html.HiddenFor(m => m.HomeOwnerFullName)
                         @Html.AntiForgeryToken()
                         <div class="well rental-summary-emails well-info">
-                            <p class="summary-emails-header">
-                                <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
-                                @Resources.PleaseEnterEmailsAndClickSend
-                            </p>
-                            <p>@Resources.InvitesForSigningWillBeSent</p>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.BorrowerEmail)
+                            <div class="rental-summary-inner">
+                                <p class="summary-emails-header">
+                                    <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
+                                    @Resources.PleaseEnterEmailsAndClickSend
+                                </p>
+                                <p>@Resources.InvitesForSigningWillBeSent</p>
+
+                                <div class="row form-group">
+                                    <div class="col-md-5 applicant-col">
+                                        <div class="dealnet-label">@Resources.Borrower</div>
+                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">FirstName LastName</div></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <!--@Html.LabelFor(m => m.BorrowerEmail)-->
+                                        <label for="">@Resources.Email</label>
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.BorrowerEmail, new {@class = "dealnet-input form-control", type = "email"})
+                                            @Html.TextBoxFor(m => m.BorrowerEmail, new {@class = "dealnet-input form-control", type = "email", placeholder="Email"})
                                             @Html.ValidationMessageFor(m => m.BorrowerEmail, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
                                 </div>
                                 @if (Model.AdditionalApplicantsEmails != null)
                                 {
-                                    for (var i = 0; i < Model.AdditionalApplicantsEmails.Length; i++)
-                                    {
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="addApplicantEmail@(i)">@Resources.AdditionalApplicant #@(i + 1) @Resources.Email</label>
-                                                <div class="control-group">
-                                                    @Html.HiddenFor(m => m.AdditionalApplicantsEmails[i].CustomerId)
-                                                    @Html.TextBoxFor(m => m.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email"})
-                                                    @Html.ValidationMessageFor(m => m.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                }
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.SalesRepEmail)
+                                for (var i = 0; i < Model.AdditionalApplicantsEmails.Length; i++)
+                                {
+                                <div class="row form-group">
+                                    <div class="col-md-5 applicant-col">
+                                        <div class="dealnet-label">@Resources.AdditionalApplicant #@(i + 1)</div>
+                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">FirstName LastName</div></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label for="">@Resources.Email</label>
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.SalesRepEmail, new {id = "salesRepEmail", @class = "dealnet-input form-control", type = "email"})
+                                            @Html.HiddenFor(m => m.AdditionalApplicantsEmails[i].CustomerId)
+                                            @Html.TextBoxFor(m => m.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email", placeholder="Email"})
+                                            @Html.ValidationMessageFor(m => m.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                                }
+                                <div class="row form-group">
+                                    <div class="col-md-5 applicant-col">
+                                        <div class="dealnet-label">@Resources.SalesRep</div>
+                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">FirstName LastName</div></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label for="">@Resources.Email</label>
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.SalesRepEmail, new {id = "salesRepEmail", @class = "dealnet-input form-control", type = "email", placeholder="Email"})
                                             @Html.ValidationMessageFor(m => m.SalesRepEmail, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group btn-container">
-                                        <button type="button" class="btn dealnet-button dealnet-success-button" id="send-email-button" onclick="submitEmailsAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'));">
-                                            @Resources.SendEmails
-                                        </button>
-                                    </div>
+                                <div class="form-group text-center clearfix">
+                                    <button type="button" class="btn dealnet-button dealnet-success-button" id="send-email-button" onclick="submitEmailsAsync('@Url.Action("SendContractEmails", "NewRental")', $('#send-mails-form'));">
+                                    @Resources.SendEmails
+                                    </button>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="sent-email-msg text-center" style="display: none;">
-                                        <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>@Resources.InvitesWereSentToEmails</h4>
-                                        @Resources.PlatformIsPreparingCheck
-                                    </div>
+
+                                <div class="sent-email-msg text-center" style="display: none;">
+                                    <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>@Resources.InvitesWereSentToEmails</h4>
+                                    @Resources.PlatformIsPreparingCheck
                                 </div>
                             </div>
                         </div>
