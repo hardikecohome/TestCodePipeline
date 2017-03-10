@@ -39,8 +39,14 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
 
                 updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.Id != l.Id)).ToList().ForEach(l => updatedLink.EnabledLanguages.Remove(l));
-                var dbLangs = _dbContext.Languages.Where(dbl => enabledLanguages.Any(el => el.Id == dbl.Id));
-                dbLangs.ForEach(dl => updatedLink.EnabledLanguages.Add(dl));                
+                enabledLanguages.Where(el => updatedLink.EnabledLanguages.All(ul => ul.Id != el.Id)).ForEach(el =>
+                {
+                    var lang = _dbContext.Languages.Find(el.Id);
+                    if (lang != null)
+                    {
+                        updatedLink.EnabledLanguages.Add(lang);
+                    }
+                });
                 return updatedLink;
             }
             return null;
