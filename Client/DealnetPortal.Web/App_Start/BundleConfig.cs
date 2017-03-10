@@ -71,6 +71,7 @@ namespace DealnetPortal.Web
                       "~/Content/datatables/css/responsive.bootstrap.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/shareable-link").Include("~/Scripts/shareable-link.js"));
+            bundles.Add(new ScriptBundle("~/bundles/customer-form").Include("~/Scripts/customer-form.js"));
         }
     }
 }
