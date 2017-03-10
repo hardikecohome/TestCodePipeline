@@ -10,5 +10,7 @@ namespace DealnetPortal.Api.Integration.Services
         CustomerLinkDTO GetCustomerLinkSettings(string dealerId);
 
         IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId);
+
+        IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData);
     }
 }

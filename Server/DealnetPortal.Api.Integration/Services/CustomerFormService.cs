@@ -74,5 +74,18 @@ namespace DealnetPortal.Api.Integration.Services
             }
             return alerts;
         }
+
+        public IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        {
+            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+
+            if (customerFormData != null)
+            {
+                
+            }
+
+            return alerts;
+        }
     }
 }

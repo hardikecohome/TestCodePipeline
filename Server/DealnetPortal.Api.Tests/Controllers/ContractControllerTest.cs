@@ -23,6 +23,7 @@ namespace DealnetPortal.Api.Tests.Controllers
     {
         private ContractController _contractController;
         private Mock<IContractService> _contractServiceMock;
+        private Mock<ICustomerFormService> _customerFormServiceMock;
         private Mock<ILoggingService> _loggingServiceMock;
 
         [TestInitialize]
@@ -30,9 +31,10 @@ namespace DealnetPortal.Api.Tests.Controllers
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             _contractServiceMock = new Mock<IContractService>();
+            _customerFormServiceMock = new Mock<ICustomerFormService>();
             _loggingServiceMock = new Mock<ILoggingService>();
 
-            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object);
+            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object);
             _contractController.Request = new HttpRequestMessage();
             _contractController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }
