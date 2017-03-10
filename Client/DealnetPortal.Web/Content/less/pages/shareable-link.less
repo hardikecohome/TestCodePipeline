@@ -41,6 +41,9 @@
     }
   }
   .equipment-section{
+    @media @desktop-up {
+      max-width: 765px;
+    }
     margin-top: 30px;
     .nav-tabs {
       width: auto;
@@ -49,12 +52,34 @@
         width: 128px;
       }
     }
+    .tab-content{
+      padding: 0;
+      .tab-pane{
+        padding: 0;
+      }
+    }
       .define-equipment-input{
-        padding: 20px 0;
+        padding: 20px 0 0;
         @media @tablet-up {
           max-width: 420px;
         }
       }
+  }
+  .save-proceed-btn-hold{
+    position: relative;
+    @media @desktop-up {
+      max-width: 765px;
+    }
+    .well{
+      margin-top: 20px;
+      @media @desktop-up {
+        position: absolute;
+        top: 50%;
+        left: 255px;
+        right: 0;
+        margin-top: -30px;
+      }
+    }
   }
 
   .btn-save-proceed{
