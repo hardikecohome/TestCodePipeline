@@ -70,6 +70,8 @@ namespace DealnetPortal.Web
                       "~/Content/datatables/css/jquery.dataTables.css",
                       "~/Content/datatables/css/dataTables.bootstrap.css",
                       "~/Content/datatables/css/responsive.bootstrap.css"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/customer-form").Include("~/Scripts/customer-form.js"));
         }
     }
 }

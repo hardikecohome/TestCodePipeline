@@ -21,19 +21,19 @@
     </div>
 
     <div class="customer-loan-form-steps">
-        <div class="panel customer-loan-form-panel panel-collapsed">
+        <div class="panel customer-loan-form-panel active-panel" id="yourInfoPanel">
             <div class="panel-heading">
                 <span class="panel-step">1</span>
                 <h3 class="panel-title dealnet-middle-header">Your Information</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="yourInfoForm" >
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
                         <div class="form-group">
                             <label for="" class="mandatory-field">First Name</label>
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="First Name">
+                                <input type="text" class="form-control dealnet-input" placeholder="First Name" id="firstName">
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label for="" class="mandatory-field">Last Name</label>
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Last Name">
+                                <input type="text" class="form-control dealnet-input" placeholder="Last Name" id="lastName">
                             </div>
                         </div>
                     </div>
@@ -57,27 +57,27 @@
                         <div class="form-group">
                             <label for="">SIN (Social insurance number)</label>
                             <div class="control-group control-hidden-value">
-                                <input type="password" class="form-control dealnet-input" placeholder="SIN (Social insurance number)">
+                                <input type="password" class="form-control dealnet-input" placeholder="SIN (Social insurance number)" id="sin" autocomplete="new-password">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="panel customer-loan-form-panel active-panel">
+        <div class="panel customer-loan-form-panel panel-collapsed" id="installationAddressPanel">
             <div class="panel-heading">
                 <span class="panel-step">2</span>
                 <h3 class="panel-title dealnet-middle-header">Installation Address Information</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="installationAddressForm">
                 <div id="address">
                     <div class="row address-info1">
                         <div class="col-sm-9 col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label for="street" class="mandatory-field">Street</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="St.">
+                                    <input type="text" class="form-control dealnet-input" placeholder="St." id="street">
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <label for="unit_number" class="mandatory-field">Unit #</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345" id="unit">
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label for="locality" class="mandatory-field">City</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Ottawa" id="city">
                                 </div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <div class="form-group">
                                 <label for="administrative_area_level_1" class="mandatory-field">Province</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="Nepean">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Nepean" id="province">
                                 </div>
                             </div>
                         </div>
@@ -109,12 +109,12 @@
                             <div class="form-group">
                                 <label for="postal_code" class="mandatory-field">Postal Code</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345" id="postalCode">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-4 col-lg-4">
-                            <a href="#" class="dealnet-disabled-text clear-address">
+                            <a href="#" class="dealnet-disabled-text clear-address" id="clearAddress">
                                 <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
                             </a>
                         </div>
@@ -275,26 +275,6 @@
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @section scripts
 {
-<script type="text/javascript">
-    $(document).ready(function(){
-        assignDatepicker($("#birth-date-customer"));
-    });
-    function assignDatepicker(input) {
-        inputDateFocus(input);
-
-        input.datepicker({
-            dateFormat: 'mm/dd/yy',
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
-            yearRange: '1900:' + (new Date().getFullYear()-18),
-            minDate: Date.parse("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            onClose: function(){
-                onDateSelect($(this));
-            }
-        });
-    }
-</script>
+    @Scripts.Render("~/bundles/customer-form")
 }
-
 
