@@ -41,7 +41,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-5 applicant-col">
                                         <div class="dealnet-label">@Resources.Borrower</div>
-                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">FirstName LastName</div></div>
+                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">@Model.HomeOwnerFullName</div></div>
                                     </div>
                                     <div class="col-md-7">
                                         <!--@Html.LabelFor(m => m.BorrowerEmail)-->
@@ -59,7 +59,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-5 applicant-col">
                                         <div class="dealnet-label">@Resources.AdditionalApplicant #@(i + 1)</div>
-                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">FirstName LastName</div></div>
+                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">@Model.AdditionalApplicantsEmails[i].CustomerName</div></div>
                                     </div>
                                     <div class="col-md-7">
                                         <label for="">@Resources.Email</label>
@@ -75,7 +75,7 @@
                                 <div class="row form-group">
                                     <div class="col-md-5 applicant-col">
                                         <div class="dealnet-label">@Resources.SalesRep</div>
-                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">FirstName LastName</div></div>
+                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">@Model.SalesRep</div></div>
                                     </div>
                                     <div class="col-md-7">
                                         <label for="">@Resources.Email</label>

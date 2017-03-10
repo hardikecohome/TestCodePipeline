@@ -435,6 +435,7 @@ namespace DealnetPortal.Web.Controllers
             sendEmails.HomeOwnerId = contract.Item1.PrimaryCustomer.Id;
             sendEmails.BorrowerEmail = contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                 contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
+            sendEmails.SalesRep = contract.Item1.Equipment?.SalesRep;
             if (contract.Item1.SecondaryCustomers?.Any() ?? false)
             {
                 sendEmails.AdditionalApplicantsEmails =
@@ -442,6 +443,7 @@ namespace DealnetPortal.Web.Controllers
                         new CustomerEmail()
                         {
                             CustomerId = c.Id,
+                            CustomerName = $"{c.FirstName} {c.LastName}",
                             Email = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                                         c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
                         }).ToArray();
@@ -449,7 +451,7 @@ namespace DealnetPortal.Web.Controllers
             var dealer = await _dictionaryServiceAgent.GetDealerInfo();
             if (!string.IsNullOrEmpty(dealer?.Email))
             {
-                sendEmails.SalesRepEmail = dealer.Email;
+                sendEmails.SalesRepEmail = dealer.Email;                
             }
             sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType.ConvertTo<Common.Enumeration.AgreementType>() ?? Common.Enumeration.AgreementType.LoanApplication;
 
