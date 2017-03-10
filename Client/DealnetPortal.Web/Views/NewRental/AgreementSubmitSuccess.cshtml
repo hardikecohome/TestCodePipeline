@@ -39,10 +39,10 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        @Html.LabelFor(m => m.HomeOwnerEmail)
+                                        @Html.LabelFor(m => m.BorrowerEmail)
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.HomeOwnerEmail, new {@class = "dealnet-input form-control", type = "email"})
-                                            @Html.ValidationMessageFor(m => m.HomeOwnerEmail, "", new {@class = "text-danger"})
+                                            @Html.TextBoxFor(m => m.BorrowerEmail, new {@class = "dealnet-input form-control", type = "email"})
+                                            @Html.ValidationMessageFor(m => m.BorrowerEmail, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
                                 </div>
@@ -92,9 +92,9 @@
             }
 
             <div class="message-desc">@(string.Format(Resources.ThankYouForCompleting, Model.HomeOwnerFullName, Model.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental))
-                @if (!string.IsNullOrEmpty(Model.HomeOwnerEmail))
+                @if (!string.IsNullOrEmpty(Model.BorrowerEmail))
                 {
-                    @:@Resources.WillReceiveEmailShortly <a href="mailto:@Model.HomeOwnerEmail">@Model.HomeOwnerEmail</a> @Resources.ContainingCopyOfAgreement
+                    @:@Resources.WillReceiveEmailShortly <a href="mailto:@Model.BorrowerEmail">@Model.BorrowerEmail</a> @Resources.ContainingCopyOfAgreement
                 }
             </div>
 

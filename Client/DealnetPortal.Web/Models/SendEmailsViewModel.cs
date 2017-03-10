@@ -30,9 +30,9 @@ namespace DealnetPortal.Web.Models
         public string HomeOwnerFullName { get; set; }
 
         [Required]
-        [Display(ResourceType = typeof (Resources.Resources), Name = "HomeOwnerEmail")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "BorrowerEmail")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
-        public string HomeOwnerEmail { get; set; }
+        public string BorrowerEmail { get; set; }
 
         [Required]
         [Display(ResourceType = typeof (Resources.Resources), Name = "SalesRepEmail")]
