@@ -753,6 +753,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\loan-calculator.js" />
+    <Content Include="Scripts\Logger\log.debug.js" />
+    <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
     <Content Include="Scripts\navigation-with-warning.js" />
@@ -765,6 +767,11 @@
     <Content Include="Scripts\standalone-loan-calculator.js" />
     <Content Include="Scripts\svgxuse.min.js" />
     <Content Include="Scripts\summary-and-confirmation.js" />
+    <Content Include="Scripts\Utils\functionUtils.js" />
+    <Content Include="Scripts\Modules\index.js" />
+    <Content Include="Scripts\Utils\logMiddleware.js" />
+    <Content Include="Scripts\Utils\objectUtils.js" />
+    <Content Include="Scripts\Utils\redux.js" />
     <Content Include="Scripts\vc-scanning.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
