@@ -95,11 +95,18 @@
         </div>
     }
 
-    <div class="row save-proceed-btn-hold">
-        <div class="col-xs-12 col-md-3 col-lg-3">
-            <button class="btn dealnet-button dealnet-success-button block-button" id="saveBtn">
-                @Resources.Save
-            </button>
+    <div class="save-proceed-btn-hold">
+        <button class="btn dealnet-button dealnet-success-button btn-form-common" id="saveBtn">
+            @Resources.Save
+        </button>
+        <div class="well success-well">
+            <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+            Your form was successfully updated and customers can already use it.
+        </div>
+
+        <div class="well success-well" style="display: none">
+            <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+            Your form was successfully updated but now is disabled and customers won't be able to use it.
         </div>
     </div>
 </div>
