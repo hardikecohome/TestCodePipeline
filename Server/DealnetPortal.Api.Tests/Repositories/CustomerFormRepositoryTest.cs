@@ -25,7 +25,7 @@ namespace DealnetPortal.Api.Tests.Repositories
         public void Initialize()
         {
             InitializeTestDatabase();
-            InitLanguages();            
+            InitLanguages();
             _customerFormRepository = new CustomerFormRepository(_databaseFactory);
         }
 
@@ -33,12 +33,12 @@ namespace DealnetPortal.Api.Tests.Repositories
         {
             _databaseFactory.Get().Languages.Add(new Language()
             {
-                Id = (int)LanguageCode.English,
+                Id = (int) LanguageCode.English,
                 Code = "en"
             });
             _databaseFactory.Get().Languages.Add(new Language()
             {
-                Id = (int)LanguageCode.French,
+                Id = (int) LanguageCode.French,
                 Code = "fr"
             });
             _unitOfWork.Save();
@@ -59,6 +59,38 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);
             Assert.AreEqual(updatedLink.EnabledLanguages.Count, 0);
+        }
+
+        [TestMethod]
+        public void TestEnableCustomerLinkServices()
+        {
+            var newServices = new List<DealerService>
+            {
+                new DealerService() {LanguageId = (int)LanguageCode.English, Service = "ServiceEn1"},
+                new DealerService() {LanguageId = (int)LanguageCode.English, Service = "ServiceEn2"},
+                new DealerService() {LanguageId = (int)LanguageCode.French, Service = "ServiceFr1"},
+                new DealerService() {LanguageId = (int)LanguageCode.French, Service = "ServiceFr2"},
+            };
+            var updatedLink = _customerFormRepository.UpdateCustomerLinkServices(newServices, _user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(updatedLink);
+            Assert.AreEqual(updatedLink.Services.Count, 4);
+            //leave only 2 services
+            newServices = new List<DealerService>
+            {
+                new DealerService() {LanguageId = (int)LanguageCode.English, Service = "ServiceEn1"},
+                new DealerService() {LanguageId = (int)LanguageCode.French, Service = "ServiceFr1"},
+            };
+            updatedLink = _customerFormRepository.UpdateCustomerLinkServices(newServices, _user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(updatedLink);
+            Assert.AreEqual(updatedLink.Services.Count, 2);
+            //clean all services
+            newServices = new List<DealerService>();            
+            updatedLink = _customerFormRepository.UpdateCustomerLinkServices(newServices, _user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(updatedLink);
+            Assert.AreEqual(updatedLink.Services.Count, 0);
         }
     }
 }
