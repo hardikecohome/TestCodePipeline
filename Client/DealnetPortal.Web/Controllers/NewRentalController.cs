@@ -360,7 +360,7 @@ namespace DealnetPortal.Web.Controllers
                 return;
             }
             // update home owner notification email
-            if (!string.IsNullOrEmpty(emails.HomeOwnerEmail))
+            if (!string.IsNullOrEmpty(emails.BorrowerEmail))
             {
                 var contractRes = await _contractServiceAgent.GetContract(emails.ContractId);
                 if (contractRes?.Item1 != null)
@@ -369,7 +369,7 @@ namespace DealnetPortal.Web.Controllers
                     if (emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
                     {
                         emls.First(e => e.EmailType == EmailType.Notification).EmailAddress =
-                            emails.HomeOwnerEmail;
+                            emails.BorrowerEmail;
                     }
                     else
                     {
@@ -381,7 +381,7 @@ namespace DealnetPortal.Web.Controllers
                         {
                             CustomerId = emails.HomeOwnerId,
                             EmailType = EmailType.Notification,
-                            EmailAddress = emails.HomeOwnerEmail
+                            EmailAddress = emails.BorrowerEmail
                         });
                     }
                     var customer = new CustomerDataDTO()
@@ -398,7 +398,7 @@ namespace DealnetPortal.Web.Controllers
             signatureUsers.Users = new List<SignatureUser>();
             signatureUsers.Users.Add(new SignatureUser()
             {
-                EmailAddress = emails.HomeOwnerEmail, Role = SignatureRole.HomeOwner
+                EmailAddress = emails.BorrowerEmail, Role = SignatureRole.HomeOwner
             });
 
             emails.AdditionalApplicantsEmails?.ForEach(us =>
@@ -433,7 +433,7 @@ namespace DealnetPortal.Web.Controllers
             sendEmails.ContractId = contractId;
             sendEmails.HomeOwnerFullName = contract.Item1.PrimaryCustomer.FirstName + " " + contract.Item1.PrimaryCustomer.LastName;
             sendEmails.HomeOwnerId = contract.Item1.PrimaryCustomer.Id;
-            sendEmails.HomeOwnerEmail = contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+            sendEmails.BorrowerEmail = contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                 contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
             if (contract.Item1.SecondaryCustomers?.Any() ?? false)
             {
