@@ -1200,4 +1200,26 @@
   <data name="SwitchToEnglish" xml:space="preserve">
     <value>Switch to English</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+    <comment>It's a verb (copy, paste, cut...)</comment>
+  </data>
+  <data name="ShareableLink" xml:space="preserve">
+    <value>Shareable Link</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="DefineYourEquipmentService" xml:space="preserve">
+    <value>Define your equipment/service</value>
+  </data>
+  <data name="EquipmentService" xml:space="preserve">
+    <value>Equipment/service</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="TypeYourEquipmentService" xml:space="preserve">
+    <value>Type your equipment/service</value>
+  </data>
 </root>

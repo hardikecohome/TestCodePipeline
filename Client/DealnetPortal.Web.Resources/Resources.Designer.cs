@@ -97,6 +97,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add additional applicant.
         /// </summary>
         public static string AddAdditionalApplicant {
@@ -781,6 +790,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cost.
         /// </summary>
         public static string Cost {
@@ -1042,6 +1060,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Define your equipment/service.
+        /// </summary>
+        public static string DefineYourEquipmentService {
+            get {
+                return ResourceManager.GetString("DefineYourEquipmentService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -1254,6 +1281,15 @@ namespace DealnetPortal.Web.Resources {
         public static string EquipmentInformation {
             get {
                 return ResourceManager.GetString("EquipmentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment/service.
+        /// </summary>
+        public static string EquipmentService {
+            get {
+                return ResourceManager.GetString("EquipmentService", resourceCulture);
             }
         }
         
@@ -2545,6 +2581,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save and Proceed.
         /// </summary>
         public static string SaveAndProceed {
@@ -2685,6 +2730,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SevenDigitsNumber {
             get {
                 return ResourceManager.GetString("SevenDigitsNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shareable Link.
+        /// </summary>
+        public static string ShareableLink {
+            get {
+                return ResourceManager.GetString("ShareableLink", resourceCulture);
             }
         }
         
@@ -3099,6 +3153,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TypeOfPayment {
             get {
                 return ResourceManager.GetString("TypeOfPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type your equipment/service.
+        /// </summary>
+        public static string TypeYourEquipmentService {
+            get {
+                return ResourceManager.GetString("TypeYourEquipmentService", resourceCulture);
             }
         }
         

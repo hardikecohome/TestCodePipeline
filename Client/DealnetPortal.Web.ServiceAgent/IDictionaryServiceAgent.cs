@@ -46,5 +46,9 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<StringSettingDTO>> GetDealerSettings();
 
         Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);
+
+        Task<CustomerLinkDTO> GetShareableLinkSettings();
+
+        Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
     }
 }

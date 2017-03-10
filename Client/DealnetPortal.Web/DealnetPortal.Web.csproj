@@ -197,6 +197,7 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ShareableLinkController.cs" />
     <Compile Include="Controllers\StubController.cs" />
+    <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -225,6 +226,7 @@
     <Compile Include="Models\NewEquipmentInformation.cs" />
     <Compile Include="Models\NewRentalViewModels.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
+    <Compile Include="Models\ShareableLinkViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
     <Compile Include="Models\Validation\CheckHomeOwnerAttribute.cs" />
@@ -826,6 +828,7 @@
     <Folder Include="Views\Rentals\" />
     <Folder Include="Views\Settings\" />
     <Folder Include="Views\UpdateData\" />
+    <Folder Include="Views\Update\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
