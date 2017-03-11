@@ -1,81 +1,14 @@
-﻿(function () {
-    const __DEBUG__ = true;
+﻿module.exports('customer-form', function (require) {
+    var makeReducer = require('redux').makeReducer;
+    var applyMiddleware = require('redux').applyMiddleware;
+    var makeStore = require('redux').makeStore;
+    var createAction = require('redux').createAction;
+    var observe = require('redux').observe;
 
-    var compose = function () {
-        var partials = Array.prototype.slice.call(arguments);
-        var last = partials.length - 1;
-        return function () {
-            return partials.reduceRight(function (acc, partial, index) {
-                if (index === last) return partial.apply(null, acc);
-                return partial(acc);
-            }, arguments);
-        }
-    };
+    var shallowDiff = require('objectUtils').shallowDiff;
+    var compose = require('functionUtils').compose;
 
-    var mapState = function (fn) {
-        return function () {
-            var state = arguments[0];
-            return $.extend({}, state, fn.apply(null, arguments));
-        };
-    };
-
-    var shallowDiff = function (oldState, newState) {
-        return Object.keys(oldState).some(function (key) {
-            return oldState[key] !== newState[key];
-        });
-    };
-
-    var makeStore = function (reducer) {
-        var state = reducer();
-        var listeners = [];
-
-        return {
-            getState: function () {
-                return state;
-            },
-            subscribe: function (fn) {
-                listeners.push(fn);
-            },
-            unsubscribe: function (fn) {
-                var index = listeners.indexOf(fn);
-                listeners.splice(index);
-            },
-            dispatch: function (action) {
-                var newState = reducer(state, action);
-                if (shallowDiff(state, newState)) {
-                    state = newState;
-                    if (__DEBUG__) console.log(newState);
-                    listeners.forEach(function (fn) { fn(); });
-                }
-            },
-        };
-    };
-
-    var makeReducer = function (reducers, initialState) {
-        return function (state, action) {
-            if (!state && !action) {
-                return initialState;
-            }
-
-            if (Object.keys(reducers).some(function (key) {
-                return key === action.type;
-            })) {
-                var newState = reducers[action.type](state, action);
-
-                if (newState) {
-                    return $.extend({}, state, newState);
-                }
-            }
-        };
-    };
-
-
-    var createAction = function (type, payload) {
-        return {
-            type: type,
-            payload: payload,
-        };
-    };
+    var log = require('logMiddleware');
 
     // your info actions
     var SET_NAME = 'set_name';
@@ -88,35 +21,37 @@
     var SET_PROVINCE = 'set_province';
     var SET_POSTAL_CODE = 'set_postal_code';
     var CLEAR_ADDRESS = 'clear_address';
+    var TOGGLE_OWNERSHIP = 'toggle_ownership';
+    var SET_PSTREET = 'set_pstreet';
+    var SET_PUNIT = 'set_punit';
+    var SET_PCITY = 'set_pcity';
+    var SET_PPROVINCE = 'set_pprovince';
+    var SET_PPOSTAL_CODE = 'set_ppostal_code';
+    var CLEAR_PADDRESS = 'clear_paddress';
+    var SUBMIT = 'submit';
+    var DISPLAY_ERRORS = 'display_errors';
+    var DISPLAY_INSTALLATION = 'display_installation';
+    var DISPLAY_CONTACT_INFO = 'display_contact_info';
 
     var iniState = {
-        name: '',
-        last: '',
-        birth: '',
-        sin: '',
+        birthday: '',
         street: '',
         unit: '',
         city: '',
         province: '',
         postalCode: '',
-        displayYourInfo: true,
-        doneYourInfo: false,
+        ownership: false,
+        pstreet: '',
+        punit: '',
+        pcity: '',
+        pprovince: '',
+        ppostalCode: '',
+        agreesToPassInfo: false,
+        agreesToBeContacted: true,
+        displayErrors: true,
         displayInstallation: false,
-        doneInstallation: false,
         displayContactInfo: false,
-        doneContactInfo: false,
     };
-
-    // rules
-    var displayYourInfoRule = function (state) {
-        return !(state.name && state.last && state.birth && state.sin) ? true : false;
-    };
-
-    var doneYourInfoRule = function (state) {
-        return state.doneYourInfo || state.name && state.last && state.birth ? true : false;
-    };
-
-    var displayInstallationRule = doneYourInfoRule;
 
     var setFormField = function (field) {
         return function (state, action) {
@@ -126,20 +61,9 @@
         };
     };
 
-    var hideAndShowPanels = function (state) {
-        return $.extend({}, state, {
-            displayYourInfo: displayYourInfoRule(state),
-            doneYourInfo: doneYourInfoRule(state),
-            displayInstallation: displayInstallationRule(state),
-        });
-    };
-
     // your info reducer
     var reducer = makeReducer({
-        [SET_NAME]: compose(hideAndShowPanels, setFormField('name')),
-        [SET_LAST]: compose(hideAndShowPanels, setFormField('last')),
-        [SET_BIRTH]: compose(hideAndShowPanels, setFormField('birth')),
-        [SET_SIN]: compose(hideAndShowPanels, setFormField('sin')),
+        [SET_BIRTH]: setFormField('birthday'),
         [SET_STREET]: setFormField('street'),
         [SET_UNIT]: setFormField('unit'),
         [SET_CITY]: setFormField('city'),
@@ -154,32 +78,83 @@
                 postalCode: '',
             };
         },
+        [SET_PSTREET]: setFormField('pstreet'),
+        [SET_PUNIT]: setFormField('punit'),
+        [SET_PCITY]: setFormField('pcity'),
+        [SET_PPROVINCE]: setFormField('pprovince'),
+        [SET_PPOSTAL_CODE]: setFormField('ppostalCode'),
+        [CLEAR_PADDRESS]: function () {
+            return {
+                pstreet: '',
+                punit: '',
+                pcity: '',
+                pprovince: '',
+                ppostalCode: '',
+            };
+        },
+        [DISPLAY_ERRORS]: setFormField('displayErrors'),
+        [DISPLAY_INSTALLATION]: setFormField('displayInstallation'),
+        [DISPLAY_CONTACT_INFO]: setFormField('displayContactInfo'),
+        [TOGGLE_OWNERSHIP]: setFormField('ownership'),
     }, iniState);
 
-    var customerFormStore = makeStore(reducer);
+    var flowMiddleware = function (store) {
+        return function (next) {
+            var flow1 = [SET_NAME, SET_LAST, SET_BIRTH];
+            var flow2 = [SET_STREET, SET_CITY, SET_PROVINCE, SET_POSTAL_CODE, TOGGLE_OWNERSHIP];
+            return function (action) {
+                var state = store.getState();
+
+                var nextAction = next(action);
+                if (!state.displayInstallation) {
+                    var index1 = flow1.indexOf(action.type);
+                    if (index1 >= 0) {
+                        flow1.splice(index1, 1);
+                    }
+                    if (flow1.length === 0) {
+                        next(createAction(DISPLAY_INSTALLATION, true));
+                    }
+                }
+
+                if (!state.displayContactInfo) {
+                    var index2 = flow2.indexOf(action.type);
+                    if (index2 >= 0) {
+                        flow2.splice(index2, 1);
+                    }
+                    if (flow2.length === 0) {
+                        next(createAction(DISPLAY_CONTACT_INFO, true));
+                    }
+                }
+                return nextAction;
+            };
+        };
+    };
+
+    var displayErrorsMiddleware = function (store) {
+        return function (next) {
+            return function (action) {
+                var nextAction = next(action);
+                if (action.type === SUBMIT) {
+                    next(createAction(DISPLAY_ERRORS, false));
+                } else if (!store.getState().hideErrors) {
+                    next(createAction(DISPLAY_ERRORS, true));
+                }
+
+                return nextAction;
+            }
+        }
+    };
+
+    var customerFormStore = compose(applyMiddleware([
+        displayErrorsMiddleware,
+        flowMiddleware,
+        log('store/customerForm')
+    ]), makeStore)(reducer);
+
     var dispatch = customerFormStore.dispatch;
 
     // view layer
-
-
-    var observe = function (store) {
-        return function (map) {
-            return function (listener) {
-                var oldState = map(store.getState());
-
-                var diffListener = function () {
-                    var newState = map(store.getState());
-                    if (shallowDiff(oldState, newState)) {
-                        listener(newState, oldState);
-                        oldState = newState;
-                    }
-                };
-
-                store.subscribe(diffListener);
-            };
-        };
-    }
-
+    var observeCustomerFormStore = observe(customerFormStore);
 
     $(document)
         .ready(function () {
@@ -208,59 +183,72 @@
             $('#sin').on('change', function (e) {
                 dispatch(createAction(SET_SIN, e.target.value));
             });
-
             $('#street').on('change', function (e) {
                 dispatch(createAction(SET_STREET, e.target.value));
             });
-
             $('#unit').on('change', function (e) {
                 dispatch(createAction(SET_UNIT, e.target.value));
             });
-
             $('#city').on('change', function (e) {
                 dispatch(createAction(SET_CITY, e.target.value));
             });
-
             $('#province').on('change', function (e) {
                 dispatch(createAction(SET_PROVINCE, e.target.value));
             });
-
             $('#postalCode').on('change', function (e) {
                 dispatch(createAction(SET_POSTAL_CODE, e.target.value));
             });
-
             $('#clearAddress').on('click', function (e) {
                 dispatch(createAction(CLEAR_ADDRESS, e.target.value));
+            });
+            $('#homeowner-checkbox').on('click', function (e) {
+                dispatch(createAction(TOGGLE_OWNERSHIP, e.target.value));
+            });
+            $('#pstreet').on('change', function (e) {
+                dispatch(createAction(SET_PSTREET, e.target.value));
+            });
+            $('#punit').on('change', function (e) {
+                dispatch(createAction(SET_PUNIT, e.target.value));
+            });
+            $('#pcity').on('change', function (e) {
+                dispatch(createAction(SET_PCITY, e.target.value));
+            });
+            $('#pprovince').on('change', function (e) {
+                dispatch(createAction(SET_PPROVINCE, e.target.value));
+            });
+            $('#ppostalCode').on('change', function (e) {
+                dispatch(createAction(SET_PPOSTAL_CODE, e.target.value));
+            });
+            $('#pclearAddress').on('click', function (e) {
+                dispatch(createAction(CLEAR_PADDRESS, e.target.value));
+            });
+            $('#submit').on('click', function (e) {
+                dispatch(createAction(SUBMIT));
             });
 
             var hideYourInfoFirstTime = true;
             var hideIntallationFirstTime = true;
 
-            observe(customerFormStore)(function (state) {
+            observeCustomerFormStore(function (state) {
                 return {
-                    displayYourInfo: state.displayYourInfo,
-                    doneYourInfo: state.doneYourInfo,
                     displayInstallation: state.displayInstallation,
+                    displayContactInfo: state.displayContactInfo,
                 };
             })(function (props) {
-                if (props.displayYourInfo) {
-                    $('#yourInfoForm').slideDown();
-                } else if (hideYourInfoFirstTime){
-                    $('#yourInfoForm').slideUp();
-                    hideYourInfoFirstTime = false;
-                }
-
                 if (props.displayInstallation) {
                     $('#installationAddressForm').slideDown();
                     $('#yourInfoPanel').removeClass('active-panel');
                     $('#installationAddressPanel').addClass('active-panel');
-                } else if (hideInstallationFirstTime) {
-                    $('#installationAddressPanel').slideUp();
-                    hideInstallationFirstTime = false;
+                }
+
+                if (props.displayContactInfo) {
+                    $('#contactInfoForm').slideDown();
+                    $('#installationAddressPanel').removeClass('active-panel');
+                    $('#contactInfoPanel').addClass('active-panel');
                 }
             });
 
-            observe(customerFormStore)(function (state) {
+            observeCustomerFormStore(function (state) {
                 return {
                     street: state.street,
                     unit: state.unit,
@@ -275,7 +263,59 @@
                 $('#province').val(props.province);
                 $('#postalCode').val(props.postalCode);
             });
+
+            observeCustomerFormStore(function (state) {
+                return {
+                    street: state.pstreet,
+                    unit: state.punit,
+                    city: state.pcity,
+                    province: state.pprovince,
+                    postalCode: state.ppostalCode,
+                };
+            })(function (props) {
+                $('#pstreet').val(props.street);
+                $('#punit').val(props.unit);
+                $('#pcity').val(props.city);
+                $('#pprovince').val(props.province);
+                $('#ppostalCode').val(props.postalCode);
+            });
+
+            var createError = function (msg) {
+                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="/Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
+                err.append(msg);
+                return err;
+            };
+
+            observeCustomerFormStore(function (state) {
+                var errors = [];
+
+                if (state.birthday !== '') {
+                    var ageDifMs = Date.now() - Date.parseExact(state.birthday, "M/d/yyyy");
+                    var ageDate = new Date(ageDifMs);
+                    var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+                    if (age > 75) {
+                        errors.push({
+                            type: 'birthday',
+                            message: 'At least one of the applicants should be aged 75 or less.',
+                        });
+                    }
+                }
+
+                return {
+                    errors: errors,
+                    displayErrors: state.displayErrors,
+                };
+            })(function (props) {
+                if (props.displayErrors && props.errors.length > 0) {
+                    props.errors.forEach(function (error) {
+                        $('#yourInfoErrors').append(createError(error.message));
+                    });
+                } else {
+                    $('#yourInfoErrors').empty();
+                }
+            });
         });
-})();
+});
 
 

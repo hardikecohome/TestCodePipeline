@@ -62,6 +62,7 @@
                         </div>
                     </div>
                 </div>
+                <div id="yourInfoErrors"></div>
             </div>
         </div>
         <div class="panel customer-loan-form-panel panel-collapsed" id="installationAddressPanel">
@@ -144,7 +145,7 @@
                             <div class="form-group">
                                 <label for="street" class="mandatory-field">Street</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="St.">
+                                    <input type="text" class="form-control dealnet-input" placeholder="St." id="pstreet">
                                 </div>
                             </div>
                         </div>
@@ -152,7 +153,7 @@
                             <div class="form-group">
                                 <label for="unit_number" class="mandatory-field">Unit #</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345" id="punit">
                                 </div>
                             </div>
                         </div>
@@ -160,7 +161,7 @@
                             <div class="form-group">
                                 <label for="locality" class="mandatory-field">City</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="Ottawa">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Ottawa" id="pcity">
                                 </div>
                             </div>
                         </div>
@@ -168,7 +169,7 @@
                             <div class="form-group">
                                 <label for="administrative_area_level_1" class="mandatory-field">Province</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="Nepean">
+                                    <input type="text" class="form-control dealnet-input" placeholder="Nepean" id="pprovince">
                                 </div>
                             </div>
                         </div>
@@ -176,12 +177,12 @@
                             <div class="form-group">
                                 <label for="postal_code" class="mandatory-field">Postal Code</label>
                                 <div class="control-group">
-                                    <input type="text" class="form-control dealnet-input" placeholder="12345">
+                                    <input type="text" class="form-control dealnet-input" placeholder="12345" id="ppostalCode">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-4 col-lg-4">
-                            <a href="#" class="dealnet-disabled-text clear-address">
+                            <a href="#" class="dealnet-disabled-text clear-address" id="pclearAddress">
                                 <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>Clear Address</span>
                             </a>
                         </div>
@@ -196,19 +197,19 @@
 
             </div>
         </div>
-        <div class="panel customer-loan-form-panel panel-collapsed">
+        <div class="panel customer-loan-form-panel panel-collapsed" id="contactInfoPanel">
             <div class="panel-heading">
                 <span class="panel-step">3</span>
                 <h3 class="panel-title dealnet-middle-header">Contact Information</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="contactInfoForm">
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
                         <div class="form-group">
                             <label for="">Home Phone</label>
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Home Phone">
+                                <input type="text" class="form-control dealnet-input" placeholder="Home Phone" id="homePhone">
                             </div>
                         </div>
                     </div>
@@ -216,7 +217,7 @@
                         <div class="form-group">
                             <label for="" class="mandatory-field">Cell Phone</label>
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Cell Phone">
+                                <input type="text" class="form-control dealnet-input" placeholder="Cell Phone" id="cellPhone">
                             </div>
                         </div>
                     </div>
@@ -224,7 +225,7 @@
                         <div class="form-group">
                             <label for="">Business Phone</label>
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Business Phone">
+                                <input type="text" class="form-control dealnet-input" placeholder="Business Phone" id="businessPhone">
                             </div>
                         </div>
                     </div>
@@ -232,7 +233,7 @@
                         <div class="form-group">
                             <label for="" class="mandatory-field">Email Address</label>
                             <div class="control-group">
-                                <input type="text" class="form-control dealnet-input" placeholder="Email Address">
+                                <input type="text" class="form-control dealnet-input" placeholder="Email Address" id="email">
                             </div>
                         </div>
                     </div>
@@ -242,7 +243,7 @@
                         <div class="form-group">
                             <label for="" class="mandatory-field">Add Comment</label>
                             <div class="control-group">
-                                <textarea name="" class="form-control" placeholder="Write your comment"></textarea>
+                                <textarea name="" class="form-control" placeholder="Write your comment" id="comment"></textarea>
                             </div>
                         </div>
                     </div>
@@ -266,8 +267,8 @@
                 </div>
             </div>
         </div>
-        <div class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" title="" data-content="You should fill all mandatory fields">
-            <button class="btn dealnet-success-button btn-proceed disabled btn-form-common">Submit Application</button>
+        <div class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" title="" data-content="You should fill all mandatory fields" id="submit">
+            <button class="btn dealnet-success-button btn-proceed disabled btn-form-common" >Submit Application</button>
         </div>
     </div>
 </div>
@@ -275,6 +276,10 @@
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @section scripts
 {
+    <script>window.__DEBUG__ = true;</script>
     @Scripts.Render("~/bundles/customer-form")
+    <script>
+        module.require('customer-form');
+    </script>
 }
 
