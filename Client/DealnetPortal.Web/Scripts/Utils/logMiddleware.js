@@ -5,7 +5,7 @@
             return function (next) {
                 return function (action) {
                     var nextAction = next(action);
-                    if (__DEBUG__) {
+                    if (window.__DEBUG__) {
                         var prevState = store.getState();
                         var state = store.getState()
                         logger.log('prev: ', prevState);

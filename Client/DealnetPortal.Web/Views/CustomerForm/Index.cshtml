@@ -187,14 +187,10 @@
                             </a>
                         </div>
                     </div>
-                    <div class="well danger-well over-aged-well" id="age-error-message">
-                        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                        @Resources.AtLeastOne75OrLess
-                    </div>
                 </div>
                 <!--End Living time-->
 
-
+            <div id="installationErrors"></div>
             </div>
         </div>
         <div class="panel customer-loan-form-panel panel-collapsed" id="contactInfoPanel">
@@ -263,23 +259,38 @@
                     </label>
                 </div>
                 <div class="captcha-section">
-                    <div class="g-recaptcha" data-sitekey="6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ"></div>
+                    <div id="gcaptcha"></div>
                 </div>
+                <div id="contactInfoErrors"></div>
             </div>
         </div>
-        <div class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" title="" data-content="You should fill all mandatory fields" id="submit">
+        <div class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" title="" id="submit">
             <button class="btn dealnet-success-button btn-proceed disabled btn-form-common" >Submit Application</button>
         </div>
     </div>
 </div>
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+
+@section Translations
+{
+    translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
+    translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
+    translations['ApplicantNeedsToBeUnder75'] = "@Resources.AtLeastOne75OrLess";
+    translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
+    translations['EnterValidDate'] = "@Resources.EnterValidDate";
+    translations['AtLeastOneHomeOwner'] = "@Resources.AtLeastOneHomeOwner";
+    translations['EmptyCaptcha'] = "Please, fill the captcha field to continue with the application.";
+    translations['EmptyAgreement'] = "Please, check the agreement field to continue with the application.";
+}
+
 @section scripts
 {
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit" async defer></script>
     @Scripts.Render("~/bundles/customer-form")
     <script>
         module.require('customer-form');
     </script>
 }
+
 
