@@ -88,6 +88,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 return updatedLink;
             }
             return null;
-        }        
+        }
+
+        public CustomerContractInfo AddCustomerContractData(CustomerContractInfo customerContractInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
