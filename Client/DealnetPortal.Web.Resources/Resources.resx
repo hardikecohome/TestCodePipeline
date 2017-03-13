@@ -1200,4 +1200,10 @@
   <data name="SwitchToEnglish" xml:space="preserve">
     <value>Switch to English</value>
   </data>
+  <data name="BorrowerEmail" xml:space="preserve">
+    <value>Borrower Email</value>
+  </data>
+  <data name="Borrower" xml:space="preserve">
+    <value>Borrower</value>
+  </data>
 </root>

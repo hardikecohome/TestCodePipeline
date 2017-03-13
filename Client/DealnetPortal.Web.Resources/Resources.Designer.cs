@@ -439,11 +439,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Borrower.
+        /// </summary>
+        public static string Borrower {
+            get {
+                return ResourceManager.GetString("Borrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Borrower Contact Information.
         /// </summary>
         public static string BorrowerContactInfo {
             get {
                 return ResourceManager.GetString("BorrowerContactInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Borrower Email.
+        /// </summary>
+        public static string BorrowerEmail {
+            get {
+                return ResourceManager.GetString("BorrowerEmail", resourceCulture);
             }
         }
         

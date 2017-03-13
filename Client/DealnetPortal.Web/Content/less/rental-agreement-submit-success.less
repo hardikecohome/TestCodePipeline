@@ -67,12 +67,50 @@
         }
     }
     .rental-summary-emails{
+        .rental-summary-inner{
+            max-width: 554px;
+            margin: 0 auto;
+        }
         .btn{
+            margin: 20px auto 0;
             @media @tablet-down {
                 width: 100%;
                 display: block;
                 max-width: 355px;
-                margin: 30px auto 0;
+            }
+        }
+
+        .control-group{
+            &.text-middle-group{
+                @media @desktop-up {
+                    display: table;
+                    .text-hold{
+                        display: table-cell;
+                        vertical-align: middle;
+                        height: 40px;
+                    }
+                }
+
+            }
+        }
+        @media @tablet-only {
+            .applicant-col{
+                .form-group{
+                    margin-bottom: 0;
+                    margin-top: 15px;
+                }
+                .dealnet-label,
+                .text-middle-group{
+                    display: inline-block;
+                }
+            }
+        }
+        @media @mobile {
+            .applicant-col{
+                margin-bottom: 10px;
+                .dealnet-label{
+                    margin-bottom: 0;
+                }
             }
         }
     }
