@@ -576,7 +576,7 @@ function customizeSelect(){
   setTimeout(function(){
     $('select').each(function(){
       //Added opt group to each select to fix long value inside option for IOS.
-      if($('body').is('.ios-device')){
+      if($('body').is('.ios-device') && $(this).find('optgroup').length === 0){
         $('<optgroup label=""></optgroup>').appendTo($(this));
       }
       var selectClasses = $(this).hasClass("dealnet-disabled-input") || $(this).hasClass("control-disabled") ? "custom-select-disabled" : "custom-select";
