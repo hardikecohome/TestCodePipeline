@@ -152,5 +152,33 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<CustomerLinkDTO> GetShareableLinkSettings()
+        {
+            try
+            {
+                return await Client.GetAsync<CustomerLinkDTO>(
+                            $"{_fullUri}/GetShareableLinkSettings").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Shareable Link Settings", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink)
+        {
+            try
+            {
+                return await Client.PutAsync<CustomerLinkDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateShareableLinkSettings", customerLink);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't change Shareable Link Settings", ex);
+                throw;
+            }
+        }
     }
 }

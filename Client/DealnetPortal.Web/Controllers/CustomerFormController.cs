@@ -9,7 +9,7 @@ namespace DealnetPortal.Web.Controllers
     public class CustomerFormController : Controller
     {
         // GET: CustomerForm
-        public ActionResult Index()
+        public ActionResult Index(string dealerName, string culture)
         {
             return View();
         }

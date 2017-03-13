@@ -9,6 +9,8 @@ namespace DealnetPortal.Api.Common.Constants
     public static class ErrorCodes
     {
         public const int CantGetContractFromDb = 101;
+        public const int FailedToUpdateContract = 102;
+        public const int FailedToUpdateSettings = 103;
 
         public const int AspireConnectionFailed = 1001;
         public const int AspireTransactionNotCreated = 1002;

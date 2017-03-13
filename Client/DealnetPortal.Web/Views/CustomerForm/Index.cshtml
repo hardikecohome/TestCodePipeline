@@ -263,7 +263,7 @@
                     </label>
                 </div>
                 <div class="captcha-section">
-                    <img src="~/Content/images/recaptcha.jpg" alt="">
+                    <div class="g-recaptcha" data-sitekey="6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ"></div>
                 </div>
             </div>
         </div>
@@ -276,7 +276,7 @@
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @section scripts
 {
-    <script>window.__DEBUG__ = true;</script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @Scripts.Render("~/bundles/customer-form")
     <script>
         module.require('customer-form');
