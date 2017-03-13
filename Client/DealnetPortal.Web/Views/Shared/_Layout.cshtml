@@ -86,15 +86,6 @@
                             <div class="lang-switcher pull-right">
                                 <div class="chosen-language">
                                     <div class="lang-item">
-                                        @switch (CultureHelper.CurrentCultureType)
-                                        {
-                                            case CultureType.English:
-                                                @:<span class="flag-icon english-flag"></span>
-                                                    break;
-                                            case CultureType.French:
-                                                @:<span class="flag-icon french-flag"></span>
-                                                    break;
-                                        }
                                         <a href="#" class="chosen-language-link">
                                             @switch (CultureHelper.CurrentCultureType)
                                             {
@@ -194,12 +185,10 @@
                                     @switch (CultureHelper.CurrentCultureType)
                                     {
                                         case CultureType.English:
-                                            @:<span class="sidebar-icon"><span class="flag-icon french-flag"></span></span>
-                                            @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "dealnet-sidebar-link"})
+                                            @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "dealnet-sidebar-link no-icon"})
                                             break;
                                         case CultureType.French:
-                                            @:<span class="sidebar-icon"><span class="flag-icon english-flag"></span></span>
-                                            @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "dealnet-sidebar-link"})
+                                            @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "dealnet-sidebar-link no-icon"})
                                             break;
                                     }
 
