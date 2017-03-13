@@ -11,6 +11,7 @@ namespace DealnetPortal.DataAccess.Repositories
     public interface ICustomerFormRepository
     {
         CustomerLink GetCustomerLinkSettings(string dealerId);
+        CustomerLink GetCustomerLinkSettingsByDealerName(string dealerName);
         CustomerLink UpdateCustomerLinkLanguages(ICollection<Language> enabledLanguages, string dealerId);
         CustomerLink UpdateCustomerLinkServices(ICollection<DealerService> dealerServices, string dealerId);
     }
