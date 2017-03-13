@@ -1,14 +1,22 @@
-@media @mobile{
-  .dataTable.home-page-table{
-    th, td{
+.dataTable.home-page-table {
+  td, th {
+    &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell) {
+      @media @desktop-up-dataTable {
+        width: 20% !important;
+      }
+    }
+
+    @media @mobile {
       &.customer-cell,
       &.status-cell,
-      &.action-cell{
+      &.action-cell {
         width: 30%;
       }
-      &.customer-cell{
+
+      &.customer-cell {
         min-width: 90px;
       }
+
     }
   }
 }

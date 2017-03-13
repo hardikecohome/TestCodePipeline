@@ -55,18 +55,23 @@
   }
 }
 
-@media @mobile{
-  .dataTable.table-reports{
+.dataTable.table-reports{
     th, td{
-      &.customer-cell,
-      &.status-cell,
-      &.action-cell{
-        width: 40%;
+      &:not(.contract-cell):not(.checkbox-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell){
+        @media @desktop-up-dataTable {
+          width: 15% !important;
+        }
       }
-      &.customer-cell{
-        min-width: 60px;
+      @media @mobile{
+        &.customer-cell,
+        &.status-cell,
+        &.action-cell{
+          width: 40%;
+        }
+        &.customer-cell{
+          min-width: 60px;
+        }
       }
-    }
   }
 }
 

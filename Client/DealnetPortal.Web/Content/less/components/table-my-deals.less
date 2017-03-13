@@ -1,14 +1,19 @@
-@media @mobile{
-  .dataTable.my-deals-table{
+.dataTable.my-deals-table{
     th, td{
-      &.customer-cell,
-      &.status-cell,
-      &.action-cell{
-        width: 40%;
+      &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell){
+        @media @desktop-up-dataTable {
+          width: 15% !important;
+        }
       }
-      &.customer-cell{
-        min-width: 60px;
+      @media @mobile{
+        &.customer-cell,
+        &.status-cell,
+        &.action-cell{
+          width: 40%;
+        }
+        &.customer-cell{
+          min-width: 60px;
+        }
       }
-    }
   }
 }
