@@ -232,7 +232,7 @@ table.dataTable > tbody > tr.child ul{
     &.contract-cell{
       min-width: 60px;
       width: 60px;
-      @media @desktop-down {
+      @media @tablet-down {
         min-width: 100px;
         width: 100px;
       }
@@ -245,6 +245,13 @@ table.dataTable > tbody > tr.child ul{
         width: 90px;
       }
     }
+    &.type-cell{
+      width: 50px;
+      min-width: 50px;
+    }
+    &.status-cell{
+      min-width: 50px;
+    }
   }
 }
 
@@ -254,9 +261,11 @@ body:not(.tablet-device){
     td, th{
       &.date-cell{
         width: 80px;
+        min-width: 80px;
       }
       &.phone-cell{
         width: 80px;
+        min-width: 80px;
       }
     }
   }
