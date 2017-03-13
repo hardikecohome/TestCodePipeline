@@ -41,6 +41,38 @@ namespace DealnetPortal.Api.Integration.Services
             return null;
         }
 
+        public CustomerLinkDTO GetCustomerLinkSettingsByDealerName(string dealerName)
+        {
+            var linkSettings = _customerFormRepository.GetCustomerLinkSettingsByDealerName(dealerName);
+            if (linkSettings != null)
+            {
+                return Mapper.Map<CustomerLinkDTO>(linkSettings);
+            }
+            return null;
+        }
+
+        public CustomerLinkLanguageOptionsDTO GetCustomerLinkLanguageOptions(string dealerName, string language)
+        {
+            var linkSettings = _customerFormRepository.GetCustomerLinkSettingsByDealerName(dealerName);
+            if (linkSettings != null)
+            {
+                var langSettings = new CustomerLinkLanguageOptionsDTO
+                {
+                    IsLanguageEnabled = linkSettings.EnabledLanguages.FirstOrDefault(l => l.Code == language) != null
+                };
+                if (langSettings.IsLanguageEnabled)
+                {
+                    langSettings.LanguageServices =
+                        linkSettings.Services.Where(
+                            s => s.LanguageId == linkSettings.EnabledLanguages.First(l => l.Code == language).Id)
+                            .Select(s => s.Service).ToList();
+                }                
+                langSettings.EnabledLanguages =
+                        linkSettings.EnabledLanguages.Select(l => (LanguageCode)l.Id).ToList();
+            }
+            return null;
+        }
+
         public IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId)
         {
             var alerts = new List<Alert>();
