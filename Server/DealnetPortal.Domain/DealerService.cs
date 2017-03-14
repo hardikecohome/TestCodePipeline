@@ -17,8 +17,6 @@ namespace DealnetPortal.Domain
         public int CustomerLinkId { get; set; }
         [ForeignKey("CustomerLinkId")]
         public CustomerLink CustomerLink { get; set; }
-
         public string Service { get; set; }
-
     }
 }

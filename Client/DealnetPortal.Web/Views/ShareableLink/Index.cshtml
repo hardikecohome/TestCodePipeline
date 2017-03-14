@@ -13,9 +13,9 @@
         <div class="get-link-section">
             <div class="form-group">
                 <div class="labels-hold">
-                    <label for="enLink" class="dealnet-field-caption">Form in English</label>
+                    <label for="enLink" class="dealnet-field-caption">@Resources.FormInEnglish</label>
                     <label class="checkbox-toggle">
-                        <input class="toggle-language-link" @if(Model.EnglishLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
+                        <input class="toggle-language-link" @if(Model?.EnglishLinkEnabled ?? false) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
                         <div class="slider"></div>
                         <input name="EnglishLinkEnabled" type="hidden" value="false" />
                     </label>
@@ -29,9 +29,9 @@
             </div>
             <div class="form-group">
                 <div class="labels-hold">
-                    <label for="frLink" class="dealnet-field-caption">Form in French</label>
+                    <label for="frLink" class="dealnet-field-caption">@Resources.FormInFrench</label>
                     <label class="checkbox-toggle">
-                        <input class="toggle-language-link" @if(Model.FrenchLinkEnabled) { <text>checked</text> } data-val="true" data-val-required="The FrenchLinkEnabled field is required." id="FrenchLinkEnabled" name="FrenchLinkEnabled" type="checkbox" value="true" />
+                        <input class="toggle-language-link" @if(Model?.FrenchLinkEnabled ?? false) { <text>checked</text> } data-val="true" data-val-required="The FrenchLinkEnabled field is required." id="FrenchLinkEnabled" name="FrenchLinkEnabled" type="checkbox" value="true" />
                         <div class="slider"></div>
                         <input name="FrenchLinkEnabled" type="hidden" value="false" />
                     </label>

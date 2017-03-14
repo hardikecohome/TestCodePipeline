@@ -219,6 +219,7 @@
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
+    <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\LoanCalculatorViewModel.cs" />
@@ -825,6 +826,8 @@
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\ShareableLink\Index.cshtml" />
     <Content Include="Views\CustomerForm\Index.cshtml" />
+    <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
+    <Content Include="Views\Info\AnonymousError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

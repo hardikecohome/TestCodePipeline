@@ -367,6 +367,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply for financing.
+        /// </summary>
+        public static string ApplyForFinancing {
+            get {
+                return ResourceManager.GetString("ApplyForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to At least one of the applicants should be aged 75 or less..
         /// </summary>
         public static string AtLeastOne75OrLess {
@@ -1465,6 +1474,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Form in English.
+        /// </summary>
+        public static string FormInEnglish {
+            get {
+                return ResourceManager.GetString("FormInEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form in French.
+        /// </summary>
+        public static string FormInFrench {
+            get {
+                return ResourceManager.GetString("FormInFrench", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your form was successfully updated but now is disabled and customers won&apos;t be able to use it..
         /// </summary>
         public static string FormUpdatedButCustomersNotAbleToUse {
@@ -1627,6 +1654,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I agree that dealer or its representatives may contact me by email or phone.
+        /// </summary>
+        public static string IAgreeDealerOrRepresentativesMayContact {
+            get {
+                return ResourceManager.GetString("IAgreeDealerOrRepresentativesMayContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I agree to pass information to credit check.
+        /// </summary>
+        public static string IAgreeToPassInfoToCreditCheck {
+            get {
+                return ResourceManager.GetString("IAgreeToPassInfoToCreditCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string Id {
@@ -1776,6 +1821,15 @@ namespace DealnetPortal.Web.Resources {
         public static string InvitesWereSentToEmails {
             get {
                 return ResourceManager.GetString("InvitesWereSentToEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I own this property.
+        /// </summary>
+        public static string IOwnThisProperty {
+            get {
+                return ResourceManager.GetString("IOwnThisProperty", resourceCulture);
             }
         }
         
@@ -2284,6 +2338,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please, check the agreement field to continue with the application..
+        /// </summary>
+        public static string PleaseCheckAgreementToContinue {
+            get {
+                return ResourceManager.GetString("PleaseCheckAgreementToContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to please check your email for one-time password..
         /// </summary>
         public static string PleaseCheckEmail {
@@ -2298,6 +2361,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PleaseEnterEmailsAndClickSend {
             get {
                 return ResourceManager.GetString("PleaseEnterEmailsAndClickSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, fill the captcha field to continue with the application..
+        /// </summary>
+        public static string PleaseFillCaptchaToContinue {
+            get {
+                return ResourceManager.GetString("PleaseFillCaptchaToContinue", resourceCulture);
             }
         }
         
@@ -2896,6 +2968,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submit Application.
+        /// </summary>
+        public static string SubmitApplication {
+            get {
+                return ResourceManager.GetString("SubmitApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit Deal.
         /// </summary>
         public static string SubmitDeal {
@@ -3328,6 +3409,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Write your comment.
+        /// </summary>
+        public static string WriteYourComment {
+            get {
+                return ResourceManager.GetString("WriteYourComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Year.
         /// </summary>
         public static string Year {
@@ -3396,6 +3486,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YourComment {
             get {
                 return ResourceManager.GetString("YourComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Information.
+        /// </summary>
+        public static string YourInformation {
+            get {
+                return ResourceManager.GetString("YourInformation", resourceCulture);
             }
         }
     }

@@ -23,6 +23,14 @@ namespace DealnetPortal.DataAccess.Repositories
             return user?.CustomerLink;
         }
 
+        public CustomerLink GetCustomerLinkSettingsByDealerName(string dealerName)
+        {
+            var user = _dbContext.Users
+                .Include(u => u.CustomerLink).AsNoTracking()
+                .FirstOrDefault(u => u.UserName == dealerName);
+            return user?.CustomerLink;
+        }
+
         public CustomerLink UpdateCustomerLinkLanguages(ICollection<Language> enabledLanguages, string dealerId)
         {
             var user = _dbContext.Users

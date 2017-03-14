@@ -186,7 +186,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/Account/GetDealerCulture
+        // GET api/dict/GetDealerCulture
         [Route("GetDealerCulture")]
         public string GetDealerCulture()
         {
@@ -195,7 +195,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpPut]
-        // GET api/Account/PutDealerCulture
+        // GET api/dict/PutDealerCulture
         [Route("PutDealerCulture")]
         public IHttpActionResult PutDealerCulture(string culture)
         {
@@ -213,7 +213,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/Account/GetDealerSettings
+        // GET api/dict/GetDealerSettings
         [Route("GetDealerSettings")]
         public IHttpActionResult GetDealerSettings()
         {
@@ -228,7 +228,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/Account/GetDealerBinSetting
+        // GET api/dict/GetDealerBinSetting
         [Route("GetDealerBinSetting")]
         public IHttpActionResult GetDealerBinSetting(int settingType)
         {
@@ -248,9 +248,9 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/Account/GetShareableLinkSettings
-        [Route("GetShareableLinkSettings")]
-        public IHttpActionResult GetShareableLinkSettings()
+        // GET api/dict/GetCustomerLinkSettings
+        [Route("GetCustomerLinkSettings")]
+        public IHttpActionResult GetCustomerLinkSettings()
         {
             var linkSettings = CustomerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
             if (linkSettings != null)
@@ -260,10 +260,24 @@ namespace DealnetPortal.Api.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        // GET api/dict/GetCustomerLinkSettings?dealer={dealer}
+        [Route("GetCustomerLinkSettings")]
+        public IHttpActionResult GetCustomerLinkSettings(string dealer)
+        {
+            var linkSettings = CustomerFormService.GetCustomerLinkSettingsByDealerName(dealer);
+            if (linkSettings != null)
+            {
+                return Ok(linkSettings);
+            }
+            return NotFound();
+        }
+
         [Authorize]
         [HttpPut]
-        [Route("UpdateShareableLinkSettings")]
-        public IHttpActionResult UpdateShareableLinkSettings(CustomerLinkDTO customerLinkSettings)
+        // GET api/dict/UpdateCustomerLinkSettings
+        [Route("UpdateCustomerLinkSettings")]
+        public IHttpActionResult UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings)
         {
             try
             {
@@ -274,6 +288,19 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
+        }        
+
+        [HttpGet]
+        // GET api/dict/GetCustomerLinkLanguageOptions?dealer={dealer}&lang={lang}
+        [Route("GetCustomerLinkLanguageOptions")]
+        public IHttpActionResult GetCustomerLinkLanguageOptions(string dealer, string lang)
+        {
+            var linkSettings = CustomerFormService.GetCustomerLinkLanguageOptions(dealer, lang);
+            if (linkSettings != null)
+            {
+                return Ok(linkSettings);
+            }
+            return NotFound();
         }
     }
 }
