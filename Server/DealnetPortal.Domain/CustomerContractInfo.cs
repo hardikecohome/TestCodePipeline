@@ -15,7 +15,7 @@ namespace DealnetPortal.Domain
         public string CustomerComment { get; set; }
 
         public int? SelectedServiceId { get; set; }
-        [ForeignKey("SelectServiceId")]
+        [ForeignKey("SelectedServiceId")]
         public DealerService SelectedService { get; set; }
     }
 }

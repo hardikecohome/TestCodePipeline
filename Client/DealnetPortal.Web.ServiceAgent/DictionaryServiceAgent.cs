@@ -158,11 +158,11 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return await Client.GetAsync<CustomerLinkDTO>(
-                            $"{_fullUri}/GetShareableLinkSettings").ConfigureAwait(false);
+                            $"{_fullUri}/GetCustomerLinkSettings").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Can't get Shareable Link Settings", ex);
+                _loggingService.LogError("Can't get Customer Link Settings", ex);
                 throw;
             }
         }
@@ -172,11 +172,25 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return await Client.PutAsync<CustomerLinkDTO, IList<Alert>>(
-                            $"{_fullUri}/UpdateShareableLinkSettings", customerLink);
+                            $"{_fullUri}/UpdateCustomerLinkSettings", customerLink);
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Can't change Shareable Link Settings", ex);
+                _loggingService.LogError("Can't change Customer Link Settings", ex);
+                throw;
+            }
+        }
+
+        public async Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string dealerName, string culture)
+        {
+            try
+            {
+                return await Client.GetAsync<CustomerLinkLanguageOptionsDTO>(
+                            $"{_fullUri}/GetCustomerLinkLanguageOptions?dealer={dealerName}&lang={culture}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Customer Link Language Options", ex);
                 throw;
             }
         }
