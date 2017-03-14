@@ -223,7 +223,7 @@ namespace DealnetPortal.Web.Controllers
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             var canAddApplicants = contractResult?.Item1 != null &&
                                    (contractResult.Item1.SecondaryCustomers == null ||
-                                    contractResult.Item1.SecondaryCustomers.Count < 3);
+                                    contractResult.Item1.SecondaryCustomers.Count < PortalConstants.MaxAdditionalApplicants);
             var viewModel = new CreditRejectedViewModel()
             {
                 ContractId = contractId,
