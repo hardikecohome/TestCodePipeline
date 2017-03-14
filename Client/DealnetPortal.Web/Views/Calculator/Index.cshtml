@@ -9,7 +9,7 @@
     var deferralType = LoanDeferralType.ThreeMonth;
 }
 
-<div id="main-div" ng-app="calculator" ng-controller="calculator">
+<div id="main-div" ng-cloak ng-app="calculator" ng-controller="calculator">
     <!-- Provide standalone payment calculator screen -->
     <div id="label-steps">
         <div class="dealnet-action-link">@Resources.Calculator</div> >
@@ -408,6 +408,10 @@
     </div>
 </div>
 
+@section OutrunningScripts
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+}
 
 @section scripts
 {
@@ -432,7 +436,7 @@
     @Scripts.Render("~/Scripts/financial-functions.js")
     @Scripts.Render("~/Scripts/standalone-loan-calculator.js")
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    
     <script type="text/javascript">
 
         var app = angular.module("calculator", []);
