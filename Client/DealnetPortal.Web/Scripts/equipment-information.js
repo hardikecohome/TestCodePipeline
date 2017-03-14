@@ -76,6 +76,7 @@ function manageAgreementElements(agreementType) {
             $('.equipment-form-container').addClass('has-loan-calc');
             $('.rental-element').hide();
             $('#total-monthly-payment').rules("remove", "required");
+            $("#total-monthly-payment").prop("disabled", true);
             break;
         case '1':
         case '2':
@@ -93,6 +94,7 @@ function manageAgreementElements(agreementType) {
             $('.loan-element').hide();
             $('.equipment-form-container').removeClass('has-loan-calc');
             $('.rental-element').show();
+            $("#total-monthly-payment").prop("disabled", false);
             $('#total-monthly-payment').rules("add", "required");
             break;
     }
