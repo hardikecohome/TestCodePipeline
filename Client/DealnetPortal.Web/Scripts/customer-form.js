@@ -11,6 +11,7 @@
     var log = require('logMiddleware');
 
     // your info actions
+    var SET_INITIAL_STATE = 'set_initial_state';
     var SET_NAME = 'set_name';
     var SET_LAST = 'set_last';
     var SET_BIRTH = 'set_birth';
@@ -36,6 +37,9 @@
     var ACTIVATE_CONTACT_INFO = 'activate_contact_info';
     var SET_CAPTCHA_CODE = 'set_captcha_code';
     var TOGGLE_AGREEMENT = 'toggle_agreement';
+    var SET_LESS_THAN_SIX = 'set_less_than_six';
+    var SET_PHONE = 'set_phone';
+    var SET_CELL_PHONE = 'set_cell_phone';
 
     var iniState = {
         birthday: '',
@@ -56,8 +60,11 @@
         displayInstallation: false,
         displayContactInfo: false,
         activePanel: 'yourInfo',
+        phone: '',
+        cellPhone: '',
         captchaCode: '',
         agreement: false,
+        lessThanSix: false,
     };
 
     var setFormField = function (field) {
@@ -70,6 +77,9 @@
 
     // your info reducer
     var reducer = makeReducer({
+        [SET_INITIAL_STATE]: function (state, action) {
+            return $.extend({}, state, action.payload);
+        },
         [SET_BIRTH]: setFormField('birthday'),
         [SET_STREET]: setFormField('street'),
         [SET_UNIT]: setFormField('unit'),
@@ -99,6 +109,7 @@
                 ppostalCode: '',
             };
         },
+        [SET_LESS_THAN_SIX]: setFormField('lessThanSix'),
         [DISPLAY_SUBMIT_ERRORS]: setFormField('displaySubmitErrors'),
         [DISPLAY_INSTALLATION]: setFormField('displayInstallation'),
         [DISPLAY_CONTACT_INFO]: setFormField('displayContactInfo'),
@@ -234,6 +245,21 @@
     // view layer
     var observeCustomerFormStore = observe(customerFormStore);
 
+    var readValue = function (element) {
+        if (element.attr('type') === 'checkbox') {
+            return element.prop('checked') || false;
+        }
+
+        return element.val() || '';
+    };
+
+    var readInitialStateFromFields = function (map) {
+        return Object.keys(map).reduce(function (acc, key) {
+            acc[key] = readValue(map[key]);
+            return acc;
+        }, {});
+    };
+
     $(document)
         .ready(function () {
             var input = $("#birth-date-customer");
@@ -270,48 +296,92 @@
             $('#sin').on('change', function (e) {
                 dispatch(createAction(SET_SIN, e.target.value));
             });
-            $('#street').on('change', function (e) {
+
+            var street = $('#street');
+            street.on('change', function (e) {
                 dispatch(createAction(SET_STREET, e.target.value));
             });
-            $('#unit').on('change', function (e) {
+
+            var unit = $('#unit');
+            unit.on('change', function (e) {
                 dispatch(createAction(SET_UNIT, e.target.value));
             });
-            $('#city').on('change', function (e) {
+
+            var city = $('#city');
+            city.on('change', function (e) {
                 dispatch(createAction(SET_CITY, e.target.value));
             });
-            $('#province').on('change', function (e) {
+
+            var province = $('#province');
+            province.on('change', function (e) {
                 dispatch(createAction(SET_PROVINCE, e.target.value));
             });
-            $('#postalCode').on('change', function (e) {
+
+            var postalCode = $('#postalCode');
+            postalCode.on('change', function (e) {
                 dispatch(createAction(SET_POSTAL_CODE, e.target.value));
             });
+
             $('#clearAddress').on('click', function (e) {
+                e.preventDefault();
                 dispatch(createAction(CLEAR_ADDRESS, e.target.value));
             });
-            $('#homeowner-checkbox').on('click', function (e) {
-                dispatch(createAction(TOGGLE_OWNERSHIP, $('#homeowner-checkbox').prop('checked') ));
+
+            var homeOwner = $('#homeowner-checkbox');
+            homeOwner.on('click', function (e) {
+                dispatch(createAction(TOGGLE_OWNERSHIP, homeOwner.prop('checked') ));
             });
-            $('#pstreet').on('change', function (e) {
+
+            var pstreet = $('#pstreet');
+            pstreet.on('change', function (e) {
                 dispatch(createAction(SET_PSTREET, e.target.value));
             });
-            $('#punit').on('change', function (e) {
+
+            var punit = $('#punit');
+            punit.on('change', function (e) {
                 dispatch(createAction(SET_PUNIT, e.target.value));
             });
-            $('#pcity').on('change', function (e) {
+
+            var pcity = $('#pcity');
+            pcity.on('change', function (e) {
                 dispatch(createAction(SET_PCITY, e.target.value));
             });
-            $('#pprovince').on('change', function (e) {
+
+            var pprovince = $('#pprovince');
+            pprovince.on('change', function (e) {
                 dispatch(createAction(SET_PPROVINCE, e.target.value));
             });
-            $('#ppostalCode').on('change', function (e) {
+
+            var ppostalCode = $('#ppostalCode');
+            ppostalCode.on('change', function (e) {
                 dispatch(createAction(SET_PPOSTAL_CODE, e.target.value));
             });
+
             $('#pclearAddress').on('click', function (e) {
+                e.preventDefault();
                 dispatch(createAction(CLEAR_PADDRESS, e.target.value));
             });
-            $('#agreement1').on('click', function (e) {
-                dispatch(createAction(TOGGLE_AGREEMENT, $('#agreement1').prop('checked') ));
+
+            var agreement = $('#agreement1');
+            agreement.on('click', function (e) {
+                dispatch(createAction(TOGGLE_AGREEMENT, agreement.prop('checked')));
             });
+
+            var lessThanSix = $('#living-time-checkbox');
+            lessThanSix.on('click', function (e) {
+                dispatch(createAction(SET_LESS_THAN_SIX, lessThanSix.prop('checked')));
+            });
+
+            var phone = $('#phone');
+            phone.on('click', function (e) {
+                dispatch(createAction(SET_PHONE, e.target.value));
+            });
+
+            var cellPhone = $('#cellPhone');
+            cellPhone.on('click', function (e) {
+                dispatch(createAction(SET_CELL_PHONE, e.target.value));
+            });
+
             $('#submit').on('click', function (e) {
                 dispatch(createAction(SUBMIT));
                 var errors = getErrors(customerFormStore.getState());
@@ -320,9 +390,27 @@
                 }
             });
 
-            var hideYourInfoFirstTime = true;
-            var hideIntallationFirstTime = true;
+            var initialStateMap = {
+                street: street,
+                unit: unit,
+                city: city,
+                province: province,
+                postalCode: postalCode,
+                pstreet: pstreet,
+                punit: punit,
+                pcity: pcity,
+                pprovince: pprovince,
+                ppostalCode: ppostalCode,
+                homeOwner: homeOwner,
+                agreement: agreement,
+                lessThanSix: lessThanSix,
+                cellPhone: cellPhone,
+                phone: phone,
+            };
 
+            dispatch(createAction(SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
+
+             // observers
             observeCustomerFormStore(function (state) {
                 return {
                     displayInstallation: state.displayInstallation,
@@ -431,6 +519,26 @@
                         });
                 }
             });
+
+            observeCustomerFormStore(function (state) {
+                return {
+                    lessThanSix: state.lessThanSix,
+                };
+            })(function (props) {
+                $('#previous-address').find('input, select').each(function () {
+                    $(this).prop("disabled", !props.lessThanSix);
+                });
+            });
+
+            //observeCustomerFormStore(function (state) {
+            //    return {
+            //        phoneRequired: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
+            //        cellPhoneRequired: state.phone === '',
+            //    };
+            //})(function (props) {
+            //    $('#phone').rules(props.phoneRequired ? 'add' : 'remove', 'required');
+            //    $('#cellPhone').rules(props.cellPhoneRequired ? 'add' : 'remove', 'required');
+            //});
         });
 });
 
