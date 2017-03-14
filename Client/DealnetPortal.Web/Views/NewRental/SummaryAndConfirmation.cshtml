@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Api.Models.Contract
+﻿@using System.Globalization
+@using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Common.Enumeration
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
@@ -2176,7 +2177,7 @@
 @section scripts
 {
     <script type="text/javascript">
-        var taxRate = @(Model.ProvinceTaxRate?.Rate ?? 0);
+        var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var agreementType = @((int)Model.EquipmentInfo.AgreementType);
         @{
             var provinceTaxRates = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
@@ -2185,7 +2186,7 @@
                 @: var provinceTaxRates = [];
                 foreach (var ptr in provinceTaxRates)
                 {
-                    @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate, description:"@ptr.Description"};
+                    @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate.ToString(CultureInfo.InvariantCulture), description:"@ptr.Description"};
                 }
             }
         }
