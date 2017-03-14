@@ -63,7 +63,7 @@ function showTable() {
                       breakpoints: [
                         { name: 'desktop-lg', width: Infinity },
                         { name: 'desktop',  width: 1169 },
-                        { name: 'tablet-l',  width: 1080 },
+                        { name: 'tablet-l',  width: $('body').is('.tablet-device') ? 1025 : 1023 },
                         { name: 'tablet',  width: 1023 },
                         { name: 'mobile',   width: 767 },
                         { name: 'mobile-l',   width: 767 },

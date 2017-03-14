@@ -54,14 +54,24 @@
 
   }
 }
-
-.dataTable.table-reports{
-    th, td{
-      &:not(.contract-cell):not(.checkbox-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell){
-        @media @desktop-up-dataTable {
-          width: 15% !important;
+body:not(.tablet-device):not(.mobile-device){
+  .dataTable.table-reports {
+    td, th {
+      &:not(.contract-cell):not(.checkbox-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell):not(.controls-cell){
+        width: 17% !important;
+        @media @tablet-only {
+          width: 38% !important;
+        }
+        @media @mobile {
+          width: 55% !important;
         }
       }
+    }
+  }
+}
+.dataTable.table-reports{
+    th, td{
+
       @media @mobile{
         &.customer-cell,
         &.status-cell,
