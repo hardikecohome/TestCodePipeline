@@ -5,9 +5,6 @@
     $(".cell-phone").each(function () {
         $(this).rules("add", "required");
     });
-    //$("#bank-number").rules("add", "required");
-    //$("#transit-number").rules("add", "required");
-    //$("#account-number").rules("add", "required");
     $("#enbridge-gas-distribution-account").rules("add", "required");
     $("#meter-number").rules("add", "required");
     //
@@ -35,11 +32,23 @@ function managePaymentElements(paymentType) {
     switch (paymentType) {
         case '0':
             $(".pap-payment").hide();
+            $(".pap-payment").find('input, select').each(function () {
+                $(this).prop("disabled", true);
+            });
             $(".enbridge-payment").show();
+            $(".enbridge-payment").find('input, select').each(function () {
+                $(this).prop("disabled", false);
+            });
             break;
         case '1':
             $(".enbridge-payment").hide();
+            $(".enbridge-payment").find('input, select').each(function () {
+                $(this).prop("disabled", true);
+            });
             $(".pap-payment").show();
+            $(".pap-payment").find('input, select').each(function () {
+                $(this).prop("disabled", false);
+            });
             break;
     }
 }
