@@ -132,6 +132,10 @@
       }
       detectPageHeight();
       documentsColHeight();
+
+      if($(".dataTable").length !== 0){
+        $('.dataTable td.dataTables_empty').attr('colspan', $('.dataTable th').length);
+      }
     });
 
     $('.reports-contract-item').each(function(){
