@@ -236,6 +236,8 @@
 
     $(document)
         .ready(function () {
+            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
+            $('#selectedService').val($('#selectedService > option:first').val());
             var input = $("#birth-date-customer");
             inputDateFocus(input);
 
