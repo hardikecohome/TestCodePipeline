@@ -157,6 +157,7 @@ body.ios-device.modal-open .navbar-fixed-side{
             margin: 0 -15px;
         }
         .dealnet-sidebar-user{
+            display: none;
             color: #fff;
             font-weight: 700;
         }
@@ -228,13 +229,27 @@ body.ios-device.modal-open .navbar-fixed-side{
             display: none !important;
         }
     }*/
-    @media @large-tablet-only {
-      body.open-menu{
-        .dealnet-sidebar-item.sidebar-lang-item{
-          display: none;
-        }
-      }
+
+
+.sidebar-bottom{
+  display: none;
+}
+body.open-menu{
+  .dealnet-sidebar .dealnet-sidebar-user{
+    display: block;
+  }
+  .sidebar-bottom{
+    display: block;
+  }
+}
+
+@media @large-tablet-only {
+  body.open-menu{
+    .dealnet-sidebar-item.sidebar-lang-item{
+      display: none;
     }
+  }
+}
 
     @media @large-tablet-end {
         .burger-hold{
