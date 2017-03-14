@@ -74,7 +74,7 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/customer-form")
                 .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Logger/log.debug.js")
+                .Include("~/Scripts/Logger/log.js")
                 .Include("~/Scripts/customer-form.js")
                 .IncludeDirectory("~/Scripts/Utils", "*.js")
             );

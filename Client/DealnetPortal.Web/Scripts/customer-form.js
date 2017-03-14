@@ -29,9 +29,13 @@
     var SET_PPOSTAL_CODE = 'set_ppostal_code';
     var CLEAR_PADDRESS = 'clear_paddress';
     var SUBMIT = 'submit';
-    var DISPLAY_ERRORS = 'display_errors';
+    var DISPLAY_SUBMIT_ERRORS = 'display_submit_errors';
     var DISPLAY_INSTALLATION = 'display_installation';
     var DISPLAY_CONTACT_INFO = 'display_contact_info';
+    var ACTIVATE_INSTALLATION = 'activate_installation';
+    var ACTIVATE_CONTACT_INFO = 'activate_contact_info';
+    var SET_CAPTCHA_CODE = 'set_captcha_code';
+    var TOGGLE_AGREEMENT = 'toggle_agreement';
 
     var iniState = {
         birthday: '',
@@ -48,9 +52,12 @@
         ppostalCode: '',
         agreesToPassInfo: false,
         agreesToBeContacted: true,
-        displayErrors: true,
+        displaySubmitErrors: false,
         displayInstallation: false,
         displayContactInfo: false,
+        activePanel: 'yourInfo',
+        captchaCode: '',
+        agreement: false,
     };
 
     var setFormField = function (field) {
@@ -92,11 +99,66 @@
                 ppostalCode: '',
             };
         },
-        [DISPLAY_ERRORS]: setFormField('displayErrors'),
+        [DISPLAY_SUBMIT_ERRORS]: setFormField('displaySubmitErrors'),
         [DISPLAY_INSTALLATION]: setFormField('displayInstallation'),
         [DISPLAY_CONTACT_INFO]: setFormField('displayContactInfo'),
+        [ACTIVATE_INSTALLATION]: function () {
+            return {
+                displayInstallation: true,
+                activePanel: 'installation',
+            };
+        },
+        [ACTIVATE_CONTACT_INFO]: function () {
+            return {
+                displayContactInfo: true,
+                activePanel: 'contactInfo',
+            };
+        },
         [TOGGLE_OWNERSHIP]: setFormField('ownership'),
+        [TOGGLE_AGREEMENT]: setFormField('agreement'),
+        [SET_CAPTCHA_CODE]: setFormField('captchaCode'),
     }, iniState);
+
+    // selectors
+    var getErrors = function (state) {
+        var errors = [];
+
+        if (state.birthday !== '') {
+            var ageDifMs = Date.now() - Date.parseExact(state.birthday, "M/d/yyyy");
+            var ageDate = new Date(ageDifMs);
+            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+            if (age > 75) {
+                errors.push({
+                    type: 'birthday',
+                    messageKey: 'ApplicantNeedsToBeUnder75',
+                });
+            }
+        }
+
+        if (!state.ownership) {
+            errors.push({
+                type: 'ownership',
+                messageKey: 'AtLeastOneHomeOwner',
+            });
+        }
+
+        if (!state.captchaCode) {
+            errors.push({
+                type: 'captcha',
+                messageKey: 'EmptyCaptcha',
+            });
+        }
+
+        if (!state.agreement) {
+            errors.push({
+                type: 'agreement',
+                messageKey: 'EmptyAgreement'
+            });
+        }
+
+        return errors;
+    };
 
     var flowMiddleware = function (store) {
         return function (next) {
@@ -106,25 +168,43 @@
                 var state = store.getState();
 
                 var nextAction = next(action);
-                if (!state.displayInstallation) {
+                if (state.activePanel === 'yourInfo') {
                     var index1 = flow1.indexOf(action.type);
                     if (index1 >= 0) {
                         flow1.splice(index1, 1);
                     }
                     if (flow1.length === 0) {
-                        next(createAction(DISPLAY_INSTALLATION, true));
+                        next(createAction(ACTIVATE_INSTALLATION, true));
                     }
                 }
 
-                if (!state.displayContactInfo) {
+                if (state.activePanel === 'installation') {
                     var index2 = flow2.indexOf(action.type);
                     if (index2 >= 0) {
                         flow2.splice(index2, 1);
                     }
                     if (flow2.length === 0) {
-                        next(createAction(DISPLAY_CONTACT_INFO, true));
+                        next(createAction(ACTIVATE_CONTACT_INFO, true));
                     }
                 }
+
+                var stateAfter = store.getState();
+                var errors = getErrors(stateAfter)
+                var installationErrors = errors.filter(function (error) { return error.type === 'ownership'; });
+                if (stateAfter.displaySubmitErrors && installationErrors.length > 0) {
+                    next(createAction(DISPLAY_INSTALLATION, true));
+                }
+
+                var contactInfoErrors = errors.filter(function (error) {
+                    return ['captcha', 'agreement'].some(function (item) {
+                        return error.type === item;
+                    });
+                });
+
+                if (stateAfter.displaySubmitErrors && contactInfoErrors.length > 0) {
+                    next(createAction(DISPLAY_CONTACT_INFO, true));
+                }
+
                 return nextAction;
             };
         };
@@ -135,9 +215,7 @@
             return function (action) {
                 var nextAction = next(action);
                 if (action.type === SUBMIT) {
-                    next(createAction(DISPLAY_ERRORS, false));
-                } else if (!store.getState().hideErrors) {
-                    next(createAction(DISPLAY_ERRORS, true));
+                    next(createAction(DISPLAY_SUBMIT_ERRORS, true));
                 }
 
                 return nextAction;
@@ -173,6 +251,15 @@
                 }
             });
 
+            window.onLoadCaptcha = function () {
+                grecaptcha.render('gcaptcha', {
+                    sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
+                    callback: function (response) {
+                        dispatch(createAction(SET_CAPTCHA_CODE, response));
+                    },
+                });
+            };
+
             // action dispatchers
             $('#firstName').on('change', function (e) {
                 dispatch(createAction(SET_NAME, e.target.value));
@@ -202,7 +289,7 @@
                 dispatch(createAction(CLEAR_ADDRESS, e.target.value));
             });
             $('#homeowner-checkbox').on('click', function (e) {
-                dispatch(createAction(TOGGLE_OWNERSHIP, e.target.value));
+                dispatch(createAction(TOGGLE_OWNERSHIP, $('#homeowner-checkbox').prop('checked') ));
             });
             $('#pstreet').on('change', function (e) {
                 dispatch(createAction(SET_PSTREET, e.target.value));
@@ -222,8 +309,15 @@
             $('#pclearAddress').on('click', function (e) {
                 dispatch(createAction(CLEAR_PADDRESS, e.target.value));
             });
+            $('#agreement1').on('click', function (e) {
+                dispatch(createAction(TOGGLE_AGREEMENT, $('#agreement1').prop('checked') ));
+            });
             $('#submit').on('click', function (e) {
                 dispatch(createAction(SUBMIT));
+                var errors = getErrors(customerFormStore.getState());
+                if (errors.length > 0) {
+                    e.preventDefault();
+                }
             });
 
             var hideYourInfoFirstTime = true;
@@ -233,18 +327,33 @@
                 return {
                     displayInstallation: state.displayInstallation,
                     displayContactInfo: state.displayContactInfo,
+                    activePanel: state.activePanel,
                 };
             })(function (props) {
+                if (props.activePanel === 'yourInfo') {
+                    $('#yourInfoPanel').addClass('active-panel');
+                } else {
+                    $('#yourInfoPanel').removeClass('active-panel');
+                }
+
                 if (props.displayInstallation) {
                     $('#installationAddressForm').slideDown();
-                    $('#yourInfoPanel').removeClass('active-panel');
+                }
+
+                if (props.activePanel === 'installation') {
                     $('#installationAddressPanel').addClass('active-panel');
+                } else {
+                    $('#installationAddressPanel').removeClass('active-panel');
                 }
 
                 if (props.displayContactInfo) {
                     $('#contactInfoForm').slideDown();
-                    $('#installationAddressPanel').removeClass('active-panel');
+                }
+
+                if (props.activePanel === 'contactInfo') {
                     $('#contactInfoPanel').addClass('active-panel');
+                } else {
+                    $('#contactInfoPanel').removeClass('active-panel');
                 }
             });
 
@@ -287,32 +396,39 @@
             };
 
             observeCustomerFormStore(function (state) {
-                var errors = [];
-
-                if (state.birthday !== '') {
-                    var ageDifMs = Date.now() - Date.parseExact(state.birthday, "M/d/yyyy");
-                    var ageDate = new Date(ageDifMs);
-                    var age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-                    if (age > 75) {
-                        errors.push({
-                            type: 'birthday',
-                            message: 'At least one of the applicants should be aged 75 or less.',
+                return {
+                    errors: getErrors(state),
+                    displaySubmitErrors: state.displaySubmitErrors,
+                }
+            })(function (props) {
+                $('#yourInfoErrors').empty();
+                if (props.errors.length > 0) {
+                    props.errors
+                        .filter(function (error) { return error.type === 'birthday' })
+                        .forEach(function (error) {
+                            $('#yourInfoErrors').append(createError(window.translations[error.messageKey]));
                         });
-                    }
                 }
 
-                return {
-                    errors: errors,
-                    displayErrors: state.displayErrors,
-                };
-            })(function (props) {
-                if (props.displayErrors && props.errors.length > 0) {
-                    props.errors.forEach(function (error) {
-                        $('#yourInfoErrors').append(createError(error.message));
-                    });
-                } else {
-                    $('#yourInfoErrors').empty();
+                $('#installationErrors').empty();
+                if (props.displaySubmitErrors && props.errors.length > 0) {
+                    props.errors
+                        .filter(function (error) { return error.type === 'ownership' })
+                        .forEach(function (error) {
+                            $('#installationErrors').append(createError(window.translations[error.messageKey]));
+                        });
+                }
+
+                $('#contactInfoErrors').empty();
+                if (props.displaySubmitErrors && props.errors.length > 0) {
+                    props.errors.filter(function (error) {
+                        return ['captcha', 'agreement'].some(function (item) {
+                            return error.type === item;
+                        })
+                    })
+                        .forEach(function (error) {
+                            $('#contactInfoErrors').append(createError(window.translations[error.messageKey]));
+                        });
                 }
             });
         });

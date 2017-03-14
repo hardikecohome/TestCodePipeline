@@ -2,14 +2,14 @@
     var modules = {};
     var require = function require (name) {
         if (!modules.hasOwnProperty(name)) {
-            throw new Error('Module ' + name + 'is not in scope.');
+            throw new Error('Module ' + name + ' is not in scope.');
         }
 
         if (modules[name].initialized) {
-            if (__DEBUG__) console.log('module: ' + name + ' required.');
+            if (window.__DEBUG__) console.log('module: ' + name + ' required.');
             return modules[name].cached;
         } else {
-            if (__DEBUG__) console.log('module: ' + name + ' initialized.');
+            if (window.__DEBUG__) console.log('module: ' + name + ' initialized.');
             modules[name].cached = modules[name].module(require);
             modules[name].initialized = true;
             return modules[name].cached;
