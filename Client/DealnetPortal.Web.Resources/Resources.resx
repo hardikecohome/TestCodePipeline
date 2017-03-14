@@ -1261,4 +1261,12 @@
   <data name="YourInformation" xml:space="preserve">
     <value>Your Information</value>
   </data>
+  <data name="FormInEnglish" xml:space="preserve">
+    <value>Form in English</value>
+    <comment>"Form" here - is form with fileds to submit</comment>
+  </data>
+  <data name="FormInFrench" xml:space="preserve">
+    <value>Form in French</value>
+    <comment>"Form" here - is form with fileds to submit</comment>
+  </data>
 </root>
