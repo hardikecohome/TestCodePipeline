@@ -54,19 +54,34 @@
 
   }
 }
-
-@media @mobile{
-  .dataTable.table-reports{
-    th, td{
-      &.customer-cell,
-      &.status-cell,
-      &.action-cell{
-        width: 40%;
-      }
-      &.customer-cell{
-        min-width: 60px;
+body:not(.tablet-device):not(.mobile-device){
+  .dataTable.table-reports {
+    td, th {
+      &:not(.contract-cell):not(.checkbox-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell):not(.controls-cell){
+        width: 17% !important;
+        @media @tablet-only {
+          width: 38% !important;
+        }
+        @media @mobile {
+          width: 55% !important;
+        }
       }
     }
+  }
+}
+.dataTable.table-reports{
+    th, td{
+
+      @media @mobile{
+        &.customer-cell,
+        &.status-cell,
+        &.action-cell{
+          width: 40%;
+        }
+        &.customer-cell{
+          min-width: 60px;
+        }
+      }
   }
 }
 

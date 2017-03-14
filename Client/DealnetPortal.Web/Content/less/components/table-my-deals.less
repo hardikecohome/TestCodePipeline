@@ -1,14 +1,32 @@
-@media @mobile{
-  .dataTable.my-deals-table{
-    th, td{
-      &.customer-cell,
-      &.status-cell,
-      &.action-cell{
-        width: 40%;
-      }
-      &.customer-cell{
-        min-width: 60px;
+body:not(.tablet-device):not(.mobile-device){
+  .dataTable.my-deals-table {
+    td, th {
+      &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell){
+        width: 40% !important;
+        @media @desktop-lg-up {
+          width: 15% !important;
+        }
+        @media @tablet-only {
+          width: 38% !important;
+        }
+        @media @mobile {
+          width: 55% !important;
+        }
       }
     }
+  }
+}
+.dataTable.my-deals-table{
+    th, td{
+      @media @mobile{
+        &.customer-cell,
+        &.status-cell,
+        &.action-cell{
+          width: 40%;
+        }
+        &.customer-cell{
+          min-width: 60px;
+        }
+      }
   }
 }
