@@ -69,6 +69,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }                
                 langSettings.EnabledLanguages =
                         linkSettings.EnabledLanguages.Select(l => (LanguageCode)l.Id).ToList();
+                return langSettings;
             }
             return null;
         }

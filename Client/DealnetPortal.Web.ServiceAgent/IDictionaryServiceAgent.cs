@@ -50,5 +50,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<CustomerLinkDTO> GetShareableLinkSettings();
 
         Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
+
+        Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string dealerName, string culture);
     }
 }

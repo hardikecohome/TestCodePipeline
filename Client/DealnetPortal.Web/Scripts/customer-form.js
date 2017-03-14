@@ -1,81 +1,14 @@
-﻿(function () {
-    const __DEBUG__ = true;
+﻿module.exports('customer-form', function (require) {
+    var makeReducer = require('redux').makeReducer;
+    var applyMiddleware = require('redux').applyMiddleware;
+    var makeStore = require('redux').makeStore;
+    var createAction = require('redux').createAction;
+    var observe = require('redux').observe;
 
-    var compose = function () {
-        var partials = Array.prototype.slice.call(arguments);
-        var last = partials.length - 1;
-        return function () {
-            return partials.reduceRight(function (acc, partial, index) {
-                if (index === last) return partial.apply(null, acc);
-                return partial(acc);
-            }, arguments);
-        }
-    };
+    var shallowDiff = require('objectUtils').shallowDiff;
+    var compose = require('functionUtils').compose;
 
-    var mapState = function (fn) {
-        return function () {
-            var state = arguments[0];
-            return $.extend({}, state, fn.apply(null, arguments));
-        };
-    };
-
-    var shallowDiff = function (oldState, newState) {
-        return Object.keys(oldState).some(function (key) {
-            return oldState[key] !== newState[key];
-        });
-    };
-
-    var makeStore = function (reducer) {
-        var state = reducer();
-        var listeners = [];
-
-        return {
-            getState: function () {
-                return state;
-            },
-            subscribe: function (fn) {
-                listeners.push(fn);
-            },
-            unsubscribe: function (fn) {
-                var index = listeners.indexOf(fn);
-                listeners.splice(index);
-            },
-            dispatch: function (action) {
-                var newState = reducer(state, action);
-                if (shallowDiff(state, newState)) {
-                    state = newState;
-                    if (__DEBUG__) console.log(newState);
-                    listeners.forEach(function (fn) { fn(); });
-                }
-            },
-        };
-    };
-
-    var makeReducer = function (reducers, initialState) {
-        return function (state, action) {
-            if (!state && !action) {
-                return initialState;
-            }
-
-            if (Object.keys(reducers).some(function (key) {
-                return key === action.type;
-            })) {
-                var newState = reducers[action.type](state, action);
-
-                if (newState) {
-                    return $.extend({}, state, newState);
-                }
-            }
-        };
-    };
-
-
-    var createAction = function (type, payload) {
-        return {
-            type: type,
-            payload: payload,
-        };
-    };
+    var log = require('logMiddleware');
 
     // your info actions
     var SET_NAME = 'set_name';
@@ -88,35 +21,44 @@
     var SET_PROVINCE = 'set_province';
     var SET_POSTAL_CODE = 'set_postal_code';
     var CLEAR_ADDRESS = 'clear_address';
+    var TOGGLE_OWNERSHIP = 'toggle_ownership';
+    var SET_PSTREET = 'set_pstreet';
+    var SET_PUNIT = 'set_punit';
+    var SET_PCITY = 'set_pcity';
+    var SET_PPROVINCE = 'set_pprovince';
+    var SET_PPOSTAL_CODE = 'set_ppostal_code';
+    var CLEAR_PADDRESS = 'clear_paddress';
+    var SUBMIT = 'submit';
+    var DISPLAY_SUBMIT_ERRORS = 'display_submit_errors';
+    var DISPLAY_INSTALLATION = 'display_installation';
+    var DISPLAY_CONTACT_INFO = 'display_contact_info';
+    var ACTIVATE_INSTALLATION = 'activate_installation';
+    var ACTIVATE_CONTACT_INFO = 'activate_contact_info';
+    var SET_CAPTCHA_CODE = 'set_captcha_code';
+    var TOGGLE_AGREEMENT = 'toggle_agreement';
 
     var iniState = {
-        name: '',
-        last: '',
-        birth: '',
-        sin: '',
+        birthday: '',
         street: '',
         unit: '',
         city: '',
         province: '',
         postalCode: '',
-        displayYourInfo: true,
-        doneYourInfo: false,
+        ownership: false,
+        pstreet: '',
+        punit: '',
+        pcity: '',
+        pprovince: '',
+        ppostalCode: '',
+        agreesToPassInfo: false,
+        agreesToBeContacted: true,
+        displaySubmitErrors: false,
         displayInstallation: false,
-        doneInstallation: false,
         displayContactInfo: false,
-        doneContactInfo: false,
+        activePanel: 'yourInfo',
+        captchaCode: '',
+        agreement: false,
     };
-
-    // rules
-    var displayYourInfoRule = function (state) {
-        return !(state.name && state.last && state.birth && state.sin) ? true : false;
-    };
-
-    var doneYourInfoRule = function (state) {
-        return state.doneYourInfo || state.name && state.last && state.birth ? true : false;
-    };
-
-    var displayInstallationRule = doneYourInfoRule;
 
     var setFormField = function (field) {
         return function (state, action) {
@@ -126,20 +68,9 @@
         };
     };
 
-    var hideAndShowPanels = function (state) {
-        return $.extend({}, state, {
-            displayYourInfo: displayYourInfoRule(state),
-            doneYourInfo: doneYourInfoRule(state),
-            displayInstallation: displayInstallationRule(state),
-        });
-    };
-
     // your info reducer
     var reducer = makeReducer({
-        [SET_NAME]: compose(hideAndShowPanels, setFormField('name')),
-        [SET_LAST]: compose(hideAndShowPanels, setFormField('last')),
-        [SET_BIRTH]: compose(hideAndShowPanels, setFormField('birth')),
-        [SET_SIN]: compose(hideAndShowPanels, setFormField('sin')),
+        [SET_BIRTH]: setFormField('birthday'),
         [SET_STREET]: setFormField('street'),
         [SET_UNIT]: setFormField('unit'),
         [SET_CITY]: setFormField('city'),
@@ -154,35 +85,159 @@
                 postalCode: '',
             };
         },
+        [SET_PSTREET]: setFormField('pstreet'),
+        [SET_PUNIT]: setFormField('punit'),
+        [SET_PCITY]: setFormField('pcity'),
+        [SET_PPROVINCE]: setFormField('pprovince'),
+        [SET_PPOSTAL_CODE]: setFormField('ppostalCode'),
+        [CLEAR_PADDRESS]: function () {
+            return {
+                pstreet: '',
+                punit: '',
+                pcity: '',
+                pprovince: '',
+                ppostalCode: '',
+            };
+        },
+        [DISPLAY_SUBMIT_ERRORS]: setFormField('displaySubmitErrors'),
+        [DISPLAY_INSTALLATION]: setFormField('displayInstallation'),
+        [DISPLAY_CONTACT_INFO]: setFormField('displayContactInfo'),
+        [ACTIVATE_INSTALLATION]: function () {
+            return {
+                displayInstallation: true,
+                activePanel: 'installation',
+            };
+        },
+        [ACTIVATE_CONTACT_INFO]: function () {
+            return {
+                displayContactInfo: true,
+                activePanel: 'contactInfo',
+            };
+        },
+        [TOGGLE_OWNERSHIP]: setFormField('ownership'),
+        [TOGGLE_AGREEMENT]: setFormField('agreement'),
+        [SET_CAPTCHA_CODE]: setFormField('captchaCode'),
     }, iniState);
 
-    var customerFormStore = makeStore(reducer);
+    // selectors
+    var getErrors = function (state) {
+        var errors = [];
+
+        if (state.birthday !== '') {
+            var ageDifMs = Date.now() - Date.parseExact(state.birthday, "M/d/yyyy");
+            var ageDate = new Date(ageDifMs);
+            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+            if (age > 75) {
+                errors.push({
+                    type: 'birthday',
+                    messageKey: 'ApplicantNeedsToBeUnder75',
+                });
+            }
+        }
+
+        if (!state.ownership) {
+            errors.push({
+                type: 'ownership',
+                messageKey: 'AtLeastOneHomeOwner',
+            });
+        }
+
+        if (!state.captchaCode) {
+            errors.push({
+                type: 'captcha',
+                messageKey: 'EmptyCaptcha',
+            });
+        }
+
+        if (!state.agreement) {
+            errors.push({
+                type: 'agreement',
+                messageKey: 'EmptyAgreement'
+            });
+        }
+
+        return errors;
+    };
+
+    var flowMiddleware = function (store) {
+        return function (next) {
+            var flow1 = [SET_NAME, SET_LAST, SET_BIRTH];
+            var flow2 = [SET_STREET, SET_CITY, SET_PROVINCE, SET_POSTAL_CODE, TOGGLE_OWNERSHIP];
+            return function (action) {
+                var state = store.getState();
+
+                var nextAction = next(action);
+                if (state.activePanel === 'yourInfo') {
+                    var index1 = flow1.indexOf(action.type);
+                    if (index1 >= 0) {
+                        flow1.splice(index1, 1);
+                    }
+                    if (flow1.length === 0) {
+                        next(createAction(ACTIVATE_INSTALLATION, true));
+                    }
+                }
+
+                if (state.activePanel === 'installation') {
+                    var index2 = flow2.indexOf(action.type);
+                    if (index2 >= 0) {
+                        flow2.splice(index2, 1);
+                    }
+                    if (flow2.length === 0) {
+                        next(createAction(ACTIVATE_CONTACT_INFO, true));
+                    }
+                }
+
+                var stateAfter = store.getState();
+                var errors = getErrors(stateAfter)
+                var installationErrors = errors.filter(function (error) { return error.type === 'ownership'; });
+                if (stateAfter.displaySubmitErrors && installationErrors.length > 0) {
+                    next(createAction(DISPLAY_INSTALLATION, true));
+                }
+
+                var contactInfoErrors = errors.filter(function (error) {
+                    return ['captcha', 'agreement'].some(function (item) {
+                        return error.type === item;
+                    });
+                });
+
+                if (stateAfter.displaySubmitErrors && contactInfoErrors.length > 0) {
+                    next(createAction(DISPLAY_CONTACT_INFO, true));
+                }
+
+                return nextAction;
+            };
+        };
+    };
+
+    var displayErrorsMiddleware = function (store) {
+        return function (next) {
+            return function (action) {
+                var nextAction = next(action);
+                if (action.type === SUBMIT) {
+                    next(createAction(DISPLAY_SUBMIT_ERRORS, true));
+                }
+
+                return nextAction;
+            }
+        }
+    };
+
+    var customerFormStore = compose(applyMiddleware([
+        displayErrorsMiddleware,
+        flowMiddleware,
+        log('store/customerForm')
+    ]), makeStore)(reducer);
+
     var dispatch = customerFormStore.dispatch;
 
     // view layer
-
-
-    var observe = function (store) {
-        return function (map) {
-            return function (listener) {
-                var oldState = map(store.getState());
-
-                var diffListener = function () {
-                    var newState = map(store.getState());
-                    if (shallowDiff(oldState, newState)) {
-                        listener(newState, oldState);
-                        oldState = newState;
-                    }
-                };
-
-                store.subscribe(diffListener);
-            };
-        };
-    }
-
+    var observeCustomerFormStore = observe(customerFormStore);
 
     $(document)
         .ready(function () {
+            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
+            $('#selectedService').val($('#selectedService > option:first').val());
             var input = $("#birth-date-customer");
             inputDateFocus(input);
 
@@ -198,6 +253,15 @@
                 }
             });
 
+            window.onLoadCaptcha = function () {
+                grecaptcha.render('gcaptcha', {
+                    sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
+                    callback: function (response) {
+                        dispatch(createAction(SET_CAPTCHA_CODE, response));
+                    },
+                });
+            };
+
             // action dispatchers
             $('#firstName').on('change', function (e) {
                 dispatch(createAction(SET_NAME, e.target.value));
@@ -208,59 +272,94 @@
             $('#sin').on('change', function (e) {
                 dispatch(createAction(SET_SIN, e.target.value));
             });
-
             $('#street').on('change', function (e) {
                 dispatch(createAction(SET_STREET, e.target.value));
             });
-
             $('#unit').on('change', function (e) {
                 dispatch(createAction(SET_UNIT, e.target.value));
             });
-
             $('#city').on('change', function (e) {
                 dispatch(createAction(SET_CITY, e.target.value));
             });
-
             $('#province').on('change', function (e) {
                 dispatch(createAction(SET_PROVINCE, e.target.value));
             });
-
             $('#postalCode').on('change', function (e) {
                 dispatch(createAction(SET_POSTAL_CODE, e.target.value));
             });
-
             $('#clearAddress').on('click', function (e) {
                 dispatch(createAction(CLEAR_ADDRESS, e.target.value));
+            });
+            $('#homeowner-checkbox').on('click', function (e) {
+                dispatch(createAction(TOGGLE_OWNERSHIP, $('#homeowner-checkbox').prop('checked') ));
+            });
+            $('#pstreet').on('change', function (e) {
+                dispatch(createAction(SET_PSTREET, e.target.value));
+            });
+            $('#punit').on('change', function (e) {
+                dispatch(createAction(SET_PUNIT, e.target.value));
+            });
+            $('#pcity').on('change', function (e) {
+                dispatch(createAction(SET_PCITY, e.target.value));
+            });
+            $('#pprovince').on('change', function (e) {
+                dispatch(createAction(SET_PPROVINCE, e.target.value));
+            });
+            $('#ppostalCode').on('change', function (e) {
+                dispatch(createAction(SET_PPOSTAL_CODE, e.target.value));
+            });
+            $('#pclearAddress').on('click', function (e) {
+                dispatch(createAction(CLEAR_PADDRESS, e.target.value));
+            });
+            $('#agreement1').on('click', function (e) {
+                dispatch(createAction(TOGGLE_AGREEMENT, $('#agreement1').prop('checked') ));
+            });
+            $('#submit').on('click', function (e) {
+                dispatch(createAction(SUBMIT));
+                var errors = getErrors(customerFormStore.getState());
+                if (errors.length > 0) {
+                    e.preventDefault();
+                }
             });
 
             var hideYourInfoFirstTime = true;
             var hideIntallationFirstTime = true;
 
-            observe(customerFormStore)(function (state) {
+            observeCustomerFormStore(function (state) {
                 return {
-                    displayYourInfo: state.displayYourInfo,
-                    doneYourInfo: state.doneYourInfo,
                     displayInstallation: state.displayInstallation,
+                    displayContactInfo: state.displayContactInfo,
+                    activePanel: state.activePanel,
                 };
             })(function (props) {
-                if (props.displayYourInfo) {
-                    $('#yourInfoForm').slideDown();
-                } else if (hideYourInfoFirstTime){
-                    $('#yourInfoForm').slideUp();
-                    hideYourInfoFirstTime = false;
+                if (props.activePanel === 'yourInfo') {
+                    $('#yourInfoPanel').addClass('active-panel');
+                } else {
+                    $('#yourInfoPanel').removeClass('active-panel');
                 }
 
                 if (props.displayInstallation) {
                     $('#installationAddressForm').slideDown();
-                    $('#yourInfoPanel').removeClass('active-panel');
+                }
+
+                if (props.activePanel === 'installation') {
                     $('#installationAddressPanel').addClass('active-panel');
-                } else if (hideInstallationFirstTime) {
-                    $('#installationAddressPanel').slideUp();
-                    hideInstallationFirstTime = false;
+                } else {
+                    $('#installationAddressPanel').removeClass('active-panel');
+                }
+
+                if (props.displayContactInfo) {
+                    $('#contactInfoForm').slideDown();
+                }
+
+                if (props.activePanel === 'contactInfo') {
+                    $('#contactInfoPanel').addClass('active-panel');
+                } else {
+                    $('#contactInfoPanel').removeClass('active-panel');
                 }
             });
 
-            observe(customerFormStore)(function (state) {
+            observeCustomerFormStore(function (state) {
                 return {
                     street: state.street,
                     unit: state.unit,
@@ -275,7 +374,66 @@
                 $('#province').val(props.province);
                 $('#postalCode').val(props.postalCode);
             });
+
+            observeCustomerFormStore(function (state) {
+                return {
+                    street: state.pstreet,
+                    unit: state.punit,
+                    city: state.pcity,
+                    province: state.pprovince,
+                    postalCode: state.ppostalCode,
+                };
+            })(function (props) {
+                $('#pstreet').val(props.street);
+                $('#punit').val(props.unit);
+                $('#pcity').val(props.city);
+                $('#pprovince').val(props.province);
+                $('#ppostalCode').val(props.postalCode);
+            });
+
+            var createError = function (msg) {
+                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="/Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
+                err.append(msg);
+                return err;
+            };
+
+            observeCustomerFormStore(function (state) {
+                return {
+                    errors: getErrors(state),
+                    displaySubmitErrors: state.displaySubmitErrors,
+                }
+            })(function (props) {
+                $('#yourInfoErrors').empty();
+                if (props.errors.length > 0) {
+                    props.errors
+                        .filter(function (error) { return error.type === 'birthday' })
+                        .forEach(function (error) {
+                            $('#yourInfoErrors').append(createError(window.translations[error.messageKey]));
+                        });
+                }
+
+                $('#installationErrors').empty();
+                if (props.displaySubmitErrors && props.errors.length > 0) {
+                    props.errors
+                        .filter(function (error) { return error.type === 'ownership' })
+                        .forEach(function (error) {
+                            $('#installationErrors').append(createError(window.translations[error.messageKey]));
+                        });
+                }
+
+                $('#contactInfoErrors').empty();
+                if (props.displaySubmitErrors && props.errors.length > 0) {
+                    props.errors.filter(function (error) {
+                        return ['captcha', 'agreement'].some(function (item) {
+                            return error.type === item;
+                        })
+                    })
+                        .forEach(function (error) {
+                            $('#contactInfoErrors').append(createError(window.translations[error.messageKey]));
+                        });
+                }
+            });
         });
-})();
+});
 
 

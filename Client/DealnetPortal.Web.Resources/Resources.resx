@@ -1234,4 +1234,31 @@
   <data name="TypeYourEquipmentService" xml:space="preserve">
     <value>Type your equipment/service</value>
   </data>
+  <data name="ApplyForFinancing" xml:space="preserve">
+    <value>Apply for financing</value>
+  </data>
+  <data name="IAgreeDealerOrRepresentativesMayContact" xml:space="preserve">
+    <value>I agree that dealer or its representatives may contact me by email or phone</value>
+  </data>
+  <data name="IAgreeToPassInfoToCreditCheck" xml:space="preserve">
+    <value>I agree to pass information to credit check</value>
+  </data>
+  <data name="IOwnThisProperty" xml:space="preserve">
+    <value>I own this property</value>
+  </data>
+  <data name="PleaseCheckAgreementToContinue" xml:space="preserve">
+    <value>Please, check the agreement field to continue with the application.</value>
+  </data>
+  <data name="PleaseFillCaptchaToContinue" xml:space="preserve">
+    <value>Please, fill the captcha field to continue with the application.</value>
+  </data>
+  <data name="SubmitApplication" xml:space="preserve">
+    <value>Submit Application</value>
+  </data>
+  <data name="WriteYourComment" xml:space="preserve">
+    <value>Write your comment</value>
+  </data>
+  <data name="YourInformation" xml:space="preserve">
+    <value>Your Information</value>
+  </data>
 </root>

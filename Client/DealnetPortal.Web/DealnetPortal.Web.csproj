@@ -219,6 +219,7 @@
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
+    <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\LoanCalculatorViewModel.cs" />
@@ -757,6 +758,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\loan-calculator.js" />
+    <Content Include="Scripts\Logger\logdebug.js" />
+    <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
     <Content Include="Scripts\navigation-with-warning.js" />
@@ -769,6 +772,11 @@
     <Content Include="Scripts\standalone-loan-calculator.js" />
     <Content Include="Scripts\svgxuse.min.js" />
     <Content Include="Scripts\summary-and-confirmation.js" />
+    <Content Include="Scripts\Utils\functionUtils.js" />
+    <Content Include="Scripts\Modules\index.js" />
+    <Content Include="Scripts\Utils\logMiddleware.js" />
+    <Content Include="Scripts\Utils\objectUtils.js" />
+    <Content Include="Scripts\Utils\redux.js" />
     <Content Include="Scripts\vc-scanning.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
@@ -818,6 +826,8 @@
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\ShareableLink\Index.cshtml" />
     <Content Include="Views\CustomerForm\Index.cshtml" />
+    <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
+    <Content Include="Views\Info\AnonymousError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
