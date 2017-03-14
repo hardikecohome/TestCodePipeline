@@ -128,6 +128,8 @@
         [TOGGLE_OWNERSHIP]: setFormField('ownership'),
         [TOGGLE_AGREEMENT]: setFormField('agreement'),
         [SET_CAPTCHA_CODE]: setFormField('captchaCode'),
+        [SET_PHONE]: setFormField('phone'),
+        [SET_CELL_PHONE]: setFormField('cellPhone'),
     }, iniState);
 
     // selectors
@@ -374,13 +376,13 @@
                 dispatch(createAction(SET_LESS_THAN_SIX, lessThanSix.prop('checked')));
             });
 
-            var phone = $('#phone');
-            phone.on('click', function (e) {
+            var phone = $('#homePhone');
+            phone.on('change', function (e) {
                 dispatch(createAction(SET_PHONE, e.target.value));
             });
 
             var cellPhone = $('#cellPhone');
-            cellPhone.on('click', function (e) {
+            cellPhone.on('change', function (e) {
                 dispatch(createAction(SET_CELL_PHONE, e.target.value));
             });
 
@@ -532,15 +534,27 @@
                 });
             });
 
-            //observeCustomerFormStore(function (state) {
-            //    return {
-            //        phoneRequired: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
-            //        cellPhoneRequired: state.phone === '',
-            //    };
-            //})(function (props) {
-            //    $('#phone').rules(props.phoneRequired ? 'add' : 'remove', 'required');
-            //    $('#cellPhone').rules(props.cellPhoneRequired ? 'add' : 'remove', 'required');
-            //});
+            observeCustomerFormStore(function (state) {
+                return {
+                    phoneRequired: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
+                    cellPhoneRequired: state.phone === '',
+                };
+            })(function (props) {
+                $('#homePhone').rules(props.phoneRequired ? 'add' : 'remove', 'required');
+                $('#cellPhone').rules(props.cellPhoneRequired ? 'add' : 'remove', 'required');
+
+                if (props.phoneRequired) {
+                    $('#homePhoneWrapper').addClass('mandatory-field');
+                } else {
+                    $('#homePhoneWrapper').removeClass('mandatory-field');
+                }
+
+                if (props.cellPhoneRequired) {
+                    $('#cellPhoneWrapper').addClass('mandatory-field');
+                } else {
+                    $('#cellPhoneWrapper').removeClass('mandatory-field');
+                }
+            });
         });
 });
 
