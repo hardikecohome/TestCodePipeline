@@ -59,6 +59,17 @@ function showTable() {
             var table = $('#work-items-table')
                 .DataTable({
                     data: data,
+                    responsive: {
+                      breakpoints: [
+                        { name: 'desktop-lg', width: Infinity },
+                        { name: 'desktop',  width: 1169 },
+                        { name: 'tablet-l',  width: 1080 },
+                        { name: 'tablet',  width: 1023 },
+                        { name: 'mobile',   width: 767 },
+                        { name: 'mobile-l',   width: 767 },
+                        { name: 'mobile-p',   width: 480 },
+                      ]
+                    },
                     oLanguage: {
                         "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
                         "oPaginate": {

@@ -107,7 +107,16 @@ function showTable() {
                 responsive: {
                     details: {
                         display: $.fn.dataTable.Responsive.display.childRow
-                    }
+                    },
+                    breakpoints: [
+                      { name: 'desktop-lg', width: Infinity },
+                      { name: 'desktop',  width: 1169 },
+                      { name: 'tablet-l',  width: 1080 },
+                      { name: 'tablet',  width: 1023 },
+                      { name: 'mobile',   width: 767 },
+                      { name: 'mobile-l',   width: 767 },
+                      { name: 'mobile-p',   width: 480 },
+                    ]
                 },
                 data: data,
                 oLanguage: {

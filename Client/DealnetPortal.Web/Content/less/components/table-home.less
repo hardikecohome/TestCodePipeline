@@ -1,11 +1,20 @@
-.dataTable.home-page-table {
-  td, th {
-    &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell) {
-      @media @desktop-up-dataTable {
-        width: 20% !important;
+body:not(.tablet-device){
+  .dataTable.home-page-table {
+    td, th {
+      &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell) {
+        width: 24% !important;
+        @media @tablet-only {
+          width: 38% !important;
+        }
+        @media @mobile {
+          width: 55% !important;
+        }
       }
     }
-
+  }
+}
+.dataTable.home-page-table {
+  td, th {
     @media @mobile {
       &.customer-cell,
       &.status-cell,
