@@ -178,8 +178,7 @@
                     <div class="sidebar-bottom">
                         @if (ViewBag.LangSwitcherAvailable == true)
                         {
-                            <div class="dealnet-sidebar-item">
-                                <div class="sidebar-lang-item">
+                            <div class="dealnet-sidebar-item sidebar-lang-item">
                                     @switch (CultureHelper.CurrentCultureType)
                                     {
                                         case CultureType.English:
@@ -189,8 +188,6 @@
                                             @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "dealnet-sidebar-link no-icon"})
                                             break;
                                     }
-
-                                </div>
                             </div>
                         }
                         <div class="dealnet-sidebar-item">
