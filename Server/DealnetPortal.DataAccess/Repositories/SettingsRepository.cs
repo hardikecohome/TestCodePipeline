@@ -54,5 +54,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 .FirstOrDefault(u => u.Id == dealerId);
             return user?.Settings;
         }
+
+        public bool CheckUserSkinExist(string dealerId)
+        {
+            return GetUserSettings(dealerId)?.SettingValues.Any() ?? false;
+        }
     }
 }
