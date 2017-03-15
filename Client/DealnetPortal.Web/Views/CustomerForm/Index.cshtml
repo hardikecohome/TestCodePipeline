@@ -1,26 +1,48 @@
-﻿@model DealnetPortal.Web.Models.CustomerFormViewModel
+﻿@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Api.Common.Helpers
+@model DealnetPortal.Web.Models.CustomerFormViewModel
 <div class="customer-loan-page">
     <div class="navbar navbar-inverse navbar-fixed-side">
         <div class="navbar-header">
             <div class="dealnet-image-ecologo"></div>
-            <div class="lang-switcher pull-right">
-                <div class="chosen-language">
-                    <div class="lang-item">
-                        <a href="#" class="chosen-language-link">
-                            English
-                            <span class="caret"></span>
-                        </a>
+            @{
+                var enabledLanguages = (List<LanguageCode>)ViewBag.EnabledLanguages;
+            }
+            @if (enabledLanguages != null && enabledLanguages.Count > 1)
+            {
+                <div class="lang-switcher pull-right">
+                    <div class="chosen-language">
+                        <div class="lang-item">
+                            <a href="#" class="chosen-language-link">
+                                @switch (CultureHelper.CurrentCultureType)
+                                {
+                                    case CultureType.English:
+                                        @:English
+                                        break;
+                                    case CultureType.French:
+                                        @:Français
+                                        break;
+                                }
+                                <span class="caret"></span>
+                            </a>
+                        </div>
                     </div>
+                    <ul class="lang-list">
+                        @if (CultureHelper.CurrentCultureType != CultureType.English)
+                        {
+                            <li class="lang-item">
+                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", dealerName = "canadianhome" }, new { @class = "lang-link" })
+                            </li>
+                        }
+                        @if (CultureHelper.CurrentCultureType != CultureType.French)
+                        {
+                            <li class="lang-item">
+                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", dealerName = "canadianhome" }, new { @class = "lang-link" })
+                            </li>
+                        }
+                    </ul>
                 </div>
-                <ul class="lang-list">
-                    <!--<li class="lang-item active">
-                        @Html.ActionLink("English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
-                    </li>-->
-                    <li class="lang-item">
-                        @Html.ActionLink("Français", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
-                    </li>
-                </ul>
-            </div>
+            }
         </div>
     </div>
 

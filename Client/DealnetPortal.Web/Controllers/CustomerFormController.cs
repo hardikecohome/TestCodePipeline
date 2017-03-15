@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Models;
@@ -38,7 +39,6 @@ namespace DealnetPortal.Web.Controllers
             }
             ViewBag.ServiceTypes = languageOptions.LanguageServices;
             ViewBag.EnabledLanguages = languageOptions.EnabledLanguages;
-            _cultureManager.SetCulture(culture);
             return View();
         }
 
