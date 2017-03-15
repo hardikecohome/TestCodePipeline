@@ -86,7 +86,7 @@ function showChart() {
                                           fontSize: 10,
                                           maxTicksLimit: maxValueXAxix,
                                           userCallback: function(value, index, values) {
-                                            if(values.length <= 12){
+                                            if(values.length <= 13 && $('body').is('.mobile-device')){
                                               value = value.slice(0, 3);
                                             }
                                             return value;
