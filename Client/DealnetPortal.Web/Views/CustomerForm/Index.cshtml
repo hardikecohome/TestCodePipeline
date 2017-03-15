@@ -1,6 +1,29 @@
 ﻿@model DealnetPortal.Web.Models.CustomerFormViewModel
-
 <div class="customer-loan-page">
+    <div class="navbar navbar-inverse navbar-fixed-side">
+        <div class="navbar-header">
+            <div class="dealnet-image-ecologo"></div>
+            <div class="lang-switcher pull-right">
+                <div class="chosen-language">
+                    <div class="lang-item">
+                        <a href="#" class="chosen-language-link">
+                            English
+                            <span class="caret"></span>
+                        </a>
+                    </div>
+                </div>
+                <ul class="lang-list">
+                    <!--<li class="lang-item active">
+                        @Html.ActionLink("English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
+                    </li>-->
+                    <li class="lang-item">
+                        @Html.ActionLink("Français", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <h2 class="dealnet-large-header">@Resources.ApplyForFinancing</h2>
     @{
         var serviceTypes = ViewBag.ServiceTypes as IList<string>;
