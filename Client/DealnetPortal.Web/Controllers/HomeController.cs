@@ -11,7 +11,6 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.ObjectBuilder2;
@@ -60,10 +59,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> GetDealFlowOverview(FlowingSummaryType type)
         {
             var summary = await _contractServiceAgent.GetContractsSummary(type.ToString());
-            var labels = summary.Select(s => 
-                type == FlowingSummaryType.Year && HttpContext.Request.IsMobileBrowser() ? 
-                s?.ItemLabel?.Substring(0, Math.Min(s.ItemLabel.Length, 3)) : 
-                s.ItemLabel).ToList();
+            var labels = summary.Select(s => s.ItemLabel).ToList();
             var data = summary.Select(s => FormattableString.Invariant($"{s.ItemData:0.00}")).ToList();
             List<object> datasets = new List<object>();
             datasets.Add(new {data});
