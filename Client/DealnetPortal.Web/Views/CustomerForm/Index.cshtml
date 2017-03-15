@@ -28,13 +28,13 @@
                         </div>
                     </div>
                     <ul class="lang-list">
-                        @if (CultureHelper.CurrentCultureType != CultureType.English)
+                        @if (CultureHelper.CurrentCultureType != CultureType.English && enabledLanguages.Any(l => l == LanguageCode.English))
                         {
                             <li class="lang-item">
                                 @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", dealerName = "canadianhome" }, new { @class = "lang-link" })
                             </li>
                         }
-                        @if (CultureHelper.CurrentCultureType != CultureType.French)
+                        @if (CultureHelper.CurrentCultureType != CultureType.French && enabledLanguages.Any(l => l == LanguageCode.French))
                         {
                             <li class="lang-item">
                                 @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", dealerName = "canadianhome" }, new { @class = "lang-link" })
