@@ -55,11 +55,15 @@
         has_scrollbar($(this), 'textarea-has-scroll');
       });
     }).on('hidden.bs.modal', function () {
-      if(isMobile.iOS() && viewport().width >= 768){
-        resetModalDialogMarginForIpad();
-      }
-      if($('.modal:visible').length == 0) {
+      if(isMobile.iOS()){
         resetScrollPosition();
+        if(viewport().width >= 768){
+          resetModalDialogMarginForIpad();
+        }
+      }else{
+        if($('.modal:visible').length == 0) {
+          resetScrollPosition();
+        }
       }
     });
 
