@@ -43,7 +43,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var user = _dbContext.Users
                 .Include(u => u.Settings)
-                .FirstOrDefault(u => u.Id == dealerId);
+                .FirstOrDefault(u => u.Id == dealerId);            
             return user?.Settings?.SettingValues?.FirstOrDefault(s => s.Item?.SettingType == settingType);
         }
 

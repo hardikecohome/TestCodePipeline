@@ -77,7 +77,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new List<ContractDTO>();
         }
 
-        public CustomerDTO GetDealerInfo(string dealerUserName)
+        public DealerDTO GetDealerInfo(string dealerUserName)
         {
             string sqlStatement = _queriesStorage.GetQuery("GetDealerInfoByUserId");
 
@@ -362,18 +362,37 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private CustomerDTO ReadDealerInfoItem(IDataReader dr)
-        {
-            var dealerInfo = ReadCustomerItem(dr);
+        private DealerDTO ReadDealerInfoItem(IDataReader dr)
+        {            
+            var dealerCustomerInfo = ReadCustomerItem(dr);
+            DealerDTO dealerInfo = null;
 
-            if (dealerInfo != null)
+            if (dealerCustomerInfo != null)
             {
+                dealerInfo = new DealerDTO()
+                {
+                    Id = dealerCustomerInfo.Id,
+                    Emails = dealerCustomerInfo.Emails,
+                    Phones = dealerCustomerInfo.Phones,
+                    Locations = dealerCustomerInfo.Locations,
+                    AccountId = dealerCustomerInfo.AccountId,
+                    DateOfBirth = dealerCustomerInfo.DateOfBirth,
+                    FirstName = dealerCustomerInfo.FirstName,
+                    LastName = dealerCustomerInfo.LastName                    
+                };
+
                 try
                 {
                     var name = ConvertFromDbVal<string>(dr["name"]);
                     if (!string.IsNullOrEmpty(name))
                     {
                         dealerInfo.FirstName = name;
+                    }
+
+                    var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
+                    if (!string.IsNullOrEmpty(pname))
+                    {
+                        dealerInfo.ParentDealerUserName = pname;
                     }
                 }
                 catch (Exception ex)

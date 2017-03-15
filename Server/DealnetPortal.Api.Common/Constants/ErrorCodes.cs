@@ -12,5 +12,7 @@ namespace DealnetPortal.Api.Common.Constants
 
         public const int AspireConnectionFailed = 1001;
         public const int AspireTransactionNotCreated = 1002;
+
+        public const int AspireDatabaseConnectionFailed = 2001;
     }
 }
