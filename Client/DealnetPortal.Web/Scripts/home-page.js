@@ -21,6 +21,8 @@ $(document)
 
 function showChart() {
   var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
+/*  var maxValueXAxix = $('body').is('.mobile-device') ? '16' : ''
+  var fontSizeValueXAxix = $('body').is('.mobile-device') ? '10' : 'inherit'*/
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
@@ -66,7 +68,7 @@ function showChart() {
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            beginAtZero: true,                                            
+                                            beginAtZero: true
                                         },
                                         scaleLabel: {
                                             display: true,
@@ -78,20 +80,33 @@ function showChart() {
                                             {
                                                 display: false,
                                                 lineWidth : 2
-                                            }                                        
+                                            }
                                     }],
-                                    xAxes: [{                                        
+                                    xAxes: [{
+                                        ticks: {
+                                          /*fontSize: fontSizeValueXAxix,
+                                          maxTicksLimit: maxValueXAxix,
+                                          userCallback: function(value, index, values) {
+                                            // Convert the number to a string and splite the string every 3 charaters from the end
+                                            value = value.toString();
+                                            value = value.split(/(?=(?:...)*$)/);
+
+                                            // Convert the array to a string and format the output
+                                            value = value.join('.');
+                                            return '€' + value;
+                                          }*/
+                                        },
                                         scaleLabel: {
                                             display: true,
                                             labelString: translations['Time'],
                                             fontSize: 14,
                                             fontStyle: 'bold'
                                         },
-                                        gridLines: 
+                                        gridLines:
                                             {
                                                 display : false,
                                                 lineWidth : 2
-                                            }                                        
+                                            }
                                     }]
                                 }
                             }
