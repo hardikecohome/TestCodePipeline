@@ -60,7 +60,7 @@ namespace DealnetPortal.Web.App_Start
                 {
                     double res;
                     var separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-                    var rate = src.CustomerRate.Replace(".", separator).Replace(",", separator);
+                    var rate = src.CustomerRate?.Replace(".", separator).Replace(",", separator);
                     if (double.TryParse(rate, out res))
                     {
                         return res;
