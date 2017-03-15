@@ -544,7 +544,19 @@ function saveScrollPosition(){
 function resetScrollPosition(){
   var $body = $('body');
   var bodyOffset = Math.abs(parseInt($body.css('top')));
-  $body.css('top', 'auto');
+
+  $body.css({
+    'top': 'auto'
+  });
+
+  if($('.initial-standalone-calculator').length > 0){
+    setTimeout(function(){
+      $body.css({
+        'position': 'relative',
+        'overflow': 'auto'
+      });
+    }, 100);
+  }
   $('html, body').scrollTop(bodyOffset);
 }
 
