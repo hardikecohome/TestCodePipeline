@@ -548,15 +548,7 @@ function resetScrollPosition(){
   $body.css({
     'top': 'auto'
   });
-
-  if($('.initial-standalone-calculator').length > 0){
-    setTimeout(function(){
-      $body.css({
-        'position': 'relative',
-        'overflow': 'auto'
-      });
-    }, 100);
-  }
+  
   $('html, body').scrollTop(bodyOffset);
 }
 
