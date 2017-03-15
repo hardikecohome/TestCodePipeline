@@ -222,7 +222,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CustomerRate)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CustomerRate, new { @class = "form-control", placeholder = Resources.CustomerRatePercentage, type="number", id = "customer-rate", onchange = "calculateLoanValues();" })
+                                @Html.TextBoxFor(m => m.CustomerRate, new { @class = "form-control", placeholder = Resources.CustomerRatePercentage, type="text", id = "customer-rate", onchange = "calculateLoanValues();" })
                                 @Html.ValidationMessageFor(m => m.CustomerRate, "", new { @class = "text-danger" })
                             </div>
                         </div>
