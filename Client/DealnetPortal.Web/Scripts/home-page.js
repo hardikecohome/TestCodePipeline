@@ -21,8 +21,7 @@ $(document)
 
 function showChart() {
   var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
-/*  var maxValueXAxix = $('body').is('.mobile-device') ? '16' : ''
-  var fontSizeValueXAxix = $('body').is('.mobile-device') ? '10' : 'inherit'*/
+  var maxValueXAxix = $('body').is('.mobile-device') ? '14' : ''
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
@@ -84,17 +83,14 @@ function showChart() {
                                     }],
                                     xAxes: [{
                                         ticks: {
-                                          /*fontSize: fontSizeValueXAxix,
+                                          fontSize: 10,
                                           maxTicksLimit: maxValueXAxix,
                                           userCallback: function(value, index, values) {
-                                            // Convert the number to a string and splite the string every 3 charaters from the end
-                                            value = value.toString();
-                                            value = value.split(/(?=(?:...)*$)/);
-
-                                            // Convert the array to a string and format the output
-                                            value = value.join('.');
-                                            return '€' + value;
-                                          }*/
+                                            if(values.length <= 12){
+                                              value = value.slice(0, 3);
+                                            }
+                                            return value;
+                                          }
                                         },
                                         scaleLabel: {
                                             display: true,
