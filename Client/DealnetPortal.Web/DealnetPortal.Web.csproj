@@ -807,6 +807,7 @@
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
+    <None Include="Views\Home\AboutLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

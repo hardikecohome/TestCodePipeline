@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Core.Culture;
+using DealnetPortal.Web.Core.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -23,12 +24,15 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly ICultureManager _cultureManager;
+        private readonly ISettingsManager _settingsManager;
 
-        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, ICultureManager cultureManager)
+        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, ICultureManager cultureManager, 
+            ISettingsManager settingsManager)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _cultureManager = cultureManager;
+            _settingsManager = settingsManager;
         }
 
         public ActionResult Index()
@@ -41,6 +45,16 @@ namespace DealnetPortal.Web.Controllers
         {
             await _cultureManager.ChangeCulture(culture);
             return RedirectToAction("Index");
+        }
+
+        [ChildActionOnly]
+        public ActionResult AboutLink()
+        {
+            if (_settingsManager.CheckDealerSkinExistence(User?.Identity?.Name))
+            {
+                return new EmptyResult();
+            }
+            return PartialView();
         }
 
         public ActionResult About()

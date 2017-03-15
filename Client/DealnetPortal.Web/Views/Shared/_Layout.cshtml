@@ -166,12 +166,11 @@
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-calculator">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg></span>
-                            @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new { @class = "dealnet-sidebar-link" })
+                            @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new {@class = "dealnet-sidebar-link"})
                         </li>
-                        <li class="dealnet-sidebar-item" id="sidebar-item-about">
-                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
-                            @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new {@class = "dealnet-sidebar-link"})
-                        </li>
+                        @{
+                            Html.RenderAction("AboutLink", "Home");
+                        }
                     </ul>
 
 
