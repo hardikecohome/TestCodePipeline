@@ -283,7 +283,7 @@
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section" id="mailing-address-section">
                         <h3 class="dealnet-section-title">
-                            @Resources.MailingAddress  
+                            @Resources.MailingAddress
                             @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                             {
                                 <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
@@ -501,7 +501,7 @@
                                     <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation
                                     @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !(Model.BasicInfo.ContractWasDeclined && (Model.BasicInfo.AdditionalApplicants[i]?.IsInitialCustomer ?? false)))
                                     {
-                                        <a href="#" onclick="copyFormData($('#additional-prev-address-section-@(i + 1)'), $('#additional-prev-address-section-modal-@(i + 1)'), false); $('#additional-prev-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>   
+                                        <a href="#" onclick="copyFormData($('#additional-prev-address-section-@(i + 1)'), $('#additional-prev-address-section-modal-@(i + 1)'), false); $('#additional-prev-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                                     }
                                     </h3>
                                     <div class="form-group">
@@ -565,7 +565,7 @@
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                         <h3 class="dealnet-section-title">
-                                        @Resources.MailingAddress 
+                                        @Resources.MailingAddress
                                             @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !(Model.BasicInfo.ContractWasDeclined && (Model.BasicInfo.AdditionalApplicants[i]?.IsInitialCustomer ?? false)))
                                             {
                                             <a href="#" onclick="copyFormData($('#additional-mailing-address-section-@(i + 1)'), $('#additional-mailing-address-section-modal-@(i + 1)'), false); $('#additional-mailing-address-modal-@(i + 1)').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
@@ -2193,7 +2193,9 @@
         @*var creditAmount = @Model.EquipmentInfo.CreditAmount;*@
     </script>
 
+    @Scripts.Render("~/bundles/localization");
     @Scripts.Render("~/bundles/jqueryval")
+
     <script type="text/javascript">
         $(document).ready(function() {
             @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)

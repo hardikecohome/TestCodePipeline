@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? TotalMonthlyPayment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
-        
+
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "RequestedTermIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "RequestedTerm")]
         public int? RequestedTerm { get; set; }

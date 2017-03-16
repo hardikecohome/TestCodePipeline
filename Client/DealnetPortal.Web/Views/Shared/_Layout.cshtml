@@ -2,8 +2,8 @@
 @using DealnetPortal.Web.Common
 @using DealnetPortal.Web.Infrastructure
 <!DOCTYPE html>
-<html>
-<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
+<!--[if IE 9 ]><html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")" class="ie9"><![endif]-->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
