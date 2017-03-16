@@ -14,5 +14,6 @@ namespace DealnetPortal.DataAccess.Repositories
         IList<SettingValue> GetUserBinarySettings(string dealerId);
         SettingValue GetUserBinarySetting(SettingType settingType, string dealerId);
         UserSettings GetUserSettings(string dealerId);
+        bool CheckUserSkinExist(string dealerId);
     }
 }

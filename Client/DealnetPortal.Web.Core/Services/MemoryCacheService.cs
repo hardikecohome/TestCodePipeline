@@ -9,39 +9,48 @@ namespace DealnetPortal.Web.Core.Services
 {
     public class MemoryCacheService : ICacheService
     {
-        public TValue Get<TValue>(string cacheKey, int? durationInMinutes, Func<TValue> getItemCallback) where TValue : class
+        public TValue Get<TValue>(string cacheKey, int? durationInMinutes, Func<TValue> getItemCallback)
         {
-            TValue item = MemoryCache.Default.Get(cacheKey) as TValue;
-            if (item == null)
+            var objectFromCache = MemoryCache.Default.Get(cacheKey);
+            if (objectFromCache != null && !(objectFromCache is TValue))
             {
-                item = getItemCallback();
-                if (item == null) { return null; }
+                return default(TValue);
+            }
+            if (objectFromCache == null)
+            {
+                var item = getItemCallback();
+                if (item == null) { return default(TValue); }
                 CacheItemPolicy policy = new CacheItemPolicy();
                 if (durationInMinutes.HasValue)
                 {
                     policy.SlidingExpiration = TimeSpan.FromMinutes(durationInMinutes.Value);
                 }
                 MemoryCache.Default.Add(cacheKey, item, policy);
+                return item;
             }
-            return item;
+            return (TValue)objectFromCache;
         }
 
         public async Task<TValue> GetAsync<TValue>(string cacheKey, int? durationInMinutes, Func<Task<TValue>> getItemCallback)
-            where TValue : class
         {
-            TValue item = MemoryCache.Default.Get(cacheKey) as TValue;
-            if (item == null)
+            var objectFromCache = MemoryCache.Default.Get(cacheKey);
+            if (objectFromCache != null && !(objectFromCache is TValue))
             {
-                item = await getItemCallback();
-                if (item == null) { return null; }
+                return default(TValue);
+            }
+            if (objectFromCache == null)
+            {
+                var item = await getItemCallback();
+                if (item == null) { return default(TValue); }
                 CacheItemPolicy policy = new CacheItemPolicy();
                 if (durationInMinutes.HasValue)
                 {
                     policy.SlidingExpiration = TimeSpan.FromMinutes(durationInMinutes.Value);
                 }
-                MemoryCache.Default.Add(cacheKey, item, policy);                
+                MemoryCache.Default.Add(cacheKey, item, policy);
+                return item;
             }
-            return item;
+            return (TValue)objectFromCache;
         }
 
         public void Remove(string cacheKey)
