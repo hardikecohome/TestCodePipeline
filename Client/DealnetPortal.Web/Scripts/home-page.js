@@ -16,9 +16,6 @@ $(document)
             });
     });
 
-
-
-
 function showChart() {
   var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
   var maxValueXAxix = $('body').is('.mobile-device') ? '14' : ''
@@ -67,7 +64,7 @@ function showChart() {
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            beginAtZero: true,
+                                            beginAtZero: true
                                         },
                                         gridLines:
                                             {
@@ -77,11 +74,9 @@ function showChart() {
                                     }],
                                     xAxes: [{
                                         ticks: {
-                                            //autoSkip: true,
-                                            //autoSkipPadding: 20,
                                             maxTicksLimit: maxValueXAxix,
                                             userCallback: function(value, index, values) {
-                                              if(values.length <= 13 && $('body').is('.mobile-device')){
+                                              if(values.length >= 8 && values.length <= 13 && $('body').is('.mobile-device')){
                                                 value = value.slice(0, 3);
                                               }
                                               return value;
