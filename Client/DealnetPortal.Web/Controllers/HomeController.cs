@@ -54,7 +54,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return new EmptyResult();
             }
-            return PartialView();
+            return PartialView("_AboutLink");
         }
 
         public ActionResult About()
