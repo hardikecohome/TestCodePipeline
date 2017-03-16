@@ -36,7 +36,7 @@ function showChart() {
                         if (chart) {
                             chart.destroy();
                         }
-                        var canvas = document.getElementById("data-flow-overview");
+                        var canvas = document.getElementById('data-flow-overview');
                         chart = new Chart(canvas,
                         {
                             type: 'bar',
@@ -67,13 +67,7 @@ function showChart() {
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            beginAtZero: true
-                                        },
-                                        scaleLabel: {
-                                            display: true,
-                                            labelString: '$',
-                                            fontSize: 14,
-                                            fontStyle: 'bold'
+                                            beginAtZero: true,
                                         },
                                         gridLines:
                                             {
@@ -83,7 +77,8 @@ function showChart() {
                                     }],
                                     xAxes: [{
                                         ticks: {
-                                          fontSize: 10,
+                                            autoSkip: true,
+                                            autoSkipPadding: 12,
                                           maxTicksLimit: maxValueXAxix,
                                           userCallback: function(value, index, values) {
                                             if(values.length <= 13 && $('body').is('.mobile-device')){
@@ -96,7 +91,7 @@ function showChart() {
                                             display: true,
                                             labelString: translations['Time'],
                                             fontSize: 14,
-                                            fontStyle: 'bold'
+                                            fontStyle: 'bold',
                                         },
                                         gridLines:
                                             {
@@ -136,19 +131,19 @@ function showTable() {
                     "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                     "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
                   },
-                  "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
+                  "sLengthMenu": translations['Show'] + ' _MENU_ ' + translations['Entries'],
                   "sZeroRecords": translations['NoMatchingRecordsFound']
                 },
-                columns: [                    
-                      { "data" : "TransactionId", className: 'contract-cell' },
-                      { "data": "CustomerName", className: 'customer-cell' },
-                      { "data": "Status", className: 'status-cell' },
-                      { "data": "Action", className: 'action-cell' },
-                      { "data": "Email", className: 'email-cell' },
-                      { "data": "Phone", className: 'phone-cell' },
-                      { "data": "Date", className: 'date-cell' },
+                columns: [
+                      { "data" : 'TransactionId', className: 'contract-cell' },
+                      { "data": 'CustomerName', className: 'customer-cell' },
+                      { "data": 'Status', className: 'status-cell' },
+                      { "data": 'Action', className: 'action-cell' },
+                      { "data": 'Email', className: 'email-cell' },
+                      { "data": 'Phone', className: 'phone-cell' },
+                      { "data": 'Date', className: 'date-cell' },
                       {
-                          "data": "RemainingDescription",
+                          "data": 'RemainingDescription',
                           "visible": false
                       },
                       {// this is Actions Column
@@ -163,7 +158,7 @@ function showTable() {
                           orderable: false
                       },
                       {
-                          "data": "Id",
+                          "data": 'Id',
                           "visible": false
                       }
                   ],
