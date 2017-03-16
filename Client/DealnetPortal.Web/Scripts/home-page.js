@@ -49,6 +49,8 @@ function FormatLongNumber(value) {
 function showChart() {
   var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
   var maxValueXAxix = $('body').is('.mobile-device') ? '14' : ''
+  var fontSize = $('body').is('.mobile-device') ? '10' : '12'
+  var maxRotation = $('body').is('.mobile-device') ? '0' : '30'
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
@@ -107,13 +109,15 @@ function showChart() {
                                     }],
                                     xAxes: [{
                                         ticks: {
-                                            maxTicksLimit: maxValueXAxix,
-                                            userCallback: function(value, index, values) {
-                                              if(values.length <= 13 && $('body').is('.mobile-device')){
-                                                value = value.slice(0, 3);
-                                              }
-                                              return value;
+                                          fontSize: fontSize,
+                                          maxRotation: maxRotation,
+                                          //maxTicksLimit: maxValueXAxix,
+                                          userCallback: function(value, index, values) {
+                                            if(values.length <= 13 && $('body').is('.mobile-device')){
+                                              value = value.slice(0, 3);
                                             }
+                                            return value;
+                                          }
                                         },
                                         scaleLabel: {
                                             display: true,
