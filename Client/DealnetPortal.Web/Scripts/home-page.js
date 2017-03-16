@@ -77,21 +77,20 @@ function showChart() {
                                     }],
                                     xAxes: [{
                                         ticks: {
-                                            autoSkip: true,
-                                            autoSkipPadding: 12,
-                                          maxTicksLimit: maxValueXAxix,
-                                          userCallback: function(value, index, values) {
-                                            if(values.length <= 13 && $('body').is('.mobile-device')){
-                                              value = value.slice(0, 3);
+                                            //autoSkip: true,
+                                            //autoSkipPadding: 20,
+                                            maxTicksLimit: maxValueXAxix,
+                                            userCallback: function(value, index, values) {
+                                              if(values.length <= 13 && $('body').is('.mobile-device')){
+                                                value = value.slice(0, 3);
+                                              }
+                                              return value;
                                             }
-                                            return value;
-                                          }
                                         },
                                         scaleLabel: {
                                             display: true,
-                                            labelString: translations['Time'],
-                                            fontSize: 14,
-                                            fontStyle: 'bold',
+                                            labelString: " ",
+                                            fontSize: 5,
                                         },
                                         gridLines:
                                             {
