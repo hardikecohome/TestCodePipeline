@@ -76,7 +76,7 @@ function showChart() {
                                         ticks: {
                                             maxTicksLimit: maxValueXAxix,
                                             userCallback: function(value, index, values) {
-                                              if(values.length >= 8 && values.length <= 13 && $('body').is('.mobile-device')){
+                                              if(values.length <= 13 && $('body').is('.mobile-device')){
                                                 value = value.slice(0, 3);
                                               }
                                               return value;

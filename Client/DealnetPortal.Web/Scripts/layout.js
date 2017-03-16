@@ -271,11 +271,13 @@
   });
 
 function detectSidebarHeight(){
-  if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
-    $('.sidebar-bottom').addClass('stick-bottom');
-  }else{
-    $('.sidebar-bottom').removeClass('stick-bottom');
-  }
+  setTimeout(function(){
+    if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
+      $('.sidebar-bottom').addClass('stick-bottom');
+    }else{
+      $('.sidebar-bottom').removeClass('stick-bottom');
+    }
+  }, 300);
 }
 
 function scrollPageTo(elem){
