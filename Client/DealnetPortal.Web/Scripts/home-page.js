@@ -16,9 +16,41 @@ $(document)
             });
     });
 
+function FormatLongNumber(value) {
+  if(value == 0) {
+    return 0;
+  }
+  else
+  {
+    // for testing
+    //value = Math.floor(Math.random()*1001);
+
+    // hundreds
+    if(value <= 999){
+      return value;
+    }
+    // thousands
+    else if(value >= 1000 && value <= 999999){
+      return (value / 1000) + 'K';
+    }
+    // millions
+    else if(value >= 1000000 && value <= 999999999){
+      return (value / 1000000) + 'M';
+    }
+    // billions
+    else if(value >= 1000000000 && value <= 999999999999){
+      return (value / 1000000000) + 'B';
+    }
+    else
+      return value;
+  }
+}
+
 function showChart() {
   var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
   var maxValueXAxix = $('body').is('.mobile-device') ? '14' : ''
+  var fontSize = $('body').is('.mobile-device') ? '10' : '12'
+  var maxRotation = $('body').is('.mobile-device') ? '0' : '30'
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
@@ -64,7 +96,10 @@ function showChart() {
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            beginAtZero: true
+                                            beginAtZero: true,
+                                            userCallback: function(value, index, values) {
+                                              return FormatLongNumber(value);
+                                            }
                                         },
                                         gridLines:
                                             {
@@ -74,13 +109,15 @@ function showChart() {
                                     }],
                                     xAxes: [{
                                         ticks: {
-                                            maxTicksLimit: maxValueXAxix,
-                                            userCallback: function(value, index, values) {
-                                              if(values.length <= 13 && $('body').is('.mobile-device')){
-                                                value = value.slice(0, 3);
-                                              }
-                                              return value;
+                                          fontSize: fontSize,
+                                          maxRotation: maxRotation,
+                                          //maxTicksLimit: maxValueXAxix,
+                                          userCallback: function(value, index, values) {
+                                            if(values.length <= 13 && $('body').is('.mobile-device')){
+                                              value = value.slice(0, 3);
                                             }
+                                            return value;
+                                          }
                                         },
                                         scaleLabel: {
                                             display: true,
