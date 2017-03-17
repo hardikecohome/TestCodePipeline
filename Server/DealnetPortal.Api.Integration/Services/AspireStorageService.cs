@@ -387,6 +387,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (!string.IsNullOrEmpty(name))
                     {
                         dealerInfo.FirstName = name;
+                        dealerInfo.LastName = string.Empty;
                     }
 
                     var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
@@ -396,7 +397,8 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
                 catch (Exception ex)
-                {                    
+                {       
+                    _loggingService.LogError("Cannot read dealer info record from Aspire DB", ex);             
                 }
             }
 
