@@ -1,14 +1,8 @@
-﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
-
-<div id="label-steps">
+﻿<div id="label-steps">
 	<div class="dealnet-action-link">@Resources.NewApplication</div> >
 </div>
 
-@using (Html.BeginForm("CreditCheckConfirmation", "NewRental", FormMethod.Post, new { id = "credit-check-form" }))
-{
-@Html.AntiForgeryToken()
-@Html.HiddenFor(m => m.ContractId)
-@Html.HiddenFor(m => m.SubmittingDealerId)
+<form>
 <div class="dealnet-large-header" id="basic-info">@Resources.CreditCheckConfirmation</div>
 
 <div id="steps-line"></div>
@@ -126,43 +120,127 @@
 
 		<div class="financing-options">
 			<h3 class="dealnet-middle-header">Financing Options</h3>
-			<div class="financing-card">
-				<span class="promo-label">Promo</span>
-				<h4 class="card-title">Fixed rate</h4>
-				<div class="form-group">
-					<label for="">Loan/Amortization Term</label>
-					<select class="form-control" id="" name="">
-						<option selected="selected">-not selected-</option>
-						<option>36/36</option>
-					</select>
-				</div>
-				<div class="">
-					<div class="row form-group">
-						<div class="col-sm-6">Customer Rate</div>
-						<div class="col-sm-6 text-right text-semibold">7.99%</div>
+			<div class="rate-cards-container">
+				<div class="rate-card">
+					<div class="rate-card-header rate-row">
+						<span class="promo-label">Promo</span>
+						<h4 class="rate-card-title">Fixed rate</h4>
 					</div>
-					<div class="row form-group">
-						<div class="col-sm-6">Your Cost</div>
-						<div class="col-sm-6 text-right text-semibold">0%</div>
+					<div class="form-group rate-row">
+						<label for="">Loan/Amortization Term</label>
+						<select class="form-control" id="" name="">
+							<option selected="selected">-not selected-</option>
+							<option>36/36</option>
+						</select>
 					</div>
-				</div>
-				<hr>
-				<div class="">
-					<div class="row form-group">
-						<div class="col-sm-6">Admin Fee</div>
-						<div class="col-sm-6 text-right text-semibold">$ 39.95</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-sm-6">Monthly Payment</div>
-						<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-sm-6">Cost of Borrowing</div>
-						<div class="col-sm-6 text-right text-semibold">$ 825.00</div>
-					</div>
-				</div>
+					<div class="rate-row">
 
-
+					</div>
+					<div class="">
+						<div class="row form-group rate-row" >
+							<div class="col-sm-6">Customer Rate</div>
+							<div class="col-sm-6 text-right text-semibold">7.99%</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Your Cost</div>
+							<div class="col-sm-6 text-right text-semibold">0%</div>
+						</div>
+					</div>
+					<hr>
+					<div class="">
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Admin Fee</div>
+							<div class="col-sm-6 text-right text-semibold">$ 39.95</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Monthly Payment</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Cost of Borrowing</div>
+							<div class="col-sm-6 text-right text-semibold">$ 825.00</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Your Cost</div>
+							<div class="col-sm-6 text-right text-semibold">$ 825.00</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Total Amount Financed</div>
+							<div class="col-sm-6 text-right text-semibold">$ 6139.95</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Total of All Monthly Payments</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Balance Owing at the End of Monthly Payments</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Total Obligation</div>
+							<div class="col-sm-6 text-right text-semibold">$ 0</div>
+						</div>
+						<button class="btn dealnet-button dealnet-success-button">Select</button>
+					</div>
+				</div>
+				<div class="rate-card">
+					<div class="rate-card-header rate-row">
+						<h4 class="card-title">NO INTEREST</h4>
+					</div>
+					<div class="form-group rate-row">
+						<label for="">Loan/Amortization Term</label>
+						<select class="form-control" id="" name="">
+							<option selected="selected">-not selected-</option>
+							<option>36/36</option>
+						</select>
+					</div>
+					<div class="">
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Customer Rate</div>
+							<div class="col-sm-6 text-right text-semibold">7.99%</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Your Cost</div>
+							<div class="col-sm-6 text-right text-semibold">0%</div>
+						</div>
+					</div>
+					<hr>
+					<div class="">
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Admin Fee</div>
+							<div class="col-sm-6 text-right text-semibold">$ 39.95</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Monthly Payment</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Cost of Borrowing</div>
+							<div class="col-sm-6 text-right text-semibold">$ 825.00</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Your Cost</div>
+							<div class="col-sm-6 text-right text-semibold">$ 825.00</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Total Amount Financed</div>
+							<div class="col-sm-6 text-right text-semibold">$ 6139.95</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Total of All Monthly Payments</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Balance Owing at the End of Monthly Payments</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group rate-row">
+							<div class="col-sm-6">Total Obligation</div>
+							<div class="col-sm-6 text-right text-semibold">$ 0</div>
+						</div>
+						<button class="btn dealnet-button dealnet-success-button">Select</button>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -179,24 +257,13 @@
 		</div>
 	</div>
 </div>
-}
-
-
-@section Translations
-{
-translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
-translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
-translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
-translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
-translations['EnterValidDate'] = "@Resources.EnterValidDate";
-}
+</form>
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 
 @section scripts
 {
-@Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/localization");
-@Scripts.Render("~/bundles/credit-check")
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>
+<script type="text/javascript">
+
+</script>
 }
