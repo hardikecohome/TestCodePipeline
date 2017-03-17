@@ -1,8 +1,40 @@
 .rate-cards-container{
 
+  .table-mode{
+    .row{
+      margin-bottom: 15px;
+    }
+    div:not(.row-mode){
+      .row{
+        display: table;
+        width: 100%;
+        margin: 0 0 15px;
+        [class*="col-"]{
+          display: table-cell;
+          vertical-align: bottom;
+          float: none;
+          padding: 0;
+        }
+      }
+    }
+  }
+
   .rate-card{
+    padding: 15px;
+    background: #fff;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
     .rate-card-title{
       text-transform: uppercase;
+    }
+    .btn{
+      max-width: 100%;
+    }
+    .notify-row{
+      height: 80px;
+    }
+    hr{
+      margin-left: -15px;
+      margin-right: -15px;
     }
   }
   .rate-card-header{
