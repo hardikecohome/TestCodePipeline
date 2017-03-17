@@ -2983,16 +2983,7 @@ namespace DealnetPortal.Web.Resources {
             get {
                 return ResourceManager.GetString("SubmitApplication", resourceCulture);
             }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Submit Application.
-        /// </summary>
-        public static string SubmitApplication {
-            get {
-                return ResourceManager.GetString("SubmitApplication", resourceCulture);
-            }
-        }
+        }                
         
         /// <summary>
         ///   Looks up a localized string similar to Submit Deal.
