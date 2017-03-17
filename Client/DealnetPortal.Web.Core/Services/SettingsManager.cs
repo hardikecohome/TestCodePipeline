@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Core.Services
         public bool CheckDealerSkinExistence(string userName)
         {
             return _cacheService.Get($"{PortalConstants.DealerSkinExistence}{userName}", 60,
-                    () => _dictionaryServiceAgent.CheckDealerSkinExistence());
+                () => true);//_dictionaryServiceAgent.CheckDealerSkinExistence());
         }
 
         public void ClearUserSettings(string userName)
