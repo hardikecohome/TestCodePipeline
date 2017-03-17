@@ -28,6 +28,16 @@
       $('body').addClass('ie');
     }
 
+    $.ajax({
+        type: "GET",
+        url: layotSettingsUrl,
+        success: function (json) {
+            if (json.aboutAvailability) {
+                $('#sidebar-item-about').show();
+            }
+        }
+    });
+
     $('.chosen-language-link').on('click', function(){
       $(this).parents('.lang-switcher').toggleClass('open');
       return false;
