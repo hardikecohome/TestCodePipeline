@@ -30,6 +30,7 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
                 "~/Scripts/jquery.placeholder.min.js", "~/Scripts/svgxuse.min.js",
                 "~/Scripts/jquery.loader.js",
+                "~/Scripts/slick.min.js",
                 "~/Scripts/layout.js", "~/Scripts/jquery-ui-1.12.0.js"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
