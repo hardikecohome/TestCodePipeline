@@ -662,6 +662,7 @@
     <Content Include="Content\cldr\supplemental\timeData.json" />
     <Content Include="Content\cldr\supplemental\weekData.json" />
     <Content Include="Content\cldr\supplemental\windowsZones.json" />
+    <Content Include="Content\less\rate-cards.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
