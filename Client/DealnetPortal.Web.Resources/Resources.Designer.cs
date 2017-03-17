@@ -1474,6 +1474,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Form in English.
+        /// </summary>
+        public static string FormInEnglish {
+            get {
+                return ResourceManager.GetString("FormInEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form in French.
+        /// </summary>
+        public static string FormInFrench {
+            get {
+                return ResourceManager.GetString("FormInFrench", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your form was successfully updated but now is disabled and customers won&apos;t be able to use it..
         /// </summary>
         public static string FormUpdatedButCustomersNotAbleToUse {
@@ -1938,6 +1956,15 @@ namespace DealnetPortal.Web.Resources {
         public static string MailingAddressIncorrectFormat {
             get {
                 return ResourceManager.GetString("MailingAddressIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mailing Address Information.
+        /// </summary>
+        public static string MailingAddressInformation {
+            get {
+                return ResourceManager.GetString("MailingAddressInformation", resourceCulture);
             }
         }
         
@@ -2946,6 +2973,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SubDealer {
             get {
                 return ResourceManager.GetString("SubDealer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Application.
+        /// </summary>
+        public static string SubmitApplication {
+            get {
+                return ResourceManager.GetString("SubmitApplication", resourceCulture);
             }
         }
         

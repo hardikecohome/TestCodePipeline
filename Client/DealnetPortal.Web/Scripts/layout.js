@@ -28,6 +28,16 @@
       $('body').addClass('ie');
     }
 
+    $.ajax({
+        type: "GET",
+        url: layotSettingsUrl,
+        success: function (json) {
+            if (json.aboutAvailability) {
+                $('#sidebar-item-about').show();
+            }
+        }
+    });
+
     $('.chosen-language-link').on('click', function(){
       $(this).parents('.lang-switcher').toggleClass('open');
       return false;
@@ -55,11 +65,15 @@
         has_scrollbar($(this), 'textarea-has-scroll');
       });
     }).on('hidden.bs.modal', function () {
-      if(isMobile.iOS() && viewport().width >= 768){
-        resetModalDialogMarginForIpad();
-      }
-      if($('.modal:visible').length == 0) {
+      if(isMobile.iOS()){
         resetScrollPosition();
+        if(viewport().width >= 768){
+          resetModalDialogMarginForIpad();
+        }
+      }else{
+        if($('.modal:visible').length == 0) {
+          resetScrollPosition();
+        }
       }
     });
 
@@ -132,6 +146,10 @@
       }
       detectPageHeight();
       documentsColHeight();
+
+      if($(".dataTable").length !== 0){
+        $('.dataTable td.dataTables_empty').attr('colspan', $('.dataTable th').length);
+      }
     });
 
     $('.reports-contract-item').each(function(){
@@ -263,6 +281,7 @@
       });
 
 
+
       if($('.customer-loan-page .btn-proceed').is('.disabled')){
         $('.btn-proceed-inline-hold[data-toggle="popover"]').popover({
           template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
@@ -281,11 +300,13 @@ function panelCollapsed(elem){
 };
 
 function detectSidebarHeight(){
-  if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
-    $('.sidebar-bottom').addClass('stick-bottom');
-  }else{
-    $('.sidebar-bottom').removeClass('stick-bottom');
-  }
+  setTimeout(function(){
+    if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
+      $('.sidebar-bottom').addClass('stick-bottom');
+    }else{
+      $('.sidebar-bottom').removeClass('stick-bottom');
+    }
+  }, 300);
 }
 
 function scrollPageTo(elem){
@@ -558,7 +579,11 @@ function saveScrollPosition(){
 function resetScrollPosition(){
   var $body = $('body');
   var bodyOffset = Math.abs(parseInt($body.css('top')));
-  $body.css('top', 'auto');
+
+  $body.css({
+    'top': 'auto'
+  });
+  
   $('html, body').scrollTop(bodyOffset);
 }
 

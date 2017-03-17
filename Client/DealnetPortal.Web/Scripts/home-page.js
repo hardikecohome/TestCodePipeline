@@ -16,11 +16,41 @@ $(document)
             });
     });
 
+function FormatLongNumber(value) {
+  if(value == 0) {
+    return 0;
+  }
+  else
+  {
+    // for testing
+    //value = Math.floor(Math.random()*1001);
 
-
+    // hundreds
+    if(value <= 999){
+      return value;
+    }
+    // thousands
+    else if(value >= 1000 && value <= 999999){
+      return (value / 1000) + 'K';
+    }
+    // millions
+    else if(value >= 1000000 && value <= 999999999){
+      return (value / 1000000) + 'M';
+    }
+    // billions
+    else if(value >= 1000000000 && value <= 999999999999){
+      return (value / 1000000000) + 'B';
+    }
+    else
+      return value;
+  }
+}
 
 function showChart() {
   var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
+  var maxValueXAxix = $('body').is('.mobile-device') ? '14' : ''
+  var fontSize = $('body').is('.mobile-device') ? '10' : '12'
+  var maxRotation = $('body').is('.mobile-device') ? '0' : '30'
     $.when($.ajax(chartUrl,
                 {
                     mode: 'GET',
@@ -35,7 +65,7 @@ function showChart() {
                         if (chart) {
                             chart.destroy();
                         }
-                        var canvas = document.getElementById("data-flow-overview");
+                        var canvas = document.getElementById('data-flow-overview');
                         chart = new Chart(canvas,
                         {
                             type: 'bar',
@@ -66,32 +96,39 @@ function showChart() {
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            beginAtZero: true,                                            
-                                        },
-                                        scaleLabel: {
-                                            display: true,
-                                            labelString: '$',
-                                            fontSize: 14,
-                                            fontStyle: 'bold'
+                                            beginAtZero: true,
+                                            userCallback: function(value, index, values) {
+                                              return FormatLongNumber(value);
+                                            }
                                         },
                                         gridLines:
                                             {
                                                 display: false,
                                                 lineWidth : 2
-                                            }                                        
+                                            }
                                     }],
-                                    xAxes: [{                                        
+                                    xAxes: [{
+                                        ticks: {
+                                          fontSize: fontSize,
+                                          maxRotation: maxRotation,
+                                          //maxTicksLimit: maxValueXAxix,
+                                          userCallback: function(value, index, values) {
+                                            if(values.length <= 13 && $('body').is('.mobile-device')){
+                                              value = value.slice(0, 3);
+                                            }
+                                            return value;
+                                          }
+                                        },
                                         scaleLabel: {
                                             display: true,
-                                            labelString: translations['Time'],
-                                            fontSize: 14,
-                                            fontStyle: 'bold'
+                                            labelString: " ",
+                                            fontSize: 5,
                                         },
-                                        gridLines: 
+                                        gridLines:
                                             {
                                                 display : false,
                                                 lineWidth : 2
-                                            }                                        
+                                            }
                                     }]
                                 }
                             }
@@ -125,19 +162,19 @@ function showTable() {
                     "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                     "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
                   },
-                  "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
+                  "sLengthMenu": translations['Show'] + ' _MENU_ ' + translations['Entries'],
                   "sZeroRecords": translations['NoMatchingRecordsFound']
                 },
-                columns: [                    
-                      { "data" : "TransactionId", className: 'contract-cell' },
-                      { "data": "CustomerName", className: 'customer-cell' },
-                      { "data": "Status", className: 'status-cell' },
-                      { "data": "Action", className: 'action-cell' },
-                      { "data": "Email", className: 'email-cell' },
-                      { "data": "Phone", className: 'phone-cell' },
-                      { "data": "Date", className: 'date-cell' },
+                columns: [
+                      { "data" : 'TransactionId', className: 'contract-cell' },
+                      { "data": 'CustomerName', className: 'customer-cell' },
+                      { "data": 'Status', className: 'status-cell' },
+                      { "data": 'Action', className: 'action-cell' },
+                      { "data": 'Email', className: 'email-cell' },
+                      { "data": 'Phone', className: 'phone-cell' },
+                      { "data": 'Date', className: 'date-cell' },
                       {
-                          "data": "RemainingDescription",
+                          "data": 'RemainingDescription',
                           "visible": false
                       },
                       {// this is Actions Column
@@ -152,7 +189,7 @@ function showTable() {
                           orderable: false
                       },
                       {
-                          "data": "Id",
+                          "data": 'Id',
                           "visible": false
                       }
                   ],

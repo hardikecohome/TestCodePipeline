@@ -1,4 +1,4 @@
-@media (max-width: 1279px){
+@media @large-tablet-down{
     .dealnet-body-container{
         width: 100%;
         margin: 0;
@@ -43,7 +43,7 @@
        .logo-container{
          background: transparent;
 
-         @media only screen and (min-width: 1279px){
+         @media @large-tablet-end{
 
            background: @logo-bg-color;
            display: block;
@@ -57,7 +57,7 @@
        }
         .main-logo{
             text-indent: -9999em;
-            @media only screen and (max-width: 1279px){
+            @media @large-tablet-down{
               position: absolute;
               left: 50%;
               margin-left: -70px;
@@ -66,7 +66,7 @@
             }
         }
         .navbar-toggle{
-            @media only screen and (max-width: 1279px){
+            @media @large-tablet-down{
                 display: block !important;
                 margin-left: -10px;
             }
@@ -82,12 +82,12 @@
         }
         .dealnet-login-buttons{
             .dealnet-login-buttons-text{
-                @media @mobile {
+                @media @large-tablet-down {
                     display: none;
                 }
             }
             .caret{
-                @media @mobile {
+                @media @large-tablet-down {
                     display: none;
                 }
             }
@@ -131,6 +131,7 @@ body.ios-device.modal-open .navbar-fixed-side{
 
     .dealnet-sidebar{
         background: @navbar-bg;
+        height: auto !important;
         position: fixed;
         top: 0;
         bottom: 0;
@@ -148,7 +149,7 @@ body.ios-device.modal-open .navbar-fixed-side{
         @media @desktop-lg-up {
             width: 16.66666667%;
         }
-        @media only screen and (min-width: 1279px) {
+        @media @large-tablet-end {
           top: 50px;
           padding-top: 0;
         }
@@ -156,10 +157,11 @@ body.ios-device.modal-open .navbar-fixed-side{
             margin: 0 -15px;
         }
         .dealnet-sidebar-user{
+            display: none;
             color: #fff;
             font-weight: 700;
         }
-        @media only screen and (max-width: 1279px){
+        @media @large-tablet-down{
             padding: 0 15px;
             margin-left: -280px;
             z-index: 10000;
@@ -221,13 +223,37 @@ body.ios-device.modal-open .navbar-fixed-side{
             margin-left: 5px !important;
         }
     }
-    .dealnet-sidebar-user,
+/*    .dealnet-sidebar-user,
     .sidebar-bottom{
-        @media @tablet-up {
+        @media @large-tablet-end {
             display: none !important;
         }
+    }*/
+
+
+.sidebar-bottom{
+  display: none;
+}
+
+@media @large-tablet-only {
+  body.open-menu{
+    .dealnet-sidebar-item.sidebar-lang-item{
+      display: none;
     }
-    @media (min-width: 1280px) {
+  }
+}
+@media @large-tablet-down {
+  body.open-menu{
+    .dealnet-sidebar .dealnet-sidebar-user{
+      display: block;
+    }
+    .sidebar-bottom{
+      display: block;
+    }
+  }
+}
+
+    @media @large-tablet-end {
         .burger-hold{
             display: none;
         }
@@ -235,3 +261,12 @@ body.ios-device.modal-open .navbar-fixed-side{
             display: none;
         }
     }
+
+.customer-loan-page{
+  .lang-switcher{
+    margin-right: 5px;
+    @media @mobile {
+      display: block;
+    }
+  }
+}

@@ -212,7 +212,7 @@
                 </div>
             </div>
 
-            <div class=" enbridge-payment">
+            <div class="enbridge-payment">
                 <div class="col-xs-12 col-md-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
@@ -321,6 +321,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization");
     @Scripts.Render("~/bundles/contact-and-payment")
 }
 

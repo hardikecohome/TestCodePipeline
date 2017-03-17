@@ -95,11 +95,13 @@
                                 var document = contract.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value);
                                 <div class="@(i == 0 && contractCount == 1 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item">
                                     <a href="#tab@(contractCount*10 + (i+1))" class="documents-pills-link" aria-controls="tab@(contractCount*10 + (i+1))" role="tab" data-toggle="tab">
-                                        @(contract.UploadDocumentsInfo.DocumentTypes[i].Text)
-	                                    @if (contract.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value))
-                                        {
-                                            <i class="mandatory-icon">*</i>
-                                        }
+	                                    <span class="mandatory-text">
+	                                        @(contract.UploadDocumentsInfo.DocumentTypes[i].Text)
+		                                    @if (contract.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value))
+	                                        {
+	                                            <i class="mandatory-icon">*</i>
+	                                        }
+		                                </span>
                                     </a>
                                 </div>
                                 <div role="tabpanel" class="tab-pane @(i == 0 && contractCount == 1 ? "active" : "")" id="tab@(contractCount*10 + (i+1))">
@@ -1137,7 +1139,7 @@
 			</div>
 
 			<div class="text-right">
-				<a href="#" class="dealnet-info-link hide-full-conract-link">Show Less Information</a>
+				<a href="#" class="dealnet-info-link hide-full-conract-link">@Resources.ShowLessInfo</a>
 			</div>
 			</div>
 

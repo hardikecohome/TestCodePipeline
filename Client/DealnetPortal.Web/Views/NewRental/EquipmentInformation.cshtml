@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Api.Common.Enumeration
+﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
@@ -156,7 +157,7 @@
                                                 @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -685,12 +686,14 @@
 @section scripts
 {
     <script type="text/javascript">
-        var taxRate = @(Model.ProvinceTaxRate?.Rate ?? 0);        
+        var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         @*var creditAmount = @Model.CreditAmount;*@
     </script>
 
+
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization");
 
     @Scripts.Render("~/bundles/equipment-information")
 

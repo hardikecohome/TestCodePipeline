@@ -19,6 +19,14 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/localization").Include(
+                "~/Scripts/Vendor/cldr/cldr.js",
+                "~/Scripts/Vendor/cldr/cldr/event.js",
+                "~/Scripts/Vendor/cldr/cldr/supplemental.js",
+                "~/Scripts/Vendor/globalize/globalize.js",
+                "~/Scripts/Vendor/globalize/globalize/number.js",
+                "~/Scripts/Utils/localization-init.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/dealnet").Include(
                 "~/Scripts/jquery.placeholder.min.js", "~/Scripts/svgxuse.min.js",
                 "~/Scripts/jquery.loader.js",

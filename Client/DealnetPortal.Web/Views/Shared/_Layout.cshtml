@@ -2,8 +2,8 @@
 @using DealnetPortal.Web.Common
 @using DealnetPortal.Web.Infrastructure
 <!DOCTYPE html>
-<html>
-<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
+<!--[if IE 9 ]><html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")" class="ie9"><![endif]-->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
@@ -29,6 +29,7 @@
         if (!window.console) window.console = {};
         if (!window.console.log) window.console.log = function () { };
         var urlContent = "@Url.Content("~/")";
+        var layotSettingsUrl = "@Url.Action("LayoutSettings", "Home")";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -39,7 +40,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dealnet")
-
+    @RenderSection("OutrunningScripts", false)
     <!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->
     @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
 </head>
@@ -167,7 +168,11 @@
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-calculator">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg></span>
-                            @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new { @class = "dealnet-sidebar-link" })
+                            @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new {@class = "dealnet-sidebar-link"})
+                        </li>
+                        <li class="dealnet-sidebar-item">
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
+                            @Html.ActionLink("Shareable Link", "Index", "ShareableLink", null, new { @class = "dealnet-sidebar-link" })
                         </li>
                         <li class="dealnet-sidebar-item">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
@@ -175,7 +180,7 @@
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-about">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
-                            @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new {@class = "dealnet-sidebar-link"})
+                            @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
                         </li>
                     </ul>
 
@@ -183,8 +188,7 @@
                     <div class="sidebar-bottom">
                         @if (ViewBag.LangSwitcherAvailable == true)
                         {
-                            <div class="dealnet-sidebar-item">
-                                <div class="sidebar-lang-item">
+                            <div class="dealnet-sidebar-item sidebar-lang-item">
                                     @switch (CultureHelper.CurrentCultureType)
                                     {
                                         case CultureType.English:
@@ -194,8 +198,6 @@
                                             @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "dealnet-sidebar-link no-icon"})
                                             break;
                                     }
-
-                                </div>
                             </div>
                         }
                         <div class="dealnet-sidebar-item">

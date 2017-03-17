@@ -58,10 +58,13 @@
         text-align: center;
         margin: 25px 0;
         .dealnet-info-link{
+            @media @mobile {
+                padding: 5px 0;
+                margin: 0 10px 5px;
+            }
             &+.dealnet-info-link{
-                margin-left: 50px;
-                @media @mobile {
-                    margin-left: 20px;
+                @media @tablet-up {
+                    margin-left: 50px;
                 }
             }
         }

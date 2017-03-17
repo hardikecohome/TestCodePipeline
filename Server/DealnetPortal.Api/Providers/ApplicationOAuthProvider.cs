@@ -9,6 +9,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Contract;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -23,6 +24,7 @@ namespace DealnetPortal.Api.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly IAspireService _aspireService;
+        private readonly IAspireStorageService _aspireStorageService;
         private readonly ILoggingService _loggingService;
         private readonly string _publicClientId;
         private AuthType _authType;
@@ -30,6 +32,7 @@ namespace DealnetPortal.Api.Providers
         public ApplicationOAuthProvider(string publicClientId)
         {
             _aspireService = (IAspireService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
+            _aspireStorageService = (IAspireStorageService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireStorageService));
             _loggingService = (ILoggingService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
 
             if (publicClientId == null)
@@ -170,11 +173,35 @@ namespace DealnetPortal.Api.Providers
 
                 if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
                 {
+                    //get user info from aspire DB
+                    DealerDTO aspireDealerInfo = null;
+                    try
+                    {
+                        aspireDealerInfo = _aspireStorageService.GetDealerInfo(context.UserName);
+                    }
+                    catch (Exception ex)
+                    {
+                        aspireDealerInfo = null;
+                        var errorMsg = $"Cannot connect to aspire database for get [{context.UserName}] info";
+                        _loggingService?.LogWarning(errorMsg);
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireDatabaseConnectionFailed,
+                            Header = errorMsg,
+                            Type = AlertType.Warning,                                      
+                            Message = ex.ToString()
+                        });
+                    }
+
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
                     var applicationId = context.OwinContext.Get<string>("portalId");
 
                     var oldUser = await userManager.FindByNameAsync(context.UserName);
+
+                    var parentUser = !string.IsNullOrEmpty(aspireDealerInfo?.ParentDealerUserName)
+                        ? await userManager.FindByNameAsync(aspireDealerInfo.ParentDealerUserName)
+                        : null;
 
                     if (oldUser != null)
                     {
@@ -184,6 +211,13 @@ namespace DealnetPortal.Api.Providers
                         if (updateRes.Succeeded)
                         {
                             oldUser.AspirePassword = context.Password;
+
+                            if (parentUser != null)
+                            {
+                                oldUser.ParentDealer = parentUser;
+                                oldUser.ParentDealerId = parentUser.Id;
+                            }
+
                             updateRes = await userManager.UpdateAsync(oldUser);
                             if (updateRes.Succeeded)
                             {
@@ -206,6 +240,12 @@ namespace DealnetPortal.Api.Providers
                             AspireLogin = context.UserName,
                             AspirePassword = context.Password
                         };
+
+                        if (parentUser != null)
+                        {
+                            newUser.ParentDealer = parentUser;
+                            newUser.ParentDealerId = parentUser.Id;
+                        }
 
                         try
                         {

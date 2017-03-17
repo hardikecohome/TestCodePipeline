@@ -160,7 +160,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.ContractId)
-    
+
     <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
     <div @if (Model.ContractWasDeclined) { <text>class="hidden"</text> }>
         @if (Model?.SubDealers?.Any() ?? false)
@@ -432,6 +432,7 @@
             </label>
         </div>
         <div id="mailing-address">
+            <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.MailingAddressInformation</h2>
             <div class="row" id="mailing-address1">
                 <div class="col-md-6 col-lg-6">
                     <div class="form-group">
@@ -519,7 +520,7 @@
         </div>
         <!--End Warning Section if isn't chosen homeowner checkbox-->
     </div>
-    
+
     <!--Add Additional Applicant-->
     for (var i = 0; i < 3; i++)
     {
@@ -815,6 +816,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization");
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>
     <script type="text/javascript">
         $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- @Resources.NotSelected -</option>').prependTo($('#subdealers'));

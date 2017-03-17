@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Api.Common.Enumeration
+﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Common.Enumeration
@@ -9,7 +10,7 @@
     var deferralType = LoanDeferralType.ThreeMonth;
 }
 
-<div id="main-div" ng-app="calculator" ng-controller="calculator">
+<div id="main-div" ng-cloak ng-app="calculator" ng-controller="calculator">
     <!-- Provide standalone payment calculator screen -->
     <div id="label-steps">
         <div class="dealnet-action-link">@Resources.Calculator</div> >
@@ -408,6 +409,10 @@
     </div>
 </div>
 
+@section OutrunningScripts
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+}
 
 @section scripts
 {
@@ -418,7 +423,7 @@
             @: var provinceTaxRates = [];
             foreach (var ptr in Model.ProvinceTaxRates)
             {
-                @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate, description:"@ptr.Description"};
+                @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate.ToString(CultureInfo.InvariantCulture), description:"@ptr.Description"};
             }
             @: var equipmentTypes = [];
             foreach (var type in Model.EquipmentTypes)
@@ -427,12 +432,12 @@
             }
         }
     </script>
-
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization");
     @Scripts.Render("~/Scripts/financial-functions.js")
     @Scripts.Render("~/Scripts/standalone-loan-calculator.js")
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+
     <script type="text/javascript">
 
         var app = angular.module("calculator", []);

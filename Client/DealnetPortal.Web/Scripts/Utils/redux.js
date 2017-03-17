@@ -81,6 +81,7 @@
                     }
                 };
 
+                listener(oldState);
                 store.subscribe(diffListener);
             };
         };
