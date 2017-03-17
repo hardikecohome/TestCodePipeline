@@ -16,7 +16,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<ContractDTO> GetDealerDeals(string dealerUserName);
 
-        CustomerDTO GetDealerInfo(string dealerUserName);
+        DealerDTO GetDealerInfo(string dealerUserName);
 
         ContractDTO GetDealById(int transactionId);
 
