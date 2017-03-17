@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? TotalMonthlyPayment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
-        
+
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "RequestedTermIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "RequestedTerm")]
         public int? RequestedTerm { get; set; }
@@ -44,7 +44,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
 	    [RegularExpression(@"(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]
-        public double? CustomerRate { get; set; }
+        public string CustomerRate { get; set; }
 
         [RegularExpression(@"^[0-9]\d{0,11}(\.[0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AdminFeeIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AdminFee")]

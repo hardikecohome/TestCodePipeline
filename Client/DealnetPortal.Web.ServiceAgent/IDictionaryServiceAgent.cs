@@ -43,6 +43,8 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task ChangeDealerCulture(string culture);
 
+        Task<bool> CheckDealerSkinExistence();
+
         Task<IList<StringSettingDTO>> GetDealerSettings();
 
         Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);

@@ -218,11 +218,16 @@ namespace DealnetPortal.Web.Controllers
             }            
         }
 
-        public ActionResult CreditDeclined(int contractId)
+        public async Task<ActionResult> CreditDeclined(int contractId)
         {
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            var canAddApplicants = contractResult?.Item1 != null &&
+                                   (contractResult.Item1.SecondaryCustomers == null ||
+                                    contractResult.Item1.SecondaryCustomers.Count < PortalConstants.MaxAdditionalApplicants);
             var viewModel = new CreditRejectedViewModel()
             {
                 ContractId = contractId,
+                CanAddAdditionalApplicants = canAddApplicants
             };
 
             return View(viewModel);

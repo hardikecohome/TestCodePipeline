@@ -125,6 +125,20 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public Task<bool> CheckDealerSkinExistence()
+        {
+            try
+            {
+                return Client.GetAsync<bool>(
+                            $"{_fullUri}/CheckDealerSkinExist");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't Check Dealer Skin Existence", ex);
+                throw;
+            }
+        }
+
         public async Task<IList<StringSettingDTO>> GetDealerSettings()
         {
             try

@@ -1269,4 +1269,7 @@
     <value>Form in French</value>
     <comment>"Form" here - is form with fileds to submit</comment>
   </data>
+  <data name="MailingAddressInformation" xml:space="preserve">
+    <value>Mailing Address Information</value>
+  </data>
 </root>

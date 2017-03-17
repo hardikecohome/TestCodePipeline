@@ -36,11 +36,11 @@
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <table id="work-items-table" class="display responsive home-page-table"  width="100%">
                 <thead>
-                <tr>                    
+                <tr>
                     <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
-                    <th class="min-phone-l customer-cell">@Resources.Customer</th>
-                    <th class="min-tablet-p status-cell">@Resources.Status</th>
-                    <th class="min-tablet-p action-cell">@Resources.ActionReq</th>
+                    <th class="min-mobile-p customer-cell">@Resources.Customer</th>
+                    <th class="min-mobile-l status-cell">@Resources.Status</th>
+                    <th class="min-tablet action-cell">@Resources.ActionReq</th>
                     <th class="min-desktop email-cell">@Resources.Email</th>
                     <th class="min-desktop phone-cell">@Resources.Phone</th>
                     <th class="min-desktop date-cell">@Resources.Date</th>
@@ -48,28 +48,23 @@
                     <th class="all edit-cell"></th>
                     <th class="id-cell hidden">@Resources.Id</th>
                 </tr>
-                </thead>                
+                </thead>
             </table>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-            <span class="dealnet-caption">@Resources.DealFlowOverview</span>
-        </div>
+    <div class="dealnet-caption">@Resources.DealFlowOverview</div>
+    <div class="dealnet-chart-switch-button-hold">
+        <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
+        <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
+        <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
     </div>
-    <div class="row">
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-            <div class="dealnet-chart-switch-button-hold">
-                <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
-                <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
-                <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
+    <div class="data-flow-container">
+        <span class="graph-label graph-label-x">$</span>
+        <span class="graph-label graph-label-y">Time</span>
+        <div class="scrollable-container">
+            <div class="scrollable-content">
+                <canvas id="data-flow-overview"></canvas>
             </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-            <canvas id="data-flow-overview"></canvas>
         </div>
     </div>
 </div>

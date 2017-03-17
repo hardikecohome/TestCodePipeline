@@ -8,8 +8,8 @@ namespace DealnetPortal.Web.Core.Services
 {
     public interface ICacheService
     {
-        TValue Get<TValue>(string cacheKey, int? durationInMinutes, Func<TValue> getItemCallback) where TValue : class;
-        Task<TValue> GetAsync<TValue>(string cacheKey, int? durationInMinutes, Func<Task<TValue>> getItemCallback) where TValue : class;
+        TValue Get<TValue>(string cacheKey, int? durationInMinutes, Func<TValue> getItemCallback);
+        Task<TValue> GetAsync<TValue>(string cacheKey, int? durationInMinutes, Func<Task<TValue>> getItemCallback);
         void Remove(string cacheKey);
     }
 }

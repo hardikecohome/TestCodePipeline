@@ -35,6 +35,12 @@ namespace DealnetPortal.Web.Core.Services
                     () => _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X));
         }
 
+        public async Task<bool> CheckDealerSkinExistence(string userName)
+        {
+            return await _cacheService.GetAsync($"{PortalConstants.DealerSkinExistence}{userName}", 60,
+                () => _dictionaryServiceAgent.CheckDealerSkinExistence());
+        }
+
         public void ClearUserSettings(string userName)
         {
             _cacheService.Remove($"{PortalConstants.LogoImage2X}{userName}");
