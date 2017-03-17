@@ -157,7 +157,7 @@
                                                 @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new {@class = "text-danger"})
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -691,7 +691,9 @@
         @*var creditAmount = @Model.CreditAmount;*@
     </script>
 
+
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization");
 
     @Scripts.Render("~/bundles/equipment-information")
 

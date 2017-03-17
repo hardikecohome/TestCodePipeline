@@ -242,5 +242,21 @@ namespace DealnetPortal.Api.Controllers
             }
             return Ok();
         }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/Account/CheckDealerSkinExist
+        [Route("CheckDealerSkinExist")]
+        public IHttpActionResult CheckDealerSkinExist()
+        {
+            try
+            {
+                return Ok(SettingsRepository.CheckUserSkinExist(LoggedInUser?.UserId));
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }            
+        }
     }
 }

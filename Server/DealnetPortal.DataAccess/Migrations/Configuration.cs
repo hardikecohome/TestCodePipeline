@@ -39,7 +39,7 @@ namespace DealnetPortal.DataAccess.Migrations
             SetAspireStatuses(context);
             SetDocumentTypes(context);
             var templates = SetDocuSignTemplates(context);
-            SetInstallationCertificateTemplates(context);
+            SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
             SetPdfTemplates(context, templates);
             var seedNames = templates.Select(at => at.TemplateName).ToArray();
             var dbTemplateNames =
@@ -930,15 +930,15 @@ namespace DealnetPortal.DataAccess.Migrations
             });
         }
 
-        private void SetInstallationCertificateTemplates(ApplicationDbContext context)
+        private void SetInstallationCertificateTemplates(ApplicationDbContext context, Application[] applications)
         {
             List<AgreementTemplate> templates = new List<AgreementTemplate>();
 
             var template = new AgreementTemplate()
             {                
                 TemplateName = "ONE DEALER Completion Certificate - Rental",
-                Application = context.Applications.First(x => x.Id == OdiAppId),
-                ApplicationId = context.Applications.First(x => x.Id == OdiAppId)?.Id,
+                Application = applications.FirstOrDefault(x => x.Id == OdiAppId),
+                ApplicationId = applications.FirstOrDefault(x => x.Id == OdiAppId)?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
             };
             templates.Add(template);
@@ -946,8 +946,8 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 TemplateName = "EcoHome Completion Certificate - Rentals",
-                Application = context.Applications.First(x => x.Id == EcohomeAppId),
-                ApplicationId = context.Applications.First(x => x.Id == EcohomeAppId)?.Id,
+                Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplication,
                 DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
             };
@@ -955,8 +955,8 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 TemplateName = "EcoHome Completion Certificate - Rentals",
-                Application = context.Applications.First(x => x.Id == EcohomeAppId),
-                ApplicationId = context.Applications.First(x => x.Id == EcohomeAppId)?.Id,
+                Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplicationHwt,
                 DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
             };
@@ -964,8 +964,8 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 TemplateName = "EcoHome Certificate of Completion - Loans",
-                Application = context.Applications.First(x => x.Id == EcohomeAppId),
-                ApplicationId = context.Applications.First(x => x.Id == EcohomeAppId)?.Id,
+                Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.LoanApplication,
                 DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
             };
@@ -1251,7 +1251,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetDealerStringSettings(ApplicationDbContext context, string userName, Dictionary<string, string> values)
         {
-            var user = context.Users.Include(u => u.Settings).FirstOrDefault(u => u.UserName == userName);
+            var user = context.Users.Include(u => u.Settings).FirstOrDefault(u => u.UserName == userName) ?? context.Users.Local.FirstOrDefault(u => u.UserName == userName);
             if (user != null)
             {
                 var userSetting = user.Settings;
