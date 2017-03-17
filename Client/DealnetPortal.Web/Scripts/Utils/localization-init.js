@@ -1,4 +1,5 @@
-﻿$(document).ready(function() {
+﻿var configInitialized = $.Deferred();
+$(document).ready(function() {
     var culture = $(document.documentElement).attr('lang');
     $.when(
         $.getJSON('/Content/cldr/supplemental/likelySubtags.json'),
@@ -12,8 +13,16 @@
         .then(function() {
             Globalize.locale(culture);
 
-            $.validator.methods.number = function(value, element) {
-                return this.optional(element) || jQuery.isNumeric(Globalize.parseFloat(value));
+            $.validator.methods.number = function (value, element) {
+                if (this.optional(element)) {
+                    if (value === '' || typeof value === 'undefined') {
+                        return true;
+                    }
+                }
+                return !Number.isNaN(Globalize.parseNumber(value));
             }
+
+            window.parseFloat = Globalize.parseNumber.bind(Globalize);
+            configInitialized.resolve(true);
         });
 });

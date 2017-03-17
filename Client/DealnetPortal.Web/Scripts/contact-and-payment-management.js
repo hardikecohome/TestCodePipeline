@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿configInitialized
+    .then(function () {
     $(".home-phone").each(function () {
         $(this).rules("add", "required");
     });
