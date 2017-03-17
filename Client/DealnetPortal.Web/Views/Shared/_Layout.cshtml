@@ -29,6 +29,7 @@
         if (!window.console) window.console = {};
         if (!window.console.log) window.console.log = function () { };
         var urlContent = "@Url.Content("~/")";
+        var layotSettingsUrl = "@Url.Action("LayoutSettings", "Home")";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -168,9 +169,10 @@
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg></span>
                             @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new {@class = "dealnet-sidebar-link"})
                         </li>
-                        @{
-                            Html.RenderAction("AboutLink", "Home");
-                        }
+                        <li class="dealnet-sidebar-item" style="display: none;" id="sidebar-item-about">
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
+                            @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
+                        </li>
                     </ul>
 
 

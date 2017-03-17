@@ -125,11 +125,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public bool CheckDealerSkinExistence()
+        public Task<bool> CheckDealerSkinExistence()
         {
             try
             {
-                return Client.Get<bool>(
+                return Client.GetAsync<bool>(
                             $"{_fullUri}/CheckDealerSkinExist");
             }
             catch (Exception ex)
