@@ -9,6 +9,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.Models.Validation;
 
@@ -18,17 +19,17 @@ namespace DealnetPortal.Web.Models
     {
         public int? CustomerId { get; set; }
 
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "FirstName")]
         [StringLength(20, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "FirstNameIncorrectFormat")]
         public string FirstName { get; set; }
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "LastName")]
         [StringLength(20, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "LastNameIncorrectFormat")]
         public string LastName { get; set; }
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BirthDate")]
         [DataType(DataType.Date)]
         [EligibleAge(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ApplicantNeedsToBeOver18")]
@@ -51,7 +52,7 @@ namespace DealnetPortal.Web.Models
 
     public class AddressInformation
     {
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Street")]
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InstallationAddressIncorrectFormat")]
@@ -60,22 +61,22 @@ namespace DealnetPortal.Web.Models
         [StringLength(10, MinimumLength = 1)]
         [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "UnitNumberIncorrectFormat")]
         public string UnitNumber { get; set; }
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "City")]
         [StringLength(50, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CityIncorrectFormat")]
         public string City { get; set; }
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Province")]
         [StringLength(30, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ProvinceIncorrectFormat")]
         public string Province { get; set; }
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "PostalCode")]
         [StringLength(6, MinimumLength = 5)]
         [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PostalCodeIncorrectFormat")]
         public string PostalCode { get; set; }
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Residence")]
         public Common.Enumeration.ResidenceType ResidenceType { get; set; }
     }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
@@ -54,7 +55,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "DownPayment")]
         public double? DownPayment { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(50)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "SalesRep")]
         [RegularExpression(@"^[^0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "SalesRepIncorrectFormat")]

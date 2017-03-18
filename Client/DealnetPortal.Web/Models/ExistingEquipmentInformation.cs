@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {    
@@ -11,7 +12,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "IsRental")]
         public bool IsRental { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(50)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "RentalCompany")]
         public string RentalCompany { get; set; }
@@ -19,22 +20,22 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "EstimatedAge")]
         public double EstimatedAge { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(50)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Make")]
         public string Make { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(50)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Model")]
         public string Model { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(50)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "SerialNumber")]
         public string SerialNumber { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(50)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "GeneralCondition")]
         public string GeneralCondition { get; set; }

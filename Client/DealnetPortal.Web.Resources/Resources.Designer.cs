@@ -1690,6 +1690,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internal.
+        /// </summary>
+        public static string Internal {
+            get {
+                return ResourceManager.GetString("Internal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Email Address.
         /// </summary>
         public static string InvalidEmailAddress {
@@ -1758,6 +1767,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LivedAtCurrentLessThan {
             get {
                 return ResourceManager.GetString("LivedAtCurrentLessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string LoadingWithDots {
+            get {
+                return ResourceManager.GetString("LoadingWithDots", resourceCulture);
             }
         }
         
@@ -1983,6 +2001,15 @@ namespace DealnetPortal.Web.Resources {
         public static string MyWorkItems {
             get {
                 return ResourceManager.GetString("MyWorkItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of a document.
+        /// </summary>
+        public static string NameOfDocument {
+            get {
+                return ResourceManager.GetString("NameOfDocument", resourceCulture);
             }
         }
         
@@ -2352,6 +2379,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProcessingImage {
             get {
                 return ResourceManager.GetString("ProcessingImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing your application....
+        /// </summary>
+        public static string ProcessingYourApplication {
+            get {
+                return ResourceManager.GetString("ProcessingYourApplication", resourceCulture);
             }
         }
         
@@ -2910,6 +2946,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TheDateMustBeOver1900 {
             get {
                 return ResourceManager.GetString("TheDateMustBeOver1900", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required..
+        /// </summary>
+        public static string ThisFieldIsRequired {
+            get {
+                return ResourceManager.GetString("ThisFieldIsRequired", resourceCulture);
             }
         }
         

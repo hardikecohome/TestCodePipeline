@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Models
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "InstallerLastName")]
         [StringLength(20, MinimumLength = 2)]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessage = "Last Name is in incorrect format")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "LastNameIncorrectFormat")]
         public string InstallerLastName { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "InstallationDate")]

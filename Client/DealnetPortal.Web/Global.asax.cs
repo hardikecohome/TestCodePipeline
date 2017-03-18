@@ -28,6 +28,9 @@ namespace DealnetPortal.Web
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
             ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
             ModelBinders.Binders.Add(typeof(DateTime?), new NullableDateTimeBinder());
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(
+                typeof(CustomRequiredAttribute),
+                typeof(RequiredAttributeAdapter));
 
             ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator(DependencyResolver.Current.GetService<ICultureManager>())));
         }

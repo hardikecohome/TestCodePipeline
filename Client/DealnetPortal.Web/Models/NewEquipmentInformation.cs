@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
@@ -10,13 +11,13 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
     public class NewEquipmentInformation
     {
-        [Required]
+        [CustomRequired]
         public string Type { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "Type")]
         public string TypeDescription { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(500)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Description")]
         public string Description { get; set; }

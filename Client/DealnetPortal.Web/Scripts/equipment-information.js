@@ -39,7 +39,7 @@ $(document)
                         }
                         return true;
                     },
-                    "Please enter a valid date!"
+                    translations['EnterValidDate']
                 );
 
                 $("#customer-rate").rules("add", "required");
