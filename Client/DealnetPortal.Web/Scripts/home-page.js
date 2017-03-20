@@ -101,7 +101,7 @@ function showChart() {
                                               return FormatLongNumber(value);
                                             },
                                             min: 0,
-                                            suggestedMax: 100,
+                                            suggestedMax: 10000,
                                         },
                                         gridLines:
                                             {
