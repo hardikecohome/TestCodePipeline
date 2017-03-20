@@ -1,10 +1,11 @@
 ﻿var configInitialized = $.Deferred();
-$(document).ready(function() {
+$(document).ready(function () {
     var culture = $(document.documentElement).attr('lang');
+    var root = urlContent;
     $.when(
-        $.getJSON('/Content/cldr/supplemental/likelySubtags.json'),
-        $.getJSON('/Content/cldr/supplemental/numberingSystems.json'),
-        $.getJSON('/Content/cldr/main/' + culture + '/numbers.json')
+        $.getJSON(urlContent + 'Content/cldr/supplemental/likelySubtags.json'),
+        $.getJSON(urlContent + 'Content/cldr/supplemental/numberingSystems.json'),
+        $.getJSON(urlContent + 'Content/cldr/main/' + culture + '/numbers.json')
     ).then(function() {
         return [].slice.apply(arguments, [0]).map(function(result) {
             return result[0];
