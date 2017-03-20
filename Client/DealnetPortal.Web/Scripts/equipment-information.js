@@ -24,6 +24,12 @@
                 $("#new-equipment-base").remove();
                 $("#existing-equipment-base").remove();
 
+                if (sessionStorage.newEquipmets == 0) {
+                    addNewEquipment();
+                    $('#new-equipment-remove-0').remove();
+                    sessionStorage.newEquipmets = 1;
+                }
+
                 $('.date-input').each(assignDatepicker);
                 $.validator.addMethod(
                     "date",
