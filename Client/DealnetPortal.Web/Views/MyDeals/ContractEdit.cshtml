@@ -11,7 +11,7 @@
     var contractState = Model.AdditionalInfo.ContractState;
 }
 <div id="label-steps">
-	@Html.ActionLink("MyDeals", "Index", "MyDeals", null, new { @class = "dealnet-action-link" }) > <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  >
+	@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-action-link" }) > <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  >
 </div>
 
 <div class="form-container">
@@ -193,7 +193,7 @@
                             </div>
 							<div class="form-group">
 							    <div class="control">
-							        <input type="text" placeholder="Name of a document" class="form-control" id="other-documents-name">
+							        <input type="text" placeholder="@Resources.NameOfDocument" class="form-control" id="other-documents-name">
 							    </div>
                                 <div class="collapse" id="empty-document-name-message">
                                     <span class="text-danger">@Resources.DocumentNameEmpty</span>
@@ -557,7 +557,7 @@
 
 		            <div class="form-group">
 		                <div class="row">
-		                    @Html.Label("", "Date of Birth", new {@class = "dealnet-field-caption col-xs-6"})
+		                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.BirthDate, new {@class = "dealnet-field-caption col-xs-6"})
 		                    <div class="dealnet-field-holder col-xs-6">
 		                        <div class="control-group date-group">
 		                            @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "dealnet-disabled-input", @readonly = "readonly",  id = ""})

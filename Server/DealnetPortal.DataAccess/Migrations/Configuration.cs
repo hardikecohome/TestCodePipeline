@@ -1153,6 +1153,11 @@ namespace DealnetPortal.DataAccess.Migrations
                 },
                 new SettingItem()
                 {
+                    Name = "@table-tr-hover-bg",
+                    SettingType = SettingType.StringValue
+                },
+                new SettingItem()
+                {
                     Name = SettingType.LogoImage.ToString(),
                     SettingType = SettingType.LogoImage
                 },
@@ -1207,6 +1212,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@button-link-hover-color", "#007a60"},
                 { "@button-link-disabled-color", "#4db19c"},
                 { "@button-link-active-color", "#007051"},
+                { "@table-tr-hover-bg", "rgba(0, 144, 113, 0.05)" },
             };
             SetDealerStringSettings(context, "ecoenergy", ecoenergySettings);
             var smarthomeSettings = new Dictionary<string, string>()
@@ -1237,6 +1243,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@button-link-hover-color", "#0092ce"},
                 { "@button-link-disabled-color", "#87dafc"},
                 { "@button-link-active-color", "#0075a5"},
+                { "@table-tr-hover-bg", "rgba(0, 163, 230, 0.05)" },
             };
             SetDealerStringSettings(context, "smarthome", smarthomeSettings);
             var lifetimewaterSettings = new Dictionary<string, string>()
@@ -1255,7 +1262,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@btn-success-hover-shadow", "0 1px 0 0 #61a500"},
                 { "@btn-success-active-bg", "#62a700"},
                 { "@btn-success-active-shadow", "0 1px 0 0 #599700"},
-                { "@well-success-icon-color", "#76c900"},                
+                { "@well-success-icon-color", "#76c900"},
+                { "@table-tr-hover-bg", "rgba(118, 201, 0, 0.05)" },
             };
             SetDealerStringSettings(context, "lifetimewater", lifetimewaterSettings);
         }

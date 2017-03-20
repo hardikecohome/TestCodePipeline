@@ -1,5 +1,6 @@
 ﻿var addAdditionalButton, aditional1Section, aditional2Section, aditional3Section, mailingAddress, mailingAddressCheckbox;
-$(document).ready(function () {
+configInitialized
+    .then(function () {
     $(window).keydown(function (event) {
         if (event.keyCode == 13) {
             event.preventDefault();
@@ -53,7 +54,7 @@ $(document).ready(function () {
             return true;
         },
         translations['EnterValidDate']
-    );    
+    );
 
     addAdditionalButton = $("#add-additional-applicant");
     aditional1Section = $("#additional1-section");

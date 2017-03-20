@@ -20,7 +20,7 @@ function copyFormData(form1, form2, validate, additionalValidation) {
 
     $(':input[name]', form2).val(function () {
         var sourceInput = $(':input[name=\'' + this.name + '\']', form1);
-        if (!sourceInput.length) {
+        if (!sourceInput.length || sourceInput.valid() != true) {
             //console.log(this.value);
             return this.value;
         }
