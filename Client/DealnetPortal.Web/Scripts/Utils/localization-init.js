@@ -23,7 +23,13 @@ $(document).ready(function () {
                 return !Number.isNaN(Globalize.parseNumber(value));
             }
 
-            window.parseFloat = Globalize.parseNumber.bind(Globalize);
+            window.parseFloat = function(number) {
+                if (typeof number === 'number') {
+                    return number;
+                }
+                return Globalize.parseNumber(number);
+            };
+
             window.formatNumber = Globalize.numberFormatter({
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
