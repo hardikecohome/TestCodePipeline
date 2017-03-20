@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.Models
     public class ResetPasswordViewModel
     {
         [CustomRequired]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Email")]
         public string Email { get; set; }
 
@@ -50,7 +50,7 @@ namespace DealnetPortal.Web.Models
     {
         //[Required(AllowEmptyStrings = true)]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
 
         [CustomRequired]
@@ -88,7 +88,7 @@ namespace DealnetPortal.Web.Models
     public class ChangePasswordAnonymouslyViewModel : ChangePasswordModel
     {
         [CustomRequired]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
         public string Email { get; set; }
     }
@@ -96,7 +96,7 @@ namespace DealnetPortal.Web.Models
     public class RegisterViewModel
     {
         [CustomRequired]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
         public string Email { get; set; }
 
@@ -121,7 +121,7 @@ namespace DealnetPortal.Web.Models
     public class ForgotPasswordViewModel
     {
         [CustomRequired]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
         public string Email { get; set; }
     }
