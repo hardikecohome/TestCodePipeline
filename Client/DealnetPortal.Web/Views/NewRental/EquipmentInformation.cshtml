@@ -691,23 +691,18 @@
         var isCalculationValid = false;
         @*var creditAmount = @Model.CreditAmount;*@
     </script>
-
+    <script type="text/javascript">
+        $(document)
+            .ready(function () {
+                sessionStorage.newEquipmets = @(Model.NewEquipment == null || !Model.NewEquipment.Any() ? 0 : Model.NewEquipment.Count);
+                sessionStorage.existingEquipmets = @(Model.ExistingEquipment == null || !Model.ExistingEquipment.Any() ? 0 : Model.ExistingEquipment.Count);
+            });
+    </script>
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization");
 
     @Scripts.Render("~/bundles/equipment-information")
 
-    <script type="text/javascript">
-        $(document)
-            .ready(function () {
-                sessionStorage.newEquipmets = @(Model.NewEquipment == null || !Model.NewEquipment.Any() ? 0 : Model.NewEquipment.Count);
-                sessionStorage.existingEquipmets = @(Model.ExistingEquipment == null || !Model.ExistingEquipment.Any() ? 0 : Model.ExistingEquipment.Count);
-                if (sessionStorage.newEquipmets == 0) {
-                    addNewEquipment();
-                    $('#new-equipment-remove-0').remove();
-                    sessionStorage.newEquipmets = 1;
-                }
-            });
-    </script>
+
 }

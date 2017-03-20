@@ -60,6 +60,7 @@
 
     $(document).on('show.bs.modal', function () {
       saveScrollPosition();
+      toggleClearInputIcon();
     }).on('shown.bs.modal', function(){
       $('textarea').each(function(){
         has_scrollbar($(this), 'textarea-has-scroll');
@@ -658,6 +659,13 @@ function addIconsToFields(fields){
 function toggleClearInputIcon(fields){
   var fields = fields || $('.control-group input, .control-group textarea');
   var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
+  fields.each(function(){
+    if($(this).val().length !== 0){
+      $(this).siblings('.clear-input').css('display', 'block');
+    }else{
+      $(this).siblings('.clear-input').hide();
+    }
+  });
   fields.on('keyup', function(){
     if($(this).val().length !== 0){
       $(this).siblings('.clear-input').css('display', 'block');
