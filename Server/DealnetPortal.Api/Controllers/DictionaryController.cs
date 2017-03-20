@@ -226,14 +226,48 @@ namespace DealnetPortal.Api.Controllers
             return Ok(list);
         }
 
+        [HttpGet]
+        // GET api/dict/GetDealerSettings?dealer={dealer}
+        [Route("GetDealerSettings")]
+        public IHttpActionResult GetDealerSettings(string dealer)
+        {
+            IList<StringSettingDTO> list = null;            
+
+            var settings = SettingsRepository.GetUserStringSettings(dealer);
+            if (settings?.Any() ?? false)
+            {
+                list = Mapper.Map<IList<StringSettingDTO>>(settings);
+            }
+            return Ok(list);
+        }
+
         [Authorize]
         [HttpGet]
-        // GET api/dict/GetDealerBinSetting
+        // GET api/dict/GetDealerBinSetting?settingType={settingType}
         [Route("GetDealerBinSetting")]
         public IHttpActionResult GetDealerBinSetting(int settingType)
         {
             SettingType sType = (SettingType) settingType;
             var binSetting = SettingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
+            if (binSetting != null)
+            {
+                var bin = new BinarySettingDTO()
+                {
+                    Name = binSetting.Item?.Name,
+                    ValueBytes = binSetting.BinaryValue
+                };
+                return Ok(bin);
+            }
+            return Ok();
+        }
+
+        [HttpGet]
+        // GET api/dict/GetDealerBinSetting?settingType={settingType}&dealer={dealer}
+        [Route("GetDealerBinSetting")]
+        public IHttpActionResult GetDealerBinSetting(int settingType, string dealer)
+        {
+            SettingType sType = (SettingType)settingType;
+            var binSetting = SettingsRepository.GetUserBinarySetting(sType, dealer);
             if (binSetting != null)
             {
                 var bin = new BinarySettingDTO()
@@ -260,6 +294,21 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }            
+        }
+
+        [HttpGet]
+        // GET api/Account/CheckDealerSkinExist?dealer={dealer}
+        [Route("CheckDealerSkinExist")]
+        public IHttpActionResult CheckDealerSkinExist(string dealer)
+        {
+            try
+            {
+                return Ok(SettingsRepository.CheckUserSkinExist(dealer));
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         [Authorize]
