@@ -24,7 +24,7 @@ namespace DealnetPortal.Web.Models
     {
         public int? Id { get; set; }
         public int ContractId { get; set; }
-        //[Required]
+        //[CustomRequired]
         public string DocumentName { get; set; }
 
         public int DocumentTypeId { get; set; }

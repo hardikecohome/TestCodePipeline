@@ -38,7 +38,7 @@
                         }
                         return true;
                     },
-                    "Please enter a valid date!"
+                    translations['EnterValidDate']
                 );
 
                 $("#customer-rate").rules("add", "required");
@@ -71,9 +71,15 @@ function manageAgreementElements(agreementType) {
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
-            $('.loan-element').show();
-            $('.equipment-form-container').addClass('has-loan-calc');
             $('.rental-element').hide();
+            $('.rental-element').find('input, select').each(function () {
+                $(this).prop("disabled", true);
+            });
+            $('.equipment-form-container').addClass('has-loan-calc');
+            $('.loan-element').show();
+            $('.loan-element').find('input, select').each(function () {
+                $(this).prop("disabled", false);
+            });
             $('#total-monthly-payment').rules("remove", "required");
             $("#total-monthly-payment").prop("disabled", true);
             break;
@@ -91,8 +97,14 @@ function manageAgreementElements(agreementType) {
                 $(this).rules("add", "required");
             });
             $('.loan-element').hide();
+            $('.loan-element').find('input, select').each(function () {
+                $(this).prop("disabled", true);
+            });
             $('.equipment-form-container').removeClass('has-loan-calc');
             $('.rental-element').show();
+            $('.rental-element').find('input, select').each(function () {
+                $(this).prop("disabled", false);
+            });
             $("#total-monthly-payment").prop("disabled", false);
             $('#total-monthly-payment').rules("add", "required");
             break;

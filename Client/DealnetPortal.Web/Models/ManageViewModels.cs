@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models
 {
@@ -25,7 +26,7 @@ namespace DealnetPortal.Web.Models
 
     public class SetPasswordViewModel
     {
-        [Required]
+        [CustomRequired]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
@@ -39,12 +40,12 @@ namespace DealnetPortal.Web.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [CustomRequired]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
@@ -58,7 +59,7 @@ namespace DealnetPortal.Web.Models
 
     public class AddPhoneNumberViewModel
     {
-        [Required]
+        [CustomRequired]
         [Phone]
         [Display(Name = "Phone Number")]
         public string Number { get; set; }
@@ -66,11 +67,11 @@ namespace DealnetPortal.Web.Models
 
     public class VerifyPhoneNumberViewModel
     {
-        [Required]
+        [CustomRequired]
         [Display(Name = "Code")]
         public string Code { get; set; }
 
-        [Required]
+        [CustomRequired]
         [Phone]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }

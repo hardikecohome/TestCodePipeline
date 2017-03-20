@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models
 {
@@ -12,7 +13,7 @@ namespace DealnetPortal.Web.Models
     {
         public int CustomerId { get; set; }
 
-        //[Required]
+        //[CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AdditionalApplicantEmail")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
@@ -28,15 +29,15 @@ namespace DealnetPortal.Web.Models
 
         public Common.Enumeration.AgreementType AgreementType { get; set; }
 
-        [Required]
+        [CustomRequired]
         public string HomeOwnerFullName { get; set; }
 
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BorrowerEmail")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string BorrowerEmail { get; set; }
 
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "SalesRepEmail")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string SalesRepEmail { get; set; }

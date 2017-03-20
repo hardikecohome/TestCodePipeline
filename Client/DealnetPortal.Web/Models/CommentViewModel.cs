@@ -4,13 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models
 {
     public class CommentViewModel
     {
         public int Id { get; set; }
-        [Required]
+        [CustomRequired]
         public string Text { get; set; }
         public DateTime Date { get; set; }
         public IList<CommentViewModel> Replies { get; set; }
