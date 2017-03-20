@@ -1852,6 +1852,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mailing Address Information.
+        /// </summary>
+        public static string MailingAddressInformation {
+            get {
+                return ResourceManager.GetString("MailingAddressInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mailing address is not the same as Installation Address.
         /// </summary>
         public static string MailingAddressNotSameAsInstallation {

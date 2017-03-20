@@ -392,6 +392,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (contractRes.Item1 != null && contractRes.Item2.All(a => a.Type != AlertType.Error))
             {
                 var customer = contractRes.Item1.PrimaryCustomer;
+                customer.Id = 0;
 
                 var newContractRes = await _contractServiceAgent.CreateContract();
                 if (newContractRes.Item2.Any())

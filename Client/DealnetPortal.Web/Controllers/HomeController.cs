@@ -47,14 +47,10 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        [ChildActionOnly]
-        public ActionResult AboutLink()
+        public async Task<JsonResult> LayoutSettings()
         {
-            if (_settingsManager.CheckDealerSkinExistence(User?.Identity?.Name))
-            {
-                return new EmptyResult();
-            }
-            return PartialView("_AboutLink");
+            var aboutAvailability = !(await _settingsManager.CheckDealerSkinExistence(User?.Identity?.Name));
+            return Json(new { aboutAvailability }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult About()

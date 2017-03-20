@@ -16,35 +16,21 @@ namespace DealnetPortal.DataAccess.Repositories
         }
 
         public IList<SettingValue> GetUserStringSettings(string dealerId)
-        {            
-            var user = _dbContext.Users
-                .Include(u => u.Settings)
-                .FirstOrDefault(u => u.Id == dealerId);
-            if (user != null)
-            {
-                return user.Settings?.SettingValues?.Where(s => s.Item?.SettingType == SettingType.StringValue).ToList() ?? new List<SettingValue>();
-            }
-            return new List<SettingValue>();
+        {
+            var settings = GetUserSettings(dealerId);
+            return settings?.SettingValues?.Where(s => s.Item?.SettingType == SettingType.StringValue).ToList() ?? new List<SettingValue>();
         }
 
         public IList<SettingValue> GetUserBinarySettings(string dealerId)
         {
-            var user = _dbContext.Users
-                .Include(u => u.Settings)
-                .FirstOrDefault(u => u.Id == dealerId);
-            if (user != null)
-            {
-                return user.Settings?.SettingValues?.Where(s => s.Item?.SettingType != SettingType.StringValue).ToList() ?? new List<SettingValue>();
-            }
-            return new List<SettingValue>();
+            var settings = GetUserSettings(dealerId);
+            return settings.SettingValues?.Where(s => s.Item?.SettingType != SettingType.StringValue).ToList() ?? new List<SettingValue>();
         }
 
         public SettingValue GetUserBinarySetting(SettingType settingType, string dealerId)
         {
-            var user = _dbContext.Users
-                .Include(u => u.Settings)
-                .FirstOrDefault(u => u.Id == dealerId);
-            return user?.Settings?.SettingValues?.FirstOrDefault(s => s.Item?.SettingType == settingType);
+            var settings = GetUserSettings(dealerId);            
+            return settings?.SettingValues?.FirstOrDefault(s => s.Item?.SettingType == settingType);
         }
 
         public UserSettings GetUserSettings(string dealerId)
@@ -52,7 +38,21 @@ namespace DealnetPortal.DataAccess.Repositories
             var user = _dbContext.Users
                 .Include(u => u.Settings)
                 .FirstOrDefault(u => u.Id == dealerId);
-            return user?.Settings;
+            if (user?.Settings?.SettingValues?.Any() ?? false)
+            {
+                return user.Settings;
+            }
+            var puser = user?.ParentDealer;
+            if (puser != null)
+            {
+                if (puser.Settings != null)
+                {
+                    return puser.Settings;
+                }
+                _dbContext.Entry(puser).Reference(u => u.Settings).Load();
+                return puser.Settings;
+            }
+            return null;                        
         }
 
         public bool CheckUserSkinExist(string dealerId)
