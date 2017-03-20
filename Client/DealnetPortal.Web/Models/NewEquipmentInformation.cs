@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
@@ -10,14 +11,14 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
     public class NewEquipmentInformation
     {
-        [Required]
+        [CustomRequired]
         public string Type { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "Type")]
         public string TypeDescription { get; set; }
 
-        [Required]
-        [StringLength(500)]
+        [CustomRequired]
+        [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Description")]
         public string Description { get; set; }
 
@@ -25,6 +26,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CostIncorrectFormat")]
         public double? Cost { get; set; }
 
+        [Required]
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "MonthlyCost")]
         public double? MonthlyCost { get; set; }

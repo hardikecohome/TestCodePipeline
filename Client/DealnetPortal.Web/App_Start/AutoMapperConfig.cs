@@ -161,7 +161,7 @@ namespace DealnetPortal.Web.App_Start
                 src.Item2.Select(e => e.Header).ToList()));
 
             cfg.CreateMap<ContractDTO, DealItemOverviewViewModel>()
-                .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.Details?.TransactionId ?? $"Internal : {src.Id}"))
+                .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.Details?.TransactionId ?? string.Concat(Resources.Resources.Internal, $" : {src.Id}")))
                 .ForMember(d => d.CustomerName, s => s.ResolveUsing(src =>
                 {
                     var customer = src.PrimaryCustomer;
