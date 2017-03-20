@@ -1,5 +1,5 @@
-﻿$(document)
-		.ready(function() {
+﻿configInitialized
+    .then(function () {
 
         $('.date-input').each(assignDatepicker);
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();

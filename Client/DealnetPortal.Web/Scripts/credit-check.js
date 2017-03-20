@@ -1,5 +1,5 @@
-﻿$(document)
-    .ready(function() {
+﻿configInitialized
+    .then(function() {
         $("#check-credit-button").click(function (event) {
             var check1 = document.getElementById('home-owner-agrees');
             var check2 = document.getElementById('additional1-agrees');
