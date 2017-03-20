@@ -3,7 +3,7 @@
 </div>
 
 <form>
-<div class="dealnet-large-header" id="basic-info">@Resources.CreditCheckConfirmation</div>
+<div class="dealnet-large-header" >@Resources.CreditCheckConfirmation</div>
 
 <div id="steps-line"></div>
 <div class="row" id="steps">
@@ -122,8 +122,8 @@
 
 		<div class="financing-options">
 			<h3 class="dealnet-middle-header">Financing Options
-				<a class="dealnet-info-link pull-right" href="#">
-					<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+				<a class="dealnet-info-link pull-right" href="@Url.Action("RateCard", "NewRental")">
+					<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
 					Rate Card
 				</a>
 			</h3>
