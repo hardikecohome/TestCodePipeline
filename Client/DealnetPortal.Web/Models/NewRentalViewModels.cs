@@ -21,12 +21,12 @@ namespace DealnetPortal.Web.Models
 
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "FirstName")]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "FirstNameIncorrectFormat")]
         public string FirstName { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "LastName")]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "LastNameIncorrectFormat")]
         public string LastName { get; set; }
         [CustomRequired]
@@ -54,11 +54,11 @@ namespace DealnetPortal.Web.Models
     {
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Street")]
-        [StringLength(100, MinimumLength = 2)]
+        [StringLength(100, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InstallationAddressIncorrectFormat")]
         public string Street { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "UnitNumber")]
-        [StringLength(10, MinimumLength = 1)]
+        [StringLength(10, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "UnitNumberIncorrectFormat")]
         public string UnitNumber { get; set; }
         [CustomRequired]
@@ -68,12 +68,12 @@ namespace DealnetPortal.Web.Models
         public string City { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Province")]
-        [StringLength(30, MinimumLength = 2)]
+        [StringLength(30, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ProvinceIncorrectFormat")]
         public string Province { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "PostalCode")]
-        [StringLength(6, MinimumLength = 5)]
+        [StringLength(6, MinimumLength = 5, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PostalCodeIncorrectFormat")]
         public string PostalCode { get; set; }
         [CustomRequired]
@@ -113,15 +113,15 @@ namespace DealnetPortal.Web.Models
         public Common.Enumeration.PaymentType PaymentType { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "PrefferedWithdrawalDateIncorrectFormat")]
         public Common.Enumeration.WithdrawalDateType PrefferedWithdrawalDate { get; set; }
-        [StringLength(20)]
+        [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BankNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BlankNumber")]
         public string BlankNumber { get; set; }
-        [StringLength(20)]
+        [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TransitNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "TransitNumber")]
         public string TransitNumber { get; set; }
-        [StringLength(20)]
+        [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [RegularExpression(@"^[0-9- ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "AccountNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AccountNumber")]
         public string AccountNumber { get; set; }
@@ -129,7 +129,7 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "EnbridgeGasDistributionAccountIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EnbridgeGasDistributionAccount")]
         public string EnbridgeGasDistributionAccount { get; set; }
-        [StringLength(7)]
+        [StringLength(7, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MeterNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "MeterNumber")]
         public string MeterNumber { get; set; }
@@ -149,7 +149,7 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BusinessPhoneIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BusinessPhone")]
         public string BusinessPhone { get; set; }
-        [StringLength(256)]
+        [StringLength(256, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EmailAddress")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string EmailAddress { get; set; }

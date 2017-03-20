@@ -56,12 +56,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? DownPayment { get; set; }
 
         [CustomRequired]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "SalesRep")]
         [RegularExpression(@"^[^0-9]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "SalesRepIncorrectFormat")]
         public string SalesRep { get; set; }
 
-        [StringLength(500)]
+        [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "ContractNotes")]
         public string Notes { get; set; }
 

@@ -18,7 +18,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public string TypeDescription { get; set; }
 
         [CustomRequired]
-        [StringLength(500)]
+        [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Description")]
         public string Description { get; set; }
 
