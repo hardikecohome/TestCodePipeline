@@ -23,6 +23,11 @@ $(document).ready(function() {
             }
 
             window.parseFloat = Globalize.parseNumber.bind(Globalize);
+            window.formatNumber = Globalize.numberFormatter({
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2,
+                round: 'round',
+            });
             configInitialized.resolve(true);
         });
 });
