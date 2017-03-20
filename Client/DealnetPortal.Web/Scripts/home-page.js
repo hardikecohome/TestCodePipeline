@@ -99,7 +99,9 @@ function showChart() {
                                             beginAtZero: true,
                                             userCallback: function(value, index, values) {
                                               return FormatLongNumber(value);
-                                            }
+                                            },
+                                            min: 0,
+                                            suggestedMax: 100,
                                         },
                                         gridLines:
                                             {
