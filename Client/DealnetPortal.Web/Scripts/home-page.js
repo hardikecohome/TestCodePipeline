@@ -72,7 +72,7 @@ function showChart() {
                             data: data,
                             options: {
                                 tooltips:{
-                                  backgroundColor: '#dcdcdc',
+                                  backgroundColor: '#f2f1f1',
                                   titleColor: '#1f1f1f',
                                   bodyColor: '#1f1f1f',
                                   footerColor: '#1f1f1f',
@@ -90,10 +90,7 @@ function showChart() {
                                 },
                                 elements: {
                                     rectangle: {
-                                        backgroundColor: graphsBgColor,
-                                        /*borderColor: '#4fb12b',
-                                        borderWidth: 2*/
-                                    }
+                                        backgroundColor: graphsBgColor                                    }
                                 },
                                 scales: {
                                     yAxes: [{
