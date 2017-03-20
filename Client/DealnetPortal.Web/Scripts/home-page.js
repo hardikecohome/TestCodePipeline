@@ -91,6 +91,8 @@ function showChart() {
                                 elements: {
                                     rectangle: {
                                         backgroundColor: graphsBgColor,
+                                        /*borderColor: '#4fb12b',
+                                        borderWidth: 2*/
                                     }
                                 },
                                 scales: {
@@ -112,7 +114,6 @@ function showChart() {
                                         ticks: {
                                           fontSize: fontSize,
                                           maxRotation: maxRotation,
-                                          //maxTicksLimit: maxValueXAxix,
                                           userCallback: function(value, index, values) {
                                             if(values.length <= 13 && $('body').is('.mobile-device')){
                                               value = value.slice(0, 3);
