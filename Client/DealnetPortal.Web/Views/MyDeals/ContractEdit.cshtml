@@ -456,7 +456,7 @@
 							<label class="dealnet-field-caption col-xs-6">@Resources.TypeOfEquipment</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        Yes
+                                        @(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
                                     </div>
                                 </div>
                             </div>
