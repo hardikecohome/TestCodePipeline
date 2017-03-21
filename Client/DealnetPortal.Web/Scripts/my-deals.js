@@ -80,12 +80,13 @@ function showTable() {
                         "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
+                    createdRow: function (row, data, dataIndex) {
+                      if (dataIndex < 12) {
+                        $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">New</span>');
+                      }
+                    },
                     columns: [
-                        { "data": "TransactionId", className: 'contract-cell',
-                          "render": function (sdata, type, row) {
-                            return '<span class="label-new-deal">New</span>' + sdata
-                          },
-                        },
+                        { "data": "TransactionId", className: 'contract-cell'},
                         { "data": "CustomerName", className: 'customer-cell' },
                         { "data": "Status", className: 'status-cell' },
                         { "data": "AgreementType", className: 'type-cell' },
@@ -128,7 +129,7 @@ function showTable() {
                     order: []
                 });
 
-            $('.dataTable tbody > tr').slice(0, 2).addClass('unread-deals');
+            //$('.dataTable tbody > tr').slice(0, 2).addClass('unread-deals');
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
