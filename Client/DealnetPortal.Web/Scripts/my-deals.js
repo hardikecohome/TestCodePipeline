@@ -81,7 +81,11 @@ function showTable() {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     columns: [
-                        { "data": "TransactionId", className: 'contract-cell' },
+                        { "data": "TransactionId", className: 'contract-cell',
+                          "render": function (sdata, type, row) {
+                            return '<span class="label-new-deal">New</span>' + sdata
+                          },
+                        },
                         { "data": "CustomerName", className: 'customer-cell' },
                         { "data": "Status", className: 'status-cell' },
                         { "data": "AgreementType", className: 'type-cell' },
