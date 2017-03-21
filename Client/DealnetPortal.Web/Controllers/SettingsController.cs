@@ -7,25 +7,33 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Common.Helpers;
+using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Core.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
     public class SettingsController : Controller
     {
         private readonly ISettingsManager _settingsManager;
+        private readonly ISecurityManager _securityManager = DependencyResolver.Current.GetService<ISecurityManager>();
         public SettingsController(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
         }
-        public async Task<FileResult> LogoImage()
+        public async Task<FileResult> LogoImage(string dealerName)
         {
-            var image = await _settingsManager.GetUserLogoAsync(User?.Identity?.Name);                
+            _securityManager.SetUserFromContext();
+            BinarySettingDTO image = null;
+            if (HttpContext.User.Identity.IsAuthenticated || dealerName != null)
+            {
+                image = await _settingsManager.GetUserLogoAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : dealerName);
+            }
             if (image?.ValueBytes != null)
             {
                 return File(image.ValueBytes, "application/octet-stream");
@@ -47,7 +55,13 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<FileResult> Favicon()
         {
-            var icon = await _settingsManager.GetUserFaviconAsync(User?.Identity?.Name);
+            _securityManager.SetUserFromContext();
+            BinarySettingDTO icon = null;
+            var dealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"] as string;
+            if (HttpContext.User.Identity.IsAuthenticated || dealerName != null)
+            {
+                icon = await _settingsManager.GetUserFaviconAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : dealerName);
+            }
             if (icon?.ValueBytes != null)
             {
                 return File(icon.ValueBytes, "application/octet-stream");
