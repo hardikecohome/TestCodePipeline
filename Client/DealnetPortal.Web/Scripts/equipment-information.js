@@ -135,6 +135,9 @@ function addNewEquipment() {
     customizeSelect();
     sessionStorage.newEquipmets = nextNumber;
     resetPlacehoder($(newDiv).find('textarea, input'));
+
+    addIconsToFields();
+    toggleClearInputIcon();
 }
 
 function addExistingEquipment() {
