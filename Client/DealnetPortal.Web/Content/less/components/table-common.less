@@ -194,6 +194,16 @@ table.dataTable > tbody > tr.child ul{
     &:hover {
       background: @table-tr-hover-bg !important;
     }
+    .label-new-deal{
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: 'New';
+      color: #3493dd;
+      font-weight: 600;
+      font-size: 12px;
+    }
     &.unread-deals{
       &:hover{
         background: transparent !important;
@@ -205,14 +215,8 @@ table.dataTable > tbody > tr.child ul{
         background: rgba(141, 177, 189, 0.43) !important;
         &.contract-cell{
           position: relative;
-          &:before{
-            position: absolute;
-            top: 0;
-            left: 0;
-            content: 'New';
-            color: #3493dd;
-            font-weight: 600;
-            font-size: 12px;
+          .label-new-deal{
+            display: block;
           }
         }
         &:not(.contract-cell){
