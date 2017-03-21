@@ -381,7 +381,7 @@ function stickySection(elem, device){
     device = device || 'all'; // iOS or other devices(desktop and android)
 
   $(window).on('scroll resize', function(){
-    fixedHeaderHeight = $('.navbar-header').height();
+    fixedHeaderHeight = parseInt($('.navbar-header').height());
     windowTopPos = $(window).scrollTop() + fixedHeaderHeight;
     parentOffsetTop = parentDiv.offset().top;
     parentOffsetLeft = parentDiv.offset().left;
