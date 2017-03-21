@@ -66,6 +66,11 @@ function showChart() {
                             chart.destroy();
                         }
                         var canvas = document.getElementById('data-flow-overview');
+                        if($('#data-flow-overview').length > 0){
+                          $('body').addClass('body-scrolled');
+                        }else{
+                          $('body').removeClass('body-scrolled');
+                        }
                         chart = new Chart(canvas,
                         {
                             type: 'bar',
