@@ -29,7 +29,7 @@
         if (!window.console) window.console = {};
         if (!window.console.log) window.console.log = function () { };
         var urlContent = "@Url.Content("~/")";
-        var layotSettingsUrl = "@Url.Action("LayoutSettings", "Home")";
+        var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -42,6 +42,17 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dealnet")
+    @switch (CultureHelper.CurrentCultureType)
+    {
+        case CultureType.French:
+            <script type="text/javascript"
+                    src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
+            </script>
+            <script type="text/javascript">
+                $.datepicker.regional['fr'];
+            </script>
+            break;
+    }
     @RenderSection("OutrunningScripts", false)
     <!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->
     @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])

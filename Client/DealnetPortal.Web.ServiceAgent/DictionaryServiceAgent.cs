@@ -9,6 +9,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Utilities;
+using DealnetPortal.Web.Common.Helpers;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -139,12 +140,16 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<StringSettingDTO>> GetDealerSettings()
+        public async Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName = null)
         {
             try
             {
-                return await Client.GetAsync<IList<StringSettingDTO>>(
-                            $"{_fullUri}/GetDealerSettings").ConfigureAwait(false);
+                var url = $"{_fullUri}/GetDealerSettings";
+                if (dealerName != null)
+                {
+                    url += $"?dealer={dealerName}";
+                }
+                return await Client.GetAsync<IList<StringSettingDTO>>(url).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -157,8 +162,13 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<BinarySettingDTO>(
-                            $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}").ConfigureAwait(false);
+                var url = $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}";
+                var dealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"];
+                if (dealerName != null)
+                {
+                    url += $"?dealer={dealerName}";
+                }
+                return await Client.GetAsync<BinarySettingDTO>(url).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

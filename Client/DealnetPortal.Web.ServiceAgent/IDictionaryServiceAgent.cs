@@ -45,7 +45,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<bool> CheckDealerSkinExistence();
 
-        Task<IList<StringSettingDTO>> GetDealerSettings();
+        Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName = null);
 
         Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);
 

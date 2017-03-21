@@ -24,6 +24,12 @@
                 $("#new-equipment-base").remove();
                 $("#existing-equipment-base").remove();
 
+                if (sessionStorage.newEquipmets == 0) {
+                    addNewEquipment();
+                    $('#new-equipment-remove-0').remove();
+                    sessionStorage.newEquipmets = 1;
+                }
+
                 $('.date-input').each(assignDatepicker);
                 $.validator.addMethod(
                     "date",
@@ -129,6 +135,9 @@ function addNewEquipment() {
     customizeSelect();
     sessionStorage.newEquipmets = nextNumber;
     resetPlacehoder($(newDiv).find('textarea, input'));
+
+    addIconsToFields();
+    toggleClearInputIcon();
 }
 
 function addExistingEquipment() {
@@ -227,7 +236,7 @@ function recalculateTotalMonthlyPayment() {
         }
     });
 
-    $("#total-monthly-payment").val(Globalize.numberFormatter(sum));
+    $("#total-monthly-payment").val(formatNumber(sum));
     recalculateTotalMonthlyPaymentHst();
 }
 
@@ -236,8 +245,8 @@ function recalculateTotalMonthlyPaymentHst() {
     if (!Number.isNaN(sum)) {
         var totalHst = sum * taxRate / 100;
         var totalMp = sum * 1 + totalHst;
-        $("#total-hst").text(Globalize.numberFormatter(totalHst));
-        $("#total-monthly-payment-hst").text(Globalize.numberFormatter(totalMp));
+        $("#total-hst").text(formatNumber(totalHst));
+        $("#total-monthly-payment-hst").text(formatNumber(totalMp));
     } else {
         $("#total-hst").text('--');
         $("#total-monthly-payment-hst").text('--');
