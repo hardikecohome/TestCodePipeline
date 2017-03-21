@@ -80,12 +80,14 @@ function showTable() {
                         "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
+                    createdRow: function (row, data, dataIndex) {
+                      console.log(row)
+                      if (dataIndex < 2) {
+                        $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">New</span>');
+                      }
+                    },
                     columns: [
-                        { "data": "TransactionId", className: 'contract-cell',
-                          "render": function (sdata, type, row) {
-                            return '<span class="label-new-deal">New</span>' + sdata
-                          },
-                        },
+                        { "data": "TransactionId", className: 'contract-cell'},
                         { "data": "CustomerName", className: 'customer-cell' },
                         { "data": "Status", className: 'status-cell' },
                         { "data": "AgreementType", className: 'type-cell' },
