@@ -81,8 +81,7 @@ function showTable() {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     createdRow: function (row, data, dataIndex) {
-                      console.log(row)
-                      if (dataIndex < 2) {
+                      if (dataIndex < 12) {
                         $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">New</span>');
                       }
                     },
@@ -130,7 +129,7 @@ function showTable() {
                     order: []
                 });
 
-            $('.dataTable tbody > tr').slice(0, 2).addClass('unread-deals');
+            //$('.dataTable tbody > tr').slice(0, 2).addClass('unread-deals');
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
