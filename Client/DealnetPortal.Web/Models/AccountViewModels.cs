@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Email")]
         public string Email { get; set; }
     }
@@ -26,12 +27,12 @@ namespace DealnetPortal.Web.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [CustomRequired]
+        [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(100, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MustBeAtLeastLong", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Password")]
@@ -49,14 +50,14 @@ namespace DealnetPortal.Web.Models
     {
         //[Required(AllowEmptyStrings = true)]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
 
-        [Required]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "UserName")]
         public string UserName { get; set; }
 
-        [Required]
+        [CustomRequired]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Password")]
         public string Password { get; set; }
@@ -67,12 +68,12 @@ namespace DealnetPortal.Web.Models
 
     public class ChangePasswordModel
     {
-        [Required]
+        [CustomRequired]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CurrentPassword")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [CustomRequired]
         [StringLength(100, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MustBeAtLeastLong", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "NewPassword")]
@@ -86,24 +87,24 @@ namespace DealnetPortal.Web.Models
 
     public class ChangePasswordAnonymouslyViewModel : ChangePasswordModel
     {
-        [Required]
-        [EmailAddress]
+        [CustomRequired]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
         public string Email { get; set; }
     }
 
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
+        [CustomRequired]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
         public string Email { get; set; }
 
-        //[Required]
+        //[CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "UserName")]
         public string UserName { get; set; }
 
-        //[Required]
+        //[CustomRequired]
         [StringLength(100, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MustBeAtLeastLong", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Password")]
@@ -119,8 +120,8 @@ namespace DealnetPortal.Web.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [CustomRequired]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
         public string Email { get; set; }
     }

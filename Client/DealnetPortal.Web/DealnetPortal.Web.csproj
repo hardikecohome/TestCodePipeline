@@ -178,6 +178,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Messages.fr.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.fr.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\ApplicationSettingsActivator.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -203,7 +213,9 @@
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
+    <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
+    <Compile Include="Infrastructure\Extensions\BundleExtentions.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
@@ -681,6 +693,7 @@
     <Content Include="Scripts\general-address-autocomplete.js" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
+    <Content Include="Scripts\jquery-validation-messages.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.form.min.js.map" />
@@ -890,6 +903,18 @@
       <Project>{9d034d24-d090-4ffd-9f50-7ff073568343}</Project>
       <Name>DealnetPortal.Web.ServiceAgent</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Messages.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Messages.fr.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Messages.fr.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

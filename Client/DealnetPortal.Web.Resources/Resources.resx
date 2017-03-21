@@ -1209,4 +1209,26 @@
   <data name="MailingAddressInformation" xml:space="preserve">
     <value>Mailing Address Information</value>
   </data>
+  <data name="Internal" xml:space="preserve">
+    <value>Internal</value>
+    <comment>Context: Internal XXX, where XXX - ID number</comment>
+  </data>
+  <data name="LoadingWithDots" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="NameOfDocument" xml:space="preserve">
+    <value>Name of a document</value>
+  </data>
+  <data name="ProcessingYourApplication" xml:space="preserve">
+    <value>Processing your application...</value>
+  </data>
+  <data name="ThisFieldIsRequired" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
+  <data name="TheFieldMustBeMaximum" xml:space="preserve">
+    <value>The field {0} must be a string with a maximum length of {1}.</value>
+  </data>
+  <data name="TheFieldMustBeMinimumAndMaximum" xml:space="preserve">
+    <value>The field {0} must be a string with a minimum length of {2} and a maximum length of {1}.</value>
+  </data>
 </root>

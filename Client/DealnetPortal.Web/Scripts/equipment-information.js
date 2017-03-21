@@ -1,9 +1,8 @@
-﻿
-$(document)
-            .ready(function () {
+﻿configInitialized
+            .then(function () {
                 $('#equipment-form').submit(function (event) {
                     var agreementType = $("#agreement-type").find(":selected").val();
-                    if (agreementType === "0") {                        
+                    if (agreementType === "0") {
                         isCalculationValid = false;
                         recalculateTotalCashPrice();
                         if (!isCalculationValid) {
@@ -17,13 +16,19 @@ $(document)
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
                     }
-                });                
+                });
 
                 $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
                 sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
                 sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
                 $("#new-equipment-base").remove();
                 $("#existing-equipment-base").remove();
+
+                if (sessionStorage.newEquipmets == 0) {
+                    addNewEquipment();
+                    $('#new-equipment-remove-0').remove();
+                    sessionStorage.newEquipmets = 1;
+                }
 
                 $('.date-input').each(assignDatepicker);
                 $.validator.addMethod(
@@ -39,7 +44,7 @@ $(document)
                         }
                         return true;
                     },
-                    "Please enter a valid date!"
+                    translations['EnterValidDate']
                 );
 
                 $("#customer-rate").rules("add", "required");
@@ -72,9 +77,15 @@ function manageAgreementElements(agreementType) {
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
-            $('.loan-element').show();
-            $('.equipment-form-container').addClass('has-loan-calc');
             $('.rental-element').hide();
+            $('.rental-element').find('input, select').each(function () {
+                $(this).prop("disabled", true);
+            });
+            $('.equipment-form-container').addClass('has-loan-calc');
+            $('.loan-element').show();
+            $('.loan-element').find('input, select').each(function () {
+                $(this).prop("disabled", false);
+            });
             $('#total-monthly-payment').rules("remove", "required");
             $("#total-monthly-payment").prop("disabled", true);
             break;
@@ -92,8 +103,14 @@ function manageAgreementElements(agreementType) {
                 $(this).rules("add", "required");
             });
             $('.loan-element').hide();
+            $('.loan-element').find('input, select').each(function () {
+                $(this).prop("disabled", true);
+            });
             $('.equipment-form-container').removeClass('has-loan-calc');
             $('.rental-element').show();
+            $('.rental-element').find('input, select').each(function () {
+                $(this).prop("disabled", false);
+            });
             $("#total-monthly-payment").prop("disabled", false);
             $('#total-monthly-payment').rules("add", "required");
             break;
@@ -144,7 +161,7 @@ function removeNewEquipment(id) {
         nextNumber++;
         var nextEquipment = $('#new-equipment-' + nextNumber);
         if (!nextEquipment.length) { break; }
-        
+
         var labels = nextEquipment.find('label');
         labels.each(function() {
             $(this).attr('for', $(this).attr('for').replace('NewEquipment_' + nextNumber, 'NewEquipment_' + nextNumber - 1));
@@ -210,22 +227,27 @@ function recalculateTotalMonthlyPayment() {
     }
     var sum = 0;
     $(".monthly-cost").each(function() {
-        var numberValue = parseFloat(this.value);
+        var numberValue = Globalize.parseNumber(this.value);
         if (!isNaN(numberValue)) {
             sum += numberValue;
         }
     });
-    
-    $("#total-monthly-payment").val(sum.toFixed(2));
+
+    $("#total-monthly-payment").val(formatNumber(sum));
     recalculateTotalMonthlyPaymentHst();
 }
 
 function recalculateTotalMonthlyPaymentHst() {
-    var sum = $("#total-monthly-payment").val();
-    var totalHst = sum * taxRate / 100;
-    var totalMp = sum * 1 + totalHst;
-    $("#total-hst").text(totalHst.toFixed(2));
-    $("#total-monthly-payment-hst").text(totalMp.toFixed(2));
+    var sum = Globalize.parseNumber($("#total-monthly-payment").val());
+    if (!Number.isNaN(sum)) {
+        var totalHst = sum * taxRate / 100;
+        var totalMp = sum * 1 + totalHst;
+        $("#total-hst").text(formatNumber(totalHst));
+        $("#total-monthly-payment-hst").text(formatNumber(totalMp));
+    } else {
+        $("#total-hst").text('--');
+        $("#total-monthly-payment-hst").text('--');
+    }
 }
 
 function recalculateTotalCashPrice() {
@@ -235,7 +257,7 @@ function recalculateTotalCashPrice() {
     }
     var sum;
     $(".equipment-cost").each(function () {
-        var numberValue = parseFloat(this.value);
+        var numberValue = Globalize.parseNumber(this.value);
         if (!isNaN(numberValue)) {
             if (!sum) { sum = 0; }
             sum += numberValue;

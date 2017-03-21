@@ -1888,7 +1888,7 @@
                                      <div class="row">
                                          <div class="col-md-9">
                                              <div class="form-group">
-                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new {@class = "dealnet-field-caption"})
+                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "dealnet-field-caption"})
                                                  <div class="dealnet-field-holder">
                                                      <div class="control-group">
                                                          @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder=Resources.StreetPlaceholder})
@@ -1973,7 +1973,7 @@
                                     <div class="row">
                                         <div class="col-md-9">
                                             <div class="form-group">
-                                                @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.UnitNumber, new {@class = "dealnet-field-caption"})
+                                                @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, new {@class = "dealnet-field-caption"})
                                                 <div class="dealnet-field-holder">
                                                     <div class="control-group">
                                                         @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Street, new {@class = "form-control dealnet-input", id = "additional-previous-street-" + (i + 1), placeholder=Resources.StreetPlaceholder})
@@ -2168,7 +2168,7 @@
 {
     translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
     translations['Tax'] = "@Resources.Tax";
-    translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Resources.TotalMonthlyPaymentMustBeGreaterZero";
+    translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";
     translations['AfterProvinceChangeTotalMustBeGreater'] = "@Resources.AfterProvinceChangeTotalMustBeGreater";
     @*translations['TotalCostGreaterThanAmount'] = "@Resources.TotalCostGreaterThanAmount";*@
 }
