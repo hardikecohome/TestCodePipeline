@@ -66,6 +66,7 @@ function showChart() {
                             chart.destroy();
                         }
                         var canvas = document.getElementById('data-flow-overview');
+                      $('.data-flow-container').addClass('data-loaded')
                         if($('#data-flow-overview').length > 0){
                           $('body').addClass('body-scrolled');
                         }else{
