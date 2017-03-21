@@ -62,6 +62,7 @@
 
     $(document).on('show.bs.modal', function () {
       saveScrollPosition();
+      toggleClearInputIcon();
     }).on('shown.bs.modal', function(){
       $('textarea').each(function(){
         has_scrollbar($(this), 'textarea-has-scroll');
@@ -277,12 +278,9 @@
         currentTab.parents('.documents-pills-item').addClass('active');
       });
     }
-
       $('.customer-loan-form-panel .panel-heading').on('click', function(){
         panelCollapsed($(this));
       });
-
-
 
       if($('.customer-loan-page .btn-proceed').is('.disabled')){
         $('.btn-proceed-inline-hold[data-toggle="popover"]').popover({
@@ -401,7 +399,7 @@ function stickySection(elem, device){
     device = device || 'all'; // iOS or other devices(desktop and android)
 
   $(window).on('scroll resize', function(){
-    fixedHeaderHeight = $('.navbar-header').height();
+    fixedHeaderHeight = parseInt($('.navbar-header').height());
     windowTopPos = $(window).scrollTop() + fixedHeaderHeight;
     parentOffsetTop = parentDiv.offset().top;
     parentOffsetLeft = parentDiv.offset().left;
@@ -641,18 +639,13 @@ function addIconsToFields(fields){
     }
   })
 
-
   if(fieldPassParent.children('.recover-pass-link').length === 0){
     fieldPassParent.append(iconPassField);
   }
 
   setTimeout(function(){
     fields.each(function(){
-      if($(this).val().length > 0){
-        $(this).siblings('.clear-input').css('display', 'block');
-      }else{
-        $(this).siblings('.clear-input').hide();
-      }
+      toggleClickInp($(this));
     });
   }, 100);
 }
@@ -660,17 +653,24 @@ function addIconsToFields(fields){
 function toggleClearInputIcon(fields){
   var fields = fields || $('.control-group input, .control-group textarea');
   var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
+  fields.each(function(){
+    toggleClickInp($(this));
+  });
   fields.on('keyup', function(){
-    if($(this).val().length !== 0){
-      $(this).siblings('.clear-input').css('display', 'block');
-    }else{
-      $(this).siblings('.clear-input').hide();
-    }
+    toggleClickInp($(this));
   });
   fieldParent.find('.clear-input').on('click', function(){
     $(this).siblings('input, textarea').val('').change();
     $(this).hide();
   });
+}
+
+function toggleClickInp(inp){
+  if(inp.val().length !== 0){
+    inp.siblings('.clear-input').css('display', 'block');
+  }else{
+    inp.siblings('.clear-input').hide();
+  }
 }
 
 function recoverPassword(){

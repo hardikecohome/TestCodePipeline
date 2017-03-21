@@ -66,32 +66,36 @@ function showChart() {
                             chart.destroy();
                         }
                         var canvas = document.getElementById('data-flow-overview');
+                        if($('#data-flow-overview').length > 0){
+                          $('body').addClass('body-scrolled');
+                        }else{
+                          $('body').removeClass('body-scrolled');
+                        }
                         chart = new Chart(canvas,
                         {
                             type: 'bar',
                             data: data,
                             options: {
-                                tooltips: {
-                                    backgroundColor: 'rgba(0, 0, 0, 1)',
-                                    titleFontColor: '#1f1f1f',
-                                    bodyFontColor: '#1f1f1f',
-                                    cornerRadius: 4,
-                                    callbacks: {
-                                      label: function(tooltipItems) {
-                                        return tooltipItems.yLabel;
-                                      },
-                                      title: function (tooltipItems) {
-                                        return tooltipItems[0].xLabel + ':';
-                                      }
+                                tooltips:{
+                                  backgroundColor: '#f2f1f1',
+                                  titleColor: '#1f1f1f',
+                                  bodyColor: '#1f1f1f',
+                                  footerColor: '#1f1f1f',
+                                  callbacks: {
+                                    label: function(tooltipItems) {
+                                      return '$ '+tooltipItems.yLabel;
                                     },
+                                    title: function (tooltipItems) {
+                                      return tooltipItems[0].xLabel + ':';
+                                    }
+                                  },
                                 },
                                 legend: {
-                                    display: false
+                                    display: false,
                                 },
                                 elements: {
                                     rectangle: {
-                                        backgroundColor: graphsBgColor
-                                    }
+                                        backgroundColor: graphsBgColor                                    }
                                 },
                                 scales: {
                                     yAxes: [{
@@ -105,15 +109,13 @@ function showChart() {
                                         },
                                         gridLines:
                                             {
-                                                display: false,
-                                                lineWidth : 2
+                                                lineWidth : 1
                                             }
                                     }],
                                     xAxes: [{
                                         ticks: {
                                           fontSize: fontSize,
                                           maxRotation: maxRotation,
-                                          //maxTicksLimit: maxValueXAxix,
                                           userCallback: function(value, index, values) {
                                             if(values.length <= 13 && $('body').is('.mobile-device')){
                                               value = value.slice(0, 3);
@@ -128,8 +130,7 @@ function showChart() {
                                         },
                                         gridLines:
                                             {
-                                                display : false,
-                                                lineWidth : 2
+                                                lineWidth : 1
                                             }
                                     }]
                                 }
@@ -137,6 +138,7 @@ function showChart() {
                         });
                     });
 };
+
 
 function showTable() {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
