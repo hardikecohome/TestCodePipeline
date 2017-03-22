@@ -228,10 +228,10 @@
                         }
 						<div class="form-group">
 							<div class="row">
-								<label class="dealnet-field-caption col-xs-6">Created by Customer</label>
+								<label class="dealnet-field-caption col-xs-6">@Resources.CreatedByCustomer</label>
 								<div class="dealnet-field-holder col-xs-6">
 									<div class="control-group">
-										Yes
+										@(contract.AdditionalInfo.IsCreatedByCustomer ? Resources.Yes : Resources.No)
 									</div>
 								</div>
 							</div>

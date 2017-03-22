@@ -1294,4 +1294,13 @@
   <data name="TheFieldMustBeMinimumAndMaximum" xml:space="preserve">
     <value>The field {0} must be a string with a minimum length of {2} and a maximum length of {1}.</value>
   </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="CreatedByCustomer" xml:space="preserve">
+    <value>Created by Customer</value>
+  </data>
+  <data name="Dealer" xml:space="preserve">
+    <value>Dealer</value>
+  </data>
 </root>

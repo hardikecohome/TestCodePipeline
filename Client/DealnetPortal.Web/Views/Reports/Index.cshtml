@@ -108,9 +108,13 @@
 					</div>
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="form-group">
-							<label for="">Created By</label>
+							<label for="">@Resources.CreatedBy</label>
 							<div class="control-group">
-								<select class="form-control filter-input select-filter" id="sales-rep"></select>
+							    <select class="form-control filter-input" id="created-by">
+                                    <option value="">- @Resources.NotSelected -</option>
+							        <option value="true">@Resources.Customer</option>
+							        <option value="false">@Resources.Dealer</option>
+							    </select>
 							</div>
 						</div>
 					</div>
