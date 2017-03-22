@@ -3,7 +3,7 @@
 </div>
 
 <form>
-<div class="dealnet-large-header" >@Resources.CreditCheckConfirmation</div>
+<div class="dealnet-large-header" >New Equipment</div>
 
 <div id="steps-line"></div>
 <div class="row" id="steps">
@@ -13,7 +13,7 @@
 	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 		<div id="step2" class="step-item step-active">2</div>
 
-		<div id="step3" class="step-item">3</div>
+		<a id="step3"  href="@Url.Action("NewThirdStep", "NewRental")" class="step-item">3</a>
 	</div>
 	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 		<div id="step4" class="step-item">4</div>
@@ -127,142 +127,81 @@
 					Rate Card
 				</a>
 			</h3>
-			<div class="rate-cards-container row">
-				<div class="col-sm-6 col-md-3">
-					<div class="rate-card table-mode">
-						<div class="rate-card-header">
-							<span class="promo-label">Promo</span>
-							<h4 class="rate-card-title">Fixed rate</h4>
-						</div>
-						<hr>
+			<div class="rate-cards-container row one-rate-card">
+				<div class="rate-card table-mode">
+					<div class="rate-card-header equal-height-row-1">
+						<span class="promo-label">Promo</span>
+						<h4 class="rate-card-title">Fixed rate</h4>
+					</div>
+					<hr>
+					<div class="equal-height-row-2">
 						<div class="form-group">
 							<label for="">Loan/Amortization Term</label>
 							<select class="form-control" id="" name="">
 								<option selected="selected">-not selected-</option>
 								<option>36/36</option>
 							</select>
-						</div>
-						<div class="notify-row">
-
-						</div>
-						<div class="">
-							<div class="row form-group">
-								<div class="col-sm-6">Customer Rate</div>
-								<div class="col-sm-6 text-right text-semibold">7.99%</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Your Cost</div>
-								<div class="col-sm-6 text-right text-semibold">0%</div>
-							</div>
-						</div>
-						<hr>
-						<div class="">
-							<div class="row form-group align-middle">
-								<div class="col-sm-6">Admin Fee</div>
-								<div class="col-sm-6 text-right text-semibold">$ 39.95</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Monthly Payment</div>
-								<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Cost of Borrowing</div>
-								<div class="col-sm-6 text-right text-semibold">$ 1229.85</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Your Cost</div>
-								<div class="col-sm-6 text-right text-semibold">$ 0</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Total Amount Financed</div>
-								<div class="col-sm-6 text-right text-semibold">$ 6139.95</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Total of All Monthly Payments</div>
-								<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Balance Owing at the End of Monthly Payments</div>
-								<div class="col-sm-6 text-right text-semibold">$ 1229.85</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-sm-6">Total Obligation</div>
-								<div class="col-sm-6 text-right text-semibold">$ 0</div>
-							</div>
-							<button class="btn dealnet-button dealnet-success-button">Select</button>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="rate-card table-mode">
-						<div class="rate-card-header">
-							<h4 class="card-title">NO INTEREST</h4>
-						</div>
-						<hr>
-						<div class="form-group">
-							<label for="">Loan/Amortization Term</label>
-							<select class="form-control" id="" name="">
-								<option selected="selected">-not selected-</option>
-								<option>36/36</option>
-							</select>
-						</div>
-						<div class="notify-row">
-
-						</div>
-						<div class="">
-							<div class="row form-group">
-								<div class="col-xs-6">Customer Rate</div>
-								<div class="col-xs-6 text-right text-semibold">0%</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Your Cost</div>
-								<div class="col-xs-6 text-right text-semibold">10.25%</div>
-							</div>
-						</div>
-						<hr>
-						<div class="">
-							<div class="row form-group align-middle">
-								<div class="col-xs-6">Admin Fee</div>
-								<div class="col-xs-6 text-right text-semibold">$ 39.95</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Monthly Payment</div>
-								<div class="col-xs-6 text-right text-semibold">$ 400.00</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Cost of Borrowing</div>
-								<div class="col-xs-6 text-right text-semibold">$ 0</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Your Cost</div>
-								<div class="col-xs-6 text-right text-semibold">$ 825</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Total Amount Financed</div>
-								<div class="col-xs-6 text-right text-semibold">$ 6139.95</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Total of All Monthly Payments</div>
-								<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
-								<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Total Obligation</div>
-								<div class="col-xs-6 text-right text-semibold">$ 0</div>
-							</div>
-							<button class="btn dealnet-button dealnet-success-button">Select</button>
+					<div class="equal-height-row-3">
+						<div class="rate-card-notify">
+							<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+							180 month amortization is available only on loans over $5,000
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="rate-card table-mode">
-						<div class="rate-card-header">
-							<h4 class="card-title">DEFERRAL</h4>
+					<div class="equal-height-row-4">
+						<div class="row form-group">
+							<div class="col-sm-6">Customer Rate</div>
+							<div class="col-sm-6 text-right text-semibold">7.99%</div>
 						</div>
-						<hr>
+						<div class="row form-group">
+							<div class="col-sm-6">Your Cost</div>
+							<div class="col-sm-6 text-right text-semibold">0%</div>
+						</div>
+					</div>
+					<hr>
+					<div class="">
+						<div class="row form-group align-middle">
+							<div class="col-sm-6">Admin Fee</div>
+							<div class="col-sm-6 text-right text-semibold">$ 39.95</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-6">Monthly Payment</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-6">Cost of Borrowing</div>
+							<div class="col-sm-6 text-right text-semibold">$ 1229.85</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-6">Your Cost</div>
+							<div class="col-sm-6 text-right text-semibold">$ 0</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-6">Total Amount Financed</div>
+							<div class="col-sm-6 text-right text-semibold">$ 6139.95</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-6">Total of All Monthly Payments</div>
+							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-6">Balance Owing at the End of Monthly Payments</div>
+							<div class="col-sm-6 text-right text-semibold">$ 1229.85</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-sm-6">Total Obligation</div>
+							<div class="col-sm-6 text-right text-semibold">$ 0</div>
+						</div>
+						<button class="btn dealnet-button dealnet-success-button">Select</button>
+					</div>
+				</div>
+				<div class="rate-card table-mode">
+					<div class="rate-card-header equal-height-row-1">
+						<h4 class="card-title">NO INTEREST</h4>
+					</div>
+					<hr>
+					<div class="equal-height-row-2">
 						<div class="form-group">
 							<label for="">Loan/Amortization Term</label>
 							<select class="form-control" id="" name="">
@@ -270,6 +209,72 @@
 								<option>36/36</option>
 							</select>
 						</div>
+					</div>
+					<div class="equal-height-row-3">
+
+					</div>
+					<div class="equal-height-row-4">
+						<div class="row form-group">
+							<div class="col-xs-6">Customer Rate</div>
+							<div class="col-xs-6 text-right text-semibold">0%</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Your Cost</div>
+							<div class="col-xs-6 text-right text-semibold">10.25%</div>
+						</div>
+					</div>
+					<hr>
+					<div class="">
+						<div class="row form-group align-middle">
+							<div class="col-xs-6">Admin Fee</div>
+							<div class="col-xs-6 text-right text-semibold">$ 39.95</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Monthly Payment</div>
+							<div class="col-xs-6 text-right text-semibold">$ 400.00</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Cost of Borrowing</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Your Cost</div>
+							<div class="col-xs-6 text-right text-semibold">$ 825</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total Amount Financed</div>
+							<div class="col-xs-6 text-right text-semibold">$ 6139.95</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total of All Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total Obligation</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
+						</div>
+						<button class="btn dealnet-button dealnet-success-button">Select</button>
+					</div>
+				</div>
+				<div class="rate-card table-mode">
+					<div class="rate-card-header equal-height-row-1">
+						<h4 class="card-title">DEFERRAL</h4>
+					</div>
+					<hr>
+					<div class="equal-height-row-2">
+						<div class="form-group">
+							<label for="">Loan/Amortization Term</label>
+							<select class="form-control" id="" name="">
+								<option selected="selected">-not selected-</option>
+								<option>36/36</option>
+							</select>
+						</div>
+					</div>
+					<div class="equal-height-row-3">
 						<div class="form-group">
 							<label for="">Deferral Period</label>
 							<select class="form-control" id="" name="">
@@ -277,72 +282,76 @@
 								<option>36/36</option>
 							</select>
 						</div>
-						<div class="">
-							<div class="row form-group">
-								<div class="col-xs-6">Customer Rate</div>
-								<div class="col-xs-6 text-right text-semibold">59.95%</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Your Cost</div>
-								<div class="col-xs-6 text-right text-semibold">2.20%</div>
-							</div>
+					</div>
+					<div class="equal-height-row-4">
+						<div class="row form-group">
+							<div class="col-xs-6">Customer Rate</div>
+							<div class="col-xs-6 text-right text-semibold">59.95%</div>
 						</div>
-						<hr>
-						<div class="">
-							<div class="row form-group align-middle">
-								<div class="col-xs-6">Admin Fee</div>
-								<div class="col-xs-6 text-right text-semibold">$ 59.95</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Monthly Payment</div>
-								<div class="col-xs-6 text-right text-semibold">$ 400.00</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Cost of Borrowing</div>
-								<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Your Cost</div>
-								<div class="col-xs-6 text-right text-semibold">$ 0</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Total Amount Financed</div>
-								<div class="col-xs-6 text-right text-semibold">$ 6139.95</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Total of All Monthly Payments</div>
-								<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
-								<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Total Obligation</div>
-								<div class="col-xs-6 text-right text-semibold">$ 0</div>
-							</div>
-							<button class="btn dealnet-button dealnet-success-button">Select</button>
+						<div class="row form-group">
+							<div class="col-xs-6">Your Cost</div>
+							<div class="col-xs-6 text-right text-semibold">2.20%</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="rate-card table-mode">
-						<div class="rate-card-header">
-							<h4 class="card-title">CUSTOM</h4>
+					<hr>
+					<div class="">
+						<div class="row form-group align-middle">
+							<div class="col-xs-6">Admin Fee</div>
+							<div class="col-xs-6 text-right text-semibold">$ 59.95</div>
 						</div>
-						<hr>
-						<div class="row-mode">
-							<div class="row">
-								<div class="col-xs-6">
+						<div class="row form-group">
+							<div class="col-xs-6">Monthly Payment</div>
+							<div class="col-xs-6 text-right text-semibold">$ 400.00</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Cost of Borrowing</div>
+							<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Your Cost</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total Amount Financed</div>
+							<div class="col-xs-6 text-right text-semibold">$ 6139.95</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total of All Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total Obligation</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
+						</div>
+						<button class="btn dealnet-button dealnet-success-button">Select</button>
+					</div>
+				</div>
+				<div class="rate-card table-mode shown-card">
+					<!--<div class="rate-card-header equal-height-row-1">
+						<h4 class="card-title">CUSTOM</h4>
+					</div>
+					<hr>
+					<div class="row-mode equal-height-row-2">
+						<div class="row">
+							<div class="col-xs-6">
+								<div class="form-group">
 									<label for="">Loan Term</label>
 									<input type="text" class="form-control dealnet-input">
 								</div>
-								<div class="col-xs-6">
+							</div>
+							<div class="col-xs-6">
+								<div class="form-group">
 									<label for="">Amort. Term</label>
 									<input type="text" class="form-control dealnet-input">
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="equal-height-row-3">
 						<div class="form-group">
 							<label for="">Deferral Period</label>
 							<select class="form-control" id="" name="">
@@ -350,18 +359,119 @@
 								<option>36/36</option>
 							</select>
 						</div>
-						<div class="">
-							<div class="row form-group">
-								<div class="col-xs-6">Customer Rate</div>
-								<div class="col-xs-6 text-right text-semibold">59.95%</div>
+					</div>
+					<div class="row-mode equal-height-row-4">
+						<div class="row form-group">
+							<div class="col-xs-6">
+								<label for="">Customer Rate</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
 							</div>
-							<div class="row form-group">
-								<div class="col-xs-6">Your Cost</div>
-								<div class="col-xs-6 text-right text-semibold">2.20%</div>
+							<div class="col-xs-6">
+								<label for="">Your Cost</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
 							</div>
 						</div>
-						<hr>
-						<div class="">
+					</div>
+					<hr>
+					<div class="">
+						<div class="row form-group align-middle">
+							<div class="col-xs-6">Admin Fee</div>
+							<div class="col-xs-6"><input type="text" class="form-control dealnet-input"></div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Monthly Payment</div>
+							<div class="col-xs-6 text-right text-semibold">$ 400.00</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Cost of Borrowing</div>
+							<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Your Cost</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total Amount Financed</div>
+							<div class="col-xs-6 text-right text-semibold">$ 6139.95</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total of All Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-xs-6">Total Obligation</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
+						</div>
+						<button class="btn dealnet-button dealnet-success-button">Select</button>
+					</div>-->
+
+
+					<!--/////////////////////////////////////////////////////////////////////////////////////-->
+
+					<div class="rate-card-header">
+						<h4 class="card-title">CUSTOM</h4>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-3 col-sm-6">
+							<div class="form-group">
+								<label for="">Loan Term</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="form-group">
+								<label for="">Amort. Term</label>
+								<div class="control-group">
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="form-group">
+								<label for="">Deferral Period</label>
+								<div class="control-group">
+									<select name="" id="" class="form-control">
+										<option value="">- not-selected -</option>
+										<option value="">3 month</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="">Customer Rate</label>
+										<div class="control-group">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="">Your Cost</label>
+										<div class="control-group">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-6">
 							<div class="row form-group align-middle">
 								<div class="col-xs-6">Admin Fee</div>
 								<div class="col-xs-6"><input type="text" class="form-control dealnet-input"></div>
@@ -421,6 +531,21 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	var maxHeight = 0;
+
+	setEqualHeightRows($(".equal-height-row-1"));
+	setEqualHeightRows($(".equal-height-row-2"));
+	setEqualHeightRows($(".equal-height-row-3"));
+	setEqualHeightRows($(".equal-height-row-4"));
+
+
+
+	function setEqualHeightRows( row){
+		row.each(function(){
+			if ($(this).outerHeight(true) > maxHeight) { maxHeight = $(this).outerHeight(true);}
+		});
+		row.height(maxHeight);
+	}
 
 	slickRateCards();
 	$(window).resize(function(){
@@ -428,7 +553,7 @@ $(document).ready(function(){
 	});
 	function  slickRateCards(){
 		if(viewport().width <= 1023){
-			$('.rate-cards-container').not('.slick-initialized').slick({
+			$('.rate-cards-container').not('.slick-initialized').not('.one-rate-card').slick({
 				infinite: true,
 				dots: true,
 				speed: 300,
@@ -449,9 +574,6 @@ $(document).ready(function(){
 							slidesToScroll: 1
 						}
 					}
-					// You can unslick at a given breakpoint now by adding:
-					// settings: "unslick"
-					// instead of a settings object
 				]
 			});
 		}else {
@@ -461,5 +583,7 @@ $(document).ready(function(){
 		}
 	}
 });
+
+
 </script>
 }

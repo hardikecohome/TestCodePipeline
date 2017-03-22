@@ -1,0 +1,212 @@
+﻿<div id="label-steps">
+	<div class="dealnet-action-link">@Resources.NewApplication</div> >
+</div>
+
+<form>
+<div class="dealnet-large-header">Additional Contract Information</div>
+
+<div id="steps-line"></div>
+<div class="row" id="steps">
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<a href="@Url.Action("BasicInfo")" class="step-item">1</a>
+	</div>
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<a id="step2" href="@Url.Action("NewSecondStep", "NewRental")" class="step-item">2</a>
+
+		<div id="step3" class="step-item step-active">3</div>
+	</div>
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<div id="step4" class="step-item">4</div>
+	</div>
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<div id="step5" class="step-item">5</div>
+	</div>
+</div>
+
+
+<div class="form-container">
+	<div class="form-section">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group"><label for="">Sales Rep</label>
+					<div class="control-group"><input type="text" class="form-control" placeholder="Sales Rep"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group"><label for="">Estimated Installation Date</label>
+					<div class="control-group"><input type="text" class="form-control" placeholder="Installation Date"></div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group"><label for="">House Size (ft square)</label>
+					<div class="control-group"><input type="text" class="form-control" placeholder="House Size"></div>
+				</div>
+			</div>
+		</div>
+			<div class="equipment-editable-section">
+				<div id="existing-equipments">
+					<h3 class="dealnet-middle-header">@Resources.ExistingEquipmentInformation</h3>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label for="">Is Rental?</label>
+										<div class="control-group">
+											<select name="" id="" class="form-control">
+												<option value="">- not selected -</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-8">
+									<div class="form-group">
+										<label for="">Rental Company</label>
+										<div class="control-group">
+											<input type="text" class="form-control" placeholder="Rental Company">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label for="">Estimated Age</label>
+										<div class="control-group">
+											<input type="text" class="form-control" placeholder="Years">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-8">
+									<div class="form-group">
+										<label for="">Make</label>
+										<div class="control-group">
+											<input type="text" class="form-control" placeholder="Make">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Model</label>
+								<div class="control-group">
+									<input type="text" class="form-control" placeholder="Model">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Serial Number</label>
+								<div class="control-group">
+									<input type="text" class="form-control" placeholder="1234567">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">General Condition</label>
+								<div class="control-group">
+									<input type="text" class="form-control" placeholder="General Condition">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Notes</label>
+								<div class="control-group">
+									<input type="text" class="form-control" placeholder="Notes">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="align-middle dealnet-info-link add-equip-link" onclick="addExistingEquipment()">
+					<svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+					<span>@Resources.AddAdditionalEquipment</span>
+				</div>
+			</div>
+		</div>
+		<h3 class="dealnet-middle-header">@Resources.AdditionalContractInformation</h3>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="">Notes</label>
+					<div class="control-group">
+						<textarea placeholder="Notes" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" id="saveproceed-button">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="text-danger proceed-error-message" id="proceed-error-message" style="display: none;">
+					<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+					@Resources.YouCannotProceedUntilAllAgree
+				</div>
+				<button class="btn dealnet-button dealnet-success-button">
+					Save and Proceed
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+
+@section scripts
+{
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+	slickRateCards();
+	$(window).resize(function(){
+		slickRateCards()
+	});
+	function  slickRateCards(){
+		if(viewport().width <= 1023){
+			$('.rate-cards-container').not('.slick-initialized').slick({
+				infinite: true,
+				dots: true,
+				speed: 300,
+				slidesToShow: 4,
+				slidesToScroll: 4,
+				responsive: [
+					{
+						breakpoint: 1024,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 2
+						}
+					},
+					{
+						breakpoint: 768,
+						settings: {
+							slidesToShow: 1,
+							slidesToScroll: 1
+						}
+					}
+					// You can unslick at a given breakpoint now by adding:
+					// settings: "unslick"
+					// instead of a settings object
+				]
+			});
+		}else {
+			if($('.rate-cards-container').is('.slick-initialized')){
+				$('.rate-cards-container').slick("unslick");
+			}
+		}
+	}
+});
+</script>
+}

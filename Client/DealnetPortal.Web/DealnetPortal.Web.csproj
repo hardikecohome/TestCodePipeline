@@ -603,6 +603,8 @@
     <Content Include="Content\less\partials\navbar-fixed-side.less" />
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
+    <Content Include="Content\less\slick\ajax-loader.gif" />
+    <Content Include="Content\less\slick\fonts\slick.svg" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
     <Content Include="Favicon_Eco_Energy.ico" />
@@ -675,6 +677,11 @@
     <Content Include="Content\cldr\supplemental\weekData.json" />
     <Content Include="Content\cldr\supplemental\windowsZones.json" />
     <Content Include="Content\less\rate-cards.less" />
+    <Content Include="Content\less\slick\fonts\slick.eot" />
+    <Content Include="Content\less\slick\fonts\slick.ttf" />
+    <Content Include="Content\less\slick\fonts\slick.woff" />
+    <Content Include="Content\less\slick\slick-theme.less" />
+    <Content Include="Content\less\slick\slick.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -869,6 +876,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
+    <Folder Include="Content\slick\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Resources\" />
     <Folder Include="Views\AsyncCancellation\" />

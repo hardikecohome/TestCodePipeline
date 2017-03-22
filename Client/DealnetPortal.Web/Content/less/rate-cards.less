@@ -1,33 +1,46 @@
 .rate-cards-container{
+  &:not(.one-rate-card){
+    .rate-card{
+      float: left;
+      width: 23%;
+      margin: 0 1%;
 
-  .table-mode{
-    .row{
-      margin-bottom: 15px;
     }
-    div:not(.row-mode){
+    .table-mode{
       .row{
-        display: table;
-        width: 100%;
-        margin: 0 0 15px;
-        .col-sm-6,
-        .col-xs-6{
-          width: 50%;
-        }
-        [class*="col-"]{
-          display: table-cell;
-          vertical-align: bottom;
-          float: none;
-          padding: 0;
-        }
-        &.align-middle{
+        margin-bottom: 15px;
+      }
+      div:not(.row-mode){
+        .row{
+          display: table;
+          width: 100%;
+          margin: 0 0 15px;
+          .col-sm-6,
+          .col-xs-6{
+            width: 50%;
+          }
           [class*="col-"]{
-            height: 40px;
-            vertical-align: middle;
+            display: table-cell;
+            vertical-align: bottom;
+            float: none;
+            padding: 0;
+          }
+          &.align-middle{
+            [class*="col-"]{
+              height: 40px;
+              vertical-align: middle;
+            }
           }
         }
       }
     }
   }
+  &.one-rate-card{
+    .rate-card:not(.shown-card){
+      display: none;
+    }
+  }
+
 
   .rate-card{
     padding: 15px;
@@ -57,6 +70,17 @@
   }
   .promo-label{
     float: right;
+  }
+}
+
+
+.rate-card-notify{
+  position: relative;
+  padding-left: 30px;
+  .icon{
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 
