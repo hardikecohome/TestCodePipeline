@@ -23,6 +23,9 @@ $(document).ready(function () {
             }
 
             window.parseFloat = function(number) {
+                if (typeof number === 'undefined') {
+                    return number;
+                }
                 if (typeof number === 'number') {
                     return number;
                 }
