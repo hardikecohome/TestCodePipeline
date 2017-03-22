@@ -289,6 +289,11 @@ namespace DealnetPortal.Web.Controllers
             }            
         }
 
+        public ActionResult NewSecondStep()
+        {
+            return View();
+        }
+
         public ActionResult RateCards()
         {
             return View();

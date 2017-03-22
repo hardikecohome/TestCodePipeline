@@ -9,11 +9,21 @@
         display: table;
         width: 100%;
         margin: 0 0 15px;
+        .col-sm-6,
+        .col-xs-6{
+          width: 50%;
+        }
         [class*="col-"]{
           display: table-cell;
           vertical-align: bottom;
           float: none;
           padding: 0;
+        }
+        &.align-middle{
+          [class*="col-"]{
+            height: 40px;
+            vertical-align: middle;
+          }
         }
       }
     }
@@ -29,6 +39,7 @@
     }
     .btn{
       max-width: 100%;
+      width: 100%;
     }
     .notify-row{
       height: 80px;
@@ -59,10 +70,15 @@
   text-align: center;
 }
 
-.rate-cards-container{
+.slick-dotted.slick-slider{
+  @dots-width: 30px;
+  @dots-height: 30px;
+  margin-bottom: 80px;
   div:focus{
     outline: none !important;
   }
+
+
   .slick-list{
     padding-top: 5px;
     margin-top: -5px;
@@ -70,4 +86,22 @@
   .slick-arrow{
     display: none !important;
   }
+  .slick-dots{
+    bottom: -50px;
+    li{
+      width: @dots-width;
+      height: @dots-height;
+      button{
+        width: @dots-width;
+        height: @dots-height;
+        &:before{
+          line-height: @dots-height;
+          width: @dots-width;
+          height: @dots-height;
+        }
+      }
+    }
+  }
+}
+.rate-cards-container{
 }
