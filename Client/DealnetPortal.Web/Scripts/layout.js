@@ -28,15 +28,17 @@
       $('body').addClass('ie');
     }
 
-    $.ajax({
-        type: "GET",
-        url: layotSettingsUrl,
-        success: function (json) {
-            if (json.aboutAvailability) {
-                $('#sidebar-item-about').show();
+    if (layotSettingsUrl) {
+        $.ajax({
+            type: "GET",
+            url: layotSettingsUrl,
+            success: function(json) {
+                if (json.aboutAvailability) {
+                    $('#sidebar-item-about').show();
+                }
             }
-        }
-    });
+        });
+    }
 
     $('.chosen-language-link').on('click', function(){
       $(this).parents('.lang-switcher').toggleClass('open');
@@ -276,12 +278,9 @@
         currentTab.parents('.documents-pills-item').addClass('active');
       });
     }
-
       $('.customer-loan-form-panel .panel-heading').on('click', function(){
         panelCollapsed($(this));
       });
-
-
 
       if($('.customer-loan-page .btn-proceed').is('.disabled')){
         $('.btn-proceed-inline-hold[data-toggle="popover"]').popover({

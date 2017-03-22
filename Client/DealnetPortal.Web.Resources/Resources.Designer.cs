@@ -853,6 +853,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created By.
+        /// </summary>
+        public static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created by Customer.
+        /// </summary>
+        public static string CreatedByCustomer {
+            get {
+                return ResourceManager.GetString("CreatedByCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credit check approved.
         /// </summary>
         public static string CreditCheckApproved {
@@ -975,6 +993,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DateTo {
             get {
                 return ResourceManager.GetString("DateTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer.
+        /// </summary>
+        public static string Dealer {
+            get {
+                return ResourceManager.GetString("Dealer", resourceCulture);
             }
         }
         
@@ -1470,6 +1497,33 @@ namespace DealnetPortal.Web.Resources {
         public static string ForgotPassword {
             get {
                 return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form in English.
+        /// </summary>
+        public static string FormInEnglish {
+            get {
+                return ResourceManager.GetString("FormInEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form in French.
+        /// </summary>
+        public static string FormInFrench {
+            get {
+                return ResourceManager.GetString("FormInFrench", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your form was successfully updated but now is disabled and customers won&apos;t be able to use it..
+        /// </summary>
+        public static string FormUpdatedButCustomersNotAbleToUse {
+            get {
+                return ResourceManager.GetString("FormUpdatedButCustomersNotAbleToUse", resourceCulture);
             }
         }
         

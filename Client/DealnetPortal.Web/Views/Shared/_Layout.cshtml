@@ -29,7 +29,7 @@
         if (!window.console) window.console = {};
         if (!window.console.log) window.console.log = function () { };
         var urlContent = "@Url.Content("~/")";
-        var layotSettingsUrl = "@Url.Action("LayoutSettings", "Home")";
+        var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -173,7 +173,7 @@
                         <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg></span>
                             @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })
-                            <span class="new-deals-number">2</span>
+                            <span class="new-deals-number collapse" id="new-deals-number" ></span>
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-reports">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-reports-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-side")"></use></svg></span>
