@@ -265,7 +265,7 @@ function recalculateTotalCashPrice() {
     });
 
     if (!sum) { return; }
-    $("#equipment-cash-price").text(numberFormatter(sum));
+    $("#equipment-cash-price").text(formatNumber(sum));
     calculateLoanValues();
 }
 

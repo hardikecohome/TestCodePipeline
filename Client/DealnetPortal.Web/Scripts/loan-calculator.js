@@ -19,9 +19,9 @@
     var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
     if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) { return; }
     var hst = taxRate / 100 * equipmentCashPrice;
-    hstLabel.text(hst.toFixed(2));
+    hstLabel.text(formatNumber(hst));
     var totalCashPrice = equipmentCashPrice + hst;
-    totalCashPriceLabel.text(totalCashPrice.toFixed(2));
+    totalCashPriceLabel.text(formatNumber(totalCashPrice));
     var adminFee = parseFloat($("#admin-fee").val());
     if (isNaN(adminFee) || adminFee < 0) {
         adminFee = 0;
@@ -31,25 +31,25 @@
         downPayment = 0;
     }
     var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
-    totalAmountFinancedLabel.text(totalAmountFinanced.toFixed(2));
+    totalAmountFinancedLabel.text(formatNumber(totalAmountFinanced));
     var loanTerm = parseInt($("#loan-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val().replace(",","."));
     if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return; }
     var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
     isCalculationValid = totalMonthlyPayment > 0;
-    loanTotalMonthlyPaymentLabel.text(totalMonthlyPayment.toFixed(2));
+    loanTotalMonthlyPaymentLabel.text(formatNumber(totalMonthlyPayment));
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
-    loanTotalAllMonthlyPaymentsLabel.text(totalAllMonthlyPayments.toFixed(2));
+    loanTotalAllMonthlyPaymentsLabel.text(formatNumber(totalAllMonthlyPayments));
     var residualBalance = 0;
     if (loanTerm !== amortizationTerm) {
         residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
-    residualBalanceLabel.text(residualBalance.toFixed(2));
+    residualBalanceLabel.text(formatNumber(residualBalance));
     var totalObligation = totalAllMonthlyPayments + residualBalance;
-    totalObligationLabel.text(totalObligation.toFixed(2));
+    totalObligationLabel.text(formatNumber(totalObligation));
     var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced);
-    totalBorrowingCostLabel.text(totalBorrowingCost.toFixed(2));
+    totalBorrowingCostLabel.text(formatNumber(totalBorrowingCost));
 }
 
 function checkCalculationValidity(inputCashPrice, inputTaxRate) {
