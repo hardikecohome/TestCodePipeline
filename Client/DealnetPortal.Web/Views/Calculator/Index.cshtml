@@ -735,7 +735,8 @@
                 $scope.activeTabIndex = index;
             };
 
-            (function() {
+            $(document)
+                .ready(function() {
                 if ($(window).width() < 1023) {
                     $scope.isMobileMode = true;
                 }
@@ -770,20 +771,21 @@
                         $scope.isMobileMode = false;
                     }
                 });
-            })();
+            });
             for (var i = 0; i <= 3; i++) {
                 $scope.resetDisplayedValues(i);
             }
         });
 
-        (function() {
+        $(document)
+            .ready(function() {
             toggleClearInputIcon();
             displayCompareCalcs();
             $('#province-tax-rate').change();
 
             $('.calc-field-edit a').hide();
             $('.switch-calculators li .nav-tab-link').hide();
-        })();
+        });
 
         function resetFormValidator(formId) {
             var form = $(formId);
