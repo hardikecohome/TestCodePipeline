@@ -150,6 +150,6 @@ namespace DealnetPortal.Api.Integration.Services
             //}
 
             return alerts;
-        }
+        }        
     }
 }

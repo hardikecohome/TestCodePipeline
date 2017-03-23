@@ -3481,6 +3481,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to What equipment/service are you interested in?.
+        /// </summary>
+        public static string WhatEquipmentServiceYouInterestedIn {
+            get {
+                return ResourceManager.GetString("WhatEquipmentServiceYouInterestedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You will receive an email shortly at.
         /// </summary>
         public static string WillReceiveEmailShortly {
