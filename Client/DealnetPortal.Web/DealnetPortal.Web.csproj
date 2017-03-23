@@ -386,6 +386,8 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\email\email.html" />
+    <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -603,8 +605,6 @@
     <Content Include="Content\less\partials\navbar-fixed-side.less" />
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
-    <Content Include="Content\less\slick\ajax-loader.gif" />
-    <Content Include="Content\less\slick\fonts\slick.svg" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
     <Content Include="Favicon_Eco_Energy.ico" />
@@ -676,12 +676,6 @@
     <Content Include="Content\cldr\supplemental\timeData.json" />
     <Content Include="Content\cldr\supplemental\weekData.json" />
     <Content Include="Content\cldr\supplemental\windowsZones.json" />
-    <Content Include="Content\less\rate-cards.less" />
-    <Content Include="Content\less\slick\fonts\slick.eot" />
-    <Content Include="Content\less\slick\fonts\slick.ttf" />
-    <Content Include="Content\less\slick\fonts\slick.woff" />
-    <Content Include="Content\less\slick\slick-theme.less" />
-    <Content Include="Content\less\slick\slick.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -799,7 +793,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\loan-calculator.js" />
-    <Content Include="Scripts\slick.min.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -871,12 +864,9 @@
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
-    <Content Include="Views\NewRental\RateCards.cshtml" />
-    <Content Include="Views\NewRental\RateCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
-    <Folder Include="Content\slick\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Resources\" />
     <Folder Include="Views\AsyncCancellation\" />

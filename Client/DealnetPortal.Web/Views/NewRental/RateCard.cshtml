@@ -10,15 +10,16 @@ ViewBag.Title = "RateCard";
 
 <h2 class="dealnet-middle-header">Fixed Rate Loan Program</h2>
 
-<table class="table table-bordered">
-    <thead>
+<div class="rate-cards-page">
+    <table class="table table-bordered">
+        <thead>
         <tr>
             <th>Loan Amount</th>
             <th>Customer Rate</th>
             <th colspan="5">Loan Term/Amortization</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr>
             <td></td>
             <td></td>
@@ -64,14 +65,14 @@ ViewBag.Title = "RateCard";
             <td><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg></td>
             <td><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg></td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<div class="row">
-    <div class="col-md-6">
-        <h2 class="dealnet-middle-header">No Interest — Equal Payments Program</h2>
-        <table class="table table-bordered">
-            <tbody>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2 class="dealnet-middle-header">No Interest — Equal Payments Program</h2>
+            <table class="table table-bordered">
+                <tbody>
                 <tr>
                     <th>Loan Term/Amortization</th>
                     <td>24/24</td>
@@ -82,30 +83,33 @@ ViewBag.Title = "RateCard";
                     <td>8.60 %</td>
                     <td>12.30 %</td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-6">
-        <h2 class="dealnet-middle-header">Deferral Program</h2>
-        <table class="table table-bordered">
-            <tbody>
-            <tr>
-                <th>Period</th>
-                <td>Dealer Cost</td>
-                <td>6 month</td>
-                <td>12 month</td>
-            </tr>
-            <tr>
-                <th>Dealer Cost</th>
-                <td>2.50 %</td>
-                <td>5.00 %</td>
-                <td>9.70 %</td>
-            </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <h2 class="dealnet-middle-header">Deferral Program</h2>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Period</th>
+                    <td>Dealer Cost</td>
+                    <td>6 month</td>
+                    <td>12 month</td>
+                </tr>
+                <tr>
+                    <th>Dealer Cost</th>
+                    <td>2.50 %</td>
+                    <td>5.00 %</td>
+                    <td>9.70 %</td>
+                </tr>
+                </tbody>
+            </table>
 
+        </div>
     </div>
+
+    <a class="btn dealnet-button dealnet-success-button" href="@Url.Action("NewSecondStep", "NewRental")">Back to the 2 step</a>
 </div>
 
-<button class="btn dealnet-button dealnet-success-button" onClick="window.open('newPage.aspx', 'newPage');">Back to the 2 step</button>
+
 

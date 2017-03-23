@@ -4,12 +4,13 @@
       float: left;
       width: 23%;
       margin: 0 1%;
+      @media @tablet-down {
+        width: 50%;
+        margin: 0 15px;
+      }
 
     }
     .table-mode{
-      .row{
-        margin-bottom: 15px;
-      }
       div:not(.row-mode){
         .row{
           display: table;
@@ -24,6 +25,12 @@
             vertical-align: bottom;
             float: none;
             padding: 0;
+            &:first-child{
+              padding-right: 15px;
+            }
+            &:last-child{
+              padding-left: 15px;
+            }
           }
           &.align-middle{
             [class*="col-"]{
@@ -34,9 +41,19 @@
         }
       }
     }
+
+    .col-cards-md-12{
+      width: 100%;
+    }
+    .control-cell{
+      padding-left: 15px;
+    }
   }
   &.one-rate-card{
     .rate-card:not(.shown-card){
+      display: none;
+    }
+    .btn{
       display: none;
     }
   }
@@ -47,6 +64,9 @@
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    &.checked{
+      box-shadow: 0 0 3px 0 rgba(195, 74, 74, 0.75);
+    }
     .rate-card-title{
       text-transform: uppercase;
     }
@@ -104,7 +124,7 @@
 
 
   .slick-list{
-    padding-top: 5px;
+    padding: 5px 0 5px 0;
     margin-top: -5px;
   }
   .slick-arrow{
@@ -127,5 +147,7 @@
     }
   }
 }
-.rate-cards-container{
+
+.rate-cards-page{
+  max-width: 770px;
 }
