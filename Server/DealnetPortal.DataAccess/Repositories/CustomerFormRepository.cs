@@ -94,5 +94,11 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Contract CreateContractForDealer(string dealerName)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

@@ -1528,6 +1528,33 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Form in English.
+        /// </summary>
+        public static string FormInEnglish {
+            get {
+                return ResourceManager.GetString("FormInEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form in French.
+        /// </summary>
+        public static string FormInFrench {
+            get {
+                return ResourceManager.GetString("FormInFrench", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your form was successfully updated but now is disabled and customers won&apos;t be able to use it..
+        /// </summary>
+        public static string FormUpdatedButCustomersNotAbleToUse {
+            get {
+                return ResourceManager.GetString("FormUpdatedButCustomersNotAbleToUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your form was successfully updated and customers can already use it..
         /// </summary>
         public static string FormUpdatedCustomersCanUse {
@@ -3046,7 +3073,7 @@ namespace DealnetPortal.Web.Resources {
             get {
                 return ResourceManager.GetString("SubmitApplication", resourceCulture);
             }
-        }
+        }                
         
         /// <summary>
         ///   Looks up a localized string similar to Submit Deal.

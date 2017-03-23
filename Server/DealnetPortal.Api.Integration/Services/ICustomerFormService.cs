@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 
