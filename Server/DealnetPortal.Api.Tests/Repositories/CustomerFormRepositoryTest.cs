@@ -48,13 +48,13 @@ namespace DealnetPortal.Api.Tests.Repositories
         public void TestEnableLanguages()
         {
             //enable en
-            var enabledLangs = new List<Language> {new Language() {Id = (int) LanguageCode.English}};
+            var enabledLangs = new List<DealerLanguage> {new DealerLanguage() {LanguageId = (int) LanguageCode.English}};
             var updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(enabledLangs, _user.Id);
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);
             Assert.AreEqual(updatedLink.EnabledLanguages.Count, 1);
             //disable all lang
-            enabledLangs = new List<Language>();
+            enabledLangs = new List<DealerLanguage>();
             updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(enabledLangs, _user.Id);
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);

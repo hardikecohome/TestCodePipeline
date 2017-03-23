@@ -31,7 +31,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return user?.CustomerLink;
         }
 
-        public CustomerLink UpdateCustomerLinkLanguages(ICollection<Language> enabledLanguages, string dealerId)
+        public CustomerLink UpdateCustomerLinkLanguages(ICollection<DealerLanguage> enabledLanguages, string dealerId)
         {
             var user = _dbContext.Users
                 .Include(u => u.CustomerLink)
@@ -46,13 +46,19 @@ namespace DealnetPortal.DataAccess.Repositories
                     user.CustomerLink = updatedLink;
                 }
 
-                updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.Id != l.Id)).ToList().ForEach(l => updatedLink.EnabledLanguages.Remove(l));
-                enabledLanguages.Where(el => updatedLink.EnabledLanguages.All(ul => ul.Id != el.Id)).ForEach(el =>
+                updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.LanguageId != l.LanguageId)).ToList().ForEach(l => updatedLink.EnabledLanguages.Remove(l));
+                enabledLanguages.Where(el => updatedLink.EnabledLanguages.All(ul => ul.LanguageId != el.LanguageId)).ForEach(el =>
                 {
-                    var lang = _dbContext.Languages.Find(el.Id);
+                    var lang = _dbContext.Languages.Find(el.LanguageId);
                     if (lang != null)
                     {
-                        updatedLink.EnabledLanguages.Add(lang);
+                        updatedLink.EnabledLanguages.Add(new DealerLanguage()
+                        {
+                            CustomerLink = updatedLink,
+                            CustomerLinkId = updatedLink.Id,
+                            Language = lang,
+                            LanguageId = lang.Id
+                        });
                     }
                 });
                 return updatedLink;

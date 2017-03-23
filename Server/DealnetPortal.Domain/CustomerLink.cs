@@ -13,12 +13,12 @@ namespace DealnetPortal.Domain
         public CustomerLink()
         {
             Services = new HashSet<DealerService>();
-            EnabledLanguages = new HashSet<Language>();
+            EnabledLanguages = new HashSet<DealerLanguage>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public virtual ICollection<Language> EnabledLanguages { get; set; }
+        public virtual ICollection<DealerLanguage> EnabledLanguages { get; set; }
         public virtual ICollection<DealerService> Services { get; set; }
     }
 }

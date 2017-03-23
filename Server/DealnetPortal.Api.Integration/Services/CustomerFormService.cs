@@ -58,13 +58,13 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var langSettings = new CustomerLinkLanguageOptionsDTO
                 {
-                    IsLanguageEnabled = linkSettings.EnabledLanguages.FirstOrDefault(l => l.Code == language) != null
+                    IsLanguageEnabled = linkSettings.EnabledLanguages.FirstOrDefault(l => l.Language?.Code == language) != null
                 };
                 if (langSettings.IsLanguageEnabled)
                 {
                     langSettings.LanguageServices =
                         linkSettings.Services.Where(
-                            s => s.LanguageId == linkSettings.EnabledLanguages.First(l => l.Code == language).Id)
+                            s => s.LanguageId == linkSettings.EnabledLanguages.First(l => l.Language?.Code == language).Id)
                             .Select(s => s.Service).ToList();
                 }                
                 langSettings.EnabledLanguages =
