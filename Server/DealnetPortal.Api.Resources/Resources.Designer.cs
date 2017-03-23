@@ -418,6 +418,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ID Not yet generated.
+        /// </summary>
+        public static string IDNotYetGenerated {
+            get {
+                return ResourceManager.GetString("IDNotYetGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid user email..
         /// </summary>
         public static string InvalidUserEmail {

@@ -119,57 +119,37 @@ namespace DealnetPortal.Api.Integration.Services
             md.IsBodyHtml = true;
             md.Subject = "New customer applied for financing";
 
+            var address = string.Empty;
+            var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
+            if (addresItem != null)
+            {
+                address = string.Format("{0}, {1}, {2}, {3}", addresItem.Street, addresItem.City, addresItem.PostalCode, addresItem.State);
+            }
             ListDictionary replacements = new ListDictionary();
-            replacements.Add("{contractId}", "");               //todo;
+            replacements.Add("{contractId}", Resources.Resources.IDNotYetGenerated);
             replacements.Add("{fullName}", string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.FirstName));
             replacements.Add("{amount}", customerFormData.PrimaryCustomer);
-            replacements.Add("{serviceType}", "Denmark");
+            replacements.Add("{serviceType}", "Denmark"); //todo:
             replacements.Add("{comment}", customerFormData.CustomerComment);
-            replacements.Add("{address}", "Denmark");
-            replacements.Add("{homePhone}",customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p=>p.PhoneType == PhoneType.Home).PhoneNum);
-            replacements.Add("{cellPhone}", "Denmark");
-            replacements.Add("{businessPhone}", "Denmark");
-            replacements.Add("{email}", "Denmark");
+            replacements.Add("{address}", address);
+            replacements.Add("{homePhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p=>p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty);
+            replacements.Add("{cellPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty);
+            replacements.Add("{businessPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty));
+            replacements.Add("{email}", customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m=>m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty );
 
             string body = Resources.Resources.DealerConfirmationMailtemplate;
 
-            MailMessage msg = md.CreateMailMessage("you@anywhere.com", replacements, body, new System.Web.UI.Control());
-
-
+            MailMessage msg = md.CreateMailMessage("rusak.dmitry@gmail.com", replacements, body, new System.Web.UI.Control());
 
             //////
             var alerts = new List<Alert>();
 
-            if (customerFormData != null)
-            {
+            //if (customerFormData != null)
+            //{
                 
-            }
+            //}
 
             return alerts;
-        }
-
-        public void SendErrorMail(string commaSeparatedEmails, string errorDate, string pageName, string errorMessage, string errorSource, string errorInnerException, string errorData, string errorTarget, string errorStack)
-        {
-            try
-            {
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("", "");
-                SmtpServer.EnableSsl = true;
-                mail.From = new MailAddress("no-reply");
-                mail.To.Add(commaSeparatedEmails);
-
-                mail.Bcc.Add("");
-                mail.Subject = "Chuttitime - Error Details";
-                string mailtable = Resources.Resources.DealerConfirmationMailtemplate;
-                mail.IsBodyHtml = true;
-                mail.Body = mailtable;
-                SmtpServer.Send(mail);
-            }
-            catch (Exception ex)
-            {
-            }
         }
     }
 }
