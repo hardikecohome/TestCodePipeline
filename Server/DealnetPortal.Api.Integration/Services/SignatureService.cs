@@ -34,7 +34,6 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
-        private readonly IDealerRepository _dealerRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireStorageService _aspireStorageService;
 
@@ -47,14 +46,13 @@ namespace DealnetPortal.Api.Integration.Services
         private List<string> _signatureRoles = new List<string>();
 
         public SignatureService(ISignatureEngine signatureEngine, IPdfEngine pdfEngine, IContractRepository contractRepository,
-            IFileRepository fileRepository, IUnitOfWork unitOfWork, IAspireStorageService aspireStorageService, ILoggingService loggingService, IDealerRepository dealerRepository)
+            IFileRepository fileRepository, IUnitOfWork unitOfWork, IAspireStorageService aspireStorageService, ILoggingService loggingService)
         {
             _signatureEngine = signatureEngine;
             _pdfEngine = pdfEngine;
             //_signatureServiceAgent = signatureServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
-            _dealerRepository = dealerRepository;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
             _aspireStorageService = aspireStorageService;
@@ -519,23 +517,15 @@ namespace DealnetPortal.Api.Integration.Services
 
             var dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
                 (at.DealerId == contractOwnerId) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
-
             if (!string.IsNullOrEmpty(contract.ExternalSubDealerName))
             {
                 var extTemplates = _fileRepository.FindAgreementTemplates(at =>
                     (at.ExternalDealerName == contract.ExternalSubDealerName) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
                 extTemplates?.ForEach(et => dealerTemplates.Add(et));
             }
-
-            if (!dealerTemplates?.Any() ?? true)
-            {
-                var parentDealerId = _dealerRepository.GetParentId(contractOwnerId);
-                dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
-                (at.DealerId == parentDealerId) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
-            }
-
+            
             // get agreement template 
-                AgreementTemplate agreementTemplate = null;
+            AgreementTemplate agreementTemplate = null;
 
             if (dealerTemplates?.Any() ?? false)                
             {
