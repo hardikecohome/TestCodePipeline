@@ -14,10 +14,10 @@ namespace DealnetPortal.Web.Models
         [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public ContactInfoViewModel HomeOwnerContactInfo { get; set; }
-        [Display(Name = "What equipment/service are you interested in?")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "WhatEquipmentServiceYouInterestedIn")]
         public string Service { get; set; }
         [Required]
-        [Display(Name = "Add Comment")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "AddComment")]
         public string Comment { get; set; }
     }
 }
