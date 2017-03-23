@@ -214,6 +214,30 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 3.2//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h3&gt;New customer applied for financing&lt;/h3&gt;
+        ///	&lt;div&gt;
+        ///		&lt;p&gt;Contract ID: 789456&lt;/p&gt;
+        ///		&lt;p&gt;&lt;b&gt;Name: Joe Doe&lt;/b&gt;&lt;/p&gt;
+        ///		&lt;p&gt;&lt;b&gt;Pre-approved: $20 000.00&lt;/b&gt;&lt;/p&gt;
+        ///		&lt;p&gt;&lt;b&gt;Selected type of service: Furnace&lt;/b&gt;&lt;/p&gt;
+        ///		&lt;p&gt;Comment: &quot;My furnace just broke, I need to replace it quickly&quot;&lt;/p&gt;
+        ///		&lt;p&gt;Installation address: 55 Avenue Rd, Toronto, M5R 3L2, Ontario&lt;/p&gt;
+        ///		&lt;p&gt;Home phone: 1234567890&lt;/p&gt;
+        ///		&lt;p&gt;Cell phone: 1 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string DealerConfirmationMailtemplate {
+            get {
+                return ResourceManager.GetString("DealerConfirmationMailtemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Doors.
         /// </summary>
         public static string Doors {

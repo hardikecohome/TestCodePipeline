@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -110,7 +113,31 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            MailDefinition md = new MailDefinition();
+            md.From = "no-reply";
+            md.IsBodyHtml = true;
+            md.Subject = "New customer applied for financing";
+
+            ListDictionary replacements = new ListDictionary();
+            replacements.Add("{contractId}", "");               //todo;
+            replacements.Add("{fullName}", string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.FirstName));
+            replacements.Add("{amount}", customerFormData.PrimaryCustomer);
+            replacements.Add("{serviceType}", "Denmark");
+            replacements.Add("{comment}", customerFormData.CustomerComment);
+            replacements.Add("{address}", "Denmark");
+            replacements.Add("{homePhone}",customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p=>p.PhoneType == PhoneType.Home).PhoneNum);
+            replacements.Add("{cellPhone}", "Denmark");
+            replacements.Add("{businessPhone}", "Denmark");
+            replacements.Add("{email}", "Denmark");
+
+            string body = Resources.Resources.DealerConfirmationMailtemplate;
+
+            MailMessage msg = md.CreateMailMessage("you@anywhere.com", replacements, body, new System.Web.UI.Control());
+
+
+
+            //////
             var alerts = new List<Alert>();
 
             if (customerFormData != null)
@@ -119,6 +146,30 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        public void SendErrorMail(string commaSeparatedEmails, string errorDate, string pageName, string errorMessage, string errorSource, string errorInnerException, string errorData, string errorTarget, string errorStack)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("", "");
+                SmtpServer.EnableSsl = true;
+                mail.From = new MailAddress("no-reply");
+                mail.To.Add(commaSeparatedEmails);
+
+                mail.Bcc.Add("");
+                mail.Subject = "Chuttitime - Error Details";
+                string mailtable = Resources.Resources.DealerConfirmationMailtemplate;
+                mail.IsBodyHtml = true;
+                mail.Body = mailtable;
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }
