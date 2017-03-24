@@ -68,8 +68,21 @@
   }
 }
 
+.scrollable-container{
+  position: relative;
+  .scrollable-content{
+    overflow: auto;
+  }
+  &:after{
+    .scroll-more-horizontal;
+  }
+}
 
 .rate-cards-table.table {
+  th, td{
+    padding: 9px 8px;
+    vertical-align: middle;
+  }
   color: #525251;
   font: 14px @usual-font-family;
   &.table-bordered {
@@ -78,11 +91,14 @@
       background: #f9f9f9;
       border: 0 !important;
       font-weight: 600;
-      vertical-align: top;
     }
   }
 }
 .loan-amort-table.table{
+  min-width: 538px;
+  th{
+     padding: 14px 8px 15px;
+  }
   td{
     border-color: #ededed;
     text-align: center;
@@ -95,11 +111,12 @@
   th, td{
     width: 98px;
     &:nth-child(1){
+      min-width: 60px;
       width: 160px;
       text-align: left;
     }
     &:nth-child(2){
-      width: 110px;
+      min-width: 110px;
     }
   }
 }
@@ -108,13 +125,11 @@
   max-width: 370px;
   td{
     text-align: center;
-    width: 50px;
   }
 }
 .table-deferral.table{
   max-width: 370px;
   td{
     text-align: center;
-    width: 50px;
   }
 }
