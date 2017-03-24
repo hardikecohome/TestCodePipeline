@@ -121,13 +121,36 @@ ViewBag.Title = "RateCard";
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+        hasScrollHorizontal($('.scrollable-content'));
+
+        $(window).on('resize', function(){
+            hasScrollHorizontal($('.scrollable-content'));
+        });
+
+        function hasScrollHorizontal(element){
+            if(element.hasScrollBar().horizontal){
+                element.parent().addClass('has-scroll')
+            }else{
+                element.parent().removeClass('has-scroll')
+            }
+        }
+
         $('.rate-cards-table .chosen-cell').each(function(){
             var chosenIcon = '<svg aria-hidden="true" class="icon icon-success"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-success"></use></svg>';
             $(this).prepend(chosenIcon)
         });
     });
 
-
+    (function($) {
+        $.fn.hasScrollBar = function() {
+            var e = this.get(0);
+            return {
+                vertical: e.scrollHeight > e.clientHeight,
+                horizontal: e.scrollWidth > e.clientWidth
+            };
+        }
+    })(jQuery);
 </script>
 }
 
