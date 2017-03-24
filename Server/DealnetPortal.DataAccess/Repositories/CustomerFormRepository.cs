@@ -46,7 +46,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     user.CustomerLink = updatedLink;
                 }
 
-                updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.LanguageId != l.LanguageId)).ToList().ForEach(l => updatedLink.EnabledLanguages.Remove(l));
+                updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.LanguageId != l.LanguageId)).ToList().ForEach(l => _dbContext.DealerLanguages.Remove(l));
                 enabledLanguages.Where(el => updatedLink.EnabledLanguages.All(ul => ul.LanguageId != el.LanguageId)).ForEach(el =>
                 {
                     var lang = _dbContext.Languages.Find(el.LanguageId);
