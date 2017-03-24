@@ -35,7 +35,7 @@
 		<p class="text-semibold preapproved-text">@Resources.PreApprovedFor $ 25,000</p>
 
 		<div class="row form-group">
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<label for="">Type of agreement</label>
 				<select name="" id="typeOfAgreementSelect" class="form-control">
 					<option selected="selected" value="0">Loan</option>
@@ -52,7 +52,7 @@
 					<span class="equipment-number">№1</span>
 				</div>
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="NewEquipment_0__Type">Type</label>
 							<select class="form-control" id="NewEquipment_0__Type" name="NewEquipment[0].Type">
@@ -70,7 +70,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="NewEquipment_0__Cost">Cost</label>
 							<div class="control-group has-addon-left">
@@ -90,31 +90,57 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row rental-element">
+			<div class="col-md-3">
+				<br>
+				<div class="form-group">
+					<label for="">Total Monthy Payment</label>
+					<div class="control-group has-addon-left">
+						<div class="control-group-addon">$</div>
+						<input class="form-control dealnet-input" id="" name="" placeholder="Total Monthy Payment" type="text">
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<hr>
+		<div class="row rental-element">
+			<div class="col-md-6">
+				<div class="row form-group">
+					<div class="col-sm-6">HST</div>
+					<div class="col-sm-6 text-right text-semibold">$ <span>2,400.00</span></div>
+				</div>
+				<div class="row form-group">
+					<div class="col-sm-6">Total Monthly Payment (TAX INCL.)</div>
+					<div class="col-sm-6 text-right text-semibold">$ <span>22,459.95</span></div>
+				</div>
+			</div>
+		</div>
 		<div class="row loan-element">
 			<div class="col-md-6">
 				<div class="row form-group">
 					<div class="col-sm-6">Total Price of Equipment</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span id="equipment-cash-price">22,400.00</span></div>
+					<div class="col-sm-6 text-right text-semibold">$ <span>22,400.00</span></div>
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-6">HST</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span id="equipment-cash-price">2,400.00</span></div>
+					<div class="col-sm-6 text-right text-semibold">$ <span>2,400.00</span></div>
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-6">Total Cash Price</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span id="equipment-cash-price">22,459.95</span></div>
+					<div class="col-sm-6 text-right text-semibold">$ <span>22,459.95</span></div>
 				</div>
 			</div>
 		</div>
 		<br>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<div class="form-group">
 					<label for="">Down Payment</label>
 					<div class="control-group has-addon-left">
 						<div class="control-group-addon">$</div>
-						<input class="form-control dealnet-input equipment-cost" id="" name="" placeholder="Down Payment" type="text">
+						<input class="form-control dealnet-input" id="" name="" placeholder="Down Payment" type="text">
 					</div>
 				</div>
 			</div>
@@ -127,6 +153,28 @@
 					Rate Card
 				</a>
 			</h3>
+
+			<div class="row rental-element">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="">Requested Term</label>
+						<div class="control-group">
+							<input class="form-control dealnet-input" placeholder="Requested Term" type="text">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="">Deferral Type</label>
+						<div class="control-group">
+							<select name="" id="" class="form-control">
+								<option value="">- not-selected -</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!--<div class="rate-cards-container row one-rate-card">-->
 			<div class="rate-cards-container row loan-element">
 				<div class="rate-card table-mode">
@@ -276,12 +324,14 @@
 						</div>
 					</div>
 					<div class="equal-height-row-3">
-						<div class="form-group">
-							<label for="">Deferral Period</label>
-							<select class="form-control" id="" name="">
-								<option selected="selected">3 month</option>
-								<option>36/36</option>
-							</select>
+						<div class="clearfix">
+							<div class="form-group">
+								<label for="">Deferral Period</label>
+								<select class="form-control" id="" name="">
+									<option selected="selected">3 month</option>
+									<option>36/36</option>
+								</select>
+							</div>
 						</div>
 					</div>
 					<div class="equal-height-row-4">
@@ -339,7 +389,7 @@
 					<div class="row row-mode">
 						<div class="col-md-6 col-cards-md-12 equal-height-row-2 row-mode">
 							<div class="row">
-								<div class="col-sm-6">
+								<div class="col-xs-6">
 									<div class="form-group">
 										<label for="">Loan Term</label>
 										<div class="control-group">
@@ -347,7 +397,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-6">
+								<div class="col-xs-6">
 									<div class="form-group">
 										<label for="">Amort. Term</label>
 										<div class="control-group">
@@ -358,13 +408,15 @@
 							</div>
 						</div>
 						<div class="col-md-3 col-cards-md-12 equal-height-row-3 col-sm-6">
-							<div class="form-group">
-								<label for="">Deferral Period</label>
-								<div class="control-group">
-									<select name="" id="" class="form-control">
-										<option value="">- not-selected -</option>
-										<option value="">3 month</option>
-									</select>
+							<div class="clearfix">
+								<div class="form-group">
+									<label for="">Deferral Period</label>
+									<div class="control-group">
+										<select name="" id="" class="form-control">
+											<option value="">- not-selected -</option>
+											<option value="">3 month</option>
+										</select>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -477,12 +529,27 @@ $(document).ready(function(){
 			$('.rental-element').show();
 			$('.loan-element').hide();
 		}
-	});
+	}).change();
 
 	setEqualHeightRows($(".equal-height-row-1"));
 	setEqualHeightRows($(".equal-height-row-2"));
 	setEqualHeightRows($(".equal-height-row-3"));
 	setEqualHeightRows($(".equal-height-row-4"));
+
+
+	slickRateCards();
+
+
+
+	$(window).resize(function(){
+		slickRateCards();
+
+		setEqualHeightRows($(".equal-height-row-1"));
+		setEqualHeightRows($(".equal-height-row-2"));
+		setEqualHeightRows($(".equal-height-row-3"));
+		setEqualHeightRows($(".equal-height-row-4"));
+
+	});
 
 	function setEqualHeightRows( row){
 		var maxHeight = 0;
@@ -493,24 +560,10 @@ $(document).ready(function(){
 		row.height(maxHeight);
 	}
 
-	slickRateCards();
-
-
-
-	$(window).resize(function(){
-
-		slickRateCards();
-
-		setEqualHeightRows($(".equal-height-row-1"));
-		setEqualHeightRows($(".equal-height-row-2"));
-		setEqualHeightRows($(".equal-height-row-3"));
-		setEqualHeightRows($(".equal-height-row-4"));
-
-	});
 	function  slickRateCards(){
 		if(viewport().width <= 1023){
 			$('.rate-cards-container').not('.slick-initialized').not('.one-rate-card').slick({
-				infinite: true,
+				infinite: false,
 				dots: true,
 				speed: 300,
 				slidesToShow: 4,
@@ -520,14 +573,16 @@ $(document).ready(function(){
 						breakpoint: 1024,
 						settings: {
 							slidesToShow: 2,
-							slidesToScroll: 2
+							slidesToScroll: 2,
+							infinite: false
 						}
 					},
 					{
 						breakpoint: 768,
 						settings: {
 							slidesToShow: 1,
-							slidesToScroll: 1
+							slidesToScroll: 1,
+							infinite: false
 						}
 					}
 				]
