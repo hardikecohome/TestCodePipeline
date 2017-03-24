@@ -69,18 +69,52 @@
 }
 
 
-.table{
+.rate-cards-table.table {
   color: #525251;
   font: 14px @usual-font-family;
-  &.table-bordered{
+  &.table-bordered {
     border-color: #ededed;
-    th{
+    th {
       background: #f9f9f9;
       border: 0 !important;
       font-weight: 600;
+      vertical-align: top;
     }
-    td{
-      border-color: #ededed;
+  }
+}
+.loan-amort-table.table{
+  td{
+    border-color: #ededed;
+    text-align: center;
+    .icon{
+      width: 12px;
+      height: 12px;
+      top: 0;
     }
+  }
+  th, td{
+    width: 98px;
+    &:nth-child(1){
+      width: 160px;
+      text-align: left;
+    }
+    &:nth-child(2){
+      width: 110px;
+    }
+  }
+}
+
+.table-no-interest.table{
+  max-width: 370px;
+  td{
+    text-align: center;
+    width: 50px;
+  }
+}
+.table-deferral.table{
+  max-width: 370px;
+  td{
+    text-align: center;
+    width: 50px;
   }
 }
