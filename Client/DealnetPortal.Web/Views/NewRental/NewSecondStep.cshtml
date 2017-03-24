@@ -152,47 +152,47 @@
 					</div>
 					<div class="equal-height-row-4">
 						<div class="row form-group">
-							<div class="col-sm-6">Customer Rate</div>
-							<div class="col-sm-6 text-right text-semibold">7.99%</div>
+							<div class="col-xs-6">Customer Rate</div>
+							<div class="col-xs-6 text-right text-semibold">7.99%</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Your Cost</div>
-							<div class="col-sm-6 text-right text-semibold">0%</div>
+							<div class="col-xs-6">Your Cost</div>
+							<div class="col-xs-6 text-right text-semibold">0%</div>
 						</div>
 					</div>
 					<hr>
 					<div class="">
 						<div class="row form-group align-middle">
-							<div class="col-sm-6">Admin Fee</div>
-							<div class="col-sm-6 text-right text-semibold">$ 39.95</div>
+							<div class="col-xs-6">Admin Fee</div>
+							<div class="col-xs-6 text-right text-semibold">$ 39.95</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Monthly Payment</div>
-							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+							<div class="col-xs-6">Monthly Payment</div>
+							<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Cost of Borrowing</div>
-							<div class="col-sm-6 text-right text-semibold">$ 1229.85</div>
+							<div class="col-xs-6">Cost of Borrowing</div>
+							<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Your Cost</div>
-							<div class="col-sm-6 text-right text-semibold">$ 0</div>
+							<div class="col-xs-6">Your Cost</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Total Amount Financed</div>
-							<div class="col-sm-6 text-right text-semibold">$ 6139.95</div>
+							<div class="col-xs-6">Total Amount Financed</div>
+							<div class="col-xs-6 text-right text-semibold">$ 6139.95</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Total of All Monthly Payments</div>
-							<div class="col-sm-6 text-right text-semibold">$ 300.89</div>
+							<div class="col-xs-6">Total of All Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Balance Owing at the End of Monthly Payments</div>
-							<div class="col-sm-6 text-right text-semibold">$ 1229.85</div>
+							<div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+							<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
 						</div>
 						<div class="row form-group">
-							<div class="col-sm-6">Total Obligation</div>
-							<div class="col-sm-6 text-right text-semibold">$ 0</div>
+							<div class="col-xs-6">Total Obligation</div>
+							<div class="col-xs-6 text-right text-semibold">$ 0</div>
 						</div>
 					</div>
 				</div>
@@ -329,7 +329,7 @@
 					</div>
 				</div>
 				<div class="rate-card table-mode shown-card">
-					<div class="rate-card-header">
+					<div class="rate-card-header equal-height-row-1">
 						<h4 class="card-title">CUSTOM</h4>
 					</div>
 					<hr>
@@ -367,7 +367,7 @@
 						</div>
 						<div class="col-md-3 col-sm-6 col-cards-md-12 equal-height-row-4 row-mode">
 							<div class="row">
-								<div class="col-sm-6">
+								<div class="col-xs-6">
 									<div class="form-group">
 										<label for="">Customer Rate</label>
 										<div class="control-group has-addon-right">
@@ -376,7 +376,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-6">
+								<div class="col-xs-6">
 									<div class="form-group">
 										<label for="">Your Cost</label>
 										<div class="control-group has-addon-right">
@@ -433,6 +433,10 @@
 				</div>
 			</div>
 		</div>
+		<div class="well danger-well error-descr">
+			<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+			<span class="error-message">Total Amount Financed needs to be in the range of $1,000 to $50,000.</span>
+		</div>
 
 		<div class="row" id="saveproceed-button">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -459,35 +463,44 @@ $(document).ready(function(){
 	});
 
 	$('#typeOfAgreementSelect').on('change', function(){
-		if($(this).val() !== 0){
-			//If rental is chosen
-			$('.rental-element').show();
-			$('.loan-element').hide();
-		}else{
+		if($(this).find("option:selected").text() === "Loan"){
 			//If loan is chosen
 			$('.rental-element').hide();
 			$('.loan-element').show();
+		}else{
+			//If rental is chosen
+			$('.rental-element').show();
+			$('.loan-element').hide();
 		}
-	})
-	var maxHeight = 0;
+	});
 
 	setEqualHeightRows($(".equal-height-row-1"));
 	setEqualHeightRows($(".equal-height-row-2"));
 	setEqualHeightRows($(".equal-height-row-3"));
 	setEqualHeightRows($(".equal-height-row-4"));
 
-
-
 	function setEqualHeightRows( row){
+		var maxHeight = 0;
+
 		row.each(function(){
-			if ($(this).outerHeight(true) > maxHeight) { maxHeight = $(this).outerHeight(true);}
+			if ($(this).height() > maxHeight) { maxHeight = $(this).height()}
 		});
 		row.height(maxHeight);
 	}
 
 	slickRateCards();
+
+
+
 	$(window).resize(function(){
-		slickRateCards()
+
+		slickRateCards();
+
+		setEqualHeightRows($(".equal-height-row-1"));
+		setEqualHeightRows($(".equal-height-row-2"));
+		setEqualHeightRows($(".equal-height-row-3"));
+		setEqualHeightRows($(".equal-height-row-4"));
+
 	});
 	function  slickRateCards(){
 		if(viewport().width <= 1023){
