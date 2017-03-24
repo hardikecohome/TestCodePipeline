@@ -118,7 +118,7 @@ function showChart() {
                                           maxRotation: maxRotation,
                                           userCallback: function(value, index, values) {
                                             if(values.length <= 13 && $('body').is('.mobile-device')){
-                                              value = value.slice(0, 3);
+                                              value = value.slice(0, 4);
                                             }
                                             return value;
                                           }
