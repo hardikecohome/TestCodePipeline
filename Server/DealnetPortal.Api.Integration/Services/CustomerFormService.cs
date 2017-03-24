@@ -120,11 +120,6 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             if (customerFormData != null)
             {
-                //MailDefinition md = new MailDefinition();
-                //md.From = ConfigurationManager.AppSettings["EmailService.FromEmailAddress"];
-                //md.IsBodyHtml = true;
-                //md.Subject = "New customer applied for financing";
-
                 var address = string.Empty;
                 var addresItem =
                     customerFormData.PrimaryCustomer.Locations.FirstOrDefault(
@@ -155,29 +150,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Destination = "dmitry.rusak@dataart.com"
                 };
                 _emailService.SendAsync(message);
-                //ListDictionary replacements = new ListDictionary();
-                //replacements.Add("{contractId}", Resources.Resources.IDNotYetGenerated);
-                //replacements.Add("{fullName}", string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.LastName));
-                //replacements.Add("{amount}", "Amount from Espire"); //todo: Need to get this amount from espire
-                //replacements.Add("{serviceType}", customerFormData.SelectedService ?? string.Empty);
-                //replacements.Add("{comment}", customerFormData.CustomerComment);
-                //replacements.Add("{address}", address);
-                //replacements.Add("{homePhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty);
-                //replacements.Add("{cellPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty);
-                //replacements.Add("{businessPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty);
-                //replacements.Add("{email}", customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty);
-
-                //string body = Resources.Resources.DealerConfirmationMailtemplate;
-
-                //MailMessage msg = md.CreateMailMessage("rusak.dmitry@gmail.com", replacements, body, new System.Web.UI.Control());
-
-                //var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"], Convert.ToInt32(ConfigurationManager.AppSettings["EmailService.SmtpPort"]));
-                //var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
-                //smtpClient.Credentials = credentials;
-                //using (smtpClient)
-                //{
-                //    smtpClient.Send(msg);
-                //}
             }
             else
             {
