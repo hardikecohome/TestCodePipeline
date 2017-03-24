@@ -143,7 +143,6 @@ namespace DealnetPortal.Api.Integration.Services
                 body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
                 body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
                 body.AppendLine("</div>");
-
                 var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
                 var message = new IdentityMessage()
                 {
