@@ -439,7 +439,6 @@
 
 
     <script type="text/javascript">
-
         var app = angular.module("calculator", []);
 
         app.directive('resetForm', function() {
@@ -596,15 +595,24 @@
                 });
                 $scope['displayedEquipmentType' + index] = allEquipmentTypes;
                 $scope['displayedEquipmentDescription' + index] = allDescriptions;
-                $scope['displayedEquipmentCashPrice' + index] = typeof state.equipmentCashPrice === 'number' ? state.equipmentCashPrice.toFixed(2) : state.equipmentCashPrice;
-                $scope['displayedHst' + index] = typeof state.hst === 'number' ? state.hst.toFixed(2) : state.hst;
-                $scope['displayedTotalCashPrice' + index] = typeof state.totalCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice;
-                $scope['displayedTotalAmountFinanced' + index] = typeof state.totalAmountFinanced === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced;
-                $scope['displayedTotalMonthlyPayment' + index] = typeof state.totalMonthlyPayment === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment;
-                $scope['displayedTotalAllMonthlyPayments' + index] = typeof state.totalAllMonthlyPayments === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments;
-                $scope['displayedResidualBalance' + index] = typeof state.residualBalance === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance;
-                $scope['displayedTotalObligation' + index] = typeof state.totalObligation === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation;
-                $scope['displayedTotalBorrowingCost' + index] = typeof state.totalBorrowingCost === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost;
+                $scope['displayedEquipmentCashPrice' + index] = typeof state.equipmentCashPrice === 'number' ?
+                    formatNumber(state.equipmentCashPrice) : state.equipmentCashPrice;
+                $scope['displayedHst' + index] = typeof state.hst === 'number' ?
+                    formatNumber(state.hst) : state.hst;
+                $scope['displayedTotalCashPrice' + index] = typeof state.totalCashPrice === 'number' ?
+                    formatNumber(state.totalCashPrice) : state.totalCashPrice;
+                $scope['displayedTotalAmountFinanced' + index] = typeof state.totalAmountFinanced === 'number' ?
+                    formatNumber(state.totalAmountFinanced) : state.totalAmountFinanced;
+                $scope['displayedTotalMonthlyPayment' + index] = typeof state.totalMonthlyPayment === 'number' ?
+                    formatNumber(state.totalMonthlyPayment) : state.totalMonthlyPayment;
+                $scope['displayedTotalAllMonthlyPayments' + index] = typeof state.totalAllMonthlyPayments === 'number' ?
+                    formatNumber(state.totalAllMonthlyPayments) : state.totalAllMonthlyPayments;
+                $scope['displayedResidualBalance' + index] = typeof state.residualBalance === 'number' ?
+                    formatNumber(state.residualBalance) : state.residualBalance;
+                $scope['displayedTotalObligation' + index] = typeof state.totalObligation === 'number' ?
+                    formatNumber(state.totalObligation) : state.totalObligation;
+                $scope['displayedTotalBorrowingCost' + index] = typeof state.totalBorrowingCost === 'number' ?
+                    formatNumber(state.totalBorrowingCost) : state.totalBorrowingCost;
             };
             $scope.resetDisplayedValues = function(index) {
                 $scope['displayedEquipmentType' + index] = '-';
@@ -667,15 +675,24 @@
                 $scope.updateDisplayedCalculations(state);
             };
             $scope.updateDisplayedCalculations = function(state) {
-                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice != null ? typeof state.equipmentCashPrice === 'number' ? state.equipmentCashPrice.toFixed(2) : state.equipmentCashPrice : '-';
-                $scope.displayedHst0 = state.hst != null ? typeof state.hst === 'number' ? state.hst.toFixed(2) : state.hst : '-';
-                $scope.displayedTotalCashPrice0 = state.totalCashPrice != null ? typeof state.totalCashPrice === 'number' ? state.totalCashPrice.toFixed(2) : state.totalCashPrice : '-';
-                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced != null ? typeof state.totalAmountFinanced === 'number' ? state.totalAmountFinanced.toFixed(2) : state.totalAmountFinanced : '-';
-                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment != null ? typeof state.totalMonthlyPayment === 'number' ? state.totalMonthlyPayment.toFixed(2) : state.totalMonthlyPayment : '-';
-                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments != null ? typeof state.totalAllMonthlyPayments === 'number' ? state.totalAllMonthlyPayments.toFixed(2) : state.totalAllMonthlyPayments : '-';
-                $scope.displayedResidualBalance0 = state.residualBalance != null ? typeof state.residualBalance === 'number' ? state.residualBalance.toFixed(2) : state.residualBalance : '-';
-                $scope.displayedTotalObligation0 = state.totalObligation != null ? typeof state.totalObligation === 'number' ? state.totalObligation.toFixed(2) : state.totalObligation : '-';
-                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost != null ? typeof state.totalBorrowingCost === 'number' ? state.totalBorrowingCost.toFixed(2) : state.totalBorrowingCost : '-';
+                $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice != null ? typeof state.equipmentCashPrice === 'number' ?
+                    formatNumber(state.equipmentCashPrice) : state.equipmentCashPrice : '-';
+                $scope.displayedHst0 = state.hst != null ? typeof state.hst === 'number' ?
+                    formatNumber(state.hst) : state.hst : '-';
+                $scope.displayedTotalCashPrice0 = state.totalCashPrice != null ? typeof state.totalCashPrice === 'number' ?
+                    formatNumber(state.totalCashPrice) : state.totalCashPrice : '-';
+                $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced != null ? typeof state.totalAmountFinanced === 'number' ?
+                    formatNumber(state.totalAmountFinanced) : state.totalAmountFinanced : '-';
+                $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment != null ? typeof state.totalMonthlyPayment === 'number' ?
+                    formatNumber(state.totalMonthlyPayment) : state.totalMonthlyPayment : '-';
+                $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments != null ? typeof state.totalAllMonthlyPayments === 'number' ?
+                    formatNumber(state.totalAllMonthlyPayments) : state.totalAllMonthlyPayments : '-';
+                $scope.displayedResidualBalance0 = state.residualBalance != null ? typeof state.residualBalance === 'number' ?
+                    formatNumber(state.residualBalance) : state.residualBalance : '-';
+                $scope.displayedTotalObligation0 = state.totalObligation != null ? typeof state.totalObligation === 'number' ?
+                    formatNumber(state.totalObligation) : state.totalObligation : '-';
+                $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost != null ? typeof state.totalBorrowingCost === 'number' ?
+                    formatNumber(state.totalBorrowingCost) : state.totalBorrowingCost : '-';
             };
             $scope.assignTaxRate = function() {
                 var provinceSelection = $('#province-tax-rate');
@@ -717,56 +734,58 @@
                 switchTab(index);
                 $scope.activeTabIndex = index;
             };
+
             $(document)
                 .ready(function() {
+                if ($(window).width() < 1023) {
+                    $scope.isMobileMode = true;
+                }
+                makeStickCalendar();
+                $(window).on('resize', function() {
+                    displayCompareCalcs();
                     if ($(window).width() < 1023) {
-                        $scope.isMobileMode = true;
-                    }
-                    makeStickCalendar();
-                    $(window).on('resize', function() {
-                        displayCompareCalcs();
-                        if ($(window).width() < 1023) {
-                            if($('.initial-standalone-calculator').hasClass('compare-mode')){
-                                $('.calculators-hold').addClass('sticker');
-                            }
-                            if (!$scope.isMobileMode && $scope.compareStates.length) {
-                                $scope.retrieveCompareState($scope.activeTabIndex);
-                                $scope.$apply();
-                            }
-                            $scope.isMobileMode = true;
-                        } else {
-                            if($('.initial-standalone-calculator').hasClass('compare-mode')){
-                                $('.calculators-hold').removeClass('sticker');
-                            }
-                            if ($scope.isMobileMode && $scope.compareStates.length) {
-                                $scope.trySaveActiveChanges();
-                                for (var i = 0; i < $scope.compareStates.length; i++) {
-                                    var state = $scope.compareStates[i];
-                                    if (state === null) {
-                                        $scope.resetDisplayedValues(i);
-                                        continue;
-                                    }
-                                    $scope.updateDisplayedValues(state, i);
-                                }
-                                $scope.$apply();
-                            }
-                            $scope.isMobileMode = false;
+                        if($('.initial-standalone-calculator').hasClass('compare-mode')){
+                            $('.calculators-hold').addClass('sticker');
                         }
-                    });
+                        if (!$scope.isMobileMode && $scope.compareStates.length) {
+                            $scope.retrieveCompareState($scope.activeTabIndex);
+                            $scope.$apply();
+                        }
+                        $scope.isMobileMode = true;
+                    } else {
+                        if($('.initial-standalone-calculator').hasClass('compare-mode')){
+                            $('.calculators-hold').removeClass('sticker');
+                        }
+                        if ($scope.isMobileMode && $scope.compareStates.length) {
+                            $scope.trySaveActiveChanges();
+                            for (var i = 0; i < $scope.compareStates.length; i++) {
+                                var state = $scope.compareStates[i];
+                                if (state === null) {
+                                    $scope.resetDisplayedValues(i);
+                                    continue;
+                                }
+                                $scope.updateDisplayedValues(state, i);
+                            }
+                            $scope.$apply();
+                        }
+                        $scope.isMobileMode = false;
+                    }
                 });
+            });
             for (var i = 0; i <= 3; i++) {
                 $scope.resetDisplayedValues(i);
             }
         });
+
         $(document)
             .ready(function() {
-                toggleClearInputIcon();
-                displayCompareCalcs();
-                $('#province-tax-rate').change();
+            toggleClearInputIcon();
+            displayCompareCalcs();
+            $('#province-tax-rate').change();
 
-                $('.calc-field-edit a').hide();
-                $('.switch-calculators li .nav-tab-link').hide();
-            });
+            $('.calc-field-edit a').hide();
+            $('.switch-calculators li .nav-tab-link').hide();
+        });
 
         function resetFormValidator(formId) {
             var form = $(formId);

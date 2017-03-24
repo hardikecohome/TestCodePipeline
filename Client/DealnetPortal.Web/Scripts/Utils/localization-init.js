@@ -1,7 +1,6 @@
 ﻿var configInitialized = $.Deferred();
 $(document).ready(function () {
     var culture = $(document.documentElement).attr('lang');
-    var root = urlContent;
     $.when(
         $.getJSON(urlContent + 'Content/cldr/supplemental/likelySubtags.json'),
         $.getJSON(urlContent + 'Content/cldr/supplemental/numberingSystems.json'),
@@ -24,6 +23,9 @@ $(document).ready(function () {
             }
 
             window.parseFloat = function(number) {
+                if (typeof number === 'undefined') {
+                    return number;
+                }
                 if (typeof number === 'number') {
                     return number;
                 }
