@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -15,6 +16,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -24,14 +26,16 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerFormRepository _customerFormRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggingService _loggingService;
+        private readonly IIdentityMessageService _emailService;
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository, IUnitOfWork unitOfWork,
-            ILoggingService loggingService)
+            ILoggingService loggingService, IIdentityMessageService emailService)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
+            _emailService = emailService;
         }
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
@@ -113,41 +117,79 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
-            //throw new NotImplementedException();
-            MailDefinition md = new MailDefinition();
-            md.From = "no-reply";
-            md.IsBodyHtml = true;
-            md.Subject = "New customer applied for financing";
-
-            var address = string.Empty;
-            var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
-            if (addresItem != null)
-            {
-                address = string.Format("{0}, {1}, {2}, {3}", addresItem.Street, addresItem.City, addresItem.PostalCode, addresItem.State);
-            }
-            ListDictionary replacements = new ListDictionary();
-            replacements.Add("{contractId}", Resources.Resources.IDNotYetGenerated);
-            replacements.Add("{fullName}", string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.FirstName));
-            replacements.Add("{amount}", customerFormData.PrimaryCustomer);
-            replacements.Add("{serviceType}", "Denmark"); //todo:
-            replacements.Add("{comment}", customerFormData.CustomerComment);
-            replacements.Add("{address}", address);
-            replacements.Add("{homePhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p=>p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty);
-            replacements.Add("{cellPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty);
-            replacements.Add("{businessPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty));
-            replacements.Add("{email}", customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m=>m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty );
-
-            string body = Resources.Resources.DealerConfirmationMailtemplate;
-
-            MailMessage msg = md.CreateMailMessage("rusak.dmitry@gmail.com", replacements, body, new System.Web.UI.Control());
-
-            //////
             var alerts = new List<Alert>();
+            if (customerFormData != null)
+            {
+                //MailDefinition md = new MailDefinition();
+                //md.From = ConfigurationManager.AppSettings["EmailService.FromEmailAddress"];
+                //md.IsBodyHtml = true;
+                //md.Subject = "New customer applied for financing";
 
-            //if (customerFormData != null)
-            //{
-                
-            //}
+                var address = string.Empty;
+                var addresItem =
+                    customerFormData.PrimaryCustomer.Locations.FirstOrDefault(
+                        ad => ad.AddressType == AddressType.MainAddress);
+                if (addresItem != null)
+                {
+                    address = string.Format("{0}, {1}, {2}, {3}", addresItem.Street, addresItem.City,
+                        addresItem.PostalCode, addresItem.State);
+                }
+                var body = new StringBuilder();
+                body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
+                body.AppendLine("<div>");
+                body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");
+                body.AppendLine($"<p><b>{Resources.Resources.Name}: {string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.LastName)}</b></p>");
+                body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
+                body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
+                body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
+                body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
+                body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
+                body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
+                body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
+                body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
+                body.AppendLine("</div>");
+                var message = new IdentityMessage()
+                {
+                    Body = body.ToString(),
+                    Subject = Resources.Resources.NewCustomerAppliedForFinancing,
+                    Destination = "dmitry.rusak@dataart.com"
+                };
+                _emailService.SendAsync(message);
+                //ListDictionary replacements = new ListDictionary();
+                //replacements.Add("{contractId}", Resources.Resources.IDNotYetGenerated);
+                //replacements.Add("{fullName}", string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.LastName));
+                //replacements.Add("{amount}", "Amount from Espire"); //todo: Need to get this amount from espire
+                //replacements.Add("{serviceType}", customerFormData.SelectedService ?? string.Empty);
+                //replacements.Add("{comment}", customerFormData.CustomerComment);
+                //replacements.Add("{address}", address);
+                //replacements.Add("{homePhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty);
+                //replacements.Add("{cellPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty);
+                //replacements.Add("{businessPhone}", customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty);
+                //replacements.Add("{email}", customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty);
+
+                //string body = Resources.Resources.DealerConfirmationMailtemplate;
+
+                //MailMessage msg = md.CreateMailMessage("rusak.dmitry@gmail.com", replacements, body, new System.Web.UI.Control());
+
+                //var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"], Convert.ToInt32(ConfigurationManager.AppSettings["EmailService.SmtpPort"]));
+                //var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
+                //smtpClient.Credentials = credentials;
+                //using (smtpClient)
+                //{
+                //    smtpClient.Send(msg);
+                //}
+            }
+            else
+            {
+                var errorMsg = "Cannot find a contract";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.ContractCreateFailed,
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
 
             return alerts;
         }        

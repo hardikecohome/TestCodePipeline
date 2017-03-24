@@ -350,29 +350,54 @@
     <value>Value</value>
   </data>
   <data name="DealerConfirmationMailtemplate" xml:space="preserve">
-    <value>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN"&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h3&gt;New customer applied for financing&lt;/h3&gt;
-	&lt;div&gt;
-		&lt;p&gt;Contract ID: 789456&lt;/p&gt;
-		&lt;p&gt;&lt;b&gt;Name: Joe Doe&lt;/b&gt;&lt;/p&gt;
-		&lt;p&gt;&lt;b&gt;Pre-approved: $20 000.00&lt;/b&gt;&lt;/p&gt;
-		&lt;p&gt;&lt;b&gt;Selected type of service: Furnace&lt;/b&gt;&lt;/p&gt;
-		&lt;p&gt;Comment: "My furnace just broke, I need to replace it quickly"&lt;/p&gt;
-		&lt;p&gt;Installation address: 55 Avenue Rd, Toronto, M5R 3L2, Ontario&lt;/p&gt;
-		&lt;p&gt;Home phone: 1234567890&lt;/p&gt;
-		&lt;p&gt;Cell phone: 1234567890&lt;/p&gt;
-		&lt;p&gt;Business phone: 1234567890&lt;/p&gt;
-		&lt;p&gt;Email: joe.doe@domain.com&lt;/p&gt;
-	&lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</value>
+    <value>&lt;h3&gt;New customer applied for financing&lt;/h3&gt;
+&lt;div&gt;
+	&lt;p&gt;Contract ID: {contractId}&lt;/p&gt;
+	&lt;p&gt;&lt;b&gt;Name: {fullName}&lt;/b&gt;&lt;/p&gt;
+	&lt;p&gt;&lt;b&gt;Pre-approved: {amount}&lt;/b&gt;&lt;/p&gt;
+	&lt;p&gt;&lt;b&gt;Selected type of service: {serviceType}&lt;/b&gt;&lt;/p&gt;
+	&lt;p&gt;Comment: {comment}&lt;/p&gt;
+	&lt;p&gt;Installation address: {address}&lt;/p&gt;
+	&lt;p&gt;Home phone: {homePhone}&lt;/p&gt;
+	&lt;p&gt;Cell phone: {cellPhone}&lt;/p&gt;
+	&lt;p&gt;Business phone: {businessPhone}&lt;/p&gt;
+	&lt;p&gt;Email: {email}&lt;/p&gt;
+&lt;/div&gt;</value>
   </data>
   <data name="IDNotYetGenerated" xml:space="preserve">
     <value>ID Not yet generated</value>
+  </data>
+  <data name="BusinessPhone" xml:space="preserve">
+    <value>Business phone</value>
+  </data>
+  <data name="CellPhone" xml:space="preserve">
+    <value>Cell phone</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="ContractId" xml:space="preserve">
+    <value>Contract ID</value>
+    <comment>Dealer contract id</comment>
+  </data>
+  <data name="HomePhone" xml:space="preserve">
+    <value>Home phone</value>
+  </data>
+  <data name="InstallationAddress" xml:space="preserve">
+    <value>Installation address</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+    <comment>Customer name</comment>
+  </data>
+  <data name="NewCustomerAppliedForFinancing" xml:space="preserve">
+    <value>New customer applied for financing</value>
+  </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Pre-approved</value>
+    <comment>Only text</comment>
+  </data>
+  <data name="SelectedTypeOfService" xml:space="preserve">
+    <value>Selected type of service</value>
   </data>
 </root>
