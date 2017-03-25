@@ -98,7 +98,9 @@
     <Compile Include="Repositories\ICustomerFormRepository.cs" />
     <Compile Include="Repositories\IFileRepository.cs" />
     <Compile Include="Repositories\ISettingsRepository.cs" />
+    <Compile Include="Repositories\IDealerRepository.cs" />
     <Compile Include="Repositories\SettingsRepository.cs" />
+    <Compile Include="Repositories\DealerRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

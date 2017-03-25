@@ -40,6 +40,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
             container.RegisterType<ISettingsRepository, SettingsRepository>();
             container.RegisterType<ICustomerFormRepository, CustomerFormRepository>();
+            container.RegisterType<IDealerRepository, DealerRepository>();
 
             container.RegisterType<IContractService, ContractService>();
             container.RegisterType<ICustomerFormService, CustomerFormService>();
