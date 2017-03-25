@@ -20,13 +20,15 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerFormRepository _customerFormRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDealerRepository _dealerRepository;
         private readonly ILoggingService _loggingService;
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository, IUnitOfWork unitOfWork,
-            ILoggingService loggingService)
+            IDealerRepository dealerRepository, ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
+            _dealerRepository = dealerRepository;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
         }
@@ -110,13 +112,59 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
-            //throw new NotImplementedException();
-            var alerts = new List<Alert>();
-            if (customerFormData != null)
+            if (customerFormData == null)
             {
-                
+                throw new ArgumentNullException(nameof(customerFormData));
             }
+            var alerts = new List<Alert>();
 
+            var dealerId = _dealerRepository.GetUserIdByName(customerFormData.DealerName);
+            if (!string.IsNullOrEmpty(dealerId))
+            {
+                var contract = _contractRepository.CreateContract(dealerId);
+                if (contract != null)
+                {
+                    contract.IsCreatedByCustomer = true;
+                    _unitOfWork.Save();
+
+                    var customer = Mapper.Map<Customer>(customerFormData.PrimaryCustomer);
+                    var contractData = new ContractData()
+                    {
+                        PrimaryCustomer = customer,
+                        HomeOwners = new List<Customer> {customer},
+                        DealerId = dealerId,
+                        Id = contract.Id
+                    };
+
+                    contract = _contractRepository.UpdateContractData(contractData, dealerId);
+                    var customerContractInfo = new CustomerContractInfo()
+                    {
+
+                    };
+                    _customerFormRepository.AddCustomerContractData(customerContractInfo);
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Code = ErrorCodes.ContractCreateFailed,
+                        Header = "Cannot create contract",
+                        Message = "Cannot create contract from customer loan form"
+                    });
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.CantGetUserFromDb,
+                    Message = $"Cannot get dealer {customerFormData.DealerName} from database",
+                    Header = "Cannot get dealer from database"
+                });
+            }
             return alerts;
         }        
     }

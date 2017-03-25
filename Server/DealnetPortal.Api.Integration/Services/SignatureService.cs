@@ -529,7 +529,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (!dealerTemplates?.Any() ?? true)
             {
-                var parentDealerId = _dealerRepository.GetParentId(contractOwnerId);
+                var parentDealerId = _dealerRepository.GetParentDealerId(contractOwnerId);
                 dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
                 (at.DealerId == parentDealerId) && (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
             }

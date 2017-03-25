@@ -12,9 +12,14 @@ namespace DealnetPortal.DataAccess.Repositories
         {
         }
 
-        public string GetParentId(string dealerId)
+        public string GetParentDealerId(string dealerId)
         {
             return base.GetUserById(dealerId).ParentDealerId;
+        }
+
+        public string GetUserIdByName(string userName)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.UserName == userName)?.Id;
         }
     }
 

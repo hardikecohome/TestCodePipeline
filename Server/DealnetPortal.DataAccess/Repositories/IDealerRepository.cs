@@ -8,6 +8,8 @@ namespace DealnetPortal.DataAccess.Repositories
 {
     public interface IDealerRepository
     {
-        string GetParentId(string dealerId);
+        string GetParentDealerId(string dealerId);
+
+        string GetUserIdByName(string userName);
     }
 }
