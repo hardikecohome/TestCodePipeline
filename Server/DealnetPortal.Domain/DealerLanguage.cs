@@ -13,7 +13,7 @@ namespace DealnetPortal.Domain
         public int Id { get; set; }
         public int LanguageId { get; set; }
         [ForeignKey("LanguageId")]
-        public Language Language { get; set; }
+        public virtual Language Language { get; set; }
         public int CustomerLinkId { get; set; }
         [ForeignKey("CustomerLinkId")]
         public CustomerLink CustomerLink { get; set; }

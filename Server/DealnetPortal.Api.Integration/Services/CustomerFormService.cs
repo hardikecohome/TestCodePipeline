@@ -64,11 +64,11 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     langSettings.LanguageServices =
                         linkSettings.Services.Where(
-                            s => s.LanguageId == linkSettings.EnabledLanguages.First(l => l.Language?.Code == language).Id)
+                            s => s.LanguageId == linkSettings.EnabledLanguages.First(l => l.Language?.Code == language).LanguageId)
                             .Select(s => s.Service).ToList();
                 }                
                 langSettings.EnabledLanguages =
-                        linkSettings.EnabledLanguages.Select(l => (LanguageCode)l.Id).ToList();
+                        linkSettings.EnabledLanguages.Select(l => (LanguageCode)l.LanguageId).ToList();
                 return langSettings;
             }
             return null;
