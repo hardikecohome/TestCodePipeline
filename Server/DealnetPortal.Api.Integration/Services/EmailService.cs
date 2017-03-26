@@ -24,8 +24,11 @@ namespace DealnetPortal.Api.Integration.Services
 
             var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"], Convert.ToInt32(ConfigurationManager.AppSettings["EmailService.SmtpPort"]));
             var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
-            smtpClient.Credentials = credentials;
-            smtpClient.Send(msg);
+            using (smtpClient)
+            {
+                smtpClient.Credentials = credentials;
+                smtpClient.Send(msg);
+            }
 
             return Task.FromResult(0);
         }

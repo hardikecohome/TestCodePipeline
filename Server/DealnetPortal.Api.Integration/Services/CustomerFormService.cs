@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Hosting;
+using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -16,6 +17,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -28,6 +30,8 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ISettingsRepository _settingsRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggingService _loggingService;
+        private readonly IIdentityMessageService _emailService;
+        private readonly IAspireStorageService _aspireStorageService;
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository, IUnitOfWork unitOfWork,
             ILoggingService loggingService, IAspireStorageService aspireStorageService, ISettingsRepository settingsRepository, IEmailService emailService)
@@ -39,6 +43,8 @@ namespace DealnetPortal.Api.Integration.Services
             _emailService = emailService;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
+            _emailService = emailService;
+            _aspireStorageService = aspireStorageService;
         }
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
@@ -120,13 +126,49 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
-
-            throw new NotImplementedException();
             var alerts = new List<Alert>();
-
             if (customerFormData != null)
             {
-                
+                var address = string.Empty;
+                var addresItem =customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
+
+                if (addresItem != null)
+                {
+                    address = string.Format("{0}, {1}, {2}, {3}", addresItem.Street, addresItem.City, addresItem.PostalCode, addresItem.State);
+                }
+                var body = new StringBuilder();
+                body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
+                body.AppendLine("<div>");
+                body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");//todo:Check does it need?
+                body.AppendLine($"<p><b>{Resources.Resources.Name}: {string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.LastName)}</b></p>");
+                body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
+                body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
+                body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
+                body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
+                body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
+                body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
+                body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
+                body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
+                body.AppendLine("</div>");
+                var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
+                var message = new IdentityMessage()
+                {
+                    Body = body.ToString(),
+                    Subject = Resources.Resources.NewCustomerAppliedForFinancing,
+                    Destination = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty
+                };
+                _emailService.SendAsync(message);
+            }
+            else
+            {
+                var errorMsg = "Cannot find a contract";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.ContractCreateFailed,
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
             }
 
             return alerts;

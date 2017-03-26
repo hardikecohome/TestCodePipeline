@@ -19,5 +19,7 @@ namespace DealnetPortal.Web.Models
         [Required]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AddComment")]
         public string Comment { get; set; }
+        [Required]
+        public string DealerName { get; set; }
     }
 }

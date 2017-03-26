@@ -6,9 +6,11 @@ using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Services.Signature;
+using DealnetPortal.Api.Services;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity;
 using Unity.WebApi;
 
 namespace DealnetPortal.Api
@@ -62,6 +64,7 @@ namespace DealnetPortal.Api
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();
             container.RegisterType<IEmailService, EmailService>();
+
         }
     }
 }

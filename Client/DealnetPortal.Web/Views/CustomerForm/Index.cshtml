@@ -53,6 +53,7 @@
     @using (Html.BeginForm("Index", "CustomerForm", FormMethod.Post, new { id = "mainForm" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.DealerName)
         if (serviceTypes != null && serviceTypes.Count > 1)
         {
             <div class="equipment-customer-section">
