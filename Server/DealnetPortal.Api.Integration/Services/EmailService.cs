@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Configuration;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
-namespace DealnetPortal.Api.Services
+namespace DealnetPortal.Api.Integration.Services
 {
-    using System.Configuration;
-    using System.Net.Mail;
-    using System.Net.Mime;
-    using System.Threading.Tasks;
-    using Microsoft.AspNet.Identity;
-    public class EmailService: IIdentityMessageService
+    public class EmailService: IEmailService
     {
         public Task SendAsync(IdentityMessage message)
         {
@@ -31,6 +28,17 @@ namespace DealnetPortal.Api.Services
             smtpClient.Send(msg);
 
             return Task.FromResult(0);
+        }
+
+        public async Task SendAsync(MailMessage message)
+        {
+            using (var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"],
+                    Convert.ToInt32(ConfigurationManager.AppSettings["EmailService.SmtpPort"])))
+            {
+                var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
+                smtpClient.Credentials = credentials;
+                await smtpClient.SendMailAsync(message);
+            }
         }
     }
 }

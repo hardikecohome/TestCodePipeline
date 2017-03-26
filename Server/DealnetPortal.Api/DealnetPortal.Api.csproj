@@ -261,13 +261,14 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\OAuthProviderStub.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\emails\customer-notification-email.html" />
+    <Content Include="Content\emails\images\icon-success.png" />
     <Content Include="Content\images\home-page%402x.png" />
     <Content Include="Content\images\home-page%403x.png" />
     <Content Include="Content\images\home-page.png" />
@@ -354,6 +355,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\" />
     <Folder Include="Views\Contracts\" />
     <Folder Include="Views\Scanning\" />
   </ItemGroup>

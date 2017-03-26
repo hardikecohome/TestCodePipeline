@@ -61,6 +61,7 @@ namespace DealnetPortal.Api
             //container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();
+            container.RegisterType<IEmailService, EmailService>();
         }
     }
 }

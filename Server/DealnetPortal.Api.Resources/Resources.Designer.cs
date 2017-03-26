@@ -286,6 +286,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fax.
+        /// </summary>
+        public static string Fax {
+            get {
+                return ResourceManager.GetString("Fax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fireplace.
         /// </summary>
         public static string Fireplace {
@@ -390,6 +399,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Hwt {
             get {
                 return ResourceManager.GetString("Hwt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you have any question please contact.
+        /// </summary>
+        public static string IfYouHaveQuestionsPleaseContact {
+            get {
+                return ResourceManager.GetString("IfYouHaveQuestionsPleaseContact", resourceCulture);
             }
         }
         
@@ -619,6 +637,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thank you for applying for financing..
+        /// </summary>
+        public static string ThankYouForApplyingForFinancing {
+            get {
+                return ResourceManager.GetString("ThankYouForApplyingForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Third Party Verification Call.
         /// </summary>
         public static string ThirdPartyVerificationCall {
@@ -727,11 +754,38 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} will contact you soon..
+        /// </summary>
+        public static string WillContactYouSoon {
+            get {
+                return ResourceManager.GetString("WillContactYouSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows.
         /// </summary>
         public static string Windows {
             get {
                 return ResourceManager.GetString("Windows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have been pre-approved for ${0}..
+        /// </summary>
+        public static string YouHaveBeenPreapprovedFor {
+            get {
+                return ResourceManager.GetString("YouHaveBeenPreapprovedFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your financing application was successfully submitted..
+        /// </summary>
+        public static string YourFinancingApplicationWasSubmitted {
+            get {
+                return ResourceManager.GetString("YourFinancingApplicationWasSubmitted", resourceCulture);
             }
         }
         

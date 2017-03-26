@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -19,14 +23,20 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerFormRepository _customerFormRepository;
+        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IEmailService _emailService;
+        private readonly ISettingsRepository _settingsRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggingService _loggingService;
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository, IUnitOfWork unitOfWork,
-            ILoggingService loggingService)
+            ILoggingService loggingService, IAspireStorageService aspireStorageService, ISettingsRepository settingsRepository, IEmailService emailService)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
+            _aspireStorageService = aspireStorageService;
+            _settingsRepository = settingsRepository;
+            _emailService = emailService;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
         }
@@ -120,6 +130,56 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
-        }        
+        }
+
+        private async Task SendSubmitNotification(string customerEmail, double? preapprovedAmount, DealerDTO dealer, string dealerColor, byte[] dealerLogo)
+        {
+            var dealerName = $"{dealer.FirstName} {dealer.LastName}";
+            var email = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            var location = dealer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
+            var phone = dealer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum;
+            var html = File.ReadAllText(HostingEnvironment.MapPath(@"Content\Emails\customer-notification-email.html"));
+            var body = new StringBuilder(html, html.Length * 2);
+            body.Replace("{headerColor}", dealerColor ?? "#000000");
+            body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
+            if (preapprovedAmount != null)
+            {
+                body.Replace("{youHaveBeenPreapprovedFor}", Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", preapprovedAmount.ToString()));
+            }
+            body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
+            body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", dealerName));
+            body.Replace("{ifYouHavePleaseContact}", Resources.Resources.IfYouHaveQuestionsPleaseContact);
+            body.Replace("{dealerName}", dealerName);
+            body.Replace("{dealerAddress}", $"{location?.Street} {location?.City}, {location?.State} {location?.PostalCode}");
+            body.Replace("{phone}", Resources.Resources.Phone);
+            body.Replace("{dealerPhone}", phone);
+            body.Replace("{fax}", Resources.Resources.Fax);
+            body.Replace("{dealerFax}", ""); //TODO: Get fax number
+            body.Replace("{mail}", Resources.Resources.Email);
+            body.Replace("{dealerMail}", email);
+
+            AlternateView alternateView = null;
+            if (dealerLogo != null)
+            {
+                var inline = new LinkedResource(new MemoryStream(dealerLogo));
+                inline.ContentId = Guid.NewGuid().ToString();
+                inline.ContentType.MediaType = "image/png";
+                body.Replace("{dealerLogo}", "cid:" + inline.ContentId);
+                alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null,
+                    MediaTypeNames.Text.Html);
+                alternateView.LinkedResources.Add(inline);
+            }
+
+            var mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            if (alternateView != null)
+            {
+                mail.AlternateViews.Add(alternateView);
+            }
+            mail.From = new MailAddress(email);
+            mail.To.Add(customerEmail);
+            //mail.Subject = "yourSubject";
+            await _emailService.SendAsync(mail);
+        }
     }
 }
