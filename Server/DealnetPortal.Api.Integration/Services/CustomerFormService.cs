@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -30,8 +32,6 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ISettingsRepository _settingsRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILoggingService _loggingService;
-        private readonly IIdentityMessageService _emailService;
-        private readonly IAspireStorageService _aspireStorageService;
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository, IUnitOfWork unitOfWork,
             ILoggingService loggingService, IAspireStorageService aspireStorageService, ISettingsRepository settingsRepository, IEmailService emailService)
@@ -43,8 +43,6 @@ namespace DealnetPortal.Api.Integration.Services
             _emailService = emailService;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
-            _emailService = emailService;
-            _aspireStorageService = aspireStorageService;
         }
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
@@ -124,7 +122,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        public async Task<IList<Alert>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
             var alerts = new List<Alert>();
             if (customerFormData != null)
@@ -157,7 +155,17 @@ namespace DealnetPortal.Api.Integration.Services
                     Subject = Resources.Resources.NewCustomerAppliedForFinancing,
                     Destination = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty
                 };
-                _emailService.SendAsync(message);
+                await _emailService.SendAsync(message);
+                //
+                var dealerColor =
+                    _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
+                        .FirstOrDefault(s => s.Item.Name == "@navbar-header");
+                var dealerLogo = _settingsRepository.GetUserBinarySetting(SettingType.LogoImage2X,
+                    customerFormData.DealerName);
+                await
+                    SendSubmitNotification(
+                        dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress, null, dealer,
+                        dealerColor?.StringValue, dealerLogo?.BinaryValue);
             }
             else
             {
@@ -179,15 +187,12 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerName = $"{dealer.FirstName} {dealer.LastName}";
             var email = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             var location = dealer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
-            var phone = dealer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum;
-            var html = File.ReadAllText(HostingEnvironment.MapPath(@"Content\Emails\customer-notification-email.html"));
+            var phone = dealer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum;
+            var html = File.ReadAllText(HostingEnvironment.MapPath(@"~\Content\emails\customer-notification-email.html"));
             var body = new StringBuilder(html, html.Length * 2);
             body.Replace("{headerColor}", dealerColor ?? "#000000");
             body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
-            if (preapprovedAmount != null)
-            {
-                body.Replace("{youHaveBeenPreapprovedFor}", Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", preapprovedAmount.ToString()));
-            }
+            body.Replace("{youHaveBeenPreapprovedFor}", preapprovedAmount != null ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", preapprovedAmount.ToString()) : string.Empty);
             body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
             body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", dealerName));
             body.Replace("{ifYouHavePleaseContact}", Resources.Resources.IfYouHaveQuestionsPleaseContact);

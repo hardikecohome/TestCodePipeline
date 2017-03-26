@@ -9,7 +9,7 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class EmailService: IEmailService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
             var text = message.Body;
             var html = message.Body;
@@ -27,10 +27,8 @@ namespace DealnetPortal.Api.Integration.Services
             using (smtpClient)
             {
                 smtpClient.Credentials = credentials;
-                smtpClient.Send(msg);
+                await smtpClient.SendMailAsync(msg);
             }
-
-            return Task.FromResult(0);
         }
 
         public async Task SendAsync(MailMessage message)
