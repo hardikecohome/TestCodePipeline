@@ -1231,4 +1231,7 @@
   <data name="TheFieldMustBeMinimumAndMaximum" xml:space="preserve">
     <value>The field {0} must be a string with a minimum length of {2} and a maximum length of {1}.</value>
   </data>
+  <data name="OnMyBehalf" xml:space="preserve">
+    <value>On my behalf</value>
+  </data>
 </root>
