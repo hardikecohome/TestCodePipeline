@@ -74,20 +74,12 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/contact-and-payment-management.js").Include("~/Scripts/print-contract.js")
                 .Include("~/Scripts/jquery.form.js").Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/contract-edit.js"));
-            bundles.Add(new ScriptBundle("~/bundles/shareable-link").Include("~/Scripts/jquery.form.js").Include("~/Scripts/shareable-link.js"));
 
             bundles.Add(new StyleBundle("~/bundles/data-tables-content").Include(
                       "~/Content/datatables/css/jquery.dataTables.css",
                       "~/Content/datatables/css/dataTables.bootstrap.css",
                       "~/Content/datatables/css/responsive.bootstrap.css"));
-            
-            bundles.Add(new ScriptBundle("~/bundles/customer-form")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Logger/log.js")
-                .Include("~/Scripts/customer-form.js")
-                .IncludeDirectory("~/Scripts/Utils", "*.js")
-            );
+
         }
     }
 }

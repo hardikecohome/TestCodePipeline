@@ -132,7 +132,5 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<Alert>> RemoveContractDocument(int documentId);
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId);
-
-        Task<IList<Alert>> SubmitCustomerForm(CustomerFormDTO customerForm);
     }
 }

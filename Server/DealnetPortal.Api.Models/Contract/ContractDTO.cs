@@ -44,7 +44,5 @@ namespace DealnetPortal.Api.Models.Contract
         public List<ContractDocumentDTO> Documents { get; set; }
 
         public bool? WasDeclined { get; set; }
-
-        public bool? IsCreatedByCustomer { get; set; }
     }
 }

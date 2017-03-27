@@ -6,10 +6,6 @@
     $("#payment-type-form").change(function () {
         managePaymentFormElements($(this).find(":selected").val());
     });
-
-    if (recalculateTotalCash) {
-        recalculateTotalCashPrice();
-    }
 });
 function managePaymentFormElements(paymentType) {
     switch (paymentType) {
@@ -34,13 +30,13 @@ function recalculateTotalMonthlyPayment() {
     });
 
     $(".total-monthly-payment").each(function () {
-        var sumStr = formatNumber(sum);
+        var sumStr = sum.toFixed(2);
         $(this).val(sumStr);
         $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').text(sumStr.replace(/\r?\n/g, '<br />'));
     });
     var salesTax = sum * taxRate / 100;
-    $("#salex-tax").text(formatNumber(salesTax));
-    $("#total-monthly-payment-wtaxes").text(formatNumber(sum + salesTax));
+    $("#salex-tax").text(salesTax.toFixed(2));
+    $("#total-monthly-payment-wtaxes").text((sum + salesTax).toFixed(2));
 }
 
 function recalculateTotalCashPrice() {
@@ -52,7 +48,7 @@ function recalculateTotalCashPrice() {
         }
     });
 
-    $("#equipment-cash-price").text(formatNumber(sum));
+    $("#equipment-cash-price").text(sum.toFixed(2));
     calculateLoanValues();
 }
 

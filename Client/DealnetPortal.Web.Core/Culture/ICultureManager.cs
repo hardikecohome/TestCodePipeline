@@ -4,7 +4,7 @@ namespace DealnetPortal.Web.Core.Culture
 {
     public interface ICultureManager
     {
-        void EnsureCorrectCulture(string cultureFromRoute = null);
+        void EnsureCorrectCulture();
         void SetCulture(string culture);
         Task ChangeCulture(string cultureNumber);
     }

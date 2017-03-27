@@ -13,7 +13,7 @@ using DealnetPortal.Web.ServiceAgent;
 namespace DealnetPortal.Web.Controllers
 {
     [AuthFromContext]
-    public class UpdateDataController : UpdateController
+    public class UpdateDataController : Controller
     {
         private readonly IContractManager _contractManager;
 
@@ -68,6 +68,16 @@ namespace DealnetPortal.Web.Controllers
             }
             var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
+
+        protected JsonResult GetSuccessJson()
+        {
+            return Json(new { isSuccess = true });
+        }
+
+        protected JsonResult GetErrorJson()
+        {
+            return Json(new { isError = true });
         }
     }
 }

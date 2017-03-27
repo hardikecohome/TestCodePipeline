@@ -29,13 +29,11 @@ namespace DealnetPortal.Api.Controllers
     public class ContractController : BaseApiController
     {
         private IContractService ContractService { get; set; }
-        private ICustomerFormService CustomerFormService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService)
+        public ContractController(ILoggingService loggingService, IContractService contractService)
             : base(loggingService)
         {
             ContractService = contractService;
-            CustomerFormService = customerFormService;
         }
 
         // GET: api/Contract
@@ -405,22 +403,6 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var alerts = ContractService.RemoveComment(commentId, LoggedInUser?.UserId);
-                return Ok(alerts);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("SubmitCustomerForm")]
-        [HttpPost]
-        [AllowAnonymous]
-        public IHttpActionResult SubmitCustomerForm(CustomerFormDTO customerFormData)
-        {
-            try
-            {
-                var alerts = CustomerFormService.SubmitCustomerFormData(customerFormData);
                 return Ok(alerts);
             }
             catch (Exception ex)

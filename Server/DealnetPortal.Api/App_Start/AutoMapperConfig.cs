@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using AutoMapper;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Helpers;
 using DealnetPortal.Api.Models;
@@ -90,11 +89,6 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<SettingValue, StringSettingDTO>()
                 .ForMember(x => x.Name, d => d.ResolveUsing(src => src.Item?.Name))
                 .ForMember(x => x.Value, d => d.MapFrom(s => s.StringValue));
-
-            mapperConfig.CreateMap<CustomerLink, CustomerLinkDTO>()
-                .ForMember(x => x.EnabledLanguages,
-                    d => d.ResolveUsing(src => src.EnabledLanguages?.Select(l => l.Id).Cast<LanguageCode>().ToList()))
-                .ForMember(x => x.Services, d => d.ResolveUsing(src => src.Services?.GroupBy(k => k.LanguageId).ToDictionary(ds => (LanguageCode)ds.Key, ds => ds.Select(s => s.Service).ToList())));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
@@ -169,13 +163,6 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDocumentDTO, ContractDocument>()
                 .ForMember(x => x.Contract, d => d.Ignore())
                 .ForMember(x => x.DocumentType, d => d.Ignore());
-
-            mapperConfig.CreateMap<CustomerLinkDTO, CustomerLink>()                
-                .ForMember(x => x.EnabledLanguages, d => d.ResolveUsing(src =>
-                    src.EnabledLanguages?.Select(l => new Language() {Id = (int) l}).ToList()))
-                .ForMember(x => x.Services, d => d.ResolveUsing(src =>
-                    src.Services?.SelectMany(ds => ds.Value.Select(dsv => new DealerService() {LanguageId = (int)ds.Key, Service = dsv}))))
-                .ForMember(x => x.Id, d => d.Ignore());
         }
     }
 }

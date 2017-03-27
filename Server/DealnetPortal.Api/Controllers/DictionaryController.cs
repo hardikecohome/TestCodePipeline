@@ -24,17 +24,14 @@ namespace DealnetPortal.Api.Controllers
         private IContractRepository ContractRepository { get; set; }
         private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageService AspireStorageService { get; set; }
-        private ICustomerFormService CustomerFormService { get; set; }
 
-        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageService aspireStorageService, ICustomerFormService customerFormService)
+        public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, IAspireStorageService aspireStorageService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             ContractRepository = contractRepository;
             SettingsRepository = settingsRepository;
             AspireStorageService = aspireStorageService;
-            CustomerFormService = customerFormService;
         }             
 
         [Route("DocumentTypes")]
@@ -186,7 +183,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/dict/GetDealerCulture
+        // GET api/Account/GetDealerCulture
         [Route("GetDealerCulture")]
         public string GetDealerCulture()
         {
@@ -195,7 +192,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpPut]
-        // GET api/dict/PutDealerCulture
+        // GET api/Account/PutDealerCulture
         [Route("PutDealerCulture")]
         public IHttpActionResult PutDealerCulture(string culture)
         {
@@ -213,7 +210,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/dict/GetDealerSettings
+        // GET api/Account/GetDealerSettings
         [Route("GetDealerSettings")]
         public IHttpActionResult GetDealerSettings()
         {
@@ -226,48 +223,14 @@ namespace DealnetPortal.Api.Controllers
             return Ok(list);
         }
 
-        [HttpGet]
-        // GET api/dict/GetDealerSettings?dealer={dealer}
-        [Route("GetDealerSettings")]
-        public IHttpActionResult GetDealerSettings(string dealer)
-        {
-            IList<StringSettingDTO> list = null;            
-
-            var settings = SettingsRepository.GetUserStringSettings(dealer);
-            if (settings?.Any() ?? false)
-            {
-                list = Mapper.Map<IList<StringSettingDTO>>(settings);
-            }
-            return Ok(list);
-        }
-
         [Authorize]
         [HttpGet]
-        // GET api/dict/GetDealerBinSetting?settingType={settingType}
+        // GET api/Account/GetDealerBinSetting
         [Route("GetDealerBinSetting")]
         public IHttpActionResult GetDealerBinSetting(int settingType)
         {
             SettingType sType = (SettingType) settingType;
             var binSetting = SettingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
-            if (binSetting != null)
-            {
-                var bin = new BinarySettingDTO()
-                {
-                    Name = binSetting.Item?.Name,
-                    ValueBytes = binSetting.BinaryValue
-                };
-                return Ok(bin);
-            }
-            return Ok();
-        }
-
-        [HttpGet]
-        // GET api/dict/GetDealerBinSetting?settingType={settingType}&dealer={dealer}
-        [Route("GetDealerBinSetting")]
-        public IHttpActionResult GetDealerBinSetting(int settingType, string dealer)
-        {
-            SettingType sType = (SettingType)settingType;
-            var binSetting = SettingsRepository.GetUserBinarySetting(sType, dealer);
             if (binSetting != null)
             {
                 var bin = new BinarySettingDTO()
@@ -294,78 +257,6 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }            
-        }
-
-        [HttpGet]
-        // GET api/Account/CheckDealerSkinExist?dealer={dealer}
-        [Route("CheckDealerSkinExist")]
-        public IHttpActionResult CheckDealerSkinExist(string dealer)
-        {
-            try
-            {
-                return Ok(SettingsRepository.CheckUserSkinExist(dealer));
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Authorize]
-        [HttpGet]
-        // GET api/dict/GetCustomerLinkSettings
-        [Route("GetCustomerLinkSettings")]
-        public IHttpActionResult GetCustomerLinkSettings()
-        {
-            var linkSettings = CustomerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
-            if (linkSettings != null)
-            {
-                return Ok(linkSettings);
-            }
-            return NotFound();
-        }
-
-        [HttpGet]
-        // GET api/dict/GetCustomerLinkSettings?dealer={dealer}
-        [Route("GetCustomerLinkSettings")]
-        public IHttpActionResult GetCustomerLinkSettings(string dealer)
-        {
-            var linkSettings = CustomerFormService.GetCustomerLinkSettingsByDealerName(dealer);
-            if (linkSettings != null)
-            {
-                return Ok(linkSettings);
-            }
-            return NotFound();
-        }
-
-        [Authorize]
-        [HttpPut]
-        // GET api/dict/UpdateCustomerLinkSettings
-        [Route("UpdateCustomerLinkSettings")]
-        public IHttpActionResult UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings)
-        {
-            try
-            {
-                var alerts = CustomerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
-                return Ok(alerts);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }        
-
-        [HttpGet]
-        // GET api/dict/GetCustomerLinkLanguageOptions?dealer={dealer}&lang={lang}
-        [Route("GetCustomerLinkLanguageOptions")]
-        public IHttpActionResult GetCustomerLinkLanguageOptions(string dealer, string lang)
-        {
-            var linkSettings = CustomerFormService.GetCustomerLinkLanguageOptions(dealer, lang);
-            if (linkSettings != null)
-            {
-                return Ok(linkSettings);
-            }
-            return NotFound();
         }
     }
 }

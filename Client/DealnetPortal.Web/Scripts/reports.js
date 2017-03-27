@@ -133,10 +133,6 @@ function showTable() {
                         },
                         className: 'controls-cell',
                         orderable: false
-                    },
-                    {
-                        "data": "IsCreatedByCustomer",
-                        "visible": false
                     }
             ],
             dom:
@@ -226,7 +222,6 @@ function (settings, data, dataIndex) {
     var paymentType = $("#payment-type").val();
     var salesRep = $("#sales-rep").val();
     var equipment = $("#equipment-input").val();
-    var createdBy = $("#created-by").val();
     var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
     var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
     var date = Date.parseExact(data[7], "M/d/yyyy");
@@ -241,8 +236,7 @@ function (settings, data, dataIndex) {
         (!paymentType || paymentType === data[12]) &&
         (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
         (isNaN(valueOfDealFrom) || !isNaN(value) && value >= valueOfDealFrom) &&
-        (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo) &&
-        (createdBy === '' || createdBy == data[14])) {
+        (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo)) {
         return true;
     }
     return false;

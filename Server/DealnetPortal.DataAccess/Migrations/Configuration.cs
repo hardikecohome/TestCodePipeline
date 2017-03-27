@@ -38,7 +38,6 @@ namespace DealnetPortal.DataAccess.Migrations
             SetTestProvinceTaxRates(context);
             SetAspireStatuses(context);
             SetDocumentTypes(context);
-            SetLanguages(context);
             var templates = SetDocuSignTemplates(context);
             SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
             SetPdfTemplates(context, templates);
@@ -543,16 +542,6 @@ namespace DealnetPortal.DataAccess.Migrations
             //leave existing data
             //documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
             context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
-        }
-
-        private void SetLanguages(ApplicationDbContext context)
-        {
-            var languages = new Language[]
-            {
-                new Language() {Id = (int)LanguageCode.English, Code = "en", Name = "English"},
-                new Language() {Id = (int)LanguageCode.French, Code = "fr", Name = "French"}
-            };
-            context.Languages.AddOrUpdate(l => l.Code, languages);
         }
 
         private AgreementTemplate[] SetDocuSignTemplates(ApplicationDbContext context)

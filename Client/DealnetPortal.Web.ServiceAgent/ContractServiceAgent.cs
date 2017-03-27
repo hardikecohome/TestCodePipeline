@@ -401,21 +401,5 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
-
-        public async Task<IList<Alert>> SubmitCustomerForm(CustomerFormDTO customerForm)
-        {
-            try
-            {
-                return
-                    await
-                        Client.PostAsync<CustomerFormDTO, IList<Alert>>(
-                            $"{_fullUri}/SubmitCustomerForm", customerForm);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't submit Customer Form", ex);
-                throw;
-            }
-        }
     }
 }

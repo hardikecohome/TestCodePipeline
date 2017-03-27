@@ -23,8 +23,18 @@ namespace DealnetPortal.Web.Models.Validation
         {
             object instance = validationContext.ObjectInstance;
             Type type = validationContext.ObjectType;
-            
-            var addAplicants = (IList<ApplicantPersonalInfo>)type.GetProperty(_addApplicantsProperty)?.GetValue(instance, null);
+
+            var property = validationContext.ObjectType.GetProperty(_addApplicantsProperty);
+            if (property == null)
+            {
+                return new ValidationResult(string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Unknown property {0}",
+                    new[] { _addApplicantsProperty }
+                ));
+            }
+
+            var addAplicants = (IList<ApplicantPersonalInfo>)type.GetProperty(_addApplicantsProperty).GetValue(instance, null);
             var homeOwner = (ApplicantPersonalInfo) value;
 
             var isUnderAge = new Func<DateTime, bool>(date => (DateTime.Now - date) < (DateTime.Now.AddYears(_maxAge) - DateTime.Now));
@@ -40,6 +50,9 @@ namespace DealnetPortal.Web.Models.Validation
 
         protected string GetErrorMessage(Type containerType, string displayName)
         {
+            ModelMetadata metadata = ModelMetadataProviders.Current.GetMetadataForProperty(null, containerType,
+                                                                                           _addApplicantsProperty);
+            var otherDisplayName = metadata.GetDisplayName();
             return ErrorMessage ?? Resources.Resources.AtLeastOne75OrLess;
         }
 

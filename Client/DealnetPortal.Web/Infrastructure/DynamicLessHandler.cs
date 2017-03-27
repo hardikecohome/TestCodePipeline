@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using dotless.Core;
 using dotless.Core.configuration;
-using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.ServiceAgent;
 
@@ -29,10 +28,9 @@ namespace DealnetPortal.Web.Infrastructure
             // Append variable to override
             var sb = new StringBuilder(fileContent);
             _securityManager.SetUserFromContext();
-            var dealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"] as string;
-            if (context.User.Identity.IsAuthenticated || dealerName != null)
+            if (context.User.Identity.IsAuthenticated)
             {
-                var variables = await _dictionaryServiceAgent.GetDealerSettings(dealerName);
+                var variables = await _dictionaryServiceAgent.GetDealerSettings();
                 if (variables != null)
                 {
                     foreach (var variable in variables)
@@ -45,10 +43,7 @@ namespace DealnetPortal.Web.Infrastructure
                     }
                 }
             }
-            if (dealerName != null)
-            {
-                sb.AppendLine($"@logo-img: url('../../../Settings/LogoImage?dealerName={dealerName}');");
-            }
+
             // Configure less to allow variable overrides
             var config = DotlessConfiguration.GetDefaultWeb();
             config.DisableVariableRedefines = true;

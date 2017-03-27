@@ -36,10 +36,6 @@ namespace DealnetPortal.Domain
         [ForeignKey("UserSettingsId")]
         public UserSettings Settings { get; set; }
 
-        public int? CustomerLinkId { get; set; }
-        [ForeignKey("CustomerLinkId")]
-        public virtual CustomerLink CustomerLink { get; set; }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

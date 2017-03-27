@@ -61,11 +61,8 @@
     <Compile Include="Contract\ContractDataDTO.cs" />
     <Compile Include="Contract\ContractDetailsDTO.cs" />
     <Compile Include="Contract\ContractDocumentDTO.cs" />
-    <Compile Include="Contract\CustomerFormDTO.cs" />
     <Compile Include="Contract\CustomerInfoDTO.cs" />
     <Compile Include="Contract\DealerDTO.cs" />
-    <Compile Include="Contract\CustomerLinkDTO.cs" />
-    <Compile Include="Contract\CustomerLinkLanguageOptionsDTO.cs" />
     <Compile Include="Contract\DocumentTypeDTO.cs" />
     <Compile Include="Contract\EmailDTO.cs" />
     <Compile Include="Contract\EquipmentTypeDTO.cs" />

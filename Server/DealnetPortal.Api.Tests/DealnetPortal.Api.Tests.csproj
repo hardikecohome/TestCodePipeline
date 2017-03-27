@@ -133,7 +133,6 @@
     <Compile Include="ESignature\ESignatureServiceAgentTest.cs" />
     <Compile Include="Repositories\BaseRepositoryTest.cs" />
     <Compile Include="Repositories\SettingsRepositoryTest.cs" />
-    <Compile Include="Repositories\CustomerFormRepositoryTest.cs" />
     <Compile Include="Security\PassworHashTest.cs" />
     <Compile Include="Services\ImageScanManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

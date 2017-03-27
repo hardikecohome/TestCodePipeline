@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Infrastructure
 
         public IController Create(RequestContext requestContext, Type controllerType)
         {
-            _cultureManager.EnsureCorrectCulture(requestContext.RouteData.Values["culture"] as string);
+            _cultureManager.EnsureCorrectCulture();
             return DependencyResolver.Current.GetService(controllerType) as IController;
         }
     }
