@@ -184,22 +184,28 @@ namespace DealnetPortal.Api.Integration.Services
                         _loggingService.LogError(errorMsg, ex);
                     }
                     //
-                    try
+                    bool customerEmailNotification;
+                    bool.TryParse(ConfigurationManager.AppSettings["CustomerEmailNotificationEnabled"], out customerEmailNotification);
+                    if (customerEmailNotification)
                     {
-                        await
-                            SendCustomerSubmitNotification(customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
-                                    m => m.EmailType == EmailType.Main)?.EmailAddress, null, dealer, //TODO: Get pre-approved amount
-                                    dealerColor?.StringValue, dealerLogo?.BinaryValue);
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg = "Can't send customer notification email";
-                        alerts.Add(new Alert()
+                        try
                         {
-                            Type = AlertType.Warning,
-                            Message = errorMsg
-                        });
-                        _loggingService.LogError(errorMsg, ex);
+                            await
+                                SendCustomerSubmitNotification(customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
+                                    m => m.EmailType == EmailType.Main)?.EmailAddress, null, dealer,
+                                    //TODO: Get pre-approved amount
+                                    dealerColor?.StringValue, dealerLogo?.BinaryValue);
+                        }
+                        catch (Exception ex)
+                        {
+                            var errorMsg = "Can't send customer notification email";
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Warning,
+                                Message = errorMsg
+                            });
+                            _loggingService.LogError(errorMsg, ex);
+                        }
                     }
                 }
                 catch (Exception ex)
