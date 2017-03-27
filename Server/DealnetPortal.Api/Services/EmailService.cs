@@ -10,6 +10,7 @@ namespace DealnetPortal.Api.Services
     using System.Net.Mime;
     using System.Threading.Tasks;
     using Microsoft.AspNet.Identity;
+
     public class EmailService: IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
@@ -27,8 +28,11 @@ namespace DealnetPortal.Api.Services
 
             var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"], Convert.ToInt32(ConfigurationManager.AppSettings["EmailService.SmtpPort"]));
             var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
-            smtpClient.Credentials = credentials;
-            smtpClient.Send(msg);
+            using (smtpClient)
+            {
+                smtpClient.Credentials = credentials;
+                smtpClient.Send(msg);
+            }
 
             return Task.FromResult(0);
         }

@@ -67,6 +67,7 @@ namespace DealnetPortal.Web.Controllers
             customerFormDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
             customerFormDto.CustomerComment = customerForm.Comment;
             customerFormDto.SelectedService = customerForm.Service;
+            customerFormDto.DealerName = customerForm.DealerName;
             var alerts = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
             if (alerts.Any(x => x.Type == AlertType.Error))
             {
