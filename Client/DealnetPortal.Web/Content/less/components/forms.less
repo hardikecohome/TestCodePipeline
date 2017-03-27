@@ -379,7 +379,8 @@ html.ie9{
     display: block;
   }
   .dealnet-disabled-input ~ .clear-input,
-  input:read-only ~ .clear-input{
+  input[readonly="readonly"] ~ .clear-input,
+  textarea[readonly="readonly"] ~ .clear-input{
     display: none !important
   }
   .modal-body{
