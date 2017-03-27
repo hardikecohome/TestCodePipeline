@@ -1306,7 +1306,4 @@
   <data name="WhatEquipmentServiceYouInterestedIn" xml:space="preserve">
     <value>What equipment/service are you interested in?</value>
   </data>
-  <data name="OnMyBehalf" xml:space="preserve">
-    <value>On my behalf</value>
-  </data>
 </root>

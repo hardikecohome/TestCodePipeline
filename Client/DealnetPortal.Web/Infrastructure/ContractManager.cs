@@ -192,7 +192,7 @@ namespace DealnetPortal.Web.Infrastructure
                 var mainDealer = new SubDealer()
                 {
                     Id = dealerInfo.Id,
-                    DisplayName = Resources.Resources.OnMyBehalf
+                    DisplayName = "On my behalf"
                 };
                 basicInfo.SubDealers.Add(mainDealer);
                 if (dealerInfo.SubDealers?.Any() ?? false)
