@@ -66,6 +66,7 @@ function showChart() {
                             chart.destroy();
                         }
                         var canvas = document.getElementById('data-flow-overview');
+                      $('.data-flow-container').addClass('data-loaded')
                         if($('#data-flow-overview').length > 0){
                           $('body').addClass('body-scrolled');
                         }else{
@@ -116,12 +117,12 @@ function showChart() {
                                         ticks: {
                                           fontSize: fontSize,
                                           maxRotation: maxRotation,
-                                          userCallback: function(value, index, values) {
+                                          /*userCallback: function(value, index, values) {
                                             if(values.length <= 13 && $('body').is('.mobile-device')){
                                               value = value.slice(0, 4);
                                             }
                                             return value;
-                                          }
+                                          }*/
                                         },
                                         scaleLabel: {
                                             display: true,
