@@ -2275,6 +2275,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On my behalf.
+        /// </summary>
+        public static string OnMyBehalf {
+            get {
+                return ResourceManager.GetString("OnMyBehalf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On this email you will get a new password.
         /// </summary>
         public static string OnThisEmail {
