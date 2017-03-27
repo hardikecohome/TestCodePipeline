@@ -91,7 +91,7 @@ function showTable() {
                     },
                     createdRow: function (row, data, dataIndex) {
                       if (data.IsCreatedByCustomer) {
-                        $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">New</span>');
+                          $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
                       }
                     },
                     columns: [
