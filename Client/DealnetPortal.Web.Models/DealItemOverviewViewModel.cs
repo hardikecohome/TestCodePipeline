@@ -31,5 +31,6 @@ namespace DealnetPortal.Web.Models
         public string RemainingDescription { get; set; }
         public string AgreementType { get; set; }
         public string PaymentType { get; set; }
+        public bool IsCreatedByCustomer { get; set; }
     }
 }

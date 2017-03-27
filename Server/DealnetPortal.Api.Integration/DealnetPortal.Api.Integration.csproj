@@ -104,9 +104,11 @@
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\Transformation\Instructions.cs" />
     <Compile Include="ServiceAgents\ESignature\ESignatureServiceAgent.cs" />
     <Compile Include="ServiceAgents\ESignature\IESignatureServiceAgent.cs" />
+    <Compile Include="Services\CustomerFormService.cs" />
     <Compile Include="Services\IAspireService.cs" />
     <Compile Include="Services\IAspireStorageService.cs" />
     <Compile Include="Services\IContractService.cs" />
+    <Compile Include="Services\ICustomerFormService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IMailService.cs" />

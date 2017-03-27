@@ -10,6 +10,7 @@ namespace DealnetPortal.Api.Services
     using System.Net.Mime;
     using System.Threading.Tasks;
     using Microsoft.AspNet.Identity;
+
     public class EmailService: IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)

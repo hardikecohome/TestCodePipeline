@@ -1206,6 +1206,69 @@
   <data name="Borrower" xml:space="preserve">
     <value>Borrower</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+    <comment>It's a verb (copy, paste, cut...)</comment>
+  </data>
+  <data name="ShareableLink" xml:space="preserve">
+    <value>Shareable Link</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="DefineYourEquipmentService" xml:space="preserve">
+    <value>Define your equipment/service</value>
+  </data>
+  <data name="EquipmentService" xml:space="preserve">
+    <value>Equipment/service</value>
+  </data>
+  <data name="FormUpdatedButCustomersNotAbleToUse" xml:space="preserve">
+    <value>Your form was successfully updated but now is disabled and customers won't be able to use it.</value>
+  </data>
+  <data name="FormUpdatedCustomersCanUse" xml:space="preserve">
+    <value>Your form was successfully updated and customers can already use it.</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="TypeYourEquipmentService" xml:space="preserve">
+    <value>Type your equipment/service</value>
+  </data>
+  <data name="ApplyForFinancing" xml:space="preserve">
+    <value>Apply for financing</value>
+  </data>
+  <data name="IAgreeDealerOrRepresentativesMayContact" xml:space="preserve">
+    <value>I agree that dealer or its representatives may contact me by email or phone</value>
+  </data>
+  <data name="IAgreeToPassInfoToCreditCheck" xml:space="preserve">
+    <value>I agree to pass information to credit check</value>
+  </data>
+  <data name="IOwnThisProperty" xml:space="preserve">
+    <value>I own this property</value>
+  </data>
+  <data name="PleaseCheckAgreementToContinue" xml:space="preserve">
+    <value>Please, check the agreement field to continue with the application.</value>
+  </data>
+  <data name="PleaseFillCaptchaToContinue" xml:space="preserve">
+    <value>Please, fill the captcha field to continue with the application.</value>
+  </data>
+  <data name="SubmitApplication" xml:space="preserve">
+    <value>Submit Application</value>
+  </data>
+  <data name="WriteYourComment" xml:space="preserve">
+    <value>Write your comment</value>
+  </data>
+  <data name="YourInformation" xml:space="preserve">
+    <value>Your Information</value>
+  </data>
+  <data name="FormInEnglish" xml:space="preserve">
+    <value>Form in English</value>
+    <comment>"Form" here - is form with fileds to submit</comment>
+  </data>
+  <data name="FormInFrench" xml:space="preserve">
+    <value>Form in French</value>
+    <comment>"Form" here - is form with fileds to submit</comment>
+  </data>
   <data name="MailingAddressInformation" xml:space="preserve">
     <value>Mailing Address Information</value>
   </data>
@@ -1230,5 +1293,17 @@
   </data>
   <data name="TheFieldMustBeMinimumAndMaximum" xml:space="preserve">
     <value>The field {0} must be a string with a minimum length of {2} and a maximum length of {1}.</value>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="CreatedByCustomer" xml:space="preserve">
+    <value>Created by Customer</value>
+  </data>
+  <data name="Dealer" xml:space="preserve">
+    <value>Dealer</value>
+  </data>
+  <data name="WhatEquipmentServiceYouInterestedIn" xml:space="preserve">
+    <value>What equipment/service are you interested in?</value>
   </data>
 </root>

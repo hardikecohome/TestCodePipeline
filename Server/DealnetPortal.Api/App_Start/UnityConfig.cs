@@ -6,9 +6,11 @@ using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Services.Signature;
+using DealnetPortal.Api.Services;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity;
 using Unity.WebApi;
 
 namespace DealnetPortal.Api
@@ -39,8 +41,10 @@ namespace DealnetPortal.Api
             container.RegisterType<IFileRepository, FileRepository>();
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
             container.RegisterType<ISettingsRepository, SettingsRepository>();
+            container.RegisterType<ICustomerFormRepository, CustomerFormRepository>();
 
             container.RegisterType<IContractService, ContractService>();
+            container.RegisterType<ICustomerFormService, CustomerFormService>();
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
             container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["EcoreApiUrl"]));
@@ -59,6 +63,8 @@ namespace DealnetPortal.Api
             //container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();
+            container.RegisterType<IIdentityMessageService, EmailService>();
+
         }
     }
 }
