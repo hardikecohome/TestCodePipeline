@@ -96,15 +96,15 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public CustomerContractInfo AddCustomerContractData(CustomerContractInfo customerContractInfo)
+        public CustomerContractInfo AddCustomerContractData(int contractId, CustomerContractInfo customerContractInfo)
         {
-            throw new NotImplementedException();
-        }
-
-        public Contract CreateContractForDealer(string dealerName)
-        {
-            throw new NotImplementedException();
-        }
-
+            var ccInfo = _dbContext.CustomerContractInfoes.Add(customerContractInfo);
+            var contract = _dbContext.Contracts.Find(contractId);
+            if (contract != null)
+            {
+                contract.CustomerContractInfo = ccInfo;
+            }
+            return ccInfo;
+        }        
     }
 }

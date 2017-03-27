@@ -136,6 +136,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     contract.IsCreatedByCustomer = true;
                     _unitOfWork.Save();
+                    _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
 
                     var customer = Mapper.Map<Customer>(customerFormData.PrimaryCustomer);
                     var contractData = new ContractData()
@@ -146,13 +147,25 @@ namespace DealnetPortal.Api.Integration.Services
                         Id = contract.Id
                     };
 
-                    contract = _contractRepository.UpdateContractData(contractData, dealerId);
+                    _contractRepository.UpdateContractData(contractData, dealerId);
+                    _unitOfWork.Save();
+
+                    var dealerSettings = _customerFormRepository.GetCustomerLinkSettings(dealerId);
+                    DealerService service = null;
+                    if (dealerSettings != null)
+                    {
+                        service = dealerSettings.Services.FirstOrDefault(s => s.Service == customerFormData.SelectedService);
+                    }
+
                     var customerContractInfo = new CustomerContractInfo()
                     {
-
+                        CustomerComment = customerFormData.CustomerComment,                                                
+                        SelectedServiceId = service?.Id
                     };
-                    _customerFormRepository.AddCustomerContractData(customerContractInfo);
+                    _customerFormRepository.AddCustomerContractData(contract.Id, customerContractInfo);
                     _unitOfWork.Save();
+
+                    _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
                 }
                 else
                 {
@@ -174,51 +187,58 @@ namespace DealnetPortal.Api.Integration.Services
                     Message = $"Cannot get dealer {customerFormData.DealerName} from database",
                     Header = "Cannot get dealer from database"
                 });
-            var alerts = new List<Alert>();
-            if (customerFormData != null)
+            }
+            if (alerts.Any(a => a.Type == AlertType.Error))
             {
-                var address = string.Empty;
-                var addresItem =customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
+                _loggingService.LogError("Cannot create contract by customer loan form request");
+            }
 
-                if (addresItem != null)
-                {
-                    address = string.Format("{0}, {1}, {2}, {3}", addresItem.Street, addresItem.City, addresItem.PostalCode, addresItem.State);
-                }
-                var body = new StringBuilder();
-                body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
-                body.AppendLine("<div>");
-                body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");//todo:Check does it need?
-                body.AppendLine($"<p><b>{Resources.Resources.Name}: {string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.LastName)}</b></p>");
-                body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
-                body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
-                body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
-                body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
-                body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
-                body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
-                body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
-                body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
-                body.AppendLine("</div>");
-                var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
-                var message = new IdentityMessage()
-                {
-                    Body = body.ToString(),
-                    Subject = Resources.Resources.NewCustomerAppliedForFinancing,
-                    Destination = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty
-                };
-                _emailService.SendAsync(message);
-            }
-            else
-            {
-                var errorMsg = "Cannot find a contract";
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.ContractCreateFailed,
-                    Message = errorMsg
-                });
-                _loggingService.LogError(errorMsg);
-            }
             return alerts;
+            //var alerts = new List<Alert>();
+            //if (customerFormData != null)
+            //{
+            //    var address = string.Empty;
+            //    var addresItem =customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
+
+            //    if (addresItem != null)
+            //    {
+            //        address = string.Format("{0}, {1}, {2}, {3}", addresItem.Street, addresItem.City, addresItem.PostalCode, addresItem.State);
+            //    }
+            //    var body = new StringBuilder();
+            //    body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
+            //    body.AppendLine("<div>");
+            //    body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");//todo:Check does it need?
+            //    body.AppendLine($"<p><b>{Resources.Resources.Name}: {string.Format("{0} {1}", customerFormData.PrimaryCustomer.FirstName, customerFormData.PrimaryCustomer.LastName)}</b></p>");
+            //    body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
+            //    body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
+            //    body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
+            //    body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
+            //    body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
+            //    body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
+            //    body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
+            //    body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
+            //    body.AppendLine("</div>");
+            //    var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
+            //    var message = new IdentityMessage()
+            //    {
+            //        Body = body.ToString(),
+            //        Subject = Resources.Resources.NewCustomerAppliedForFinancing,
+            //        Destination = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty
+            //    };
+            //    _emailService.SendAsync(message);
+            //}
+            //else
+            //{
+            //    var errorMsg = "Cannot find a contract";
+            //    alerts.Add(new Alert()
+            //    {
+            //        Type = AlertType.Error,
+            //        Header = ErrorConstants.ContractCreateFailed,
+            //        Message = errorMsg
+            //    });
+            //    _loggingService.LogError(errorMsg);
+            //}
+            //return alerts;
         }        
     }
 }

@@ -25,6 +25,8 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Customer> Customers { get; set; }
 
+        public virtual DbSet<CustomerContractInfo> CustomerContractInfoes { get; set; }
+
         public virtual DbSet<Location> Locations { get; set; }
 
         public virtual DbSet<Phone> Phones { get; set; }
