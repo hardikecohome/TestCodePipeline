@@ -187,6 +187,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Addtitional Applicant owns this property.
+        /// </summary>
+        public static string AdditionalIsOwnerOfProperty {
+            get {
+                return ResourceManager.GetString("AdditionalIsOwnerOfProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Photo.
         /// </summary>
         public static string AddPhoto {
@@ -480,6 +489,33 @@ namespace DealnetPortal.Web.Resources {
         public static string BorrowerIsHomeOwner {
             get {
                 return ResourceManager.GetString("BorrowerIsHomeOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Borrower owns this property.
+        /// </summary>
+        public static string BorrowerIsOwnerOfProperty {
+            get {
+                return ResourceManager.GetString("BorrowerIsOwnerOfProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Borrower lived at current address less than 6 month.
+        /// </summary>
+        public static string BorrowerLivedAtCurrentLessThan {
+            get {
+                return ResourceManager.GetString("BorrowerLivedAtCurrentLessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mailing address of borrower is not the same as Installation Address.
+        /// </summary>
+        public static string BorrowerMailingAddressNotSameAsInstallation {
+            get {
+                return ResourceManager.GetString("BorrowerMailingAddressNotSameAsInstallation", resourceCulture);
             }
         }
         
@@ -1767,6 +1803,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LivedAtCurrentLessThan {
             get {
                 return ResourceManager.GetString("LivedAtCurrentLessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lived at Installation address less than 6 month.
+        /// </summary>
+        public static string LivedAtInstallationAddressLessThan {
+            get {
+                return ResourceManager.GetString("LivedAtInstallationAddressLessThan", resourceCulture);
             }
         }
         
