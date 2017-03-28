@@ -26,18 +26,20 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerFormRepository _customerFormRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDealerRepository _dealerRepository;
+        private readonly IContractService _contractService;
         private readonly ILoggingService _loggingService;
         private readonly IIdentityMessageService _emailService;
         private readonly IAspireStorageService _aspireStorageService;
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository,
-            IDealerRepository dealerRepository, IUnitOfWork unitOfWork,
+            IDealerRepository dealerRepository, IUnitOfWork unitOfWork, IContractService contractService,
             ILoggingService loggingService, IIdentityMessageService emailService, IAspireStorageService aspireStorageService)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
             _dealerRepository = dealerRepository;
             _unitOfWork = unitOfWork;
+            _contractService = contractService;
             _loggingService = loggingService;
             _emailService = emailService;
             _aspireStorageService = aspireStorageService;
@@ -120,7 +122,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        public async Task<IList<Alert>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
             if (customerFormData == null)
             {
@@ -166,6 +168,24 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
 
                     _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
+
+                    //Start credit check for this contract
+                    var creditCheckRes = await Task.Run(() =>
+                    {
+                        var creditCheckAlerts = new List<Alert>();
+                        var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
+                        if (initAlerts?.Any() ?? false)
+                        {
+                            creditCheckAlerts.AddRange(initAlerts);
+                        }
+                        var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
+                        if (checkResult != null)
+                        {
+                            creditCheckAlerts.AddRange(checkResult.Item2);
+                            return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
+                        }
+                        return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
+                    });
                 }
                 else
                 {

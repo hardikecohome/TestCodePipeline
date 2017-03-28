@@ -416,11 +416,11 @@ namespace DealnetPortal.Api.Controllers
         [Route("SubmitCustomerForm")]
         [HttpPost]
         [AllowAnonymous]
-        public IHttpActionResult SubmitCustomerForm(CustomerFormDTO customerFormData)
+        public async Task<IHttpActionResult> SubmitCustomerForm(CustomerFormDTO customerFormData)
         {
             try
             {
-                var alerts = CustomerFormService.SubmitCustomerFormData(customerFormData);
+                var alerts = await CustomerFormService.SubmitCustomerFormData(customerFormData);
                 return Ok(alerts);
             }
             catch (Exception ex)

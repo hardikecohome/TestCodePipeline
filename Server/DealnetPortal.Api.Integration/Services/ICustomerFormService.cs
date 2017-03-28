@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 
@@ -14,6 +15,6 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId);
 
-        IList<Alert> SubmitCustomerFormData(CustomerFormDTO customerFormData);
+        Task<IList<Alert>> SubmitCustomerFormData(CustomerFormDTO customerFormData);
     }
 }
