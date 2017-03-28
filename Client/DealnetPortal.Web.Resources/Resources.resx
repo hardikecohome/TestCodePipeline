@@ -1323,12 +1323,6 @@
     <value>New</value>
     <comment>Context: New application</comment>
   </data>
-  <data name="NewCustomerAppliedForFinancing" xml:space="preserve">
-    <value>New customer applied for financing</value>
-  </data>
-  <data name="SelectedTypeOfService" xml:space="preserve">
-    <value>Selected type of service</value>
-  </data>
   <data name="ToProceedYouNeedToBe75LessPleaseContact" xml:space="preserve">
     <value>In order to proceed you need to be aged 75 or less. Please contact dealer directly.</value>
   </data>

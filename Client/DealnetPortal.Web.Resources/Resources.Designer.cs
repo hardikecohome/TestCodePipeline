@@ -2221,15 +2221,6 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New customer applied for financing.
-        /// </summary>
-        public static string NewCustomerAppliedForFinancing {
-            get {
-                return ResourceManager.GetString("NewCustomerAppliedForFinancing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to New Equipment.
         /// </summary>
         public static string NewEquipment {
@@ -2883,15 +2874,6 @@ namespace DealnetPortal.Web.Resources {
         public static string SeeContractDetails {
             get {
                 return ResourceManager.GetString("SeeContractDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Selected type of service.
-        /// </summary>
-        public static string SelectedTypeOfService {
-            get {
-                return ResourceManager.GetString("SelectedTypeOfService", resourceCulture);
             }
         }
         
