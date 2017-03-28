@@ -233,10 +233,9 @@
             <div class="col-md-4 col-lg-4">
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new { @class = "form-control dealnet-input", id = "administrative_area_level_1", placeholder = Resources.Nepean })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
-                    </div>
+                    @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }),"",
+                                        new { @class = "form-control dealnet-input", id = "administrative_area_level_1"})
+                    @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-md-4 col-lg-4">
@@ -400,7 +399,8 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "previous_administrative_area_level_1" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1", placeholder = Resources.Nepean, disabled = "disabled" })
+                        @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                        new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1", disabled = "disabled"})
                         @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -468,7 +468,9 @@
                     <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Province, new { @for = "mailing_administrative_area_level_1" })
                         <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Province, new {@class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", placeholder = Resources.Nepean, disabled = "disabled"})
+                                @Html.DropDownListFor(m => m.HomeOwner.MailingAddressInformation.Province,
+                                        (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                        new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1", disabled = "disabled" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Province, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -670,8 +672,10 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @for = "additional-previous-administrative_area_level_1-" + (i + 1) })
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1), placeholder = Resources.Nepean })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(m => m.HomeOwner.MailingAddressInformation.Province,
+                                        (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                    new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1)})
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new {@class = "text-danger"})
                             </div>
                         </div>
                     </div>
@@ -745,7 +749,8 @@
                         <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
                             <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1), placeholder = Resources.Nepean })
+                                @Html.DropDownListFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                        new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1)})
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, "", new { @class = "text-danger" })
                             </div>
                         </div>
