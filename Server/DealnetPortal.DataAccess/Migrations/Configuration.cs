@@ -547,12 +547,12 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetLanguages(ApplicationDbContext context)
         {
-            var languages = new Language[]
+            var languages = new List<Language>
             {
                 new Language() {Id = (int)LanguageCode.English, Code = "en", Name = "English"},
                 new Language() {Id = (int)LanguageCode.French, Code = "fr", Name = "French"}
             };
-            context.Languages.AddOrUpdate(l => l.Code, languages);
+            context.Languages.AddOrUpdate(l => l.Code, languages.ToArray());
         }
 
         private AgreementTemplate[] SetDocuSignTemplates(ApplicationDbContext context)
