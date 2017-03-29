@@ -580,7 +580,7 @@
     <value>Last Name is in incorrect format</value>
   </data>
   <data name="BirthDate" xml:space="preserve">
-    <value>Birth Date</value>
+    <value>Date of Birth</value>
   </data>
   <data name="ApplicantNeedsToBeOver18" xml:space="preserve">
     <value>The applicant needs to be over 18 years old</value>
@@ -1195,7 +1195,7 @@
     <value>Borrower Contact Information</value>
   </data>
   <data name="ShowLessInfo" xml:space="preserve">
-    <value>Show Less Information</value>
+    <value>Show less information</value>
   </data>
   <data name="SwitchToEnglish" xml:space="preserve">
     <value>Switch to English</value>
@@ -1298,7 +1298,7 @@
     <value>On my behalf</value>
   </data>
   <data name="AdditionalIsOwnerOfProperty" xml:space="preserve">
-    <value>Addtitional Applicant owns this property</value>
+    <value>Additional Applicant owns this property</value>
   </data>
   <data name="BorrowerIsOwnerOfProperty" xml:space="preserve">
     <value>Borrower owns this property</value>
