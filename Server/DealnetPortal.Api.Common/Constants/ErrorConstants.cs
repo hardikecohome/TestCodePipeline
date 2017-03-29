@@ -24,5 +24,7 @@
         public const string CommentUpdateFailed = "comment_update_failed";
 
         public const string DocumentUpdateFailed = "document_update_failed";
+
+        public const string CustomerFormSubmitFailed = "customer_form_submit_failed";
     }
 }

@@ -25,6 +25,8 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Customer> Customers { get; set; }
 
+        public virtual DbSet<CustomerContractInfo> CustomerContractInfoes { get; set; }
+
         public virtual DbSet<Location> Locations { get; set; }
 
         public virtual DbSet<Phone> Phones { get; set; }
@@ -54,6 +56,11 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<SettingItem> SettingItems { get; set; }
         public virtual DbSet<SettingValue> SettingValues { get; set; }
         public virtual DbSet<UserSettings> UserSettings { get; set; }        
+
+        public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<CustomerLink> CustomerLinks { get; set; }
+        public virtual DbSet<DealerService> DealerServices { get; set; }
+        public virtual DbSet<DealerLanguage> DealerLanguages { get; set; }
 
     }
 }
