@@ -1235,7 +1235,7 @@
     <value>On my behalf</value>
   </data>
   <data name="AdditionalIsOwnerOfProperty" xml:space="preserve">
-    <value>Addtitional Applicant owns this property</value>
+    <value>Additional Applicant owns this property</value>
   </data>
   <data name="BorrowerIsOwnerOfProperty" xml:space="preserve">
     <value>Borrower owns this property</value>

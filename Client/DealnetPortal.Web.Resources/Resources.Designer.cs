@@ -187,7 +187,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Addtitional Applicant owns this property.
+        ///   Looks up a localized string similar to Additional Applicant owns this property.
         /// </summary>
         public static string AdditionalIsOwnerOfProperty {
             get {
