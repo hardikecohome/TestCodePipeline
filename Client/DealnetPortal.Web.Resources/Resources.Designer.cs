@@ -367,6 +367,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application Submitted By.
+        /// </summary>
+        public static string ApplicationSubmittedBy {
+            get {
+                return ResourceManager.GetString("ApplicationSubmittedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply for financing.
+        /// </summary>
+        public static string ApplyForFinancing {
+            get {
+                return ResourceManager.GetString("ApplyForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to At least one of the applicants should be aged 75 or less..
         /// </summary>
         public static string AtLeastOne75OrLess {
@@ -664,6 +682,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are checking the information. Usually it takes about two minutes..
+        /// </summary>
+        public static string CheckingInfoUsuallyMinutes {
+            get {
+                return ResourceManager.GetString("CheckingInfoUsuallyMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose province.
         /// </summary>
         public static string ChooseProvince {
@@ -768,6 +795,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ConfirmPassword {
             get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Congratulations, you have been pre-approved for ${0)..
+        /// </summary>
+        public static string CongratulationsYouBeenPreApprovedFor {
+            get {
+                return ResourceManager.GetString("CongratulationsYouBeenPreApprovedFor", resourceCulture);
             }
         }
         
@@ -993,6 +1029,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DealerName {
             get {
                 return ResourceManager.GetString("DealerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer/Sales agent.
+        /// </summary>
+        public static string DealerSalesAgent {
+            get {
+                return ResourceManager.GetString("DealerSalesAgent", resourceCulture);
             }
         }
         
@@ -2077,6 +2122,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Application.
         /// </summary>
         public static string NewApplication {
@@ -3049,6 +3103,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In order to proceed you need to be aged 75 or less. Please contact dealer directly..
+        /// </summary>
+        public static string ToProceedYouNeedToBe75LessPleaseContact {
+            get {
+                return ResourceManager.GetString("ToProceedYouNeedToBe75LessPleaseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total of All Monthly Payments.
         /// </summary>
         public static string TotalAllMonthlyPayments {
@@ -3418,6 +3481,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can view this deal here.
+        /// </summary>
+        public static string YouCanViewThisDealHere {
+            get {
+                return ResourceManager.GetString("YouCanViewThisDealHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have been successfully registered,.
         /// </summary>
         public static string YouHaveBeenRegistered {
@@ -3441,6 +3513,24 @@ namespace DealnetPortal.Web.Resources {
         public static string YourComment {
             get {
                 return ResourceManager.GetString("YourComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Information.
+        /// </summary>
+        public static string YourInformation {
+            get {
+                return ResourceManager.GetString("YourInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You should fill all mandatory fields.
+        /// </summary>
+        public static string YouShouldFillAllMandatoryFields {
+            get {
+                return ResourceManager.GetString("YouShouldFillAllMandatoryFields", resourceCulture);
             }
         }
     }
