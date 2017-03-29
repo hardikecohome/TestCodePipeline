@@ -32,7 +32,7 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
         }
 
-        public async Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
+        public async Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
         {
             var alerts = new List<Alert>();
             var id = contract.Details?.TransactionId ?? contract.Id.ToString();
@@ -51,7 +51,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendChangeNotification(ContractDTO contract, string dealerEmail)
+        public async Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail)
         {
             var alerts = new List<Alert>();
             
@@ -70,6 +70,20 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        public async Task<IList<Alert>> SendDealerLoanFormContractCreationNotification(string dealerEmail,
+            CustomerFormDTO customerFormData,
+            double? preapprovedAmount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<Alert>> SendCustomerLoanFormContractCreationNotification(string customerEmail,
+            double? preapprovedAmount,
+            DealerDTO dealer, string dealerColor, byte[] dealerLogo)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
