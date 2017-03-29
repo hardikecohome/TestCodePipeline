@@ -82,7 +82,6 @@ namespace DealnetPortal.Web.Controllers
             var contracts = (completedOnly ?? false ? await _contractServiceAgent.GetCompletedContracts() : await _contractServiceAgent.GetContracts()).OrderBy(x => x.IsCreatedByCustomer).ThenByDescending(x => x.LastUpdateTime).ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
-
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
 
             if (docTypes?.Item1 != null)

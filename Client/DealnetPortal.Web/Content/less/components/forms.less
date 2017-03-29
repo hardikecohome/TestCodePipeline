@@ -168,6 +168,9 @@ html.ie9{
 
 .custom-checkbox{
   position: relative;
+  min-height: 20px;
+  min-width: 20px;
+  padding-left: 25px;
   &.set-margin{
     margin: 20px 0;
   }
@@ -183,7 +186,9 @@ html.ie9{
     }
   }
   .checkbox-icon{
-    position: relative;
+    position: absolute;
+    top: 3px;
+    left: 0;
     display: inline-block;
     width: 15px;
     height: 15px;
@@ -220,6 +225,7 @@ html.ie9{
   }
 
 .form-control{
+  box-shadow: none !important;
   &.input-validation-error{
     border-color: @danger-color !important;
   }
@@ -624,6 +630,12 @@ div.dataTables_wrapper div.dataTables_length {
   }
 }
 
+.shareable-link-page{
+  .checkbox-toggle{
+    margin-bottom: 0;
+  }
+}
+
 .control-disabled{
   .form-control;
   background-color: #eee;
@@ -631,4 +643,82 @@ div.dataTables_wrapper div.dataTables_length {
   & ~ .clear-input{
     display: none !important;
   }
+}
+
+/* The checkbox-toggle - the box around the slider */
+.checkbox-toggle {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 15px;
+  margin: 0;
+  @media @tablet-down {
+    width: 50px;
+    height: 30px;
+  }
+  /* Hide default HTML checkbox */
+  input {display:none;}
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    border: solid 1.5px rgba(0, 0, 0, 0.1);
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 0px;
+    bottom: 0px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 1px 0 rgba(0, 0, 0, 0.05);
+    border: solid 0.5px rgba(0, 0, 0, 0.1);
+    -webkit-transition: -webkit-transform .4s;
+    transition: transform .4s;
+    border-radius: 50%;
+    @media @tablet-down {
+      height: 28px;
+      width: 28px;
+    }
+  }
+
+  input:checked + .slider {
+    background-color: @btn-success-bg;
+  }
+
+  input:focus + .slider {
+    background-color: @btn-success-bg;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
+
+    @media @tablet-down {
+      -webkit-transform: translateX(20px);
+      -ms-transform: translateX(20px);
+      transform: translateX(20px);
+    }
+  }
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control{
+  background-color: #fff;
+  box-shadow: none;
+  pointer-events: none;
 }

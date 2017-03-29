@@ -1,0 +1,168 @@
+.customer-loan-page{
+  @media @desktop-lg-up {
+    padding: 0 20px;
+    width: 1040px;
+  }
+  margin: 0 auto;
+  max-width: 100%;
+  .equipment-customer-section{
+    margin: 20px 0;
+  }
+
+
+  .col-md-4{
+    @media @desktop-up{
+      &:nth-child(3n-2){
+        clear: both;
+      }
+    }
+  }
+  .col-sm-6{
+    @media @tablet-only {
+      &:nth-child(2n-1){
+        clear: both;
+      }
+    }
+  }
+  textarea{
+    min-height: 120px;
+  }
+}
+.customer-loan-form-steps{
+  @media @desktop-lg-up {
+    margin: 0 -20px;
+  }
+}
+.customer-loan-form-panel{
+  background: #fff;
+  border-radius: 4px;
+  border: 0;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  &.panel-collapsed{
+    .panel-body{
+      display: none;
+    }
+    .arrow{
+      .glyphicon{
+        &:before{
+          content: "\e258";
+        }
+      }
+    }
+  }
+  &.active-panel{
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.38);
+    .panel-step{
+      background: @btn-success-bg;
+      color: #fff;
+    }
+    .panel-title{
+      font-weight: 700;
+    }
+  }
+  .panel-body{
+    width: 100%;
+    padding: 15px 15px;
+    @media @desktop-lg-up {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+  .panel-heading{
+    position: relative;
+    padding: 15px 40px 15px 58px;
+    line-height: 1.45;
+    cursor: pointer;
+    @media @desktop-lg-up {
+      padding-left: 70px;
+      padding-right: 50px;
+    }
+    .arrow{
+      position: absolute;
+      top: 20px;
+      right: 15px;
+      font-size: 16px;
+
+      @media @desktop-lg-up {
+        right: 20px;
+      }
+    }
+  }
+  .panel-title{
+    line-height: inherit;
+    color: #616161;
+    font-weight: 500;
+  }
+  .panel-step{
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    color: @btn-success-bg;
+    border: solid 1px @btn-success-bg;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50px;
+    font: 14px/28px @usual-font-family;
+    @media @desktop-lg-up {
+      left: 20px;
+    }
+  }
+  .btn-proceed{
+    margin-top: 30px;
+  }
+  .dealnet-middle-header{
+    color: #616161;
+  }
+
+}
+
+.arrow{
+  color: @btn-success-bg;
+  font-size: 12px;
+  .glyphicon{
+    &:before{
+      content: "\e259";
+    }
+  }
+}
+
+.mandatory-field{
+  position: relative;
+  &:after{
+    content: '*';
+    position: relative;
+    top: 0;
+    right: -3px;
+    font-weight: bold;
+    color: #d33b4c;
+    font-style: normal;
+  }
+}
+.btn-proceed-inline-hold{
+  display: inline-block;
+  &.btn-form-common{
+    display: block;
+  }
+}
+.customer-loan-popover.top{
+  color: #000;
+  background-color: #ffffff;
+  border: solid 1px #dcdcdc;
+  border-radius: 4px;
+  box-shadow: none;
+  margin-top: 10px;
+  @media @tablet-up {
+    margin: 10px 0 0 150px;
+  }
+}
+
+.captcha-section{
+  width: 340px;
+  max-width: 100%;
+  img{
+    max-width: 100%;
+  }
+}

@@ -28,9 +28,9 @@ namespace DealnetPortal.Web.Core.Culture
             _loggingService = loggingService;
         }
 
-        public void EnsureCorrectCulture()
+        public void EnsureCorrectCulture(string cultureFromRoute = null)
         {
-            SetCultureToThread(CultureHelper.FilterCulture(HttpContext.Current.Request.Cookies[CookieName]?.Value));
+            SetCultureToThread(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[CookieName]?.Value));
         }
 
         public void SetCulture(string culture)
