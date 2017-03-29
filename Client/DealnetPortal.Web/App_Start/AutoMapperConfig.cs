@@ -56,17 +56,6 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstallationDate, d => d.Ignore())
                 .ForMember(x => x.InstallerFirstName, d => d.Ignore())
                 .ForMember(x => x.InstallerLastName, d => d.Ignore())
-                .ForMember(x => x.CustomerRate, d => d.ResolveUsing(src => 
-                {
-                    double res;
-                    var separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-                    var rate = src.CustomerRate?.Replace(".", separator).Replace(",", separator);
-                    if (double.TryParse(rate, out res))
-                    {
-                        return res;
-                    }
-                    return (double?)null;
-                }))
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == Common.Enumeration.AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore())
@@ -145,6 +134,42 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<CertificateEquipmentInfoViewModel, InstalledEquipmentDTO>();
             cfg.CreateMap<CertificateInformationViewModel, InstallationCertificateDataDTO>()
                 .ForMember(x => x.InstalledEquipments, d => d.MapFrom(src => src.Equipments));
+
+            cfg.CreateMap<ShareableLinkViewModel, CustomerLinkDTO>()
+                .ForMember(x => x.EnabledLanguages, d => d.ResolveUsing(src =>
+                {
+                    if (!src.EnglishLinkEnabled && !src.FrenchLinkEnabled)
+                    {
+                        return null;
+                    }
+                    var enabledLanguages = new List<LanguageCode>();
+                    if (src.EnglishLinkEnabled)
+                    {
+                        enabledLanguages.Add(LanguageCode.English);
+                    }
+                    if (src.FrenchLinkEnabled)
+                    {
+                        enabledLanguages.Add(LanguageCode.French);
+                    }
+                    return enabledLanguages;
+                }))
+                .ForMember(x => x.Services, d => d.ResolveUsing(src =>
+                {
+                    if (src.EnglishServices == null && src.FrenchServices == null)
+                    {
+                        return null;
+                    }
+                    var services = new Dictionary<LanguageCode, List<string>>();
+                    if (src.EnglishServices != null)
+                    {
+                        services.Add(LanguageCode.English, src.EnglishServices);
+                    }
+                    if (src.FrenchServices != null)
+                    {
+                        services.Add(LanguageCode.French, src.FrenchServices);
+                    }
+                    return services;
+                }));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -251,8 +276,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
-                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
-                .ForMember(x => x.CustomerRate, d => d.ResolveUsing(src => src.CustomerRate.HasValue ? src.CustomerRate.ToString() : string.Empty));
+                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
 
             cfg.CreateMap<CommentDTO, CommentViewModel>();
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
@@ -270,7 +294,23 @@ namespace DealnetPortal.Web.App_Start
                     src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum))
                 .ForMember(x => x.EmailAddress, d => d.ResolveUsing(src =>
                     src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
-                .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate.HasValue ? src.AllowCommunicate.Value : false));            
+                .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate ?? false));
+
+            cfg.CreateMap<CustomerLinkDTO, ShareableLinkViewModel>()
+                .ForMember(x => x.EnglishLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages?.Contains(LanguageCode.English) ?? false))
+                .ForMember(x => x.FrenchLinkEnabled, d => d.ResolveUsing(src => src.EnabledLanguages?.Contains(LanguageCode.French) ?? false))
+                .ForMember(x => x.EnglishServices, d => d.ResolveUsing(src =>
+                {
+                    List<string> services = null;
+                    src.Services?.TryGetValue(LanguageCode.English, out services);
+                    return services;
+                }))
+                .ForMember(x => x.FrenchServices, d => d.ResolveUsing(src =>
+                {
+                    List<string> services = null;
+                    src.Services?.TryGetValue(LanguageCode.French, out services);
+                    return services;
+                }));
         }
 
 

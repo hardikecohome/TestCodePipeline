@@ -124,6 +124,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Business phone.
+        /// </summary>
+        public static string BusinessPhone {
+            get {
+                return ResourceManager.GetString("BusinessPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cell phone.
+        /// </summary>
+        public static string CellPhone {
+            get {
+                return ResourceManager.GetString("CellPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client data inputted.
         /// </summary>
         public static string ClientDataInputted {
@@ -133,11 +151,29 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string Comment {
+            get {
+                return ResourceManager.GetString("Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contract.
         /// </summary>
         public static string Contract {
             get {
                 return ResourceManager.GetString("Contract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contract ID.
+        /// </summary>
+        public static string ContractId {
+            get {
+                return ResourceManager.GetString("ContractId", resourceCulture);
             }
         }
         
@@ -214,6 +250,27 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;h3&gt;New customer applied for financing&lt;/h3&gt;
+        ///&lt;div&gt;
+        ///	&lt;p&gt;Contract ID: {contractId}&lt;/p&gt;
+        ///	&lt;p&gt;&lt;b&gt;Name: {fullName}&lt;/b&gt;&lt;/p&gt;
+        ///	&lt;p&gt;&lt;b&gt;Pre-approved: {amount}&lt;/b&gt;&lt;/p&gt;
+        ///	&lt;p&gt;&lt;b&gt;Selected type of service: {serviceType}&lt;/b&gt;&lt;/p&gt;
+        ///	&lt;p&gt;Comment: {comment}&lt;/p&gt;
+        ///	&lt;p&gt;Installation address: {address}&lt;/p&gt;
+        ///	&lt;p&gt;Home phone: {homePhone}&lt;/p&gt;
+        ///	&lt;p&gt;Cell phone: {cellPhone}&lt;/p&gt;
+        ///	&lt;p&gt;Business phone: {businessPhone}&lt;/p&gt;
+        ///	&lt;p&gt;Email: {email}&lt;/p&gt;
+        ///&lt;/div&gt;.
+        /// </summary>
+        public static string DealerConfirmationMailtemplate {
+            get {
+                return ResourceManager.GetString("DealerConfirmationMailtemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Doors.
         /// </summary>
         public static string Doors {
@@ -282,6 +339,15 @@ namespace DealnetPortal.Api.Resources {
         public static string ExternalServiceUnavailable {
             get {
                 return ResourceManager.GetString("ExternalServiceUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fax.
+        /// </summary>
+        public static string Fax {
+            get {
+                return ResourceManager.GetString("Fax", resourceCulture);
             }
         }
         
@@ -367,6 +433,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home phone.
+        /// </summary>
+        public static string HomePhone {
+            get {
+                return ResourceManager.GetString("HomePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HRV.
         /// </summary>
         public static string Hrv {
@@ -390,6 +465,33 @@ namespace DealnetPortal.Api.Resources {
         public static string Hwt {
             get {
                 return ResourceManager.GetString("Hwt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID Not yet generated.
+        /// </summary>
+        public static string IDNotYetGenerated {
+            get {
+                return ResourceManager.GetString("IDNotYetGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you have any question please contact.
+        /// </summary>
+        public static string IfYouHaveQuestionsPleaseContact {
+            get {
+                return ResourceManager.GetString("IfYouHaveQuestionsPleaseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation address.
+        /// </summary>
+        public static string InstallationAddress {
+            get {
+                return ResourceManager.GetString("InstallationAddress", resourceCulture);
             }
         }
         
@@ -426,6 +528,24 @@ namespace DealnetPortal.Api.Resources {
         public static string LoanApplication {
             get {
                 return ResourceManager.GetString("LoanApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New customer applied for financing.
+        /// </summary>
+        public static string NewCustomerAppliedForFinancing {
+            get {
+                return ResourceManager.GetString("NewCustomerAppliedForFinancing", resourceCulture);
             }
         }
         
@@ -493,6 +613,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pre-approved.
+        /// </summary>
+        public static string PreApproved {
+            get {
+                return ResourceManager.GetString("PreApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rental.
         /// </summary>
         public static string RentalApplication {
@@ -543,6 +672,15 @@ namespace DealnetPortal.Api.Resources {
         public static string SecuritySystem {
             get {
                 return ResourceManager.GetString("SecuritySystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected type of service.
+        /// </summary>
+        public static string SelectedTypeOfService {
+            get {
+                return ResourceManager.GetString("SelectedTypeOfService", resourceCulture);
             }
         }
         
@@ -615,6 +753,15 @@ namespace DealnetPortal.Api.Resources {
         public static string TanklessWaterHeater {
             get {
                 return ResourceManager.GetString("TanklessWaterHeater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for applying for financing..
+        /// </summary>
+        public static string ThankYouForApplyingForFinancing {
+            get {
+                return ResourceManager.GetString("ThankYouForApplyingForFinancing", resourceCulture);
             }
         }
         
@@ -727,11 +874,38 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} will contact you soon..
+        /// </summary>
+        public static string WillContactYouSoon {
+            get {
+                return ResourceManager.GetString("WillContactYouSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows.
         /// </summary>
         public static string Windows {
             get {
                 return ResourceManager.GetString("Windows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have been pre-approved for ${0}..
+        /// </summary>
+        public static string YouHaveBeenPreapprovedFor {
+            get {
+                return ResourceManager.GetString("YouHaveBeenPreapprovedFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your financing application was successfully submitted..
+        /// </summary>
+        public static string YourFinancingApplicationWasSubmitted {
+            get {
+                return ResourceManager.GetString("YourFinancingApplicationWasSubmitted", resourceCulture);
             }
         }
         

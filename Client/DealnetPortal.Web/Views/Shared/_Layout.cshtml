@@ -28,8 +28,15 @@
         //Next two lines for IE (God Damn It! What is that shit made of?!)
         if (!window.console) window.console = {};
         if (!window.console.log) window.console.log = function () { };
+        // global formatNumber function Todo: remove global variables
+        window.formatNumber = function(num) {
+            if (typeof num === 'number') {
+                return num.toFixed(2);
+            }
+            return num;
+        };
         var urlContent = "@Url.Content("~/")";
-        var layotSettingsUrl = "@Url.Action("LayoutSettings", "Home")";
+        var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -173,6 +180,7 @@
                         <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg></span>
                             @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })
+                            <span class="new-deals-number collapse" id="new-deals-number" ></span>
                         </li>
                         <li class="dealnet-sidebar-item" id="sidebar-item-reports">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-reports-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-side")"></use></svg></span>
@@ -182,7 +190,11 @@
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg></span>
                             @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new {@class = "dealnet-sidebar-link"})
                         </li>
-                        <li class="dealnet-sidebar-item" style="display: none;" id="sidebar-item-about">
+                        <li class="dealnet-sidebar-item">
+                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
+                            @Html.ActionLink("Shareable Link", "Index", "ShareableLink", null, new { @class = "dealnet-sidebar-link" })
+                        </li>                        
+                        <li class="dealnet-sidebar-item" id="sidebar-item-about">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
                             @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
                         </li>

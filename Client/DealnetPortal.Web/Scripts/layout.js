@@ -28,15 +28,17 @@
       $('body').addClass('ie');
     }
 
-    $.ajax({
-        type: "GET",
-        url: layotSettingsUrl,
-        success: function (json) {
-            if (json.aboutAvailability) {
-                $('#sidebar-item-about').show();
+    if (layotSettingsUrl) {
+        $.ajax({
+            type: "GET",
+            url: layotSettingsUrl,
+            success: function(json) {
+                if (json.aboutAvailability) {
+                    $('#sidebar-item-about').show();
+                }
             }
-        }
-    });
+        });
+    }
 
     $('.chosen-language-link').on('click', function(){
       $(this).parents('.lang-switcher').toggleClass('open');
@@ -276,7 +278,26 @@
         currentTab.parents('.documents-pills-item').addClass('active');
       });
     }
+      $('.customer-loan-form-panel .panel-heading').on('click', function(){
+        panelCollapsed($(this));
+      });
+
+      if($('.customer-loan-page .btn-proceed').is('.disabled')){
+        $('.btn-proceed-inline-hold[data-toggle="popover"]').popover({
+          template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+        });
+      }else{
+        $('.btn-proceed-inline-hold[data-toggle="popover"]').popover('destroy');
+      }
+
+});
+function panelCollapsed(elem){
+  var $this = elem.closest('.panel');
+  $this.find('.panel-body').slideToggle('fast', function(){
+    $this.toggleClass('panel-collapsed');
   });
+
+};
 
 function detectSidebarHeight(){
   setTimeout(function(){
@@ -598,9 +619,8 @@ function customizeSelect(){
 
 function addIconsToFields(fields){
   var fields = fields || ($('.control-group input, .control-group textarea'));
-  //var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
   var fieldDateParent = fields.parent('.control-group.date-group');
-  var fieldPassParent = fields.parent('.control-group.control-group-pass');
+  var fieldPassParent = fields.parent('.control-group.control-group-pass, .control-group.control-hidden-value');
   var iconCalendar = '<svg aria-hidden="true" class="icon icon-calendar"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-calendar"></use></svg>';
   var iconClearField = '<a class="clear-input"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-remove"></use></svg></a>';
   var iconPassField = '<a class="recover-pass-link"><svg aria-hidden="true" class="icon icon-eye"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-eye"></use></svg></a>';
@@ -610,7 +630,8 @@ function addIconsToFields(fields){
   }
 
   fields.each(function(){
-    var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
+    //var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
+    var fieldParent = $(this).parent('.control-group').not(fieldDateParent).not(fieldPassParent);
     if(!$(this).is(".dealnet-disabled-input") && $(this).attr("type") !== "hidden"){
       if(fieldParent.children('.clear-input').length === 0){
         fieldParent.append(iconClearField);
@@ -655,7 +676,7 @@ function toggleClickInp(inp){
 function recoverPassword(){
   var pass;
   $('.recover-pass-link').on('click', function(){
-    pass = $(this).parents('.control-group-pass').find('input');
+    pass = $(this).parents('.control-group').find('input');
     if(pass.prop('type') == "password"){
       pass.prop('type', 'text');
     }else{

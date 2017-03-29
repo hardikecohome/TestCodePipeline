@@ -439,7 +439,6 @@
 
 
     <script type="text/javascript">
-
         var app = angular.module("calculator", []);
 
         app.directive('resetForm',
@@ -834,13 +833,13 @@
             });
         $(document)
             .ready(function() {
-                toggleClearInputIcon();
-                displayCompareCalcs();
-                $('#province-tax-rate').change();
+            toggleClearInputIcon();
+            displayCompareCalcs();
+            $('#province-tax-rate').change();
 
-                $('.calc-field-edit a').hide();
-                $('.switch-calculators li .nav-tab-link').hide();
-            });
+            $('.calc-field-edit a').hide();
+            $('.switch-calculators li .nav-tab-link').hide();
+        });
 
         function resetFormValidator(formId) {
             var form = $(formId);

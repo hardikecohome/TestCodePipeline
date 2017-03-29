@@ -7,6 +7,7 @@
                 });
                 $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
                 $('.select-filter').val($('.select-filter > option:first').val());
+                $('.dataTable ')
             });
 
 function assignDatepicker(input) {
@@ -30,6 +31,7 @@ function showTable() {
             var statusOptions = [];
             var agrTypeOptions = [];
             var salesRepOptions = [];
+            var createdByCustomerCount = 0;
             $.each(data, function (i, e) {
                 if ($.inArray(e["Status"], statusOptions) == -1)
                     if (e["Status"]) {
@@ -45,7 +47,15 @@ function showTable() {
                     if (e["SalesRep"]) {
                         salesRepOptions.push(e["SalesRep"]);
                     }
+
+                if (e["IsCreatedByCustomer"] == true) {
+                    createdByCustomerCount++;
+                }
             });
+            if (createdByCustomerCount) {
+                $('#new-deals-number').text(createdByCustomerCount);
+                $('#new-deals-number').show();
+            }
             $.each(statusOptions, function (i, e) {
                 $("#deal-status").append($("<option />").val(e).text(e));
             });
@@ -79,8 +89,13 @@ function showTable() {
                         "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
+                    createdRow: function (row, data, dataIndex) {
+                      if (data.IsCreatedByCustomer) {
+                        $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">New</span>');
+                      }
+                    },
                     columns: [
-                        { "data": "TransactionId", className: 'contract-cell' },
+                        { "data": "TransactionId", className: 'contract-cell'},
                         { "data": "CustomerName", className: 'customer-cell' },
                         { "data": "Status", className: 'status-cell' },
                         { "data": "AgreementType", className: 'type-cell' },

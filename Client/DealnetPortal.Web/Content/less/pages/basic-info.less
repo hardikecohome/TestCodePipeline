@@ -14,6 +14,8 @@
   margin-top: 6px;
 }
 
+
+
 .owner-info-label {
   margin-top: 27px;
   position: relative;
@@ -32,7 +34,8 @@
 
 .scanlicense-button,
 .scanlicence-button{
-  margin-top: 16px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .scanlicense-notify,
@@ -103,7 +106,7 @@
     color: #cacaca;
     text-decoration: none;
   }
-  @media (min-width: 1024px) {
+  @media @desktop-up {
     margin-top: 25px;
   }
   & > *{
@@ -111,6 +114,13 @@
   }
   .icon+span{
     margin-left: 10px;
+  }
+}
+.col-sm-6{
+  .clear-address{
+    @media @tablet-only {
+      margin-top: 25px;
+    }
   }
 }
 

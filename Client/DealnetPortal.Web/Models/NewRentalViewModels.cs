@@ -186,6 +186,7 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof (Resources.Resources), Name = "Date")]
         public DateTime? LastUpdateTime { get; set; }
         public string TransactionId { get; set; }
+        public bool IsCreatedByCustomer { get; set; }
     }
 
     public class SummaryAndConfirmationViewModel

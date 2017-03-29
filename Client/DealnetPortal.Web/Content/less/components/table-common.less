@@ -28,7 +28,7 @@ table.dataTable thead th, table.dataTable thead td{
   padding: 10px 8px;
 }
 table.dataTable tbody th, table.dataTable tbody td{
-  padding: 8px 8px;
+  padding: 15px 8px;
 }
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
@@ -181,12 +181,50 @@ table.dataTable > tbody > tr.child ul{
   &.no-footer {
     border-bottom: 0 !important;
   }
-
+  .custom-checkbox{
+    text-align: center;
+    .checkbox-icon{
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+  }
   tr {
     background-color: transparent !important;
     &:hover {
+      background: @table-tr-hover-bg !important;
+    }
+    .label-new-deal{
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: 'New';
+      color: #3493dd;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    &.unread-deals{
+      &:hover{
+        background: transparent !important;
+        td{
+          background: rgba(141, 177, 189, 0.48) !important;
+        }
+      }
       td{
-        background: @table-tr-hover-bg !important
+        background: rgba(141, 177, 189, 0.43) !important;
+        &.contract-cell{
+          position: relative;
+          .label-new-deal{
+            display: block;
+          }
+        }
+        &:not(.contract-cell){
+          color: #38607a;
+          .icon{
+            color: inherit;
+          }
+        }
       }
     }
   }

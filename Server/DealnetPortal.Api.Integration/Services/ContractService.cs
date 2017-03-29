@@ -377,12 +377,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)
         {
-            //stub for future Aspire request
-
-            TimeSpan creditCheckPause = TimeSpan.FromSeconds(10);
-
             var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
-
             if (checkResult?.Item1 != null)
             {
                 var creditAmount = checkResult.Item1.CreditAmount > 0 ? checkResult.Item1.CreditAmount : (decimal?)null;
@@ -418,77 +413,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
 
-            return checkResult;
-
-            //var creditCheck = new CreditCheckDTO()
-            //{
-            //    CreditCheckState = CreditCheckState.NotInitiated
-            //};
-            //var alerts = new List<Alert>();
-            //var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-
-
-            //if (contract != null)
-            //{
-            //    creditCheck.ContractId = contractId;
-
-            //    switch (contract.ContractState)
-            //    {
-            //        case ContractState.Started:
-            //        case ContractState.CustomerInfoInputted:
-            //            alerts.Add(new Alert()
-            //            {
-            //                Type = AlertType.Error, Header = ErrorConstants.CreditCheckFailed, Message = "Credit check process wasn't initiated"
-            //            });
-            //            break;
-            //        case ContractState.CreditCheckInitiated:
-            //            //stub - check time
-            //            if ((DateTime.Now - contract.LastUpdateTime) < creditCheckPause)
-            //            {
-            //                creditCheck.CreditCheckState = CreditCheckState.Initiated;
-            //                alerts.Add(new Alert()
-            //                {
-            //                    Type = AlertType.Information, Header = "Credit check in progress", Message = "Credit check in progress",
-            //                });
-            //            }
-            //            else
-            //            {
-            //                _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.CreditContirmed);
-            //                _unitOfWork.Save();
-            //                creditCheck.CreditCheckState = CreditCheckState.Approved;
-            //                creditCheck.CreditAmount = 15000;
-            //            }
-            //            break;
-            //        case ContractState.CreditCheckDeclined:
-            //            creditCheck.CreditCheckState = CreditCheckState.Declined;
-            //            alerts.Add(new Alert()
-            //            {
-            //                Type = AlertType.Warning, Header = "Credit check declined", Message = "Credit declined",
-            //            });
-            //            break;
-            //        case ContractState.CreditContirmed:
-            //        case ContractState.Completed:
-            //            alerts.Add(new Alert()
-            //            {
-            //                Type = AlertType.Information, Header = "Credit approved", Message = "Credit approved",
-            //            });
-            //            creditCheck.CreditCheckState = CreditCheckState.Approved;
-            //            creditCheck.CreditAmount = 15000;
-            //            break;
-            //        default:
-            //            throw new ArgumentOutOfRangeException();
-            //    }
-            //}
-            //else
-            //{
-            //    var errorMsg = $"Cannot find contract [{contractId}] for get credit check";
-            //    alerts.Add(new Alert()
-            //    {
-            //        Type = AlertType.Error, Header = ErrorConstants.CreditCheckFailed, Message = errorMsg
-            //    });
-            //    _loggingService.LogError(errorMsg);
-            //}
-            //return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
+            return checkResult;           
         }
 
         public Tuple<CreditCheckDTO, IList<Alert>> SubmitContract(int contractId, string contractOwnerId)
