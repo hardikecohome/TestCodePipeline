@@ -2218,17 +2218,12 @@
         });
     </script>
     @Scripts.Render("~/bundles/summary-and-confirmation")
-
     @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
     {
         <script>
-            var recalculateTotalCash = true;
-        </script>
-    }
-    else
-    {
-        <script>
-            var recalculateTotalCash = false;
+            $(document).ready(function() {
+                recalculateTotalCashPrice();
+            });
         </script>
     }
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>
