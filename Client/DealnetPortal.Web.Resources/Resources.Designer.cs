@@ -2815,7 +2815,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Less Information.
+        ///   Looks up a localized string similar to Show less information.
         /// </summary>
         public static string ShowLessInfo {
             get {
