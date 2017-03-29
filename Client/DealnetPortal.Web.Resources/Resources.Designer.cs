@@ -430,7 +430,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Birth Date.
+        ///   Looks up a localized string similar to Date of Birth.
         /// </summary>
         public static string BirthDate {
             get {

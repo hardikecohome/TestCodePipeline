@@ -580,7 +580,7 @@
     <value>Last Name is in incorrect format</value>
   </data>
   <data name="BirthDate" xml:space="preserve">
-    <value>Birth Date</value>
+    <value>Date of Birth</value>
   </data>
   <data name="ApplicantNeedsToBeOver18" xml:space="preserve">
     <value>The applicant needs to be over 18 years old</value>
