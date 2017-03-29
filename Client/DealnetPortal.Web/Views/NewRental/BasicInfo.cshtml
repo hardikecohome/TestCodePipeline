@@ -192,6 +192,49 @@
 
         <!--Borrower Information-->
         <h2 class="dealnet-middle-header address-info-label">@Resources.BorrowerInformation</h2>
+        <!--scanlicence-button-->
+        @if (!ViewBag.IsMobileRequest)
+        {
+        <div class="row scanlicence-button">
+            <div class="col-md-12">
+                <div class="scanlicence-hold">
+                    <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>@Resources.ScanLicense</span>
+                    </button>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        @Resources.TurnLicenseOver
+                    </div>
+                </div>
+                <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
+            </div>
+        </div>
+        }
+        else
+        {
+        <div class="row scanlicence-button">
+            <div class="col-md-12">
+                <div class="scanlicence-hold">
+                    <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
+                        <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                        <span>@Resources.ScanLicense</span>
+                        <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
+                    </div>
+                    <a href="#" class="scanlicence-info-link">
+                        <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+                    </a>
+                    <div class="scanlicence-info-text well well-info">
+                        @Resources.TurnLicenseOver
+                    </div>
+                </div>
+                <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
+            </div>
+        </div>
+        }
+        <!--END scanlicence-button-->
         <div class="owner-info">
             <div class="row">
                 @Html.HiddenFor(m => m.HomeOwner.CustomerId)
@@ -311,51 +354,6 @@
             </div>
         </div>
         <!--END Instalation Address-->
-
-
-            <!--scanlicence-button-->
-            @if (!ViewBag.IsMobileRequest)
-            {
-            <div class="row scanlicence-button">
-                <div class="col-md-12">
-                    <div class="scanlicence-hold">
-                        <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
-                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                            <span>@Resources.ScanLicense</span>
-                        </button>
-                        <a href="#" class="scanlicence-info-link">
-                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                        </a>
-                        <div class="scanlicence-info-text well well-info">
-                            @Resources.TurnLicenseOver
-                        </div>
-                    </div>
-                    <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
-                </div>
-            </div>
-            }
-            else
-            {
-            <div class="row scanlicence-button">
-                <div class="col-md-12">
-                    <div class="scanlicence-hold">
-                        <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
-                            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-                            <span>@Resources.ScanLicense</span>
-                            <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
-                        </div>
-                        <a href="#" class="scanlicence-info-link">
-                            <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-                        </a>
-                        <div class="scanlicence-info-text well well-info">
-                            @Resources.TurnLicenseOver
-                        </div>
-                    </div>
-                    <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
-                </div>
-            </div>
-            }
-            <!--END scanlicence-button-->
 
 
     <!--Living time-->
