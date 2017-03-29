@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -24,25 +27,27 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerFormRepository _customerFormRepository;
+        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IEmailService _emailService;
+        private readonly ISettingsRepository _settingsRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDealerRepository _dealerRepository;
         private readonly IContractService _contractService;
         private readonly ILoggingService _loggingService;
-        private readonly IIdentityMessageService _emailService;
-        private readonly IAspireStorageService _aspireStorageService;
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository,
             IDealerRepository dealerRepository, IUnitOfWork unitOfWork, IContractService contractService,
-            ILoggingService loggingService, IIdentityMessageService emailService, IAspireStorageService aspireStorageService)
+            ILoggingService loggingService, IEmailService emailService, IAspireStorageService aspireStorageService)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
             _dealerRepository = dealerRepository;
+            _aspireStorageService = aspireStorageService;
+            _settingsRepository = settingsRepository;
+            _emailService = emailService;
             _unitOfWork = unitOfWork;
             _contractService = contractService;
             _loggingService = loggingService;
-            _emailService = emailService;
-            _aspireStorageService = aspireStorageService;
         }
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
@@ -182,7 +187,67 @@ namespace DealnetPortal.Api.Integration.Services
                         if (checkResult != null)
                         {
                             creditCheckAlerts.AddRange(checkResult.Item2);
-                            return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
+
+                            var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
+                            var dealerColor =
+                                _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
+                                    .FirstOrDefault(s => s.Item.Name == "@navbar-header");
+                            var dealerLogo = _settingsRepository.GetUserBinarySetting(SettingType.LogoImage2X,
+                                customerFormData.DealerName);
+
+                            try
+                            {
+                                await SendDealerSubmitNotification(dealer?.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress,
+                                        customerFormData, null); //TODO: Get pre-approved amount
+                            }
+                            catch (Exception ex)
+                            {
+                                var errorMsg = "Can't send dealer notification email";
+                                alerts.Add(new Alert()
+                                {
+                                    Type = AlertType.Warning,
+                                    Message = errorMsg
+                                });
+                                _loggingService.LogError(errorMsg, ex);
+                            }
+                            //
+                            bool customerEmailNotification;
+                            bool.TryParse(ConfigurationManager.AppSettings["CustomerEmailNotificationEnabled"], out customerEmailNotification);
+                            if (customerEmailNotification)
+                            {
+                                try
+                                {
+                                    await
+                                        SendCustomerSubmitNotification(customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
+                                            m => m.EmailType == EmailType.Main)?.EmailAddress, null, dealer,
+                                            //TODO: Get pre-approved amount
+                                            dealerColor?.StringValue, dealerLogo?.BinaryValue);
+                                }
+                                catch (Exception ex)
+                                {
+                                    var errorMsg = "Can't send customer notification email";
+                                    alerts.Add(new Alert()
+                                    {
+                                        Type = AlertType.Warning,
+                                        Message = errorMsg
+                                    });
+                                    _loggingService.LogError(errorMsg, ex);
+                                }
+                            }
+                        }
+                catch (Exception ex)
+                        {
+                            var errorMsg = "Can't retrieve dealer info";
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Warning,
+                                Message = errorMsg
+                            });
+                            _loggingService.LogError(errorMsg, ex);
+
+                        }
+
+                        return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
                         }
                         return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
                     });
@@ -259,6 +324,91 @@ namespace DealnetPortal.Api.Integration.Services
             //    _loggingService.LogError(errorMsg);
             //}
             //return alerts;
-        }        
+        }
+
+        private async Task SendDealerSubmitNotification(string dealerEmail, CustomerFormDTO customerFormData, double? preapprovedAmount)
+        {
+            var address = string.Empty;
+            var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
+
+            if (addresItem != null)
+            {
+                address = $"{addresItem.Street}, {addresItem.City}, {addresItem.PostalCode}, {addresItem.State}";
+            }
+            var body = new StringBuilder();
+            body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
+            body.AppendLine("<div>");
+            body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");//todo:Check does it need?
+            body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
+            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
+            body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
+            body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
+            body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
+            body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
+            body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
+            body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
+            body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
+            body.AppendLine("</div>");
+
+            var message = new IdentityMessage()
+            {
+                Body = body.ToString(),
+                Subject = Resources.Resources.NewCustomerAppliedForFinancing,
+                Destination = dealerEmail ?? string.Empty
+            };
+            await _emailService.SendAsync(message);
+        }
+
+        private async Task SendCustomerSubmitNotification(string customerEmail, double? preapprovedAmount, DealerDTO dealer, string dealerColor, byte[] dealerLogo)
+        {
+            var dealerName = $"{dealer.FirstName} {dealer.LastName}";
+            var email = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            var location = dealer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
+            var phone = dealer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum;
+            var html = File.ReadAllText(HostingEnvironment.MapPath(@"~\Content\emails\customer-notification-email.html"));
+            var body = new StringBuilder(html, html.Length * 2);
+            body.Replace("{headerColor}", dealerColor ?? "#000000");
+            body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
+            body.Replace("{youHaveBeenPreapprovedFor}", preapprovedAmount != null ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", preapprovedAmount.ToString()) : string.Empty);
+            body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
+            body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", dealerName));
+            body.Replace("{ifYouHavePleaseContact}", Resources.Resources.IfYouHaveQuestionsPleaseContact);
+            body.Replace("{dealerName}", dealerName);
+            body.Replace("{dealerAddress}", $"{location?.Street} {location?.City}, {location?.State} {location?.PostalCode}");
+            body.Replace("{phone}", Resources.Resources.Phone);
+            body.Replace("{dealerPhone}", phone);
+            body.Replace("{fax}", Resources.Resources.Fax);
+            body.Replace("{dealerFax}", ""); //TODO: Get fax number
+            body.Replace("{mail}", Resources.Resources.Email);
+            body.Replace("{dealerMail}", email);
+
+            LinkedResource inlineLogo = null;
+            var inlineSuccess = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-success.png"));
+            inlineSuccess.ContentId = Guid.NewGuid().ToString();
+            inlineSuccess.ContentType.MediaType = "image/png";
+            body.Replace("{successIcon}", "cid:" + inlineSuccess.ContentId);
+            if (dealerLogo != null)
+            {
+                inlineLogo = new LinkedResource(new MemoryStream(dealerLogo));
+                inlineLogo.ContentId = Guid.NewGuid().ToString();
+                inlineLogo.ContentType.MediaType = "image/png";
+                body.Replace("{dealerLogo}", "cid:" + inlineLogo.ContentId);
+            }
+            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null,
+                    MediaTypeNames.Text.Html);
+            alternateView.LinkedResources.Add(inlineSuccess);
+            if (inlineLogo != null)
+            {
+                alternateView.LinkedResources.Add(inlineLogo);
+            }
+
+            var mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            mail.AlternateViews.Add(alternateView);
+            mail.From = new MailAddress(email);
+            mail.To.Add(customerEmail);
+            //mail.Subject = "yourSubject"; //TODO: Clarify subject
+            await _emailService.SendAsync(mail);
+        }
     }
 }

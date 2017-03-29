@@ -385,4 +385,25 @@
   <data name="SelectedTypeOfService" xml:space="preserve">
     <value>Selected type of service</value>
   </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
+    <value>If you have any question please contact</value>
+    <comment>Context: If you have any question please contact: One Fine Company</comment>
+  </data>
+  <data name="ThankYouForApplyingForFinancing" xml:space="preserve">
+    <value>Thank you for applying for financing.</value>
+  </data>
+  <data name="WillContactYouSoon" xml:space="preserve">
+    <value>{0} will contact you soon.</value>
+    <comment>Context: One Fine Company will contact you soon. </comment>
+  </data>
+  <data name="YouHaveBeenPreapprovedFor" xml:space="preserve">
+    <value>You have been pre-approved for ${0}.</value>
+    <comment>Context: You have been pre-approved for $15,000.</comment>
+  </data>
+  <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
+    <value>Your financing application was successfully submitted.</value>
+  </data>
 </root>

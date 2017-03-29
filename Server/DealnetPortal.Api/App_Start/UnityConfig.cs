@@ -6,7 +6,6 @@ using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Services.Signature;
-using DealnetPortal.Api.Services;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
@@ -64,7 +63,7 @@ namespace DealnetPortal.Api
             //container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();
-            container.RegisterType<IIdentityMessageService, EmailService>();
+            container.RegisterType<IEmailService, EmailService>();
 
         }
     }
