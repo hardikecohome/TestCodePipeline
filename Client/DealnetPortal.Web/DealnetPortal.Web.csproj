@@ -864,6 +864,7 @@
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
+    <Content Include="Views\Calculator\CalculatorNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

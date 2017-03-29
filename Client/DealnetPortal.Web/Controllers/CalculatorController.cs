@@ -28,5 +28,9 @@ namespace DealnetPortal.Web.Controllers
             };
             return View(viewModel);
         }
+        public ActionResult CalculatorNew()
+        {
+            return View();
+        }
     }
 }
