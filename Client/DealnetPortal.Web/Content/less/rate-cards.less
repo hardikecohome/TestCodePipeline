@@ -143,12 +143,25 @@
 
 
   .slick-list{
-    padding: 5px 34px 5px;
-    margin: -5px -34px 0;
+    padding: 5px 0 5px;
+    margin: -5px 0 0;
+    @media @tablet-only{
+      padding: 5px 34px 5px;
+      margin: -5px -34px 0;
+    }
+    @media @mobile {
+      margin: -5px 0px 0;
+      padding: 5px 23px 5px;
+    }
   }
   /* the slides */
   .slick-slide {
-    margin: 0 12px;
+    @media @tablet-only {
+      margin: 0 12px;
+    }
+    @media @mobile {
+      margin: 0 5px;
+    }
   }
 
   .slick-arrow{
