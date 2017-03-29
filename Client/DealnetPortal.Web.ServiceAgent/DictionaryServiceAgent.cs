@@ -9,6 +9,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Utilities;
+using DealnetPortal.Web.Common.Helpers;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -139,12 +140,16 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<StringSettingDTO>> GetDealerSettings()
+        public async Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName = null)
         {
             try
             {
-                return await Client.GetAsync<IList<StringSettingDTO>>(
-                            $"{_fullUri}/GetDealerSettings").ConfigureAwait(false);
+                var url = $"{_fullUri}/GetDealerSettings";
+                if (dealerName != null)
+                {
+                    url += $"?dealer={dealerName}";
+                }
+                return await Client.GetAsync<IList<StringSettingDTO>>(url).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -157,12 +162,59 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<BinarySettingDTO>(
-                            $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}").ConfigureAwait(false);
+                var url = $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}";
+                var dealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"];
+                if (dealerName != null)
+                {
+                    url += $"?dealer={dealerName}";
+                }
+                return await Client.GetAsync<BinarySettingDTO>(url).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get Dealer Binary Setting", ex);
+                throw;
+            }
+        }
+
+        public async Task<CustomerLinkDTO> GetShareableLinkSettings()
+        {
+            try
+            {
+                return await Client.GetAsync<CustomerLinkDTO>(
+                            $"{_fullUri}/GetCustomerLinkSettings").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Customer Link Settings", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink)
+        {
+            try
+            {
+                return await Client.PutAsync<CustomerLinkDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateCustomerLinkSettings", customerLink);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't change Customer Link Settings", ex);
+                throw;
+            }
+        }
+
+        public async Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string dealerName, string culture)
+        {
+            try
+            {
+                return await Client.GetAsync<CustomerLinkLanguageOptionsDTO>(
+                            $"{_fullUri}/GetCustomerLinkLanguageOptions?dealer={dealerName}&lang={culture}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Customer Link Language Options", ex);
                 throw;
             }
         }

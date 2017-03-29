@@ -9,6 +9,7 @@ using DealnetPortal.Api.Integration.Services.Signature;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity;
 using Unity.WebApi;
 
 namespace DealnetPortal.Api

@@ -29,11 +29,13 @@ namespace DealnetPortal.Api.Controllers
     public class ContractController : BaseApiController
     {
         private IContractService ContractService { get; set; }
+        private ICustomerFormService CustomerFormService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService)
+        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService)
             : base(loggingService)
         {
             ContractService = contractService;
+            CustomerFormService = customerFormService;
         }
 
         // GET: api/Contract

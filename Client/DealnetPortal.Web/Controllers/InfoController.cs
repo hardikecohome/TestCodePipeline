@@ -9,14 +9,20 @@ using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
     public class InfoController : Controller
     {        
         [HttpGet]
+        [AuthFromContext]
         public ActionResult Error()
         {
             var alerts = (IList<Alert>) TempData[PortalConstants.CurrentAlerts];
             return View(alerts);
+        }
+
+        [HttpGet]
+        public ActionResult AnonymousError()
+        {
+            return View();
         }
     }
 }

@@ -22,17 +22,7 @@ namespace DealnetPortal.Web.Models.Validation
             object instance = validationContext.ObjectInstance;
             Type type = validationContext.ObjectType;
 
-            var property = validationContext.ObjectType.GetProperty(_addApplicantsProperty);
-            if (property == null)
-            {
-                return new ValidationResult(string.Format(
-                    CultureInfo.CurrentCulture,
-                    "Unknown property {0}",
-                    new[] { _addApplicantsProperty }
-                ));
-            }
-
-            var addAplicants = (IList<ApplicantPersonalInfo>)type.GetProperty(_addApplicantsProperty).GetValue(instance, null);
+            var addAplicants = (IList<ApplicantPersonalInfo>)type.GetProperty(_addApplicantsProperty)?.GetValue(instance, null);
             var homeOwner = (ApplicantPersonalInfo)value;
             
             if (homeOwner.IsHomeOwner || (addAplicants?.Any(ap => ap.IsHomeOwner) ?? false))
@@ -45,9 +35,6 @@ namespace DealnetPortal.Web.Models.Validation
 
         protected string GetErrorMessage(Type containerType, string displayName)
         {
-            ModelMetadata metadata = ModelMetadataProviders.Current.GetMetadataForProperty(null, containerType,
-                                                                                           _addApplicantsProperty);
-            var otherDisplayName = metadata.GetDisplayName();
             return ErrorMessage ?? Resources.Resources.AtLeastOneHomeOwner;
         }
 

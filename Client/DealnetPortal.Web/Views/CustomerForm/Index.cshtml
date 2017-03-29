@@ -53,7 +53,6 @@
     @using (Html.BeginForm("Index", "CustomerForm", FormMethod.Post, new { id = "mainForm" }))
     {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.DealerName)
         if (serviceTypes != null && serviceTypes.Count > 1)
         {
             <div class="equipment-customer-section">
@@ -347,7 +346,7 @@
 {
     translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
     translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
-    translations['ApplicantNeedsToBeUnder75'] = "@Resources.ToProceedYouNeedToBe75LessPleaseContact";
+    translations['ApplicantNeedsToBeUnder75'] = "@Resources.AtLeastOne75OrLess";
     translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
     translations['AtLeastOneHomeOwner'] = "@Resources.AtLeastOneHomeOwner";

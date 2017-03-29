@@ -67,9 +67,17 @@ namespace DealnetPortal.Domain
         
         public ICollection<ContractDocument> Documents { get; set; }
 
+        public int? CustomerContractInfoId { get; set; }
+        [ForeignKey("CustomerContractInfoId")]
+        public CustomerContractInfo CustomerContractInfo { get; set; }
+
         /// <summary>
         /// true, if current contract was declined early or currently in declined state
         /// </summary>
         public bool? WasDeclined { get; set; }
+        /// <summary>
+        /// true, if it's a new contract created by customer and isn't edited by dealer
+        /// </summary>
+        public bool? IsCreatedByCustomer { get; set; }
     }
 }
