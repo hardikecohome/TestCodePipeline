@@ -1234,4 +1234,45 @@
   <data name="OnMyBehalf" xml:space="preserve">
     <value>On my behalf</value>
   </data>
+  <data name="AdditionalIsOwnerOfProperty" xml:space="preserve">
+    <value>Addtitional Applicant owns this property</value>
+  </data>
+  <data name="BorrowerIsOwnerOfProperty" xml:space="preserve">
+    <value>Borrower owns this property</value>
+  </data>
+  <data name="BorrowerLivedAtCurrentLessThan" xml:space="preserve">
+    <value>Borrower lived at current address less than 6 month</value>
+  </data>
+  <data name="BorrowerMailingAddressNotSameAsInstallation" xml:space="preserve">
+    <value>Mailing address of borrower is not the same as Installation Address</value>
+  </data>
+  <data name="LivedAtInstallationAddressLessThan" xml:space="preserve">
+    <value>Lived at Installation address less than 6 month</value>
+  </data>
+  <data name="ApplicationSubmittedBy" xml:space="preserve">
+    <value>Application Submitted By</value>
+  </data>
+  <data name="CheckingInfoUsuallyMinutes" xml:space="preserve">
+    <value>We are checking the information. Usually it takes about two minutes.</value>
+  </data>
+  <data name="CongratulationsYouBeenPreApprovedFor" xml:space="preserve">
+    <value>Congratulations, you have been pre-approved for ${0).</value>
+    <comment>Context: Congratulations, you have been pre-approved for $15,000.</comment>
+  </data>
+  <data name="DealerSalesAgent" xml:space="preserve">
+    <value>Dealer/Sales agent</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+    <comment>Context: New application</comment>
+  </data>
+  <data name="ToProceedYouNeedToBe75LessPleaseContact" xml:space="preserve">
+    <value>In order to proceed you need to be aged 75 or less. Please contact dealer directly.</value>
+  </data>
+  <data name="YouCanViewThisDealHere" xml:space="preserve">
+    <value>You can view this deal here</value>
+  </data>
+  <data name="YouShouldFillAllMandatoryFields" xml:space="preserve">
+    <value>You should fill all mandatory fields</value>
+  </data>
 </root>

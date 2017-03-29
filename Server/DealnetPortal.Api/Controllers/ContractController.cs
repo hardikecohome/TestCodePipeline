@@ -410,5 +410,21 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("SubmitCustomerForm")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> SubmitCustomerForm(CustomerFormDTO customerFormData)
+        {
+            try
+            {
+                var alerts = await CustomerFormService.SubmitCustomerFormData(customerFormData);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

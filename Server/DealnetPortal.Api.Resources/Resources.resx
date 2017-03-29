@@ -349,4 +349,61 @@
   <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
+  <data name="IDNotYetGenerated" xml:space="preserve">
+    <value>ID Not yet generated</value>
+  </data>
+  <data name="BusinessPhone" xml:space="preserve">
+    <value>Business phone</value>
+  </data>
+  <data name="CellPhone" xml:space="preserve">
+    <value>Cell phone</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="ContractId" xml:space="preserve">
+    <value>Contract ID</value>
+    <comment>Dealer contract id</comment>
+  </data>
+  <data name="HomePhone" xml:space="preserve">
+    <value>Home phone</value>
+  </data>
+  <data name="InstallationAddress" xml:space="preserve">
+    <value>Installation address</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+    <comment>Customer name</comment>
+  </data>
+  <data name="NewCustomerAppliedForFinancing" xml:space="preserve">
+    <value>New customer applied for financing</value>
+  </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Pre-approved</value>
+    <comment>Only text</comment>
+  </data>
+  <data name="SelectedTypeOfService" xml:space="preserve">
+    <value>Selected type of service</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
+    <value>If you have any question please contact</value>
+    <comment>Context: If you have any question please contact: One Fine Company</comment>
+  </data>
+  <data name="ThankYouForApplyingForFinancing" xml:space="preserve">
+    <value>Thank you for applying for financing.</value>
+  </data>
+  <data name="WillContactYouSoon" xml:space="preserve">
+    <value>{0} will contact you soon.</value>
+    <comment>Context: One Fine Company will contact you soon. </comment>
+  </data>
+  <data name="YouHaveBeenPreapprovedFor" xml:space="preserve">
+    <value>You have been pre-approved for ${0}.</value>
+    <comment>Context: You have been pre-approved for $15,000.</comment>
+  </data>
+  <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
+    <value>Your financing application was successfully submitted.</value>
+  </data>
 </root>
