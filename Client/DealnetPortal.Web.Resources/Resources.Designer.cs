@@ -196,7 +196,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Addtitional Applicant owns this property.
+        ///   Looks up a localized string similar to Additional Applicant owns this property.
         /// </summary>
         public static string AdditionalIsOwnerOfProperty {
             get {
@@ -457,7 +457,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Birth Date.
+        ///   Looks up a localized string similar to Date of Birth.
         /// </summary>
         public static string BirthDate {
             get {
@@ -3031,7 +3031,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Less Information.
+        ///   Looks up a localized string similar to Show less information.
         /// </summary>
         public static string ShowLessInfo {
             get {
