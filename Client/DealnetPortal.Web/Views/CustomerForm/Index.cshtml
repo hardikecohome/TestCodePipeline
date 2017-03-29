@@ -1,5 +1,6 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.CustomerFormViewModel
 <div class="customer-loan-page">
     <div class="navbar navbar-inverse navbar-fixed-side">
@@ -49,6 +50,7 @@
     <h2 class="dealnet-large-header">@Resources.ApplyForFinancing</h2>
     @{
         var serviceTypes = ViewBag.ServiceTypes as IList<string>;
+        var provinces = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
     }
     @using (Html.BeginForm("Index", "CustomerForm", FormMethod.Post, new { id = "mainForm" }))
     {
@@ -159,7 +161,8 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Province, new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
+                                        @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                        new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -231,8 +234,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "pprovince", @class = "mandatory-field" })
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "pprovince" })
-                                        @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.City, "", new { @class = "text-danger" })
+                                       @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                       new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "pprovince" })
+                                        @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
