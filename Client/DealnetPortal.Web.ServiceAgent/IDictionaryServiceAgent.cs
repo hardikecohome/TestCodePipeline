@@ -45,8 +45,14 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<bool> CheckDealerSkinExistence();
 
-        Task<IList<StringSettingDTO>> GetDealerSettings();
+        Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName = null);
 
         Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);
+
+        Task<CustomerLinkDTO> GetShareableLinkSettings();
+
+        Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
+
+        Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string dealerName, string culture);
     }
 }

@@ -198,13 +198,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsyncCancellationController.cs" />
     <Compile Include="Controllers\CalculatorController.cs" />
+    <Compile Include="Controllers\CustomerFormController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\ShareableLinkController.cs" />
     <Compile Include="Controllers\StubController.cs" />
+    <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -228,6 +231,7 @@
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
+    <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\LoanCalculatorViewModel.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="Models\NewEquipmentInformation.cs" />
     <Compile Include="Models\NewRentalViewModels.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
+    <Compile Include="Models\ShareableLinkViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
     <Compile Include="Models\Validation\CheckHomeOwnerAttribute.cs" />
@@ -386,8 +391,6 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\email\email.html" />
-    <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -591,7 +594,7 @@
     <Content Include="Content\less\bootstrap\mixins\text-emphasis.less" />
     <Content Include="Content\less\bootstrap\mixins\text-overflow.less" />
     <Content Include="Content\less\bootstrap\mixins\vendor-prefixes.less" />
-    <Content Include="Content\less\basic-info.less" />
+    <Content Include="Content\less\pages\basic-info.less" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff" />
@@ -622,19 +625,19 @@
     <Content Include="Content\less\components\forms.less" />
     <Content Include="Content\less\components\pagination.less" />
     <Content Include="Content\less\components\tables.less" />
-    <Content Include="Content\less\home-page.less" />
-    <Content Include="Content\less\credit-check.less" />
+    <Content Include="Content\less\pages\home-page.less" />
+    <Content Include="Content\less\pages\credit-check.less" />
     <Content Include="Content\less\components\buttons.less" />
     <Content Include="Content\less\components\datapicker.less" />
-    <Content Include="Content\less\rental-agreement-submit-success.less" />
+    <Content Include="Content\less\pages\rental-agreement-submit-success.less" />
     <Content Include="Content\less\settings\overrides-variables.less" />
     <Content Include="Content\less\components\modal.less" />
-    <Content Include="Content\less\contract.less" />
-    <Content Include="Content\less\reports.less" />
+    <Content Include="Content\less\pages\contract.less" />
+    <Content Include="Content\less\pages\reports.less" />
     <Content Include="Content\less\main-dealer.less" />
     <Content Include="Content\less\settings\variables-dealer.less" />
     <Content Include="Content\less\components\tabs.less" />
-    <Content Include="Content\less\calculator.less" />
+    <Content Include="Content\less\pages\calculator.less" />
     <Content Include="Content\less\components\table-common.less" />
     <Content Include="Content\less\components\table-home.less" />
     <Content Include="Content\less\components\table-my-deals.less" />
@@ -676,6 +679,9 @@
     <Content Include="Content\cldr\supplemental\timeData.json" />
     <Content Include="Content\cldr\supplemental\weekData.json" />
     <Content Include="Content\cldr\supplemental\windowsZones.json" />
+    <Content Include="Content\less\pages\shareable-link.less" />
+    <Content Include="Content\less\pages\customer-loan-form.less" />
+    <Content Include="Content\less\pages\customer-loan-success-page.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -685,6 +691,7 @@
     <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
+    <Content Include="Scripts\customer-form.js" />
     <Content Include="Scripts\customer-validation.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
@@ -793,6 +800,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\loan-calculator.js" />
+    <Content Include="Scripts\Logger\logdebug.js" />
+    <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -802,9 +811,15 @@
     <Content Include="Scripts\reports.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\shareable-link.js" />
     <Content Include="Scripts\standalone-loan-calculator.js" />
     <Content Include="Scripts\svgxuse.min.js" />
     <Content Include="Scripts\summary-and-confirmation.js" />
+    <Content Include="Scripts\Utils\functionUtils.js" />
+    <Content Include="Scripts\Modules\index.js" />
+    <Content Include="Scripts\Utils\logMiddleware.js" />
+    <Content Include="Scripts\Utils\objectUtils.js" />
+    <Content Include="Scripts\Utils\redux.js" />
     <Content Include="Scripts\vc-scanning.js" />
     <Content Include="Scripts\Vendor\cldr\cldr.js" />
     <Content Include="Scripts\Vendor\cldr\cldr\event.js" />
@@ -864,7 +879,10 @@
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
-    <Content Include="Views\Calculator\CalculatorNew.cshtml" />
+    <Content Include="Views\ShareableLink\Index.cshtml" />
+    <Content Include="Views\CustomerForm\Index.cshtml" />
+    <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
+    <Content Include="Views\Info\AnonymousError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
@@ -876,6 +894,7 @@
     <Folder Include="Views\Rentals\" />
     <Folder Include="Views\Settings\" />
     <Folder Include="Views\UpdateData\" />
+    <Folder Include="Views\Update\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

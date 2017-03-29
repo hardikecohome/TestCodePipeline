@@ -67,6 +67,7 @@
     <Compile Include="Enumeration\DeferralType.cs" />
     <Compile Include="Enumeration\EmailType.cs" />
     <Compile Include="Enumeration\FlowingSummaryType.cs" />
+    <Compile Include="Enumeration\LanguageCode.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
