@@ -35,18 +35,18 @@ var deferralType = LoanDeferralType.ThreeMonth;
                 ng-hide="calcList.length === 3"
                 ng-click="addCalculator()">Add Another Option to Compare</button>
         <div class="row rate-cards-container">
-            <div class="col-md-4 col-sm-6 rate-card-col" ng-repeat="calc in calcList" track by $index>
+            <div class="col-md-4 col-sm-6 rate-card-col" ng-repeat="option in options" track by $index>
                 <h2 class="dealnet-middle-header calculator-heading">Option {{$index + 1}}
-                        <span class="calculator-remove" ng-click="removeCalculator($index + 1)">
+                        <span class="calculator-remove" ng-click="removeCalculator(option.id)">
                             <i class="glyphicon glyphicon-remove"></i>
                         </span>
                 </h2>
                 <div class="rate-card table-mode">
                     <div class="equipments-hold" reset-Form>
-                        <div ng-repeat="item in activeEquipment" class="equipment-item">
+                        <div ng-repeat="equipmentId in option.equipmentIds" class="equipment-item">
                             <div class="dealnet-middle-header equipment-heading">
                                 <span>@Resources.Equipment  №{{$index + 1}}</span>
-                                <div ng-if="$index !== 0" ng-click="removeActiveEquipment($index)" class="additional-remove">
+                                <div ng-if="$index !== 0" ng-click="removeActiveEquipment(option.id, equipmentId)" class="additional-remove">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type, new { @for = "Equipment_NewEquipment_{{$index}}__Type" })
                                 @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type,
                                 (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control", ng_model = "item.type" })
+                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control", ng_model = "equipments[equipmentId].type" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description, new { @for = "Equipment_NewEquipment_{{$index}}__Description" })
@@ -74,7 +74,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
                         </div>
                     </div>
 
-                    <div class="align-middle dealnet-info-link add-equip-link" ng-click="addActiveEquipment()">
+                    <div class="align-middle dealnet-info-link add-equip-link" ng-click="addActiveEquipment(calc.id)">
                         <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
                         <span>@Resources.AddAdditionalEquipment</span>
                     </div>
@@ -284,125 +284,176 @@ var deferralType = LoanDeferralType.ThreeMonth;
 {
 
 
-<script type="text/javascript">
-    var app = angular.module("calculator", []);
+    <script type="text/javascript">
+        var app = angular.module("calculator", []);
 
-    app.directive('resetForm', function() {
-        return {
-            link: function($scope, element, attrs) {
-                var watch = $scope.$watch(function() {
-                    return element.children().length;
-                }, function() {
-                    $scope.$evalAsync(function() {
-                        var form = element.parent().closest('form');
-                        updateModalHeightIpad();
-                        addIconsToFields();
-                        toggleClearInputIcon();
-                        customizeSelect();
+        var isId = function(refId) {
+            return function(id) {
+                return refId === id;
+            };
+        };
+
+        var copyAndShiftEquipments = function(base) {
+            return function(equipment, index) {
+                return $.extend({},
+                    equipment,
+                    {
+                        id: (index + base).toString(),
                     });
-                });
-            }
+            };
         };
-    });
 
-    app.controller("calculator", function($scope) {
-        $scope.isMobileMode = false;
-        var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
-        var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[])Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
-        $scope.compareStates = [];
-        $scope.activeTabIndex = 0;
-        $scope.activeDeferralType = defaultDefferalType;
-        $scope.activeEquipment = [];
-        $scope.calcIndex = 0;
-        $scope.calcList = [];
-        $scope.addCalculator = function() {
-            if($scope.calcList.length <= 2){
-                $scope.calcList.push($scope.calcIndex);
-            }
-            $scope.calcIndex++;
-
-        }
-        $scope.addCalculator($scope.calcIndex);
-        $scope.addActiveEquipment = function() {
-            $scope.activeEquipment.push({
-                type: defaultEquipmentType,
-                description: '',
-                cost: ''
-            });
-        }
-        $scope.removeCalculator = function(calcNumber) {
-            console.log('calcNumber ' , calcNumber-1);
-            console.log($scope.calcList);
-            $scope.calcList.splice(calcNumber-1, 1);
-            console.log($scope.calcList);
-            return false;
+        var getId = function(obj) {
+            return obj ? obj.id : undefined;
         };
-        $scope.removeActiveEquipment = function(index) {
-            $scope.activeEquipment.splice(index, 1);
-            $scope.calculateLoanValues();
-        }
-        $scope.addActiveEquipment();
 
-        $scope.resetDisplayedValues = function(index) {
-            $scope['displayedEquipmentType' + index] = '-';
-            $scope['displayedEquipmentDescription' + index] = '-';
-            $scope['displayedEquipmentCashPrice' + index] = '-';
-            $scope['displayedHst' + index] = '-';
-            $scope['displayedTotalCashPrice' + index] = '-';
-            $scope['displayedTotalAmountFinanced' + index] = '-';
-            $scope['displayedTotalMonthlyPayment' + index] = '-';
-            $scope['displayedTotalAllMonthlyPayments' + index] = '-';
-            $scope['displayedResidualBalance' + index] = '-';
-            $scope['displayedTotalObligation' + index] = '-';
-            $scope['displayedTotalBorrowingCost' + index] = '-';
+        var concatObj = function(acc, obj) {
+            acc[obj.id] = obj;
+            return acc;
         };
-    });
 
-    $(document)
-        .ready(function() {
-            toggleClearInputIcon();
-            initSlider();
-            $(window).on('resize', function(){
-                initSlider()
-            });
+        var idToValue = function(obj) {
+            return function(id) {
+                return obj.hasOwnProperty(id) ? obj[id] : undefined;
+            };
+        };
 
-        });
+        app.controller("calculator",
+            function($scope) {
+                $scope.isMobileMode = false;
+                var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
+                var defaultDefferalType =
+                    '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
+                $scope.compareStates = [];
+                $scope.activeTabIndex = 0;
+                $scope.activeDeferralType = defaultDefferalType;
+                $scope.activeEquipment = [];
+                $scope.calcIndex = 0;
+                $scope.calcList = [];
 
-    function initSlider() {
-        if(viewport().width <= 1023){
-            $('.calculators-container .rate-cards-container').not('.slick-initialized').slick({
-                infinite: false,
-                dots: true,
-                speed: 300,
-                slidesToShow: 4,
-                slidesToScroll: 4,
-                responsive: [
+                $scope.options = [
                     {
-                        breakpoint: 1024,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 2,
-                            infinite: false
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            infinite: false
-                        }
+                        id: '0',
+                        equipmentIds: ['0'],
                     }
-                ]
+                ];
+
+                $scope.equipments = [
+                    {
+                        id: '0',
+                        type: defaultEquipmentType,
+                        description: '',
+                        cost: '',
+                    }
+                ];
+
+                $scope.addCalculator = function() {
+                    var optionsLen = $scope.options.length;
+                    if (optionsLen <= 2) {
+                        var newEquipments = $scope.options.equipmentIds
+                            .map(idToValue(state.equipments))
+                            .map(copyAndShiftEquipments(equipmentLen));
+
+                        $scope.options.push({
+                            id: optionsLen,
+                            equipmentIds: newEquipments.map(getId),
+                        });
+
+                        $scope.newEquipmets.push(newEquipments);
+                    }
+                }
+
+                $scope.addEquipment = function(optionId) {
+                    var optionIndex = $scope.options.findIndex(function(option) { return option === optionId; });
+                    if (optionIndex === - 1) {
+                        return;
+                    }
+
+                    var equipmentLen = $scope.equipment.length;
+                    var newEquipment = {
+                        id: equipmentLen,
+                        type: defaultEquipmentType,
+                        description: '',
+                        cost: '',
+                    };
+
+                    $scope.equipments.push(newEquipment);
+                    $scope.options[optionIndex].equipmentIds.push(equipmentLen);
+                };
+
+                $scope.removeCalculator = function(calcNumber) {
+                    console.log('calcNumber ', calcNumber - 1);
+                    console.log($scope.calcList);
+                    $scope.calcList.splice(calcNumber - 1, 1);
+                    console.log($scope.calcList);
+                    return false;
+                };
+                $scope.removeActiveEquipment = function(index) {
+                    $scope.activeEquipment.splice(index, 1);
+                    $scope.calculateLoanValues();
+                }
+                $scope.addActiveEquipment();
+
+                $scope.resetDisplayedValues = function(index) {
+                    $scope['displayedEquipmentType' + index] = '-';
+                    $scope['displayedEquipmentDescription' + index] = '-';
+                    $scope['displayedEquipmentCashPrice' + index] = '-';
+                    $scope['displayedHst' + index] = '-';
+                    $scope['displayedTotalCashPrice' + index] = '-';
+                    $scope['displayedTotalAmountFinanced' + index] = '-';
+                    $scope['displayedTotalMonthlyPayment' + index] = '-';
+                    $scope['displayedTotalAllMonthlyPayments' + index] = '-';
+                    $scope['displayedResidualBalance' + index] = '-';
+                    $scope['displayedTotalObligation' + index] = '-';
+                    $scope['displayedTotalBorrowingCost' + index] = '-';
+                };
             });
-        }else {
-            if($('.calculators-container .rate-cards-container').is('.slick-initialized')){
-                $('.rate-cards-container').slick("unslick");
+
+        $(document)
+            .ready(function() {
+                toggleClearInputIcon();
+                initSlider();
+                $(window).on('resize',
+                    function() {
+                        initSlider()
+                    });
+
+            });
+
+        function initSlider() {
+            if (viewport().width <= 1023) {
+                $('.calculators-container .rate-cards-container').not('.slick-initialized').slick({
+                    infinite: false,
+                    dots: true,
+                    speed: 300,
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2,
+                                infinite: false
+                            }
+                        },
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                                infinite: false
+                            }
+                        }
+                    ]
+                });
+            } else {
+                if ($('.calculators-container .rate-cards-container').is('.slick-initialized')) {
+                    $('.rate-cards-container').slick("unslick");
+                }
             }
         }
-    }
 
 
-
-</script>
+    </script>
 }
