@@ -38,7 +38,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", dealerName = User.Identity.Name }, Request.Url.Scheme)">
+                        <input id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", dealerName = User.Identity.Name }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyFr">@Resources.Copy</button>
                 </div>
