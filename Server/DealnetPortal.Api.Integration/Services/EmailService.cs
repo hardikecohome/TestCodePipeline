@@ -1,14 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Models;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api.Integration.Services
 {
-    public class EmailService: IEmailService
+    public class EmailService: IEmailService, IIdentityMessageService
     {
+        public async Task SendAsync(IList<string> recipients, string from, string subject, string body)
+        {
+            var message = new IdentityMessage()
+            {
+                Body = body,
+                Subject = Resources.Resources.NewCustomerAppliedForFinancing,
+                Destination = recipients?.FirstOrDefault() ?? string.Empty
+            };
+            await SendAsync(message);
+        }
+
+        public async Task SendAsync(MailMessage message)
+        {
+            using (var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"],
+                    Convert.ToInt32(ConfigurationManager.AppSettings["EmailService.SmtpPort"])))
+            {
+                var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
+                smtpClient.Credentials = credentials;
+                await smtpClient.SendMailAsync(message);
+            }
+        }
+
+        #region IIdentityMessageService implementation
         public async Task SendAsync(IdentityMessage message)
         {
             var text = message.Body;
@@ -29,17 +55,7 @@ namespace DealnetPortal.Api.Integration.Services
                 smtpClient.Credentials = credentials;
                 await smtpClient.SendMailAsync(msg);
             }
-        }
-
-        public async Task SendAsync(MailMessage message)
-        {
-            using (var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"],
-                    Convert.ToInt32(ConfigurationManager.AppSettings["EmailService.SmtpPort"])))
-            {
-                var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
-                smtpClient.Credentials = credentials;
-                await smtpClient.SendMailAsync(message);
-            }
-        }
+        }        
+        #endregion
     }
 }

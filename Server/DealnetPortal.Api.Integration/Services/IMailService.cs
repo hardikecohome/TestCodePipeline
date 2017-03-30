@@ -19,8 +19,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="dealerEmail"></param>
         /// <param name="customerFormData"></param>
         /// <param name="preapprovedAmount"></param>
-        /// <returns></returns>
-        Task<IList<Alert>> SendDealerLoanFormContractCreationNotification(string dealerEmail, CustomerFormDTO customerFormData,
+        Task SendDealerLoanFormContractCreationNotification(string dealerEmail, CustomerFormDTO customerFormData,
             double? preapprovedAmount);
         /// <summary>
         /// Send e-mail notification to a customer for a contract created with a customer loan form
@@ -30,8 +29,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="dealer"></param>
         /// <param name="dealerColor"></param>
         /// <param name="dealerLogo"></param>
-        /// <returns></returns>
-        Task<IList<Alert>> SendCustomerLoanFormContractCreationNotification(string customerEmail, double? preapprovedAmount,
+        Task SendCustomerLoanFormContractCreationNotification(string customerEmail, double? preapprovedAmount,
             DealerDTO dealer, string dealerColor, byte[] dealerLogo);
     }
 }
