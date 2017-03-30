@@ -69,7 +69,7 @@ namespace DealnetPortal.Web.Models
         public string City { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Province")]
-        //[StringLength(30, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        //[StringLength(2, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ProvinceIncorrectFormat")]
         public string Province { get; set; }
         [CustomRequired]

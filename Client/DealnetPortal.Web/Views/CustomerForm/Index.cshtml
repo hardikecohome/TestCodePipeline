@@ -235,7 +235,7 @@
                                     @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "pprovince", @class = "mandatory-field" })
                                     <div class="control-group">
                                        @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                       new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "pprovince" })
+                                       new { @class = "form-control dealnet-input", id = "pprovince" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
