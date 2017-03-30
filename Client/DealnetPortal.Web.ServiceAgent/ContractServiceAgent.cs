@@ -402,13 +402,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> SubmitCustomerForm(CustomerFormDTO customerForm)
+        public async Task<Tuple<CustomerFormResponseDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<CustomerFormDTO, IList<Alert>>(
+                        Client.PostAsync<CustomerFormDTO, Tuple<CustomerFormResponseDTO, IList<Alert>>>(
                             $"{_fullUri}/SubmitCustomerForm", customerForm);
             }
             catch (Exception ex)

@@ -133,6 +133,6 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId);
 
-        Task<IList<Alert>> SubmitCustomerForm(CustomerFormDTO customerForm);
+        Task<Tuple<CustomerFormResponseDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm);
     }
 }

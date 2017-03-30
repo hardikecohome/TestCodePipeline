@@ -68,8 +68,8 @@ namespace DealnetPortal.Web.Controllers
             customerFormDto.CustomerComment = customerForm.Comment;
             customerFormDto.SelectedService = customerForm.Service;
             customerFormDto.DealerName = customerForm.DealerName;
-            var alerts = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
-            if (alerts.Any(x => x.Type == AlertType.Error))
+            var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
+            if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
                 return RedirectToAction("AnonymousError", "Info");
             }

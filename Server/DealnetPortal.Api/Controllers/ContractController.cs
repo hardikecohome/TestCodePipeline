@@ -420,8 +420,8 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = await CustomerFormService.SubmitCustomerFormData(customerFormData);
-                return Ok(alerts);
+                var submitResult = await CustomerFormService.SubmitCustomerFormData(customerFormData);
+                return Ok(submitResult);
             }
             catch (Exception ex)
             {

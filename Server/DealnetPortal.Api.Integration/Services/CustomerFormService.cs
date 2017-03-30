@@ -127,13 +127,14 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        public async Task<Tuple<CustomerFormResponseDTO, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
             if (customerFormData == null)
             {
                 throw new ArgumentNullException(nameof(customerFormData));
             }
             var alerts = new List<Alert>();
+            CustomerFormResponseDTO submitResult = null;
 
             var dealerId = _dealerRepository.GetUserIdByName(customerFormData.DealerName);
             if (!string.IsNullOrEmpty(dealerId))
@@ -192,51 +193,58 @@ namespace DealnetPortal.Api.Integration.Services
                         return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
                     });
 
-                    try
+                    if (creditCheckRes?.Item2?.Any() ?? false)
                     {
-                        var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
-                        var dealerColor =
-                            _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
-                                .FirstOrDefault(s => s.Item.Name == "@navbar-header");
-                        var dealerLogo = _settingsRepository.GetUserBinarySetting(SettingType.LogoImage2X,
-                            customerFormData.DealerName);
-
+                        alerts.AddRange(creditCheckRes.Item2);
+                    }
+                    if (creditCheckRes?.Item1 != null)
+                    {
+                        submitResult = new CustomerFormResponseDTO()
+                        {
+                            ContractId = contract.Id,
+                            TransactionId = contract.Details?.TransactionId,
+                            CreditCheck = creditCheckRes.Item1
+                        };
                         try
                         {
-                            await
-                                SendDealerSubmitNotification(
-                                    dealer?.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?
-                                        .EmailAddress,
-                                    customerFormData, null); //TODO: Get pre-approved amount
-                        }
-                        catch (Exception ex)
-                        {
-                            var errorMsg = "Can't send dealer notification email";
-                            alerts.Add(new Alert()
+                            //get dealer info
+                            var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
+                            if (dealer != null)
                             {
-                                Type = AlertType.Warning,
-                                Message = errorMsg
-                            });
-                            _loggingService.LogError(errorMsg, ex);
-                        }
-                        //
-                        bool customerEmailNotification;
-                        bool.TryParse(ConfigurationManager.AppSettings["CustomerEmailNotificationEnabled"],
-                            out customerEmailNotification);
-                        if (customerEmailNotification)
-                        {
+                                submitResult.DealerName = dealer.FirstName;
+                                var dealerAddress = dealer.Locations?.FirstOrDefault();
+                                if (dealerAddress != null)
+                                {
+                                    submitResult.DealerAdress =
+                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
+                                }
+                                if (dealer.Phones?.Any() ?? false)
+                                {
+                                    submitResult.DealerPhone = dealer.Phones.First().PhoneNum;                                    
+                                }
+                                if (dealer.Emails?.Any() ?? false)
+                                {
+                                    submitResult.DealerPhone = dealer.Emails.First().EmailAddress;
+                                }
+                            }
+
+                            var dealerColor =
+                                _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
+                                    .FirstOrDefault(s => s.Item.Name == "@navbar-header");
+                            var dealerLogo = _settingsRepository.GetUserBinarySetting(SettingType.LogoImage2X,
+                                customerFormData.DealerName);
+
                             try
                             {
                                 await
-                                    SendCustomerSubmitNotification(
-                                        customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
-                                            m => m.EmailType == EmailType.Main)?.EmailAddress, null, dealer,
-                                        //TODO: Get pre-approved amount
-                                        dealerColor?.StringValue, dealerLogo?.BinaryValue);
+                                    SendDealerSubmitNotification(
+                                        dealer?.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?
+                                            .EmailAddress,
+                                        customerFormData, null); //TODO: Get pre-approved amount
                             }
                             catch (Exception ex)
                             {
-                                var errorMsg = "Can't send customer notification email";
+                                var errorMsg = "Can't send dealer notification email";
                                 alerts.Add(new Alert()
                                 {
                                     Type = AlertType.Warning,
@@ -244,18 +252,43 @@ namespace DealnetPortal.Api.Integration.Services
                                 });
                                 _loggingService.LogError(errorMsg, ex);
                             }
+                            //
+                            bool customerEmailNotification;
+                            bool.TryParse(ConfigurationManager.AppSettings["CustomerEmailNotificationEnabled"],
+                                out customerEmailNotification);
+                            if (customerEmailNotification)
+                            {
+                                try
+                                {
+                                    await
+                                        SendCustomerSubmitNotification(
+                                            customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
+                                                m => m.EmailType == EmailType.Main)?.EmailAddress, null, dealer,
+                                            //TODO: Get pre-approved amount
+                                            dealerColor?.StringValue, dealerLogo?.BinaryValue);
+                                }
+                                catch (Exception ex)
+                                {
+                                    var errorMsg = "Can't send customer notification email";
+                                    alerts.Add(new Alert()
+                                    {
+                                        Type = AlertType.Warning,
+                                        Message = errorMsg
+                                    });
+                                    _loggingService.LogError(errorMsg, ex);
+                                }
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg = "Can't retrieve dealer info";
-                        alerts.Add(new Alert()
+                        catch (Exception ex)
                         {
-                            Type = AlertType.Warning,
-                            Message = errorMsg
-                        });
-                        _loggingService.LogError(errorMsg, ex);
-
+                            var errorMsg = "Can't retrieve dealer info";
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Warning,
+                                Message = errorMsg
+                            });
+                            _loggingService.LogError(errorMsg, ex);
+                        }
                     }
                 }
                 else
@@ -271,20 +304,23 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
+                var errorMsg = $"Cannot get dealer {customerFormData.DealerName} from database";
                 alerts.Add(new Alert()
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.CantGetUserFromDb,
-                    Message = $"Cannot get dealer {customerFormData.DealerName} from database",
+                    Message = errorMsg,
                     Header = "Cannot get dealer from database"
                 });
+                _loggingService.LogError(errorMsg);
             }
             if (alerts.Any(a => a.Type == AlertType.Error))
             {
                 _loggingService.LogError("Cannot create contract by customer loan form request");
             }
 
-            return alerts;
+            return new Tuple<CustomerFormResponseDTO, IList<Alert>>(submitResult, alerts);
+            
             //var alerts = new List<Alert>();
             //if (customerFormData != null)
             //{
