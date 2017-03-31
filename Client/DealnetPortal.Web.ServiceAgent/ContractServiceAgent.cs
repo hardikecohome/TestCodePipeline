@@ -402,18 +402,32 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<Tuple<CustomerFormResponseDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm)
+        public async Task<Tuple<int?, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<CustomerFormDTO, Tuple<CustomerFormResponseDTO, IList<Alert>>>(
+                        Client.PostAsync<CustomerFormDTO, Tuple<int?, IList<Alert>>>(
                             $"{_fullUri}/SubmitCustomerForm", customerForm);
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't submit Customer Form", ex);
+                throw;
+            }
+        }
+
+        public async Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName)
+        {
+            try
+            {                
+                return await Client.GetAsync<CustomerContractInfoDTO>(
+                        $"{_fullUri}/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}").ConfigureAwait(false);            
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't submit Customer contract info", ex);
                 throw;
             }
         }

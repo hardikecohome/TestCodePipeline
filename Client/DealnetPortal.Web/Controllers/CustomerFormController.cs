@@ -82,16 +82,16 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("AgreementSubmitSuccess", new { submitResult.Item1 });
         }
 
-        public ActionResult AgreementSubmitSuccess(CustomerFormResponseDTO submitedData)
+        public ActionResult AgreementSubmitSuccess(int contractId, string dealerName)
         {
-            ViewBag.CreditAmount = submitedData.CreditCheck?.CreditAmount;
-            ViewBag.DealerName = submitedData.DealerName;
-            ViewBag.Street = submitedData.DealerAdress?.Street;
-            ViewBag.City = submitedData.DealerAdress?.City;
-            ViewBag.Province = submitedData.DealerAdress?.State;
-            ViewBag.PostalCode = submitedData.DealerAdress?.PostalCode;
-            ViewBag.Phone = submitedData.DealerPhone;
-            ViewBag.Email = submitedData.DealerEmail;
+            //ViewBag.CreditAmount = submitedData.CreditCheck?.CreditAmount;
+            //ViewBag.DealerName = submitedData.DealerName;
+            //ViewBag.Street = submitedData.DealerAdress?.Street;
+            //ViewBag.City = submitedData.DealerAdress?.City;
+            //ViewBag.Province = submitedData.DealerAdress?.State;
+            //ViewBag.PostalCode = submitedData.DealerAdress?.PostalCode;
+            //ViewBag.Phone = submitedData.DealerPhone;
+            //ViewBag.Email = submitedData.DealerEmail;
 
             return View();
         }
