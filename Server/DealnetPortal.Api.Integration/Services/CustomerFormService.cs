@@ -215,12 +215,16 @@ namespace DealnetPortal.Api.Integration.Services
                                 var dealerAddress = dealer.Locations?.FirstOrDefault();
                                 if (dealerAddress != null)
                                 {
-                                    submitResult.DealerAdress =
-                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
+                                    submitResult.DealerAdress = dealerAddress;
+//                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
                                 }
                                 if (dealer.Phones?.Any() ?? false)
                                 {
                                     submitResult.DealerPhone = dealer.Phones.First().PhoneNum;                                    
+                                }
+                                if (dealer.Emails?.Any() ?? false)
+                                {
+                                    submitResult.DealerPhone = dealer.Emails.First().EmailAddress;
                                 }
                                 if (dealer.Emails?.Any() ?? false)
                                 {
@@ -240,7 +244,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     _mailService.SendDealerLoanFormContractCreationNotification(
                                         dealer?.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?
                                             .EmailAddress,
-                                        customerFormData, null); //TODO: Get pre-approved amount
+                                        customerFormData, submitResult.ContractId.ToString(), submitResult.CreditCheck.CreditAmount); //TODO: Get pre-approved amount
                             }
                             catch (Exception ex)
                             {

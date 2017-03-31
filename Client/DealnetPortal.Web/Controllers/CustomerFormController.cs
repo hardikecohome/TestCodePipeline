@@ -79,11 +79,20 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess");
+            return RedirectToAction("AgreementSubmitSuccess", new { submitResult.Item1 });
         }
 
-        public ActionResult AgreementSubmitSuccess()
+        public ActionResult AgreementSubmitSuccess(CustomerFormResponseDTO submitedData)
         {
+            ViewBag.CreditAmount = submitedData.CreditCheck?.CreditAmount;
+            ViewBag.DealerName = submitedData.DealerName;
+            ViewBag.Street = submitedData.DealerAdress?.Street;
+            ViewBag.City = submitedData.DealerAdress?.City;
+            ViewBag.Province = submitedData.DealerAdress?.State;
+            ViewBag.PostalCode = submitedData.DealerAdress?.PostalCode;
+            ViewBag.Phone = submitedData.DealerPhone;
+            ViewBag.Email = submitedData.DealerEmail;
+
             return View();
         }
     }

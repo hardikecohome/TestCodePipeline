@@ -13,7 +13,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string TransactionId { get; set; }
 
         public string DealerName { get; set; }
-        public string DealerAdress { get; set; }
+        public LocationDTO DealerAdress { get; set; }
         public string DealerPhone { get; set; }
         public string DealerEmail { get; set; }
 
