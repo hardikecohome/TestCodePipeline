@@ -428,5 +428,22 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("GetCustomerContractInfo")]
+        [HttpGet]
+        // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}
+        [AllowAnonymous]
+        public IHttpActionResult GetCustomerContractInfo(int contractId, string dealerName)
+        {
+            try
+            {
+                var submitResult = CustomerFormService.GetCustomerContractInfo(contractId, dealerName);
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }
