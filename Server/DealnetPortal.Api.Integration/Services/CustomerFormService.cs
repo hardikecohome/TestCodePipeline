@@ -177,7 +177,6 @@ namespace DealnetPortal.Api.Integration.Services
                             if (dealerAddress != null)
                             {
                                 contractInfo.DealerAdress = dealerAddress;
-                                //                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
                             }
                             if (dealer.Phones?.Any() ?? false)
                             {
@@ -185,12 +184,9 @@ namespace DealnetPortal.Api.Integration.Services
                             }
                             if (dealer.Emails?.Any() ?? false)
                             {
-                                contractInfo.DealerPhone = dealer.Emails.First().EmailAddress;
+                                contractInfo.DealerEmail = dealer.Emails.First().EmailAddress;
                             }
-                            if (dealer.Emails?.Any() ?? false)
-                            {
-                                contractInfo.DealerPhone = dealer.Emails.First().EmailAddress;
-                            }
+                            
                         }
                     }
                     catch (Exception ex)
