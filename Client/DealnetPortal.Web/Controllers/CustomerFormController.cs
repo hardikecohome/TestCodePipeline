@@ -82,18 +82,20 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName });
         }
 
-        public ActionResult AgreementSubmitSuccess(int contractId, string dealerName)
+        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string dealerName)
         {
-            //ViewBag.CreditAmount = submitedData.CreditCheck?.CreditAmount;
-            //ViewBag.DealerName = submitedData.DealerName;
-            //ViewBag.Street = submitedData.DealerAdress?.Street;
-            //ViewBag.City = submitedData.DealerAdress?.City;
-            //ViewBag.Province = submitedData.DealerAdress?.State;
-            //ViewBag.PostalCode = submitedData.DealerAdress?.PostalCode;
-            //ViewBag.Phone = submitedData.DealerPhone;
-            //ViewBag.Email = submitedData.DealerEmail;
+            var viewModel = new SubmittedCustomerFormViewModel();
+            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName);
+            viewModel.CreditAmount = submitedData.CreditAmount;
+            viewModel.DealerName = submitedData.DealerName;
+            viewModel.Street = submitedData.DealerAdress?.Street;
+            viewModel.City = submitedData.DealerAdress?.City;
+            viewModel.Province = submitedData.DealerAdress?.State;
+            viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
+            viewModel.Phone = submitedData.DealerPhone;
+            viewModel.Email = submitedData.DealerEmail;
 
-            return View();
+            return View(viewModel);
         }
     }
 }

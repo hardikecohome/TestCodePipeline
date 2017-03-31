@@ -153,7 +153,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var contract = _contractRepository.GetContract(contractId, dealerId);
                 if (contract != null)
-                {                    
+                {
                     contractInfo = new CustomerContractInfoDTO()
                     {
                         ContractId = contractId,
@@ -163,7 +163,7 @@ namespace DealnetPortal.Api.Integration.Services
                         CreditAmount = contract.Details?.CreditAmount ?? 0,
                         ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
                         CreationTime = contract.CreationTime,
-                        LastUpdateTime = contract.LastUpdateTime                                                
+                        LastUpdateTime = contract.LastUpdateTime
                     };
 
                     try
@@ -195,7 +195,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     catch (Exception ex)
                     {
-                        var errorMsg = "Can't retrieve dealer info";                       
+                        var errorMsg = "Can't retrieve dealer info";
                         _loggingService.LogError(errorMsg, ex);
                     }
 
@@ -204,7 +204,7 @@ namespace DealnetPortal.Api.Integration.Services
             return contractInfo;
         }
 
-        private async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>>  CreateContractByCustomerFormData(
+        private async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> CreateContractByCustomerFormData(
             CustomerFormDTO customerFormData)
         {
             var alerts = new List<Alert>();
@@ -279,7 +279,7 @@ namespace DealnetPortal.Api.Integration.Services
                             TransactionId = contract.Details?.TransactionId,
                             CreditAmount = creditCheckRes.Item1.CreditAmount,
                             ScorecardPoints = creditCheckRes.Item1.ScorecardPoints
-                        };                        
+                        };
                     }
                 }
                 else
@@ -329,7 +329,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //    Message = errorMsg
                 //});
                 _loggingService.LogError(errorMsg, ex);
-            }                        
+            }
 
             var dealerColor = _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
                                     .FirstOrDefault(s => s.Item.Name == "@navbar-header");
@@ -341,7 +341,7 @@ namespace DealnetPortal.Api.Integration.Services
                 await
                     _mailService.SendDealerLoanFormContractCreationNotification(
                         dealer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
-                        dealer?.Emails?.FirstOrDefault()?.EmailAddress, 
+                        dealer?.Emails?.FirstOrDefault()?.EmailAddress,
                         customerFormData, (double)creditCheckAmount); //TODO: Get pre-approved amount
             }
             catch (Exception ex)
