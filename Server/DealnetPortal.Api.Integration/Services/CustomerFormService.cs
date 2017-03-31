@@ -224,11 +224,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 }
                                 if (dealer.Emails?.Any() ?? false)
                                 {
-                                    submitResult.DealerPhone = dealer.Emails.First().EmailAddress;
-                                }
-                                if (dealer.Emails?.Any() ?? false)
-                                {
-                                    submitResult.DealerPhone = dealer.Emails.First().EmailAddress;
+                                    submitResult.DealerEmail = dealer.Emails.First().EmailAddress;
                                 }
                             }
 

@@ -79,19 +79,21 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { submitResult.Item1 });
+            return RedirectToAction("AgreementSubmitSuccess", new { id = submitResult.Item1 });
         }
 
-        public ActionResult AgreementSubmitSuccess(CustomerFormResponseDTO submitedData)
+        public ActionResult AgreementSubmitSuccess(CustomerFormDTO id)
         {
-            ViewBag.CreditAmount = submitedData.CreditCheck?.CreditAmount;
-            ViewBag.DealerName = submitedData.DealerName;
-            ViewBag.Street = submitedData.DealerAdress?.Street;
-            ViewBag.City = submitedData.DealerAdress?.City;
-            ViewBag.Province = submitedData.DealerAdress?.State;
-            ViewBag.PostalCode = submitedData.DealerAdress?.PostalCode;
-            ViewBag.Phone = submitedData.DealerPhone;
-            ViewBag.Email = submitedData.DealerEmail;
+            var viewModel = new SubmittedCustomerFormViewModel();
+            var submitedData = _contractServiceAgent.SubmitCustomerForm(id).Result.Item1;
+            viewModel.CreditAmount = submitedData.CreditCheck?.CreditAmount ?? 0;
+            viewModel.DealerName = submitedData.DealerName;
+            viewModel.Street = submitedData.DealerAdress?.Street;
+            viewModel.City = submitedData.DealerAdress?.City;
+            viewModel.Province = submitedData.DealerAdress?.State;
+            viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
+            viewModel.Phone = submitedData.DealerPhone;
+            viewModel.Email = submitedData.DealerEmail;
 
             return View();
         }
