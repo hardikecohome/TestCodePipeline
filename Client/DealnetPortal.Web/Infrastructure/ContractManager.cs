@@ -428,6 +428,23 @@ namespace DealnetPortal.Web.Infrastructure
                     {
                         alerts.AddRange(updateRes);
                     }
+
+                    var updatedContractRes = await _contractServiceAgent.GetContract(newContractId.Value);
+                    if (updatedContractRes.Item2.Any())
+                    {
+                        alerts.AddRange(updatedContractRes.Item2);
+                    }
+                    if (updatedContractRes.Item1?.PrimaryCustomer != null && updatedContractRes.Item2.All(a => a.Type != AlertType.Error))
+                    {
+                        var updatedCustomer = new CustomerDataDTO()
+                        {
+                            Id = updatedContractRes.Item1.PrimaryCustomer.Id,
+                            ContractId = newContractId,
+                            Emails = contractRes.Item1.PrimaryCustomer.Emails,
+                            Phones = contractRes.Item1.PrimaryCustomer.Phones,
+                        };
+                        await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] { updatedCustomer });
+                    }
                 }
             }
 
