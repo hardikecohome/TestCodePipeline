@@ -139,7 +139,7 @@ namespace DealnetPortal.Api.Integration.Services
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
                 // will not wait end of this operation
-                await SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1?.CreditAmount ?? 0);
+                var noWarning = SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1?.CreditAmount ?? 0);
             }
 
             return new Tuple<int?, IList<Alert>>(contractCreationRes?.Item1?.ContractId, contractCreationRes?.Item2 ?? new List<Alert>());
@@ -177,7 +177,6 @@ namespace DealnetPortal.Api.Integration.Services
                             if (dealerAddress != null)
                             {
                                 contractInfo.DealerAdress = dealerAddress;
-                                //                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
                             }
                             if (dealer.Phones?.Any() ?? false)
                             {
@@ -185,12 +184,9 @@ namespace DealnetPortal.Api.Integration.Services
                             }
                             if (dealer.Emails?.Any() ?? false)
                             {
-                                contractInfo.DealerPhone = dealer.Emails.First().EmailAddress;
+                                contractInfo.DealerEmail = dealer.Emails.First().EmailAddress;
                             }
-                            if (dealer.Emails?.Any() ?? false)
-                            {
-                                contractInfo.DealerPhone = dealer.Emails.First().EmailAddress;
-                            }
+                            
                         }
                     }
                     catch (Exception ex)
