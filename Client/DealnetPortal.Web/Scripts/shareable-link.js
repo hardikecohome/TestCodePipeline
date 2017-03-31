@@ -3,15 +3,15 @@
         var EN = 'EN';
         var FR = 'FR';
 
-        var mapLangToSelectedOptions = {
-            [EN]: {
-                list: $('#englishTagsList'),
-                name: 'EnglishServices'
-            },
-            [FR]: {
-                list: $('#frenchTagsList'),
-                name: 'FrenchServices'
-            }
+        var mapLangToSelectedOptions = {};
+        mapLangToSelectedOptions[EN] = {
+            list: $('#englishTagsList'),
+            name: 'EnglishServices'
+        };
+
+        mapLangToSelectedOptions[FR] = {
+            list: $('#frenchTagsList'),
+            name: 'FrenchServices'
         };
 
         var activeLang = EN;

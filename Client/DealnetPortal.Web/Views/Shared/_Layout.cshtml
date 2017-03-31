@@ -56,7 +56,8 @@
                     src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
             </script>
             <script type="text/javascript">
-                $.datepicker.regional['fr'];
+                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+                $.datepicker.setDefaults($.datepicker.regional['fr']);
             </script>
             break;
     }
@@ -194,7 +195,7 @@
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
                             @Html.ActionLink("Shareable Link", "Index", "ShareableLink", null, new { @class = "dealnet-sidebar-link" })
                         </li>                        
-                        <li class="dealnet-sidebar-item" id="sidebar-item-about">
+                        <li class="dealnet-sidebar-item" style="display: none;" id="sidebar-item-about">
                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
                             @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
                         </li>

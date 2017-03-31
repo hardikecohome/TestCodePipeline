@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -68,7 +69,7 @@ namespace DealnetPortal.Web.Models
         public string City { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Province")]
-        [StringLength(30, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        //[StringLength(2, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ProvinceIncorrectFormat")]
         public string Province { get; set; }
         [CustomRequired]
@@ -98,6 +99,7 @@ namespace DealnetPortal.Web.Models
         public int? ContractId { get; set; }
         public ContractState ContractState { get; set; }
         public bool ContractWasDeclined { get; set; }
+        public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
     }
 
     public class ApplicantsViewModel

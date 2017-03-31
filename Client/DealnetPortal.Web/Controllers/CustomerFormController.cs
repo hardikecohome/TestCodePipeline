@@ -38,6 +38,12 @@ namespace DealnetPortal.Web.Controllers
             }
             ViewBag.ServiceTypes = languageOptions.LanguageServices;
             ViewBag.EnabledLanguages = languageOptions.EnabledLanguages;
+            var provinces = await _dictionaryServiceAgent.GetAllProvinceTaxRates();
+            if (provinces == null || provinces.Item1 == null || !provinces.Item1.Any())
+            {
+                return RedirectToAction("AnonymousError", "Info");
+            }
+            ViewBag.ProvinceTaxRates = provinces.Item1;
             _cultureManager.SetCulture(culture);
             return View();
         }
