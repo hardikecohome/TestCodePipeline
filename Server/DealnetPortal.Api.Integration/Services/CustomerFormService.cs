@@ -244,7 +244,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     _mailService.SendDealerLoanFormContractCreationNotification(
                                         dealer?.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?
                                             .EmailAddress,
-                                        customerFormData, submitResult.ContractId.ToString(), submitResult.CreditCheck.CreditAmount); //TODO: Get pre-approved amount
+                                        customerFormData, (double)submitResult.CreditCheck.CreditAmount); //TODO: Get pre-approved amount
                             }
                             catch (Exception ex)
                             {
