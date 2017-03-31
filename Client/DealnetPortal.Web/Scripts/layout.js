@@ -301,7 +301,7 @@ function panelCollapsed(elem){
 
 function detectSidebarHeight(){
   setTimeout(function(){
-    if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20 || $('.sidebar-inner').height() < window.screen.height - 20 ){
+    if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
       $('.sidebar-bottom').addClass('stick-bottom');
     }else{
       $('.sidebar-bottom').removeClass('stick-bottom');
