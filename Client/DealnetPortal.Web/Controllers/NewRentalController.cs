@@ -112,6 +112,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
+                basicInfo.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
                 return View(basicInfo);
             }
             var contractResult = basicInfo.ContractId == null ?
