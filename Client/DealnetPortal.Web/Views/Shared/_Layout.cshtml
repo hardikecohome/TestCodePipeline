@@ -56,7 +56,8 @@
                     src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
             </script>
             <script type="text/javascript">
-                $.datepicker.regional['fr'];
+                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+                $.datepicker.setDefaults($.datepicker.regional['fr']);
             </script>
             break;
     }
