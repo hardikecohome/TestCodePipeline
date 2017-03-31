@@ -69,68 +69,70 @@
 
     var setFormField = function (field) {
         return function (state, action) {
-            return $.extend({}, state, {
-                [field]: action.payload,
-            });
+            var fieldObj = {};
+            fieldObj[field] = action.payload;
+
+            return $.extend({}, state, fieldObj);
         };
     };
 
     // your info reducer
-    var reducer = makeReducer({
-        [SET_INITIAL_STATE]: function (state, action) {
-            return $.extend({}, state, action.payload);
-        },
-        [SET_BIRTH]: setFormField('birthday'),
-        [SET_STREET]: setFormField('street'),
-        [SET_UNIT]: setFormField('unit'),
-        [SET_CITY]: setFormField('city'),
-        [SET_PROVINCE]: setFormField('province'),
-        [SET_POSTAL_CODE]: setFormField('postalCode'),
-        [CLEAR_ADDRESS]: function () {
-            return {
-                street: '',
-                unit: '',
-                city: '',
-                province: '',
-                postalCode: '',
-            };
-        },
-        [SET_PSTREET]: setFormField('pstreet'),
-        [SET_PUNIT]: setFormField('punit'),
-        [SET_PCITY]: setFormField('pcity'),
-        [SET_PPROVINCE]: setFormField('pprovince'),
-        [SET_PPOSTAL_CODE]: setFormField('ppostalCode'),
-        [CLEAR_PADDRESS]: function () {
-            return {
-                pstreet: '',
-                punit: '',
-                pcity: '',
-                pprovince: '',
-                ppostalCode: '',
-            };
-        },
-        [SET_LESS_THAN_SIX]: setFormField('lessThanSix'),
-        [DISPLAY_SUBMIT_ERRORS]: setFormField('displaySubmitErrors'),
-        [DISPLAY_INSTALLATION]: setFormField('displayInstallation'),
-        [DISPLAY_CONTACT_INFO]: setFormField('displayContactInfo'),
-        [ACTIVATE_INSTALLATION]: function () {
-            return {
-                displayInstallation: true,
-                activePanel: 'installation',
-            };
-        },
-        [ACTIVATE_CONTACT_INFO]: function () {
-            return {
-                displayContactInfo: true,
-                activePanel: 'contactInfo',
-            };
-        },
-        [TOGGLE_OWNERSHIP]: setFormField('ownership'),
-        [TOGGLE_AGREEMENT]: setFormField('agreement'),
-        [SET_CAPTCHA_CODE]: setFormField('captchaCode'),
-        [SET_PHONE]: setFormField('phone'),
-        [SET_CELL_PHONE]: setFormField('cellPhone'),
-    }, iniState);
+    var reducerObj = {}
+    reducerObj[SET_INITIAL_STATE] = function(state, action) {
+        return $.extend({}, state, action.payload);
+    };
+    reducerObj[SET_BIRTH] = setFormField('birthday');
+    reducerObj[SET_STREET] = setFormField('street');
+    reducerObj[SET_UNIT] = setFormField('unit');
+    reducerObj[SET_CITY] = setFormField('city');
+    reducerObj[SET_PROVINCE] = setFormField('province');
+    reducerObj[SET_POSTAL_CODE] = setFormField('postalCode');
+    reducerObj[CLEAR_ADDRESS] = function() {
+        return {
+            street: '',
+            unit: '',
+            city: '',
+            province: '',
+            postalCode: '',
+        };
+    };
+    reducerObj[SET_PSTREET] = setFormField('pstreet');
+    reducerObj[SET_PUNIT] = setFormField('punit');
+    reducerObj[SET_PCITY] = setFormField('pcity');
+    reducerObj[SET_PPROVINCE] = setFormField('pprovince');
+    reducerObj[SET_PPOSTAL_CODE] = setFormField('ppostalCode');
+    reducerObj[CLEAR_PADDRESS] = function() {
+        return {
+            pstreet: '',
+            punit: '',
+            pcity: '',
+            pprovince: '',
+            ppostalCode: '',
+        };
+    };
+    reducerObj[SET_LESS_THAN_SIX] = setFormField('lessThanSix');
+    reducerObj[DISPLAY_SUBMIT_ERRORS] = setFormField('displaySubmitErrors');
+    reducerObj[DISPLAY_INSTALLATION] = setFormField('displayInstallation');
+    reducerObj[DISPLAY_CONTACT_INFO] = setFormField('displayContactInfo');
+    reducerObj[ACTIVATE_INSTALLATION] = function() {
+        return {
+            displayInstallation: true,
+            activePanel: 'installation',
+        };
+    };
+    reducerObj[ACTIVATE_CONTACT_INFO] = function() {
+        return {
+            displayContactInfo: true,
+            activePanel: 'contactInfo',
+        };
+    };
+    reducerObj[TOGGLE_OWNERSHIP] = setFormField('ownership');
+    reducerObj[TOGGLE_AGREEMENT] = setFormField('agreement');
+    reducerObj[SET_CAPTCHA_CODE] = setFormField('captchaCode');
+    reducerObj[SET_PHONE] = setFormField('phone');
+    reducerObj[SET_CELL_PHONE] = setFormField('cellPhone');
+
+    var reducer = makeReducer(reducerObj, iniState);
 
     // selectors
     var getErrors = function (state) {
