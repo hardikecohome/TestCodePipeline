@@ -74,17 +74,28 @@ namespace DealnetPortal.Web.Controllers
             customerFormDto.CustomerComment = customerForm.Comment;
             customerFormDto.SelectedService = customerForm.Service;
             customerFormDto.DealerName = customerForm.DealerName;
-            var alerts = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
-            if (alerts.Any(x => x.Type == AlertType.Error))
+            var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
+            if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess");
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName });
         }
 
-        public ActionResult AgreementSubmitSuccess()
+        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string dealerName)
         {
-            return View();
+            var viewModel = new SubmittedCustomerFormViewModel();
+            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName);
+            viewModel.CreditAmount = submitedData.CreditAmount;
+            viewModel.DealerName = submitedData.DealerName;
+            viewModel.Street = submitedData.DealerAdress?.Street;
+            viewModel.City = submitedData.DealerAdress?.City;
+            viewModel.Province = submitedData.DealerAdress?.State;
+            viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
+            viewModel.Phone = submitedData.DealerPhone;
+            viewModel.Email = submitedData.DealerEmail;
+
+            return View(viewModel);
         }
     }
 }
