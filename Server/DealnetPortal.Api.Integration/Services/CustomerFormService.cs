@@ -127,7 +127,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<Tuple<CustomerFormResponseDTO, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        public async Task<Tuple<int?, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
             if (customerFormData == null)
             {
@@ -139,16 +139,76 @@ namespace DealnetPortal.Api.Integration.Services
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
                 // will not wait end of this operation
-                var noWarning = SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1?.CreditCheck);
+                var noWarning = SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1?.CreditAmount ?? 0);
             }
-            return contractCreationRes;                                 
+
+            return new Tuple<int?, IList<Alert>>(contractCreationRes?.Item1?.ContractId, contractCreationRes?.Item2 ?? new List<Alert>());
         }
 
-        private async Task<Tuple<CustomerFormResponseDTO, IList<Alert>>>  CreateContractByCustomerFormData(
+        public CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName)
+        {
+            CustomerContractInfoDTO contractInfo = null;
+            var dealerId = _dealerRepository.GetUserIdByName(dealerName);
+            if (!string.IsNullOrEmpty(dealerId))
+            {
+                var contract = _contractRepository.GetContract(contractId, dealerId);
+                if (contract != null)
+                {                    
+                    contractInfo = new CustomerContractInfoDTO()
+                    {
+                        ContractId = contractId,
+                        TransactionId = contract.Details?.TransactionId,
+                        ContractState = contract.ContractState,
+                        Status = contract.Details?.Status,
+                        CreditAmount = contract.Details?.CreditAmount ?? 0,
+                        ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
+                        CreationTime = contract.CreationTime,
+                        LastUpdateTime = contract.LastUpdateTime                                                
+                    };
+
+                    try
+                    {
+                        //get dealer info
+                        var dealer = _aspireStorageService.GetDealerInfo(dealerName);
+                        if (dealer != null)
+                        {
+                            contractInfo.DealerName = dealer.FirstName;
+                            var dealerAddress = dealer.Locations?.FirstOrDefault();
+                            if (dealerAddress != null)
+                            {
+                                contractInfo.DealerAdress = dealerAddress;
+                                //                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
+                            }
+                            if (dealer.Phones?.Any() ?? false)
+                            {
+                                contractInfo.DealerPhone = dealer.Phones.First().PhoneNum;
+                            }
+                            if (dealer.Emails?.Any() ?? false)
+                            {
+                                contractInfo.DealerPhone = dealer.Emails.First().EmailAddress;
+                            }
+                            if (dealer.Emails?.Any() ?? false)
+                            {
+                                contractInfo.DealerPhone = dealer.Emails.First().EmailAddress;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        var errorMsg = "Can't retrieve dealer info";                       
+                        _loggingService.LogError(errorMsg, ex);
+                    }
+
+                }
+            }
+            return contractInfo;
+        }
+
+        private async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>>  CreateContractByCustomerFormData(
             CustomerFormDTO customerFormData)
         {
             var alerts = new List<Alert>();
-            CustomerFormResponseDTO submitResult = null;
+            CustomerContractInfoDTO submitResult = null;
 
             var dealerId = _dealerRepository.GetUserIdByName(customerFormData.DealerName);
             if (!string.IsNullOrEmpty(dealerId))
@@ -213,49 +273,13 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (creditCheckRes?.Item1 != null)
                     {
-                        submitResult = new CustomerFormResponseDTO()
+                        submitResult = new CustomerContractInfoDTO()
                         {
                             ContractId = contract.Id,
                             TransactionId = contract.Details?.TransactionId,
-                            CreditCheck = creditCheckRes.Item1
-                        };
-                        try
-                        {
-                            //get dealer info
-                            var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
-                            if (dealer != null)
-                            {
-                                submitResult.DealerName = dealer.FirstName;
-                                var dealerAddress = dealer.Locations?.FirstOrDefault();
-                                if (dealerAddress != null)
-                                {
-                                    submitResult.DealerAdress = dealerAddress;
-                                    //                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
-                                }
-                                if (dealer.Phones?.Any() ?? false)
-                                {
-                                    submitResult.DealerPhone = dealer.Phones.First().PhoneNum;
-                                }
-                                if (dealer.Emails?.Any() ?? false)
-                                {
-                                    submitResult.DealerPhone = dealer.Emails.First().EmailAddress;
-                                }
-                                if (dealer.Emails?.Any() ?? false)
-                                {
-                                    submitResult.DealerPhone = dealer.Emails.First().EmailAddress;
-                                }
-                            }                            
-                        }
-                        catch (Exception ex)
-                        {
-                            var errorMsg = "Can't retrieve dealer info";
-                            alerts.Add(new Alert()
-                            {
-                                Type = AlertType.Warning,
-                                Message = errorMsg
-                            });
-                            _loggingService.LogError(errorMsg, ex);
-                        }
+                            CreditAmount = creditCheckRes.Item1.CreditAmount,
+                            ScorecardPoints = creditCheckRes.Item1.ScorecardPoints
+                        };                        
                     }
                 }
                 else
@@ -285,10 +309,10 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogError("Cannot create contract by customer loan form request");
             }
-            return new Tuple<CustomerFormResponseDTO, IList<Alert>>(submitResult, alerts);
+            return new Tuple<CustomerContractInfoDTO, IList<Alert>>(submitResult, alerts);
         }
 
-        private async Task SendCustomerContractCreationNotifications(CustomerFormDTO customerFormData, CreditCheckDTO creditCheck)
+        private async Task SendCustomerContractCreationNotifications(CustomerFormDTO customerFormData, decimal creditCheckAmount)
         {
             //get dealer info
             DealerDTO dealer = null;
@@ -318,7 +342,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _mailService.SendDealerLoanFormContractCreationNotification(
                         dealer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                         dealer?.Emails?.FirstOrDefault()?.EmailAddress, 
-                        customerFormData, (double)creditCheck.CreditAmount); //TODO: Get pre-approved amount
+                        customerFormData, (double)creditCheckAmount); //TODO: Get pre-approved amount
             }
             catch (Exception ex)
             {

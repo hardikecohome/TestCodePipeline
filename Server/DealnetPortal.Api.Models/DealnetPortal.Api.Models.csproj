@@ -62,7 +62,7 @@
     <Compile Include="Contract\ContractDetailsDTO.cs" />
     <Compile Include="Contract\ContractDocumentDTO.cs" />
     <Compile Include="Contract\CustomerFormDTO.cs" />
-    <Compile Include="Contract\CustomerFormResponseDTO.cs" />
+    <Compile Include="Contract\CustomerContractInfoDTO.cs" />
     <Compile Include="Contract\CustomerInfoDTO.cs" />
     <Compile Include="Contract\DealerDTO.cs" />
     <Compile Include="Contract\CustomerLinkDTO.cs" />

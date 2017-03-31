@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 
 namespace DealnetPortal.Api.Models.Contract
 {
-    public class CustomerFormResponseDTO
+    public class CustomerContractInfoDTO
     {
         public int ContractId { get; set; }
         public string TransactionId { get; set; }
@@ -17,6 +18,12 @@ namespace DealnetPortal.Api.Models.Contract
         public string DealerPhone { get; set; }
         public string DealerEmail { get; set; }
 
-        public CreditCheckDTO CreditCheck { get; set; }
+        public decimal CreditAmount { get; set; }
+        public int ScorecardPoints { get; set; }
+        public string Status { get; set; }
+        public ContractState ContractState { get; set; }
+
+        public DateTime CreationTime { get; set; }
+        public DateTime? LastUpdateTime { get; set; }
     }
 }
