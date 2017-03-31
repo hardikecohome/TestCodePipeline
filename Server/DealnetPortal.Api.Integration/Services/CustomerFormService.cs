@@ -139,7 +139,7 @@ namespace DealnetPortal.Api.Integration.Services
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
                 // will not wait end of this operation
-                await SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1?.CreditAmount ?? 0);
+                var noWarning = SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1?.CreditAmount ?? 0);
             }
 
             return new Tuple<int?, IList<Alert>>(contractCreationRes?.Item1?.ContractId, contractCreationRes?.Item2 ?? new List<Alert>());
