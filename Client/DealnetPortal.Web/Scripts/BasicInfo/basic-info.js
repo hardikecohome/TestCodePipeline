@@ -98,19 +98,11 @@ configInitialized
         holders.push(addressInfo1);
         holders.push(addressInfo2);
         $.each(holders, function (index, item) {
-            item.find('input').each(function () {
+            item.find(':input').each(function () {
                 if ($(this).not('.placeholder')) {
                     $(this).val("");
                 }
             });
-        });
-        return false;
-    });
-    $("#clear-mailing-address").click(function () {
-        $('#mailing_street, #mailing_unit_number, #mailing_locality, #mailing_administrative_area_level_1, #mailing_postal_code').each(function () {
-            if ($(this).not('.placeholder')) {
-                $(this).val("");
-            }
         });
         return false;
     });
