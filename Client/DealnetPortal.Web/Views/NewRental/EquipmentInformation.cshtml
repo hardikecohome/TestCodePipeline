@@ -179,7 +179,7 @@
                     <div class="col-md-4 loan-col-md-8">
                         <div class="form-group">
                             @Html.LabelFor(m => m.EstimatedInstallationDate)
-                            <div class="control-group">
+                            <div class="control-group date-group">
                                 @Html.TextBoxFor(m => m.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = ""})
                                 @Html.ValidationMessageFor(m => m.EstimatedInstallationDate, "", new { @class = "text-danger"})
                             </div>
@@ -570,7 +570,7 @@
                 @*<div class="col-md-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].EstimatedInstallationDate, new { @for = "estimated-installation-date-0" })
-                        <div class="control-group">
+                        <div class="control-group date-group">
                             @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date-0", placeholder = Resources.DateFormat, data_val_date = "", @Value = "" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedInstallationDate, "", new { @class = "text-danger" })
                         </div>
