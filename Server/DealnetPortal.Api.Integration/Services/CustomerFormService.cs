@@ -134,7 +134,7 @@ namespace DealnetPortal.Api.Integration.Services
                 throw new ArgumentNullException(nameof(customerFormData));
             }
 
-            var contractCreationRes = await CreateContractByCustomerFormData(customerFormData);
+            var contractCreationRes = await CreateContractByCustomerFormData(customerFormData).ConfigureAwait(false);
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
@@ -265,7 +265,7 @@ namespace DealnetPortal.Api.Integration.Services
                             return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
                         }
                         return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
-                    });
+                    }).ConfigureAwait(false);
 
                     if (creditCheckRes?.Item2?.Any() ?? false)
                     {

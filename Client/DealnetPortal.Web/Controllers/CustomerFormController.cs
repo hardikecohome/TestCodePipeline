@@ -79,7 +79,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { submitResult.Item1 });
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName });
         }
 
         public ActionResult AgreementSubmitSuccess(int contractId, string dealerName)
