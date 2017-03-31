@@ -82,11 +82,11 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("AgreementSubmitSuccess", new { id = submitResult.Item1 });
         }
 
-        public ActionResult AgreementSubmitSuccess(CustomerFormDTO id)
+        public ActionResult AgreementSubmitSuccess(int contractId, string dealerName)
         {
             var viewModel = new SubmittedCustomerFormViewModel();
-            var submitedData = _contractServiceAgent.SubmitCustomerForm(id).Result.Item1;
-            viewModel.CreditAmount = submitedData.CreditCheck?.CreditAmount ?? 0;
+            var submitedData = _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName).Result;
+            viewModel.CreditAmount = submitedData.CreditAmount;
             viewModel.DealerName = submitedData.DealerName;
             viewModel.Street = submitedData.DealerAdress?.Street;
             viewModel.City = submitedData.DealerAdress?.City;
