@@ -87,7 +87,7 @@
     $('.navbar-toggle').click(function(){
       if($('.navbar-collapse').attr('aria-expanded') === 'false'){
         saveScrollPosition();
-        detectSidebarHeight();
+       // detectSidebarHeight();
         $('body').addClass('open-menu');
         $('body').addClass('menu-animated');
         $('.overlay').show();
@@ -140,7 +140,7 @@
     $(window).on('scroll', function(){
       detectPageHeight();
     }).on('resize', function(){
-      detectSidebarHeight();
+     // detectSidebarHeight();
       setDeviceClasses();
       if(isMobile.iOS() && viewport().width >= 768){
         if($('.modal.in').length === 1){
