@@ -6,12 +6,13 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api.Integration.Services
 {
     public class EmailService: IEmailService, IIdentityMessageService
-    {
+    {        
         public async Task SendAsync(IList<string> recipients, string from, string subject, string body)
         {
             var message = new IdentityMessage()
@@ -20,7 +21,14 @@ namespace DealnetPortal.Api.Integration.Services
                 Subject = Resources.Resources.NewCustomerAppliedForFinancing,
                 Destination = recipients?.FirstOrDefault() ?? string.Empty
             };
-            await SendAsync(message);
+            try
+            {
+                await SendAsync(message);
+            }
+            catch (Exception ex)
+            {                
+                throw ex;
+            }            
         }
 
         public async Task SendAsync(MailMessage message)
@@ -30,7 +38,14 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
                 smtpClient.Credentials = credentials;
-                await smtpClient.SendMailAsync(message);
+                try
+                {
+                    await smtpClient.SendMailAsync(message);
+                }
+                catch (Exception ex)
+                {                    
+                    throw ex;
+                }                
             }
         }
 
@@ -53,7 +68,15 @@ namespace DealnetPortal.Api.Integration.Services
             using (smtpClient)
             {
                 smtpClient.Credentials = credentials;
-                await smtpClient.SendMailAsync(msg);
+                try
+                {
+                    await smtpClient.SendMailAsync(msg);
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw ex;
+                }                
             }
         }        
         #endregion

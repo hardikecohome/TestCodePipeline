@@ -99,8 +99,15 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
             body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
             body.AppendLine("</div>");
-            
-            await _emailService.SendAsync(new List<string> { dealerEmail ?? string.Empty }, string.Empty, Resources.Resources.NewCustomerAppliedForFinancing, body.ToString());
+
+            try
+            {
+                await _emailService.SendAsync(new List<string> { dealerEmail ?? string.Empty }, string.Empty, Resources.Resources.NewCustomerAppliedForFinancing, body.ToString());
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }            
         }
 
         public async Task SendCustomerLoanFormContractCreationNotification(string customerEmail, double? preapprovedAmount,
@@ -153,7 +160,14 @@ namespace DealnetPortal.Api.Integration.Services
             mail.From = new MailAddress(email);
             mail.To.Add(customerEmail);
             //mail.Subject = "yourSubject"; //TODO: Clarify subject
-            await _emailService.SendAsync(mail);
+            try
+            {
+                await _emailService.SendAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }            
         }
 
         private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
