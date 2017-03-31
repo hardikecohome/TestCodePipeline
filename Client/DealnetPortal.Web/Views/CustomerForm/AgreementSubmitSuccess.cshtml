@@ -6,8 +6,8 @@
 <div class="customer-loan-success-page align-middle-section">
     <div class="align-middle-inner">
         <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-        <h2 class="page-heading">Congratulations, you have been pre-approved for $@Model.CreditAmount</h2>
-        <p>Your financing application was successfully submitted. @Model.DealerName will contact you soon.</p>
+        <h2 class="page-heading">Congratulations, you have been pre-approved for $@(Model.CreditAmount)</h2>
+        <p>Your financing application was successfully submitted. @(Model.DealerName) will contact you soon.</p>
 
         <div class="contact-section">
             <div>If you have any question please contact:</div>
@@ -16,7 +16,7 @@
                 <div class="adr">
                     <span class="street-address">@Model.Street</span>,
                     <span class="locality hidden">@Model.City</span>
-                    <span class="region">@Model.Province</span> <span class="postal-code">@Model.PostalCode</span>
+                    <span class="region">@Model.Province</span>, <span class="postal-code">@Model.PostalCode</span>
                 </div>
                 <div>Phone: <a href="@Model.Phone" class="tel" rel="nofollow"><span class="type hidden">Work</span>@Model.Phone</a></div>
                 <div>Mail: <a class="email" href="@Model.Email">@Model.Email</a></div>

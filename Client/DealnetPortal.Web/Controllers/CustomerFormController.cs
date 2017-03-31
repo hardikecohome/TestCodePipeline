@@ -82,10 +82,10 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName });
         }
 
-        public ActionResult AgreementSubmitSuccess(int contractId, string dealerName)
+        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string dealerName)
         {
             var viewModel = new SubmittedCustomerFormViewModel();
-            var submitedData = _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName).Result;
+            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName);
             viewModel.CreditAmount = submitedData.CreditAmount;
             viewModel.DealerName = submitedData.DealerName;
             viewModel.Street = submitedData.DealerAdress?.Street;
@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.Controllers
             viewModel.Phone = submitedData.DealerPhone;
             viewModel.Email = submitedData.DealerEmail;
 
-            return View();
+            return View(viewModel);
         }
     }
 }
