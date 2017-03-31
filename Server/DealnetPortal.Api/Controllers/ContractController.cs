@@ -416,12 +416,29 @@ namespace DealnetPortal.Api.Controllers
         [Route("SubmitCustomerForm")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> SubmitCustomerForm(CustomerFormDTO customerFormData)
+        public IHttpActionResult SubmitCustomerForm(CustomerFormDTO customerFormData)
         {
             try
             {
-                var alerts = await CustomerFormService.SubmitCustomerFormData(customerFormData);
-                return Ok(alerts);
+                var submitResult = CustomerFormService.SubmitCustomerFormData(customerFormData).GetAwaiter().GetResult();
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetCustomerContractInfo")]
+        [HttpGet]
+        // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}
+        [AllowAnonymous]
+        public IHttpActionResult GetCustomerContractInfo(int contractId, string dealerName)
+        {
+            try
+            {
+                var submitResult = CustomerFormService.GetCustomerContractInfo(contractId, dealerName);
+                return Ok(submitResult);
             }
             catch (Exception ex)
             {

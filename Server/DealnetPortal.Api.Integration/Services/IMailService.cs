@@ -10,7 +10,26 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public interface IMailService
     {
-        Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true);
-        Task<IList<Alert>> SendChangeNotification(ContractDTO contract, string dealerEmail);
+        Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true);
+        Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail);
+
+        /// <summary>
+        /// Send e-mail notification to a dealer for a contract created with a customer loan form
+        /// </summary>
+        /// <param name="dealerEmail"></param>
+        /// <param name="customerFormData"></param>
+        /// <param name="preapprovedAmount"></param>
+        Task SendDealerLoanFormContractCreationNotification(string dealerEmail, CustomerFormDTO customerFormData,
+            double? preapprovedAmount);
+        /// <summary>
+        /// Send e-mail notification to a customer for a contract created with a customer loan form
+        /// </summary>
+        /// <param name="customerEmail"></param>
+        /// <param name="preapprovedAmount"></param>
+        /// <param name="dealer"></param>
+        /// <param name="dealerColor"></param>
+        /// <param name="dealerLogo"></param>
+        Task SendCustomerLoanFormContractCreationNotification(string customerEmail, double? preapprovedAmount,
+            DealerDTO dealer, string dealerColor, byte[] dealerLogo);
     }
 }

@@ -25,14 +25,16 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class MailService : IMailService
     {
+        private readonly IEmailService _emailService;
         private readonly ILoggingService _loggingService;
 
-        public MailService(ILoggingService loggingService)
+        public MailService(IEmailService emailService, ILoggingService loggingService)
         {
+            _emailService = emailService;
             _loggingService = loggingService;
         }
 
-        public async Task<IList<Alert>> SendSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
+        public async Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
         {
             var alerts = new List<Alert>();
             var id = contract.Details?.TransactionId ?? contract.Id.ToString();
@@ -51,7 +53,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendChangeNotification(ContractDTO contract, string dealerEmail)
+        public async Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail)
         {
             var alerts = new List<Alert>();
             
@@ -72,6 +74,102 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task SendDealerLoanFormContractCreationNotification(string dealerEmail,
+            CustomerFormDTO customerFormData,
+            double? preapprovedAmount)
+        {
+            var address = string.Empty;
+            var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
+
+            if (addresItem != null)
+            {
+                address = $"{addresItem.Street}, {addresItem.City}, {addresItem.PostalCode}, {addresItem.State}";
+            }
+            var body = new StringBuilder();
+            body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
+            body.AppendLine("<div>");
+            body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");//todo:Check does it need?
+            body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
+            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
+            body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
+            body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
+            body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
+            body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
+            body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
+            body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
+            body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
+            body.AppendLine("</div>");
+
+            try
+            {
+                await _emailService.SendAsync(new List<string> { dealerEmail ?? string.Empty }, string.Empty, Resources.Resources.NewCustomerAppliedForFinancing, body.ToString());
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }            
+        }
+
+        public async Task SendCustomerLoanFormContractCreationNotification(string customerEmail, double? preapprovedAmount,
+            DealerDTO dealer, string dealerColor, byte[] dealerLogo)
+        {
+            var dealerName = $"{dealer.FirstName} {dealer.LastName}";
+            var email = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            var location = dealer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
+            var phone = dealer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum;
+            var html = File.ReadAllText(HostingEnvironment.MapPath(@"~\Content\emails\customer-notification-email.html"));
+            var body = new StringBuilder(html, html.Length * 2);
+            body.Replace("{headerColor}", dealerColor ?? "#000000");
+            body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
+            body.Replace("{youHaveBeenPreapprovedFor}", preapprovedAmount != null ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", preapprovedAmount.ToString()) : string.Empty);
+            body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
+            body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", dealerName));
+            body.Replace("{ifYouHavePleaseContact}", Resources.Resources.IfYouHaveQuestionsPleaseContact);
+            body.Replace("{dealerName}", dealerName);
+            body.Replace("{dealerAddress}", $"{location?.Street} {location?.City}, {location?.State} {location?.PostalCode}");
+            body.Replace("{phone}", Resources.Resources.Phone);
+            body.Replace("{dealerPhone}", phone);
+            body.Replace("{fax}", Resources.Resources.Fax);
+            body.Replace("{dealerFax}", ""); //TODO: Get fax number
+            body.Replace("{mail}", Resources.Resources.Email);
+            body.Replace("{dealerMail}", email);
+
+            LinkedResource inlineLogo = null;
+            var inlineSuccess = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-success.png"));
+            inlineSuccess.ContentId = Guid.NewGuid().ToString();
+            inlineSuccess.ContentType.MediaType = "image/png";
+            body.Replace("{successIcon}", "cid:" + inlineSuccess.ContentId);
+            if (dealerLogo != null)
+            {
+                inlineLogo = new LinkedResource(new MemoryStream(dealerLogo));
+                inlineLogo.ContentId = Guid.NewGuid().ToString();
+                inlineLogo.ContentType.MediaType = "image/png";
+                body.Replace("{dealerLogo}", "cid:" + inlineLogo.ContentId);
+            }
+            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null,
+                    MediaTypeNames.Text.Html);
+            alternateView.LinkedResources.Add(inlineSuccess);
+            if (inlineLogo != null)
+            {
+                alternateView.LinkedResources.Add(inlineLogo);
+            }
+
+            var mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            mail.AlternateViews.Add(alternateView);
+            mail.From = new MailAddress(email);
+            mail.To.Add(customerEmail);
+            //mail.Subject = "yourSubject"; //TODO: Clarify subject
+            try
+            {
+                await _emailService.SendAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }            
+        }
+
         private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
         {
             if (contract != null)
@@ -84,11 +182,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         foreach (var recipient in recipients)
                         {
-                            var sAlerts = await SendEmail(new List<string>() { recipient }, subject, body.ToString());
-                            if (sAlerts?.Any() ?? false)
-                            {
-                                alerts.AddRange(sAlerts);
-                            }
+                            await _emailService.SendAsync(new List<string>() { recipient }, string.Empty, subject, body);
                         }
                     }
                     catch (Exception ex)
@@ -161,59 +255,6 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return recipients;
-        }
-
-        private async Task<IList<Alert>> SendEmail(IList<string> recipients, string subject, string body)
-        {
-            var alerts = new List<Alert>();
-            HttpClient client = new HttpClient();
-            string baseUri = string.Empty;
-            string domain = string.Empty;
-            string key = string.Empty;
-            string sender = string.Empty;
-
-            try
-            {
-                baseUri = ConfigurationManager.AppSettings["MailGun.ApiUrl"];
-                domain = ConfigurationManager.AppSettings["MailGun.Domain"];
-                key = ConfigurationManager.AppSettings["MailGun.ApiKey"];
-                sender = ConfigurationManager.AppSettings["MailGun.From"];
-            }
-            catch (Exception ex)
-            {
-                var errorMsg = "Can't get mailgun settings from config";
-                _loggingService.LogError(errorMsg, ex);
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = errorMsg,
-                    Message = ex.ToString()
-                });
-            }            
-
-            client.BaseAddress = new Uri(baseUri);            
-            var credentials = Encoding.ASCII.GetBytes($"api:{key}");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
-
-            var requestValues = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("domain", domain),
-                new KeyValuePair<string, string>("from", sender),
-                new KeyValuePair<string, string>("subject", subject),
-                new KeyValuePair<string, string>("text", body)
-            };
-
-            recipients?.ForEach(r =>
-                requestValues.Add(new KeyValuePair<string, string>("to", r)));
-
-            var data = new FormUrlEncodedContent(requestValues);
-            
-            var requestUri = new Uri(new Uri(baseUri), $"{domain}/messages");
-
-            var response = await client.PostAsync(requestUri, data);
-            response.EnsureSuccessStatusCode();            
-
-            return alerts;
-        }
+        }        
     }
 }

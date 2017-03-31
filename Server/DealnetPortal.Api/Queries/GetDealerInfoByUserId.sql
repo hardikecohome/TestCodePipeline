@@ -7,7 +7,7 @@
 												 scparent.user_id as parent_uname
 FROM Entity (nolock) as e
 INNER JOIN SecurityUser (nolock) sc on sc.oid = e.secu_oid
-INNER JOIN SecurityUser (nolock) scparent on scparent.oid = e.parent_oid
+LEFT JOIN SecurityUser (nolock) scparent on scparent.oid = e.parent_oid
 LEFT JOIN Location (nolock) as l
     on (e.oid = l.entt_oid and e.loca_oid = l.oid)
 LEFT JOIN Phone (nolock) as main
