@@ -215,12 +215,16 @@ namespace DealnetPortal.Api.Integration.Services
                                 var dealerAddress = dealer.Locations?.FirstOrDefault();
                                 if (dealerAddress != null)
                                 {
-                                    submitResult.DealerAdress =
-                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
+                                    submitResult.DealerAdress = dealerAddress;
+//                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}";
                                 }
                                 if (dealer.Phones?.Any() ?? false)
                                 {
                                     submitResult.DealerPhone = dealer.Phones.First().PhoneNum;                                    
+                                }
+                                if (dealer.Emails?.Any() ?? false)
+                                {
+                                    submitResult.DealerPhone = dealer.Emails.First().EmailAddress;
                                 }
                                 if (dealer.Emails?.Any() ?? false)
                                 {
@@ -240,7 +244,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     SendDealerSubmitNotification(
                                         dealer?.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?
                                             .EmailAddress,
-                                        customerFormData, null); //TODO: Get pre-approved amount
+                                        customerFormData, submitResult.ContractId.ToString(), submitResult.CreditCheck.CreditAmount); //TODO: Get pre-approved amount
                             }
                             catch (Exception ex)
                             {
@@ -368,7 +372,7 @@ namespace DealnetPortal.Api.Integration.Services
             //return alerts;
         }
 
-        private async Task SendDealerSubmitNotification(string dealerEmail, CustomerFormDTO customerFormData, double? preapprovedAmount)
+        private async Task SendDealerSubmitNotification(string dealerEmail, CustomerFormDTO customerFormData, string contractId, decimal? preapprovedAmount)
         {
             var address = string.Empty;
             var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
@@ -380,9 +384,9 @@ namespace DealnetPortal.Api.Integration.Services
             var body = new StringBuilder();
             body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
             body.AppendLine("<div>");
-            body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");//todo:Check does it need?
+            body.AppendLine($"<p>{Resources.Resources.ContractId}: {contractId}</p>");
             body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
-            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
+            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: {preapprovedAmount}</b></p>");
             body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
             body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
             body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
