@@ -300,13 +300,13 @@ function panelCollapsed(elem){
 };
 
 function detectSidebarHeight(){
-  setTimeout(function(){
+  /*setTimeout(function(){
     if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
       $('.sidebar-bottom').addClass('stick-bottom');
     }else{
       $('.sidebar-bottom').removeClass('stick-bottom');
     }
-  }, 300);
+  }, 300);*/
 }
 
 function scrollPageTo(elem){
