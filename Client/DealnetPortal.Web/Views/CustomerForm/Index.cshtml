@@ -360,12 +360,13 @@
 
 @section scripts
 {
-    <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit" async defer></script>
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/customer-form")
     <script>
         module.require('customer-form');
     </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit" async defer></script>
 }
 
 

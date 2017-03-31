@@ -262,6 +262,15 @@
         }, {});
     };
 
+    window.onLoadCaptcha = function () {
+        grecaptcha.render('gcaptcha', {
+            sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
+            callback: function (response) {
+                dispatch(createAction(SET_CAPTCHA_CODE, response));
+            },
+        });
+    };
+
     $(document)
         .ready(function () {
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
@@ -281,14 +290,6 @@
                 }
             });
 
-            window.onLoadCaptcha = function () {
-                grecaptcha.render('gcaptcha', {
-                    sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
-                    callback: function (response) {
-                        dispatch(createAction(SET_CAPTCHA_CODE, response));
-                    },
-                });
-            };
 
             // action dispatchers
             $('#firstName').on('change', function (e) {
