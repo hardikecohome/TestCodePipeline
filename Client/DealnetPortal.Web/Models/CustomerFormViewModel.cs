@@ -13,10 +13,9 @@ namespace DealnetPortal.Web.Models
         [CheckCustomersAge("AdditionalApplicants", 76)]
         [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
-        public ContactInfoViewModel HomeOwnerContactInfo { get; set; }
+        public CustomerContactInfoViewModel HomeOwnerContactInfo { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "WhatEquipmentServiceYouInterestedIn")]
         public string Service { get; set; }
-        [Required]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AddComment")]
         public string Comment { get; set; }
         [Required]
