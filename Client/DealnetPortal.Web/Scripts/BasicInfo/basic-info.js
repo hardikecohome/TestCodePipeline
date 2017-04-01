@@ -178,7 +178,7 @@ function setDataAttrInModal (index) {
 function hideAditional1Section() {
     aditional1Section.hide();
     //Needed for validation
-    aditional1Section.find('.personal-info-section').find('input, select').each(function () {
+    aditional1Section.find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     aditional1Section.data('active', false);
@@ -187,7 +187,7 @@ function hideAditional1Section() {
 function hideAditional2Section() {
     aditional2Section.hide();
     //Needed for validation
-    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
+    aditional2Section.find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     aditional2Section.data('active', false);
@@ -196,7 +196,7 @@ function hideAditional2Section() {
 function hideAditional3Section() {
     aditional3Section.hide();
     //Needed for validation
-    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
+    aditional3Section.find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     aditional3Section.data('active', false);
@@ -216,7 +216,7 @@ function disableMailingAddress(section) {
 }
 function showAditional1Section() {
     aditional1Section.show();
-    aditional1Section.find('.personal-info-section').find('input, select').each(function () {
+    aditional1Section.find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     aditional1Section.data('active', true);
@@ -226,7 +226,7 @@ function showAditional1Section() {
 }
 function showAditional2Section() {
     aditional2Section.show();
-    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
+    aditional2Section.find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     aditional2Section.data('active', true);
@@ -236,7 +236,7 @@ function showAditional2Section() {
 }
 function showAditional3Section() {
     aditional3Section.show();
-    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
+    aditional3Section.find('input, select').each(function () {
         $(this).prop("disabled", false);
     });
     aditional3Section.data('active', true);
@@ -256,13 +256,4 @@ function assignDatepicker(input) {
             onDateSelect($(this));
         }
     });
-}
-
-function useHomeOwnerAddress(i) {
-    $('#additional-street-' + i).val($('#street').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-unit_number-' + i).val($('#unit_number').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-locality-' + i).val($('#locality').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-administrative_area_level_1-' + i).val($('#administrative_area_level_1').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-postal_code-' + i).val($('#postal_code').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-residence-' + i).val($('#residence').val());
 }
