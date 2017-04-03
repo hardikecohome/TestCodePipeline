@@ -40,6 +40,8 @@
     var SET_LESS_THAN_SIX = 'set_less_than_six';
     var SET_PHONE = 'set_phone';
     var SET_CELL_PHONE = 'set_cell_phone';
+    var SET_ADDRESS = 'set_address';
+    var SET_PADDRESS = 'set_paddress';
 
     var iniState = {
         birthday: '',
@@ -97,6 +99,27 @@
             postalCode: '',
         };
     };
+    reducerObj[SET_ADDRESS] = function(state, action) {
+        var street = '';
+        if (action.payload.number) {
+            street += action.payload.number;
+        }
+
+        if (action.payload.street) {
+            street = street + ' ' + action.payload.street;
+        }
+
+        if (!street) {
+            street = state.street;
+        }
+
+        return {
+            street: street,
+            city: action.payload.city || state.city,
+            province: action.payload.province || state.province,
+            postalCode: action.payload.postalCode || state.postalCode,
+        };
+    };
     reducerObj[SET_PSTREET] = setFormField('pstreet');
     reducerObj[SET_PUNIT] = setFormField('punit');
     reducerObj[SET_PCITY] = setFormField('pcity');
@@ -109,6 +132,27 @@
             pcity: '',
             pprovince: '',
             ppostalCode: '',
+        };
+    };
+    reducerObj[SET_PADDRESS] = function(state, action) {
+        var street = '';
+        if (action.payload.number) {
+            street += action.payload.number;
+        }
+
+        if (action.payload.street) {
+            street = street + ' ' + action.payload.street;
+        }
+
+        if (!street) {
+            street = state.street;
+        }
+
+        return {
+            pstreet: street,
+            pcity: action.payload.city || state.city,
+            pprovince: action.payload.province || state.province,
+            ppostalCode: action.payload.postalCode || state.postalCode,
         };
     };
     reducerObj[SET_LESS_THAN_SIX] = setFormField('lessThanSix');
@@ -285,8 +329,118 @@
         });
     };
 
-    $(document)
-        .ready(function () {
+    var extend = function(defaults) {
+        return function(overrides) {
+            return $.extend({}, defaults, overrides);
+        };
+    };
+
+    var addressForm = {
+        street_number: 'short_name',
+        route: 'long_name',
+        locality: 'long_name',
+        administrative_area_level_1: 'short_name',
+        country: 'long_name',
+        postal_code: 'short_name'
+    };
+
+    var getAddress = function(addressForm) {
+        return function(addressComponent) {
+            var addressType = addressComponent.types[0];
+            if (addressForm.hasOwnProperty(addressType)) {
+                var addressObj = {};
+                addressObj[addressType] = addressComponent[addressForm[addressType]];
+                return addressObj;
+            }
+        };
+    };
+
+    var concatObj = function(acc, next) {
+        return next ? $.extend(acc, next) : acc;
+    };
+
+    var setAutocomplete = function(streetElmId, cityElmId) {
+        var extendCommonOpts = extend({
+            componentRestrictions: { country: 'ca' },
+        });
+
+        var streetElm = document.getElementById(streetElmId);
+        var streetAutocomplete = new google.maps.places
+            .Autocomplete(streetElm, extendCommonOpts({ types: ['geocode'] }));
+
+        var cityElm = document.getElementById(cityElmId);
+        var cityAutocomplete = new google.maps.places
+            .Autocomplete(cityElm, extendCommonOpts({ types: ['(cities)'] }));
+
+        return {
+            street: streetAutocomplete,
+            city: cityAutocomplete,
+        };
+    };
+
+    window.initAutocomplete = function() {
+        configInitialized.then(function() {
+            var gAutoCompletes = setAutocomplete('street', 'city');
+            var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
+
+            gAutoCompletes.street.addListener('place_changed',
+                function() {
+                    var place = gAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_ADDRESS,
+                    {
+                        street: place['route'] || '',
+                        number: place['street_number'] || '',
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                        postalCode: place['postal_code'] || '',
+                    }));
+                });
+
+            gAutoCompletes.city.addListener('place_changed',
+                function() {
+                    var place = gAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_ADDRESS,
+                    {
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                    }));
+                });
+
+            gPAutoCompletes.street.addListener('place_changed',
+                function() {
+                    var place = gPAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_PADDRESS,
+                    {
+                        street: place['route'] || '',
+                        number: place['street_number'] || '',
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                        postalCode: place['postal_code'] || '',
+                    }));
+                });
+
+            gPAutoCompletes.city.addListener('place_changed',
+                function() {
+                    var place = gPAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_PADDRESS,
+                    {
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                    }));
+                });
+        });
+    };
+
+    configInitialized
+        .then(function () {
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
             $('#selectedService').val($('#selectedService > option:first').val());
             var input = $("#birth-date-customer");
