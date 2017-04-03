@@ -40,7 +40,27 @@ var deferralType = LoanDeferralType.ThreeMonth;
     <div class="calculators-container">
         <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button"
                 ng-hide="options.length === 3"
-                ng-click="addOption()">Add Another Option to Compare</button>
+                ng-click="addOption();">Add Another Option to Compare</button>
+
+        <div ng-controller="carouselController">
+            <div style="height: 305px">
+                <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides" style="height: 100%; background: #666; position: relative;">
+                    <div uib-slide ng-repeat="slide in slides track by $index" index="$index" style="height: 100%; background: #666;">
+                        <img ng-src="{{slide.image}}" style="margin:auto;">
+                        <div class="carousel-caption">
+                            <h4>Slide {{slide.id}}</h4>
+                            <p>{{slide.text}} {{slide.id}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
+                </div>
+            </div>
+        </div>
+
         <div class="row rate-cards-container">
             <div class="col-md-4 col-sm-6 rate-card-col" ng-repeat="option in options" track by $index>
                 <h2 class="dealnet-middle-header calculator-heading">Option {{$index + 1}}
@@ -325,6 +345,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
 @section OutrunningScripts
 {
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
 }
 
 @section scripts
@@ -350,7 +371,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
     @Scripts.Render("~/Scripts/financial-functions.js")
 
     <script type="text/javascript">
-        var app = angular.module("calculator", []);
+        var app = angular.module("calculator", ['ui.bootstrap']);
         var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
         var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
 
@@ -422,12 +443,39 @@ var deferralType = LoanDeferralType.ThreeMonth;
             };
         };
 
+        app.controller('carouselController',
+            function($scope) {
+                $scope.myInterval = 5000;
+                $scope.noWrapSlides = false;
+                var currIndex = 0;
+                var slides = $scope.slides = [
+                    {
+                        id: 0,
+                        name: "Slide Name",
+                        text: "Slide Text"
+                    }
+                ];
+
+                $scope.addSlide = function() {
+                    console.log(slides.length, slides);
+                    slides.push({
+                        id: currIndex++,
+                        name: "Slide Name",
+                        text: "Slide Text"
+                    });
+                };
+            });
 
         app.controller("calculator",
             function($scope) {
                 $scope.isMobileMode = false;
                 $scope.province = '';
                 $scope.plans = Object.keys(plans).map(idToValue(plans));
+
+                $scope.myInterval = 5000;
+                $scope.noWrapSlides = false;
+                var slides = $scope.slides = [];
+                var currIndex = 0;
 
                 $scope.options = [
                     {
@@ -662,5 +710,6 @@ var deferralType = LoanDeferralType.ThreeMonth;
                 }
             }
         }
+
     </script>
 }
