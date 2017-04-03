@@ -231,6 +231,7 @@
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
+    <Compile Include="Models\CustomerContactInfoViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
