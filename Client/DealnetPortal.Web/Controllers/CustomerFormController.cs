@@ -45,7 +45,7 @@ namespace DealnetPortal.Web.Controllers
             }
             ViewBag.ProvinceTaxRates = provinces.Item1;
             _cultureManager.SetCulture(culture);
-            return View();
+            return View(new CustomerFormViewModel { DealerName = dealerName });
         }
 
         [HttpPost]
