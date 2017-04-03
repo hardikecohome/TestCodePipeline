@@ -47,7 +47,8 @@ namespace DealnetPortal.Web.Infrastructure
             }
             if (dealerName != null)
             {
-                sb.AppendLine($"@logo-img: url('../../../Settings/LogoImage?dealerName={dealerName}');");
+                var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+                sb.AppendLine($"@logo-img: url('" + urlHelper.Action("LogoImage", "Settings", new { dealerName }) + "');");
             }
             // Configure less to allow variable overrides
             var config = DotlessConfiguration.GetDefaultWeb();
