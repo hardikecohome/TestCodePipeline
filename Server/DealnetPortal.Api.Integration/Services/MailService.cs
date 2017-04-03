@@ -20,6 +20,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
+using System.Globalization;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -74,9 +75,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task SendDealerLoanFormContractCreationNotification(string dealerEmail,
-            CustomerFormDTO customerFormData,
-            double? preapprovedAmount)
+        public async Task SendDealerLoanFormContractCreationNotification(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
         {
             var address = string.Empty;
             var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
@@ -88,9 +87,9 @@ namespace DealnetPortal.Api.Integration.Services
             var body = new StringBuilder();
             body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
             body.AppendLine("<div>");
-            body.AppendLine($"<p>{Resources.Resources.ContractId}: {Resources.Resources.IDNotYetGenerated}</p>");//todo:Check does it need?
+            body.AppendLine($"<p>{Resources.Resources.ContractId}: {contractData.ContractId}</p>");
             body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
-            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: Amount from Espire</b></p>");//todo: Need to get this amount from espire
+            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: {contractData.CreditAmount}</b></p>");
             body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
             body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
             body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
@@ -102,7 +101,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                await _emailService.SendAsync(new List<string> { dealerEmail ?? string.Empty }, string.Empty, Resources.Resources.NewCustomerAppliedForFinancing, body.ToString());
+                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.NewCustomerAppliedForFinancing, body.ToString());
             }
             catch (Exception ex)
             {
@@ -110,29 +109,25 @@ namespace DealnetPortal.Api.Integration.Services
             }            
         }
 
-        public async Task SendCustomerLoanFormContractCreationNotification(string customerEmail, double? preapprovedAmount,
-            DealerDTO dealer, string dealerColor, byte[] dealerLogo)
+        public async Task SendCustomerLoanFormContractCreationNotification(string customerEmail, CustomerContractInfoDTO contractData, string dealerColor, byte[] dealerLogo)
         {
-            var dealerName = $"{dealer.FirstName} {dealer.LastName}";
-            var email = dealer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
-            var location = dealer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
-            var phone = dealer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum;
+            var location = contractData.DealerAdress;
             var html = File.ReadAllText(HostingEnvironment.MapPath(@"~\Content\emails\customer-notification-email.html"));
             var body = new StringBuilder(html, html.Length * 2);
             body.Replace("{headerColor}", dealerColor ?? "#000000");
             body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
-            body.Replace("{youHaveBeenPreapprovedFor}", preapprovedAmount != null ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", preapprovedAmount.ToString()) : string.Empty);
+            body.Replace("{youHaveBeenPreapprovedFor}", contractData.CreditAmount != null ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)) : string.Empty);
             body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
-            body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", dealerName));
+            body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", contractData.DealerName));
             body.Replace("{ifYouHavePleaseContact}", Resources.Resources.IfYouHaveQuestionsPleaseContact);
-            body.Replace("{dealerName}", dealerName);
-            body.Replace("{dealerAddress}", $"{location?.Street} {location?.City}, {location?.State} {location?.PostalCode}");
+            body.Replace("{dealerName}", contractData.DealerName);
+            body.Replace("{dealerAddress}", $"{location?.Street}, {location?.City}, {location?.State}, {location?.PostalCode}");
             body.Replace("{phone}", Resources.Resources.Phone);
-            body.Replace("{dealerPhone}", phone);
-            body.Replace("{fax}", Resources.Resources.Fax);
-            body.Replace("{dealerFax}", ""); //TODO: Get fax number
+            body.Replace("{dealerPhone}", contractData.DealerPhone);
+            //body.Replace("{fax}", Resources.Resources.Fax);
+            //body.Replace("{dealerFax}", ""); //TODO: Get fax number
             body.Replace("{mail}", Resources.Resources.Email);
-            body.Replace("{dealerMail}", email);
+            body.Replace("{dealerMail}", contractData.DealerEmail);
 
             LinkedResource inlineLogo = null;
             var inlineSuccess = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-success.png"));
@@ -157,7 +152,7 @@ namespace DealnetPortal.Api.Integration.Services
             var mail = new MailMessage();
             mail.IsBodyHtml = true;
             mail.AlternateViews.Add(alternateView);
-            mail.From = new MailAddress(email);
+            mail.From = new MailAddress(contractData.DealerEmail);
             mail.To.Add(customerEmail);
             //mail.Subject = "yourSubject"; //TODO: Clarify subject
             try
