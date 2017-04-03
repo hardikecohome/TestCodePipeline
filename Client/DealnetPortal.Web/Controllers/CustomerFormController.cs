@@ -54,7 +54,7 @@ namespace DealnetPortal.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return RedirectToAction("AnonymousError", "Info");
             }
             var customerFormDto = new CustomerFormDTO();
             customerFormDto.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(customerForm.HomeOwner);
