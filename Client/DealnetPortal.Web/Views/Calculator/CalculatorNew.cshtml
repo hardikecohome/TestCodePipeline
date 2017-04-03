@@ -42,229 +42,175 @@ var deferralType = LoanDeferralType.ThreeMonth;
                 ng-hide="options.length === 3"
                 ng-click="addOption();">Add Another Option to Compare</button>
 
-        <div ng-controller="carouselController">
-            <div style="height: 305px">
-                <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides" style="height: 100%; background: #666; position: relative;">
-                    <div uib-slide ng-repeat="slide in slides track by $index" index="$index" style="height: 100%; background: #666;">
-                        <img ng-src="{{slide.image}}" style="margin:auto;">
-                        <div class="carousel-caption">
-                            <h4>Slide {{slide.id}}</h4>
-                            <p>{{slide.text}} {{slide.id}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="row rate-cards-container">
-            <div class="col-md-4 col-sm-6 rate-card-col" ng-repeat="option in options" track by $index>
-                <h2 class="dealnet-middle-header calculator-heading">Option {{$index + 1}}
-                        <span class="calculator-remove" ng-if="$index !== 0" ng-click="removeOption(option.id)">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </span>
-                </h2>
-                <div class="rate-card table-mode">
-                    <div class="equipments-hold" reset-Form>
-                        <div ng-repeat="equipmentId in option.equipmentIds" class="equipment-item">
-                            <div class="dealnet-middle-header equipment-heading">
-                                <span>@Resources.Equipment  №{{$index + 1}}</span>
-                                <div ng-if="$index !== 0" ng-click="removeEquipment(option.id, equipmentId)" class="additional-remove">
-                                    <i class="glyphicon glyphicon-remove"></i>
+        <div uib-carousel active="active" no-wrap="noWrapSlides" lass="row rate-cards-container" style="background: #666; height: 100%">
+            <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
+                <div class="col-md-4 col-sm-6 rate-card-col" ng-repeat="option in slide track by $index">
+                    <h2 class="dealnet-middle-header calculator-heading">Option {{ $parent.$index * multiplier + $index + 1 }}
+                            <span class="calculator-remove" ng-if="($parent.$index * multiplier + $index) !== 0" ng-click="removeOption(option.id)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </span>
+                    </h2>
+                    <div class="rate-card table-mode">
+                        <div class="equipments-hold" reset-Form>
+                            <div ng-repeat="equipmentId in option.equipmentIds" class="equipment-item">
+                                <div class="dealnet-middle-header equipment-heading">
+                                    <span>@Resources.Equipment  №{{$index + 1}}</span>
+                                    <div ng-if="$index !== 0" ng-click="removeEquipment(option.id, equipmentId)" class="additional-remove">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(
+                                        m => m.Equipment.NewEquipment[0].Type,
+                                        new { @for = "Equipment_NewEquipment_{{$index}}__Type" }
+                                    )
+                                    @Html.DropDownListFor(
+                                        m => m.Equipment.NewEquipment[0].Type,
+                                        (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                        new {
+                                            id = "Equipment_NewEquipment_{{$index}}__Type",
+                                            Name = "Equipment.NewEquipment[{{$index}}].Type",
+                                            @class = "form-control",
+                                            ng_model = "$parent.equipments[equipmentId].type"
+                                        }
+                                    )
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(
+                                        m => m.Equipment.NewEquipment[0].Description,
+                                        new { @for = "Equipment_NewEquipment_{{$index}}__Description" }
+                                    )
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(
+                                            m => m.Equipment.NewEquipment[0].Description,
+                                            new {
+                                                id = "Equipment_NewEquipment_{{$index}}__Description",
+                                                Name = "Equipment.NewEquipment[{{$index}}].Description",
+                                                @class = "form-control dealnet-input date-input",
+                                                placeholder = Resources.Description,
+                                                ng_model = "$parent.equipments[equipmentId].description"
+                                            }
+                                        )
+                                        @Html.ValidationMessageFor(
+                                            m => m.Equipment.NewEquipment[0].Description,
+                                            "",
+                                            new {
+                                                data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Description",
+                                                @class = "text-danger"
+                                            }
+                                        )
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(
+                                        m => m.Equipment.NewEquipment[0].Cost,
+                                        new { @for = "Equipment_NewEquipment_{{$index}}__Cost" }
+                                    )
+                                    <div class="control-group has-addon-left">
+                                        <div class="control-group-addon">$</div>
+                                        @Html.TextBoxFor(
+                                            m => m.Equipment.NewEquipment[0].Cost,
+                                            new {
+                                                id = "Equipment_NewEquipment_{{$index}}__Cost",
+                                                Name = "Equipment.NewEquipment[{{$index}}].Cost",
+                                                @class = "form-control dealnet-input date-input equipment-cost",
+                                                type="text",
+                                                placeholder = Resources.Cost,
+                                                ng_change = "recalculateValues(option.id);",
+                                                ng_model = "$parent.equipments[equipmentId].cost"
+                                            }
+                                        )
+                                        @Html.ValidationMessageFor(
+                                            m => m.Equipment.NewEquipment[0].Cost,
+                                            "",
+                                            new {
+                                                data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost",
+                                                @class = "text-danger"
+                                            }
+                                        )
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(
-                                    m => m.Equipment.NewEquipment[0].Type,
-                                    new { @for = "Equipment_NewEquipment_{{$index}}__Type" }
-                                )
-                                @Html.DropDownListFor(
-                                    m => m.Equipment.NewEquipment[0].Type,
-                                    (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                    new {
-                                        id = "Equipment_NewEquipment_{{$index}}__Type",
-                                        Name = "Equipment.NewEquipment[{{$index}}].Type",
-                                        @class = "form-control",
-                                        ng_model = "$parent.equipments[equipmentId].type"
-                                    }
-                                )
+                        </div>
+
+                        <div class="align-middle dealnet-info-link add-equip-link" ng-click="addEquipment(option.id)">
+                            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                            <span>@Resources.AddAdditionalEquipment</span>
+                        </div>
+                        <hr>
+
+                        <div class="row form-group">
+                            <div class="col-xs-7">
+                                Total Price of Equipment
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(
-                                    m => m.Equipment.NewEquipment[0].Description,
-                                    new { @for = "Equipment_NewEquipment_{{$index}}__Description" }
-                                )
+                            <div class="col-xs-5 text-right text-semibold">
+                                $ {{ option.equipmentSum }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-7">
+                                {{ taxName }}
+                            </div>
+                            <div class="col-xs-5 text-right text-semibold">
+                                $ {{ option.tax }}
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-7">
+                                Total Cash Price
+                            </div>
+                            <div class="col-xs-5 text-right text-semibold">
+                                $ {{ option.totalPrice }}
+                            </div>
+                        </div>
+                        <h3 class="dealnet-middle-header">Financing Options</h3>
+                        <div class="row form-group">
+                            <div class="col-xs-6">
+                                Plan
+                            </div>
+                            <div class="col-xs-6">
+                                <select class="form-control"
+                                        ng-options="plan.name for plan in plans track by plan.id"
+                                        ng-model="option.selectedPlan"
+                                        ng-change="recalculateValues(option.id)"></select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-6">
+                                Loan/Amortization Term
+                            </div>
+                            <div class="col-xs-6">
+                                <select name="" id="" class="form-control">
+                                    <option value="">- not selected -</option>
+                                    <option value="">36/36</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-6">
+                                Down Payment
+                            </div>
+                            <div class="col-xs-6">
                                 <div class="control-group">
-                                    @Html.TextBoxFor(
-                                        m => m.Equipment.NewEquipment[0].Description,
-                                        new {
-                                            id = "Equipment_NewEquipment_{{$index}}__Description",
-                                            Name = "Equipment.NewEquipment[{{$index}}].Description",
-                                            @class = "form-control dealnet-input date-input",
-                                            placeholder = Resources.Description,
-                                            ng_model = "$parent.equipments[equipmentId].description"
-                                        }
-                                    )
-                                    @Html.ValidationMessageFor(
-                                        m => m.Equipment.NewEquipment[0].Description,
-                                        "",
-                                        new {
-                                            data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Description",
-                                            @class = "text-danger"
-                                        }
-                                    )
+                                    <input type="text" class="form-control"
+                                           ng-model="option.downPayment" ng-change="recalculateValues(option.id)">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(
-                                    m => m.Equipment.NewEquipment[0].Cost,
-                                    new { @for = "Equipment_NewEquipment_{{$index}}__Cost" }
-                                )
-                                <div class="control-group has-addon-left">
-                                    <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(
-                                        m => m.Equipment.NewEquipment[0].Cost,
-                                        new {
-                                            id = "Equipment_NewEquipment_{{$index}}__Cost",
-                                            Name = "Equipment.NewEquipment[{{$index}}].Cost",
-                                            @class = "form-control dealnet-input date-input equipment-cost",
-                                            type="text",
-                                            placeholder = Resources.Cost,
-                                            ng_change = "recalculateValues(option.id);",
-                                            ng_model = "$parent.equipments[equipmentId].cost"
-                                        }
-                                    )
-                                    @Html.ValidationMessageFor(
-                                        m => m.Equipment.NewEquipment[0].Cost,
-                                        "",
-                                        new {
-                                            data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost",
-                                            @class = "text-danger"
-                                        }
-                                    )
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="align-middle dealnet-info-link add-equip-link" ng-click="addEquipment(option.id)">
-                        <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-                        <span>@Resources.AddAdditionalEquipment</span>
-                    </div>
-                    <hr>
-
-                    <div class="row form-group">
-                        <div class="col-xs-7">
-                            Total Price of Equipment
-                        </div>
-                        <div class="col-xs-5 text-right text-semibold">
-                            $ {{ option.equipmentSum }}
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-7">
-                            {{ taxName }}
-                        </div>
-                        <div class="col-xs-5 text-right text-semibold">
-                            $ {{ option.tax }}
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-7">
-                            Total Cash Price
-                        </div>
-                        <div class="col-xs-5 text-right text-semibold">
-                            $ {{ option.totalPrice }}
-                        </div>
-                    </div>
-                    <h3 class="dealnet-middle-header">Financing Options</h3>
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            Plan
-                        </div>
-                        <div class="col-xs-6">
-                            <select class="form-control"
-                                    ng-options="plan.name for plan in plans track by plan.id"
-                                    ng-model="option.selectedPlan"
-                                    ng-change="recalculateValues(option.id)"></select>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            Loan/Amortization Term
-                        </div>
-                        <div class="col-xs-6">
-                            <select name="" id="" class="form-control">
-                                <option value="">- not selected -</option>
-                                <option value="">36/36</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            Down Payment
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="control-group">
-                                <input type="text" class="form-control"
-                                       ng-model="option.downPayment" ng-change="recalculateValues(option.id)">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            Defferal Period
-                        </div>
-                        <div class="col-xs-6 text-right text-semibold">
-                            -
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            Customer Rate
-                        </div>
-                        <div class="col-xs-6 text-right text-semibold">
-                            {{ option.selectedPlan.customerRate }}%
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            Your Cost
-                        </div>
-                        <div class="col-xs-6 text-right text-semibold">
-                            $ 0
-                        </div>
-                    </div>
-
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            Admin Fee
-                        </div>
-                        <div class="col-xs-6 text-right text-semibold">
-                            $ {{ option.selectedPlan.adminFee }}
-                        </div>
-                    </div>
-                    <hr>
-
-                    <div class="table-rows-hold">
-                        <div class="row form-group">
-                            <div class="col-xs-6">
-                                Monthly Payment
-                            </div>
-                            <div class="col-xs-6 text-right text-semibold">
-                                $ {{ option.monthlyPayment }}
                             </div>
                         </div>
                         <div class="row form-group">
                             <div class="col-xs-6">
-                                Cost of Borrowing
+                                Defferal Period
                             </div>
                             <div class="col-xs-6 text-right text-semibold">
-                                $ {{ option.totalBorrowingCost }}
+                                -
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-6">
+                                Customer Rate
+                            </div>
+                            <div class="col-xs-6 text-right text-semibold">
+                                {{ option.selectedPlan.customerRate }}%
                             </div>
                         </div>
                         <div class="row form-group">
@@ -272,48 +218,85 @@ var deferralType = LoanDeferralType.ThreeMonth;
                                 Your Cost
                             </div>
                             <div class="col-xs-6 text-right text-semibold">
-                                $ -
+                                $ 0
                             </div>
                         </div>
+
                         <div class="row form-group">
                             <div class="col-xs-6">
-                                Total Amount Financed
+                                Admin Fee
                             </div>
                             <div class="col-xs-6 text-right text-semibold">
-                                $ {{ option.totalAmountFinanced }}
+                                $ {{ option.selectedPlan.adminFee }}
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <div class="col-xs-6">
-                                Total of All Monthly Payments
-                            </div>
-                            <div class="col-xs-6 text-right text-semibold">
-                                $ {{ option.totalMonthlyPayments }}
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-xs-6">
-                                Balance Owing at the End of Monthly Payments
-                            </div>
-                            <div class="col-xs-6 text-right text-semibold">
-                                $ {{ option.residualBalance }}
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-xs-6">
-                                Total Obligation
-                            </div>
-                            <div class="col-xs-6 text-right text-semibold">
-                                $ {{ option.totalObligation }}
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <div class="text-center">
-                                    <a href="#" class="btn dealnet-button dealnet-link-button">Save to Draft</a>
+                        <hr>
+
+                        <div class="table-rows-hold">
+                            <div class="row form-group">
+                                <div class="col-xs-6">
+                                    Monthly Payment
                                 </div>
-                                <div class="text-center">
-                                    <a href="#" class="btn dealnet-button dealnet-link-button">Create new application now</a>
+                                <div class="col-xs-6 text-right text-semibold">
+                                    $ {{ option.monthlyPayment }}
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-6">
+                                    Cost of Borrowing
+                                </div>
+                                <div class="col-xs-6 text-right text-semibold">
+                                    $ {{ option.totalBorrowingCost }}
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-6">
+                                    Your Cost
+                                </div>
+                                <div class="col-xs-6 text-right text-semibold">
+                                    $ -
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-6">
+                                    Total Amount Financed
+                                </div>
+                                <div class="col-xs-6 text-right text-semibold">
+                                    $ {{ option.totalAmountFinanced }}
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-6">
+                                    Total of All Monthly Payments
+                                </div>
+                                <div class="col-xs-6 text-right text-semibold">
+                                    $ {{ option.totalMonthlyPayments }}
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-6">
+                                    Balance Owing at the End of Monthly Payments
+                                </div>
+                                <div class="col-xs-6 text-right text-semibold">
+                                    $ {{ option.residualBalance }}
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-6">
+                                    Total Obligation
+                                </div>
+                                <div class="col-xs-6 text-right text-semibold">
+                                    $ {{ option.totalObligation }}
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <div class="text-center">
+                                        <a href="#" class="btn dealnet-button dealnet-link-button">Save to Draft</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="#" class="btn dealnet-button dealnet-link-button">Create new application now</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -344,8 +327,8 @@ var deferralType = LoanDeferralType.ThreeMonth;
 
 @section OutrunningScripts
 {
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular-ui")
 }
 
 @section scripts
@@ -371,7 +354,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
     @Scripts.Render("~/Scripts/financial-functions.js")
 
     <script type="text/javascript">
-        var app = angular.module("calculator", ['ui.bootstrap']);
+        var app = angular.module("calculator", ['ui.bootstrap', 'ngTouch']);
         var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
         var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
 
@@ -443,29 +426,6 @@ var deferralType = LoanDeferralType.ThreeMonth;
             };
         };
 
-        app.controller('carouselController',
-            function($scope) {
-                $scope.myInterval = 5000;
-                $scope.noWrapSlides = false;
-                var currIndex = 0;
-                var slides = $scope.slides = [
-                    {
-                        id: 0,
-                        name: "Slide Name",
-                        text: "Slide Text"
-                    }
-                ];
-
-                $scope.addSlide = function() {
-                    console.log(slides.length, slides);
-                    slides.push({
-                        id: currIndex++,
-                        name: "Slide Name",
-                        text: "Slide Text"
-                    });
-                };
-            });
-
         app.controller("calculator",
             function($scope) {
                 $scope.isMobileMode = false;
@@ -474,7 +434,8 @@ var deferralType = LoanDeferralType.ThreeMonth;
 
                 $scope.myInterval = 5000;
                 $scope.noWrapSlides = false;
-                var slides = $scope.slides = [];
+                $scope.slides = [];
+                $scope.multiplier = 1;
                 var currIndex = 0;
 
                 $scope.options = [
@@ -592,7 +553,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
                         option.totalObligation = '-';
                         option.totalBorrowingCost = '-';
                     }
-                } 
+                }
 
                 $scope.recalculateValues = function (optionId) {
                     var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
@@ -656,7 +617,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
                 };
 
                 $scope.recalculateAllTax = function () {
-                     if (!provinceTaxRates.hasOwnProperty($scope.province)) {
+                    if (!provinceTaxRates.hasOwnProperty($scope.province)) {
                         return;
                     }
 
@@ -664,52 +625,40 @@ var deferralType = LoanDeferralType.ThreeMonth;
                         $scope.recalculateValues(option.id);
                     });
                 };
-            });
 
-        configInitialized
-            .then(function() {
-                toggleClearInputIcon();
-                initSlider();
-                $(window).on('resize',
-                    function() {
-                        initSlider()
-                    });
-
-            });
-
-        function initSlider() {
-            if (viewport().width <= 1023) {
-                $('.calculators-container .rate-cards-container').not('.slick-initialized').slick({
-                    infinite: false,
-                    dots: true,
-                    speed: 300,
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                    responsive: [
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 2,
-                                slidesToScroll: 2,
-                                infinite: false
+                var watchOptions = function (options) {
+                    var viewport = $(window).width();
+                    if (viewport > 1023) {
+                        $scope.multiplier = 0;
+                        $scope.slides = [options];
+                    }
+                    if (viewport <= 1023 && viewport >= 768) {
+                        $scope.multiplier = 2;
+                        $scope.slides = options.reduce(function (acc, option, index) {
+                            if (index % 2) {
+                                acc[acc.length - 1].push(option);
+                                return acc;
+                            } else {
+                                return acc.concat([[option]]);
                             }
-                        },
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                slidesToShow: 1,
-                                slidesToScroll: 1,
-                                infinite: false
-                            }
-                        }
-                    ]
+                        }, []);
+                    }
+
+                    if (viewport < 768) {
+                        $scope.multiplier = 1;
+                        $scope.slides = options.reduce(function (acc, option) {
+                            acc.push([option]);
+                            return acc;
+                        }, []);
+                    }
+                };
+
+                $scope.$watchCollection('options', watchOptions);
+
+                $(window).on('resize', function () {
+                    watchOptions($scope.options);
+                    $scope.$apply();
                 });
-            } else {
-                if ($('.calculators-container .rate-cards-container').is('.slick-initialized')) {
-                    $('.rate-cards-container').slick("unslick");
-                }
-            }
-        }
-
+            });
     </script>
 }

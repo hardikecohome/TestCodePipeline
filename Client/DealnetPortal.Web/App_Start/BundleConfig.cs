@@ -12,6 +12,15 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                "~/Scripts/Vendor/angular/angular.js",
+                "~/Scripts/Vendor/angular/angular-touch.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/angular-ui").Include(
+                "~/Scripts/Vendor/angular/ui-bootstrap-tpls.js"
+                ));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include("~/Scripts/jquery.validate*")
                 .Include("~/Scripts/jquery-validation-messages.js"));
