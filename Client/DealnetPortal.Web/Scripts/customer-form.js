@@ -36,7 +36,8 @@
     var ACTIVATE_INSTALLATION = 'activate_installation';
     var ACTIVATE_CONTACT_INFO = 'activate_contact_info';
     var SET_CAPTCHA_CODE = 'set_captcha_code';
-    var TOGGLE_AGREEMENT = 'toggle_agreement';
+    var TOGGLE_CREDIT_AGREEMENT = 'toggle_credit_agreement';
+    var TOGGLE_CONTACT_AGREEMENT = 'toggle_contact_agreement';
     var SET_LESS_THAN_SIX = 'set_less_than_six';
     var SET_PHONE = 'set_phone';
     var SET_CELL_PHONE = 'set_cell_phone';
@@ -63,7 +64,8 @@
         phone: '',
         cellPhone: '',
         captchaCode: '',
-        agreement: false,
+        creditAgreement: false,
+        contactAgreement: false,
         lessThanSix: false,
     };
 
@@ -126,7 +128,8 @@
             };
         },
         [TOGGLE_OWNERSHIP]: setFormField('ownership'),
-        [TOGGLE_AGREEMENT]: setFormField('agreement'),
+        [TOGGLE_CREDIT_AGREEMENT]: setFormField('creditAgreement'),
+        [TOGGLE_CONTACT_AGREEMENT]: setFormField('contactAgreement'),
         [SET_CAPTCHA_CODE]: setFormField('captchaCode'),
         [SET_PHONE]: setFormField('phone'),
         [SET_CELL_PHONE]: setFormField('cellPhone'),
@@ -163,10 +166,17 @@
             });
         }
 
-        if (!state.agreement) {
+        if (!state.creditAgreement) {
             errors.push({
                 type: 'agreement',
-                messageKey: 'EmptyAgreement'
+                messageKey: 'EmptyCreditAgreement'
+            });
+        }
+
+        if (!state.contactAgreement) {
+            errors.push({
+                type: 'agreement',
+                messageKey: 'EmptyContactAgreement'
             });
         }
 
@@ -268,6 +278,9 @@
             callback: function (response) {
                 dispatch(createAction(SET_CAPTCHA_CODE, response));
             },
+            'expired-callback': function() {
+                dispatch(createAction(SET_CAPTCHA_CODE, ''));
+            },
         });
     };
 
@@ -367,9 +380,14 @@
                 dispatch(createAction(CLEAR_PADDRESS, e.target.value));
             });
 
-            var agreement = $('#agreement1');
-            agreement.on('click', function (e) {
-                dispatch(createAction(TOGGLE_AGREEMENT, agreement.prop('checked')));
+            var creditAgreement = $('#agreement1');
+            creditAgreement.on('click', function (e) {
+                dispatch(createAction(TOGGLE_CREDIT_AGREEMENT, creditAgreement.prop('checked')));
+            });
+
+            var contactAgreement = $('#agreement2');
+            contactAgreement.on('click', function (e) {
+                dispatch(createAction(TOGGLE_CONTACT_AGREEMENT, contactAgreement.prop('checked')));
             });
 
             var lessThanSix = $('#living-time-checkbox');
@@ -407,7 +425,8 @@
                 pprovince: pprovince,
                 ppostalCode: ppostalCode,
                 homeOwner: homeOwner,
-                agreement: agreement,
+                creditAgreement: creditAgreement,
+                contactAgreement: contactAgreement,
                 lessThanSix: lessThanSix,
                 cellPhone: cellPhone,
                 phone: phone,

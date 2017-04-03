@@ -355,7 +355,8 @@
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
     translations['AtLeastOneHomeOwner'] = "@Resources.AtLeastOneHomeOwner";
     translations['EmptyCaptcha'] = "@Resources.PleaseFillCaptchaToContinue";
-    translations['EmptyAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
+    translations['EmptyCreditAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
+    translations['EmptyContactAgreement'] = "@Resources.PleaseCheckContactAgreementToContinue";
 }
 
 @section scripts
@@ -366,7 +367,7 @@
     <script>
         module.require('customer-form');
     </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit&hl=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")" async defer></script>
 }
 
 
