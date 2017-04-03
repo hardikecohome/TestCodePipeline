@@ -405,10 +405,11 @@
                 dispatch(createAction(SET_CELL_PHONE, e.target.value));
             });
 
+            var form = $('#mainForm');
             $('#submit').on('click', function (e) {
                 dispatch(createAction(SUBMIT));
                 var errors = getErrors(customerFormStore.getState());
-                if (errors.length > 0) {
+                if (errors.length > 0 && form.valid()) {
                     e.preventDefault();
                 }
             });
