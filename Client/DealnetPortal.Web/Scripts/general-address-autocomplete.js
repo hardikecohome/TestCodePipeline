@@ -20,13 +20,8 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
         types: ['(cities)'],
         componentRestrictions: { country: "ca" }
     };
-    var provencesOptions = {
-        types: ['(regions)'],
-        componentRestrictions: { country: "ca" }
-    };
     var streetAutocomplete1 = new google.maps.places.Autocomplete(streetInput, streetsOptions);
     var cityAutocomplete1 = new google.maps.places.Autocomplete(cityInput, citiesOptions);
-    var provenceAutocomplete1 = new google.maps.places.Autocomplete(provenceInput, provencesOptions);
     google.maps.event.addListener(cityAutocomplete1, 'place_changed', function () {
         var place = cityAutocomplete1.getPlace();
         for (var i = 0; i < place.address_components.length; i++) {
@@ -34,17 +29,6 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
             if (addressType == 'locality') {
                 cityInput.value = place.address_components[i][addressForm[addressType]];
                 $(cityInput).removeClass('pac-placeholder').removeClass('placeholder');
-                break;
-            }
-        }
-    });
-    google.maps.event.addListener(provenceAutocomplete1, 'place_changed', function () {
-        var place = provenceAutocomplete1.getPlace();
-        for (var i = 0; i < place.address_components.length; i++) {
-            var addressType = place.address_components[i].types[0];
-            if (addressType == 'administrative_area_level_1') {
-                provenceInput.value = place.address_components[i][addressForm[addressType]];
-                $(provenceInput).removeClass('pac-placeholder').removeClass('placeholder');
                 break;
             }
         }
