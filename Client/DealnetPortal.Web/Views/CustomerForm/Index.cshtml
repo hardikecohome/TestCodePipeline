@@ -298,7 +298,7 @@
                         </div>
                         <div class="col-sm-6 col-md-4">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
+                                @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "mandatory-field" })
                                 <div class="control-group">
                                     @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", placeholder = Resources.EmailAddress, id = "email" })
                                     @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
@@ -309,7 +309,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Comment, new { @class = "mandatory-field" })
+                                @Html.LabelFor(m => m.Comment)
                                 <div class="control-group">
                                     @Html.TextAreaFor(m => m.Comment, new { @class = "form-control dealnet-input", placeholder = Resources.WriteYourComment, id = "comment" })
                                     @Html.ValidationMessageFor(m => m.Comment, "", new { @class = "text-danger" })
