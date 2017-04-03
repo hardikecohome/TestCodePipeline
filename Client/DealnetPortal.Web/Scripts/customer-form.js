@@ -394,7 +394,7 @@
                         number: place['street_number'] || '',
                         city: place['locality'] || '',
                         province: place['administrative_area_level_1'] || '',
-                        postalCode: place['postal_code'] || '',
+                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
                     }));
                 });
 
@@ -421,7 +421,7 @@
                         number: place['street_number'] || '',
                         city: place['locality'] || '',
                         province: place['administrative_area_level_1'] || '',
-                        postalCode: place['postal_code'] || '',
+                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
                     }));
                 });
 
