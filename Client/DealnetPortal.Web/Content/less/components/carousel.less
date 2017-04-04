@@ -9,17 +9,17 @@
                 text-align: left;
             }
         }
-        .btn-add-calc-option{
-            position: absolute;
-            top: 260px;
-        }
     }
     .carousel-control{
         bottom: auto;
         top: 50%;
         height: 200px;
-        -web-kit-transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
+        &.right,
+        &.left{
+            display: none;
+        }
     }
     .carousel-indicators{
         position: static;
@@ -35,3 +35,33 @@
 
     }
 }
+.btn-add-calc-option{
+    margin: 20px 0 10px;
+    width: 100%;
+}
+/*
+
+.carousel {
+    overflow: hidden;
+}
+.carousel-inner {
+    padding: 0 20px;
+    .item{
+        & > .text-center{
+            &:nth-child(2n),
+            &:nth-child(3n){
+                position: absolute;
+                top: 0;
+                width: 330px;
+            }
+            &:nth-child(2n){
+                left: 95%;
+            }
+            &:nth-child(3n){
+                right: 95%;
+            }
+        }
+    }
+}
+*/
+

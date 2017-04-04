@@ -25,23 +25,19 @@ var deferralType = LoanDeferralType.ThreeMonth;
             <div class="form-group">
                 <label>@Resources.ChooseProvince</label>
                 @Html.DropDownListFor(
-                    m => m.ProvinceTaxRates,
-                    (Model.ProvinceTaxRates).Select(x => new SelectListItem {Value = x.Province, Text = x.Province}),
-                    new {
-                        @class = "form-control",
-                        id="province-tax-rate",
-                        ng_change = "recalculateTax()",
-                        ng_model="province"
-                    }
+                m => m.ProvinceTaxRates,
+                (Model.ProvinceTaxRates).Select(x => new SelectListItem {Value = x.Province, Text = x.Province}),
+                new {
+                @class = "form-control",
+                id="province-tax-rate",
+                ng_change = "recalculateTax()",
+                ng_model="province"
+                }
                 )
             </div>
         </div>
     </div>
     <div class="calculators-container">
-        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button"
-                ng-hide="options.length === 3"
-                ng-click="addOption();">Add Another Option to Compare</button>
-
         <div uib-carousel active="active" no-wrap="noWrapSlides" class="row rate-cards-container">
             <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
                 <div class="col-md-4 col-sm-6 rate-card-col" ng-repeat="option in slide track by $index">
@@ -61,72 +57,72 @@ var deferralType = LoanDeferralType.ThreeMonth;
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(
-                                        m => m.Equipment.NewEquipment[0].Type,
-                                        new { @for = "Equipment_NewEquipment_{{$index}}__Type" }
+                                    m => m.Equipment.NewEquipment[0].Type,
+                                    new { @for = "Equipment_NewEquipment_{{$index}}__Type" }
                                     )
                                     @Html.DropDownListFor(
-                                        m => m.Equipment.NewEquipment[0].Type,
-                                        (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                        new {
-                                            id = "Equipment_NewEquipment_{{$index}}__Type",
-                                            Name = "Equipment.NewEquipment[{{$index}}].Type",
-                                            @class = "form-control",
-                                            ng_model = "$parent.equipments[equipmentId].type"
-                                        }
+                                    m => m.Equipment.NewEquipment[0].Type,
+                                    (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                    new {
+                                    id = "Equipment_NewEquipment_{{$index}}__Type",
+                                    Name = "Equipment.NewEquipment[{{$index}}].Type",
+                                    @class = "form-control",
+                                    ng_model = "$parent.equipments[equipmentId].type"
+                                    }
                                     )
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(
-                                        m => m.Equipment.NewEquipment[0].Description,
-                                        new { @for = "Equipment_NewEquipment_{{$index}}__Description" }
+                                    m => m.Equipment.NewEquipment[0].Description,
+                                    new { @for = "Equipment_NewEquipment_{{$index}}__Description" }
                                     )
                                     <div class="control-group">
                                         @Html.TextBoxFor(
-                                            m => m.Equipment.NewEquipment[0].Description,
-                                            new {
-                                                id = "Equipment_NewEquipment_{{$index}}__Description",
-                                                Name = "Equipment.NewEquipment[{{$index}}].Description",
-                                                @class = "form-control dealnet-input date-input",
-                                                placeholder = Resources.Description,
-                                                ng_model = "$parent.equipments[equipmentId].description"
-                                            }
+                                        m => m.Equipment.NewEquipment[0].Description,
+                                        new {
+                                        id = "Equipment_NewEquipment_{{$index}}__Description",
+                                        Name = "Equipment.NewEquipment[{{$index}}].Description",
+                                        @class = "form-control dealnet-input date-input",
+                                        placeholder = Resources.Description,
+                                        ng_model = "$parent.equipments[equipmentId].description"
+                                        }
                                         )
                                         @Html.ValidationMessageFor(
-                                            m => m.Equipment.NewEquipment[0].Description,
-                                            "",
-                                            new {
-                                                data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Description",
-                                                @class = "text-danger"
-                                            }
+                                        m => m.Equipment.NewEquipment[0].Description,
+                                        "",
+                                        new {
+                                        data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Description",
+                                        @class = "text-danger"
+                                        }
                                         )
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(
-                                        m => m.Equipment.NewEquipment[0].Cost,
-                                        new { @for = "Equipment_NewEquipment_{{$index}}__Cost" }
+                                    m => m.Equipment.NewEquipment[0].Cost,
+                                    new { @for = "Equipment_NewEquipment_{{$index}}__Cost" }
                                     )
                                     <div class="control-group has-addon-left">
                                         <div class="control-group-addon">$</div>
                                         @Html.TextBoxFor(
-                                            m => m.Equipment.NewEquipment[0].Cost,
-                                            new {
-                                                id = "Equipment_NewEquipment_{{$index}}__Cost",
-                                                Name = "Equipment.NewEquipment[{{$index}}].Cost",
-                                                @class = "form-control dealnet-input date-input equipment-cost",
-                                                type="text",
-                                                placeholder = Resources.Cost,
-                                                ng_change = "recalculateValues(option.id);",
-                                                ng_model = "$parent.equipments[equipmentId].cost"
-                                            }
+                                        m => m.Equipment.NewEquipment[0].Cost,
+                                        new {
+                                        id = "Equipment_NewEquipment_{{$index}}__Cost",
+                                        Name = "Equipment.NewEquipment[{{$index}}].Cost",
+                                        @class = "form-control dealnet-input date-input equipment-cost",
+                                        type="text",
+                                        placeholder = Resources.Cost,
+                                        ng_change = "recalculateValues(option.id);",
+                                        ng_model = "$parent.equipments[equipmentId].cost"
+                                        }
                                         )
                                         @Html.ValidationMessageFor(
-                                            m => m.Equipment.NewEquipment[0].Cost,
-                                            "",
-                                            new {
-                                                data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost",
-                                                @class = "text-danger"
-                                            }
+                                        m => m.Equipment.NewEquipment[0].Cost,
+                                        "",
+                                        new {
+                                        data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost",
+                                        @class = "text-danger"
+                                        }
                                         )
                                     </div>
                                 </div>
@@ -302,11 +298,18 @@ var deferralType = LoanDeferralType.ThreeMonth;
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button"
-                            ng-hide="options.length === 3"
-                            ng-click="addOption();">Add Another Option to Compare</button>
-                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button"
+                        ng-hide="options.length >= 2"
+                        ng-click="addOption();">Add Another Option to Compare</button>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button"
+                        ng-hide="options.length === 3 || options.length === 1"
+                        ng-click="addOption();">Add Another Option to Compare</button>
             </div>
         </div>
     </div>
@@ -332,338 +335,353 @@ var deferralType = LoanDeferralType.ThreeMonth;
 
 @section OutrunningScripts
 {
-    @Scripts.Render("~/bundles/angular")
-    @Scripts.Render("~/bundles/angular-ui")
+@Scripts.Render("~/bundles/angular")
+@Scripts.Render("~/bundles/angular-ui")
 }
 
 @section scripts
 {
-    <script type="text/javascript">
-        var taxRate = 0;
-        @{
-            @: var provinceTaxRates = [];
-            foreach (var ptr in Model.ProvinceTaxRates)
-            {
-                @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate.ToString(CultureInfo.InvariantCulture), description:"@ptr.Description"};
-            }
-            @: var equipmentTypes = [];
-            foreach (var type in Model.EquipmentTypes)
-            {
-                @: equipmentTypes["@type.Type"] = '@type.Description';
-            }
+<script type="text/javascript">
+    var taxRate = 0;
+    @{
+    @: var provinceTaxRates = [];
+        foreach (var ptr in Model.ProvinceTaxRates)
+        {
+        @: provinceTaxRates["@ptr.Province"] = {rate:@ptr.Rate.ToString(CultureInfo.InvariantCulture), description:"@ptr.Description"};
         }
-    </script>
+            @: var equipmentTypes = [];
+        foreach (var type in Model.EquipmentTypes)
+        {
+        @: equipmentTypes["@type.Type"] = '@type.Description';
+        }
+    }
+</script>
 
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/localization");
-    @Scripts.Render("~/Scripts/financial-functions.js")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/localization");
+@Scripts.Render("~/Scripts/financial-functions.js")
 
-    <script type="text/javascript">
-        var app = angular.module("calculator", ['ui.bootstrap', 'ngTouch', 'ngAnimate']);
-        var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
-        var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
+<script type="text/javascript">
+    var app = angular.module("calculator", ['ui.bootstrap', 'ngTouch', 'ngAnimate']);
+    var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
+    var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
 
-        var plans = {
-            'fixed': {
-                id: 'fixed',
-                name: 'Fixed Rate',
-                customerRate: '7.99',
-                adminFee: '100',
-            },
-            'defferal': {
-                id: 'defferal',
-                name: 'Defferal',
-                customerRate: '5',
-                adminFee: '20',
-            },
-            'custom': {
-                id: 'custom',
-                name: 'Custom',
-                customerRate: '',
-                adminFee: '15',
-            },
-            'noInterest': {
-                id: 'noInterest',
-                name: 'No Interest',
-                customerRate: '0',
-                adminFee: '30',
-            },
-        };
-
-        var emptyPlan = {
-            id: '',
-            name: '',
+    var plans = {
+        'fixed': {
+            id: 'fixed',
+            name: 'Fixed Rate',
+            customerRate: '7.99',
+            adminFee: '100',
+        },
+        'defferal': {
+            id: 'defferal',
+            name: 'Defferal',
+            customerRate: '5',
+            adminFee: '20',
+        },
+        'custom': {
+            id: 'custom',
+            name: 'Custom',
+            customerRate: '',
+            adminFee: '15',
+        },
+        'noInterest': {
+            id: 'noInterest',
+            name: 'No Interest',
             customerRate: '0',
-            adminFee: '0',
-        };
+            adminFee: '30',
+        },
+    };
 
-        var isId = function(refId) {
-            return function(id) {
-                return refId === id;
+    var emptyPlan = {
+        id: '',
+        name: '',
+        customerRate: '0',
+        adminFee: '0',
+    };
+
+    var isId = function(refId) {
+        return function(id) {
+            return refId === id;
+        };
+    };
+
+    var nextEquipmentId = 0;
+
+    var copyAndShiftEquipments = function(base) {
+        return function(equipment, index) {
+            nextEquipmentId++;
+            return $.extend({},
+                equipment,
+                {
+                    id: (nextEquipmentId).toString(),
+                });
+        };
+    };
+
+    var getId = function(obj) {
+        return obj ? obj.id : undefined;
+    };
+
+    var concatObj = function(acc, obj) {
+        acc[obj.id] = obj;
+        return acc;
+    };
+
+    var idToValue = function(obj) {
+        return function(id) {
+            return obj.hasOwnProperty(id) ? obj[id] : undefined;
+        };
+    };
+
+    app.controller("calculator",
+        function($scope) {
+            $scope.isMobileMode = false;
+            $scope.province = '';
+            $scope.plans = Object.keys(plans).map(idToValue(plans));
+
+            $scope.myInterval = 5000;
+            $scope.noWrapSlides = false;
+            $scope.slides = [];
+            $scope.multiplier = 1;
+            var currIndex = 0;
+
+            $scope.options = [
+                {
+                    id: '0',
+                    equipmentIds: ['0'],
+                    equipmentSum: '0',
+                    tax: '0',
+                    totalPrice: '0',
+                    planId: '',
+                    totalAmountFinanced: '0',
+                    selectedPlan: emptyPlan,
+                    monthlyPayment: '0',
+                    totalMonthlyPayments: '0',
+                    downPayment: '0',
+                    amortizationTerm: '15', //mocked
+                    loanTerm: '10', // mocked
+                    residualBalance: '0',
+                    totalObligation: '0',
+                    totalBorrowingCost: '0',
+                }
+            ];
+
+            $scope.equipments = {
+                '0': {
+                    id: '0',
+                    type: defaultEquipmentType,
+                    description: '',
+                    cost: '',
+                }
             };
-        };
 
-        var nextEquipmentId = 0;
+            $scope.addOption = function() {
+                var optionsLen = $scope.options.length;
+                var equipmentLen = Object.keys($scope.equipments).length;
+                if (optionsLen <= 2) {
+                    var newEquipments = $scope.options[optionsLen - 1].equipmentIds
+                        .map(idToValue($scope.equipments))
+                        .map(copyAndShiftEquipments(equipmentLen));
 
-        var copyAndShiftEquipments = function(base) {
-            return function(equipment, index) {
-                nextEquipmentId++;
-                return $.extend({},
-                    equipment,
-                    {
-                        id: (nextEquipmentId).toString(),
+                    var newOption = $.extend({}, $scope.options[optionsLen - 1], {
+                        id: optionsLen,
+                        equipmentIds: newEquipments.map(getId),
                     });
-            };
-        };
+                    delete newOption['$$hashKey'];
 
-        var getId = function(obj) {
-            return obj ? obj.id : undefined;
-        };
+                    $scope.options.push(newOption);
 
-        var concatObj = function(acc, obj) {
-            acc[obj.id] = obj;
-            return acc;
-        };
-
-        var idToValue = function(obj) {
-            return function(id) {
-                return obj.hasOwnProperty(id) ? obj[id] : undefined;
-            };
-        };
-
-        app.controller("calculator",
-            function($scope) {
-                $scope.isMobileMode = false;
-                $scope.province = '';
-                $scope.plans = Object.keys(plans).map(idToValue(plans));
-
-                $scope.myInterval = 5000;
-                $scope.noWrapSlides = false;
-                $scope.slides = [];
-                $scope.multiplier = 1;
-                var currIndex = 0;
-
-                $scope.options = [
-                    {
-                        id: '0',
-                        equipmentIds: ['0'],
-                        equipmentSum: '0',
-                        tax: '0',
-                        totalPrice: '0',
-                        planId: '',
-                        totalAmountFinanced: '0',
-                        selectedPlan: emptyPlan,
-                        monthlyPayment: '0',
-                        totalMonthlyPayments: '0',
-                        downPayment: '0',
-                        amortizationTerm: '15', //mocked
-                        loanTerm: '10', // mocked
-                        residualBalance: '0',
-                        totalObligation: '0',
-                        totalBorrowingCost: '0',
-                    }
-                ];
-
-                $scope.equipments = {
-                    '0': {
-                        id: '0',
-                        type: defaultEquipmentType,
-                        description: '',
-                        cost: '',
-                    }
-                };
-
-                $scope.addOption = function() {
-                    var optionsLen = $scope.options.length;
-                    var equipmentLen = Object.keys($scope.equipments).length;
-                    if (optionsLen <= 2) {
-                        var newEquipments = $scope.options[optionsLen - 1].equipmentIds
-                            .map(idToValue($scope.equipments))
-                            .map(copyAndShiftEquipments(equipmentLen));
-
-                        var newOption = $.extend({}, $scope.options[optionsLen - 1], {
-                            id: optionsLen,
-                            equipmentIds: newEquipments.map(getId),
-                        });
-                        delete newOption['$$hashKey'];
-
-                        $scope.options.push(newOption);
-
-                        newEquipments.forEach(function (equipment) {
-                            var equipmentObj = {};
-                            equipmentObj[equipment.id] = equipment;
-                            $.extend($scope.equipments, equipmentObj);
-                        });
-                    }
-                };
-
-                $scope.removeOption = function(optionId) {
-                    var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
-                    if (optionIndex === - 1) {
-                        return;
-                    }
-
-                    $scope.options[optionIndex].equipmentIds.forEach(function (id) {
-                        delete $scope.equipments[id];
+                    newEquipments.forEach(function (equipment) {
+                        var equipmentObj = {};
+                        equipmentObj[equipment.id] = equipment;
+                        $.extend($scope.equipments, equipmentObj);
                     });
-                    $scope.options.splice(optionIndex, 1);
-                };
+                }
+            };
 
-                $scope.addEquipment = function(optionId) {
-                    var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
-                    if (optionIndex === - 1) {
-                        return;
-                    }
-
-                    nextEquipmentId++;
-                    var newEquipment = {
-                        id: nextEquipmentId,
-                        type: defaultEquipmentType,
-                        description: '',
-                        cost: '',
-                    };
-
-                    var equipmentObj = {};
-                    equipmentObj[newEquipment.id] = newEquipment;
-                    $.extend($scope.equipments, equipmentObj);
-                    $scope.options[optionIndex].equipmentIds.push(newEquipment.id);
-                };
-
-                $scope.removeEquipment = function (optionId, equipmentId) {
-                    var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
-                    if (optionIndex === - 1) {
-                        return;
-                    }
-
-                    delete $scope.equipments[equipmentId];
-                    var equipmentIndex = $scope.options[optionIndex].equipmentIds.findIndex(function(id) { return id === equipmentId; });
-                    if (equipmentIndex === - 1) {
-                        return;
-                    }
-                    $scope.options[optionIndex].equipmentIds.splice(equipmentIndex, 1);
-                    $scope.recalculateValues(optionId);
-                };
-
-                var notNaN = function (num) { return !isNaN(num); };
-
-                var resetCalculation = function (optionId) {
-                    var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
-                    if (optionIndex !== - 1) {
-                        var option = $scope.options[optionIndex];
-                        option.totalPrice = '-';
-                        option.totalAmountFinanced = '-';
-                        option.monthlyPayment = '-';
-                        option.totalMonthlyPayments = '-';
-                        option.residualBalance = '-';
-                        option.totalObligation = '-';
-                        option.totalBorrowingCost = '-';
-                    }
+            $scope.removeOption = function(optionId) {
+                var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
+                if (optionIndex === - 1) {
+                    return;
                 }
 
-                $scope.recalculateValues = function (optionId) {
-                    var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
-                    if (optionIndex !== - 1) {
-                        var option = $scope.options[optionIndex];
-                        var equipmentSum = option.equipmentIds
-                            .map(idToValue($scope.equipments))
-                            .map(function(equipment) { return parseFloat(equipment.cost); })
-                            .filter(notNaN)
-                            .reduce(function(sum, cost) { return sum + cost; }, 0);
-                        option.equipmentSum = formatNumber(equipmentSum);
-
-                        var tax = 0;
-                        if (provinceTaxRates.hasOwnProperty($scope.province)) {
-                            tax = provinceTaxRates[$scope.province].rate * equipmentSum / 100;
-                        }
-                        option.tax = formatNumber(tax);
-
-                        var totalPrice = parseFloat(option.equipmentSum) + tax;
-                        if (isNaN(totalPrice)) {
-                            return resetCalculation(optionId);
-                        }
-                        option.totalPrice = formatNumber(totalPrice);
-
-                        var totalAmountFinanced = totalPrice +
-                                parseFloat(option.selectedPlan.adminFee) - parseFloat(option.downPayment);
-                        if (isNaN(totalAmountFinanced)) {
-                            return resetCalculation(optionId);
-                        }
-                        option.totalAmountFinanced = formatNumber(totalAmountFinanced);
-
-                        var amortizationTerm = parseFloat(option.amortizationTerm);
-                        var loanTerm = parseFloat(option.loanTerm);
-                        var customerRate = parseFloat(option.selectedPlan.customerRate);
-                        var monthlyPayment = totalAmountFinanced *
-                                pmt( customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
-                        if (isNaN(monthlyPayment)) {
-                            return resetCalculation(optionId);
-                        }
-                        option.monthlyPayment = formatNumber(monthlyPayment);
-
-                        var totalMonthlyPayments = monthlyPayment * 10 /*loan term*/;
-                        option.totalMonthlyPayments = formatNumber(totalMonthlyPayments);
-
-                        var residualBalance = 0;
-                        if (loanTerm !== amortizationTerm) {
-                            residualBalance =
-                                -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, monthlyPayment, 0)
-                                    * (1 + customerRate / 100 / 12);
-                        }
-                        if (isNaN(residualBalance)) {
-                            return resetCalculation(optionId);
-                        }
-                        option.residualBalance = formatNumber(residualBalance);
-
-                        var totalObligation = totalMonthlyPayments + residualBalance;
-                        option.totalObligation = formatNumber(totalObligation);
-
-                        option.totalBorrowingCost = formatNumber(totalObligation - totalAmountFinanced);
-                    }
-                };
-
-                $scope.recalculateAllTax = function () {
-                    if (!provinceTaxRates.hasOwnProperty($scope.province)) {
-                        return;
-                    }
-
-                    $scope.options.forEach(function (option) {
-                        $scope.recalculateValues(option.id);
-                    });
-                };
-
-                var watchOptions = function (options) {
-                    var viewport = $(window).width();
-                    if (viewport > 1023) {
-                        $scope.multiplier = 0;
-                        $scope.slides = [options];
-                    }
-                    if (viewport <= 1023 && viewport >= 768) {
-                        $scope.multiplier = 2;
-                        $scope.slides = options.reduce(function (acc, option, index) {
-                            if (index % 2) {
-                                acc[acc.length - 1].push(option);
-                                return acc;
-                            } else {
-                                return acc.concat([[option]]);
-                            }
-                        }, []);
-                    }
-
-                    if (viewport < 768) {
-                        $scope.multiplier = 1;
-                        $scope.slides = options.reduce(function (acc, option) {
-                            acc.push([option]);
-                            return acc;
-                        }, []);
-                    }
-                };
-
-                $scope.$watchCollection('options', watchOptions);
-
-                $(window).on('resize', function () {
-                    watchOptions($scope.options);
-                    $scope.$apply();
+                $scope.options[optionIndex].equipmentIds.forEach(function (id) {
+                    delete $scope.equipments[id];
                 });
+                $scope.options.splice(optionIndex, 1);
+            };
+
+            $scope.addEquipment = function(optionId) {
+                var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
+                if (optionIndex === - 1) {
+                    return;
+                }
+
+                nextEquipmentId++;
+                var newEquipment = {
+                    id: nextEquipmentId,
+                    type: defaultEquipmentType,
+                    description: '',
+                    cost: '',
+                };
+
+                var equipmentObj = {};
+                equipmentObj[newEquipment.id] = newEquipment;
+                $.extend($scope.equipments, equipmentObj);
+                $scope.options[optionIndex].equipmentIds.push(newEquipment.id);
+            };
+
+            $scope.removeEquipment = function (optionId, equipmentId) {
+                var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
+                if (optionIndex === - 1) {
+                    return;
+                }
+
+                delete $scope.equipments[equipmentId];
+                var equipmentIndex = $scope.options[optionIndex].equipmentIds.findIndex(function(id) { return id === equipmentId; });
+                if (equipmentIndex === - 1) {
+                    return;
+                }
+                $scope.options[optionIndex].equipmentIds.splice(equipmentIndex, 1);
+                $scope.recalculateValues(optionId);
+            };
+
+            var notNaN = function (num) { return !isNaN(num); };
+
+            var resetCalculation = function (optionId) {
+                var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
+                if (optionIndex !== - 1) {
+                    var option = $scope.options[optionIndex];
+                    option.totalPrice = '-';
+                    option.totalAmountFinanced = '-';
+                    option.monthlyPayment = '-';
+                    option.totalMonthlyPayments = '-';
+                    option.residualBalance = '-';
+                    option.totalObligation = '-';
+                    option.totalBorrowingCost = '-';
+                }
+            }
+
+            $scope.recalculateValues = function (optionId) {
+                var optionIndex = $scope.options.findIndex(function(option) { return option.id === optionId; });
+                if (optionIndex !== - 1) {
+                    var option = $scope.options[optionIndex];
+                    var equipmentSum = option.equipmentIds
+                        .map(idToValue($scope.equipments))
+                        .map(function(equipment) { return parseFloat(equipment.cost); })
+                        .filter(notNaN)
+                        .reduce(function(sum, cost) { return sum + cost; }, 0);
+                    option.equipmentSum = formatNumber(equipmentSum);
+
+                    var tax = 0;
+                    if (provinceTaxRates.hasOwnProperty($scope.province)) {
+                        tax = provinceTaxRates[$scope.province].rate * equipmentSum / 100;
+                    }
+                    option.tax = formatNumber(tax);
+
+                    var totalPrice = parseFloat(option.equipmentSum) + tax;
+                    if (isNaN(totalPrice)) {
+                        return resetCalculation(optionId);
+                    }
+                    option.totalPrice = formatNumber(totalPrice);
+
+                    var totalAmountFinanced = totalPrice +
+                        parseFloat(option.selectedPlan.adminFee) - parseFloat(option.downPayment);
+                    if (isNaN(totalAmountFinanced)) {
+                        return resetCalculation(optionId);
+                    }
+                    option.totalAmountFinanced = formatNumber(totalAmountFinanced);
+
+                    var amortizationTerm = parseFloat(option.amortizationTerm);
+                    var loanTerm = parseFloat(option.loanTerm);
+                    var customerRate = parseFloat(option.selectedPlan.customerRate);
+                    var monthlyPayment = totalAmountFinanced *
+                        pmt( customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
+                    if (isNaN(monthlyPayment)) {
+                        return resetCalculation(optionId);
+                    }
+                    option.monthlyPayment = formatNumber(monthlyPayment);
+
+                    var totalMonthlyPayments = monthlyPayment * 10 /*loan term*/;
+                    option.totalMonthlyPayments = formatNumber(totalMonthlyPayments);
+
+                    var residualBalance = 0;
+                    if (loanTerm !== amortizationTerm) {
+                        residualBalance =
+                            -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, monthlyPayment, 0)
+                            * (1 + customerRate / 100 / 12);
+                    }
+                    if (isNaN(residualBalance)) {
+                        return resetCalculation(optionId);
+                    }
+                    option.residualBalance = formatNumber(residualBalance);
+
+                    var totalObligation = totalMonthlyPayments + residualBalance;
+                    option.totalObligation = formatNumber(totalObligation);
+
+                    option.totalBorrowingCost = formatNumber(totalObligation - totalAmountFinanced);
+                }
+            };
+
+            $scope.recalculateAllTax = function () {
+                if (!provinceTaxRates.hasOwnProperty($scope.province)) {
+                    return;
+                }
+
+                $scope.options.forEach(function (option) {
+                    $scope.recalculateValues(option.id);
+                });
+            };
+
+            var watchOptions = function (options) {
+                var viewport = $(window).width();
+                if (viewport > 1023) {
+                    $scope.multiplier = 0;
+                    $scope.slides = [options];
+                }
+                if (viewport <= 1023 && viewport >= 768) {
+                    $scope.multiplier = 2;
+                    $scope.slides = options.reduce(function (acc, option, index) {
+                        if (index % 2) {
+                            acc[acc.length - 1].push(option);
+                            return acc;
+                        } else {
+                            return acc.concat([[option]]);
+                        }
+                    }, []);
+                }
+
+                if (viewport < 768) {
+                    $scope.multiplier = 1;
+                    $scope.slides = options.reduce(function (acc, option) {
+                        acc.push([option]);
+                        return acc;
+                    }, []);
+                }
+            };
+
+            $scope.$watchCollection('options', watchOptions);
+
+            $(window).on('resize', function () {
+                watchOptions($scope.options);
+                $scope.$apply();
             });
-    </script>
+        });
+
+    /*
+     $('.carousel .item').each(function () {
+     var next = $(this).next();
+     if (!next.length) {
+     next = $(this).siblings(':first');
+     }
+     next.children(':first-child').clone().appendTo($(this));
+     if (next.next().length > 0) {
+     next.next().children(':first-child').clone().appendTo($(this));
+     } else {
+     $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+     }
+     });
+    */
+</script>
 }
