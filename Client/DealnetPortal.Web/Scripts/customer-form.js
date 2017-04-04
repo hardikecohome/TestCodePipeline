@@ -5,6 +5,9 @@
     var createAction = require('redux').createAction;
     var observe = require('redux').observe;
 
+    var concatObj = require('objectUtils').concatObj;
+    var mapObj = require('objectUtils').mapObj;
+    var filterObj = require('objectUtils').filterObj;
     var compose = require('functionUtils').compose;
 
     var log = require('logMiddleware');
@@ -42,8 +45,15 @@
     var SET_CELL_PHONE = 'set_cell_phone';
     var SET_ADDRESS = 'set_address';
     var SET_PADDRESS = 'set_paddress';
+    var SET_COMMENT = 'set_comment';
+
+    var requiredFields = ['name', 'lastname', 'birthday', 'street', 'province', 'postalCode', 'comment'];
+
+    var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
     var iniState = {
+        name: '',
+        lastName: '',
         birthday: '',
         street: '',
         unit: '',
@@ -56,14 +66,13 @@
         pcity: '',
         pprovince: '',
         ppostalCode: '',
-        agreesToPassInfo: false,
-        agreesToBeContacted: true,
         displaySubmitErrors: false,
         displayInstallation: false,
         displayContactInfo: false,
         activePanel: 'yourInfo',
         phone: '',
         cellPhone: '',
+        comment: '',
         captchaCode: '',
         creditAgreement: false,
         contactAgreement: false,
@@ -84,6 +93,8 @@
     reducerObj[SET_INITIAL_STATE] = function(state, action) {
         return $.extend({}, state, action.payload);
     };
+    reducerObj[SET_NAME] = setFormField('name');
+    reducerObj[SET_LAST] = setFormField('lastName');
     reducerObj[SET_BIRTH] = setFormField('birthday');
     reducerObj[SET_STREET] = setFormField('street');
     reducerObj[SET_UNIT] = setFormField('unit');
@@ -177,10 +188,18 @@
     reducerObj[SET_CAPTCHA_CODE] = setFormField('captchaCode');
     reducerObj[SET_PHONE] = setFormField('phone');
     reducerObj[SET_CELL_PHONE] = setFormField('cellPhone');
+    reducerObj[SET_COMMENT] = setFormField('comment');
 
     var reducer = makeReducer(reducerObj, iniState);
 
     // selectors
+    var getRequiredPhones = function(state) {
+        return {
+            phoneRequired: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
+            cellPhoneRequired: state.phone === '',
+        };
+    };
+
     var getErrors = function (state) {
         var errors = [];
 
@@ -225,6 +244,24 @@
             });
         }
 
+        var requiredPhones = filterObj(function(key, obj) {
+            return obj[key];
+        })(getRequiredPhones(state));
+
+        var requiredP = state.lessThanSix ? requiredPFields : [];
+
+        var emptyErrors = requiredFields.concat(requiredPhones).concat(requiredP).map(mapObj(state))
+            .some(function(val) {
+                return val === '';
+            });
+
+        if (emptyErrors) {
+            errors.push({
+                type: 'empty',
+                messageKey: 'FillRequiredFields',
+            });
+        }
+
         return errors;
     };
 
@@ -232,6 +269,7 @@
         return function (next) {
             var flow1 = [SET_NAME, SET_LAST, SET_BIRTH];
             var flow2 = [SET_STREET, SET_CITY, SET_PROVINCE, SET_POSTAL_CODE, TOGGLE_OWNERSHIP];
+            var addressFlow = [SET_STREET, SET_CITY, SET_PROVINCE, SET_POSTAL_CODE];
             return function (action) {
                 var state = store.getState();
 
@@ -251,6 +289,15 @@
                     if (index2 >= 0) {
                         flow2.splice(index2, 1);
                     }
+                    if (action.type === SET_ADDRESS && action.payload.streeet !== '') {
+                        addressFlow.forEach(function(action) {
+                            var index3 = flow2.indexOf(action);
+                            if (index3 >= 0) {
+                                flow2.splice(index3, 1);
+                            }
+                        });
+                    }
+
                     if (flow2.length === 0) {
                         next(createAction(ACTIVATE_CONTACT_INFO, true));
                     }
@@ -355,10 +402,6 @@
         };
     };
 
-    var concatObj = function(acc, next) {
-        return next ? $.extend(acc, next) : acc;
-    };
-
     var setAutocomplete = function(streetElmId, cityElmId) {
         var extendCommonOpts = extend({
             componentRestrictions: { country: 'ca' },
@@ -457,7 +500,6 @@
                     dispatch(createAction(SET_BIRTH, day));
                 }
             });
-
 
             // action dispatchers
             $('#firstName').on('change', function (e) {
@@ -558,6 +600,10 @@
             var cellPhone = $('#cellPhone');
             cellPhone.on('change', function (e) {
                 dispatch(createAction(SET_CELL_PHONE, e.target.value));
+            });
+
+            $('#comment').on('change', function (e) {
+                dispatch(createAction(SET_COMMENT, e.target.value));
             });
 
             var form = $('#mainForm');
@@ -698,6 +744,18 @@
                             $('#contactInfoErrors').append(createError(window.translations[error.messageKey]));
                         });
                 }
+
+                var emptyError = props.errors.filter(function(error) {
+                    return error.type === 'empty';
+                });
+
+                if (emptyError.length) {
+                    $('#submit').addClass('disabled');
+                    $('#submit').parent().popover();
+                } else {
+                    $('#submit').removeClass('disabled');
+                    $('#submit').parent().popover('destroy');
+                }
             });
 
             observeCustomerFormStore(function (state) {
@@ -710,12 +768,7 @@
                 });
             });
 
-            observeCustomerFormStore(function (state) {
-                return {
-                    phoneRequired: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
-                    cellPhoneRequired: state.phone === '',
-                };
-            })(function (props) {
+            observeCustomerFormStore(getRequiredPhones)(function (props) {
                 $('#homePhone').rules(props.phoneRequired ? 'add' : 'remove', 'required');
                 $('#cellPhone').rules(props.cellPhoneRequired ? 'add' : 'remove', 'required');
 
