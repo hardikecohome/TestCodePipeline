@@ -10,7 +10,7 @@
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
                     } else {
-                        var monthPayment = $("#total-monthly-payment").val();
+                        var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
                         if (isNaN(monthPayment) || (monthPayment == 0)) {
                             event.preventDefault();
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
