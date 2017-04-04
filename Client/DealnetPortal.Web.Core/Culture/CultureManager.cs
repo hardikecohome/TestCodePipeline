@@ -33,11 +33,14 @@ namespace DealnetPortal.Web.Core.Culture
             SetCultureToThread(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[CookieName]?.Value));
         }
 
-        public void SetCulture(string culture)
+        public void SetCulture(string culture, bool createCookie = true)
         {
             var filteredCulture = CultureHelper.FilterCulture(culture);
             SetCultureToThread(filteredCulture);
-            CreateCookie(filteredCulture);
+            if (createCookie)
+            {
+                CreateCookie(filteredCulture);
+            }
         }
 
         public async Task ChangeCulture(string culture)
