@@ -40,6 +40,19 @@
         });
     }
 
+    if (customerDealsCountUrl) {
+        $.ajax({
+            type: "GET",
+            url: customerDealsCountUrl,
+            success: function (json) {
+                if (json.dealsCount && json.dealsCount !== 0) {
+                    $('#new-deals-number').text(json.dealsCount);
+                    $('#new-deals-number').show();
+                }
+            }
+        });
+    }
+
     $('.chosen-language-link').on('click', function(){
       $(this).parents('.lang-switcher').toggleClass('open');
       return false;

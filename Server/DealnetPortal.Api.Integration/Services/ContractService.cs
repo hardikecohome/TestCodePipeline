@@ -129,6 +129,11 @@ namespace DealnetPortal.Api.Integration.Services
             return contractDTOs;
         }
 
+        public decimal GetCustomersContractsCount(string contractOwnerId)
+        {
+            return _contractRepository.GetCustomersContractsCount(contractOwnerId);
+        }
+
         public IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId)
         {
             var contracts = _contractRepository.GetContracts(ids, ownerUserId);

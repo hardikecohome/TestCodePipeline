@@ -31,7 +31,7 @@ function showTable() {
             var statusOptions = [];
             var agrTypeOptions = [];
             var salesRepOptions = [];
-            var createdByCustomerCount = 0;
+            //var createdByCustomerCount = 0;//todo: Remove  in hole method if you saw this
             $.each(data, function (i, e) {
                 if ($.inArray(e["Status"], statusOptions) == -1)
                     if (e["Status"]) {
@@ -48,14 +48,14 @@ function showTable() {
                         salesRepOptions.push(e["SalesRep"]);
                     }
 
-                if (e["IsCreatedByCustomer"] == true) {
-                    createdByCustomerCount++;
-                }
+                //if (e["IsCreatedByCustomer"] == true) {
+                //    createdByCustomerCount++;
+                //}
             });
-            if (createdByCustomerCount) {
-                $('#new-deals-number').text(createdByCustomerCount);
-                $('#new-deals-number').show();
-            }
+            //if (createdByCustomerCount) {
+            //    $('#new-deals-number').text(createdByCustomerCount);
+            //    $('#new-deals-number').show();
+            //}
             $.each(statusOptions, function (i, e) {
                 $("#deal-status").append($("<option />").val(e).text(e));
             });

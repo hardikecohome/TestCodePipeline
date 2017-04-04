@@ -37,6 +37,7 @@
         };
         var urlContent = "@Url.Content("~/")";
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
+        var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";

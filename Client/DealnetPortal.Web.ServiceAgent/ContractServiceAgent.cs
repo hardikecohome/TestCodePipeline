@@ -70,6 +70,19 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<decimal> GetCustomersContractsCount()
+        {
+            try
+            {            
+                return await Client.GetAsync<decimal>($"{_fullUri}/GetCustomersContractsCount");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get numberof customer contracts for an user", ex);
+                return 0;
+            }
+        }
+
         public async Task<IList<ContractDTO>> GetCompletedContracts()
         {
             try

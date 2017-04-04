@@ -53,6 +53,13 @@ namespace DealnetPortal.Web.Controllers
             return Json(new { aboutAvailability }, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<JsonResult> CustomersDealsCount()
+        {
+            var contractsCount = await _contractServiceAgent.GetCustomersContractsCount();
+           
+            return Json(new { dealsCount = contractsCount }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult About()
         {
             return View();

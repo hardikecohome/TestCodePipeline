@@ -54,6 +54,13 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
+        public decimal GetCustomersContractsCount(string ownerUserId)
+        {
+            var contractsCount = _dbContext.Contracts
+                .Count(c => (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId) && c.IsCreatedByCustomer == true );
+            return contractsCount;
+        }
+
         public IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId)
         {
             var contracts = _dbContext.Contracts

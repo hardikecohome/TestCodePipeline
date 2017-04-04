@@ -54,6 +54,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetCustomersContractsCount")]
+        [HttpGet]
+        public IHttpActionResult GetCustomersContractsCount()
+        {
+            try
+            {
+                var contracts = ContractService.GetCustomersContractsCount(LoggedInUser.UserId);
+                return Ok(contracts);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get number of customers contracts for the User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCompletedContracts")]
         [HttpGet]
         public IHttpActionResult GetCompletedContracts()
