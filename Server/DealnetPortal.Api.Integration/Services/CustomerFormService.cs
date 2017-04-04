@@ -274,32 +274,6 @@ namespace DealnetPortal.Api.Integration.Services
                     if (creditCheckRes?.Item1 != null)
                     {
                         submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
-                        //submitResult = new CustomerContractInfoDTO()
-                        //{
-                        //    ContractId = contract.Id,
-                        //    TransactionId = contract.Details?.TransactionId,
-                        //    CreditAmount = creditCheckRes.Item1.CreditAmount,
-                        //    ScorecardPoints = creditCheckRes.Item1.ScorecardPoints
-                        //};
-                        ////get dealer info
-                        //var dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
-                        //if (dealer != null)
-                        //{
-                        //    submitResult.DealerName = dealer.FirstName;
-                        //    var dealerAddress = dealer.Locations?.FirstOrDefault();
-                        //    if (dealerAddress != null)
-                        //    {
-                        //        submitResult.DealerAdress = dealerAddress;
-                        //    }
-                        //    if (dealer.Phones?.Any() ?? false)
-                        //    {
-                        //        submitResult.DealerPhone = dealer.Phones.First().PhoneNum;
-                        //    }
-                        //    if (dealer.Emails?.Any() ?? false)
-                        //    {
-                        //        submitResult.DealerEmail = dealer.Emails.First().EmailAddress;
-                        //    }
-                        //}
                     }
                 }
                 else
@@ -334,18 +308,6 @@ namespace DealnetPortal.Api.Integration.Services
 
         private async Task SendCustomerContractCreationNotifications(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
         {
-            //get dealer info
-            //DealerDTO dealer = null;
-            //try
-            //{
-            //    dealer = _aspireStorageService.GetDealerInfo(customerFormData.DealerName);
-            //}
-            //catch (Exception ex)
-            //{
-            //    var errorMsg = $"Can't get information about {customerFormData.DealerName} dealer";
-            //    _loggingService.LogError(errorMsg, ex);
-            //}
-
             var dealerColor = _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
                                     .FirstOrDefault(s => s.Item.Name == "@navbar-header");
             var dealerLogo = _settingsRepository.GetUserBinarySetting(SettingType.LogoImage2X,
@@ -361,7 +323,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var errorMsg = "Can't send dealer notification email";
                 _loggingService.LogError(errorMsg, ex);
             }
-            //
+            
             bool customerEmailNotification;
             bool.TryParse(ConfigurationManager.AppSettings["CustomerEmailNotificationEnabled"],
                 out customerEmailNotification);

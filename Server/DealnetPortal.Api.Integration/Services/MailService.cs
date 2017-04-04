@@ -89,7 +89,10 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine("<div>");
             body.AppendLine($"<p>{Resources.Resources.ContractId}: {contractData.ContractId}</p>");
             body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
-            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: {contractData.CreditAmount}</b></p>");
+            if (contractData.CreditAmount > 0)
+            {
+                body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: {contractData.CreditAmount}</b></p>");
+            }
             body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
             body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
             body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
@@ -116,7 +119,7 @@ namespace DealnetPortal.Api.Integration.Services
             var body = new StringBuilder(html, html.Length * 2);
             body.Replace("{headerColor}", dealerColor ?? "#000000");
             body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
-            body.Replace("{youHaveBeenPreapprovedFor}", contractData.CreditAmount != null ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)) : string.Empty);
+            body.Replace("{youHaveBeenPreapprovedFor}", contractData.CreditAmount != 0 ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)) : string.Empty);
             body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
             body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", contractData.DealerName));
             body.Replace("{ifYouHavePleaseContact}", Resources.Resources.IfYouHaveQuestionsPleaseContact);
@@ -124,9 +127,6 @@ namespace DealnetPortal.Api.Integration.Services
             body.Replace("{dealerAddress}", $"{location?.Street}, {location?.City}, {location?.State}, {location?.PostalCode}");
             body.Replace("{phone}", Resources.Resources.Phone);
             body.Replace("{dealerPhone}", contractData.DealerPhone);
-            //body.Replace("{fax}", Resources.Resources.Fax);
-            //body.Replace("{dealerFax}", ""); //TODO: Get fax number
-            body.Replace("{mail}", Resources.Resources.Email);
             body.Replace("{dealerMail}", contractData.DealerEmail);
 
             LinkedResource inlineLogo = null;
