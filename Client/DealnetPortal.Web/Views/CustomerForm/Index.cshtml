@@ -32,13 +32,13 @@
                         @if (CultureHelper.CurrentCultureType != CultureType.English && enabledLanguages.Any(l => l == LanguageCode.English))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", dealerName = "canadianhome" }, new { @class = "lang-link" })
+                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", dealerName = Model.DealerName }, new { @class = "lang-link" })
                             </li>
                         }
                         @if (CultureHelper.CurrentCultureType != CultureType.French && enabledLanguages.Any(l => l == LanguageCode.French))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", dealerName = "canadianhome" }, new { @class = "lang-link" })
+                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", dealerName = Model.DealerName }, new { @class = "lang-link" })
                             </li>
                         }
                     </ul>
@@ -55,6 +55,7 @@
     @using (Html.BeginForm("Index", "CustomerForm", FormMethod.Post, new { id = "mainForm" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.DealerName)
         if (serviceTypes != null && serviceTypes.Count > 1)
         {
             <div class="equipment-customer-section">

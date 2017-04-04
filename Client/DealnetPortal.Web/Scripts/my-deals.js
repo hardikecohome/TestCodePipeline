@@ -124,6 +124,10 @@ function showTable() {
                         {
                             "data": "Id",
                             "visible": false
+                        },
+                        {
+                            "data": "IsCreatedByCustomer",
+                            "visible": false
                         }
                     ],
 
@@ -170,6 +174,7 @@ $.fn.dataTable.ext.search.push(
         var status = $("#deal-status").val();
         var agreementType = $("#agreement-type").val();
         var salesRep = $("#sales-rep").val();
+        var createdBy = $("#created-by").val();
         var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
         var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
@@ -177,7 +182,8 @@ $.fn.dataTable.ext.search.push(
             (!agreementType || agreementType === data[3]) &&
             (!salesRep || salesRep === data[8]) &&
             (!dateTo || valueEntered <= dateTo) &&
-            (!dateFrom || valueEntered >= dateFrom)) {
+            (!dateFrom || valueEntered >= dateFrom) &&
+            (createdBy === '' || createdBy == data[13])) {
             return true;
         }
         return false;
