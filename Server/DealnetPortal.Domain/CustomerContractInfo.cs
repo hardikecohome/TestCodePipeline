@@ -12,7 +12,9 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string CustomerComment { get; set; }
+        public int? CustomerCommentId { get; set; }
+        [ForeignKey("CustomerCommentId")]
+        public Comment CustomerComment { get; set; }
 
         public int? SelectedServiceId { get; set; }
         [ForeignKey("SelectedServiceId")]

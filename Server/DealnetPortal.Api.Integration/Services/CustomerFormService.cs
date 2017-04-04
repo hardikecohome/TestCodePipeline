@@ -231,15 +231,39 @@ namespace DealnetPortal.Api.Integration.Services
                     DealerService service = null;
                     if (dealerSettings != null)
                     {
-                        service = dealerSettings.Services.FirstOrDefault(s => s.Service == customerFormData.SelectedService);
+                        service = dealerSettings.Services.FirstOrDefault(s => s.Service == customerFormData.SelectedService);                        
+                    }
+                    if (service != null || !string.IsNullOrEmpty(customerFormData.CustomerComment))
+                    {
+                        var notes = new StringBuilder();
+                        if (service != null)
+                        {
+                            notes.AppendLine(service.Service);
+                        }
+                        if (!string.IsNullOrEmpty(customerFormData.CustomerComment))
+                        {
+                            notes.AppendLine(customerFormData.CustomerComment);
+                        }
+                        var eqInfo = new EquipmentInfo()
+                        {
+                            Notes = notes.ToString()
+                        };
+                        contractData = new ContractData()
+                        {
+                            Id = contract.Id,
+                            DealerId = dealerId,
+                            Equipment = eqInfo
+                        };
+                        _contractRepository.UpdateContractData(contractData, dealerId);
+                        _unitOfWork.Save();
                     }
 
-                    var customerContractInfo = new CustomerContractInfo()
-                    {
-                        CustomerComment = customerFormData.CustomerComment,
-                        SelectedServiceId = service?.Id
-                    };
-                    _customerFormRepository.AddCustomerContractData(contract.Id, customerContractInfo);
+                    //var customerContractInfo = new CustomerContractInfo()
+                    //{
+                    //    CustomerComment = customerFormData.CustomerComment,
+                    //    SelectedServiceId = service?.Id
+                    //};
+                    //_customerFormRepository.AddCustomerContractData(contract.Id, customerContractInfo);
                     _unitOfWork.Save();
 
                     _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
