@@ -211,8 +211,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var contract = _contractRepository.CreateContract(dealerId);
                 if (contract != null)
-                {
-                    contract.IsCreatedByCustomer = true;
+                {                    
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
 
@@ -262,6 +261,11 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
                     }).ConfigureAwait(false);
+
+                    // mark as created by customer
+                    contract.IsCreatedByCustomer = true;
+                    contract.CreateOperator = null;
+                    _unitOfWork.Save();
 
                     if (creditCheckRes?.Item2?.Any() ?? false)
                     {
