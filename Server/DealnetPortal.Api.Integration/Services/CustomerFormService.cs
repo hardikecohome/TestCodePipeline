@@ -227,22 +227,29 @@ namespace DealnetPortal.Api.Integration.Services
                     _contractRepository.UpdateContractData(contractData, dealerId);
                     _unitOfWork.Save();
 
-                    var dealerSettings = _customerFormRepository.GetCustomerLinkSettings(dealerId);
-                    DealerService service = null;
-                    if (dealerSettings != null)
-                    {
-                        service = dealerSettings.Services.FirstOrDefault(s => s.Service == customerFormData.SelectedService);
-                    }
-
-                    var customerContractInfo = new CustomerContractInfo()
-                    {
-                        CustomerComment = customerFormData.CustomerComment,
-                        SelectedServiceId = service?.Id
-                    };
-                    _customerFormRepository.AddCustomerContractData(contract.Id, customerContractInfo);
-                    _unitOfWork.Save();
-
-                    _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
+                    if (!string.IsNullOrEmpty(customerFormData.SelectedService) || !string.IsNullOrEmpty(customerFormData.CustomerComment))
+                    {                        
+                        try
+                        {
+                            _customerFormRepository.AddCustomerContractData(contract.Id,
+                                customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
+                            _unitOfWork.Save();
+                            _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
+                        }
+                        catch (Exception ex)
+                        {
+                            var errorMsg =
+                                $"Cannot update contract {contract.Id} from customer loan form with customer form data";
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Warning, //?
+                                Code = ErrorCodes.ContractCreateFailed,
+                                Header = "Cannot update contract",
+                                Message = errorMsg
+                            });
+                            _loggingService.LogWarning(errorMsg);
+                        }                        
+                    }                               
 
                     //Start credit check for this contract
                     var creditCheckRes = await Task.Run(() =>

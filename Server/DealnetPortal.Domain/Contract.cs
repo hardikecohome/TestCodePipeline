@@ -76,10 +76,6 @@ namespace DealnetPortal.Domain
         
         public ICollection<ContractDocument> Documents { get; set; }
 
-        public int? CustomerContractInfoId { get; set; }
-        [ForeignKey("CustomerContractInfoId")]
-        public CustomerContractInfo CustomerContractInfo { get; set; }
-
         /// <summary>
         /// true, if current contract was declined early or currently in declined state
         /// </summary>

@@ -785,17 +785,20 @@ namespace DealnetPortal.DataAccess.Repositories
             var taxRate = GetProvinceTaxRate(provinceCode);
             if (dbEquipment.AgreementType == AgreementType.LoanApplication)
             {
-                var loanCalculatorInput = new LoanCalculator.Input
+                if (dbEquipment.AmortizationTerm.HasValue && dbEquipment.AmortizationTerm > 0)
                 {
-                    TaxRate = taxRate?.Rate ?? 0,
-                    LoanTerm = contract.Equipment.LoanTerm ?? 0,
-                    AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                    EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                    AdminFee = contract.Equipment.AdminFee ?? 0,
-                    DownPayment = contract.Equipment.DownPayment ?? 0,
-                    CustomerRate = contract.Equipment.CustomerRate ?? 0
-                };
-                dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalAmountFinanced;
+                    var loanCalculatorInput = new LoanCalculator.Input
+                    {
+                        TaxRate = taxRate?.Rate ?? 0,
+                        LoanTerm = contract.Equipment.LoanTerm ?? 0,
+                        AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                        EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                        AdminFee = contract.Equipment.AdminFee ?? 0,
+                        DownPayment = contract.Equipment.DownPayment ?? 0,
+                        CustomerRate = contract.Equipment.CustomerRate ?? 0
+                    };
+                    dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalAmountFinanced;
+                }                
             }
             else
             {
