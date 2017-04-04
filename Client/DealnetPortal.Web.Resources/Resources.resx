@@ -1247,7 +1247,7 @@
     <value>I own this property</value>
   </data>
   <data name="PleaseCheckAgreementToContinue" xml:space="preserve">
-    <value>Please, check the agreement field to continue with the application.</value>
+    <value>Please, check the credit agreement field to continue with the application.</value>
   </data>
   <data name="PleaseFillCaptchaToContinue" xml:space="preserve">
     <value>Please, fill the captcha field to continue with the application.</value>
@@ -1349,5 +1349,8 @@
   </data>
   <data name="WhatEquipmentServiceYouInterestedIn" xml:space="preserve">
     <value>What equipment/service are you interested in?</value>
+  </data>
+  <data name="PleaseCheckContactAgreementToContinue" xml:space="preserve">
+    <value>Please, check the contact agreement field to continue with the application.</value>
   </data>
 </root>

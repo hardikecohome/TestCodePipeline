@@ -2500,11 +2500,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, check the agreement field to continue with the application..
+        ///   Looks up a localized string similar to Please, check the credit agreement field to continue with the application..
         /// </summary>
         public static string PleaseCheckAgreementToContinue {
             get {
                 return ResourceManager.GetString("PleaseCheckAgreementToContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, check the contact agreement field to continue with the application..
+        /// </summary>
+        public static string PleaseCheckContactAgreementToContinue {
+            get {
+                return ResourceManager.GetString("PleaseCheckContactAgreementToContinue", resourceCulture);
             }
         }
         
