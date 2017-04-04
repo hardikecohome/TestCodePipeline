@@ -82,7 +82,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (addresItem != null)
             {
-                address = $"{addresItem.Street}, {addresItem.City}, {addresItem.PostalCode}, {addresItem.State}";
+                address = $"{addresItem.Street}, {addresItem.City}, {addresItem.State}, {addresItem.PostalCode}";
             }
             var body = new StringBuilder();
             body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
