@@ -74,6 +74,14 @@ namespace DealnetPortal.Web.Infrastructure
             if (contractResult.Item1.Equipment != null)
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+                if (!equipmentInfo.NewEquipment.Any())
+                {
+                    equipmentInfo.NewEquipment = null;
+                }
+                if (!equipmentInfo.ExistingEquipment.Any())
+                {
+                    equipmentInfo.ExistingEquipment = null;
+                }
             }
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(contractResult.Item1.PrimaryCustomer.Locations.First(
                         l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
@@ -488,7 +496,7 @@ namespace DealnetPortal.Web.Infrastructure
                     DownPayment = contract.Equipment.DownPayment ?? 0,
                     CustomerRate = contract.Equipment.CustomerRate ?? 0
                 };
-                summary.LoanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                summary.LoanCalculatorOutput = loanCalculatorInput.AmortizationTerm > 0 ? LoanCalculator.Calculate(loanCalculatorInput) : new LoanCalculator.Output();
             }
         }
 

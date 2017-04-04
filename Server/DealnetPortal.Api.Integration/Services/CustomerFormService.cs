@@ -254,8 +254,25 @@ namespace DealnetPortal.Api.Integration.Services
                             DealerId = dealerId,
                             Equipment = eqInfo
                         };
-                        _contractRepository.UpdateContractData(contractData, dealerId);
-                        _unitOfWork.Save();
+                        try
+                        {
+                            _contractRepository.UpdateContractData(contractData, dealerId);
+                            _unitOfWork.Save();
+                        }
+                        catch (Exception ex)
+                        {
+                            var errorMsg =
+                                $"Cannot update contract {contract.Id} from customer loan form with customer form data";
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Warning, //?
+                                Code = ErrorCodes.ContractCreateFailed,
+                                Header = "Cannot update contract",
+                                Message = errorMsg
+                            });
+                            _loggingService.LogWarning(errorMsg);
+                        }
+                        
                     }
 
                     //var customerContractInfo = new CustomerContractInfo()
