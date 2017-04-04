@@ -227,37 +227,14 @@ namespace DealnetPortal.Api.Integration.Services
                     _contractRepository.UpdateContractData(contractData, dealerId);
                     _unitOfWork.Save();
 
-                    var dealerSettings = _customerFormRepository.GetCustomerLinkSettings(dealerId);
-                    DealerService service = null;
-                    if (dealerSettings != null)
-                    {
-                        service = dealerSettings.Services.FirstOrDefault(s => s.Service == customerFormData.SelectedService);                        
-                    }
-                    if (service != null || !string.IsNullOrEmpty(customerFormData.CustomerComment))
-                    {
-                        var notes = new StringBuilder();
-                        if (service != null)
-                        {
-                            notes.AppendLine(service.Service);
-                        }
-                        if (!string.IsNullOrEmpty(customerFormData.CustomerComment))
-                        {
-                            notes.AppendLine(customerFormData.CustomerComment);
-                        }
-                        var eqInfo = new EquipmentInfo()
-                        {
-                            Notes = notes.ToString()
-                        };
-                        contractData = new ContractData()
-                        {
-                            Id = contract.Id,
-                            DealerId = dealerId,
-                            Equipment = eqInfo
-                        };
+                    if (!string.IsNullOrEmpty(customerFormData.SelectedService) || !string.IsNullOrEmpty(customerFormData.CustomerComment))
+                    {                        
                         try
                         {
-                            _contractRepository.UpdateContractData(contractData, dealerId);
+                            _customerFormRepository.AddCustomerContractData(contract.Id,
+                                customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
                             _unitOfWork.Save();
+                            _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
                         }
                         catch (Exception ex)
                         {
@@ -271,19 +248,8 @@ namespace DealnetPortal.Api.Integration.Services
                                 Message = errorMsg
                             });
                             _loggingService.LogWarning(errorMsg);
-                        }
-                        
-                    }
-
-                    //var customerContractInfo = new CustomerContractInfo()
-                    //{
-                    //    CustomerComment = customerFormData.CustomerComment,
-                    //    SelectedServiceId = service?.Id
-                    //};
-                    //_customerFormRepository.AddCustomerContractData(contract.Id, customerContractInfo);
-                    _unitOfWork.Save();
-
-                    _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
+                        }                        
+                    }                               
 
                     //Start credit check for this contract
                     var creditCheckRes = await Task.Run(() =>
