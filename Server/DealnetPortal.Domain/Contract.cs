@@ -22,6 +22,9 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
         public int Id { get; set; }
 
+        /// <summary>
+        /// contract owner
+        /// </summary>
         public string DealerId { get; set; }
         [ForeignKey("DealerId")]
         public virtual ApplicationUser Dealer { get; set; }
@@ -31,6 +34,12 @@ namespace DealnetPortal.Domain
         public DateTime CreationTime { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
+
+        /// <summary>
+        /// User name that was created a contract (NULL/empty if created by customer)
+        /// </summary>
+        public string CreateOperator { get; set; }
+        public string LastUpdateOperator { get; set; }
         
         public Customer PrimaryCustomer { get; set; }
 
