@@ -42,7 +42,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
                 ng-hide="options.length === 3"
                 ng-click="addOption();">Add Another Option to Compare</button>
 
-        <div uib-carousel active="active" no-wrap="noWrapSlides" lass="row rate-cards-container" style="background: #666; height: 100%">
+        <div uib-carousel active="active" no-wrap="noWrapSlides" class="row rate-cards-container">
             <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
                 <div class="col-md-4 col-sm-6 rate-card-col" ng-repeat="option in slide track by $index">
                     <h2 class="dealnet-middle-header calculator-heading">Option {{ $parent.$index * multiplier + $index + 1 }}
@@ -302,6 +302,11 @@ var deferralType = LoanDeferralType.ThreeMonth;
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4 col-sm-6">
+                    <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button"
+                            ng-hide="options.length === 3"
+                            ng-click="addOption();">Add Another Option to Compare</button>
+                </div>
             </div>
         </div>
     </div>
@@ -354,7 +359,7 @@ var deferralType = LoanDeferralType.ThreeMonth;
     @Scripts.Render("~/Scripts/financial-functions.js")
 
     <script type="text/javascript">
-        var app = angular.module("calculator", ['ui.bootstrap', 'ngTouch']);
+        var app = angular.module("calculator", ['ui.bootstrap', 'ngTouch', 'ngAnimate']);
         var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
         var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
 

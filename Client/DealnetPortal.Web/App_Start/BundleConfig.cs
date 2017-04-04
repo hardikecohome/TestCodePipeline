@@ -14,7 +14,8 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/Vendor/angular/angular.js",
-                "~/Scripts/Vendor/angular/angular-touch.js"
+                "~/Scripts/Vendor/angular/angular-touch.js",
+                "~/Scripts/Vendor/angular/angular-animate.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/angular-ui").Include(

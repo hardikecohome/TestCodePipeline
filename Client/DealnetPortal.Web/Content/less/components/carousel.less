@@ -1,0 +1,37 @@
+﻿.rate-cards-container.carousel{
+    .carousel-inner{
+        .item{
+            .rate-card-col{
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+            .text-center{
+                text-align: left;
+            }
+        }
+        .btn-add-calc-option{
+            position: absolute;
+            top: 260px;
+        }
+    }
+    .carousel-control{
+        bottom: auto;
+        top: 50%;
+        height: 200px;
+        -web-kit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    .carousel-indicators{
+        position: static;
+        margin: 20px auto 0;
+        li{
+            background-color: #f0f0f0;
+            padding: 5px;
+            margin: 0 5px;
+            &.active{
+                background-color: @btn-success-bg;
+            }
+        }
+
+    }
+}
