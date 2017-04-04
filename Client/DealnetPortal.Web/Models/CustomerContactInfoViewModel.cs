@@ -14,6 +14,6 @@ namespace DealnetPortal.Web.Models
         [StringLength(256, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmailAddress")]
         [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
-        public new string EmailAddress { get; set; }
+        public override string EmailAddress { get; set; }
     }
 }
