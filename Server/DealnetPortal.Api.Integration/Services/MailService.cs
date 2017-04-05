@@ -21,6 +21,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 using System.Globalization;
+using System.Web.Routing;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -91,15 +92,16 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
             if (contractData.CreditAmount > 0)
             {
-                body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: {contractData.CreditAmount}</b></p>");
+                body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
             }
             body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
             body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
             body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
             body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
             body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
-            body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
+            body.AppendLine($"<p>{Resources.Resources.BusinessPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
             body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
+            //body.AppendLine($"<p>{Resources.Resources.YouCanViewThisDeal}: <a href=\"{customerFormData.DealUri}/{contractData.ContractId}\">here</a></p>");
             body.AppendLine("</div>");
 
             try

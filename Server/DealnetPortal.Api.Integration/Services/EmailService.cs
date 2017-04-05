@@ -18,7 +18,7 @@ namespace DealnetPortal.Api.Integration.Services
             var message = new IdentityMessage()
             {
                 Body = body,
-                Subject = Resources.Resources.NewCustomerAppliedForFinancing,
+                Subject = subject,
                 Destination = recipients?.FirstOrDefault() ?? string.Empty
             };
             try
@@ -56,8 +56,8 @@ namespace DealnetPortal.Api.Integration.Services
             var html = message.Body;
             var msg = new MailMessage
             {
-                From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]),
-                Subject = message.Subject
+                Subject = message.Subject,
+                From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"])
             };
             msg.To.Add(new MailAddress(message.Destination));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));

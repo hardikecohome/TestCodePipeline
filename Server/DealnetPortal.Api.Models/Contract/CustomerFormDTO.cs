@@ -16,5 +16,7 @@ namespace DealnetPortal.Api.Models.Contract
         /// Dealer service selected by customer
         /// </summary>
         public string SelectedService { get; set; }
+
+        public string DealUri { get; set; }
     }
 }
