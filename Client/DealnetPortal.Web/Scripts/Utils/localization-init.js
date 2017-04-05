@@ -22,7 +22,7 @@ $(document).ready(function () {
                 return !Number.isNaN(Globalize.parseNumber(value));
             }
 
-            /*window.parseFloat = function(number) {
+            window.parseFloat = function(number) {
                 if (typeof number === 'undefined') {
                     return number;
                 }
@@ -31,7 +31,7 @@ $(document).ready(function () {
                 }
                 return Globalize.parseNumber(number);
             };
-*/
+
             window.formatNumber = Globalize.numberFormatter({
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
