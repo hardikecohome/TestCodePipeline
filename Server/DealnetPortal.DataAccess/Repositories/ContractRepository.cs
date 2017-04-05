@@ -927,6 +927,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.Status = contractDetails.Status;
             }
+            if (contractDetails.Notes != null)
+            {
+                contract.Details.Notes = contractDetails.Notes;
+            }
             if (contractDetails.TransactionId != null)
             {
                 contract.Details.TransactionId = contractDetails.TransactionId;
