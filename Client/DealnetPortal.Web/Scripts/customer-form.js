@@ -46,8 +46,10 @@
     var SET_ADDRESS = 'set_address';
     var SET_PADDRESS = 'set_paddress';
     var SET_COMMENT = 'set_comment';
+    var SET_EMAIL = 'set_email';
 
-    var requiredFields = ['name', 'lastname', 'birthday', 'street', 'province', 'postalCode', 'comment'];
+
+    var requiredFields = ['name', 'lastname', 'birthday', 'street', 'province', 'postalCode', 'email'];
 
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
@@ -72,6 +74,7 @@
         activePanel: 'yourInfo',
         phone: '',
         cellPhone: '',
+        email: '',
         comment: '',
         captchaCode: '',
         creditAgreement: false,
@@ -189,6 +192,7 @@
     reducerObj[SET_PHONE] = setFormField('phone');
     reducerObj[SET_CELL_PHONE] = setFormField('cellPhone');
     reducerObj[SET_COMMENT] = setFormField('comment');
+    reducerObj[SET_EMAIL] = setFormField('email');
 
     var reducer = makeReducer(reducerObj, iniState);
 
@@ -609,6 +613,11 @@
                 dispatch(createAction(SET_COMMENT, e.target.value));
             });
 
+            var email = $('#email');
+            email.on('change', function (e) {
+                dispatch(createAction(SET_EMAIL, e.target.value));
+            });
+
             var form = $('#mainForm');
             $('#submit').on('click', function (e) {
                 dispatch(createAction(SUBMIT));
@@ -639,6 +648,7 @@
                 cellPhone: cellPhone,
                 phone: phone,
                 comment: comment,
+                email: email,
             };
 
             dispatch(createAction(SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
