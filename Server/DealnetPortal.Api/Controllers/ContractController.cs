@@ -152,6 +152,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("NotifyContractEdit")]
+        [HttpPut]
+        public IHttpActionResult NotifyContractEdit(int contractId)
+        {
+            try
+            {
+                var alerts = ContractService.NotifyContractEdit(contractId, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("InitiateCreditCheck")]
         [HttpPut]
         public IHttpActionResult InitiateCreditCheck(int contractId)

@@ -332,14 +332,16 @@
                             <strong class="mandatory-field">@Resources.IAgreeDealerOrRepresentativesMayContact</strong>
                         </label>
                     </div>
-                    <div class="captcha-section">
-                    <div id="gcaptcha"></div>
+                    <div class="captcha-section mandatory-field">
+                        <div id="gcaptcha"></div>
                     </div>
                 <div id="contactInfoErrors"></div>
                 </div>
             </div>
-        	<div class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" title="" >
-                <button type="submit" class="btn dealnet-success-button btn-proceed  btn-form-common" id="submit">@Resources.SubmitApplication</button>
+            <div class="clearfix">
+                <span class="btn-proceed-inline-hold btn-form-common btn-inline" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                    <button type="submit" class="btn dealnet-success-button btn-proceed  btn-form-common" id="submit">@Resources.SubmitApplication</button>
+                </span>
             </div>
         </div>
     }
@@ -351,19 +353,19 @@
 {
     translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
     translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
-    translations['ApplicantNeedsToBeUnder75'] = "@Resources.AtLeastOne75OrLess";
+    translations['YouShouldBe75OrLess'] = "@Resources.ToProceedYouNeedToBe75LessPleaseContact";
     translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
-    translations['AtLeastOneHomeOwner'] = "@Resources.AtLeastOneHomeOwner";
+    // translations['YouShouldBeHomeOwner'] = ""; TODO: add resources in next release
     translations['EmptyCaptcha'] = "@Resources.PleaseFillCaptchaToContinue";
-    translations['EmptyAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
+    translations['EmptyCreditAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
+    // translations['EmptyContactAgreement'] = ""; TODO: add resources in next Release
     translations['NotSelected'] = "@Resources.NotSelected";
 }
 
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/customer-form")
     <script>
         module.require('customer-form');

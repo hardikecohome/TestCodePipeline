@@ -171,7 +171,7 @@ function showTable() {
                   "sZeroRecords": translations['NoMatchingRecordsFound']
                 },
                 createdRow: function (row, data, dataIndex) {
-                    if (data.IsCreatedByCustomer) {
+                    if (data.IsNewlyCreated) {
                         $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">New</span>');
                     }
                 },

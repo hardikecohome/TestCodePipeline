@@ -70,11 +70,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<decimal> GetCustomersContractsCount()
+        public async Task<int> GetCustomersContractsCount()
         {
             try
             {            
-                return await Client.GetAsync<decimal>($"{_fullUri}/GetCustomersContractsCount");
+                return await Client.GetAsync<int>($"{_fullUri}/GetCustomersContractsCount");
             }
             catch (Exception ex)
             {
@@ -115,6 +115,22 @@ namespace DealnetPortal.Web.ServiceAgent
                 _loggingService.LogError($"Can't get contracts", ex);
             }
             return new Tuple<IList<ContractDTO>, IList<Alert>>(null, alerts);
+        }
+
+        public async Task<IList<Alert>> NotifyContractEdit(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PutAsync<string, IList<Alert>>(
+                            $"{_fullUri}/NotifyContractEdit?contractId={contractId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Can't update contract {contractId} data", ex);
+                throw;
+            }
         }
 
         public async Task<IList<Alert>> UpdateContractData(ContractDataDTO contractData)
