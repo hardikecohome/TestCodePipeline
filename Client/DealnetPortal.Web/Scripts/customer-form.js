@@ -422,7 +422,7 @@
     };
 
     window.initAutocomplete = function() {
-        configInitialized.then(function() {
+        $(document).ready(function() {
             var gAutoCompletes = setAutocomplete('street', 'city');
             var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
 
@@ -482,14 +482,14 @@
         });
     };
 
-    configInitialized
-        .then(function () {
+    $(document)
+        .ready(function () {
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
             $('#selectedService').val($('#selectedService > option:first').val());
-            var input = $("#birth-date-customer");
-            inputDateFocus(input);
+            var birth = $("#birth-date-customer");
+            inputDateFocus(birth);
 
-            input.datepicker({
+            birth.datepicker({
                 dateFormat: 'mm/dd/yy',
                 changeYear: true,
                 changeMonth: (viewport().width < 768) ? true : false,
@@ -502,10 +502,12 @@
             });
 
             // action dispatchers
-            $('#firstName').on('change', function (e) {
+            var name = $('#firstName');
+            name.on('change', function (e) {
                 dispatch(createAction(SET_NAME, e.target.value));
             });
-            $('#lastName').on('change', function (e) {
+            var lastName = $('#lastName');
+            lastName.on('change', function (e) {
                 dispatch(createAction(SET_LAST, e.target.value));
             });
             $('#sin').on('change', function (e) {
@@ -602,7 +604,8 @@
                 dispatch(createAction(SET_CELL_PHONE, e.target.value));
             });
 
-            $('#comment').on('change', function (e) {
+            var comment = $('#comment');
+            comment.on('change', function (e) {
                 dispatch(createAction(SET_COMMENT, e.target.value));
             });
 
@@ -616,6 +619,9 @@
             });
 
             var initialStateMap = {
+                name: name,
+                lastName: lastName,
+                birth: birth,
                 street: street,
                 unit: unit,
                 city: city,
@@ -632,6 +638,7 @@
                 lessThanSix: lessThanSix,
                 cellPhone: cellPhone,
                 phone: phone,
+                comment: comment,
             };
 
             dispatch(createAction(SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
