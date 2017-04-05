@@ -70,7 +70,7 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 return equipmentInfo;
             }
-            equipmentInfo.ContractId = contractId;
+            equipmentInfo.ContractId = contractId;            
             if (contractResult.Item1.Equipment != null)
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
@@ -83,6 +83,10 @@ namespace DealnetPortal.Web.Infrastructure
                 {
                     equipmentInfo.ExistingEquipment = null;
                 }
+            }
+            else
+            {
+                equipmentInfo.Notes = contractResult.Item1.Details?.Notes;
             }
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(contractResult.Item1.PrimaryCustomer.Locations.First(
                         l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
@@ -474,7 +478,11 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
                 summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
-                summary.EquipmentInfo.Notes = contract.Details?.Notes ?? summary.EquipmentInfo.Notes;
+                summary.EquipmentInfo.Notes = summary.Notes = contract.Details?.Notes ?? summary.EquipmentInfo.Notes;
+            }
+            else
+            {
+                summary.Notes = contract.Details?.Notes;
             }
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;

@@ -197,6 +197,8 @@ namespace DealnetPortal.Web.Models
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
+
+        public string Notes { get; set; }
     }
 
     public sealed class EligibleAgeAttribute : ValidationAttribute
