@@ -220,34 +220,6 @@
             }
         }
 
-        if (!state.ownership) {
-            errors.push({
-                type: 'ownership',
-                messageKey: 'YouShouldBeHomeOwner',
-            });
-        }
-
-        if (!state.captchaCode) {
-            errors.push({
-                type: 'captcha',
-                messageKey: 'EmptyCaptcha',
-            });
-        }
-
-        if (!state.creditAgreement) {
-            errors.push({
-                type: 'agreement',
-                messageKey: 'EmptyCreditAgreement'
-            });
-        }
-
-        if (!state.contactAgreement) {
-            errors.push({
-                type: 'agreement',
-                messageKey: 'EmptyContactAgreement'
-            });
-        }
-
         var requiredPhones = filterObj(function(key, obj) {
             return obj[key];
         })(getRequiredPhones(state));
@@ -738,27 +710,6 @@
                         .filter(function (error) { return error.type === 'birthday' })
                         .forEach(function (error) {
                             $('#yourInfoErrors').append(createError(window.translations[error.messageKey]));
-                        });
-                }
-
-                $('#installationErrors').empty();
-                if (props.displaySubmitErrors && props.errors.length > 0) {
-                    props.errors
-                        .filter(function (error) { return error.type === 'ownership' })
-                        .forEach(function (error) {
-                            $('#installationErrors').append(createError(window.translations[error.messageKey]));
-                        });
-                }
-
-                $('#contactInfoErrors').empty();
-                if (props.displaySubmitErrors && props.errors.length > 0) {
-                    props.errors.filter(function (error) {
-                        return ['captcha', 'agreement'].some(function (item) {
-                            return error.type === item;
-                        })
-                    })
-                        .forEach(function (error) {
-                            $('#contactInfoErrors').append(createError(window.translations[error.messageKey]));
                         });
                 }
 
