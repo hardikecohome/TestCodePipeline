@@ -117,7 +117,7 @@ namespace DealnetPortal.Api.Integration.Services
             var location = contractData.DealerAdress;
             var html = File.ReadAllText(HostingEnvironment.MapPath(@"~\Content\emails\customer-notification-email.html"));
             var body = new StringBuilder(html, html.Length * 2);
-            body.Replace("{headerColor}", dealerColor ?? "#000000");
+            body.Replace("{headerColor}", dealerColor ?? "#2FAE00");
             body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
             body.Replace("{youHaveBeenPreapprovedFor}", contractData.CreditAmount != 0 ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)) : string.Empty);
             body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
@@ -142,6 +142,10 @@ namespace DealnetPortal.Api.Integration.Services
                 inlineLogo.ContentType.MediaType = "image/png";
                 body.Replace("{dealerLogo}", "cid:" + inlineLogo.ContentId);
             }
+            else
+            {
+                body.Replace("<img src='{dealerLogo}' width=\"140\">", string.Empty);//If customer-notification-email.html will be change, this line should be checked
+            }
             var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null,
                     MediaTypeNames.Text.Html);
             alternateView.LinkedResources.Add(inlineSuccess);
@@ -155,7 +159,7 @@ namespace DealnetPortal.Api.Integration.Services
             mail.AlternateViews.Add(alternateView);
             mail.From = new MailAddress(contractData.DealerEmail);
             mail.To.Add(customerEmail);
-            //mail.Subject = "yourSubject"; //TODO: Clarify subject
+            mail.Subject = "yourSubject"; //TODO: Clarify subject
             try
             {
                 await _emailService.SendAsync(mail);
