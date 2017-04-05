@@ -96,15 +96,48 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public CustomerContractInfo AddCustomerContractData(int contractId, CustomerContractInfo customerContractInfo)
+        public Contract AddCustomerContractData(int contractId, string selectedService, string customerComment,
+            string dealerId)
         {
-            var ccInfo = _dbContext.CustomerContractInfoes.Add(customerContractInfo);
             var contract = _dbContext.Contracts.Find(contractId);
             if (contract != null)
             {
-                contract.CustomerContractInfo = ccInfo;
+                var dealerSettings = GetCustomerLinkSettings(dealerId);
+                DealerService service = null;
+                if (dealerSettings != null)
+                {
+                    service = dealerSettings.Services.FirstOrDefault(s => s.Service == selectedService);
+                }
+                if (service != null || !string.IsNullOrEmpty(customerComment))
+                {
+                    var notes = new StringBuilder();
+                    if (service != null)
+                    {
+                        notes.AppendLine(service.Service);
+                    }
+                    if (!string.IsNullOrEmpty(customerComment))
+                    {
+                        notes.AppendLine(customerComment);
+                    }
+
+                    if (contract.Equipment != null)
+                    {
+                        contract.Equipment.Notes = notes.ToString();
+                    }
+                    else
+                    {
+                        var eqInfo = new EquipmentInfo()
+                        {
+                            Notes = notes.ToString(),
+                            ExistingEquipment = new List<ExistingEquipment>(),
+                            NewEquipment = new List<NewEquipment>(),
+                            Contract = contract,                            
+                        };
+                        _dbContext.EquipmentInfo.Add(eqInfo);
+                    }                    
+                }
             }
-            return ccInfo;
-        }        
+            return contract;
+        }         
     }
 }

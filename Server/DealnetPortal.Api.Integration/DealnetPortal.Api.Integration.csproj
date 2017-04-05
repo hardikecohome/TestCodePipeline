@@ -105,6 +105,7 @@
     <Compile Include="ServiceAgents\ESignature\ESignatureServiceAgent.cs" />
     <Compile Include="ServiceAgents\ESignature\IESignatureServiceAgent.cs" />
     <Compile Include="Services\CustomerFormService.cs" />
+    <Compile Include="Services\EmailMailgunService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\IAspireService.cs" />
     <Compile Include="Services\IAspireStorageService.cs" />

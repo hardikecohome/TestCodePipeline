@@ -44,8 +44,8 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("AnonymousError", "Info");
             }
             ViewBag.ProvinceTaxRates = provinces.Item1;
-            _cultureManager.SetCulture(culture);
-            return View();
+            _cultureManager.SetCulture(culture, false);
+            return View(new CustomerFormViewModel { DealerName = dealerName });
         }
 
         [HttpPost]
@@ -54,7 +54,7 @@ namespace DealnetPortal.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return RedirectToAction("AnonymousError", "Info");
             }
             var customerFormDto = new CustomerFormDTO();
             customerFormDto.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(customerForm.HomeOwner);
@@ -74,17 +74,28 @@ namespace DealnetPortal.Web.Controllers
             customerFormDto.CustomerComment = customerForm.Comment;
             customerFormDto.SelectedService = customerForm.Service;
             customerFormDto.DealerName = customerForm.DealerName;
-            var alerts = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
-            if (alerts.Any(x => x.Type == AlertType.Error))
+            var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
+            if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess");
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName });
         }
 
-        public ActionResult AgreementSubmitSuccess()
+        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string dealerName)
         {
-            return View();
+            var viewModel = new SubmittedCustomerFormViewModel();
+            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName);
+            viewModel.CreditAmount = submitedData.CreditAmount;
+            viewModel.DealerName = submitedData.DealerName;
+            viewModel.Street = submitedData.DealerAdress?.Street;
+            viewModel.City = submitedData.DealerAdress?.City;
+            viewModel.Province = submitedData.DealerAdress?.State;
+            viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
+            viewModel.Phone = submitedData.DealerPhone;
+            viewModel.Email = submitedData.DealerEmail;
+
+            return View(viewModel);
         }
     }
 }

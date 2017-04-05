@@ -711,7 +711,7 @@
             });
 
             var createError = function (msg) {
-                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="/Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
+                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
                 err.append(msg);
                 return err;
             };
