@@ -81,8 +81,12 @@ namespace DealnetPortal.Domain
         /// </summary>
         public bool? WasDeclined { get; set; }
         /// <summary>
-        /// true, if it's a new contract created by customer and isn't edited by dealer
+        /// true, if it's a contract created by customer
         /// </summary>
         public bool? IsCreatedByCustomer { get; set; }
+        /// <summary>
+        /// true, if it's a new contract created by customer and isn't edited by dealer
+        /// </summary>
+        public bool? IsNewlyCreated { get; set; }
     }
 }

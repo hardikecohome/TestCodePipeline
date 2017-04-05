@@ -29,6 +29,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId);
 
+        IList<Alert> NotifyContractEdit(int contractId, string contractOwnerId);
+
         IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
 
         IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);

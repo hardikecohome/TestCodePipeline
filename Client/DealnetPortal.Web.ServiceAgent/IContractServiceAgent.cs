@@ -36,11 +36,13 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>List of contracts</returns>
         Task<IList<ContractDTO>> GetContracts();
 
-        Task<decimal> GetCustomersContractsCount();
+        Task<int> GetCustomersContractsCount();
 
         Task<IList<ContractDTO>> GetCompletedContracts();
 
         Task<Tuple<IList<ContractDTO>, IList<Alert>>> GetContracts(IEnumerable<int> ids);
+
+        Task<IList<Alert>> NotifyContractEdit(int contractId);
 
         /// <summary>
         /// 
