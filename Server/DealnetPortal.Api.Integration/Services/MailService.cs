@@ -127,6 +127,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.Replace("{dealerAddress}", $"{location?.Street}, {location?.City}, {location?.State}, {location?.PostalCode}");
             body.Replace("{phone}", Resources.Resources.Phone);
             body.Replace("{dealerPhone}", contractData.DealerPhone);
+            body.Replace("{mail}", Resources.Resources.Email);
             body.Replace("{dealerMail}", contractData.DealerEmail);
 
             LinkedResource inlineLogo = null;
