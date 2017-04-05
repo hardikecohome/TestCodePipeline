@@ -215,7 +215,7 @@
             if (age > 75) {
                 errors.push({
                     type: 'birthday',
-                    messageKey: 'ApplicantNeedsToBeUnder75',
+                    messageKey: 'YouShouldBe75OrLess',
                 });
             }
         }
@@ -223,7 +223,7 @@
         if (!state.ownership) {
             errors.push({
                 type: 'ownership',
-                messageKey: 'AtLeastOneHomeOwner',
+                messageKey: 'YouShouldBeHomeOwner',
             });
         }
 

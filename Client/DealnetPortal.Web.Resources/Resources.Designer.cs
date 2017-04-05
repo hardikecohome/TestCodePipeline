@@ -3733,6 +3733,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The applicant should be aged 75 or less..
+        /// </summary>
+        public static string YouShouldBe75OrLess {
+            get {
+                return ResourceManager.GetString("YouShouldBe75OrLess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The applicant should be the home owner..
+        /// </summary>
+        public static string YouShouldBeHomeOwner {
+            get {
+                return ResourceManager.GetString("YouShouldBeHomeOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You should fill all mandatory fields.
         /// </summary>
         public static string YouShouldFillAllMandatoryFields {
