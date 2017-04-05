@@ -159,7 +159,7 @@ namespace DealnetPortal.Api.Integration.Services
             mail.AlternateViews.Add(alternateView);
             mail.From = new MailAddress(contractData.DealerEmail);
             mail.To.Add(customerEmail);
-            mail.Subject = "yourSubject"; //TODO: Clarify subject
+            mail.Subject = Resources.Resources.ThankYouForApplyingForFinancing;
             try
             {
                 await _emailService.SendAsync(mail);
