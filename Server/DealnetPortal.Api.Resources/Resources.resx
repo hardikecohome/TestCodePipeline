@@ -421,4 +421,10 @@
   <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
     <value>Your financing application was successfully submitted.</value>
   </data>
+  <data name="DealInfo" xml:space="preserve">
+    <value>Deal Info</value>
+  </data>
+  <data name="YouCanViewThisDealHere" xml:space="preserve">
+    <value>You can view this deal here</value>
+  </data>
 </root>

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using AutoMapper;
+using dotless.Core.Parser.Tree;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Core.Culture;
@@ -74,7 +76,15 @@ namespace DealnetPortal.Web.Controllers
             customerFormDto.CustomerComment = customerForm.Comment;
             customerFormDto.SelectedService = customerForm.Service;
             customerFormDto.DealerName = customerForm.DealerName;
+            var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri)
+            {
+                Path = Url.Action("ContractEdit", "NewRental"),
+                Query = null,
+            };
+            customerFormDto.DealUri = urlBuilder.ToString();
             var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
+            
+
             if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
                 return RedirectToAction("AnonymousError", "Info");

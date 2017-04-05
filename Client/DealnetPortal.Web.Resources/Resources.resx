@@ -1332,9 +1332,6 @@
   <data name="ToProceedYouNeedToBe75LessPleaseContact" xml:space="preserve">
     <value>In order to proceed you need to be aged 75 or less. Please contact dealer directly.</value>
   </data>
-  <data name="YouCanViewThisDealHere" xml:space="preserve">
-    <value>You can view this deal here</value>
-  </data>
   <data name="YouShouldFillAllMandatoryFields" xml:space="preserve">
     <value>You should fill all mandatory fields</value>
   </data>
