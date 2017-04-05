@@ -145,20 +145,6 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            if (contract.IsCreatedByCustomer == true)
-            {
-                //Remove newly created by customer mark, if contract is opened for edit
-                try
-                {
-                    contract.IsCreatedByCustomer = false;
-                    _unitOfWork.Save();
-                }
-                catch (Exception ex)
-                {
-                    _loggingService.LogError($"Cannot update contract [{contractId}]", ex);
-                }                
-            }
-
             var contractDTO = Mapper.Map<ContractDTO>(contract);
             AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
             AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
