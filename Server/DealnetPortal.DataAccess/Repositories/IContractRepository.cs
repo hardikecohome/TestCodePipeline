@@ -30,7 +30,7 @@ namespace DealnetPortal.DataAccess.Repositories
         /// </summary>
         /// <param name="ownerUserId">user Id</param>
         /// <returns>numder of contracts</returns>
-        decimal GetCustomersContractsCount(string ownerUserId);
+        int GetNewlyCreatedCustomersContractsCount(string ownerUserId);
 
         /// <summary>
         /// Get list of user contracts with particular ids

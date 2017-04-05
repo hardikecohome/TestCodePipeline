@@ -129,9 +129,9 @@ namespace DealnetPortal.Api.Integration.Services
             return contractDTOs;
         }
 
-        public decimal GetCustomersContractsCount(string contractOwnerId)
+        public int GetCustomersContractsCount(string contractOwnerId)
         {
-            return _contractRepository.GetCustomersContractsCount(contractOwnerId);
+            return _contractRepository.GetNewlyCreatedCustomersContractsCount(contractOwnerId);
         }
 
         public IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId)
@@ -145,20 +145,6 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            if (contract.IsCreatedByCustomer == true)
-            {
-                //Remove newly created by customer mark, if contract is opened for edit
-                try
-                {
-                    contract.IsCreatedByCustomer = false;
-                    _unitOfWork.Save();
-                }
-                catch (Exception ex)
-                {
-                    _loggingService.LogError($"Cannot update contract [{contractId}]", ex);
-                }                
-            }
-
             var contractDTO = Mapper.Map<ContractDTO>(contract);
             AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
             AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
@@ -218,7 +204,46 @@ namespace DealnetPortal.Api.Integration.Services
             }
             return alerts;
         }
- 
+
+        public IList<Alert> NotifyContractEdit(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                if (contract.IsCreatedByCustomer == true)
+                {
+                    //Remove newly created by customer mark, if contract is opened for edit
+                    try
+                    {
+                        contract.IsNewlyCreated = false;
+                        _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = ErrorConstants.ContractUpdateFailed,
+                            Code = ErrorCodes.FailedToUpdateContract,
+                            Message = $"Cannot update contract [{contractId}]"
+                        });
+                        _loggingService.LogError($"Cannot update contract [{contractId}]", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Cannot find contract",
+                    Message = $"Cannot find contract [{contractId}] for update"
+                });
+            }
+            return alerts;
+        }
 
         public IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId)
         {

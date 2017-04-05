@@ -295,13 +295,17 @@
         panelCollapsed($(this));
       });
 
-      if($('.customer-loan-page .btn-proceed').is('.disabled')){
+      /*if($('.customer-loan-page .btn-proceed').is('.disabled')){
         $('.btn-proceed-inline-hold[data-toggle="popover"]').popover({
           template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
       }else{
         $('.btn-proceed-inline-hold[data-toggle="popover"]').popover('destroy');
-      }
+      }*/
+
+    $('[data-toggle="popover"]').popover({
+      template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+    });
 
 });
 function panelCollapsed(elem){
