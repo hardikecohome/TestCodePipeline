@@ -3688,15 +3688,6 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can view this deal here.
-        /// </summary>
-        public static string YouCanViewThisDealHere {
-            get {
-                return ResourceManager.GetString("YouCanViewThisDealHere", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You have been successfully registered,.
         /// </summary>
         public static string YouHaveBeenRegistered {
