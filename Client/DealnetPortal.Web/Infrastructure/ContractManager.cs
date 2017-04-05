@@ -74,6 +74,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (contractResult.Item1.Equipment != null)
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+                equipmentInfo.Notes = contractResult.Item1.Details?.Notes ?? equipmentInfo.Notes;
                 if (!equipmentInfo.NewEquipment.Any())
                 {
                     equipmentInfo.NewEquipment = null;
@@ -292,6 +293,10 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
+                Details = new ContractDetailsDTO()
+                {
+                    Notes = equipmnetInfo.Notes 
+                },
                 Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
             if (equipmnetInfo.FullUpdate && equipmnetInfo.ExistingEquipment == null)
@@ -469,6 +474,7 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
                 summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
+                summary.EquipmentInfo.Notes = contract.Details?.Notes ?? summary.EquipmentInfo.Notes;
             }
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;

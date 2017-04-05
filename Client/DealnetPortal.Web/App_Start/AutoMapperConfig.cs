@@ -56,6 +56,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstallationDate, d => d.Ignore())
                 .ForMember(x => x.InstallerFirstName, d => d.Ignore())
                 .ForMember(x => x.InstallerLastName, d => d.Ignore())
+                .ForMember(x => x.Notes, d => d.Ignore())
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == Common.Enumeration.AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore())
