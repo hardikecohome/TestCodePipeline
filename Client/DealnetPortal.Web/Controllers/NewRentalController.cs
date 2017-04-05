@@ -50,7 +50,11 @@ namespace DealnetPortal.Web.Controllers
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
-                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && contractResult.Item1.IsCreatedByCustomer != true)
+                if (contractResult.Item1.IsNewlyCreated == true)
+                {
+                    var noWarning = _contractServiceAgent.NotifyContractEdit(contractId);
+                }
+                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && contractResult.Item1.IsNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }

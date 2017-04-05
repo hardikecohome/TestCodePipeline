@@ -44,6 +44,11 @@ namespace DealnetPortal.Domain
         public Customer PrimaryCustomer { get; set; }
 
         /// <summary>
+        /// Installation address are linked to a deal
+        /// </summary>
+        //public Location InstallationAddress { get; set; }
+
+        /// <summary>
         /// Aspire dealer for contract
         /// </summary>
         public string ExternalSubDealerName { get; set; }
@@ -76,8 +81,12 @@ namespace DealnetPortal.Domain
         /// </summary>
         public bool? WasDeclined { get; set; }
         /// <summary>
-        /// true, if it's a new contract created by customer and isn't edited by dealer
+        /// true, if it's a contract created by customer
         /// </summary>
         public bool? IsCreatedByCustomer { get; set; }
+        /// <summary>
+        /// true, if it's a new contract created by customer and isn't edited by dealer
+        /// </summary>
+        public bool? IsNewlyCreated { get; set; }
     }
 }

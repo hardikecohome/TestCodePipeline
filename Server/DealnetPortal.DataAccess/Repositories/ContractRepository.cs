@@ -31,7 +31,6 @@ namespace DealnetPortal.DataAccess.Repositories
                     LastUpdateTime = DateTime.Now,
                     Dealer = dealer,
                     CreateOperator = dealer.UserName,
-                    IsCreatedByCustomer = false
                 };
                 _dbContext.Contracts.Add(contract);
             }
@@ -54,10 +53,10 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
-        public decimal GetCustomersContractsCount(string ownerUserId)
+        public int GetNewlyCreatedCustomersContractsCount(string ownerUserId)
         {
             var contractsCount = _dbContext.Contracts
-                .Count(c => (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId) && c.IsCreatedByCustomer == true );
+                .Count(c => (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId) && c.IsNewlyCreated == true );
             return contractsCount;
         }
 
@@ -110,7 +109,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
 
                 contract.LastUpdateTime = DateTime.Now;
-                contract.IsCreatedByCustomer = false;
                 contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
             }
             return contract;
@@ -202,7 +200,6 @@ namespace DealnetPortal.DataAccess.Repositories
             _dbContext.Entry(contract).State = EntityState.Modified;
             contract.LastUpdateTime = DateTime.Now;
             contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
-            contract.IsCreatedByCustomer = false;
             return contract;
         }
 
@@ -310,7 +307,6 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (updated)
                     {
                         contract.LastUpdateTime = DateTime.Now;
-                        contract.IsCreatedByCustomer = false;
                         contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
                     }
 
