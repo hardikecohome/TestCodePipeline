@@ -44,7 +44,7 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("AnonymousError", "Info");
             }
             ViewBag.ProvinceTaxRates = provinces.Item1;
-            _cultureManager.SetCulture(culture);
+            _cultureManager.SetCulture(culture, false);
             return View(new CustomerFormViewModel { DealerName = dealerName });
         }
 
