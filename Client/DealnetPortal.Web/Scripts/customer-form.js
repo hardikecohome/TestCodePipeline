@@ -49,7 +49,7 @@
     var SET_EMAIL = 'set_email';
 
 
-    var requiredFields = ['name', 'lastname', 'birthday', 'street', 'province', 'postalCode', 'email'];
+    var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
 
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
@@ -199,8 +199,8 @@
     // selectors
     var getRequiredPhones = function(state) {
         return {
-            phoneRequired: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
-            cellPhoneRequired: state.phone === '',
+            phone: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
+            cellPhone: state.phone === '',
         };
     };
 
@@ -256,7 +256,7 @@
 
         var emptyErrors = requiredFields.concat(requiredPhones).concat(requiredP).map(mapObj(state))
             .some(function(val) {
-                return val === '';
+                return typeof val === 'string' ? val === '' : !val;
             });
 
         if (emptyErrors) {
@@ -786,16 +786,16 @@
             });
 
             observeCustomerFormStore(getRequiredPhones)(function (props) {
-                $('#homePhone').rules(props.phoneRequired ? 'add' : 'remove', 'required');
-                $('#cellPhone').rules(props.cellPhoneRequired ? 'add' : 'remove', 'required');
+                $('#homePhone').rules(props.phone ? 'add' : 'remove', 'required');
+                $('#cellPhone').rules(props.cellPhone ? 'add' : 'remove', 'required');
 
-                if (props.phoneRequired) {
+                if (props.phone) {
                     $('#homePhoneWrapper').addClass('mandatory-field');
                 } else {
                     $('#homePhoneWrapper').removeClass('mandatory-field');
                 }
 
-                if (props.cellPhoneRequired) {
+                if (props.cellPhone) {
                     $('#cellPhoneWrapper').addClass('mandatory-field');
                 } else {
                     $('#cellPhoneWrapper').removeClass('mandatory-field');

@@ -3292,15 +3292,6 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In order to proceed you need to be the home owner. Please contact dealer directly..
-        /// </summary>
-        public static string ToProceedYouShouldBeHomeOwner {
-            get {
-                return ResourceManager.GetString("ToProceedYouShouldBeHomeOwner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Total of All Monthly Payments.
         /// </summary>
         public static string TotalAllMonthlyPayments {

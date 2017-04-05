@@ -1353,7 +1353,4 @@
   <data name="PleaseCheckContactAgreementToContinue" xml:space="preserve">
     <value>Please, check the contact agreement field to continue with the application.</value>
   </data>
-  <data name="ToProceedYouShouldBeHomeOwner" xml:space="preserve">
-    <value>In order to proceed you need to be the home owner. Please contact dealer directly.</value>
-  </data>
 </root>
