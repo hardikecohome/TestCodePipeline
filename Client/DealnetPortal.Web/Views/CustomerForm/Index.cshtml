@@ -332,15 +332,17 @@
                             <strong class="mandatory-field">@Resources.IAgreeDealerOrRepresentativesMayContact</strong>
                         </label>
                     </div>
-                    <div class="captcha-section">
-                        <span class="mandatory-field"></span>
-                        <div id="gcaptcha"></div>
+                    <div class="clearfix">
+                        <div class="captcha-section mandatory-field mandatory-field-for-captcha">
+                            <div id="gcaptcha"></div>
+                        </div>
                     </div>
+
                 <div id="contactInfoErrors"></div>
                 </div>
             </div>
             <div class="clearfix">
-                <span class="btn-proceed-inline-hold btn-form-common btn-inline" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
                     <button type="submit" class="btn dealnet-success-button btn-proceed  btn-form-common" id="submit">@Resources.SubmitApplication</button>
                 </span>
             </div>
