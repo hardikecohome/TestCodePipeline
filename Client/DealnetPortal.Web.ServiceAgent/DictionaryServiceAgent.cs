@@ -158,15 +158,15 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<BinarySettingDTO> GetDealerBinSetting(SettingType type)
+        public async Task<BinarySettingDTO> GetDealerBinSetting(SettingType type, string dealerName = null)
         {
             try
             {
                 var url = $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}";
-                var dealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"];
-                if (dealerName != null)
+                var _dealerName = dealerName ?? HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"]?.ToString();
+                if (!string.IsNullOrEmpty(_dealerName))
                 {
-                    url += $"?dealer={dealerName}";
+                    url += $"&dealer={_dealerName}";
                 }
                 return await Client.GetAsync<BinarySettingDTO>(url).ConfigureAwait(false);
             }
