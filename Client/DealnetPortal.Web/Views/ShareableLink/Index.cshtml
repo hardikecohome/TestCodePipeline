@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.ShareableLinkViewModel
+﻿@using DealnetPortal.Utilities
+@model DealnetPortal.Web.Models.ShareableLinkViewModel
 
 <div id="label-steps">
     <div class="dealnet-action-link">@Resources.ShareableLink</div> >
@@ -22,7 +23,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", dealerName = User.Identity.Name }, Request.Url.Scheme)">
+                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", dealerName = SecurityUtils.Hash(User.Identity.Name) }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyEn">@Resources.Copy</button>
                 </div>
