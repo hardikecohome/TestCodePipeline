@@ -19,7 +19,7 @@ $(document).ready(function () {
                         return true;
                     }
                 }
-                return !Number.isNaN(Globalize.parseNumber(value));
+                return !isNaN(Globalize.parseNumber(value));
             }
 
             window.parseFloat = function(number) {
