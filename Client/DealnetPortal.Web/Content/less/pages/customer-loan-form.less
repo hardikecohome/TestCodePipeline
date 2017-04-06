@@ -141,10 +141,20 @@
     font-style: normal;
   }
 }
+.mandatory-field.mandatory-field-for-captcha{
+  &:after{
+    position: absolute;
+    right: auto;
+    left: -10px;
+    top: -5px;
+  }
+}
 .btn-proceed-inline-hold{
   display: inline-block;
   &.btn-form-common{
-    display: block;
+    @media @tablet-down {
+      display: block;
+    }
   }
 }
 .customer-loan-popover.top{
