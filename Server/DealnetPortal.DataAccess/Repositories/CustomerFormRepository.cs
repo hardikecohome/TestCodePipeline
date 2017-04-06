@@ -119,22 +119,17 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         notes.AppendLine(customerComment);
                     }
-
-                    if (contract.Equipment != null)
+                    if (contract.Details != null)
                     {
-                        contract.Equipment.Notes = notes.ToString();
-                    }
-                    else
-                    {
-                        var eqInfo = new EquipmentInfo()
+                        if (string.IsNullOrEmpty(contract.Details.Notes))
                         {
-                            Notes = notes.ToString(),
-                            ExistingEquipment = new List<ExistingEquipment>(),
-                            NewEquipment = new List<NewEquipment>(),
-                            Contract = contract,                            
-                        };
-                        _dbContext.EquipmentInfo.Add(eqInfo);
-                    }                    
+                            contract.Details.Notes = notes.ToString();
+                        }
+                        else
+                        {
+                            contract.Details.Notes += notes.ToString();
+                        }
+                    }                                     
                 }
             }
             return contract;

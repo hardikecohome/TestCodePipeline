@@ -70,6 +70,10 @@ namespace DealnetPortal.Api.App_Start
                         sc.IsHomeOwner = c.HomeOwners?.Any(ho => ho.Id == sc.Id) ?? false;
                         sc.IsInitialCustomer = c.InitialCustomers?.Any(ho => ho.Id == sc.Id) ?? false;
                     });
+                    if (!string.IsNullOrEmpty(c.Equipment?.Notes) && d.Details != null)
+                    {
+                        d.Details.Notes = c.Equipment?.Notes;
+                    }
                 });                
                 //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
@@ -108,7 +112,8 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDetailsDTO, ContractDetails>();
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
                 .ForMember(d => d.Contract, x => x.Ignore())
-                .ForMember(d => d.ValueOfDeal, x => x.Ignore());
+                .ForMember(d => d.ValueOfDeal, x => x.Ignore())
+                .ForMember(d => d.Notes, x => x.Ignore());
             mapperConfig.CreateMap<NewEquipmentDTO, NewEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());

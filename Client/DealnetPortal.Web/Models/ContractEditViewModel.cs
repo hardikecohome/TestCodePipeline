@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
@@ -19,5 +20,9 @@ namespace DealnetPortal.Web.Models
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
         public UploadDocumentsViewModel UploadDocumentsInfo { get; set; }
         public CertificateInformationViewModel InstallCertificateInformation { get; set; }
+
+        [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
+        public string Notes { get; set; }
     }
 }
