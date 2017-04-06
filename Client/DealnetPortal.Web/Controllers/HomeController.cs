@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult Index()
         {
             ViewBag.LangSwitcherAvailable = true;
-            return View("");
+            return View();
         }
         
         public async Task<ActionResult> ChangeCulture(string culture)

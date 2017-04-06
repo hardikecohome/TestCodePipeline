@@ -51,20 +51,31 @@ namespace DealnetPortal.Web.Controllers
         }
         
         // GET: /Account/Login
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            if (string.IsNullOrEmpty(returnUrl) && Request.UrlReferrer != null)
+                returnUrl = Server.UrlEncode(Request.UrlReferrer.PathAndQuery);
+
+            if (Url.IsLocalUrl(returnUrl) && !string.IsNullOrEmpty(returnUrl))
+            {
+                ViewBag.ReturnUrl = returnUrl;
+            }
             return View();
         }
 
         // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(DealnetPortal.Web.Models.LoginViewModel model)
+        public async Task<ActionResult> Login(DealnetPortal.Web.Models.LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            string decodedUrl = "";
+            if (!string.IsNullOrEmpty(returnUrl))
+                decodedUrl = Server.UrlDecode(returnUrl);
+
             _loggingService.LogInfo(string.Format("Attemtp to login user: {0}", model.Email));
             var result = await _securityManager.Login(model.UserName, model.Password, ApplicationSettingsManager.PortalId);
             if (result.Any(item => item.Type == AlertType.Error && item.Header == ErrorConstants.ResetPasswordRequired))
@@ -89,7 +100,15 @@ namespace DealnetPortal.Web.Controllers
             {
                 _loggingService.LogError($"Can't set default culture for user: {model.Email}", ex);
             }
-            return RedirectToAction("Index", "Home");
+
+            if (Url.IsLocalUrl(decodedUrl))
+            {
+                return Redirect(decodedUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // POST: /Account/LogOff

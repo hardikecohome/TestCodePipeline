@@ -146,9 +146,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             var contractDTO = Mapper.Map<ContractDTO>(contract);
-            AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-            AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
-
+            if (contractDTO != null)
+            {
+                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
+                AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+            }
             return contractDTO;
         }
 
