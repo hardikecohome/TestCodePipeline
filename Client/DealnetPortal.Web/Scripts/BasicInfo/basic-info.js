@@ -179,7 +179,7 @@ function setDataAttrInModal (index) {
 function hideAditional1Section() {
     aditional1Section.hide();
     //Needed for validation
-    aditional1Section.find('input, select').each(function () {
+    aditional1Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     aditional1Section.find('.address-checkbox').each(function () {
@@ -193,7 +193,7 @@ function hideAditional1Section() {
 function hideAditional2Section() {
     aditional2Section.hide();
     //Needed for validation
-    aditional2Section.find('input, select').each(function () {
+    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     aditional2Section.find('.address-checkbox').each(function () {
@@ -207,7 +207,7 @@ function hideAditional2Section() {
 function hideAditional3Section() {
     aditional3Section.hide();
     //Needed for validation
-    aditional3Section.find('input, select').each(function () {
+    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
     aditional3Section.find('.address-checkbox').each(function () {
@@ -218,26 +218,6 @@ function hideAditional3Section() {
     aditional3Section.data('active', false);
     addAdditionalButton.show();
 }
-
-////
-//function hideAditional2Section() {
-//    aditional2Section.hide();
-//    //Needed for validation
-//    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
-//        $(this).prop("disabled", true);
-//    });
-//    aditional2Section.data('active', false);
-//    addAdditionalButton.show();
-//}
-//function hideAditional3Section() {
-//    aditional3Section.hide();
-//    //Needed for validation
-//    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
-//        $(this).prop("disabled", true);
-//    });
-//    aditional3Section.data('active', false);
-//    addAdditionalButton.show();
-//}
 function enableMailingAddress(section) {
     section.find('input, select').each(function () {
         $(this).prop("disabled", false);
