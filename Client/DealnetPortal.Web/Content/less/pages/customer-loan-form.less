@@ -141,10 +141,19 @@
     font-style: normal;
   }
 }
+.mandatory-field.mandatory-field-for-captcha{
+  &:after{
+    position: absolute;
+    right: -10px;
+    top: -5px;
+  }
+}
 .btn-proceed-inline-hold{
   display: inline-block;
   &.btn-form-common{
-    display: block;
+    @media @tablet-down {
+      display: block;
+    }
   }
 }
 .customer-loan-popover.top{
@@ -160,9 +169,18 @@
 }
 
 .captcha-section{
-  width: 340px;
   max-width: 100%;
+  display: inline-block;
   img{
     max-width: 100%;
+  }
+}
+
+#gcaptcha{
+  @media (max-width: 380px) {
+    -webkit-transform: scale(0.82);
+    transform: scale(0.86);
+    -webkit-transform-origin: left;
+    transform-origin: left;
   }
 }

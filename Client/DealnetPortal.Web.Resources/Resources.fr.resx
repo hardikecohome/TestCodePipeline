@@ -310,7 +310,7 @@
     <value>Mois</value>
   </data>
   <data name="MonthlyPayment" xml:space="preserve">
-    <value>PAIEMENT MENSUEL</value>
+    <value>Paiement mensuel</value>
   </data>
   <data name="MyDeals" xml:space="preserve">
     <value>Mes transactions</value>
@@ -872,7 +872,7 @@
     <comment>Context: You will receive an email ... containing a copy of...</comment>
   </data>
   <data name="CreateAnotherApplicationForThis" xml:space="preserve">
-    <value>Créer une autre demande pour ce propriétaire</value>
+    <value>Créer une autre demande pour cet emprunteur</value>
   </data>
   <data name="Declined" xml:space="preserve">
     <value>Refusé</value>
@@ -1086,7 +1086,7 @@
     <value>Au moins un demandeur doit être âgé de 75 ans ou moins</value>
   </data>
   <data name="AtLeastOneHomeOwner" xml:space="preserve">
-    <value>Au moins un demandeur doit être propriétaire d'une résidence</value>
+    <value>Au moins un des demandeurs doit être le propriétaire d’une résidence.</value>
   </data>
   <data name="BorrowerInformation" xml:space="preserve">
     <value>Renseignements sur l'emprunteur</value>
@@ -1148,5 +1148,322 @@
   </data>
   <data name="Street" xml:space="preserve">
     <value>Rue</value>
+  </data>
+<data name="YouCantEditBecauseSubmittedYouCanAddAdditional" xml:space="preserve">
+    <value>Impossible de modifier les renseignements sur l’emprunteur et sur les demandeurs additionnels, car cette transaction a déjà été soumise. Vous pouvez ajouter des demandeurs additionnels</value>
+  </data>
+<data name="LivedAtCurrentLessThan" xml:space="preserve">
+    <value>A habité à l’adresse actuelle pendant moins de six mois</value>
+  </data>
+<data name="AdditionalApplicantPreviousAddressInformation" xml:space="preserve">
+    <value>Renseignement sur l’adresse antérieure du demandeur additionnel</value>
+  </data>
+<data name="MandatoryDocuments" xml:space="preserve">
+    <value>Documents obligatoires</value>
+  </data>
+<data name="DownloadCertificateTemplate" xml:space="preserve">
+    <value>Télécharger le modèle de certificat</value>
+  </data>
+<data name="CannotGetCertificateForPrint" xml:space="preserve">
+    <value>Impossible d’obtenir le certificat d’installation pour l’impression</value>
+  </data>
+<data name="PleaseUploadAllMandatoryDocuments" xml:space="preserve">
+    <value>Veuillez télécharger tous les documents obligatoires</value>
+  </data>
+<data name="Download" xml:space="preserve">
+    <value>Télécharger</value>
+  </data>
+<data name="AdditionalIsHomeOwner" xml:space="preserve">
+    <value>Le demandeur additionnel est le propriétaire d’une résidence.</value>
+  </data>
+<data name="BorrowerIsHomeOwner" xml:space="preserve">
+    <value>L’emprunteur est le propriétaire d’une résidence.</value>
+  </data>
+<data name="LoanTermMustBe3Max" xml:space="preserve">
+    <value>La durée du prêt doit avoir un maximum de trois chiffres</value>
+  </data>
+<data name="AmortizationTermMustBe3Max" xml:space="preserve">
+    <value>La durée de l’amortissement doit avoir un maximum de trois chiffres</value>
+  </data>
+<data name="DealValueFrom" xml:space="preserve">
+    <value>Valeur de transaction à compter de</value>
+  </data>
+<data name="DealValueTo" xml:space="preserve">
+    <value>Valeur de transaction jusqu’à</value>
+  </data>
+<data name="ShareableLink" xml:space="preserve">
+    <value>Lien partageable</value>
+  </data>
+<data name="Copy" xml:space="preserve">
+    <value>Copier</value>
+    <comment>It's a verb (copy, paste, cut...)</comment>
+  </data>
+<data name="EquipmentService" xml:space="preserve">
+    <value>Équipement/service</value>
+  </data>
+<data name="Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+<data name="DefineYourEquipmentService" xml:space="preserve">
+    <value>Décrivez votre équipement/service</value>
+  </data>
+<data name="TypeYourEquipmentService" xml:space="preserve">
+    <value>Entrez votre équipement/service</value>
+  </data>
+<data name="Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+<data name="FormUpdatedCustomersCanUse" xml:space="preserve">
+    <value>Votre formulaire a été correctement mis à jour et les clients peuvent déjà l’utiliser.</value>
+  </data>
+<data name="FormUpdatedButCustomersNotAbleToUse" xml:space="preserve">
+    <value>Votre formulaire a été correctement mis à jour, mais il est pour l’instant désactivé et les clients ne seront pas en mesure de l’utiliser.</value>
+  </data>
+<data name="ApplyForFinancing" xml:space="preserve">
+    <value>Faire une demande de financement</value>
+  </data>
+<data name="YourInformation" xml:space="preserve">
+    <value>Vos renseignements</value>
+  </data>
+<data name="IOwnThisProperty" xml:space="preserve">
+    <value>Cette propriété m’appartient</value>
+  </data>
+<data name="WriteYourComment" xml:space="preserve">
+    <value>Écrivez votre commentaire</value>
+  </data>
+<data name="IAgreeToPassInfoToCreditCheck" xml:space="preserve">
+    <value>J’accepte de transmettre les renseignements pour la vérification de crédit</value>
+  </data>
+<data name="IAgreeDealerOrRepresentativesMayContact" xml:space="preserve">
+    <value>J’accepte que le courtier ou ses représentants communiquent avec moi par courriel ou par téléphone</value>
+  </data>
+<data name="SubmitApplication" xml:space="preserve">
+    <value>Soumettre la demande</value>
+  </data>
+<data name="PleaseFillCaptchaToContinue" xml:space="preserve">
+    <value>Veuillez remplir le champ captcha pour poursuivre la demande.</value>
+  </data>
+<data name="PleaseCheckAgreementToContinue" xml:space="preserve">
+    <value>Veuillez cocher le champ d’acceptation pour poursuivre la demande.</value>
+  </data>
+<data name="FormInEnglish" xml:space="preserve">
+    <value>Formulaire en anglais</value>
+    <comment>"Form" here - is form with fileds to submit</comment>
+  </data>
+<data name="FormInFrench" xml:space="preserve">
+    <value>Formulaire en français</value>
+    <comment>"Form" here - is form with fileds to submit</comment>
+  </data>
+<data name="MailingAddressInformation" xml:space="preserve">
+    <value>Adresse mail</value>
+</data>
+<data name="Internal" xml:space="preserve">
+    <value>Interne</value>
+    <comment>Context: Internal XXX, where XXX - ID number</comment>
+  </data>
+<data name="LoadingWithDots" xml:space="preserve">
+    <value>Chargement...</value>
+  </data>
+<data name="ProcessingYourApplication" xml:space="preserve">
+    <value>Traitement de votre demande...</value>
+  </data>
+<data name="NameOfDocument" xml:space="preserve">
+    <value>Nom d’un document</value>
+  </data>
+<data name="ThisFieldIsRequired" xml:space="preserve">
+    <value>Ce champ doit être rempli.</value>
+  </data>
+<data name="TheFieldMustBeMaximum" xml:space="preserve">
+    <value>Le champ {0} doit être une chaîne de caractères d’une longueur maximale de {1} caractères.</value>
+  </data>
+<data name="TheFieldMustBeMinimumAndMaximum" xml:space="preserve">
+    <value>Le champ {0} doit être une chaîne de caractères d’une longueur minimale de {2} caractères et d’une longueur maximale de {1} caractères.</value>
+  </data>
+<data name="OnMyBehalf" xml:space="preserve">
+    <value>En mon nom</value>
+  </data>
+<data name="CreatedBy" xml:space="preserve">
+    <value>Créé par</value>
+  </data>
+<data name="Dealer" xml:space="preserve">
+    <value>Courtier</value>
+  </data>
+<data name="CreatedByCustomer" xml:space="preserve">
+    <value>Créé par le client</value>
+  </data>
+<data name="WhatEquipmentServiceYouInterestedIn" xml:space="preserve">
+    <value>Quel équipement ou service vous intéresse?</value>
+  </data>
+<data name="YouShouldFillAllMandatoryFields" xml:space="preserve">
+    <value>Vous devez remplir tous les champs obligatoires</value>
+  </data>
+<data name="ToProceedYouNeedToBe75LessPleaseContact" xml:space="preserve">
+    <value>Afin de pouvoir poursuivre, vous devez être âgé de 75 ans ou moins. Veuillez communiquer directement avec le courtier.</value>
+  </data>
+<data name="CongratulationsYouBeenPreApprovedFor" xml:space="preserve">
+    <value>Félicitations, vous avez été pré-approuvé pour un montant de {0) $.</value>
+    <comment>Context: Congratulations, you have been pre-approved for $15,000.</comment>
+  </data>
+<data name="ApplicationSubmittedBy" xml:space="preserve">
+    <value>Demande soumise par</value>
+  </data>
+<data name="New" xml:space="preserve">
+    <value>Nouveau</value>
+  </data>
+<data name="CheckingInfoUsuallyMinutes" xml:space="preserve">
+    <value>Nous vérifions l’information. Habituellement, cela prend environ deux minutes.</value>
+  </data>
+<data name="DealerSalesAgent" xml:space="preserve">
+    <value>Courtier ou agent de vente</value>
+  </data>
+<data name="ShowLessInfo" xml:space="preserve">
+    <value>Afficher moins de renseignements</value>
+  </data>
+<data name="BorrowerContactInfo" xml:space="preserve">
+    <value>Coordonnées de l’emprunteur</value>
+  </data>
+<data name="SwitchToEnglish" xml:space="preserve">
+    <value>Basculer vers l’anglais</value>
+  </data>
+<data name="BorrowerEmail" xml:space="preserve">
+    <value>Courriel de l’emprunteur</value>
+  </data>
+<data name="Borrower" xml:space="preserve">
+    <value>Emprunteur</value>
+  </data>
+<data name="ConsumerAuthorizedToMaximum" xml:space="preserve">
+    <value>Le consommateur a reçu une autorisation pour un montant maximal de {0} $</value>
+    <comment>Context: Consumer is authorized to a maximum amount of $15,000.</comment>
+  </data>
+<data name="TotalPriceOfEquipment" xml:space="preserve">
+    <value>Prix total de l’équipement</value>
+  </data>
+<data name="FixedRate" xml:space="preserve">
+    <value>Taux fixe</value>
+  </data>
+<data name="Promo" xml:space="preserve">
+    <value>Promo</value>
+  </data>
+<data name="YourCost" xml:space="preserve">
+    <value>Votre coût</value>
+  </data>
+<data name="More" xml:space="preserve">
+    <value>Plus</value>
+  </data>
+<data name="Select" xml:space="preserve">
+    <value>Sélectionner</value>
+  </data>
+<data name="Cost of Borrowing" xml:space="preserve">
+    <value>Frais d’emprunt</value>
+  </data>
+<data name="CostOfBorrowing" xml:space="preserve">
+    <value>Frais d’emprunt</value>
+  </data>
+<data name="NoInterest" xml:space="preserve">
+    <value>Aucun intérêt</value>
+  </data>
+<data name="Deferral" xml:space="preserve">
+    <value>Report</value>
+  </data>
+<data name="DeferralPeriod" xml:space="preserve">
+    <value>Période de report</value>
+  </data>
+<data name="Custom" xml:space="preserve">
+    <value>Personnaliser</value>
+  </data>
+<data name="RateCard" xml:space="preserve">
+    <value>Carte de tarifs</value>
+  </data>
+<data name="TotalAmountFinancedToBeInRange" xml:space="preserve">
+    <value>Le montant total financé doit se trouver dans la plage de {0} $ à {1} $.</value>
+    <comment>Context: Total Amount Financed needs to be in the range of $1,000 to $50,000.</comment>
+  </data>
+<data name="MonthAmortizationAvailableOnly" xml:space="preserve">
+    <value>L’amortissement de {0} mois est disponible seulement pour les prêts supérieurs à {0} $</value>
+    <comment>Context: 180 month amortization is available only on loans over $5,000</comment>
+  </data>
+<data name="PreviouslySelectedProgramNotAvailableToModifySelect" xml:space="preserve">
+    <value>Le programme de financement précédemment sélectionné n’est plus offert. Afin de modifier la transaction, vous devez sélectionner un programme valide</value>
+  </data>
+<data name="FixedRateLoanProgram" xml:space="preserve">
+    <value>Programme de prêts à taux fixe</value>
+  </data>
+<data name="LoanAmmount" xml:space="preserve">
+    <value>Montant du prêt</value>
+  </data>
+<data name="EqualPaymentsProgram" xml:space="preserve">
+    <value>Programme de paiements égaux</value>
+  </data>
+<data name="DeferralProgram" xml:space="preserve">
+    <value>Programme de report</value>
+  </data>
+<data name="DealerCost" xml:space="preserve">
+    <value>Coût du courtier</value>
+  </data>
+<data name="Period" xml:space="preserve">
+    <value>Période</value>
+  </data>
+<data name="BackToStep" xml:space="preserve">
+    <value>Retour à l’étape {0}</value>
+    <comment>Context: Back to the step 2</comment>
+  </data>
+<data name="NotificationSettings" xml:space="preserve">
+    <value>Paramètres de notification</value>
+  </data>
+<data name="SeeAll" xml:space="preserve">
+    <value>Voir tout</value>
+  </data>
+<data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+<data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+<data name="NotifyMeInCase:" xml:space="preserve">
+    <value>Me prévenir en cas :</value>
+  </data>
+<data name="DealStatusChanged" xml:space="preserve">
+    <value>Statut de la transaction modifié</value>
+  </data>
+<data name="OwnerWasNotConfirmed" xml:space="preserve">
+    <value>Propriétaire non confirmé</value>
+  </data>
+<data name="New deal was submitted  by customers" xml:space="preserve">
+    <value>NouvelleTransactionSoumiseParClients</value>
+  </data>
+<data name="Contract expiration" xml:space="preserve">
+    <value>ExpirationContrat</value>
+  </data>
+<data name="PaymentsReport" xml:space="preserve">
+    <value>Report des paiements</value>
+  </data>
+<data name="ConfigureNotificationMethod" xml:space="preserve">
+    <value>Configurer la méthode de notification</value>
+  </data>
+<data name="AddAdditionalPhoneNumber" xml:space="preserve">
+    <value>Ajouter un numéro de téléphone</value>
+  </data>
+<data name="AddAdditionalEmail" xml:space="preserve">
+    <value>Ajouter une adresse courriel</value>
+  </data>
+<data name="ConfigureContacts" xml:space="preserve">
+    <value>Configurer les contacts</value>
+  </data>
+<data name="SmsAndEmail" xml:space="preserve">
+    <value>SMS et courriel</value>
+  </data>
+<data name="FirstStepOfTheDeal" xml:space="preserve">
+    <value>Première étape de la transaction</value>
+  </data>
+<data name="DueToMaintenanceSiteUnavailableFromUntil" xml:space="preserve">
+    <value>En raison de travaux de maintenance planifiés, notre site ne sera pas accessible de {0} à {1}.</value>
+    <comment>Context: Due to planned maintenance, our site will be unavailable starting from 16/03/2017 at 10 PM EDT until 17/03/2017 at 5 AM EDT.</comment>
+  </data>
+<data name="WeAddedNewFeaturesYouCanFindInManualAndTutorials" xml:space="preserve">
+    <value>Nous avons ajouté de nouvelles fonctionnalités à notre portail, vous pouvez trouver certaines ressources ici : Manuel sur les nouvelles fonctionnalités (PDF) et tutoriels.</value> 
+  </data>
+<data name="WeUpdated" xml:space="preserve">
+    <value>Nous avons mis à jour : {0}</value>
+    <comment>Context: We updated: 1st page, 2nd page...</comment>
   </data>
 </root>

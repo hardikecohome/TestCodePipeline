@@ -361,7 +361,7 @@
         <label for="living-time-checkbox" class="align-middle custom-checkbox">
             <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox" @if (Model?.HomeOwner?.PreviousAddressInformation != null) { <text> checked</text> } data-section="previous-address"/>
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>@Resources.BorrowerLivedAtCurrentLessThan</span>
+            <span>@Resources.LivedAtCurrentLessThan</span>
         </label>
     </div>
     <div id="previous-address">
@@ -429,7 +429,7 @@
             <label for="mailing-address-checkbox" class="align-middle custom-checkbox">
             <input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox" @if (Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address" />
                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                <span>@Resources.BorrowerMailingAddressNotSameAsInstallation</span>
+                <span>@Resources.MailingAddressNotSameAsInstallation</span>
             </label>
         </div>
         <div id="mailing-address">
@@ -501,7 +501,7 @@
                 @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
                 @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                <span>@Resources.BorrowerIsOwnerOfProperty</span>
+                <span>@Resources.BorrowerIsHomeOwner</span>
                 @Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
             </label>
         </div>
@@ -634,7 +634,7 @@
                 <label for="living-time-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
                     <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.PreviousAddressInformation != null) { <text> checked</text> } data-section="previous-address-add-app@(i+1)"/>
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>@Resources.LivedAtInstallationAddressLessThan</span>
+                    <span>@Resources.LivedAtCurrentLessThan</span>
                 </label>
             </div>
             <div id="previous-address-add-app@(i+1)">
@@ -779,7 +779,7 @@
                     @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "add-applicant-checkbox" + (i + 1) })
                     @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>@Resources.AdditionalIsOwnerOfProperty</span>
+                    <span>@Resources.AdditionalIsHomeOwner</span>
                 </label>
             </div>
         </div>

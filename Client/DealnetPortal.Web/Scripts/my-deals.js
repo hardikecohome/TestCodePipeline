@@ -26,7 +26,7 @@ function assignDatepicker(input) {
 }
 
 function showTable() {
-    $.when($.ajax(itemsUrl, { mode: 'GET' }))
+    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
             var agrTypeOptions = [];
