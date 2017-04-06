@@ -64,15 +64,39 @@
             });
         });
 
-        var enLink = $('#enLink');
-        $('#copyEn').on('click', function () {
-            enLink.select();
-            document.execCommand('copy');
+        var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
+
+        var selectElement = function(el) {
+            if (el.nodeName == "TEXTAREA" || el.nodeName == "INPUT")
+                el.select();
+            if (el.setSelectionRange && isIOS)
+                el.setSelectionRange(0, 999999);
+        };
+
+        var copyCommand = function() {
+            if (document.queryCommandSupported("copy")) {
+                document.execCommand('copy');
+            }
+        };
+
+        var enLink = document.getElementById('enLink');
+        var frLink = document.getElementById('frLink');
+
+        var activeLink = '';
+        document.addEventListener('copy', function (e) {
+            e.clipboardData.setData('text/plain', activeLink);
+            e.preventDefault();
         });
 
-        var frLink = $('#frLink');
+        $('#copyEn').on('click', function () {
+            activeLink = enLink.value;
+            selectElement(enLink);
+            copyCommand();
+        });
+
         $('#copyFr').on('click', function () {
-            frLink.select();
-            document.execCommand('copy');
+            activeLink = frLink.value;
+            selectElement(frLink);
+            copyCommand();
         });
     });
