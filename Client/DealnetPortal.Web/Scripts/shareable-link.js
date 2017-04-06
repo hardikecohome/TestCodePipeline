@@ -83,10 +83,6 @@
         var frLink = document.getElementById('frLink');
 
         var activeLink = '';
-        document.addEventListener('copy', function (e) {
-            e.clipboardData.setData('text/plain', activeLink);
-            e.preventDefault();
-        });
 
         $('#copyEn').on('click', function () {
             activeLink = enLink.value;
