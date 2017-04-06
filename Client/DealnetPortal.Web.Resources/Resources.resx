@@ -1350,7 +1350,4 @@
   <data name="PleaseCheckContactAgreementToContinue" xml:space="preserve">
     <value>Please, check the contact agreement field to continue with the application.</value>
   </data>
-  <data name="ApplicationCreatedBy" xml:space="preserve">
-    <value>Application Created By</value>
-  </data>
 </root>

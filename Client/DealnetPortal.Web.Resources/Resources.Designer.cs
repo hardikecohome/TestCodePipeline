@@ -367,15 +367,6 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application Created By.
-        /// </summary>
-        public static string ApplicationCreatedBy {
-            get {
-                return ResourceManager.GetString("ApplicationCreatedBy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Application submitted.
         /// </summary>
         public static string ApplicationSubmitted {
