@@ -160,6 +160,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comment from customer.
+        /// </summary>
+        public static string CommentFromCustomer {
+            get {
+                return ResourceManager.GetString("CommentFromCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contract.
         /// </summary>
         public static string Contract {

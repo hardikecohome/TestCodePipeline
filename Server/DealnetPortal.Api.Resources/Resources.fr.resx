@@ -349,4 +349,7 @@
   <data name="Value" xml:space="preserve">
     <value>Valeur</value>
   </data>
+  <data name="CommentFromCustomer" xml:space="preserve">
+    <value>Comment from customer</value>
+  </data>
 </root>

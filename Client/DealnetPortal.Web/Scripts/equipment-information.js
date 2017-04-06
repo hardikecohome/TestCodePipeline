@@ -242,7 +242,7 @@ function recalculateTotalMonthlyPayment() {
 
 function recalculateTotalMonthlyPaymentHst() {
     var sum = Globalize.parseNumber($("#total-monthly-payment").val());
-    if (!Number.isNaN(sum)) {
+    if (!isNaN(sum)) {
         var totalHst = sum * taxRate / 100;
         var totalMp = sum * 1 + totalHst;
         $("#total-hst").text(formatNumber(totalHst));

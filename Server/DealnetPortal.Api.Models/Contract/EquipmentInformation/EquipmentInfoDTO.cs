@@ -32,7 +32,7 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 
         public string SalesRep { get; set; }
 
-        public string Notes { get; set; }
+        //public string Notes { get; set; }
 
         public DateTime? EstimatedInstallationDate { get; set; }
 

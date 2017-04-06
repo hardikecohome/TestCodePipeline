@@ -197,6 +197,9 @@ namespace DealnetPortal.Web.Models
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
+        [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
+        public string Notes { get; set; }
     }
 
     public sealed class EligibleAgeAttribute : ValidationAttribute

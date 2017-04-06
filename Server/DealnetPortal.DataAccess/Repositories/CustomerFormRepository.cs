@@ -96,7 +96,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public Contract AddCustomerContractData(int contractId, string selectedService, string customerComment,
+        public Contract AddCustomerContractData(int contractId, string commentsHeader, string selectedService, string customerComment,
             string dealerId)
         {
             var contract = _dbContext.Contracts.Find(contractId);
@@ -111,6 +111,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (service != null || !string.IsNullOrEmpty(customerComment))
                 {
                     var notes = new StringBuilder();
+                    if (!string.IsNullOrEmpty(commentsHeader))
+                    {
+                        notes.AppendLine(commentsHeader);
+                    }
                     if (service != null)
                     {
                         notes.AppendLine(service.Service);
@@ -119,22 +123,17 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         notes.AppendLine(customerComment);
                     }
-
-                    if (contract.Equipment != null)
+                    if (contract.Details != null)
                     {
-                        contract.Equipment.Notes = notes.ToString();
-                    }
-                    else
-                    {
-                        var eqInfo = new EquipmentInfo()
+                        if (string.IsNullOrEmpty(contract.Details.Notes))
                         {
-                            Notes = notes.ToString(),
-                            ExistingEquipment = new List<ExistingEquipment>(),
-                            NewEquipment = new List<NewEquipment>(),
-                            Contract = contract,                            
-                        };
-                        _dbContext.EquipmentInfo.Add(eqInfo);
-                    }                    
+                            contract.Details.Notes = notes.ToString();
+                        }
+                        else
+                        {
+                            contract.Details.Notes += notes.ToString();
+                        }
+                    }                                     
                 }
             }
             return contract;

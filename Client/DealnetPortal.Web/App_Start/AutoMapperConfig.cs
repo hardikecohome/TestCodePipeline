@@ -276,7 +276,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
-                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
+                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
+                .ForMember(x => x.Notes, d => d.Ignore());
 
             cfg.CreateMap<CommentDTO, CommentViewModel>();
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
