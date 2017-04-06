@@ -231,7 +231,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {                        
                         try
                         {
-                            _customerFormRepository.AddCustomerContractData(contract.Id,
+                            _customerFormRepository.AddCustomerContractData(contract.Id, $"{Resources.Resources.CommentFromCustomer}:",
                                 customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
                             _unitOfWork.Save();
                             _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
