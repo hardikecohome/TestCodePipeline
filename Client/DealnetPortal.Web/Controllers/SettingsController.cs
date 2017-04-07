@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Web.Common;
@@ -26,6 +27,8 @@ namespace DealnetPortal.Web.Controllers
         {
             _settingsManager = settingsManager;
         }
+
+        [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
         public async Task<FileResult> LogoImage(string dealerName)
         {
             _securityManager.SetUserFromContext();
@@ -53,6 +56,7 @@ namespace DealnetPortal.Web.Controllers
             return File(stream, "image/png");
         }
 
+        [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
         public async Task<FileResult> Favicon()
         {
             _securityManager.SetUserFromContext();
