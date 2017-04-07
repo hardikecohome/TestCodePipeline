@@ -63,6 +63,21 @@ html:not(.ie9){
   }
 
 }
+
+#jquery-loader-background{
+  position: fixed !important;
+  background-color: #f3f3f3;
+}
+#jquery-loader{
+  padding-top: 25px;
+  margin-top: 0;
+  top: 50% !important;
+  left: 50% !important;
+  margin-left: -50px !important;
+  margin-top: -70px !important;
+  position: fixed !important;
+}
+
 html.ie9{
   .loader,
   #jquery-loader{
@@ -74,19 +89,6 @@ html.ie9{
     display: inline-block;
   }
 }
-
-#jquery-loader-background{
-  position: fixed !important;
-  background-color: #f3f3f3;
-}
-#jquery-loader{
-  padding-top: 25px;
-  margin-top: 0;
-  top: 50% !important;
-  margin-top: -70px !important;
-  position: fixed !important;
-}
-
 
 /* whirl standard rotation animation used for duo, double-up etc. */
 @-moz-keyframes standard {
