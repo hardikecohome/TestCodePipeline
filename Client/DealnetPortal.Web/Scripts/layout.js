@@ -30,6 +30,7 @@
 
     if (layotSettingsUrl) {
         $.ajax({
+            cache: false,
             type: "GET",
             url: layotSettingsUrl,
             success: function(json) {
@@ -42,6 +43,7 @@
 
     if (customerDealsCountUrl) {
         $.ajax({
+            cache: false,
             type: "GET",
             url: customerDealsCountUrl,
             success: function (json) {
