@@ -9,6 +9,7 @@ using AutoMapper;
 using dotless.Core.Parser.Tree;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -89,10 +90,10 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName });
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName, culture = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["culture"]?.ToString() });
         }
 
-        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string dealerName)
+        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string dealerName, string culture)
         {
             var viewModel = new SubmittedCustomerFormViewModel();
             var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName);
@@ -104,7 +105,7 @@ namespace DealnetPortal.Web.Controllers
             viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
             viewModel.Phone = submitedData.DealerPhone;
             viewModel.Email = submitedData.DealerEmail;
-
+            _cultureManager.SetCulture(culture, false);
             return View(viewModel);
         }
     }
