@@ -830,7 +830,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 application.AmtRequested = contract.Equipment.AmortizationTerm?.ToString();
                 application.TermRequested = contract.Equipment.RequestedTerm.ToString();
-                application.Notes = contract.Equipment.Notes;
+                application.Notes = contract.Details?.Notes ?? contract.Equipment.Notes;
                 //TODO: Implement finance program selection
                 application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
 
