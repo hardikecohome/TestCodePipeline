@@ -1,6 +1,6 @@
 ﻿@model DealnetPortal.Web.Models.SubmittedCustomerFormViewModel
 @{
-    ViewBag.Title = "Apply for financing";
+    ViewBag.Title = Resources.ApplyForFinancing;
 }
 
 <div class="customer-loan-success-page align-middle-section">
@@ -13,12 +13,12 @@
         @if (Model.CreditAmount > 0)
         {
             <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-            <h2 class="page-heading">Congratulations, you have been pre-approved for $@($"{Model.CreditAmount:0,00}").</h2>
+            <h2 class="page-heading">@(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"{Model.CreditAmount:0,00}"))</h2>
         }
-        <p>Your financing application was successfully submitted. @(Model.DealerName) will contact you soon.</p>
+        <p>@Resources.YourFinancingApplicationWasSubmitted @Resources.WillContactYouSoon.Replace("{0}", Model.DealerName)</p>
 
         <div class="contact-section">
-            <div>If you have any question please contact:</div>
+            <div>@Resources.IfYouHaveQuestionsPleaseContact:</div>
             <div class="vcard">
                 <div class="fn org">@Model.DealerName</div>
                 <div class="adr">

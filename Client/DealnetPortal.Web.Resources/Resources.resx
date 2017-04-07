@@ -1319,7 +1319,7 @@
     <value>We are checking the information. Usually it takes about two minutes.</value>
   </data>
   <data name="CongratulationsYouBeenPreApprovedFor" xml:space="preserve">
-    <value>Congratulations, you have been pre-approved for ${0).</value>
+    <value>Congratulations, you have been pre-approved for ${0}.</value>
     <comment>Context: Congratulations, you have been pre-approved for $15,000.</comment>
   </data>
   <data name="DealerSalesAgent" xml:space="preserve">
@@ -1349,5 +1349,16 @@
   </data>
   <data name="PleaseCheckContactAgreementToContinue" xml:space="preserve">
     <value>Please, check the contact agreement field to continue with the application.</value>
+  </data>
+  <data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
+    <value>If you have any question please contact</value>
+    <comment>Context: If you have any question please contact: One Fine Company</comment>
+  </data>
+  <data name="WillContactYouSoon" xml:space="preserve">
+    <value>{0} will contact you soon.</value>
+    <comment>Context: One Fine Company will contact you soon. </comment>
+  </data>
+  <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
+    <value>Your financing application was successfully submitted.</value>
   </data>
 </root>
