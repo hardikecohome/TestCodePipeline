@@ -236,7 +236,7 @@ function recalculateTotalMonthlyPayment() {
         }
     });
 
-    $("#total-monthly-payment").val(sum);
+    $("#total-monthly-payment").val(formatNumber(sum));
     recalculateTotalMonthlyPaymentHst();
 }
 

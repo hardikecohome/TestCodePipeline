@@ -36,6 +36,7 @@ $(document).ready(function () {
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
                 round: 'round',
+                useGrouping: false
             });
             configInitialized.resolve(true);
         });
