@@ -63,17 +63,6 @@ html:not(.ie9){
   }
 
 }
-html.ie9{
-  .loader,
-  #jquery-loader{
-    text-indent: -999em;
-    background: url('../images/Spinner_1.gif') 0 0 no-repeat;
-    background-size: cover;
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-  }
-}
 
 #jquery-loader-background{
   position: fixed !important;
@@ -83,10 +72,23 @@ html.ie9{
   padding-top: 25px;
   margin-top: 0;
   top: 50% !important;
+  left: 50% !important;
+  margin-left: -50px !important;
   margin-top: -70px !important;
   position: fixed !important;
 }
 
+html.ie9{
+  .loader,
+  #jquery-loader{
+    text-indent: -999em;
+    background: url('../../images/Spinner_1.gif') 0 0 no-repeat;
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+  }
+}
 
 /* whirl standard rotation animation used for duo, double-up etc. */
 @-moz-keyframes standard {
