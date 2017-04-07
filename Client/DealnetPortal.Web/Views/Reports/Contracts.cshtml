@@ -347,7 +347,7 @@
 
 							<div class="form-group">
 								<div class="row">
-									<label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+									<label for="" class="dealnet-field-caption col-xs-6">@Resources.HomeOwner</label>
 									<div class="dealnet-field-holder col-xs-6">
 										<div class="control-group">
 											<input type="text" readonly="readonly" class="dealnet-disabled-input" value=@((contract.BasicInfo?.HomeOwner.IsHomeOwner ?? false) ? Resources.Yes : Resources.No)>
@@ -627,7 +627,7 @@
 
 								<div class="form-group">
 									<div class="row">
-										<label for="" class="dealnet-field-caption col-xs-6">Home Owner</label>
+										<label for="" class="dealnet-field-caption col-xs-6">@Resources.HomeOwner</label>
 										<div class="dealnet-field-holder col-xs-6">
 											<div class="control-group">
 												<input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(contract.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No)>
