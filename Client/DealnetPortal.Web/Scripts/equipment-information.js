@@ -247,9 +247,6 @@ function recalculateTotalMonthlyPaymentHst() {
         var totalMp = sum * 1 + totalHst;
         $("#total-hst").text(formatNumber(totalHst));
         $("#total-monthly-payment-hst").text(formatNumber(totalMp));
-        if (totalMp !== 0) {
-            $("#total-monthly-payment").val(formatNumber(totalMp));
-        }
     } else {
         $("#total-hst").text('--');
         $("#total-monthly-payment-hst").text('--');
