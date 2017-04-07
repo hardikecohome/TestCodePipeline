@@ -79,20 +79,27 @@
             }
         };
 
-        var enLink = document.getElementById('enLink');
-        var frLink = document.getElementById('frLink');
+        if (!isIOS) {
+            var enLink = document.getElementById('enLink');
+            var frLink = document.getElementById('frLink');
 
-        var activeLink = '';
+            var activeLink = '';
 
-        $('#copyEn').on('click', function () {
-            activeLink = enLink.value;
-            selectElement(enLink);
-            copyCommand();
-        });
+            $('#copyEn').on('click',
+                function() {
+                    activeLink = enLink.value;
+                    selectElement(enLink);
+                    copyCommand();
+                });
 
-        $('#copyFr').on('click', function () {
-            activeLink = frLink.value;
-            selectElement(frLink);
-            copyCommand();
-        });
+            $('#copyFr').on('click',
+                function() {
+                    activeLink = frLink.value;
+                    selectElement(frLink);
+                    copyCommand();
+                });
+        } else {
+            $('#copyEn').hide();
+            $('#copyFr').hide();
+        }
     });
