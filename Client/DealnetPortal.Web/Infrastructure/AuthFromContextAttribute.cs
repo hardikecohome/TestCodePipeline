@@ -23,7 +23,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (filterContext.HttpContext.User == null || !filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 filterContext.Result = new RedirectToRouteResult(
-                    new RouteValueDictionary(new { controller = "Account", action = "Login" }));
+                    new RouteValueDictionary(new { controller = "Account", action = "Login", returnUrl = filterContext.HttpContext.Request.RawUrl} ));
             }            
         }
     }
