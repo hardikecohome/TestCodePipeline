@@ -358,9 +358,9 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         // GET api/dict/GetCustomerLinkLanguageOptions?dealer={dealer}&lang={lang}
         [Route("GetCustomerLinkLanguageOptions")]
-        public IHttpActionResult GetCustomerLinkLanguageOptions(string dealer, string lang)
+        public IHttpActionResult GetCustomerLinkLanguageOptions(string hashDealerName, string lang)
         {
-            var linkSettings = CustomerFormService.GetCustomerLinkLanguageOptions(dealer, lang);
+            var linkSettings = CustomerFormService.GetCustomerLinkLanguageOptions(hashDealerName, lang);
             if (linkSettings != null)
             {
                 return Ok(linkSettings);

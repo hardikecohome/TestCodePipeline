@@ -12,7 +12,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         CustomerLinkDTO GetCustomerLinkSettingsByDealerName(string dealerName);
 
-        CustomerLinkLanguageOptionsDTO GetCustomerLinkLanguageOptions(string dealerName, string language);
+        CustomerLinkLanguageOptionsDTO GetCustomerLinkLanguageOptions(string hashDealerName, string language);
 
         IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId);
 

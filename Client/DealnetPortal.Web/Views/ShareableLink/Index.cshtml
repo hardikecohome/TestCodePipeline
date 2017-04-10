@@ -1,5 +1,4 @@
-﻿@using DealnetPortal.Utilities
-@model DealnetPortal.Web.Models.ShareableLinkViewModel
+﻿@model DealnetPortal.Web.Models.ShareableLinkViewModel
 
 <div id="label-steps">
     <div class="dealnet-action-link">@Resources.ShareableLink</div> >
@@ -11,6 +10,7 @@
     @using (Html.BeginForm("Index", "ShareableLink", FormMethod.Post, new {id = "mainForm"}))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(x=>x.HashDealerName)
         <div class="get-link-section">
             <div class="form-group">
                 <div class="labels-hold">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", dealerName = SecurityUtils.Hash(User.Identity.Name) }, Request.Url.Scheme)">
+                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", dealerName = Model?.HashDealerName }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyEn">@Resources.Copy</button>
                 </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", dealerName = User.Identity.Name }, Request.Url.Scheme)">
+                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", dealerName = Model?.HashDealerName }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyFr">@Resources.Copy</button>
                 </div>
