@@ -9,6 +9,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -25,6 +26,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var customerLinkDto = await _dictionaryServiceAgent.GetShareableLinkSettings();
             var customerLink = AutoMapper.Mapper.Map<ShareableLinkViewModel>(customerLinkDto);
+            customerLink.HashDealerName = SecurityUtils.Hash(User.Identity.Name);
             return View(customerLink);
         }
 
