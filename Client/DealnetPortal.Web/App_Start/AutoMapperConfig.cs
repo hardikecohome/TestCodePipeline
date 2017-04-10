@@ -169,7 +169,8 @@ namespace DealnetPortal.Web.App_Start
                         services.Add(LanguageCode.French, src.FrenchServices);
                     }
                     return services;
-                }));
+                }))
+                .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -311,7 +312,8 @@ namespace DealnetPortal.Web.App_Start
                     List<string> services = null;
                     src.Services?.TryGetValue(LanguageCode.French, out services);
                     return services;
-                }));
+                }))
+                .ForMember(x=>x.HashDealerName, d=>d.MapFrom(s=>s.HashLink));
         }
 
 

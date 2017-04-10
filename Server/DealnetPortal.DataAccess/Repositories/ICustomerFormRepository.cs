@@ -12,6 +12,7 @@ namespace DealnetPortal.DataAccess.Repositories
     {
         CustomerLink GetCustomerLinkSettings(string dealerId);
         CustomerLink GetCustomerLinkSettingsByDealerName(string dealerName);
+        CustomerLink GetCustomerLinkSettingsByHashDealerName(string hashDealerName);
         CustomerLink UpdateCustomerLinkLanguages(ICollection<DealerLanguage> enabledLanguages, string dealerId);
         CustomerLink UpdateCustomerLinkServices(ICollection<DealerService> dealerServices, string dealerId);
         Contract AddCustomerContractData(int contractId, string commentsHeader, string selectedService, string customerComment, string dealerId);        

@@ -98,6 +98,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<CustomerLink, CustomerLinkDTO>()
                 .ForMember(x => x.EnabledLanguages,
                     d => d.ResolveUsing(src => src.EnabledLanguages?.Select(l => l.LanguageId).Cast<LanguageCode>().ToList()))
+                .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src => src.Services?.GroupBy(k => k.LanguageId).ToDictionary(ds => (LanguageCode)ds.Key, ds => ds.Select(s => s.Service).ToList())));
         }
 
@@ -182,7 +183,8 @@ namespace DealnetPortal.Api.App_Start
                     src.EnabledLanguages?.Select(l => new DealerLanguage() {LanguageId = (int)l, Language = new Language() { Id = (int)l } }).ToList()))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src =>
                     src.Services?.SelectMany(ds => ds.Value.Select(dsv => new DealerService() {LanguageId = (int)ds.Key, Service = dsv}))))
-                .ForMember(x => x.Id, d => d.Ignore());
+                .ForMember(x => x.Id, d => d.Ignore())
+                .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink));
         }
     }
 }

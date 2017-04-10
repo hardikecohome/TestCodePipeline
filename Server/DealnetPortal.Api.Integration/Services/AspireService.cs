@@ -823,14 +823,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = eq.Cost?.ToString(CultureInfo.InvariantCulture),
+                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication ? eq.Cost?.ToString(CultureInfo.InvariantCulture) 
+                                                                                                    : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
                     });
                 });
                 application.AmtRequested = contract.Equipment.AmortizationTerm?.ToString();
                 application.TermRequested = contract.Equipment.RequestedTerm.ToString();
-                application.Notes = contract.Equipment.Notes;
+                application.Notes = contract.Details?.Notes ?? contract.Equipment.Notes;
                 //TODO: Implement finance program selection
                 application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
 
