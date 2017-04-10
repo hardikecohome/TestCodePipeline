@@ -1301,7 +1301,7 @@
     <value>Afin de pouvoir poursuivre, vous devez être âgé de 75 ans ou moins. Veuillez communiquer directement avec le courtier.</value>
   </data>
 <data name="CongratulationsYouBeenPreApprovedFor" xml:space="preserve">
-    <value>Félicitations, vous avez été pré-approuvé pour un montant de {0) $.</value>
+    <value>Félicitations, vous avez été pré-approuvé pour un montant de {0} $.</value>
     <comment>Context: Congratulations, you have been pre-approved for $15,000.</comment>
   </data>
 <data name="ApplicationSubmittedBy" xml:space="preserve">
@@ -1465,5 +1465,15 @@
 <data name="WeUpdated" xml:space="preserve">
     <value>Nous avons mis à jour : {0}</value>
     <comment>Context: We updated: 1st page, 2nd page...</comment>
+  </data>
+  <data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
+    <value>Si vous avez des questions, veuillez communiquer avec</value>
+  </data>
+  <data name="WillContactYouSoon" xml:space="preserve">
+    <value>{0} communiquera avec vous prochainement.</value>
+    <comment>Context: One Fine Company will contact you soon. </comment>
+  </data>
+  <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
+    <value>Votre demande de financement a été soumise.</value>
   </data>
 </root>

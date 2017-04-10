@@ -808,7 +808,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Congratulations, you have been pre-approved for ${0)..
+        ///   Looks up a localized string similar to Congratulations, you have been pre-approved for ${0}..
         /// </summary>
         public static string CongratulationsYouBeenPreApprovedFor {
             get {
@@ -1794,6 +1794,15 @@ namespace DealnetPortal.Web.Resources {
         public static string IfYouChangeInfo {
             get {
                 return ResourceManager.GetString("IfYouChangeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you have any question please contact.
+        /// </summary>
+        public static string IfYouHaveQuestionsPleaseContact {
+            get {
+                return ResourceManager.GetString("IfYouHaveQuestionsPleaseContact", resourceCulture);
             }
         }
         
@@ -3607,6 +3616,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} will contact you soon..
+        /// </summary>
+        public static string WillContactYouSoon {
+            get {
+                return ResourceManager.GetString("WillContactYouSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You will receive an email shortly at.
         /// </summary>
         public static string WillReceiveEmailShortly {
@@ -3711,6 +3729,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YourComment {
             get {
                 return ResourceManager.GetString("YourComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your financing application was successfully submitted..
+        /// </summary>
+        public static string YourFinancingApplicationWasSubmitted {
+            get {
+                return ResourceManager.GetString("YourFinancingApplicationWasSubmitted", resourceCulture);
             }
         }
         

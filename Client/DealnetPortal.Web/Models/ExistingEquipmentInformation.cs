@@ -17,6 +17,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "RentalCompany")]
         public string RentalCompany { get; set; }
 
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EstimatedAge")]
         public double EstimatedAge { get; set; }
 

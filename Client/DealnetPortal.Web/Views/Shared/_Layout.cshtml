@@ -58,6 +58,8 @@
             </script>
             <script type="text/javascript">
                 $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+                $.datepicker.regional['fr'].monthNamesShort = [ "janvier", "février", "mars", "avril", "mai", "juin",
+		"juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
                 $.datepicker.setDefaults($.datepicker.regional['fr']);
             </script>
             break;
@@ -195,7 +197,7 @@
                             </li>
                             <li class="dealnet-sidebar-item">
                                 <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
-                                @Html.ActionLink("Shareable Link", "Index", "ShareableLink", null, new { @class = "dealnet-sidebar-link" })
+                                @Html.ActionLink(Resources.ShareableLink, "Index", "ShareableLink", null, new { @class = "dealnet-sidebar-link" })
                             </li>
                             <li class="dealnet-sidebar-item" style="display: none;" id="sidebar-item-about">
                                 <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
