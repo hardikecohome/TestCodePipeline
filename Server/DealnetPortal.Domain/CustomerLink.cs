@@ -18,7 +18,12 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(200)]
+        public string HashLink { get; set; }
+
         public virtual ICollection<DealerLanguage> EnabledLanguages { get; set; }
         public virtual ICollection<DealerService> Services { get; set; }
+        
     }
 }

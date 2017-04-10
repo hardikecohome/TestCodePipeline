@@ -12,5 +12,6 @@ namespace DealnetPortal.Web.Models
         public bool FrenchLinkEnabled { get; set; }
         public List<string> EnglishServices { get; set; } 
         public List<string> FrenchServices { get; set; } 
+        public string HashDealerName { get; set; } 
     }
 }

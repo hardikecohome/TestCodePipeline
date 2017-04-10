@@ -1311,6 +1311,12 @@ namespace DealnetPortal.DataAccess.Migrations
                                     u.Settings?.SettingValues.FirstOrDefault(sv => sv.Item?.SettingType.ToString() == st);
                                 if (logo == null)
                                 {
+                                    if (u.Settings == null)
+                                    {
+                                        var userSettings = new UserSettings();
+                                        context.UserSettings.Add(userSettings);
+                                        u.Settings = userSettings;
+                                    }
                                     logo = new SettingValue()
                                     {
                                         UserSettings = u.Settings,

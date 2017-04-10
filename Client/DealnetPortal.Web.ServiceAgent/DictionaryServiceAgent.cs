@@ -205,12 +205,12 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string dealerName, string culture)
+        public async Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture)
         {
             try
             {
                 return await Client.GetAsync<CustomerLinkLanguageOptionsDTO>(
-                            $"{_fullUri}/GetCustomerLinkLanguageOptions?dealer={dealerName}&lang={culture}").ConfigureAwait(false);
+                            $"{_fullUri}/GetCustomerLinkLanguageOptions?hashDealerName={hashDealerName}&lang={culture}").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
