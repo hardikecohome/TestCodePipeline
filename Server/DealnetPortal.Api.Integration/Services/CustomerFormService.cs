@@ -88,6 +88,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }                
                 langSettings.EnabledLanguages =
                         linkSettings.EnabledLanguages.Select(l => (LanguageCode)l.LanguageId).ToList();
+                langSettings.DealerName = _dealerRepository.GetDealerNameByCustomerLinkId(linkSettings.Id);
                 return langSettings;
             }
             return null;

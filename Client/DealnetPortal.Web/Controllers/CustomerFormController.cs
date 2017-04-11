@@ -28,13 +28,13 @@ namespace DealnetPortal.Web.Controllers
             _cultureManager = cultureManager;
         }
 
-        public async Task<ActionResult> Index(string dealerName, string culture)
+        public async Task<ActionResult> Index(string hashDealerName, string culture)
         {
-            if (dealerName == null || culture == null)
+            if (hashDealerName == null || culture == null)
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(dealerName, culture);
+            var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             if (languageOptions == null || !languageOptions.IsLanguageEnabled)
             {
                 return RedirectToAction("AnonymousError", "Info");
@@ -48,7 +48,7 @@ namespace DealnetPortal.Web.Controllers
             }
             ViewBag.ProvinceTaxRates = provinces.Item1;
             _cultureManager.SetCulture(culture, false);
-            return View(new CustomerFormViewModel { DealerName = dealerName });
+            return View(new CustomerFormViewModel { DealerName = languageOptions.DealerName });
         }
 
         [HttpPost]

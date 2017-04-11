@@ -24,5 +24,9 @@ namespace DealnetPortal.Api.Models.Contract
         /// Services for selected language
         /// </summary>
         public List<string> LanguageServices { get; set; }
+        /// <summary>
+        /// Services for selected language
+        /// </summary>
+        public string DealerName { get; set; }
     }
 }
