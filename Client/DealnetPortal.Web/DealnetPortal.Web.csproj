@@ -448,6 +448,7 @@
     <Content Include="Content\images\sprite\icon-phone.svg" />
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
+    <Content Include="Content\images\sprite\icon-rate-card.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />

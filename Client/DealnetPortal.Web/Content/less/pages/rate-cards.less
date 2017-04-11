@@ -22,22 +22,26 @@
   }
 }
 
+
+.rate-cards-container.rate-card-grid{
+  .rate-card{
+    float: left;
+    width: 23%;
+    margin: 0 1%;
+
+    @media @tablet-down {
+      width: 50%;
+      margin: 0 15px;
+    }
+    @media @mobile {
+      width: 100%;
+    }
+
+  }
+}
 .rate-cards-container{
   &:not(.one-rate-card){
-    /*    .rate-card{
-          float: left;
-          width: 23%;
-          margin: 0 1%;
 
-          @media @tablet-down {
-            width: 50%;
-            margin: 0 15px;
-          }
-          @media @mobile {
-            width: 100%;
-          }
-
-        }*/
     .table-mode{
       div:not(.row-mode){
         .row{
