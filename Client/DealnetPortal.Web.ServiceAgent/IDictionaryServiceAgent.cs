@@ -47,12 +47,12 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName = null);
 
-        Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);
+        Task<BinarySettingDTO> GetDealerBinSetting(SettingType type, string dealerName = null);
 
         Task<CustomerLinkDTO> GetShareableLinkSettings();
 
         Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
 
-        Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string dealerName, string culture);
+        Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture);
     }
 }

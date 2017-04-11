@@ -98,19 +98,11 @@ configInitialized
         holders.push(addressInfo1);
         holders.push(addressInfo2);
         $.each(holders, function (index, item) {
-            item.find('input').each(function () {
+            item.find(':input').each(function () {
                 if ($(this).not('.placeholder')) {
                     $(this).val("");
                 }
             });
-        });
-        return false;
-    });
-    $("#clear-mailing-address").click(function () {
-        $('#mailing_street, #mailing_unit_number, #mailing_locality, #mailing_administrative_area_level_1, #mailing_postal_code').each(function () {
-            if ($(this).not('.placeholder')) {
-                $(this).val("");
-            }
         });
         return false;
     });
@@ -183,11 +175,17 @@ function setDataAttrInModal (index) {
     modal.setAttribute('data-prToFill', 'additional-administrative_area_level_1-' + index);
     modal.setAttribute('data-pcToFill', 'additional-postal_code-' + index);
 }
+
 function hideAditional1Section() {
     aditional1Section.hide();
     //Needed for validation
     aditional1Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
+    });
+    aditional1Section.find('.address-checkbox').each(function () {
+        var checkBox = $(this);
+        var correspondingSection = $('#' + checkBox.data('section'));
+        disableMailingAddress(correspondingSection);
     });
     aditional1Section.data('active', false);
     addAdditionalButton.show();
@@ -198,6 +196,11 @@ function hideAditional2Section() {
     aditional2Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
     });
+    aditional2Section.find('.address-checkbox').each(function () {
+        var checkBox = $(this);
+        var correspondingSection = $('#' + checkBox.data('section'));
+        disableMailingAddress(correspondingSection);
+    });
     aditional2Section.data('active', false);
     addAdditionalButton.show();
 }
@@ -206,6 +209,11 @@ function hideAditional3Section() {
     //Needed for validation
     aditional3Section.find('.personal-info-section').find('input, select').each(function () {
         $(this).prop("disabled", true);
+    });
+    aditional3Section.find('.address-checkbox').each(function () {
+        var checkBox = $(this);
+        var correspondingSection = $('#' + checkBox.data('section'));
+        disableMailingAddress(correspondingSection);
     });
     aditional3Section.data('active', false);
     addAdditionalButton.show();
@@ -264,13 +272,4 @@ function assignDatepicker(input) {
             onDateSelect($(this));
         }
     });
-}
-
-function useHomeOwnerAddress(i) {
-    $('#additional-street-' + i).val($('#street').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-unit_number-' + i).val($('#unit_number').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-locality-' + i).val($('#locality').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-administrative_area_level_1-' + i).val($('#administrative_area_level_1').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-postal_code-' + i).val($('#postal_code').val()).removeClass('pac-placeholder').removeClass('placeholder');
-    $('#additional-residence-' + i).val($('#residence').val());
 }

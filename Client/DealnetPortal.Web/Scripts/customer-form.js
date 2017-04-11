@@ -5,7 +5,9 @@
     var createAction = require('redux').createAction;
     var observe = require('redux').observe;
 
-    var shallowDiff = require('objectUtils').shallowDiff;
+    var concatObj = require('objectUtils').concatObj;
+    var mapObj = require('objectUtils').mapObj;
+    var filterObj = require('objectUtils').filterObj;
     var compose = require('functionUtils').compose;
 
     var log = require('logMiddleware');
@@ -36,12 +38,24 @@
     var ACTIVATE_INSTALLATION = 'activate_installation';
     var ACTIVATE_CONTACT_INFO = 'activate_contact_info';
     var SET_CAPTCHA_CODE = 'set_captcha_code';
-    var TOGGLE_AGREEMENT = 'toggle_agreement';
+    var TOGGLE_CREDIT_AGREEMENT = 'toggle_credit_agreement';
+    var TOGGLE_CONTACT_AGREEMENT = 'toggle_contact_agreement';
     var SET_LESS_THAN_SIX = 'set_less_than_six';
     var SET_PHONE = 'set_phone';
     var SET_CELL_PHONE = 'set_cell_phone';
+    var SET_ADDRESS = 'set_address';
+    var SET_PADDRESS = 'set_paddress';
+    var SET_COMMENT = 'set_comment';
+    var SET_EMAIL = 'set_email';
+
+
+    var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
+
+    var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
     var iniState = {
+        name: '',
+        lastName: '',
         birthday: '',
         street: '',
         unit: '',
@@ -54,16 +68,17 @@
         pcity: '',
         pprovince: '',
         ppostalCode: '',
-        agreesToPassInfo: false,
-        agreesToBeContacted: true,
         displaySubmitErrors: false,
         displayInstallation: false,
         displayContactInfo: false,
         activePanel: 'yourInfo',
         phone: '',
         cellPhone: '',
+        email: '',
+        comment: '',
         captchaCode: '',
-        agreement: false,
+        creditAgreement: false,
+        contactAgreement: false,
         lessThanSix: false,
     };
 
@@ -81,6 +96,8 @@
     reducerObj[SET_INITIAL_STATE] = function(state, action) {
         return $.extend({}, state, action.payload);
     };
+    reducerObj[SET_NAME] = setFormField('name');
+    reducerObj[SET_LAST] = setFormField('lastName');
     reducerObj[SET_BIRTH] = setFormField('birthday');
     reducerObj[SET_STREET] = setFormField('street');
     reducerObj[SET_UNIT] = setFormField('unit');
@@ -96,6 +113,27 @@
             postalCode: '',
         };
     };
+    reducerObj[SET_ADDRESS] = function(state, action) {
+        var street = '';
+        if (action.payload.number) {
+            street += action.payload.number;
+        }
+
+        if (action.payload.street) {
+            street = street + ' ' + action.payload.street;
+        }
+
+        if (!street) {
+            street = state.street;
+        }
+
+        return {
+            street: street,
+            city: action.payload.city || state.city,
+            province: action.payload.province || state.province,
+            postalCode: action.payload.postalCode || state.postalCode,
+        };
+    };
     reducerObj[SET_PSTREET] = setFormField('pstreet');
     reducerObj[SET_PUNIT] = setFormField('punit');
     reducerObj[SET_PCITY] = setFormField('pcity');
@@ -108,6 +146,27 @@
             pcity: '',
             pprovince: '',
             ppostalCode: '',
+        };
+    };
+    reducerObj[SET_PADDRESS] = function(state, action) {
+        var street = '';
+        if (action.payload.number) {
+            street += action.payload.number;
+        }
+
+        if (action.payload.street) {
+            street = street + ' ' + action.payload.street;
+        }
+
+        if (!street) {
+            street = state.street;
+        }
+
+        return {
+            pstreet: street,
+            pcity: action.payload.city || state.city,
+            pprovince: action.payload.province || state.province,
+            ppostalCode: action.payload.postalCode || state.postalCode,
         };
     };
     reducerObj[SET_LESS_THAN_SIX] = setFormField('lessThanSix');
@@ -127,14 +186,24 @@
         };
     };
     reducerObj[TOGGLE_OWNERSHIP] = setFormField('ownership');
-    reducerObj[TOGGLE_AGREEMENT] = setFormField('agreement');
+    reducerObj[TOGGLE_CREDIT_AGREEMENT] = setFormField('creditAgreement');
+    reducerObj[TOGGLE_CONTACT_AGREEMENT] = setFormField('contactAgreement');
     reducerObj[SET_CAPTCHA_CODE] = setFormField('captchaCode');
     reducerObj[SET_PHONE] = setFormField('phone');
     reducerObj[SET_CELL_PHONE] = setFormField('cellPhone');
+    reducerObj[SET_COMMENT] = setFormField('comment');
+    reducerObj[SET_EMAIL] = setFormField('email');
 
     var reducer = makeReducer(reducerObj, iniState);
 
     // selectors
+    var getRequiredPhones = function(state) {
+        return {
+            phone: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
+            cellPhone: state.phone === '',
+        };
+    };
+
     var getErrors = function (state) {
         var errors = [];
 
@@ -146,29 +215,26 @@
             if (age > 75) {
                 errors.push({
                     type: 'birthday',
-                    messageKey: 'ApplicantNeedsToBeUnder75',
+                    messageKey: 'YouShouldBe75OrLess',
                 });
             }
         }
 
-        if (!state.ownership) {
-            errors.push({
-                type: 'ownership',
-                messageKey: 'AtLeastOneHomeOwner',
-            });
-        }
+        var requiredPhones = filterObj(function(key, obj) {
+            return obj[key];
+        })(getRequiredPhones(state));
 
-        if (!state.captchaCode) {
-            errors.push({
-                type: 'captcha',
-                messageKey: 'EmptyCaptcha',
-            });
-        }
+        var requiredP = state.lessThanSix ? requiredPFields : [];
 
-        if (!state.agreement) {
+        var emptyErrors = requiredFields.concat(requiredPhones).concat(requiredP).map(mapObj(state))
+            .some(function(val) {
+                return typeof val === 'string' ? val === '' : !val;
+            });
+
+        if (emptyErrors) {
             errors.push({
-                type: 'agreement',
-                messageKey: 'EmptyAgreement'
+                type: 'empty',
+                messageKey: 'FillRequiredFields',
             });
         }
 
@@ -179,6 +245,7 @@
         return function (next) {
             var flow1 = [SET_NAME, SET_LAST, SET_BIRTH];
             var flow2 = [SET_STREET, SET_CITY, SET_PROVINCE, SET_POSTAL_CODE, TOGGLE_OWNERSHIP];
+            var addressFlow = [SET_STREET, SET_CITY, SET_PROVINCE, SET_POSTAL_CODE];
             return function (action) {
                 var state = store.getState();
 
@@ -198,6 +265,15 @@
                     if (index2 >= 0) {
                         flow2.splice(index2, 1);
                     }
+                    if (action.type === SET_ADDRESS && action.payload.streeet !== '') {
+                        addressFlow.forEach(function(action) {
+                            var index3 = flow2.indexOf(action);
+                            if (index3 >= 0) {
+                                flow2.splice(index3, 1);
+                            }
+                        });
+                    }
+
                     if (flow2.length === 0) {
                         next(createAction(ACTIVATE_CONTACT_INFO, true));
                     }
@@ -225,7 +301,7 @@
         };
     };
 
-    var displayErrorsMiddleware = function (store) {
+    var displayErrorsMiddleware = function () {
         return function (next) {
             return function (action) {
                 var nextAction = next(action);
@@ -264,14 +340,132 @@
         }, {});
     };
 
+    window.onLoadCaptcha = function () {
+        grecaptcha.render('gcaptcha', {
+            sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
+            callback: function (response) {
+                dispatch(createAction(SET_CAPTCHA_CODE, response));
+            },
+            'expired-callback': function() {
+                dispatch(createAction(SET_CAPTCHA_CODE, ''));
+            },
+        });
+    };
+
+    var extend = function(defaults) {
+        return function(overrides) {
+            return $.extend({}, defaults, overrides);
+        };
+    };
+
+    var addressForm = {
+        street_number: 'short_name',
+        route: 'long_name',
+        locality: 'long_name',
+        administrative_area_level_1: 'short_name',
+        country: 'long_name',
+        postal_code: 'short_name'
+    };
+
+    var getAddress = function(addressForm) {
+        return function(addressComponent) {
+            var addressType = addressComponent.types[0];
+            if (addressForm.hasOwnProperty(addressType)) {
+                var addressObj = {};
+                addressObj[addressType] = addressComponent[addressForm[addressType]];
+                return addressObj;
+            }
+        };
+    };
+
+    var setAutocomplete = function(streetElmId, cityElmId) {
+        var extendCommonOpts = extend({
+            componentRestrictions: { country: 'ca' },
+        });
+
+        var streetElm = document.getElementById(streetElmId);
+        var streetAutocomplete = new google.maps.places
+            .Autocomplete(streetElm, extendCommonOpts({ types: ['geocode'] }));
+
+        var cityElm = document.getElementById(cityElmId);
+        var cityAutocomplete = new google.maps.places
+            .Autocomplete(cityElm, extendCommonOpts({ types: ['(cities)'] }));
+
+        return {
+            street: streetAutocomplete,
+            city: cityAutocomplete,
+        };
+    };
+
+    window.initAutocomplete = function() {
+        $(document).ready(function() {
+            var gAutoCompletes = setAutocomplete('street', 'city');
+            var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
+
+            gAutoCompletes.street.addListener('place_changed',
+                function() {
+                    var place = gAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_ADDRESS,
+                    {
+                        street: place['route'] || '',
+                        number: place['street_number'] || '',
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                    }));
+                });
+
+            gAutoCompletes.city.addListener('place_changed',
+                function() {
+                    var place = gAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_ADDRESS,
+                    {
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                    }));
+                });
+
+            gPAutoCompletes.street.addListener('place_changed',
+                function() {
+                    var place = gPAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_PADDRESS,
+                    {
+                        street: place['route'] || '',
+                        number: place['street_number'] || '',
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                    }));
+                });
+
+            gPAutoCompletes.city.addListener('place_changed',
+                function() {
+                    var place = gPAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_PADDRESS,
+                    {
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                    }));
+                });
+        });
+    };
+
     $(document)
         .ready(function () {
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
             $('#selectedService').val($('#selectedService > option:first').val());
-            var input = $("#birth-date-customer");
-            inputDateFocus(input);
+            var birth = $("#birth-date-customer");
+            inputDateFocus(birth);
 
-            input.datepicker({
+            birth.datepicker({
                 dateFormat: 'mm/dd/yy',
                 changeYear: true,
                 changeMonth: (viewport().width < 768) ? true : false,
@@ -283,20 +477,13 @@
                 }
             });
 
-            window.onLoadCaptcha = function () {
-                grecaptcha.render('gcaptcha', {
-                    sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
-                    callback: function (response) {
-                        dispatch(createAction(SET_CAPTCHA_CODE, response));
-                    },
-                });
-            };
-
             // action dispatchers
-            $('#firstName').on('change', function (e) {
+            var name = $('#firstName');
+            name.on('change', function (e) {
                 dispatch(createAction(SET_NAME, e.target.value));
             });
-            $('#lastName').on('change', function (e) {
+            var lastName = $('#lastName');
+            lastName.on('change', function (e) {
                 dispatch(createAction(SET_LAST, e.target.value));
             });
             $('#sin').on('change', function (e) {
@@ -368,9 +555,14 @@
                 dispatch(createAction(CLEAR_PADDRESS, e.target.value));
             });
 
-            var agreement = $('#agreement1');
-            agreement.on('click', function (e) {
-                dispatch(createAction(TOGGLE_AGREEMENT, agreement.prop('checked')));
+            var creditAgreement = $('#agreement1');
+            creditAgreement.on('click', function (e) {
+                dispatch(createAction(TOGGLE_CREDIT_AGREEMENT, creditAgreement.prop('checked')));
+            });
+
+            var contactAgreement = $('#agreement2');
+            contactAgreement.on('click', function (e) {
+                dispatch(createAction(TOGGLE_CONTACT_AGREEMENT, contactAgreement.prop('checked')));
             });
 
             var lessThanSix = $('#living-time-checkbox');
@@ -388,15 +580,29 @@
                 dispatch(createAction(SET_CELL_PHONE, e.target.value));
             });
 
+            var comment = $('#comment');
+            comment.on('change', function (e) {
+                dispatch(createAction(SET_COMMENT, e.target.value));
+            });
+
+            var email = $('#email');
+            email.on('change', function (e) {
+                dispatch(createAction(SET_EMAIL, e.target.value));
+            });
+
+            var form = $('#mainForm');
             $('#submit').on('click', function (e) {
                 dispatch(createAction(SUBMIT));
                 var errors = getErrors(customerFormStore.getState());
-                if (errors.length > 0) {
+                if (errors.length > 0 && form.valid()) {
                     e.preventDefault();
                 }
             });
 
             var initialStateMap = {
+                name: name,
+                lastName: lastName,
+                birth: birth,
                 street: street,
                 unit: unit,
                 city: city,
@@ -408,10 +614,13 @@
                 pprovince: pprovince,
                 ppostalCode: ppostalCode,
                 homeOwner: homeOwner,
-                agreement: agreement,
+                creditAgreement: creditAgreement,
+                contactAgreement: contactAgreement,
                 lessThanSix: lessThanSix,
                 cellPhone: cellPhone,
                 phone: phone,
+                comment: comment,
+                email: email,
             };
 
             dispatch(createAction(SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
@@ -484,7 +693,7 @@
             });
 
             var createError = function (msg) {
-                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="/Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
+                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
                 err.append(msg);
                 return err;
             };
@@ -504,25 +713,16 @@
                         });
                 }
 
-                $('#installationErrors').empty();
-                if (props.displaySubmitErrors && props.errors.length > 0) {
-                    props.errors
-                        .filter(function (error) { return error.type === 'ownership' })
-                        .forEach(function (error) {
-                            $('#installationErrors').append(createError(window.translations[error.messageKey]));
-                        });
-                }
+                var emptyError = props.errors.filter(function(error) {
+                    return error.type === 'empty';
+                });
 
-                $('#contactInfoErrors').empty();
-                if (props.displaySubmitErrors && props.errors.length > 0) {
-                    props.errors.filter(function (error) {
-                        return ['captcha', 'agreement'].some(function (item) {
-                            return error.type === item;
-                        })
-                    })
-                        .forEach(function (error) {
-                            $('#contactInfoErrors').append(createError(window.translations[error.messageKey]));
-                        });
+                if (emptyError.length) {
+                    $('#submit').addClass('disabled');
+                    $('#submit').parent().popover();
+                } else {
+                    $('#submit').removeClass('disabled');
+                    $('#submit').parent().popover('destroy');
                 }
             });
 
@@ -536,22 +736,17 @@
                 });
             });
 
-            observeCustomerFormStore(function (state) {
-                return {
-                    phoneRequired: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
-                    cellPhoneRequired: state.phone === '',
-                };
-            })(function (props) {
-                $('#homePhone').rules(props.phoneRequired ? 'add' : 'remove', 'required');
-                $('#cellPhone').rules(props.cellPhoneRequired ? 'add' : 'remove', 'required');
+            observeCustomerFormStore(getRequiredPhones)(function (props) {
+                $('#homePhone').rules(props.phone ? 'add' : 'remove', 'required');
+                $('#cellPhone').rules(props.cellPhone ? 'add' : 'remove', 'required');
 
-                if (props.phoneRequired) {
+                if (props.phone) {
                     $('#homePhoneWrapper').addClass('mandatory-field');
                 } else {
                     $('#homePhoneWrapper').removeClass('mandatory-field');
                 }
 
-                if (props.cellPhoneRequired) {
+                if (props.cellPhone) {
                     $('#cellPhoneWrapper').addClass('mandatory-field');
                 } else {
                     $('#cellPhoneWrapper').removeClass('mandatory-field');

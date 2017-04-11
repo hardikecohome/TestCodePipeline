@@ -199,15 +199,21 @@ body.ios-device.modal-open .navbar-fixed-side{
                     }
                 }
             }
+            .sidebar-inner{
+              display: table;
+              min-height: 100%;
+              width: 100%;
+              .sidebar-row {
+                display: table-row;
+                height: 1px;
+              }
+
+              .sidebar-row-expanded { height: 100%; }
+            }
             .sidebar-bottom{
-              position: relative;
-              margin:  0 -15px;
-              &.stick-bottom{
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                margin: 0;
+              .dealnet-sidebar-item{
+                margin-left: -15px;
+                margin-right: -15px;
               }
             }
             .icon-circle-hold{
@@ -265,6 +271,7 @@ body.ios-device.modal-open .navbar-fixed-side{
 .customer-loan-page{
   .lang-switcher{
     margin-right: 5px;
+    height: auto !important;
     @media @mobile {
       display: block;
     }

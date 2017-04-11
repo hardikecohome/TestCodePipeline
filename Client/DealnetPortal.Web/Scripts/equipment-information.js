@@ -10,7 +10,7 @@
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
                     } else {
-                        var monthPayment = $("#total-monthly-payment").val();
+                        var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
                         if (isNaN(monthPayment) || (monthPayment == 0)) {
                             event.preventDefault();
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
@@ -242,7 +242,7 @@ function recalculateTotalMonthlyPayment() {
 
 function recalculateTotalMonthlyPaymentHst() {
     var sum = Globalize.parseNumber($("#total-monthly-payment").val());
-    if (!Number.isNaN(sum)) {
+    if (!isNaN(sum)) {
         var totalHst = sum * taxRate / 100;
         var totalMp = sum * 1 + totalHst;
         $("#total-hst").text(formatNumber(totalHst));

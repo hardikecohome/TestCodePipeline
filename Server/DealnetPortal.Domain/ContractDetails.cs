@@ -36,5 +36,7 @@ namespace DealnetPortal.Domain
         public int? ScorecardPoints { get; set; }
 
         public decimal? CreditAmount { get; set; }
+
+        public string Notes { get; set; }
     }
 }

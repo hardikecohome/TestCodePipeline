@@ -91,13 +91,16 @@ namespace DealnetPortal.Web
                       "~/Content/datatables/css/jquery.dataTables.css",
                       "~/Content/datatables/css/dataTables.bootstrap.css",
                       "~/Content/datatables/css/responsive.bootstrap.css"));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/customer-form")
                 .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Logger/log.js")
                 .Include("~/Scripts/customer-form.js")
-                .IncludeDirectory("~/Scripts/Utils", "*.js")
+                .Include("~/Scripts/Utils/functionUtils.js")
+                .Include("~/Scripts/Utils/logMiddleware.js")
+                .Include("~/Scripts/Utils/objectUtils.js")
+                .Include("~/Scripts/Utils/redux.js")
             );
         }
     }

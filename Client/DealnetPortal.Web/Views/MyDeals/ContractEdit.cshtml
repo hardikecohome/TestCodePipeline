@@ -1454,7 +1454,7 @@
         </div>
     }
 }
-@if (Model.EquipmentInfo != null)
+@if (!string.IsNullOrEmpty(Model.Notes))
 {
     <hr>
     <div class="form-section">
@@ -1464,18 +1464,7 @@
                     @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "contract-notes-form", @class = "credit-check-info-hold"}))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
-                        @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-                        @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
-                        @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
-                        @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
-                        @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new {@class = "total-monthly-payment"})
-                        @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
-                        @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
-                        @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
-                        @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
-                        @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
-                        @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
+                        @Html.HiddenFor(m => m.BasicInfo.ContractId)                        
 
                         <div class="dealnet-credit-check-section">
                             <h3 class="dealnet-section-title">
@@ -1487,10 +1476,10 @@
                             </h3>
                             <div class="form-group">
                                 <div class="row">
-                                        @Html.LabelFor(m => m.EquipmentInfo.Notes, new { @class = "dealnet-field-caption col-xs-12" })
+                                        @Html.LabelFor(m => m.Notes, new { @class = "dealnet-field-caption col-xs-12" })
                                     <div class="dealnet-field-holder col-xs-12">
                                         <div class="control-group">
-                                            @Html.TextAreaFor(m => m.EquipmentInfo.Notes, new {@class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", id = "contract-notes"})
+                                            @Html.TextAreaFor(m => m.Notes, new {@class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", id = "contract-notes"})
                                         </div>
                                     </div>
                                 </div>
@@ -2670,7 +2659,7 @@ foreach (var comment in comments)
         var isSentToAudit = @(Model.AdditionalInfo.ContractState == ContractState.SentToAudit ? "true" : "false");
     </script>
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/localization");
+    @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/contract-edit")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>
 }

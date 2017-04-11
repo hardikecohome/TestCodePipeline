@@ -54,6 +54,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetCustomersContractsCount")]
+        [HttpGet]
+        public IHttpActionResult GetCustomersContractsCount()
+        {
+            try
+            {
+                var contracts = ContractService.GetCustomersContractsCount(LoggedInUser.UserId);
+                return Ok(contracts);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get number of customers contracts for the User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCompletedContracts")]
         [HttpGet]
         public IHttpActionResult GetCompletedContracts()
@@ -128,6 +144,21 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var alerts = ContractService.UpdateContractData(contractData, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("NotifyContractEdit")]
+        [HttpPut]
+        public IHttpActionResult NotifyContractEdit(int contractId)
+        {
+            try
+            {
+                var alerts = ContractService.NotifyContractEdit(contractId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -416,12 +447,29 @@ namespace DealnetPortal.Api.Controllers
         [Route("SubmitCustomerForm")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> SubmitCustomerForm(CustomerFormDTO customerFormData)
+        public IHttpActionResult SubmitCustomerForm(CustomerFormDTO customerFormData)
         {
             try
             {
-                var alerts = await CustomerFormService.SubmitCustomerFormData(customerFormData);
-                return Ok(alerts);
+                var submitResult = CustomerFormService.SubmitCustomerFormData(customerFormData).GetAwaiter().GetResult();
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetCustomerContractInfo")]
+        [HttpGet]
+        // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}
+        [AllowAnonymous]
+        public IHttpActionResult GetCustomerContractInfo(int contractId, string dealerName)
+        {
+            try
+            {
+                var submitResult = CustomerFormService.GetCustomerContractInfo(contractId, dealerName);
+                return Ok(submitResult);
             }
             catch (Exception ex)
             {

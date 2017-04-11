@@ -10,6 +10,7 @@
     @using (Html.BeginForm("Index", "ShareableLink", FormMethod.Post, new {id = "mainForm"}))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(x=>x.HashDealerName)
         <div class="get-link-section">
             <div class="form-group">
                 <div class="labels-hold">
@@ -22,7 +23,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", dealerName = User.Identity.Name }, Request.Url.Scheme)">
+                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", hashDealerName = Model?.HashDealerName }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyEn">@Resources.Copy</button>
                 </div>
@@ -38,7 +39,7 @@
                 </div>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", dealerName = User.Identity.Name }, Request.Url.Scheme)">
+                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", hashDealerName = Model?.HashDealerName }, Request.Url.Scheme)">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="copyFr">@Resources.Copy</button>
                 </div>
@@ -63,7 +64,7 @@
                 <label for="enEquipmentTags" class="dealnet-field-caption">@Resources.DefineYourEquipmentService</label>
                 <div class="controls-hold">
                     <div class="control-group">
-                        <input type="url" id="enEquipmentTags" class="form-control dealnet-input" value="" placeholder="@Resources.TypeYourEquipmentService">
+                        <input id="enEquipmentTags" class="form-control dealnet-input" value="" placeholder="@Resources.TypeYourEquipmentService">
                     </div>
                     <button type="button" class="btn dealnet-success-button btn-small" id="addEquipment">@Resources.Add</button>
                 </div>

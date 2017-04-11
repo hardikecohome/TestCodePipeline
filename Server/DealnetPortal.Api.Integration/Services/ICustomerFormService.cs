@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -11,10 +12,12 @@ namespace DealnetPortal.Api.Integration.Services
 
         CustomerLinkDTO GetCustomerLinkSettingsByDealerName(string dealerName);
 
-        CustomerLinkLanguageOptionsDTO GetCustomerLinkLanguageOptions(string dealerName, string language);
+        CustomerLinkLanguageOptionsDTO GetCustomerLinkLanguageOptions(string hashDealerName, string language);
 
         IList<Alert> UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings, string dealerId);
 
-        Task<IList<Alert>> SubmitCustomerFormData(CustomerFormDTO customerFormData);
+        Task<Tuple<int?, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData);
+
+        CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName);
     }
 }

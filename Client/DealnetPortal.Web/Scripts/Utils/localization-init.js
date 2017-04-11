@@ -19,7 +19,7 @@ $(document).ready(function () {
                         return true;
                     }
                 }
-                return !Number.isNaN(Globalize.parseNumber(value));
+                return !isNaN(Globalize.parseNumber(value));
             }
 
             window.parseFloat = function(number) {
@@ -36,6 +36,7 @@ $(document).ready(function () {
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
                 round: 'round',
+                useGrouping: false
             });
             configInitialized.resolve(true);
         });

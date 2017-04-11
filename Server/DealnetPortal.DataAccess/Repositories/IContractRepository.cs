@@ -26,6 +26,13 @@ namespace DealnetPortal.DataAccess.Repositories
         IList<Contract> GetContracts(string ownerUserId);
 
         /// <summary>
+        /// Get count of customers user contracts list
+        /// </summary>
+        /// <param name="ownerUserId">user Id</param>
+        /// <returns>numder of contracts</returns>
+        int GetNewlyCreatedCustomersContractsCount(string ownerUserId);
+
+        /// <summary>
         /// Get list of user contracts with particular ids
         /// </summary>
         /// <param name="ids">List od Ids</param>

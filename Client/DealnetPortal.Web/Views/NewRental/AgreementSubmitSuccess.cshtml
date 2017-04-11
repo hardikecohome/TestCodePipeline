@@ -47,7 +47,7 @@
                                         <!--@Html.LabelFor(m => m.BorrowerEmail)-->
                                         <label for="">@Resources.Email</label>
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.BorrowerEmail, new {@class = "dealnet-input form-control", type = "email", placeholder="Email"})
+                                            @Html.TextBoxFor(m => m.BorrowerEmail, new {@class = "dealnet-input form-control", type = "email", placeholder = Resources.Email })
                                             @Html.ValidationMessageFor(m => m.BorrowerEmail, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                         <label for="">@Resources.Email</label>
                                         <div class="control-group">
                                             @Html.HiddenFor(m => m.AdditionalApplicantsEmails[i].CustomerId)
-                                            @Html.TextBoxFor(m => m.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email", placeholder="Email"})
+                                            @Html.TextBoxFor(m => m.AdditionalApplicantsEmails[i].Email, new {id = "addApplicantEmail" + i, @class = "dealnet-input form-control", type = "email", placeholder = Resources.Email })
                                             @Html.ValidationMessageFor(m => m.AdditionalApplicantsEmails[i].Email, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -80,7 +80,7 @@
                                     <div class="col-md-7">
                                         <label for="">@Resources.Email</label>
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.SalesRepEmail, new {id = "salesRepEmail", @class = "dealnet-input form-control", type = "email", placeholder="Email"})
+                                            @Html.TextBoxFor(m => m.SalesRepEmail, new {id = "salesRepEmail", @class = "dealnet-input form-control", type = "email", placeholder = Resources.Email })
                                             @Html.ValidationMessageFor(m => m.SalesRepEmail, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
@@ -124,6 +124,6 @@
 }
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/localization");
+    @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/agreement-submit-success")
 }

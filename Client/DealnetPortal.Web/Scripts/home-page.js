@@ -170,6 +170,11 @@ function showTable() {
                   "sLengthMenu": translations['Show'] + ' _MENU_ ' + translations['Entries'],
                   "sZeroRecords": translations['NoMatchingRecordsFound']
                 },
+                createdRow: function (row, data, dataIndex) {
+                    if (data.IsNewlyCreated) {
+                        $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
+                    }
+                },
                 columns: [
                       { "data" : 'TransactionId', className: 'contract-cell' },
                       { "data": 'CustomerName', className: 'customer-cell' },

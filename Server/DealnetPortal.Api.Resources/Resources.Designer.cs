@@ -160,6 +160,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comment from customer.
+        /// </summary>
+        public static string CommentFromCustomer {
+            get {
+                return ResourceManager.GetString("CommentFromCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contract.
         /// </summary>
         public static string Contract {
@@ -267,6 +276,15 @@ namespace DealnetPortal.Api.Resources {
         public static string DealerConfirmationMailtemplate {
             get {
                 return ResourceManager.GetString("DealerConfirmationMailtemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deal Info.
+        /// </summary>
+        public static string DealInfo {
+            get {
+                return ResourceManager.GetString("DealInfo", resourceCulture);
             }
         }
         
@@ -888,6 +906,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Windows {
             get {
                 return ResourceManager.GetString("Windows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can view this deal here.
+        /// </summary>
+        public static string YouCanViewThisDealHere {
+            get {
+                return ResourceManager.GetString("YouCanViewThisDealHere", resourceCulture);
             }
         }
         

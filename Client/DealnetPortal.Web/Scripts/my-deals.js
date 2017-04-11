@@ -26,12 +26,12 @@ function assignDatepicker(input) {
 }
 
 function showTable() {
-    $.when($.ajax(itemsUrl, { mode: 'GET' }))
+    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
             var agrTypeOptions = [];
             var salesRepOptions = [];
-            var createdByCustomerCount = 0;
+            //var createdByCustomerCount = 0;//todo: Remove  in hole method if you saw this
             $.each(data, function (i, e) {
                 if ($.inArray(e["Status"], statusOptions) == -1)
                     if (e["Status"]) {
@@ -48,14 +48,14 @@ function showTable() {
                         salesRepOptions.push(e["SalesRep"]);
                     }
 
-                if (e["IsCreatedByCustomer"] == true) {
-                    createdByCustomerCount++;
-                }
+                //if (e["IsCreatedByCustomer"] == true) {
+                //    createdByCustomerCount++;
+                //}
             });
-            if (createdByCustomerCount) {
-                $('#new-deals-number').text(createdByCustomerCount);
-                $('#new-deals-number').show();
-            }
+            //if (createdByCustomerCount) {
+            //    $('#new-deals-number').text(createdByCustomerCount);
+            //    $('#new-deals-number').show();
+            //}
             $.each(statusOptions, function (i, e) {
                 $("#deal-status").append($("<option />").val(e).text(e));
             });
@@ -90,8 +90,8 @@ function showTable() {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     createdRow: function (row, data, dataIndex) {
-                      if (data.IsCreatedByCustomer) {
-                        $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">New</span>');
+                      if (data.IsNewlyCreated) {
+                          $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
                       }
                     },
                     columns: [
@@ -123,6 +123,10 @@ function showTable() {
                         },
                         {
                             "data": "Id",
+                            "visible": false
+                        },
+                        {
+                            "data": "IsCreatedByCustomer",
                             "visible": false
                         }
                     ],
@@ -170,6 +174,7 @@ $.fn.dataTable.ext.search.push(
         var status = $("#deal-status").val();
         var agreementType = $("#agreement-type").val();
         var salesRep = $("#sales-rep").val();
+        var createdBy = $("#created-by").val();
         var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
         var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
@@ -177,7 +182,8 @@ $.fn.dataTable.ext.search.push(
             (!agreementType || agreementType === data[3]) &&
             (!salesRep || salesRep === data[8]) &&
             (!dateTo || valueEntered <= dateTo) &&
-            (!dateFrom || valueEntered >= dateFrom)) {
+            (!dateFrom || valueEntered >= dateFrom) &&
+            (createdBy === '' || createdBy == data[13])) {
             return true;
         }
         return false;

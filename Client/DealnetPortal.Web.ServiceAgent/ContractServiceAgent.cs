@@ -70,6 +70,19 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<int> GetCustomersContractsCount()
+        {
+            try
+            {            
+                return await Client.GetAsync<int>($"{_fullUri}/GetCustomersContractsCount");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get numberof customer contracts for an user", ex);
+                return 0;
+            }
+        }
+
         public async Task<IList<ContractDTO>> GetCompletedContracts()
         {
             try
@@ -102,6 +115,22 @@ namespace DealnetPortal.Web.ServiceAgent
                 _loggingService.LogError($"Can't get contracts", ex);
             }
             return new Tuple<IList<ContractDTO>, IList<Alert>>(null, alerts);
+        }
+
+        public async Task<IList<Alert>> NotifyContractEdit(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PutAsync<string, IList<Alert>>(
+                            $"{_fullUri}/NotifyContractEdit?contractId={contractId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Can't update contract {contractId} data", ex);
+                throw;
+            }
         }
 
         public async Task<IList<Alert>> UpdateContractData(ContractDataDTO contractData)
@@ -402,18 +431,32 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> SubmitCustomerForm(CustomerFormDTO customerForm)
+        public async Task<Tuple<int?, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<CustomerFormDTO, IList<Alert>>(
+                        Client.PostAsync<CustomerFormDTO, Tuple<int?, IList<Alert>>>(
                             $"{_fullUri}/SubmitCustomerForm", customerForm);
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't submit Customer Form", ex);
+                throw;
+            }
+        }
+
+        public async Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName)
+        {
+            try
+            {                
+                return await Client.GetAsync<CustomerContractInfoDTO>(
+                        $"{_fullUri}/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}").ConfigureAwait(false);            
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't submit Customer contract info", ex);
                 throw;
             }
         }

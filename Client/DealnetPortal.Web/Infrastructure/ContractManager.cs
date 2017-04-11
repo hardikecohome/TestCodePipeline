@@ -63,18 +63,30 @@ namespace DealnetPortal.Web.Infrastructure
         }
 
         public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
-        {
-            var equipmentInfo = new EquipmentInformationViewModel();
+        {            
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             if (contractResult.Item1 == null)
             {
-                return equipmentInfo;
+                return new EquipmentInformationViewModel();
             }
-            equipmentInfo.ContractId = contractId;
+            var equipmentInfo = new EquipmentInformationViewModel()
+            {
+                ContractId = contractId,
+            };
             if (contractResult.Item1.Equipment != null)
             {
                 equipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
+                if (!equipmentInfo.NewEquipment.Any())
+                {
+                    equipmentInfo.NewEquipment = null;
+                }
+                if (!equipmentInfo.ExistingEquipment.Any())
+                {
+                    equipmentInfo.ExistingEquipment = null;
+                }
             }
+            equipmentInfo.Notes = contractResult.Item1.Details?.Notes;
+
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(contractResult.Item1.PrimaryCustomer.Locations.First(
                         l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
             if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
@@ -139,7 +151,8 @@ namespace DealnetPortal.Web.Infrastructure
                 BasicInfo = summaryViewModel.BasicInfo,
                 EquipmentInfo = summaryViewModel.EquipmentInfo,
                 ProvinceTaxRate = summaryViewModel.ProvinceTaxRate,
-                LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput
+                LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput,
+                Notes = summaryViewModel.Notes
             };
             var comments = AutoMapper.Mapper.Map<List<CommentViewModel>>(contractsResult.Item1.Comments);
             comments?.Reverse();
@@ -284,6 +297,10 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
+                Details = new ContractDetailsDTO()
+                {
+                    Notes = equipmnetInfo.Notes 
+                },
                 Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
             if (equipmnetInfo.FullUpdate && equipmnetInfo.ExistingEquipment == null)
@@ -428,6 +445,23 @@ namespace DealnetPortal.Web.Infrastructure
                     {
                         alerts.AddRange(updateRes);
                     }
+
+                    var updatedContractRes = await _contractServiceAgent.GetContract(newContractId.Value);
+                    if (updatedContractRes.Item2.Any())
+                    {
+                        alerts.AddRange(updatedContractRes.Item2);
+                    }
+                    if (updatedContractRes.Item1?.PrimaryCustomer != null && updatedContractRes.Item2.All(a => a.Type != AlertType.Error))
+                    {
+                        var updatedCustomer = new CustomerDataDTO()
+                        {
+                            Id = updatedContractRes.Item1.PrimaryCustomer.Id,
+                            ContractId = newContractId,
+                            Emails = contractRes.Item1.PrimaryCustomer.Emails,
+                            Phones = contractRes.Item1.PrimaryCustomer.Phones,
+                        };
+                        await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] { updatedCustomer });
+                    }
                 }
             }
 
@@ -444,7 +478,10 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
                 summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
+                summary.EquipmentInfo.Notes = contract.Details?.Notes;
             }
+            summary.Notes = contract.Details?.Notes;
+
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
@@ -471,7 +508,7 @@ namespace DealnetPortal.Web.Infrastructure
                     DownPayment = contract.Equipment.DownPayment ?? 0,
                     CustomerRate = contract.Equipment.CustomerRate ?? 0
                 };
-                summary.LoanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                summary.LoanCalculatorOutput = loanCalculatorInput.AmortizationTerm > 0 ? LoanCalculator.Calculate(loanCalculatorInput) : new LoanCalculator.Output();
             }
         }
 

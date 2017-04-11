@@ -1247,7 +1247,7 @@
     <value>I own this property</value>
   </data>
   <data name="PleaseCheckAgreementToContinue" xml:space="preserve">
-    <value>Please, check the agreement field to continue with the application.</value>
+    <value>Please, check the credit agreement field to continue with the application.</value>
   </data>
   <data name="PleaseFillCaptchaToContinue" xml:space="preserve">
     <value>Please, fill the captcha field to continue with the application.</value>
@@ -1319,7 +1319,7 @@
     <value>We are checking the information. Usually it takes about two minutes.</value>
   </data>
   <data name="CongratulationsYouBeenPreApprovedFor" xml:space="preserve">
-    <value>Congratulations, you have been pre-approved for ${0).</value>
+    <value>Congratulations, you have been pre-approved for ${0}.</value>
     <comment>Context: Congratulations, you have been pre-approved for $15,000.</comment>
   </data>
   <data name="DealerSalesAgent" xml:space="preserve">
@@ -1331,9 +1331,6 @@
   </data>
   <data name="ToProceedYouNeedToBe75LessPleaseContact" xml:space="preserve">
     <value>In order to proceed you need to be aged 75 or less. Please contact dealer directly.</value>
-  </data>
-  <data name="YouCanViewThisDealHere" xml:space="preserve">
-    <value>You can view this deal here</value>
   </data>
   <data name="YouShouldFillAllMandatoryFields" xml:space="preserve">
     <value>You should fill all mandatory fields</value>
@@ -1349,5 +1346,19 @@
   </data>
   <data name="WhatEquipmentServiceYouInterestedIn" xml:space="preserve">
     <value>What equipment/service are you interested in?</value>
+  </data>
+  <data name="PleaseCheckContactAgreementToContinue" xml:space="preserve">
+    <value>Please, check the contact agreement field to continue with the application.</value>
+  </data>
+  <data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
+    <value>If you have any question please contact</value>
+    <comment>Context: If you have any question please contact: One Fine Company</comment>
+  </data>
+  <data name="WillContactYouSoon" xml:space="preserve">
+    <value>{0} will contact you soon.</value>
+    <comment>Context: One Fine Company will contact you soon. </comment>
+  </data>
+  <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
+    <value>Your financing application was successfully submitted.</value>
   </data>
 </root>

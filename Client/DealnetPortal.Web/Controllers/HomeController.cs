@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult Index()
         {
             ViewBag.LangSwitcherAvailable = true;
-            return View("");
+            return View();
         }
         
         public async Task<ActionResult> ChangeCulture(string culture)
@@ -51,6 +51,13 @@ namespace DealnetPortal.Web.Controllers
         {
             var aboutAvailability = !(await _settingsManager.CheckDealerSkinExistence(User?.Identity?.Name));
             return Json(new { aboutAvailability }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> CustomersDealsCount()
+        {
+            var contractsCount = await _contractServiceAgent.GetCustomersContractsCount();
+           
+            return Json(new { dealsCount = contractsCount }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult About()
@@ -79,7 +86,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> GetWorkItems(bool? completedOnly)
         {
-            var contracts = (completedOnly ?? false ? await _contractServiceAgent.GetCompletedContracts() : await _contractServiceAgent.GetContracts()).OrderBy(x => x.IsCreatedByCustomer).ThenByDescending(x => x.LastUpdateTime).ToList();
+            var contracts = (completedOnly ?? false ? await _contractServiceAgent.GetCompletedContracts() : await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false).ThenByDescending(x => x.LastUpdateTime).ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();

@@ -3,15 +3,15 @@
         var EN = 'EN';
         var FR = 'FR';
 
-        var mapLangToSelectedOptions = {
-            [EN]: {
-                list: $('#englishTagsList'),
-                name: 'EnglishServices'
-            },
-            [FR]: {
-                list: $('#frenchTagsList'),
-                name: 'FrenchServices'
-            }
+        var mapLangToSelectedOptions = {};
+        mapLangToSelectedOptions[EN] = {
+            list: $('#englishTagsList'),
+            name: 'EnglishServices'
+        };
+
+        mapLangToSelectedOptions[FR] = {
+            list: $('#frenchTagsList'),
+            name: 'FrenchServices'
         };
 
         var activeLang = EN;
@@ -64,15 +64,42 @@
             });
         });
 
-        var enLink = $('#enLink');
-        $('#copyEn').on('click', function () {
-            enLink.select();
-            document.execCommand('copy');
-        });
+        var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
 
-        var frLink = $('#frLink');
-        $('#copyFr').on('click', function () {
-            frLink.select();
-            document.execCommand('copy');
-        });
+        var selectElement = function(el) {
+            if (el.nodeName == "TEXTAREA" || el.nodeName == "INPUT")
+                el.select();
+            if (el.setSelectionRange && isIOS)
+                el.setSelectionRange(0, 999999);
+        };
+
+        var copyCommand = function() {
+            if (document.queryCommandSupported("copy")) {
+                document.execCommand('copy');
+            }
+        };
+
+        if (!isIOS) {
+            var enLink = document.getElementById('enLink');
+            var frLink = document.getElementById('frLink');
+
+            var activeLink = '';
+
+            $('#copyEn').on('click',
+                function() {
+                    activeLink = enLink.value;
+                    selectElement(enLink);
+                    copyCommand();
+                });
+
+            $('#copyFr').on('click',
+                function() {
+                    activeLink = frLink.value;
+                    selectElement(frLink);
+                    copyCommand();
+                });
+        } else {
+            $('#copyEn').hide();
+            $('#copyFr').hide();
+        }
     });

@@ -21,11 +21,15 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<ContractDTO> GetContracts(string contractOwnerId);
 
+        int GetCustomersContractsCount(string contractOwnerId);
+
         IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId);
 
         ContractDTO GetContract(int contractId, string contractOwnerId);
 
         IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId);
+
+        IList<Alert> NotifyContractEdit(int contractId, string contractOwnerId);
 
         IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
 

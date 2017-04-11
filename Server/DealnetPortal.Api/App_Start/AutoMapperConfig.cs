@@ -70,6 +70,10 @@ namespace DealnetPortal.Api.App_Start
                         sc.IsHomeOwner = c.HomeOwners?.Any(ho => ho.Id == sc.Id) ?? false;
                         sc.IsInitialCustomer = c.InitialCustomers?.Any(ho => ho.Id == sc.Id) ?? false;
                     });
+                    if (!string.IsNullOrEmpty(c.Equipment?.Notes) && d.Details != null)
+                    {
+                        d.Details.Notes = c.Equipment?.Notes;
+                    }
                 });                
                 //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
@@ -94,6 +98,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<CustomerLink, CustomerLinkDTO>()
                 .ForMember(x => x.EnabledLanguages,
                     d => d.ResolveUsing(src => src.EnabledLanguages?.Select(l => l.LanguageId).Cast<LanguageCode>().ToList()))
+                .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src => src.Services?.GroupBy(k => k.LanguageId).ToDictionary(ds => (LanguageCode)ds.Key, ds => ds.Select(s => s.Service).ToList())));
         }
 
@@ -108,7 +113,8 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDetailsDTO, ContractDetails>();
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
                 .ForMember(d => d.Contract, x => x.Ignore())
-                .ForMember(d => d.ValueOfDeal, x => x.Ignore());
+                .ForMember(d => d.ValueOfDeal, x => x.Ignore())
+                .ForMember(d => d.Notes, x => x.Ignore());
             mapperConfig.CreateMap<NewEquipmentDTO, NewEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());
@@ -153,7 +159,9 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Documents, d => d.Ignore())
                 .ForMember(x => x.Dealer, d => d.Ignore())
                 .ForMember(x => x.HomeOwners, d => d.Ignore())
-                .ForMember(x => x.InitialCustomers, d => d.Ignore());
+                .ForMember(x => x.InitialCustomers, d => d.Ignore())
+                .ForMember(x => x.CreateOperator, d => d.Ignore())
+                .ForMember(x => x.LastUpdateOperator, d => d.Ignore());
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
                 .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))
@@ -175,7 +183,8 @@ namespace DealnetPortal.Api.App_Start
                     src.EnabledLanguages?.Select(l => new DealerLanguage() {LanguageId = (int)l, Language = new Language() { Id = (int)l } }).ToList()))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src =>
                     src.Services?.SelectMany(ds => ds.Value.Select(dsv => new DealerService() {LanguageId = (int)ds.Key, Service = dsv}))))
-                .ForMember(x => x.Id, d => d.Ignore());
+                .ForMember(x => x.Id, d => d.Ignore())
+                .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink));
         }
     }
 }

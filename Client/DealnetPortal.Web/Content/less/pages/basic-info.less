@@ -65,7 +65,7 @@
     margin-top: -2px;
   }
   &.add-applicant-contract-edit{
-    display: block;
+    display: inline-block;
     margin: 5px 0 15px;
   }
 }
@@ -206,13 +206,14 @@
 }
 .scanlicence-hold{
   position: relative;
+  .clearfix;
 }
 .scanlicence-info-link{
   margin: 0 0 0 17px;
   @media @tablet-only {
     position: absolute;
     left: 50%;
-    top: 15px;
+    top: 9px;
     margin-left: 197px;
     display: block;
   }
@@ -231,11 +232,9 @@
   display: none;
 
   @media @desktop-up {
-    position: absolute;
-    left: 294px;
-    right: 0;
-    top: 50%;
-    margin: -31px 0 0 0;
+    float: right;
+    margin: -8px 0 0 0;
+    width: calc(~"100% - 295px");
   }
 
   @media @tablet-down{

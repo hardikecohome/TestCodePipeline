@@ -1,11 +1,11 @@
 .expand-filter-template{
   display: none;
   position: relative;
+  .filter-button{
+    max-width: 235px;
+    display: inline-block;
+  }
   &.reports-expanded-filter{
-    .filter-button{
-      max-width: 235px;
-      display: inline-block;
-    }
     @media @mobile {
       border-bottom: 1px solid @default-grey-color;
       padding: 0 0 10px;
@@ -71,7 +71,7 @@ div.dataTables_wrapper{
 
     }
     @media @tablet-down {
-      margin: 0 !important;
+      margin: 10px 0 !important;
     }
     .custom-select{
       margin: 0 10px;

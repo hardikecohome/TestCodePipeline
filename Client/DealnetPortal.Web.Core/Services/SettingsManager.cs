@@ -24,7 +24,7 @@ namespace DealnetPortal.Web.Core.Services
         public async Task<BinarySettingDTO> GetUserFaviconAsync(string userName)
         {                                                
             return await _cacheService.GetAsync($"{PortalConstants.Favicon}{userName}", 60,
-                    () => _dictionaryServiceAgent.GetDealerBinSetting(SettingType.Favicon));
+                    () => _dictionaryServiceAgent.GetDealerBinSetting(SettingType.Favicon, userName));
             // can be changed to next, if will not work well
             //var image = await _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X);
         }
@@ -32,7 +32,7 @@ namespace DealnetPortal.Web.Core.Services
         public async Task<BinarySettingDTO> GetUserLogoAsync(string userName)
         {
             return await _cacheService.GetAsync($"{PortalConstants.LogoImage2X}{userName}", 60,
-                    () => _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X));
+                    () => _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X, userName));
         }
 
         public async Task<bool> CheckDealerSkinExistence(string userName)

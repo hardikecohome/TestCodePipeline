@@ -31,6 +31,13 @@ namespace DealnetPortal.DataAccess.Repositories
             return user?.CustomerLink;
         }
 
+        public CustomerLink GetCustomerLinkSettingsByHashDealerName(string hashDealerName)
+        {
+            var customerLink = _dbContext.CustomerLinks
+                .FirstOrDefault(u => u.HashLink == hashDealerName);
+            return customerLink;
+        }
+
         public CustomerLink UpdateCustomerLinkLanguages(ICollection<DealerLanguage> enabledLanguages, string dealerId)
         {
             var user = _dbContext.Users
@@ -96,15 +103,47 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public CustomerContractInfo AddCustomerContractData(int contractId, CustomerContractInfo customerContractInfo)
+        public Contract AddCustomerContractData(int contractId, string commentsHeader, string selectedService, string customerComment,
+            string dealerId)
         {
-            var ccInfo = _dbContext.CustomerContractInfoes.Add(customerContractInfo);
             var contract = _dbContext.Contracts.Find(contractId);
             if (contract != null)
             {
-                contract.CustomerContractInfo = ccInfo;
+                var dealerSettings = GetCustomerLinkSettings(dealerId);
+                DealerService service = null;
+                if (dealerSettings != null)
+                {
+                    service = dealerSettings.Services.FirstOrDefault(s => s.Service == selectedService);
+                }
+                if (service != null || !string.IsNullOrEmpty(customerComment))
+                {
+                    var notes = new StringBuilder();
+                    if (!string.IsNullOrEmpty(commentsHeader))
+                    {
+                        notes.AppendLine(commentsHeader);
+                    }
+                    if (service != null)
+                    {
+                        notes.AppendLine(service.Service);
+                    }
+                    if (!string.IsNullOrEmpty(customerComment))
+                    {
+                        notes.AppendLine(customerComment);
+                    }
+                    if (contract.Details != null)
+                    {
+                        if (string.IsNullOrEmpty(contract.Details.Notes))
+                        {
+                            contract.Details.Notes = notes.ToString();
+                        }
+                        else
+                        {
+                            contract.Details.Notes += notes.ToString();
+                        }
+                    }                                     
+                }
             }
-            return ccInfo;
-        }        
+            return contract;
+        }         
     }
 }

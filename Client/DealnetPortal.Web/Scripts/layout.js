@@ -30,11 +30,26 @@
 
     if (layotSettingsUrl) {
         $.ajax({
+            cache: false,
             type: "GET",
             url: layotSettingsUrl,
             success: function(json) {
                 if (json.aboutAvailability) {
                     $('#sidebar-item-about').show();
+                }
+            }
+        });
+    }
+
+    if (customerDealsCountUrl) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: customerDealsCountUrl,
+            success: function (json) {
+                if (json.dealsCount && json.dealsCount !== 0) {
+                    $('#new-deals-number').text(json.dealsCount);
+                    $('#new-deals-number').show();
                 }
             }
         });
@@ -87,7 +102,7 @@
     $('.navbar-toggle').click(function(){
       if($('.navbar-collapse').attr('aria-expanded') === 'false'){
         saveScrollPosition();
-        detectSidebarHeight();
+       // detectSidebarHeight();
         $('body').addClass('open-menu');
         $('body').addClass('menu-animated');
         $('.overlay').show();
@@ -140,7 +155,7 @@
     $(window).on('scroll', function(){
       detectPageHeight();
     }).on('resize', function(){
-      detectSidebarHeight();
+     // detectSidebarHeight();
       setDeviceClasses();
       if(isMobile.iOS() && viewport().width >= 768){
         if($('.modal.in').length === 1){
@@ -282,13 +297,17 @@
         panelCollapsed($(this));
       });
 
-      if($('.customer-loan-page .btn-proceed').is('.disabled')){
+      /*if($('.customer-loan-page .btn-proceed').is('.disabled')){
         $('.btn-proceed-inline-hold[data-toggle="popover"]').popover({
           template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
       }else{
         $('.btn-proceed-inline-hold[data-toggle="popover"]').popover('destroy');
-      }
+      }*/
+
+    $('[data-toggle="popover"]').popover({
+      template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+    });
 
 });
 function panelCollapsed(elem){
@@ -300,13 +319,13 @@ function panelCollapsed(elem){
 };
 
 function detectSidebarHeight(){
-  setTimeout(function(){
+  /*setTimeout(function(){
     if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
       $('.sidebar-bottom').addClass('stick-bottom');
     }else{
       $('.sidebar-bottom').removeClass('stick-bottom');
     }
-  }, 300);
+  }, 300);*/
 }
 
 function scrollPageTo(elem){

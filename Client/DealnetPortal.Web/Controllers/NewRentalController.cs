@@ -50,7 +50,11 @@ namespace DealnetPortal.Web.Controllers
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
-                if (contractResult.Item1.ContractState == ContractState.CreditContirmed)
+                if (contractResult.Item1.IsNewlyCreated == true)
+                {
+                    var noWarning = _contractServiceAgent.NotifyContractEdit(contractId);
+                }
+                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && contractResult.Item1.IsNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
@@ -87,6 +91,7 @@ namespace DealnetPortal.Web.Controllers
             }
 
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
+            viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             if (viewModel?.ContractState >= ContractState.Completed)
             {
                 var alerts = new List<Alert>()
@@ -111,6 +116,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
+                basicInfo.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
                 return View(basicInfo);
             }
             var contractResult = basicInfo.ContractId == null ?

@@ -808,7 +808,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Congratulations, you have been pre-approved for ${0)..
+        ///   Looks up a localized string similar to Congratulations, you have been pre-approved for ${0}..
         /// </summary>
         public static string CongratulationsYouBeenPreApprovedFor {
             get {
@@ -1798,6 +1798,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you have any question please contact.
+        /// </summary>
+        public static string IfYouHaveQuestionsPleaseContact {
+            get {
+                return ResourceManager.GetString("IfYouHaveQuestionsPleaseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If you send documents to audit you won&apos;t have possibility to make some changes in this contract or upload any document.
         /// </summary>
         public static string IfYouSendToAuditNoChanges {
@@ -2500,11 +2509,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, check the agreement field to continue with the application..
+        ///   Looks up a localized string similar to Please, check the credit agreement field to continue with the application..
         /// </summary>
         public static string PleaseCheckAgreementToContinue {
             get {
                 return ResourceManager.GetString("PleaseCheckAgreementToContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, check the contact agreement field to continue with the application..
+        /// </summary>
+        public static string PleaseCheckContactAgreementToContinue {
+            get {
+                return ResourceManager.GetString("PleaseCheckContactAgreementToContinue", resourceCulture);
             }
         }
         
@@ -3598,6 +3616,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} will contact you soon..
+        /// </summary>
+        public static string WillContactYouSoon {
+            get {
+                return ResourceManager.GetString("WillContactYouSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You will receive an email shortly at.
         /// </summary>
         public static string WillReceiveEmailShortly {
@@ -3679,15 +3706,6 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can view this deal here.
-        /// </summary>
-        public static string YouCanViewThisDealHere {
-            get {
-                return ResourceManager.GetString("YouCanViewThisDealHere", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You have been successfully registered,.
         /// </summary>
         public static string YouHaveBeenRegistered {
@@ -3711,6 +3729,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YourComment {
             get {
                 return ResourceManager.GetString("YourComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your financing application was successfully submitted..
+        /// </summary>
+        public static string YourFinancingApplicationWasSubmitted {
+            get {
+                return ResourceManager.GetString("YourFinancingApplicationWasSubmitted", resourceCulture);
             }
         }
         

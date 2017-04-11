@@ -169,7 +169,8 @@ namespace DealnetPortal.Web.App_Start
                         services.Add(LanguageCode.French, src.FrenchServices);
                     }
                     return services;
-                }));
+                }))
+                .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -276,7 +277,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
-                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
+                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
+                .ForMember(x => x.Notes, d => d.Ignore());
 
             cfg.CreateMap<CommentDTO, CommentViewModel>();
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
@@ -310,7 +312,8 @@ namespace DealnetPortal.Web.App_Start
                     List<string> services = null;
                     src.Services?.TryGetValue(LanguageCode.French, out services);
                     return services;
-                }));
+                }))
+                .ForMember(x=>x.HashDealerName, d=>d.MapFrom(s=>s.HashLink));
         }
 
 

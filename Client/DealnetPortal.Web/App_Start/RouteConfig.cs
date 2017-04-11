@@ -16,6 +16,12 @@ namespace DealnetPortal.Web
 
             routes.MapRoute(
                name: "",
+               url: "CustomerForm/{action}/{contractId}/{culture}/{dealerName}",
+               defaults: new { controller = "CustomerForm", action = "Index" }
+           );
+
+            routes.MapRoute(
+               name: "",
                url: "CustomerForm/{culture}/{dealerName}",
                defaults: new { controller = "CustomerForm", action = "Index" }
            );

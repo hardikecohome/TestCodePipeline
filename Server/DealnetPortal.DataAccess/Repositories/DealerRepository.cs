@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,12 @@ namespace DealnetPortal.DataAccess.Repositories
         public string GetUserIdByName(string userName)
         {
             return _dbContext.Users.FirstOrDefault(u => u.UserName == userName)?.Id;
+        }
+
+        public string GetDealerNameByCustomerLinkId(int customerLinkId)
+        {
+            return _dbContext.Users
+                .FirstOrDefault(u => u.CustomerLinkId == customerLinkId)?.UserName;
         }
     }
 

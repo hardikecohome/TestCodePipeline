@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -63,12 +64,12 @@ namespace DealnetPortal.Web.Models
         public string UnitNumber { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "City")]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CityIncorrectFormat")]
         public string City { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Province")]
-        [StringLength(30, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        //[StringLength(2, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "ProvinceIncorrectFormat")]
         public string Province { get; set; }
         [CustomRequired]
@@ -98,6 +99,7 @@ namespace DealnetPortal.Web.Models
         public int? ContractId { get; set; }
         public ContractState ContractState { get; set; }
         public bool ContractWasDeclined { get; set; }
+        public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
     }
 
     public class ApplicantsViewModel
@@ -152,7 +154,7 @@ namespace DealnetPortal.Web.Models
         [StringLength(256, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EmailAddress")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
-        public string EmailAddress { get; set; }
+        public virtual string EmailAddress { get; set; }
 
         public string FirstName { get; set; }
 
@@ -195,6 +197,9 @@ namespace DealnetPortal.Web.Models
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
+        [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
+        public string Notes { get; set; }
     }
 
     public sealed class EligibleAgeAttribute : ValidationAttribute
