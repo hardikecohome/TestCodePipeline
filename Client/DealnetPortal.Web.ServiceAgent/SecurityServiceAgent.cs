@@ -24,11 +24,11 @@ namespace DealnetPortal.Web.ServiceAgent
         private readonly Uri _loginUri;
         private readonly ILoggingService _loggingService;
 
-        public SecurityServiceAgent(IHttpApiClient client, ILoggingService loggingService)
+        public SecurityServiceAgent(ICustomHttpApiClient client, ILoggingService loggingService)
             : base(client, string.Empty)
         {
             _loggingService = loggingService;
-            var baseUri = Client.Client.BaseAddress;
+            var baseUri = client.BaseAddress;
             try
             {
                 _loginUri = new Uri(baseUri.AbsoluteUri.Replace("/api", "") + "/Token");

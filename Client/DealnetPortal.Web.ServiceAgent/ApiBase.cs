@@ -14,31 +14,22 @@ namespace DealnetPortal.Web.ServiceAgent
     {
         protected readonly string _uri;
         protected readonly string _fullUri;
+        private readonly ICustomHttpApiClient _client;
 
-        public ApiBase(IHttpApiClient client, string controllerName)
+        public ApiBase(ICustomHttpApiClient client, string controllerName)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
 
-            Client = client;
-            //string cultureFromRoute = null;
-            //try
-            //{
-            //    cultureFromRoute = HttpContext.Current.Request.RequestContext.RouteData.Values["culture"] as string;
-            //}
-            //catch (HttpException)
-            //{
-            //    //ignored - means context is not available at this point
-            //}
-            //Client.Client.DefaultRequestHeaders.AcceptLanguage.Clear();
-            //Client.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(cultureFromRoute ?? Thread.CurrentThread.CurrentCulture.Name));
+            _client = client;
+            
             _uri = controllerName;
-            _fullUri = string.Format("{0}/{1}", Client.Client.BaseAddress, _uri);
+            _fullUri = $"{client.BaseAddress}/{_uri}";
         }
 
         /// <summary>
         /// Http client
         /// </summary>
-        protected IHttpApiClient Client { get; private set; }
+        protected IHttpApiClient Client => _client.Client;
     }
 }

@@ -45,17 +45,8 @@ namespace DealnetPortal.Web.Core.Culture
             {
                 CreateCookie(filteredCulture);
             }
-            //string cultureFromRoute = null;
-            //try
-            //{
-            //    cultureFromRoute = HttpContext.Current.Request.RequestContext.RouteData.Values["culture"] as string;
-            //}
-            //catch (HttpException)
-            //{
-            //    //ignored - means context is not available at this point
-            //}
             _client.Client.DefaultRequestHeaders.AcceptLanguage.Clear();
-            _client.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(Thread.CurrentThread.CurrentCulture.Name));
+            _client.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
         }
 
         public async Task ChangeCulture(string culture)

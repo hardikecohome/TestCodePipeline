@@ -22,7 +22,7 @@ namespace DealnetPortal.Web
 
             routes.MapRoute(
                name: "",
-               url: "CustomerForm/{culture}/{dealerName}",
+               url: "CustomerForm/{culture}/{hashDealerName}",
                defaults: new { controller = "CustomerForm", action = "Index" }
            );
 

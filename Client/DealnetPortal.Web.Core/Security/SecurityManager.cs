@@ -129,11 +129,11 @@ namespace DealnetPortal.Web.Core.Security
                 //HttpContext.Current?.Response?.Cookies?.Set(httpCookie);
             }
 
+            _securityService.SetAuthorizationHeader(null);
             if (HttpContext.Current != null)
             {
                 HttpContext.Current.User = null;
             }
-            _securityService.SetAuthorizationHeader(null);
 
             _userManagementService?.Logout();
         }

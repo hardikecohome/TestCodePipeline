@@ -17,7 +17,7 @@ namespace DealnetPortal.Web.ServiceAgent
     {
         private const string AccountApi = "Account";
 
-        public UserManagementServiceAgent(IHttpApiClient client)
+        public UserManagementServiceAgent(ICustomHttpApiClient client)
             : base(client, AccountApi)
         {
         }

@@ -68,6 +68,7 @@
     <Compile Include="ContractServiceAgent.cs" />
     <Compile Include="DictionaryServiceAgent.cs" />
     <Compile Include="IContractServiceAgent.cs" />
+    <Compile Include="ICustomHttpApiClient.cs" />
     <Compile Include="IDictionaryServiceAgent.cs" />
     <Compile Include="IStorageServiceAgent.cs" />
     <Compile Include="ScanProcessingServiceAgent.cs" />
