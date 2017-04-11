@@ -102,6 +102,16 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Utils/objectUtils.js")
                 .Include("~/Scripts/Utils/redux.js")
             );
+
+            bundles.Add(new ScriptBundle("~/bundles/new-equipment-information")
+                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/financial-functions.js")
+                .Include("~/Scripts/loan-calculator.js")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Logger/log.js")
+                .Include("~/Scripts/Pages/newEquipment/template.js")
+                .Include("~/Scripts/Pages/newEquipment/index.js")
+            );
         }
     }
 }
