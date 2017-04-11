@@ -22,9 +22,18 @@ namespace DealnetPortal.Web.Infrastructure
         {
             if (filterContext.HttpContext.User == null || !filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                filterContext.Result = new RedirectToRouteResult(
-                    new RouteValueDictionary(new { controller = "Account", action = "Login", returnUrl = filterContext.HttpContext.Request.RawUrl} ));
-            }            
+                if (filterContext.HttpContext.Request.RawUrl.Contains("LogOff"))
+                {
+                    filterContext.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary(new { controller = "Account", action = "Login" }));
+                }
+                else
+                {
+                    filterContext.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary(new { controller = "Account", action = "Login", returnUrl = filterContext.HttpContext.Request.RawUrl }));
+                }
+            }
+                
         }
     }
 }
