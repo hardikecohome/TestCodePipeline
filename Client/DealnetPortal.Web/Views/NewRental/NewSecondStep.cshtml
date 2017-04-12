@@ -121,15 +121,15 @@
 			<div class="col-md-6">
 				<div class="row form-group">
 					<div class="col-sm-6">Total Price of Equipment</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span>22,400.00</span></div>
+					<div class="col-sm-6 text-right text-semibold"><span id="totalEquipmentPrice">$ 0</span></div>
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-6">HST</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span>2,400.00</span></div>
+					<div class="col-sm-6 text-right text-semibold" > <span id="tax">$ 0</span></div>
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-6">Total Cash Price</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span>22,459.95</span></div>
+					<div class="col-sm-6 text-right text-semibold"><span id="totalPrice">$ 0</span></div>
 				</div>
 			</div>
 		</div>
@@ -393,7 +393,7 @@
 									<div class="form-group">
 										<label for="">Loan Term</label>
 										<div class="control-group">
-											<input type="text" class="form-control">
+											<input type="text" class="form-control" id="customLoanTerm">
 										</div>
 									</div>
 								</div>
@@ -401,7 +401,7 @@
 									<div class="form-group">
 										<label for="">Amort. Term</label>
 										<div class="control-group">
-											<input type="text" class="form-control">
+											<input type="text" class="form-control" id="customAmortTerm">
 										</div>
 									</div>
 								</div>
@@ -412,7 +412,7 @@
 								<div class="form-group">
 									<label for="">Deferral Period</label>
 									<div class="control-group">
-										<select name="" id="" class="form-control">
+										<select name="" id="" class="form-control" id="customDeferralPeriod">
 											<option value="">- not-selected -</option>
 											<option value="">3 month</option>
 										</select>
@@ -426,7 +426,7 @@
 									<div class="form-group">
 										<label for="">Customer Rate</label>
 										<div class="control-group has-addon-right">
-											<input type="text" class="form-control" />
+											<input type="text" class="form-control" id="customCustomerRate"/>
 											<div class="control-group-addon">%</div>
 										</div>
 									</div>
@@ -435,7 +435,7 @@
 									<div class="form-group">
 										<label for="">Your Cost</label>
 										<div class="control-group has-addon-right">
-											<input type="text" class="form-control" />
+											<input type="text" class="form-control" id="customYourCost"/>
 											<div class="control-group-addon">%</div>
 										</div>
 									</div>
@@ -451,17 +451,17 @@
 								<div class="col-xs-6 control-cell">
 									<div class="control-group has-addon-left">
 										<div class="control-group-addon">$</div>
-										<input type="text" class="form-control dealnet-input">
+										<input type="text" class="form-control dealnet-input" id="customAdminFee">
 									</div>
 								</div>
 							</div>
 							<div class="row form-group">
 								<div class="col-xs-6">Monthly Payment</div>
-								<div class="col-xs-6 text-right text-semibold">$ 400.00</div>
+								<div class="col-xs-6 text-right text-semibold" id="customMPayment"></div>
 							</div>
 							<div class="row form-group">
 								<div class="col-xs-6">Cost of Borrowing</div>
-								<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
+								<div class="col-xs-6 text-right text-semibold" id="customCBorrowing"></div>
 							</div>
 							<div class="row form-group">
 								<div class="col-xs-6">Your Cost</div>
@@ -469,19 +469,19 @@
 							</div>
 							<div class="row form-group">
 								<div class="col-xs-6">Total Amount Financed</div>
-								<div class="col-xs-6 text-right text-semibold">$ 6139.95</div>
+								<div class="col-xs-6 text-right text-semibold" id="customTAFinanced"></div>
 							</div>
 							<div class="row form-group">
 								<div class="col-xs-6">Total of All Monthly Payments</div>
-								<div class="col-xs-6 text-right text-semibold">$ 300.89</div>
+								<div class="col-xs-6 text-right text-semibold" id="customTMPayments"></div>
 							</div>
 							<div class="row form-group">
 								<div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
-								<div class="col-xs-6 text-right text-semibold">$ 1229.85</div>
+								<div class="col-xs-6 text-right text-semibold" id="customRBalance"></div>
 							</div>
 							<div class="row form-group">
 								<div class="col-xs-6">Total Obligation</div>
-								<div class="col-xs-6 text-right text-semibold">$ 0</div>
+								<div class="col-xs-6 text-right text-semibold" id="customTObligation"></div>
 							</div>
 						</div>
 					</div>
@@ -511,6 +511,8 @@
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/new-equipment-information")
 
     <script type="text/javascript">
@@ -539,8 +541,6 @@
 
 
         slickRateCards();
-
-
 
         $(window).resize(function(){
             slickRateCards();
@@ -595,9 +595,11 @@
             }
         }
 
-        module.require('new-equipment');
     });
 
+    configInitialized.then(function () {
+        module.require('new-equipment');
+    });
 
     </script>
 }

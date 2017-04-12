@@ -4,7 +4,9 @@ $(document).ready(function () {
     $.when(
         $.getJSON(urlContent + 'Content/cldr/supplemental/likelySubtags.json'),
         $.getJSON(urlContent + 'Content/cldr/supplemental/numberingSystems.json'),
-        $.getJSON(urlContent + 'Content/cldr/main/' + culture + '/numbers.json')
+        $.getJSON(urlContent + 'Content/cldr/supplemental/currencyData.json'),
+        $.getJSON(urlContent + 'Content/cldr/main/' + culture + '/numbers.json'),
+        $.getJSON(urlContent + 'Content/cldr/main/' + culture + '/currencies.json')
     ).then(function() {
         return [].slice.apply(arguments, [0]).map(function(result) {
             return result[0];
@@ -22,6 +24,7 @@ $(document).ready(function () {
                 return !isNaN(Globalize.parseNumber(value));
             }
 
+            var parseFloat = window.parseFloat
             window.parseFloat = function(number) {
                 if (typeof number === 'undefined') {
                     return number;
@@ -29,6 +32,10 @@ $(document).ready(function () {
                 if (typeof number === 'number') {
                     return number;
                 }
+                if (typeof number === 'string' && !/^[0-9]*$/.test(number)) {
+                    return parseFloat(number);
+                }
+
                 return Globalize.parseNumber(number);
             };
 
@@ -38,6 +45,8 @@ $(document).ready(function () {
                 round: 'round',
                 useGrouping: false
             });
+
+            window.formatCurrency = Globalize.currencyFormatter('CAD');
             configInitialized.resolve(true);
         });
 });

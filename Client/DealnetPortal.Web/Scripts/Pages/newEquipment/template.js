@@ -3,6 +3,9 @@
         var template = '' +
             '<div class="dealnet-middle-header equipment-number-header">' +
                 '<span class="equipment-number"> Nº' + options.index + '</span>' +
+                '<div class="additional-remove">' +
+                    '<i class="glyphicon glyphicon-remove"></i>' +
+                '</div>' +
             '</div>' +
             '<div class="row">' +
                 '<div class="col-md-3">' +

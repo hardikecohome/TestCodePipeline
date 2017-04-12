@@ -807,6 +807,7 @@
     <Content Include="Scripts\new-equipment-information.js" />
     <Content Include="Scripts\Pages\newEquipment\index.js" />
     <Content Include="Scripts\Pages\newEquipment\template.js" />
+    <Content Include="Scripts\Utils\financial-functions.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -823,6 +824,7 @@
     <Content Include="Scripts\Utils\functionUtils.js" />
     <Content Include="Scripts\Modules\index.js" />
     <Content Include="Scripts\Utils\logMiddleware.js" />
+    <Content Include="Scripts\Utils\numberUtils.js" />
     <Content Include="Scripts\Utils\objectUtils.js" />
     <Content Include="Scripts\Utils\redux.js" />
     <Content Include="Scripts\vc-scanning.js" />
