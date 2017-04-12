@@ -24,6 +24,7 @@
             },
             tax: 12,
             downPayment: 0,
+            rentalMPayment: 0,
             fixedRate: {
                 loanTerm: 36,
                 amortTerm: 36,
@@ -181,6 +182,22 @@
             }
         };
 
+        var recalculateRentalTaxAndPrice = function() {
+            var data = {
+                tax: state.tax,
+                equipmentSum: state.rentalMPayment,
+            };
+
+            var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
+            if (notNan && data.equipmentSum !== 0) {
+                $('#rentalTax').text(tax(data));
+                $('#rentalTMPayment').text(totalPrice(data));
+            } else {
+                $('#rentalTax').text('-');
+                $('#rentalTMPayment').text('-');
+            }
+        };
+
         // setters
 
         var setAgreement = function(e) {
@@ -247,6 +264,11 @@
             recalculateValuesAndRender();
         };
 
+        var setRentalMPayment = function(e) {
+            state.rentalMPayment = parseFloat(e.target.value);
+            recalculateRentalTaxAndPrice();
+        };
+
         var updateCost = function(id) {
             return function(e) {
                 if (!state.equipments.hasOwnProperty(id)) {
@@ -306,6 +328,7 @@
         $('#addEquipment').on('click', addEquipment);
         $('#downPayment').on('change', setDownPayment);
         $('#typeOfAgreementSelect').on('change', setAgreement);
+        $('#rentalMPayment').on('change', setRentalMPayment);
 
         // custom option
         $('#customLoanTerm').on('change', setLoanTerm('custom'));
@@ -323,5 +346,4 @@
 
         // attatch handler to first equipment
         $('#new-equipment-0').find('.equipment-cost').on('change', updateCost(0));
-
     });
