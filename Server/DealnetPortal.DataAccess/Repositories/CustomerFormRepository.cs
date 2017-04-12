@@ -20,7 +20,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var user = _dbContext.Users
                 .Include(u => u.CustomerLink).AsNoTracking()
                 .FirstOrDefault(u => u.Id == dealerId);
-            return user?.CustomerLink;
+            return user?.CustomerLink ?? new CustomerLink();
         }
 
         public CustomerLink GetCustomerLinkSettingsByDealerName(string dealerName)
