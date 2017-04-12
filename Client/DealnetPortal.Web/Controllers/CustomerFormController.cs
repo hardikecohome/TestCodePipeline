@@ -47,7 +47,7 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("AnonymousError", "Info");
             }
             ViewBag.ProvinceTaxRates = provinces.Item1;
-            return View(new CustomerFormViewModel { DealerName = languageOptions.DealerName });
+            return View(new CustomerFormViewModel { DealerName = languageOptions.DealerName, HashDealerName = hashDealerName });
         }
 
         [HttpPost]
@@ -88,13 +88,14 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, dealerName = customerForm.DealerName, culture = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["culture"]?.ToString() });
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, hashDealerName = customerForm.HashDealerName, culture = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["culture"]?.ToString() });
         }
 
-        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string dealerName, string culture)
+        public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string hashDealerName, string culture)
         {
+            var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             var viewModel = new SubmittedCustomerFormViewModel();
-            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, dealerName);
+            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, languageOptions.DealerName);
             viewModel.CreditAmount = submitedData.CreditAmount;
             viewModel.DealerName = submitedData.DealerName;
             viewModel.Street = submitedData.DealerAdress?.Street;

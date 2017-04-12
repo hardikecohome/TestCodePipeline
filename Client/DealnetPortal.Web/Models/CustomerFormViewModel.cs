@@ -20,5 +20,7 @@ namespace DealnetPortal.Web.Models
         public string Comment { get; set; }
         [Required]
         public string DealerName { get; set; }
+
+        public string HashDealerName { get; set; }
     }
 }
