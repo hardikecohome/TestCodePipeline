@@ -14,9 +14,11 @@ namespace DealnetPortal.Web.Infrastructure
     public class CustomHttpApiClient : ICustomHttpApiClient
     {
         private readonly IHttpApiClient _authorizedHttpClient;
-        public CustomHttpApiClient(IHttpApiClient authorizedHttpClient)
+        private readonly IHttpApiClient _anonymousHttpClient;
+        public CustomHttpApiClient(IHttpApiClient authorizedHttpClient, IHttpApiClient anonymousClient)
         {
             _authorizedHttpClient = authorizedHttpClient;
+            _anonymousHttpClient = anonymousClient;
         }
 
         public IHttpApiClient Client
@@ -27,7 +29,7 @@ namespace DealnetPortal.Web.Infrastructure
                 {
                     return _authorizedHttpClient;
                 }
-                var httpClient = new HttpApiClient(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]); //DependencyResolver.Current.GetService<ITransientHttpApiClient>();
+                var httpClient = _anonymousHttpClient;//new HttpApiClient(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]); //DependencyResolver.Current.GetService<ITransientHttpApiClient>();
                 string cultureFromRoute = null;
                 try
                 {

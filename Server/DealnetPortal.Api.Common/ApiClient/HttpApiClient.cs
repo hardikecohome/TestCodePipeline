@@ -14,7 +14,7 @@ using DealnetPortal.Api.Common.Helpers;
 
 namespace DealnetPortal.Api.Common.ApiClient
 {
-    public class HttpApiClient : ITransientHttpApiClient
+    public class HttpApiClient : IHttpApiClient
     {
         public HttpApiClient(string baseAddress)
         {

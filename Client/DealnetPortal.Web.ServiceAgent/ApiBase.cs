@@ -14,22 +14,21 @@ namespace DealnetPortal.Web.ServiceAgent
     {
         protected readonly string _uri;
         protected readonly string _fullUri;
-        private readonly ICustomHttpApiClient _client;
 
-        public ApiBase(ICustomHttpApiClient client, string controllerName)
+        public ApiBase(IHttpApiClient client, string controllerName)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
 
-            _client = client;
+            Client = client;
             
             _uri = controllerName;
-            _fullUri = $"{client.BaseAddress}/{_uri}";
+            _fullUri = string.Format("{0}/{1}", Client.Client.BaseAddress, _uri);
         }
 
         /// <summary>
         /// Http client
         /// </summary>
-        protected IHttpApiClient Client => _client.Client;
+        protected IHttpApiClient Client { get; private set; }
     }
 }

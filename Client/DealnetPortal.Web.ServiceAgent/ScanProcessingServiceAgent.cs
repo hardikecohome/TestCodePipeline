@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.ServiceAgent
     public class ScanProcessingServiceAgent : ApiBase, IScanProcessingServiceAgent
     {
         private const string AgentApi = "ScanProcessing";
-        public ScanProcessingServiceAgent(ICustomHttpApiClient client) 
+        public ScanProcessingServiceAgent(IHttpApiClient client) 
             : base(client, AgentApi)
         {
         }

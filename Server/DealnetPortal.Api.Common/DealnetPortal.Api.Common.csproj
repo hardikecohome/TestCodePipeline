@@ -53,7 +53,6 @@
     <Compile Include="ApiClient\HttpApiClient.cs" />
     <Compile Include="ApiClient\HttpClientExtensions.cs" />
     <Compile Include="ApiClient\IHttpApiClient.cs" />
-    <Compile Include="ApiClient\ITransientHttpApiClient.cs" />
     <Compile Include="Attributes\PersistentDescriptionAttribute.cs" />
     <Compile Include="Constants\ErrorCodes.cs" />
     <Compile Include="Constants\ErrorConstants.cs" />

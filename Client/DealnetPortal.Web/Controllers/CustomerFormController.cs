@@ -83,7 +83,6 @@ namespace DealnetPortal.Web.Controllers
             };
             customerFormDto.DealUri = urlBuilder.ToString();
             var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
-            
 
             if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {

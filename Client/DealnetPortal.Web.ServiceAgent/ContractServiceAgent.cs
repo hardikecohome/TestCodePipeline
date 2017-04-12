@@ -24,7 +24,7 @@ namespace DealnetPortal.Web.ServiceAgent
         private const string ContractApi = "Contract";
         private readonly ILoggingService _loggingService;
 
-        public ContractServiceAgent(ICustomHttpApiClient client, ILoggingService loggingService)
+        public ContractServiceAgent(IHttpApiClient client, ILoggingService loggingService)
             : base(client, ContractApi)
         {
             _loggingService = loggingService;

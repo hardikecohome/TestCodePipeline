@@ -46,8 +46,8 @@ namespace DealnetPortal.Web.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IHttpApiClient, HttpApiClient>(new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
-            container.RegisterType<ITransientHttpApiClient, HttpApiClient>(new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
-            container.RegisterType<ICustomHttpApiClient, CustomHttpApiClient>();
+            container.RegisterType<IHttpApiClient, HttpApiClient>("AnonymousClient", new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
+            container.RegisterType<ICustomHttpApiClient, CustomHttpApiClient>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>(), new ResolvedParameter<IHttpApiClient>("AnonymousClient")));
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();

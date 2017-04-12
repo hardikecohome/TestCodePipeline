@@ -18,7 +18,7 @@ namespace DealnetPortal.Web.ServiceAgent
         private const string ContractApi = "dict";
         private ILoggingService _loggingService;
 
-        public DictionaryServiceAgent(ICustomHttpApiClient client, ILoggingService loggingService)
+        public DictionaryServiceAgent(IHttpApiClient client, ILoggingService loggingService)
             : base(client, ContractApi)
         {
             _loggingService = loggingService;
