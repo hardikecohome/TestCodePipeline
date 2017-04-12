@@ -70,9 +70,9 @@ namespace DealnetPortal.Api.Integration.Services
             return null;
         }
 
-        public CustomerLinkLanguageOptionsDTO GetCustomerLinkLanguageOptions(string dealerName, string language)
+        public CustomerLinkLanguageOptionsDTO GetCustomerLinkLanguageOptions(string hashDealerName, string language)
         {
-            var linkSettings = _customerFormRepository.GetCustomerLinkSettingsByDealerName(dealerName);
+            var linkSettings = _customerFormRepository.GetCustomerLinkSettingsByHashDealerName(hashDealerName);
             if (linkSettings != null)
             {
                 var langSettings = new CustomerLinkLanguageOptionsDTO
@@ -88,6 +88,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }                
                 langSettings.EnabledLanguages =
                         linkSettings.EnabledLanguages.Select(l => (LanguageCode)l.LanguageId).ToList();
+                langSettings.DealerName = _dealerRepository.GetDealerNameByCustomerLinkId(linkSettings.Id);
                 return langSettings;
             }
             return null;
@@ -110,6 +111,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (updatedLink != null)
                 {
+                    updatedLink.HashLink = customerLinkSettings.HashLink;
                     _unitOfWork.Save();
                 }
             }

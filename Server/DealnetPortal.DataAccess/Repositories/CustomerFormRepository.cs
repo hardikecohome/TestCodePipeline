@@ -31,6 +31,13 @@ namespace DealnetPortal.DataAccess.Repositories
             return user?.CustomerLink;
         }
 
+        public CustomerLink GetCustomerLinkSettingsByHashDealerName(string hashDealerName)
+        {
+            var customerLink = _dbContext.CustomerLinks
+                .FirstOrDefault(u => u.HashLink == hashDealerName);
+            return customerLink;
+        }
+
         public CustomerLink UpdateCustomerLinkLanguages(ICollection<DealerLanguage> enabledLanguages, string dealerId)
         {
             var user = _dbContext.Users

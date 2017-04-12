@@ -11,5 +11,7 @@ namespace DealnetPortal.DataAccess.Repositories
         string GetParentDealerId(string dealerId);
 
         string GetUserIdByName(string userName);
+
+        string GetDealerNameByCustomerLinkId(int customerLinkId);
     }
 }

@@ -2166,7 +2166,7 @@ $('#contact-info-modal').modal();" class="dealnet-section-edit-link pull-right">
                     </div>
                     <div class="btn-container">
                         <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#prev-address-section-modal'), $('#prev-address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'))) { $('#prev-address-modal').modal('hide'); }">@Resources.SaveChanges</button>
-                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
                     </div>
                 </div>
             </div>
@@ -2205,7 +2205,7 @@ $('#contact-info-modal').modal();" class="dealnet-section-edit-link pull-right">
         @*var creditAmount = @Model.EquipmentInfo.CreditAmount;*@
     </script>
 
-    @Scripts.Render("~/bundles/localization");
+    @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">

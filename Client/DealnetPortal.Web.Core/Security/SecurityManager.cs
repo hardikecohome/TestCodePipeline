@@ -125,6 +125,8 @@ namespace DealnetPortal.Web.Core.Security
             if (httpCookie != null)
             {
                 httpCookie.Value = string.Empty;
+                //httpCookie.Expires = DateTime.Now.AddDays(-1d);
+                //HttpContext.Current?.Response?.Cookies?.Set(httpCookie);
             }
 
             if (HttpContext.Current != null)

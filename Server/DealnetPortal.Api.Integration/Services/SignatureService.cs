@@ -1146,48 +1146,56 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 TimeSpan aspireRequestTimeout = TimeSpan.FromSeconds(5);
                 Task timeoutTask = Task.Delay(aspireRequestTimeout);
-                var aspireRequestTask = Task.Run(() => _aspireStorageService.GetDealerInfo(contract?.Dealer.AspireLogin));                
+                var aspireRequestTask = Task.Run(() => _aspireStorageService.GetDealerInfo(contract?.Dealer.AspireLogin));
 
-                if (Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false).GetAwaiter().GetResult() == aspireRequestTask)
+                try
                 {
-                    var dealerInfo = aspireRequestTask.Result;
-
-                    if (dealerInfo != null)
+                    if (Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false).GetAwaiter().GetResult() ==
+                        aspireRequestTask)
                     {
-                        formFields.Add(new FormField()
-                        {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.DealerName,
-                            Value = dealerInfo.FirstName
-                        });
+                        var dealerInfo = aspireRequestTask.Result;
 
-                        var dealerAddress =
-                            dealerInfo.Locations?.FirstOrDefault();
-                        if (dealerAddress != null)
+                        if (dealerInfo != null)
                         {
                             formFields.Add(new FormField()
                             {
                                 FieldType = FieldType.Text,
-                                Name = PdfFormFields.DealerAddress,
-                                Value =
-                                    $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}"
+                                Name = PdfFormFields.DealerName,
+                                Value = dealerInfo.FirstName
                             });
-                        }
 
-                        if (dealerInfo.Phones?.Any() ?? false)
-                        {
-                            formFields.Add(new FormField()
+                            var dealerAddress =
+                                dealerInfo.Locations?.FirstOrDefault();
+                            if (dealerAddress != null)
                             {
-                                FieldType = FieldType.Text,
-                                Name = PdfFormFields.DealerPhone,
-                                Value = dealerInfo.Phones.First().PhoneNum
-                            });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.DealerAddress,
+                                    Value =
+                                        $"{dealerAddress.Street}, {dealerAddress.City}, {dealerAddress.State}, {dealerAddress.PostalCode}"
+                                });
+                            }
+
+                            if (dealerInfo.Phones?.Any() ?? false)
+                            {
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.DealerPhone,
+                                    Value = dealerInfo.Phones.First().PhoneNum
+                                });
+                            }
                         }
                     }
+                    else
+                    {
+                        _loggingService.LogError("Cannot get dealer info from Aspire");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    _loggingService.LogError("Cannot get dealer info from Aspire");
+                    _loggingService.LogError("Cannot get dealer info from Aspire database", ex);
                 }
             }            
         }
