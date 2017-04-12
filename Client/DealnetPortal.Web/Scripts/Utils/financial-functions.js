@@ -1,7 +1,7 @@
 ﻿module.exports('financial-functions',
     function() {
         var tax = function(data) {
-            return data.equipmentSum * data.tax;
+            return data.equipmentSum * data.tax / 100;
         };
 
         var totalPrice = function(data) {
@@ -18,6 +18,12 @@
 
             return tPrice + adminFee - downPayment;
         };
+
+        var yourCost = function (data) {
+            var yCost = data.yourCost;
+
+            return yCost * totalAmountFinanced(data) / 100;
+        }
 
         var monthlyPayment = function(data) {
             var tAmountFinanced = totalAmountFinanced(data);
@@ -72,5 +78,6 @@
             monthlyPayment: monthlyPayment,
             totalAmountFinanced: totalAmountFinanced,
             totalBorrowingCost: totalBorrowingCost,
+            yourCost: yourCost,
         };
     });

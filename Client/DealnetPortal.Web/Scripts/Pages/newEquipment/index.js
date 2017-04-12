@@ -10,6 +10,7 @@
         var totalMonthlyPayments = require('financial-functions').totalMonthlyPayments;
         var residualBalance = require('financial-functions').residualBalance;
         var totalBorrowingCost = require('financial-functions').totalBorrowingCost;
+        var yourCost = require('financial-functions').yourCost;
 
         var state = {
             equipments: {
@@ -20,57 +21,40 @@
                     template: '',
                 },
             },
-            tax: 0,
+            tax: 12,
             downPayment: 0,
             fixedRate: {
-                loanTerm: 0,
-                amortTerm: 0,
-                deferralPeriod: 0,
-                customerRate: 0,
-                yourCost: 0,
-                adminFee: 0,
+                loanTerm: 36,
+                amortTerm: 36,
+                deferralPeriod: '',
+                customerRate: 5,
+                yourCost: 10,
+                adminFee: 100,
             },
             noInterest: {
-                loanTerm: 0,
-                amortTerm: 0,
-                deferralPeriod: 0,
+                loanTerm: 36,
+                amortTerm: 36,
+                deferralPeriod: '',
                 customerRate: 0,
-                yourCost: 0,
-                adminFee: 0,
+                yourCost: 5,
+                adminFee: 200,
             },
-            defferal: {
-                loanTerm: 0,
-                amortTerm: 0,
-                deferralPeriod: 0,
-                customerRate: 0,
-                yourCost: 0,
+            deferral: {
+                loanTerm: 36,
+                amortTerm: 36,
+                deferralPeriod: '',
+                customerRate: 10,
+                yourCost: 20,
                 adminFee: 0,
             },
             custom: {
-                loanTerm: 0,
-                amortTerm: 0,
-                deferralPeriod: 0,
-                customerRate: 0,
-                yourCost: 0,
-                adminFee: 0,
+                loanTerm: '',
+                amortTerm: '',
+                deferralPeriod: '',
+                customerRate: '',
+                yourCost: '',
+                adminFee: '',
             },
-        };
-
-        var renderTotalPrice = function(data) {
-            $('#totalEquipmentPrice').text(formatCurrency(data.equipmentSum));
-            $('#tax').text(formatCurrency(data.tax));
-            $('#totalPrice').text(formatCurrency(data.totalPrice));
-        };
-
-        var renderOption = function(option, data) {
-            if (option === 'custom') {
-                $('#customMPayment').text(formatCurrency(data.monthlyPayment));
-                $('#customCBorrowing').text(formatCurrency(data.costOfBorrowing));
-                $('#customTAFinanced').text(formatCurrency(data.totalAmountFinanced));
-                $('#customTMPayments').text(formatCurrency(data.totalMonthlyPayments));
-                $('#customRBalance').text(formatCurrency(data.residualBalance));
-                $('#customTObligation').text(formatCurrency(data.totalObligation));
-            }
         };
 
         var notNaN = function (num) { return !isNaN(num); };
@@ -78,6 +62,62 @@
             return function(id) {
                 return obj.hasOwnProperty(id) ? obj[id] : '';
             };
+        };
+
+        // render static fields
+        var renderStaticFields = function(option, data) {
+            $('#' + option + 'CRate').text(data.customerRate + ' %');
+            $('#' + option + 'YCostVal').text(data.yourCost + ' %');
+            $('#' + option + 'AFee').text(formatCurrency(data.adminFee));
+        };
+
+        ['fixedRate', 'noInterest', 'deferral'].forEach(function(option) {
+            renderStaticFields(option, state[option]);
+        });
+
+        var numberFields = ['equipmentSum', 'loanTerm', 'amortTerm', 'customerRate', 'adminFee'];
+        var notCero = ['equipmentSum', 'loanTerm', 'amortTerm'];
+
+        var renderTotalPrice = function(data) {
+            var notNan = !Object.keys(data).map(idToValue(data)).some(function(val) { return isNaN(val); });
+            if (notNan) {
+                $('#totalEquipmentPrice').text(formatCurrency(data.equipmentSum));
+                $('#tax').text(formatCurrency(data.tax));
+                $('#totalPrice').text(formatCurrency(data.totalPrice));
+            } else {
+                $('#totalEquipmentPrice').text('-');
+                $('#tax').text('-');
+                $('#totalPrice').text('-');
+            }
+        };
+
+        var renderOption = function(option, data) {
+            var notNan = !Object.keys(data).map(idToValue(data)).some(function(val) { return isNaN(val); });
+            var validateNumber = numberFields.every(function(field) {
+                return typeof data[field] === 'number';
+            });
+
+            var validateNotEmpty = notCero.every(function(field) {
+                return data[field] !== 0;
+            });
+
+            if (notNan && validateNumber && validateNotEmpty) {
+                $('#' + option  + 'MPayment').text(formatCurrency(data.monthlyPayment));
+                $('#' + option  + 'CBorrowing').text(formatCurrency(data.costOfBorrowing));
+                $('#' + option  + 'TAFinanced').text(formatCurrency(data.totalAmountFinanced));
+                $('#' + option  + 'TMPayments').text(formatCurrency(data.totalMonthlyPayments));
+                $('#' + option  + 'RBalance').text(formatCurrency(data.residualBalance));
+                $('#' + option  + 'TObligation').text(formatCurrency(data.totalObligation));
+                $('#' + option  + 'YCost').text(formatCurrency(data.yourCost));
+            } else {
+                $('#' + option  + 'MPayment').text('-');
+                $('#' + option  + 'CBorrowing').text('-');
+                $('#' + option  + 'TAFinanced').text('-');
+                $('#' + option  + 'TMPayments').text('-');
+                $('#' + option  + 'RBalance').text('-');
+                $('#' + option  + 'TObligation').text('-');
+                $('#' + option  + 'YCost').text('-');
+            }
         };
 
         var equipmentSum = function (equipments) {
@@ -88,7 +128,7 @@
                 .reduce(function(sum, cost) { return sum + cost; }, 0);
         };
 
-        var allOptions = ['custom'];
+        var allOptions = ['custom', 'deferral', 'fixedRate', 'noInterest'];
         var recalculateValuesAndRender = function(options) {
             var optionsToCompute = options || allOptions;
 
@@ -108,14 +148,15 @@
                     tax: state.tax,
                 });
 
-                renderOption(option, {
+                renderOption(option, $.extend({}, data, {
                     monthlyPayment: monthlyPayment(data),
                     costOfBorrowing: totalBorrowingCost(data),
                     totalAmountFinanced: totalAmountFinanced(data),
                     totalMonthlyPayments: totalMonthlyPayments(data),
                     residualBalance: residualBalance(data),
                     totalObligation: totalObligation(data),
-                });
+                    yourCost: yourCost(data),
+                }));
             });
         };
 
@@ -131,6 +172,14 @@
         var setAmortTerm = function(optionKey) {
             return function(e) {
                 state[optionKey].amortTerm = parseFloat(e.target.value);
+                recalculateValuesAndRender([optionKey]);
+            };
+        };
+
+        var setLoanAmortTerm = function(optionKey) {
+            return function(loanTerm, amortTerm) {
+                state[optionKey].loanTerm = parseFloat(loanTerm);
+                state[optionKey].amortTerm = parseFloat(amortTerm);
                 recalculateValuesAndRender([optionKey]);
             };
         };
@@ -179,8 +228,7 @@
             };
         };
 
-
-        var removeEquipment = function (id) {
+        var removeEquipment = function(id) {
             return function() {
                 if (!state.equipments.hasOwnProperty(id)) {
                     return;
@@ -220,12 +268,20 @@
         $('#addEquipment').on('click', addEquipment);
         $('#downPayment').on('change', setDownPayment);
 
+        // custom option
         $('#customLoanTerm').on('change', setLoanTerm('custom'));
         $('#customAmortTerm').on('change', setAmortTerm('custom'));
         $('#customDeferralPeriod').on('change', setDeferralPeriod('custom'));
         $('#customCustomerRate').on('change', setCustomerRate('custom'));
         $('#customYourCost').on('change', setYourCost('custom'));
         $('#customAdminFee').on('change', setAdminFee('custom'));
+
+        // deferral
+        $('#deferralLATerm').on('change', function(e) {
+            var loanAmort = e.target.value.split('/');
+            setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
+        });
+
         // attatch handler to first equipment
         $('#new-equipment-0').find('.equipment-cost').on('change', updateCost(0));
 

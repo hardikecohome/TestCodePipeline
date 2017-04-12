@@ -804,7 +804,6 @@
     <Content Include="Scripts\loan-calculator.js" />
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
-    <Content Include="Scripts\new-equipment-information.js" />
     <Content Include="Scripts\Pages\newEquipment\index.js" />
     <Content Include="Scripts\Pages\newEquipment\template.js" />
     <Content Include="Scripts\Utils\financial-functions.js" />

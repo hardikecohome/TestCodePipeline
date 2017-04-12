@@ -24,7 +24,7 @@ $(document).ready(function () {
                 return !isNaN(Globalize.parseNumber(value));
             }
 
-            var parseFloat = window.parseFloat
+            var parseFloat = window.parseFloat;
             window.parseFloat = function(number) {
                 if (typeof number === 'undefined') {
                     return number;
@@ -32,7 +32,7 @@ $(document).ready(function () {
                 if (typeof number === 'number') {
                     return number;
                 }
-                if (typeof number === 'string' && !/^[0-9]*$/.test(number)) {
+                if (/[a-zA-Z]*/.test(number)) {
                     return parseFloat(number);
                 }
 
@@ -46,7 +46,12 @@ $(document).ready(function () {
                 useGrouping: false
             });
 
-            window.formatCurrency = Globalize.currencyFormatter('CAD');
+            window.formatCurrency = Globalize.currencyFormatter('CAD', {
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2,
+                round: 'round',
+                useGrouping: false
+            });
             configInitialized.resolve(true);
         });
 });
