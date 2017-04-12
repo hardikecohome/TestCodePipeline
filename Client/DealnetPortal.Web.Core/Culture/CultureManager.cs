@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
+using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Helpers;
@@ -21,9 +23,11 @@ namespace DealnetPortal.Web.Core.Culture
         private const string CookieName = "DEALNET_CULTURE_COOKIE";
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly ILoggingService _loggingService;
+        private readonly IHttpApiClient _client;
 
-        public CultureManager(IDictionaryServiceAgent dictionaryServiceAgent, ILoggingService loggingService)
+        public CultureManager(IHttpApiClient client, IDictionaryServiceAgent dictionaryServiceAgent, ILoggingService loggingService)
         {
+            _client = client;
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _loggingService = loggingService;
         }
@@ -41,6 +45,8 @@ namespace DealnetPortal.Web.Core.Culture
             {
                 CreateCookie(filteredCulture);
             }
+            _client.Client.DefaultRequestHeaders.AcceptLanguage.Clear();
+            _client.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
         }
 
         public async Task ChangeCulture(string culture)
