@@ -13,12 +13,12 @@ using DealnetPortal.Web.Common.Helpers;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    public class DictionaryServiceAgent : ApiBase, IDictionaryServiceAgent
+    public class DictionaryServiceAgent : TransientApiBase, IDictionaryServiceAgent
     {
         private const string ContractApi = "dict";
         private ILoggingService _loggingService;
 
-        public DictionaryServiceAgent(IHttpApiClient client, ILoggingService loggingService)
+        public DictionaryServiceAgent(ITransientHttpApiClient client, ILoggingService loggingService)
             : base(client, ContractApi)
         {
             _loggingService = loggingService;

@@ -68,7 +68,7 @@
     <Compile Include="ContractServiceAgent.cs" />
     <Compile Include="DictionaryServiceAgent.cs" />
     <Compile Include="IContractServiceAgent.cs" />
-    <Compile Include="ICustomHttpApiClient.cs" />
+    <Compile Include="ITransientHttpApiClient.cs" />
     <Compile Include="IDictionaryServiceAgent.cs" />
     <Compile Include="IStorageServiceAgent.cs" />
     <Compile Include="ScanProcessingServiceAgent.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="ISecurityServiceAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageServiceAgent.cs" />
+    <Compile Include="TransientApiBase.cs" />
     <Compile Include="UserManagementServiceAgent.cs" />
   </ItemGroup>
   <ItemGroup>

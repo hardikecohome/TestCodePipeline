@@ -19,12 +19,12 @@ namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Contract.EquipmentInformation;
 
-    public class ContractServiceAgent : ApiBase, IContractServiceAgent
+    public class ContractServiceAgent : TransientApiBase, IContractServiceAgent
     {
         private const string ContractApi = "Contract";
         private readonly ILoggingService _loggingService;
 
-        public ContractServiceAgent(IHttpApiClient client, ILoggingService loggingService)
+        public ContractServiceAgent(ITransientHttpApiClient client, ILoggingService loggingService)
             : base(client, ContractApi)
         {
             _loggingService = loggingService;

@@ -11,11 +11,11 @@ using Microsoft.Practices.Unity;
 
 namespace DealnetPortal.Web.Infrastructure
 {
-    public class CustomHttpApiClient : ICustomHttpApiClient
+    public class TransientHttpApiClient : ITransientHttpApiClient
     {
         private readonly IHttpApiClient _authorizedHttpClient;
         private readonly IHttpApiClient _anonymousHttpClient;
-        public CustomHttpApiClient(IHttpApiClient authorizedHttpClient, IHttpApiClient anonymousClient)
+        public TransientHttpApiClient(IHttpApiClient authorizedHttpClient, IHttpApiClient anonymousClient)
         {
             _authorizedHttpClient = authorizedHttpClient;
             _anonymousHttpClient = anonymousClient;

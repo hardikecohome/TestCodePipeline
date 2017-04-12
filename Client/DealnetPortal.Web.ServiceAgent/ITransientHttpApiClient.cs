@@ -7,7 +7,7 @@ using DealnetPortal.Api.Common.ApiClient;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    public interface ICustomHttpApiClient
+    public interface ITransientHttpApiClient
     {
         IHttpApiClient Client { get; }
         Uri BaseAddress { get; }
