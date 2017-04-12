@@ -13,6 +13,7 @@
         var yourCost = require('financial-functions').yourCost;
 
         var state = {
+            agreementType: 0,
             equipments: {
                 '0': {
                     type: '',
@@ -160,7 +161,36 @@
             });
         };
 
+        var recalculateAndRenderRentalValues = function() {
+            var eSum = equipmentSum(state.equipments);
+
+            var data = {
+                tax: state.tax,
+                equipmentSum: eSum,
+            };
+
+            var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
+            if (notNan && data.equipmentSum !== 0) {
+                $('#rentalMPayment').val(eSum);
+                $('#rentalTax').text(tax(data));
+                $('#rentalTMPayment').text(totalPrice(data));
+            } else {
+                $('#rentalMPayment').val('');
+                $('#rentalTax').text('-');
+                $('#rentalTMPayment').text('-');
+            }
+        };
+
         // setters
+
+        var setAgreement = function(e) {
+            state.agreementType = Number(e.target.value);
+            if (state.agreementType === 1 || state.agreementType === 2) {
+                recalculateAndRenderRentalValues();
+            } else {
+                recalculateValuesAndRender();
+            }
+        };
 
         var setLoanTerm = function(optionKey) {
             return function(e) {
@@ -224,7 +254,11 @@
                 }
 
                 state.equipments[id].cost = parseFloat(e.target.value);
-                recalculateValuesAndRender();
+                if (state.agreementType === 1 || state.agreementType === 2) {
+                    recalculateAndRenderRentalValues();
+                } else {
+                    recalculateValuesAndRender();
+                }
             };
         };
 
@@ -236,7 +270,11 @@
 
                 state.equipments[id].template.remove();
                 delete state.equipments[id];
-                recalculateValuesAndRender();
+                if (state.agreementType === 1 || state.agreementType === 2) {
+                    recalculateAndRenderRentalValues();
+                } else {
+                    recalculateValuesAndRender();
+                }
             };
         };
 
@@ -267,6 +305,7 @@
         // handlers
         $('#addEquipment').on('click', addEquipment);
         $('#downPayment').on('change', setDownPayment);
+        $('#typeOfAgreementSelect').on('change', setAgreement);
 
         // custom option
         $('#customLoanTerm').on('change', setLoanTerm('custom'));

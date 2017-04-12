@@ -98,7 +98,7 @@
 					<label for="">Total Monthy Payment</label>
 					<div class="control-group has-addon-left">
 						<div class="control-group-addon">$</div>
-						<input class="form-control dealnet-input" id="" name="" placeholder="Total Monthy Payment" type="text">
+						<input class="form-control dealnet-input" id="rentalMPayment" name="" placeholder="Total Monthy Payment" type="text">
 					</div>
 				</div>
 			</div>
@@ -108,12 +108,12 @@
 		<div class="row rental-element">
 			<div class="col-md-6">
 				<div class="row form-group">
-					<div class="col-sm-6">HST</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span>2,400.00</span></div>
+					<div class="col-sm-6">GST + PST</div>
+					<div class="col-sm-6 text-right text-semibold">$ <span id="rentalTax">-</span></div>
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-6">Total Monthly Payment (TAX INCL.)</div>
-					<div class="col-sm-6 text-right text-semibold">$ <span>22,459.95</span></div>
+					<div class="col-sm-6 text-right text-semibold">$ <span id="rentalTMPayment">-</span></div>
 				</div>
 			</div>
 		</div>
@@ -124,7 +124,7 @@
 					<div class="col-sm-6 text-right text-semibold"><span id="totalEquipmentPrice">-</span></div>
 				</div>
 				<div class="row form-group">
-					<div class="col-sm-6">HST</div>
+					<div class="col-sm-6">GST + PST</div>
 					<div class="col-sm-6 text-right text-semibold" > <span id="tax">-</span></div>
 				</div>
 				<div class="row form-group">
