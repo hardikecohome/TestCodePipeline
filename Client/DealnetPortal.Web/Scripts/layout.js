@@ -365,12 +365,15 @@ function fixedOnKeyboardShownIos(fixedElem){
     }).fadeIn('fast')
   }
   function resetFixedPosition() {
-    $fixedElement.removeClass('absoluted-div').removeClass('stick').css({
+    /*$fixedElement.removeClass('absoluted-div').removeClass('stick').css({
       position: 'static',
       top: 0,
       left: 0,
       right: 0,
       width: '100%'
+    });*/
+    $fixedElement.removeClass('absoluted-div').css({
+      top: 60
     });
     $(document).off('scroll', updateScrollTop);
     resetModalDialogMarginForIpad();

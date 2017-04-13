@@ -574,8 +574,10 @@
                     }
                     $('#calculator-modal').modal('hide');
 
-                    if ($(window).width() > 1023 && $('.initial-standalone-calculator').hasClass('compare-mode')) {
+                    if ($('.initial-standalone-calculator').hasClass('compare-mode') && $('.calc-title.compare-mode').is(":visible")) {
                         $('.calculators-hold').removeClass('sticker');
+                    } else{
+                        $('.calculators-hold').addClass('sticker');
                     }
                 };
                 $scope.retrieveCompareState = function(index) {
@@ -766,8 +768,10 @@
                                         }
                                         $scope.isMobileMode = true;
                                     } else {
-                                        if ($('.initial-standalone-calculator').hasClass('compare-mode')) {
+                                        if ($('.initial-standalone-calculator').hasClass('compare-mode') && $('.calc-title.compare-mode').is(":visible")) {
                                             $('.calculators-hold').removeClass('sticker');
+                                        } else{
+                                            $('.calculators-hold').addClass('sticker');
                                         }
                                         if ($scope.isMobileMode && $scope.compareStates.length) {
                                             $scope.trySaveActiveChanges();
