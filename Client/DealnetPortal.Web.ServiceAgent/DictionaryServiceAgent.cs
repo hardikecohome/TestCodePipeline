@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
@@ -140,14 +141,14 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName = null)
+        public async Task<IList<StringSettingDTO>> GetDealerSettings(string hashDealerName)
         {
             try
             {
                 var url = $"{_fullUri}/GetDealerSettings";
-                if (dealerName != null)
+                if (hashDealerName != null)
                 {
-                    url += $"?dealer={dealerName}";
+                    url += $"?hashDealerName={hashDealerName}";
                 }
                 return await Client.GetAsync<IList<StringSettingDTO>>(url).ConfigureAwait(false);
             }
@@ -158,15 +159,16 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<BinarySettingDTO> GetDealerBinSetting(SettingType type, string dealerName = null)
+        public async Task<BinarySettingDTO> GetDealerBinSetting(SettingType type)
         {
             try
             {
                 var url = $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}";
-                var _dealerName = dealerName ?? HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"]?.ToString();
-                if (!string.IsNullOrEmpty(_dealerName))
+                var hashDealerName = HttpContext.Current?.Request?.RequestContext?.RouteData?.Values["hashDealerName"]?.ToString() ??
+                                     HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"] as string;
+                if (!string.IsNullOrEmpty(hashDealerName))
                 {
-                    url += $"&dealer={_dealerName}";
+                    url += $"&hashDealerName={hashDealerName}";
                 }
                 return await Client.GetAsync<BinarySettingDTO>(url).ConfigureAwait(false);
             }

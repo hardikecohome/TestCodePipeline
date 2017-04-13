@@ -229,11 +229,11 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         // GET api/dict/GetDealerSettings?dealer={dealer}
         [Route("GetDealerSettings")]
-        public IHttpActionResult GetDealerSettings(string dealer)
+        public IHttpActionResult GetDealerSettings(string hashDealerName)
         {
             IList<StringSettingDTO> list = null;            
 
-            var settings = SettingsRepository.GetUserStringSettings(dealer);
+            var settings = SettingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
             if (settings?.Any() ?? false)
             {
                 list = Mapper.Map<IList<StringSettingDTO>>(settings);
@@ -264,10 +264,10 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         // GET api/dict/GetDealerBinSetting?settingType={settingType}&dealer={dealer}
         [Route("GetDealerBinSetting")]
-        public IHttpActionResult GetDealerBinSetting(int settingType, string dealer)
+        public IHttpActionResult GetDealerBinSetting(int settingType, string hashDealerName)
         {
             SettingType sType = (SettingType)settingType;
-            var binSetting = SettingsRepository.GetUserBinarySetting(sType, dealer);
+            var binSetting = SettingsRepository.GetUserBinarySettingByHashDealerName(sType, hashDealerName);
             if (binSetting != null)
             {
                 var bin = new BinarySettingDTO()

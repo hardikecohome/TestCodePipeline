@@ -29,13 +29,13 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
-        public async Task<FileResult> LogoImage(string dealerName)
+        public async Task<FileResult> LogoImage(string hashDealerName)
         {
             _securityManager.SetUserFromContext();
             BinarySettingDTO image = null;
-            if (HttpContext.User.Identity.IsAuthenticated || dealerName != null)
+            if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {
-                image = await _settingsManager.GetUserLogoAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : dealerName);
+                image = await _settingsManager.GetUserLogoAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName);
             }
             if (image?.ValueBytes != null)
             {
@@ -61,10 +61,10 @@ namespace DealnetPortal.Web.Controllers
         {
             _securityManager.SetUserFromContext();
             BinarySettingDTO icon = null;
-            var dealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"] as string;
-            if (HttpContext.User.Identity.IsAuthenticated || dealerName != null)
+            var hashDealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"] as string;
+            if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {
-                icon = await _settingsManager.GetUserFaviconAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : dealerName);
+                icon = await _settingsManager.GetUserFaviconAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName);
             }
             if (icon?.ValueBytes != null)
             {
