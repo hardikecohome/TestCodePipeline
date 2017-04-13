@@ -67,7 +67,7 @@
         var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
 
         var selectElement = function(el) {
-            if (el.nodeName == "TEXTAREA" || el.nodeName == "INPUT")
+            if (el.nodeName === "TEXTAREA" || el.nodeName === "INPUT")
                 el.select();
             if (el.setSelectionRange && isIOS)
                 el.setSelectionRange(0, 999999);
@@ -79,9 +79,9 @@
             }
         };
 
+        var enLink = document.getElementById('enLink');
+        var frLink = document.getElementById('frLink');
         if (!isIOS) {
-            var enLink = document.getElementById('enLink');
-            var frLink = document.getElementById('frLink');
 
             var activeLink = '';
 
@@ -99,6 +99,17 @@
                     copyCommand();
                 });
         } else {
+            enLink = $('#enLink');
+            frLink = $('#frLink');
+
+            var enLinkVal = enLink.val();
+            var frLinkVal = frLink.val();
+
+            enLink.parent().append($.parseHTML('<a href="' + enLinkVal + '" style="word-wrap: break-word;">' + enLinkVal + '</a>'));
+            frLink.parent().append($.parseHTML('<a href="' + frLinkVal + '" style="word-wrap: break-word;">' + frLinkVal + '</a>'));
+
+            enLink.hide();
+            frLink.hide();
             $('#copyEn').hide();
             $('#copyFr').hide();
         }

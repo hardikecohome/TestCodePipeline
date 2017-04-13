@@ -23,7 +23,7 @@
             @Styles.Render("~/Content/less/main-dealer.less")
             break;
     }
-    <link rel="shortcut icon" href=@Url.Action("Favicon", "Settings", new { v = DateTime.Now.Ticks.ToString() }) type="image/x-icon" />
+    <link rel="shortcut icon" href=@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string }) type="image/x-icon" />
     <script type="text/javascript">
         //Next two lines for IE (God Damn It! What is that shit made of?!)
         if (!window.console) window.console = {};

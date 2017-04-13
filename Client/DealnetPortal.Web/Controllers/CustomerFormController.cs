@@ -48,6 +48,7 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("AnonymousError", "Info");
             }
             ViewBag.ProvinceTaxRates = provinces.Item1;
+            ViewBag.HashDealerName = hashDealerName;
             return View(new CustomerFormViewModel { DealerName = languageOptions.DealerName, HashDealerName = hashDealerName });
         }
 
@@ -105,6 +106,7 @@ namespace DealnetPortal.Web.Controllers
             viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
             viewModel.Phone = submitedData.DealerPhone;
             viewModel.Email = submitedData.DealerEmail;
+            ViewBag.HashDealerName = hashDealerName;
             return View(viewModel);
         }
     }

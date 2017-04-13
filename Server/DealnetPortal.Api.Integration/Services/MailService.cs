@@ -173,7 +173,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Cannot send email", ex);
-            }            
+            }
         }
 
         private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
