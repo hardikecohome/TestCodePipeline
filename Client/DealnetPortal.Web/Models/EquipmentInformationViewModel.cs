@@ -7,13 +7,15 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Models.Enumeration;
+using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     public class EquipmentInformationViewModel
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "TypeOfAgreement")]
-        public Common.Enumeration.AgreementType AgreementType { get; set; }
+        public AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
@@ -38,10 +40,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public int? AmortizationTerm { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
-        public Common.Enumeration.LoanDeferralType LoanDeferralType { get; set; }
+        public LoanDeferralType LoanDeferralType { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "DeferralType")]
-        public Common.Enumeration.RentalDeferralType RentalDeferralType { get; set; }
+        public RentalDeferralType RentalDeferralType { get; set; }
                           
         [RegularExpression(@"(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerRatePercentage")]

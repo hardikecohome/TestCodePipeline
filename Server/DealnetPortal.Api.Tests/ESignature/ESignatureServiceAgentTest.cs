@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Integration.Services.ESignature;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ItemsChoiceType = DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb.ItemsChoiceType;

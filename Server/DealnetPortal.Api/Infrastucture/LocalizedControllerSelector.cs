@@ -15,6 +15,7 @@ using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Routing;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Helpers;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api.Infrastucture

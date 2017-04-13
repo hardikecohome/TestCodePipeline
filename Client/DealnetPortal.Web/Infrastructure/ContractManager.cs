@@ -7,12 +7,15 @@ using System.Web.Mvc;
 using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
+using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 
 namespace DealnetPortal.Web.Infrastructure
 {
@@ -57,7 +60,7 @@ namespace DealnetPortal.Web.Infrastructure
                 return contactAndPaymentInfo;
             }
             contactAndPaymentInfo.ContractId = contractId;
-            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < ContractState.Completed;
+            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
             return contactAndPaymentInfo;
         }
@@ -92,7 +95,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
             equipmentInfo.CreditAmount = contractResult.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
-            equipmentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < ContractState.Completed;
+            equipmentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             if (!equipmentInfo.RequestedTerm.HasValue)
             {
                 equipmentInfo.RequestedTerm = 120;
@@ -477,7 +480,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
-                summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < ContractState.Completed;
+                summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
             }
             summary.Notes = contract.Details?.Notes;
@@ -491,7 +494,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
                         
             summary.AdditionalInfo = new AdditionalInfoViewModel();
-            summary.AdditionalInfo.ContractState = contract.ContractState.ConvertTo<Common.Enumeration.ContractState>();
+            summary.AdditionalInfo.ContractState = contract.ContractState.ConvertTo<ContractState>();
             summary.AdditionalInfo.Status = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
             summary.AdditionalInfo.TransactionId = contract.Details?.TransactionId;

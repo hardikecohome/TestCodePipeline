@@ -13,6 +13,9 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.Models.Validation;
+using PaymentType = DealnetPortal.Web.Models.Enumeration.PaymentType;
+using ResidenceType = DealnetPortal.Web.Models.Enumeration.ResidenceType;
+using WithdrawalDateType = DealnetPortal.Web.Models.Enumeration.WithdrawalDateType;
 
 namespace DealnetPortal.Web.Models
 {
@@ -79,7 +82,7 @@ namespace DealnetPortal.Web.Models
         public string PostalCode { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Residence")]
-        public Common.Enumeration.ResidenceType ResidenceType { get; set; }
+        public ResidenceType ResidenceType { get; set; }
     }
 
     public class SubDealer    
@@ -112,9 +115,9 @@ namespace DealnetPortal.Web.Models
     public class PaymentInfoViewModel
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "PaymentType")]
-        public Common.Enumeration.PaymentType PaymentType { get; set; }
+        public PaymentType PaymentType { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "PrefferedWithdrawalDateIncorrectFormat")]
-        public Common.Enumeration.WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
         [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "BankNumberIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "BlankNumber")]
@@ -180,7 +183,7 @@ namespace DealnetPortal.Web.Models
     public class AdditionalInfoViewModel
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "Status")]
-        public Common.Enumeration.ContractState ContractState { get; set; }
+        public Enumeration.ContractState ContractState { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "Status")]
         public string Status { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "Date")]

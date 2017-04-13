@@ -8,11 +8,14 @@ using AutoMapper;
 using AutoMapper.Mappers;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Aspire.AspireDb;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
+using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
+using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 
 namespace DealnetPortal.Web.App_Start
 {
@@ -56,7 +59,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstallationDate, d => d.Ignore())
                 .ForMember(x => x.InstallerFirstName, d => d.Ignore())
                 .ForMember(x => x.InstallerLastName, d => d.Ignore())
-                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == Common.Enumeration.AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore())
                 .ForMember(x => x.AssetNumber, d => d.Ignore())
@@ -197,9 +200,9 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? (src.ContractState.ConvertTo<Common.Enumeration.ContractState>()).GetEnumDescription()))
-                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.Equipment?.AgreementType.ConvertTo<Common.Enumeration.AgreementType>().GetEnumDescription()))
-                .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Common.Enumeration.PaymentType>().GetEnumDescription() ))
+                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.Equipment?.AgreementType.ConvertTo<Models.Enumeration.AgreementType>().GetEnumDescription()))
+                .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription() ))
                 .ForMember(d => d.Action, s => s.Ignore())
                 .ForMember(d => d.Email, s => s.ResolveUsing(src => src.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))                
                 .ForMember(d => d.Phone, s => s.ResolveUsing(src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
@@ -272,8 +275,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
                 .ForMember(x => x.CreditAmount, d => d.Ignore())
-                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.DeferralType : 0))
-                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
                 .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())

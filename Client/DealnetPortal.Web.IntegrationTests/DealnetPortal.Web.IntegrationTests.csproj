@@ -42,6 +42,9 @@
     <Reference Include="DealnetPortal.Api.Common">
       <HintPath>..\..\lib\DealnetPortal.Api.Common.dll</HintPath>
     </Reference>
+    <Reference Include="DealnetPortal.Api.Core">
+      <HintPath>..\..\lib\DealnetPortal.Api.Core.dll</HintPath>
+    </Reference>
     <Reference Include="DealnetPortal.Api.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
@@ -84,9 +87,9 @@
       <Project>{7B096FBB-C366-4560-8C78-38D3FB2DBDF4}</Project>
       <Name>DealnetPortal.Web.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DealnetPortal.Web.Core\DealnetPortal.Web.Core.csproj">
-      <Project>{BF1B17E7-04B8-42C3-897F-0CEECB75E479}</Project>
-      <Name>DealnetPortal.Web.Core</Name>
+    <ProjectReference Include="..\DealnetPortal.Web.Models\DealnetPortal.Web.Models.csproj">
+      <Project>{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}</Project>
+      <Name>DealnetPortal.Web.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Web.ServiceAgent\DealnetPortal.Web.ServiceAgent.csproj">
       <Project>{9D034D24-D090-4FFD-9F50-7FF073568343}</Project>

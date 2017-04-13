@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.DataAccess
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Core.Types;
 
 namespace DealnetPortal.Web.Common.Security
 {

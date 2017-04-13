@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Models.Aspire;
 
 namespace DealnetPortal.Api.Integration.ServiceAgents

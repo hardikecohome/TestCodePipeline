@@ -1,7 +1,7 @@
 using Microsoft.Practices.Unity;
 using System.Web.Http;
-using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Controllers;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
@@ -9,6 +9,8 @@ using DealnetPortal.Api.Integration.Services.Signature;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Utilities.Messaging;
 using Microsoft.AspNet.Identity;
 using Unity.WebApi;
 

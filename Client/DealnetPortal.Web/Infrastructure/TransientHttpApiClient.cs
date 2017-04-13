@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.Unity;

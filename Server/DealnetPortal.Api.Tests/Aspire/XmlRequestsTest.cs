@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Models.Aspire;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

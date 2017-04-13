@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 
 namespace DealnetPortal.Web.ServiceAgent

@@ -23,6 +23,7 @@ using DealnetPortal.Api.Results;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers
 {

@@ -1,12 +1,13 @@
 using System;
-using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.Core.Culture;
-using DealnetPortal.Web.Core.Security;
-using DealnetPortal.Web.Core.Services;
+using DealnetPortal.Web.Common.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.ServiceAgent;
+using DealnetPortal.Web.ServiceAgent.Managers;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -52,6 +53,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
             container.RegisterType<ICultureManager, CultureManager>();
+            container.RegisterType<CultureSetterManager>();
             container.RegisterType<ISecurityManager, SecurityManager>(new InjectionConstructor(typeof(ISecurityServiceAgent), typeof(IUserManagementServiceAgent), typeof(ILoggingService), ApplicationSettingsManager.PortalType));
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();

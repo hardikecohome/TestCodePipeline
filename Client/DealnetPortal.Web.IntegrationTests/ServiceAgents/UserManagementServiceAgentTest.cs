@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.ApiClient;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.Core.Security;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

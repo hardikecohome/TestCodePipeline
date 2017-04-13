@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Messaging;
 
 namespace DealnetPortal.Api
 {

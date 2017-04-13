@@ -8,9 +8,10 @@ using System.Web.Routing;
 using AutoMapper;
 using dotless.Core.Parser.Tree;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Helpers;
-using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 

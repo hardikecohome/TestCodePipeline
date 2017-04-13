@@ -5,12 +5,17 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.ApiClient;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Web.Common;
 
 namespace DealnetPortal.Web.ServiceAgent
 {

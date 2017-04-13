@@ -6,7 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using DealnetPortal.Web.Core.Culture;
+using DealnetPortal.Web.Common.Culture;
 
 namespace DealnetPortal.Web.Infrastructure
 {

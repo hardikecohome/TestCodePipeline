@@ -12,6 +12,8 @@ using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
@@ -25,6 +27,7 @@ using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.ObjectBuilder2;
+using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Controllers
 {    
@@ -464,7 +467,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 sendEmails.SalesRepEmail = dealer.Email;                
             }
-            sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType.ConvertTo<Common.Enumeration.AgreementType>() ?? Common.Enumeration.AgreementType.LoanApplication;
+            sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType.ConvertTo<AgreementType>() ?? AgreementType.LoanApplication;
 
             ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
 

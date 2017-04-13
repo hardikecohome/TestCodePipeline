@@ -1,10 +1,13 @@
-﻿using DealnetPortal.Api.Common.ApiClient;
-using DealnetPortal.Api.Common.Enumeration;
+﻿using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.ApiClient;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.Core.Security;
+using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
+using DealnetPortal.Web.ServiceAgent.Managers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

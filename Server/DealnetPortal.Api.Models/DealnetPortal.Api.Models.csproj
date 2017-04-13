@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBindingModels.cs" />
-    <Compile Include="Alert.cs" />
     <Compile Include="Aspire\AspireDb\GenericSubDealer.cs" />
     <Compile Include="Aspire\CreditCheckRequest.cs" />
     <Compile Include="Aspire\CreditCheckResponse.cs" />

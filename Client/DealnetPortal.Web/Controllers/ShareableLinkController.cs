@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;

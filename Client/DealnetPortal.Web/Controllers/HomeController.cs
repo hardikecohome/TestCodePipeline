@@ -9,11 +9,11 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Utilities;
-using DealnetPortal.Web.Core.Culture;
-using DealnetPortal.Web.Core.Services;
+using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+using DealnetPortal.Web.ServiceAgent.Managers;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
@@ -23,10 +23,10 @@ namespace DealnetPortal.Web.Controllers
     {
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private readonly ICultureManager _cultureManager;
+        private readonly CultureSetterManager _cultureManager;
         private readonly ISettingsManager _settingsManager;
 
-        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, ICultureManager cultureManager, 
+        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, CultureSetterManager cultureManager, 
             ISettingsManager settingsManager)
         {
             _contractServiceAgent = contractServiceAgent;

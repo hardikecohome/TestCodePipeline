@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http;
 using DealnetPortal.DataAccess;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.App_Start
 {

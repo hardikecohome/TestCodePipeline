@@ -52,6 +52,9 @@
     <Reference Include="DealnetPortal.Api.Common">
       <HintPath>..\..\lib\DealnetPortal.Api.Common.dll</HintPath>
     </Reference>
+    <Reference Include="DealnetPortal.Api.Core">
+      <HintPath>..\..\lib\DealnetPortal.Api.Core.dll</HintPath>
+    </Reference>
     <Reference Include="DealnetPortal.Api.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
@@ -216,6 +219,7 @@
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
+    <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
@@ -907,10 +911,6 @@
     <ProjectReference Include="..\DealnetPortal.Web.Common\DealnetPortal.Web.Common.csproj">
       <Project>{7b096fbb-c366-4560-8c78-38d3fb2dbdf4}</Project>
       <Name>DealnetPortal.Web.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DealnetPortal.Web.Core\DealnetPortal.Web.Core.csproj">
-      <Project>{bf1b17e7-04b8-42c3-897f-0ceecb75e479}</Project>
-      <Name>DealnetPortal.Web.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Web.Models\DealnetPortal.Web.Models.csproj">
       <Project>{FFFF5E83-BEFA-4703-994E-E94F42D0FCA9}</Project>

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

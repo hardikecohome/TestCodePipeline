@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using DealnetPortal.Web.Common;
+using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Infrastructure
 {

@@ -2,10 +2,10 @@
 using System.Configuration;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
-using DealnetPortal.Api.Common.ApiClient;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.DataAccess;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

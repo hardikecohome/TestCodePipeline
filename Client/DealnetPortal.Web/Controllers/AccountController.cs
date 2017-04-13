@@ -11,30 +11,32 @@ using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
+using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.Core.Culture;
-using DealnetPortal.Web.Core.Security;
-using DealnetPortal.Web.Core.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+using DealnetPortal.Web.ServiceAgent.Managers;
 
 namespace DealnetPortal.Web.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ISecurityManager _securityManager;
-        private readonly ICultureManager _cultureManager;
+        private readonly CultureSetterManager _cultureManager;
         private readonly IUserManagementServiceAgent _userManagementServiceAgent;
         private readonly ILoggingService _loggingService;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly ISettingsManager _settingsManager;
         private AuthType _authType;
 
-        public AccountController(ISecurityManager securityManager, ICultureManager cultureManager, IUserManagementServiceAgent userManagementServiceAgent,
+        public AccountController(ISecurityManager securityManager, CultureSetterManager cultureManager, IUserManagementServiceAgent userManagementServiceAgent,
             ILoggingService loggingService, IDictionaryServiceAgent dictionaryServiceAgent, ISettingsManager settingsManager)
         {
             _securityManager = securityManager;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Web.Models;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Web.Common.Types;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 

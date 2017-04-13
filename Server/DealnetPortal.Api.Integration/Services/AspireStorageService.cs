@@ -12,6 +12,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.DataAccess;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
 {

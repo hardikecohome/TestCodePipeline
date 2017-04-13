@@ -12,6 +12,8 @@ using System.Web.Http.Results;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
@@ -19,6 +21,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers
 {

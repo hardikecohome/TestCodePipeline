@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Infrastructure;
+using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Models
 {
@@ -27,7 +28,7 @@ namespace DealnetPortal.Web.Models
 
         public int HomeOwnerId { get; set; }
 
-        public Common.Enumeration.AgreementType AgreementType { get; set; }
+        public AgreementType AgreementType { get; set; }
 
         [CustomRequired]
         public string HomeOwnerFullName { get; set; }

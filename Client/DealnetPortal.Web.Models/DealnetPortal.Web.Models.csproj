@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,9 +43,21 @@
   <ItemGroup>
     <Compile Include="DealItemOverviewViewModel.cs" />
     <Compile Include="DriverLicenseViewModel.cs" />
-    <Compile Include="OAuthErrorResponseModel.cs" />
-    <Compile Include="ErrorResponseModel.cs" />
+    <Compile Include="Enumeration\AgreementType.cs" />
+    <Compile Include="Enumeration\ContractState.cs" />
+    <Compile Include="Enumeration\LoanDeferralType.cs" />
+    <Compile Include="Enumeration\PaymentType.cs" />
+    <Compile Include="Enumeration\PortalType.cs" />
+    <Compile Include="Enumeration\RentalDeferralType.cs" />
+    <Compile Include="Enumeration\ResidenceType.cs" />
+    <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Web.Resources\DealnetPortal.Web.Resources.csproj">
+      <Project>{E996DF6C-67CD-4178-A6AD-3DF9C1583677}</Project>
+      <Name>DealnetPortal.Web.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

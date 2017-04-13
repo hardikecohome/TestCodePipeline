@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.DataAccess", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Api.Resources", "DealnetPortal.Api.Resources\DealnetPortal.Api.Resources.csproj", "{783DE205-0EE3-429C-A85E-09F83F86DD4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealnetPortal.Api.Core", "DealnetPortal.Api.Core\DealnetPortal.Api.Core.csproj", "{27A5C244-8CEC-4143-8F94-73D2B1FCCB07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{783DE205-0EE3-429C-A85E-09F83F86DD4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{783DE205-0EE3-429C-A85E-09F83F86DD4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{783DE205-0EE3-429C-A85E-09F83F86DD4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A5C244-8CEC-4143-8F94-73D2B1FCCB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A5C244-8CEC-4143-8F94-73D2B1FCCB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A5C244-8CEC-4143-8F94-73D2B1FCCB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A5C244-8CEC-4143-8F94-73D2B1FCCB07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

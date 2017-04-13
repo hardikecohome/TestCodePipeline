@@ -22,6 +22,10 @@ using DealnetPortal.Utilities;
 using Microsoft.Practices.ObjectBuilder2;
 using System.Globalization;
 using System.Web.Routing;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Utilities.Messaging;
 
 namespace DealnetPortal.Api.Integration.Services
 {

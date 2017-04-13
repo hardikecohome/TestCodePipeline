@@ -15,6 +15,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace DealnetPortal.Api.Controllers

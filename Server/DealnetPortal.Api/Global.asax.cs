@@ -12,6 +12,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using DealnetPortal.Api.App_Start;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Api.Infrastucture;
 using Microsoft.AspNet.Identity;
 

@@ -14,6 +14,7 @@ using DealnetPortal.Web.ServiceAgent;
 using System.IO;
 using System.Threading;
 using System.Web.SessionState;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Web.Infrastructure.Extensions;
 

@@ -31,18 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DealnetPortal.Api.Common">
+    <Reference Include="DealnetPortal.Api.Common, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DealnetPortal.Api.Common.dll</HintPath>
     </Reference>
-    <Reference Include="DealnetPortal.Api.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DealnetPortal.Api.Core">
+      <HintPath>..\..\lib\DealnetPortal.Api.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DealnetPortal.Utilities, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\DealnetPortal.Api.Models.dll</HintPath>
-    </Reference>
-    <Reference Include="DealnetPortal.Utilities">
       <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Core">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -59,24 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Culture\CultureManager.cs" />
-    <Compile Include="Culture\ICultureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\SecurityManager.cs" />
-    <Compile Include="Services\ICacheService.cs" />
-    <Compile Include="Services\ISettingsManager.cs" />
-    <Compile Include="Services\MemoryCacheService.cs" />
-    <Compile Include="Services\SettingsManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DealnetPortal.Web.Common\DealnetPortal.Web.Common.csproj">
-      <Project>{7b096fbb-c366-4560-8c78-38d3fb2dbdf4}</Project>
-      <Name>DealnetPortal.Web.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DealnetPortal.Web.ServiceAgent\DealnetPortal.Web.ServiceAgent.csproj">
-      <Project>{9D034D24-D090-4FFD-9F50-7FF073568343}</Project>
-      <Name>DealnetPortal.Web.ServiceAgent</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

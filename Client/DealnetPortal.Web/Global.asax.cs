@@ -9,8 +9,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using DealnetPortal.Web.App_Start;
+using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.Core.Culture;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.ModelBinders;
 
