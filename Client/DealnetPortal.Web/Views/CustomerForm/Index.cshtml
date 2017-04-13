@@ -32,13 +32,13 @@
                         @if (CultureHelper.CurrentCultureType != CultureType.English && enabledLanguages.Any(l => l == LanguageCode.English))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.DealerName }, new { @class = "lang-link" })
+                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
                             </li>
                         }
                         @if (CultureHelper.CurrentCultureType != CultureType.French && enabledLanguages.Any(l => l == LanguageCode.French))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.DealerName }, new { @class = "lang-link" })
+                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
                             </li>
                         }
                     </ul>

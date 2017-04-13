@@ -49,7 +49,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var user = _dbContext.Users
                 .Include(u => u.Settings)
-                .FirstOrDefault(u => u.Id == dealerId);
+                .FirstOrDefault(u => u.Id == dealerId || u.UserName == dealerId);
             if (user?.Settings?.SettingValues?.Any() ?? false)
             {
                 return user.Settings;
@@ -70,7 +70,7 @@ namespace DealnetPortal.DataAccess.Repositories
         public UserSettings GetUserSettingsByHashDealerName(string hashDealerName)
         {
             var user = _dbContext.Users
-                .Include(u => u.CustomerLink)
+                .Include(u => u.CustomerLink).Include(u => u.Settings)
                 .FirstOrDefault(u => u.CustomerLink.HashLink == hashDealerName);
             if (user?.Settings?.SettingValues?.Any() ?? false)
             {

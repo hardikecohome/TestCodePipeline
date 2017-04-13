@@ -33,6 +33,12 @@ namespace DealnetPortal.Web
            );
 
             routes.MapRoute(
+               name: "",
+               url: "Settings/{action}/{hashDealerName}",
+               defaults: new { controller = "Settings" }
+           );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
