@@ -57,11 +57,10 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
-        public async Task<FileResult> Favicon()
+        public async Task<FileResult> Favicon(string hashDealerName)
         {
             _securityManager.SetUserFromContext();
             BinarySettingDTO icon = null;
-            var hashDealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"] as string;
             if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {
                 icon = await _settingsManager.GetUserFaviconAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName);
