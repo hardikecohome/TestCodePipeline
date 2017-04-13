@@ -33,13 +33,9 @@ namespace DealnetPortal.Web.Controllers
         {
             _securityManager.SetUserFromContext();
             BinarySettingDTO image = null;
-            if (HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {
-                image = await _settingsManager.GetUserLogoAsync();
-            }
-            else if( hashDealerName != null)
-            {
-                image = await _settingsManager.GetUserLogoAsync(hashDealerName);
+                image = await _settingsManager.GetUserLogoAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName);
             }
             if (image?.ValueBytes != null)
             {
@@ -66,13 +62,9 @@ namespace DealnetPortal.Web.Controllers
             _securityManager.SetUserFromContext();
             BinarySettingDTO icon = null;
             var hashDealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"] as string;
-            if (HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {
-                icon = await _settingsManager.GetUserFaviconAsync();
-            }
-            else if (hashDealerName != null)
-            {
-                icon = await _settingsManager.GetUserFaviconAsync(hashDealerName);
+                icon = await _settingsManager.GetUserFaviconAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName);
             }
             if (icon?.ValueBytes != null)
             {

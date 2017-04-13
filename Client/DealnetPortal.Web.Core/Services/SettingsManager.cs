@@ -29,21 +29,10 @@ namespace DealnetPortal.Web.Core.Services
             //var image = await _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X);
         }
 
-        public async Task<BinarySettingDTO> GetUserFaviconAsync()
+        public async Task<BinarySettingDTO> GetUserLogoAsync(string userName)
         {
-            return await _dictionaryServiceAgent.GetDealerBinSetting(SettingType.Favicon);
-            
-        }
-
-        public async Task<BinarySettingDTO> GetUserLogoAsync(string hashUserName)
-        {
-            return await _cacheService.GetAsync($"{PortalConstants.LogoImage2X}{hashUserName}", 60,
-                    () => _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X, hashUserName));
-        }
-
-        public async Task<BinarySettingDTO> GetUserLogoAsync()
-        {
-            return await _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X);
+            return await _cacheService.GetAsync($"{PortalConstants.LogoImage2X}{userName}", 60,
+                    () => _dictionaryServiceAgent.GetDealerBinSetting(SettingType.LogoImage2X));
         }
 
         public async Task<bool> CheckDealerSkinExistence(string userName)
