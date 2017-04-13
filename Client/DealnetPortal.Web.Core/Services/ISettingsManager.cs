@@ -11,6 +11,8 @@ namespace DealnetPortal.Web.Core.Services
     {
         Task<BinarySettingDTO> GetUserFaviconAsync(string userName);
         Task<BinarySettingDTO> GetUserLogoAsync(string userName);
+        Task<BinarySettingDTO> GetUserFaviconAsync();
+        Task<BinarySettingDTO> GetUserLogoAsync();
         Task<bool> CheckDealerSkinExistence(string userName);
         void ClearUserSettings(string userName);
     }
