@@ -374,7 +374,7 @@
     <script>
         module.require('customer-form');
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=initAutocomplete" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit&hl=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")" async defer></script>
 }
 

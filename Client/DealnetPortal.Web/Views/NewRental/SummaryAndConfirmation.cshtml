@@ -2242,5 +2242,5 @@ $('#contact-info-modal').modal();" class="dealnet-section-edit-link pull-right">
             var recalculateTotalCash = false;
         </script>
     }
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=assignAutocompletes" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
 }
