@@ -140,14 +140,14 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName = null)
+        public async Task<IList<StringSettingDTO>> GetDealerSettings(string hashDealerName = null)
         {
             try
             {
                 var url = $"{_fullUri}/GetDealerSettings";
-                if (dealerName != null)
+                if (hashDealerName != null)
                 {
-                    url += $"?dealer={dealerName}";
+                    url += $"?hashDealerName={hashDealerName}";
                 }
                 return await Client.GetAsync<IList<StringSettingDTO>>(url).ConfigureAwait(false);
             }
@@ -158,15 +158,15 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<BinarySettingDTO> GetDealerBinSetting(SettingType type, string dealerName = null)
+        public async Task<BinarySettingDTO> GetDealerBinSetting(SettingType type, string hashDealerName = null)
         {
             try
             {
                 var url = $"{_fullUri}/GetDealerBinSetting?settingType={(int)type}";
-                var _dealerName = dealerName ?? HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"]?.ToString();
-                if (!string.IsNullOrEmpty(_dealerName))
+                var _hashDealerName = hashDealerName ?? HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"]?.ToString();
+                if (!string.IsNullOrEmpty(_hashDealerName))
                 {
-                    url += $"&dealer={_dealerName}";
+                    url += $"&hashDealerName={_hashDealerName}";
                 }
                 return await Client.GetAsync<BinarySettingDTO>(url).ConfigureAwait(false);
             }

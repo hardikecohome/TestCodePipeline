@@ -27,6 +27,18 @@ namespace DealnetPortal.DataAccess.Repositories
             return settings.SettingValues?.Where(s => s.Item?.SettingType != SettingType.StringValue).ToList() ?? new List<SettingValue>();
         }
 
+        public IList<SettingValue> GetUserStringSettingsByHashDealerName(string hashDealerName)
+        {
+            var settings = GetUserSettingsByHashDealerName(hashDealerName);
+            return settings?.SettingValues?.Where(s => s.Item?.SettingType == SettingType.StringValue).ToList() ?? new List<SettingValue>();
+        }
+
+        public SettingValue GetUserBinarySettingByHashDealerName(SettingType settingType, string hashDealerName)
+        {
+            var settings = GetUserSettingsByHashDealerName(hashDealerName);            
+            return settings?.SettingValues?.FirstOrDefault(s => s.Item?.SettingType == settingType);
+        }
+
         public SettingValue GetUserBinarySetting(SettingType settingType, string dealerId)
         {
             var settings = GetUserSettings(dealerId);            
@@ -37,7 +49,29 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var user = _dbContext.Users
                 .Include(u => u.Settings)
-                .FirstOrDefault(u => u.Id == dealerId || u.UserName == dealerId);
+                .FirstOrDefault(u => u.Id == dealerId);
+            if (user?.Settings?.SettingValues?.Any() ?? false)
+            {
+                return user.Settings;
+            }
+            var puser = user?.ParentDealer;
+            if (puser != null)
+            {
+                if (puser.Settings != null)
+                {
+                    return puser.Settings;
+                }
+                _dbContext.Entry(puser).Reference(u => u.Settings).Load();
+                return puser.Settings;
+            }
+            return null;                        
+        }
+
+        public UserSettings GetUserSettingsByHashDealerName(string hashDealerName)
+        {
+            var user = _dbContext.Users
+                .Include(u => u.CustomerLink)
+                .FirstOrDefault(u => u.CustomerLink.HashLink == hashDealerName);
             if (user?.Settings?.SettingValues?.Any() ?? false)
             {
                 return user.Settings;
@@ -59,5 +93,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             return GetUserSettings(dealerId)?.SettingValues.Any() ?? false;
         }
+
+        
     }
 }

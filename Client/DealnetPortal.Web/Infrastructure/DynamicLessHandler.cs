@@ -29,10 +29,10 @@ namespace DealnetPortal.Web.Infrastructure
             // Append variable to override
             var sb = new StringBuilder(fileContent);
             _securityManager.SetUserFromContext();
-            var dealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["dealerName"] as string;
-            if (context.User.Identity.IsAuthenticated || dealerName != null)
+            var hashDealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"] as string;
+            if (context.User.Identity.IsAuthenticated || hashDealerName != null)
             {
-                var variables = await _dictionaryServiceAgent.GetDealerSettings(dealerName);
+                var variables = await _dictionaryServiceAgent.GetDealerSettings(hashDealerName);
                 if (variables != null)
                 {
                     foreach (var variable in variables)
@@ -45,10 +45,10 @@ namespace DealnetPortal.Web.Infrastructure
                     }
                 }
             }
-            if (dealerName != null)
+            if (hashDealerName != null)
             {
                 var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-                sb.AppendLine($"@logo-img: url('" + urlHelper.Action("LogoImage", "Settings", new { dealerName }) + "');");
+                sb.AppendLine($"@logo-img: url('" + urlHelper.Action("LogoImage", "Settings", new { hashDealerName }) + "');");
             }
             // Configure less to allow variable overrides
             var config = DotlessConfiguration.GetDefaultWeb();

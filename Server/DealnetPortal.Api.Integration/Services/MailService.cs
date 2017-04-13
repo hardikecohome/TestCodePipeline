@@ -123,14 +123,14 @@ namespace DealnetPortal.Api.Integration.Services
             body.Replace("{thankYouForApplying}", Resources.Resources.ThankYouForApplyingForFinancing);
             body.Replace("{youHaveBeenPreapprovedFor}", contractData.CreditAmount != 0 ? Resources.Resources.YouHaveBeenPreapprovedFor.Replace("{0}", contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)) : string.Empty);
             body.Replace("{yourApplicationWasSubmitted}", Resources.Resources.YourFinancingApplicationWasSubmitted);
-            body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", contractData.DealerName));
-            body.Replace("{ifYouHavePleaseContact}", Resources.Resources.IfYouHaveQuestionsPleaseContact);
-            body.Replace("{dealerName}", contractData.DealerName);
-            body.Replace("{dealerAddress}", $"{location?.Street}, {location?.City}, {location?.State}, {location?.PostalCode}");
-            body.Replace("{phone}", Resources.Resources.Phone);
-            body.Replace("{dealerPhone}", contractData.DealerPhone);
-            body.Replace("{mail}", Resources.Resources.Email);
-            body.Replace("{dealerMail}", contractData.DealerEmail);
+            body.Replace("{willContactYouSoon}", Resources.Resources.WillContactYouSoon.Replace("{0}", contractData.DealerName ?? string.Empty));
+            body.Replace("{ifYouHavePleaseContact}", string.IsNullOrEmpty(contractData.DealerName) ? Resources.Resources.IfYouHaveQuestionsPleaseContact : string.Empty);
+            body.Replace("{dealerName}", contractData.DealerName ?? string.Empty);
+            body.Replace("{dealerAddress}", string.IsNullOrEmpty(contractData.DealerName) ? $"{location?.Street}, {location?.City}, {location?.State}, {location?.PostalCode}" : string.Empty);
+            body.Replace("{phone}", string.IsNullOrEmpty(contractData.DealerName) ? Resources.Resources.Phone : string.Empty);
+            body.Replace("{dealerPhone}", contractData.DealerPhone ?? string.Empty);
+            body.Replace("{mail}", string.IsNullOrEmpty(contractData.DealerName) ? Resources.Resources.Email : string.Empty);
+            body.Replace("{dealerMail}", contractData.DealerEmail ?? string.Empty);
 
             LinkedResource inlineLogo = null;
             var inlineSuccess = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-success.png"));
