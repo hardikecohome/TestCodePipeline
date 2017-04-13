@@ -15,28 +15,30 @@
             <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
             <h2 class="page-heading">@(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"{Model.CreditAmount:0,00}"))</h2>
         }
-        <p>@Resources.YourFinancingApplicationWasSubmitted @Resources.WillContactYouSoon.Replace("{0}", Model.DealerName)</p>
-
-        <div class="contact-section">
-            <div>@Resources.IfYouHaveQuestionsPleaseContact:</div>
-            <div class="vcard">
-                <div class="fn org">@Model.DealerName</div>
-                <div class="adr">
-                    <span class="street-address">@Model.Street</span>,
-                    <span class="locality">@Model.City, </span>
-                    <span class="region">@Model.Province</span>, <span class="postal-code">@Model.PostalCode</span>
-                </div>
-                <div>
-                    <a href="tel:@Model.Phone" class="tel" rel="nofollow">
-                        <svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>
-                        @Model.Phone
-                    </a>
-                </div>
-                <div>
-                    <a href="mailto:@Model.Email"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span> @Model.Email</span></a>
+        <p>@Resources.YourFinancingApplicationWasSubmitted @Resources.WillContactYouSoon.Replace("{0}", Model.DealerName ?? Resources.Dealer)</p>
+        @if (!string.IsNullOrEmpty(Model.DealerName))
+        {
+            <div class="contact-section">
+                <div>@Resources.IfYouHaveQuestionsPleaseContact:</div>
+                <div class="vcard">
+                    <div class="fn org">@Model.DealerName</div>
+                    <div class="adr">
+                        <span class="street-address">@Model.Street</span>,
+                        <span class="locality">@Model.City, </span>
+                        <span class="region">@Model.Province</span>, <span class="postal-code">@Model.PostalCode</span>
+                    </div>
+                    <div>
+                        <a href="tel:@Model.Phone" class="tel" rel="nofollow">
+                            <svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>
+                            @Model.Phone
+                        </a>
+                    </div>
+                    <div>
+                        <a href="mailto:@Model.Email"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span> @Model.Email</span></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </div>
 
