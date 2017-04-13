@@ -1,6 +1,14 @@
 ﻿@model DealnetPortal.Web.Models.SubmittedCustomerFormViewModel
 @{
     ViewBag.Title = Resources.ApplyForFinancing;
+    var isFullAddress = !(string.IsNullOrEmpty(Model.Street) ||
+                        string.IsNullOrEmpty(Model.City) ||
+                        string.IsNullOrEmpty(Model.Province) ||
+                        string.IsNullOrEmpty(Model.PostalCode));
+    var isContactSection = string.IsNullOrEmpty(Model.DealerName) &&
+                           string.IsNullOrEmpty(Model.Phone) &&
+                           string.IsNullOrEmpty(Model.Email) &&
+                           isFullAddress;
 }
 
 <div class="customer-loan-success-page align-middle-section">
