@@ -216,8 +216,7 @@
                 <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation
                     @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                     {
-                        <a href="#" onclick="
-copyFormData($('#prev-address-section'), $('#prev-address-section-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                        <a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-section-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                     }
                 </h3>
                 <div class="form-group">
@@ -284,9 +283,7 @@ copyFormData($('#prev-address-section'), $('#prev-address-section-modal'), false
                     @Resources.MailingAddress
                     @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                     {
-                        <a href="#" onclick="
-copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false);
-$('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                        <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                     }
                 </h3>
                 <div class="form-group">
@@ -357,8 +354,7 @@ $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-righ
             <div class="dealnet-credit-check-section" id="contact-info-section">
                 @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
                 <h3 class="dealnet-section-title">
-                    @Resources.ContactInformation <a href="#" onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false);
-$('#contact-info-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                    @Resources.ContactInformation <a href="#" onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                 </h3>
                 <div class="form-group">
                     <div class="row">
