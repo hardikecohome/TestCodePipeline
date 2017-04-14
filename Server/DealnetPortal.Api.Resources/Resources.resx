@@ -415,4 +415,7 @@
   <data name="CommentFromCustomer" xml:space="preserve">
     <value>Comment from customer</value>
   </data>
+  <data name="Dealer" xml:space="preserve">
+    <value>Dealer</value>
+  </data>
 </root>

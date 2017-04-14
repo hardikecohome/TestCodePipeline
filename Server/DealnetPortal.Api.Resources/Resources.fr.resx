@@ -367,54 +367,54 @@
   <data name="ThankYouForApplyingForFinancing" xml:space="preserve">
     <value>Merci d’avoir effectué une demande de financement.</value>
   </data>
-<data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
+  <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
     <value>Votre demande de financement a été soumise.</value>
   </data>
-<data name="Fax" xml:space="preserve">
+  <data name="Fax" xml:space="preserve">
     <value>Télécopieur</value>
   </data>
-<data name="YouHaveBeenPreapprovedFor" xml:space="preserve">
+  <data name="YouHaveBeenPreapprovedFor" xml:space="preserve">
     <value>Vous avez été pré-approuvé pour un montant de {0} $.</value>
     <comment>Context: You have been pre-approved for $15,000.</comment>
   </data>
-<data name="WillContactYouSoon" xml:space="preserve">
+  <data name="WillContactYouSoon" xml:space="preserve">
     <value>{0} communiquera avec vous prochainement.</value>
     <comment>Context: One Fine Company will contact you soon. </comment>
   </data>
-<data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
+  <data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
     <value>Si vous avez des questions, veuillez communiquer avec</value>
   </data>
-<data name="DealerSalesAgent" xml:space="preserve">
+  <data name="DealerSalesAgent" xml:space="preserve">
     <value>Courtier ou agent de vente</value>
   </data>
-<data name="NewCustomerAppliedForFinancing" xml:space="preserve">
+  <data name="NewCustomerAppliedForFinancing" xml:space="preserve">
     <value>Nouveau client ayant fait une demande de financement</value>
   </data>
-<data name="SelectedTypeOfService" xml:space="preserve">
+  <data name="SelectedTypeOfService" xml:space="preserve">
     <value>Type de services choisi</value>
   </data>
-<data name="IDNotYetGenerated" xml:space="preserve">
+  <data name="IDNotYetGenerated" xml:space="preserve">
     <value>ID pas encore généré</value>
   </data>
-<data name="Comment" xml:space="preserve">
+  <data name="Comment" xml:space="preserve">
     <value>Commentaires</value>
   </data>
-<data name="ContractId" xml:space="preserve">
+  <data name="ContractId" xml:space="preserve">
     <value>ID du contrat</value>
     <comment>Dealer contract id</comment>
   </data>
-<data name="Name" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Nom</value>
     <comment>Customer name</comment>
   </data>
-<data name="NewCustomerAppliedForFinancing" xml:space="preserve">
-    <value>Nouveau client ayant fait une demande de financement</value>
-  </data>
-<data name="PreApproved" xml:space="preserve">
+  <data name="PreApproved" xml:space="preserve">
     <value>Préapprouvé</value>
     <comment>Only text</comment>
   </data>
-<data name="YouCanViewThisDealHere" xml:space="preserve">
+  <data name="YouCanViewThisDealHere" xml:space="preserve">
     <value>Vous pouvez consulter cette transaction ici</value>
+  </data>
+  <data name="Dealer" xml:space="preserve">
+    <value>Courtier</value>
   </data>
 </root>

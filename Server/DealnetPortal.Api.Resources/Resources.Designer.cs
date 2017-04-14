@@ -259,23 +259,11 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h3&gt;New customer applied for financing&lt;/h3&gt;
-        ///&lt;div&gt;
-        ///	&lt;p&gt;Contract ID: {contractId}&lt;/p&gt;
-        ///	&lt;p&gt;&lt;b&gt;Name: {fullName}&lt;/b&gt;&lt;/p&gt;
-        ///	&lt;p&gt;&lt;b&gt;Pre-approved: {amount}&lt;/b&gt;&lt;/p&gt;
-        ///	&lt;p&gt;&lt;b&gt;Selected type of service: {serviceType}&lt;/b&gt;&lt;/p&gt;
-        ///	&lt;p&gt;Comment: {comment}&lt;/p&gt;
-        ///	&lt;p&gt;Installation address: {address}&lt;/p&gt;
-        ///	&lt;p&gt;Home phone: {homePhone}&lt;/p&gt;
-        ///	&lt;p&gt;Cell phone: {cellPhone}&lt;/p&gt;
-        ///	&lt;p&gt;Business phone: {businessPhone}&lt;/p&gt;
-        ///	&lt;p&gt;Email: {email}&lt;/p&gt;
-        ///&lt;/div&gt;.
+        ///   Looks up a localized string similar to Dealer.
         /// </summary>
-        public static string DealerConfirmationMailtemplate {
+        public static string Dealer {
             get {
-                return ResourceManager.GetString("DealerConfirmationMailtemplate", resourceCulture);
+                return ResourceManager.GetString("Dealer", resourceCulture);
             }
         }
         

@@ -9,7 +9,7 @@
 <table width="100%" height="100%" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td bgcolor="{headerColor}" height="50">
-			<img src='{dealerLogo}' width="140">
+			{LogoStart}<img src='{dealerLogo}' width="140">{LogoEnd}
 		</td>
 	</tr>
 	<tr>
@@ -26,17 +26,17 @@
 					    {yourApplicationWasSubmitted} {willContactYouSoon}
 					</td>
 				</tr>
-				<tr>
+                {ContactSectionStart}<tr>
 					<td style="font-weight: 400; font-size: 18px; line-height: 1.5; font-family: Lato, Arial, sans-serif !important;">
 						<div>
 							{ifYouHavePleaseContact}:<br />
 							{dealerName}<br />
 							{dealerAddress}<br />
-                            {phone}: {dealerPhone}<br />
-                            {mail}: {dealerMail}
+                            {PhoneSectionStart}{phone}: {dealerPhone}<br />{PhoneSectionEnd}
+                            {MailSectionStart}{mail}: {dealerMail}{MailSectionEnd}
 						</div>
 					</td>
-				</tr>
+				</tr>{ContactSectionEnd}
 			</table>
 		</td>
 	</tr>
