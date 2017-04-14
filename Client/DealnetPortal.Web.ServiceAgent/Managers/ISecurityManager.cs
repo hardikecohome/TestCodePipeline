@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Web.Common.Security;
 
-namespace DealnetPortal.Web.Common.Security
+namespace DealnetPortal.Web.ServiceAgent.Managers
 {
     /// <summary>
     /// Security manager - encapsulates all security concerns for web-application
@@ -19,6 +17,7 @@ namespace DealnetPortal.Web.Common.Security
         /// </summary>
         /// <param name="userName">user name</param>
         /// <param name="password">password</param>
+        /// <param name="portalId">portal identificator</param>
         /// <returns></returns>
         Task<IList<Alert>> Login(string userName, string password, string portalId);
         IPrincipal GetUser();
@@ -28,6 +27,6 @@ namespace DealnetPortal.Web.Common.Security
         /// <param name="user"></param>
         void SetUser(IPrincipal user);
         void SetUserFromContext();
-        void Logout();
+        void Logout();        
     }
 }
