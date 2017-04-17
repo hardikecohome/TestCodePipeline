@@ -30,7 +30,8 @@ namespace DealnetPortal.Web.ServiceAgent.Managers
             _securityService = securityService;
             _userManagementService = userManagementService;
             _loggingService = loggingService;
-            _cookieName = "DEALNET_AUTH_COOKIE_" + portalType.ToString().ToUpper();
+            _cookieName = FormsAuthentication.FormsCookieName;
+                //"DEALNET_AUTH_COOKIE_" + portalType.ToString().ToUpper();
         }
 
         public async Task<IList<Alert>> Login(string userName, string password, string portalId)
@@ -96,7 +97,7 @@ namespace DealnetPortal.Web.ServiceAgent.Managers
         {
             CreateCookie(user);
             if (HttpContext.Current != null)
-            {
+            {            
                 HttpContext.Current.User = user; // ?
             }
         }
@@ -158,7 +159,7 @@ namespace DealnetPortal.Web.ServiceAgent.Managers
                     //Secure = true, Uncomment after enabling https
                     Expires = DateTime.Now.Add(TimeSpan.FromHours(5))
                 };
-                HttpContext.Current?.Response?.Cookies?.Set(authCookie); // ??
+                HttpContext.Current?.Response?.Cookies?.Add(authCookie); // ??
             }
 
         }

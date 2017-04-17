@@ -31,7 +31,7 @@ using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Controllers
 {    
-    [AuthFromContext]
+    [Authorize]
     public class NewRentalController : UpdateDataController
     {
         private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent; 
