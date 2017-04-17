@@ -6,8 +6,8 @@ using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Common.Services;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 

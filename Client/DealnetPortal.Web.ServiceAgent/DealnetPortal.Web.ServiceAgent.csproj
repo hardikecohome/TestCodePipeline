@@ -73,10 +73,6 @@
     <Compile Include="ITransientHttpApiClient.cs" />
     <Compile Include="IDictionaryServiceAgent.cs" />
     <Compile Include="IStorageServiceAgent.cs" />
-    <Compile Include="Managers\ISecurityManager.cs" />
-    <Compile Include="Managers\ISettingsManager.cs" />
-    <Compile Include="Managers\SecurityManager.cs" />
-    <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="ScanProcessingServiceAgent.cs" />
     <Compile Include="IScanProcessingServiceAgent.cs" />
     <Compile Include="IUserManagementServiceAgent.cs" />

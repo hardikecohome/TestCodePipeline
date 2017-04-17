@@ -1,6 +1,8 @@
 ﻿@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Web.Infrastructure
 @using DealnetPortal.Web.Models.Enumeration
+@using System.Security.Claims;
+
 <!DOCTYPE html>
 <html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
 <!--[if IE 9 ]><html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")" class="ie9"><![endif]-->
@@ -197,12 +199,15 @@
                             </li>
                             <li class="dealnet-sidebar-item">
                                 <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
-                                @Html.ActionLink(Resources.ShareableLink, "Index", "ShareableLink", null, new { @class = "dealnet-sidebar-link" })
+                                @Html.ActionLink(Resources.ShareableLink, "Index", "ShareableLink", null, new {@class = "dealnet-sidebar-link"})
                             </li>
-                            <li class="dealnet-sidebar-item" style="display: none;" id="sidebar-item-about">
-                                <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
-                                @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
-                            </li>
+                            @if ((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                            {
+                                <li class="dealnet-sidebar-item">
+                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
+                                    @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new {@class = "dealnet-sidebar-link"})
+                                </li>
+                            }
                         </ul>
 
                     </div>

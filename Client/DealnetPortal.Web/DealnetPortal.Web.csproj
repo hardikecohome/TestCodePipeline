@@ -219,8 +219,13 @@
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
     <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
+    <Compile Include="Infrastructure\ClaimsProvider.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
+    <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
+    <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
+    <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
+    <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
     <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />

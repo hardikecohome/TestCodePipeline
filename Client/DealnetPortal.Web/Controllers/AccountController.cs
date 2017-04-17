@@ -20,9 +20,9 @@ using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
 
 namespace DealnetPortal.Web.Controllers
 {

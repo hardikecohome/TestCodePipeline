@@ -11,9 +11,9 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Utilities;
 using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.ServiceAgent.Managers;
+using DealnetPortal.Web.Infrastructure.Managers;
 
 namespace DealnetPortal.Web.Infrastructure
 {

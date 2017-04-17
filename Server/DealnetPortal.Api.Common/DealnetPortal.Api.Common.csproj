@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\PersistentDescriptionAttribute.cs" />
+    <Compile Include="Constants\ClaimNames.cs" />
     <Compile Include="Constants\ErrorCodes.cs" />
     <Compile Include="Constants\ErrorConstants.cs" />
     <Compile Include="Enumeration\AddressType.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Enumeration\SettingType.cs" />
     <Compile Include="Enumeration\SignatureRole.cs" />
     <Compile Include="Enumeration\SignatureStatus.cs" />
+    <Compile Include="Enumeration\UserRole.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Helpers\DomainCodesHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />

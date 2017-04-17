@@ -89,6 +89,20 @@ namespace DealnetPortal.Web.ServiceAgent
                         claims.Add(new Claim(ClaimTypes.Name, userName));
                     }
 
+                    if (results.ContainsKey("roles"))
+                    {
+                        results["roles"].Split(':').ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r)));
+                    }
+
+                    results.Where(r => r.Key.Contains("claim:")).ForEach(c =>
+                    {                        
+                        var claimType = c.Key.Substring("claim:".Length);
+                        if (!string.IsNullOrEmpty(claimType))
+                        {
+                            claims.Add(new Claim(claimType, c.Value));
+                        }
+                    });
+
                     var identity = new UserIdentity(claims) {Token = results["access_token"]};
                     user = new UserPrincipal(identity);
                 }

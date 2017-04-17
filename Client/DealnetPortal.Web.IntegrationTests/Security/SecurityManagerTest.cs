@@ -5,9 +5,9 @@ using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

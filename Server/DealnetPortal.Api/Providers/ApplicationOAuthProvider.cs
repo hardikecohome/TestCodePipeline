@@ -28,6 +28,7 @@ namespace DealnetPortal.Api.Providers
     {
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageService _aspireStorageService;
+        private readonly IUsersService _usersService;
         private readonly ILoggingService _loggingService;
         private readonly string _publicClientId;
         private AuthType _authType;
@@ -36,6 +37,7 @@ namespace DealnetPortal.Api.Providers
         {
             _aspireService = (IAspireService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
             _aspireStorageService = (IAspireStorageService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireStorageService));
+            _usersService = (IUsersService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
             _loggingService = (ILoggingService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
 
             if (publicClientId == null)
@@ -104,7 +106,14 @@ namespace DealnetPortal.Api.Providers
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
+            var claims = _usersService.GetUserClaims(user);
+            if (claims?.Any() ?? false)
+            {
+                oAuthIdentity.AddClaims(claims);
+                cookiesIdentity.AddClaims(claims);
+            }
+
+            AuthenticationProperties properties = CreateProperties(user.UserName, claims);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
@@ -151,12 +160,21 @@ namespace DealnetPortal.Api.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
+        public static AuthenticationProperties CreateProperties(string userName, IEnumerable<Claim> claims = null)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
                 { "userName", userName }
             };
+            claims?.Where(c => c.Type != ClaimTypes.Role).ForEach(claim =>
+            {
+                data.Add($"claim:{claim.Type}", claim.Value);
+            });
+            var roles = string.Join(":", claims?.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray());
+            if (!string.IsNullOrEmpty(roles))
+            {
+                data.Add("roles", roles);
+            }
             return new AuthenticationProperties(data);
         }
 

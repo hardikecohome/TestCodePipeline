@@ -10,8 +10,8 @@ using dotless.Core;
 using dotless.Core.configuration;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
 
 namespace DealnetPortal.Web.Infrastructure
 {
