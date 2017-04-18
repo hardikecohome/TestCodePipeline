@@ -3,12 +3,9 @@
 @model DealnetPortal.Web.Models.BasicInfoViewModel
 
 @{
-    if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count < 3)
+    if (Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
     {
-        for (var i = Model.AdditionalApplicants.Count; i < 3; i++)
-        {
-            Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
-        }
+        Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
     }
 }
 
@@ -525,7 +522,7 @@
     </div>
 
     <!--Add Additional Applicant-->
-    for (var i = 0; i < 3; i++)
+    for (var i = 0; i < 1; i++)
     {
         <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text> if (Model.ContractWasDeclined && (Model.AdditionalApplicants[i]?.IsInitialCustomer ?? false)) { <text>class="hidden"</text> }  }>
             <div class="personal-info-section">

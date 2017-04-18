@@ -58,22 +58,10 @@ configInitialized
 
     addAdditionalButton = $("#add-additional-applicant");
     aditional1Section = $("#additional1-section");
-    aditional2Section = $("#additional2-section");
-    aditional3Section = $("#additional3-section");
     if (aditional1Section.attr('data-initialized') == "true") {
         showAditional1Section();
     } else {
         hideAditional1Section();
-    }
-    if (aditional2Section.attr('data-initialized') == "true") {
-        showAditional2Section();
-    } else {
-        hideAditional2Section();
-    }
-    if (aditional3Section.attr('data-initialized') == "true") {
-        showAditional3Section();
-    } else {
-        hideAditional3Section();
     }
     $('.address-checkbox').each(function() {
         var checkBox = $(this);
@@ -120,29 +108,13 @@ configInitialized
     $("#additional1-scan-button").click(function () {
         setDataAttrInModal(1);
     });
-    $("#additional2-scan-button").click(function () {
-        setDataAttrInModal(2);
-    });
-    $("#additional3-scan-button").click(function () {
-        setDataAttrInModal(3);
-    });
     $("#add-additional-applicant").click(function () {
         if (!aditional1Section.data('active')) {
             showAditional1Section();
-        } else if (!aditional2Section.data('active')) {
-            showAditional2Section();
-        } else if (!aditional3Section.data('active')) {
-            showAditional3Section();
         }
     });
     $("#additional1-remove").click(function () {
         hideAditional1Section();
-    });
-    $("#additional2-remove").click(function () {
-        hideAditional2Section();
-    });
-    $("#additional3-remove").click(function () {
-        hideAditional3Section();
     });
 
     $("#save-and-proceed-button").click(function (event) {
@@ -190,34 +162,6 @@ function hideAditional1Section() {
     aditional1Section.data('active', false);
     addAdditionalButton.show();
 }
-function hideAditional2Section() {
-    aditional2Section.hide();
-    //Needed for validation
-    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
-        $(this).prop("disabled", true);
-    });
-    aditional2Section.find('.address-checkbox').each(function () {
-        var checkBox = $(this);
-        var correspondingSection = $('#' + checkBox.data('section'));
-        disableMailingAddress(correspondingSection);
-    });
-    aditional2Section.data('active', false);
-    addAdditionalButton.show();
-}
-function hideAditional3Section() {
-    aditional3Section.hide();
-    //Needed for validation
-    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
-        $(this).prop("disabled", true);
-    });
-    aditional3Section.find('.address-checkbox').each(function () {
-        var checkBox = $(this);
-        var correspondingSection = $('#' + checkBox.data('section'));
-        disableMailingAddress(correspondingSection);
-    });
-    aditional3Section.data('active', false);
-    addAdditionalButton.show();
-}
 function enableMailingAddress(section) {
     section.find('input, select').each(function () {
         $(this).prop("disabled", false);
@@ -236,26 +180,6 @@ function showAditional1Section() {
         $(this).prop("disabled", false);
     });
     aditional1Section.data('active', true);
-    if (aditional2Section.data('active') && aditional3Section.data('active')) {
-        addAdditionalButton.hide();
-    }
-}
-function showAditional2Section() {
-    aditional2Section.show();
-    aditional2Section.find('.personal-info-section').find('input, select').each(function () {
-        $(this).prop("disabled", false);
-    });
-    aditional2Section.data('active', true);
-    if (aditional1Section.data('active') && aditional3Section.data('active')) {
-        addAdditionalButton.hide();
-    }
-}
-function showAditional3Section() {
-    aditional3Section.show();
-    aditional3Section.find('.personal-info-section').find('input, select').each(function () {
-        $(this).prop("disabled", false);
-    });
-    aditional3Section.data('active', true);
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {
