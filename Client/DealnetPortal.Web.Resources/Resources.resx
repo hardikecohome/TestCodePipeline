@@ -1361,4 +1361,16 @@
   <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
     <value>Your financing application was successfully submitted.</value>
   </data>
+  <data name="CustomersComment" xml:space="preserve">
+    <value>Customer's Comment</value>
+  </data>
+  <data name="EstimatedMoveInDate" xml:space="preserve">
+    <value>Estimated move in date</value>
+  </data>
+  <data name="HomeImprovementType" xml:space="preserve">
+    <value>Home Improvement Type</value>
+  </data>
+  <data name="PreferredContactMethod" xml:space="preserve">
+    <value>Preferred contact method</value>
+  </data>
 </root>

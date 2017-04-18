@@ -479,5 +479,21 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("SubmitNewCustomer")]
+        [HttpPost]
+        [AllowAnonymous]
+        public IHttpActionResult SubmitNewCustomer(NewCustomerDTO customerFormData)
+        {
+            try
+            {
+                //TODO
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }
