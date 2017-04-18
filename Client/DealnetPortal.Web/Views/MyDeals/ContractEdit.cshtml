@@ -1065,7 +1065,7 @@
 	    </div>
     }
 
-    @if (contractState == ContractState.CreditCheckDeclined && (Model.BasicInfo.AdditionalApplicants == null || Model.BasicInfo.AdditionalApplicants.Count() < 3))
+    @if (contractState == ContractState.CreditCheckDeclined && (Model.BasicInfo.AdditionalApplicants == null || !Model.BasicInfo.AdditionalApplicants.Any()))
     {
         <div class="form-section">
                 <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit dealnet-info-link align-middle">

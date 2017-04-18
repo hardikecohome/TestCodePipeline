@@ -321,7 +321,7 @@ if (creditCheckError != null)
 			    <div class="col-md-6 grid-column">
 			        <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
 			            <h3 class="dealnet-section-title">
-						@Resources.AdditionalApplicant #@(i + 1) @*<a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@
+						@Resources.AdditionalApplicant @*<a href="#" onclick="copyFormData($('#additional@(i+1)-section'), $('#additional1-section-modal'), false); $('#additional@(i+1)-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>*@
 			            </h3>
 			            @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId)
 			            <div class="form-group">
