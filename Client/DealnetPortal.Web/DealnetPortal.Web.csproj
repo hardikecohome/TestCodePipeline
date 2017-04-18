@@ -204,6 +204,7 @@
     <Compile Include="Controllers\CustomerFormController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\MortgageBrokerController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
+    <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
@@ -896,6 +898,9 @@
     <Content Include="Views\CustomerForm\Index.cshtml" />
     <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
     <Content Include="Views\Info\AnonymousError.cshtml" />
+    <Content Include="Views\MortgageBroker\NewCustomer.cshtml" />
+    <Content Include="Views\MortgageBroker\MyCustomers.cshtml" />
+    <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
