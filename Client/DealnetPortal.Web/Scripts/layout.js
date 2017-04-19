@@ -293,7 +293,7 @@
         currentTab.parents('.documents-pills-item').addClass('active');
       });
     }
-      $('.customer-loan-form-panel .panel-heading').on('click', function(){
+      $('.customer-loan-form-panel .panel-heading, .accordion-panel .panel-heading').on('click', function(){
         panelCollapsed($(this));
       });
 
