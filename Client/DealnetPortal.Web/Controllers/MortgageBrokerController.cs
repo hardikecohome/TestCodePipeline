@@ -57,7 +57,7 @@ namespace DealnetPortal.Web.Controllers
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
             newCustomerDto.CustomerComment = newCustomer.CustomerComment;
             newCustomerDto.HomeImprovementTypes = newCustomer.HomeImprovementTypes;
-            var submitResult = await _contractServiceAgent.SubmitNewCustomerForm(newCustomerDto);
+            var submitResult = await _contractServiceAgent.SubmitNewCustomer(newCustomerDto);
 
             if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
