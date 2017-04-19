@@ -140,11 +140,23 @@ function showChart() {
                     });
 };
 function removeContract() {
-    var tr = $(this).parents('tr');
-    var id = $(tr)[0].id;
+    var cell = this;
+    var data = {
+        message: 'A you sure',
+        title: 'Are you sure',
+        confirmBtnText: 'Step'
+    };
+    dynamicAlertModal(data);
+    $('#confirmAlert').on('click', function () {
+        //alert("!!!");
+        //var tr = $(cell).parents('tr');
+        //var id = $(tr)[0].id;
 
-    $("#remove-contract").val(id);
-    $("#remove-contract-form").submit();
+        //$("#remove-contract").val(id);
+        //$("#remove-contract-form").submit();
+    });
+
+
 };
 
 function showTable() {
