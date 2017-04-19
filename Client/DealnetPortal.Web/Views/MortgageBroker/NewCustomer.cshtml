@@ -265,7 +265,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6">
 					<div class="form-group">
 						<label for="">Home Phone</label>
 						<div class="control-group">
@@ -273,7 +273,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6">
 					<div class="form-group">
 						<label for="" class="mandatory-field">Cell Phone</label>
 						<div class="control-group">
@@ -281,7 +281,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6">
 					<div class="form-group">
 						<label for="">Business Phone</label>
 						<div class="control-group">
@@ -289,7 +289,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6">
 					<div class="form-group">
 						<label for="" class="mandatory-field">Email Address</label>
 						<div class="control-group">
@@ -297,7 +297,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6">
 					<div class="form-group">
 						<label for="" class="mandatory-field">Preferred contact method</label>
 						<div class="control-group">
@@ -339,7 +339,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-8 col-sm-8">
 					<div class="form-group">
 						<label for="">Customer's Comment</label>
 						<div class="control-group">
@@ -356,8 +356,25 @@
 			<span class="arrow"><i class="glyphicon"></i></span>
 		</div>
 		<div class="panel-body">
-
+			<div class="form-group">
+				<label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
+					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1" checked="checked"/>
+					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+					<span class="mandatory-field">Agrees to send his/her personal data to credit check</span>
+				</label>
+			</div>
+			<div class="form-group">
+				<label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
+					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2" checked="checked"/>
+					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+					<span> Agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her by email or phone</span>
+				</label>
+			</div>
 		</div>
+	</div>
+	<div class="clearfix">
+		<br>
+		<button class="btn dealnet-button dealnet-success-button btn-form-common">@Resources.SaveAndProceed</button>
 	</div>
 </div>
 
