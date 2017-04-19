@@ -2,6 +2,10 @@
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.CustomerFormViewModel
+@{
+    bool reCaptchaEnabled;
+    bool.TryParse(System.Configuration.ConfigurationManager.AppSettings["ReCaptchaEnabled"], out reCaptchaEnabled);
+}
 <div class="customer-loan-page">
     <div class="navbar navbar-inverse navbar-fixed-side">
         <div class="navbar-header customer-navbar-header">
@@ -32,13 +36,13 @@
                         @if (CultureHelper.CurrentCultureType != CultureType.English && enabledLanguages.Any(l => l == LanguageCode.English))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.DealerName }, new { @class = "lang-link" })
+                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
                             </li>
                         }
                         @if (CultureHelper.CurrentCultureType != CultureType.French && enabledLanguages.Any(l => l == LanguageCode.French))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.DealerName }, new { @class = "lang-link" })
+                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
                             </li>
                         }
                     </ul>
@@ -333,11 +337,14 @@
                             <strong class="mandatory-field">@Resources.IAgreeDealerOrRepresentativesMayContact</strong>
                         </label>
                     </div>
-                    <div class="clearfix">
-                        <div class="captcha-section mandatory-field mandatory-field-for-captcha">
-                            <div id="gcaptcha"></div>
+                    @if (reCaptchaEnabled)
+                    {
+                        <div class="clearfix">
+                            <div class="captcha-section mandatory-field mandatory-field-for-captcha">
+                                <div id="gcaptcha"></div>
+                            </div>
                         </div>
-                    </div>
+                    }
 
                 <div id="contactInfoErrors"></div>
                 </div>
@@ -369,13 +376,19 @@
 
 @section scripts
 {
+    <script>
+        window.config = { reCaptchaKey: '@(System.Configuration.ConfigurationManager.AppSettings["ReCaptchaKey"])', reCaptchaEnabled: @(reCaptchaEnabled ? "true" : "false") }
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/customer-form")
     <script>
         module.require('customer-form');
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaQqymsNuummVv7Yi9I2kgGl0lxDjZri4&libraries=places&callback=initAutocomplete" async defer></script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit&hl=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
+    @if (reCaptchaEnabled)
+    {
+        <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit&hl=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")" async defer></script>
+    }
 }
 
 

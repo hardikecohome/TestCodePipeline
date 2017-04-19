@@ -76,7 +76,7 @@
         cellPhone: '',
         email: '',
         comment: '',
-        captchaCode: '',
+        captchaCode: config.reCaptchaEnabled ? '' : 'empty' ,
         creditAgreement: false,
         contactAgreement: false,
         lessThanSix: false,
@@ -340,17 +340,19 @@
         }, {});
     };
 
-    window.onLoadCaptcha = function () {
-        grecaptcha.render('gcaptcha', {
-            sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
-            callback: function (response) {
-                dispatch(createAction(SET_CAPTCHA_CODE, response));
-            },
-            'expired-callback': function() {
-                dispatch(createAction(SET_CAPTCHA_CODE, ''));
-            },
-        });
-    };
+    if (config.reCaptchaEnabled) {
+        window.onLoadCaptcha = function() {
+            grecaptcha.render('gcaptcha', {
+                sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
+                callback: function(response) {
+                    dispatch(createAction(SET_CAPTCHA_CODE, response));
+                },
+                'expired-callback': function() {
+                    dispatch(createAction(SET_CAPTCHA_CODE, ''));
+                },
+            });
+        };
+    }
 
     var extend = function(defaults) {
         return function(overrides) {
