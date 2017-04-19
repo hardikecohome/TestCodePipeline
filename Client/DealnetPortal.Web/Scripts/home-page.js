@@ -139,7 +139,13 @@ function showChart() {
                         });
                     });
 };
+function removeContract() {
+    var tr = $(this).parents('tr');
+    var id = $(tr)[0].id;
 
+    $("#remove-contract").val(id);
+    $("#remove-contract-form").submit();
+};
 
 function showTable() {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
@@ -235,11 +241,5 @@ function showTable() {
           $('#work-items-table_filter').slideToggle();
         });
     });
-    function removeContract() {
-        var tr = $(this).parents('tr');
-        var id = $(tr)[0].id;
-
-        $("#remove-contract").val(id);
-        $("#remove-contract-form").submit();
-    };
+    
 };
