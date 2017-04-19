@@ -503,6 +503,17 @@
             </label>
         </div>
         <!--Home Owner Information-->
+
+        <!--Agreement section-->
+        <div id="agreement" class="form-group">
+            <label for="agreement-checkbox" class="align-middle custom-checkbox">
+                <input type="checkbox" class="dealnet-checkbox" id="agreement-checkbox"/>
+                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                <span>Agrees to send his/her personal data to credit check</span>
+            </label>
+        </div>
+        <!--Agreement section-->
+
         <div class="well well-info position-well collapse" id="age-warning-message">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
             @Resources.AtLeastOne75OrLess
@@ -779,6 +790,16 @@
                     <span>@Resources.AdditionalIsHomeOwner</span>
                 </label>
             </div>
+
+            <!--Agreement section-->
+            <div id="agreement@(i+1)" class="form-group">
+                <label for="agreement-checkbox@(i+1)" class="align-middle custom-checkbox">
+                    <input type="checkbox" class="dealnet-checkbox" id="agreement-checkbox@(i+1)"/>
+                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                    <span>Agrees to send his/her personal data to credit check</span>
+                </label>
+            </div>
+            <!--Agreement section-->
         </div>
     }
     <!--END Add Additional Applicant-->

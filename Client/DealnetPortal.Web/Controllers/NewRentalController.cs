@@ -298,6 +298,26 @@ namespace DealnetPortal.Web.Controllers
             }            
         }
 
+        public ActionResult NewSecondStep()
+        {
+            return View();
+        }
+
+        public ActionResult NewThirdStep()
+        {
+            return View();
+        }
+
+        public ActionResult RateCards()
+        {
+            return View();
+        }
+
+        public ActionResult RateCard()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();

@@ -455,6 +455,7 @@
     <Content Include="Content\images\sprite\icon-phone.svg" />
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
+    <Content Include="Content\images\sprite\icon-rate-card.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />
@@ -828,6 +829,12 @@
     <Content Include="Scripts\Utils\objectUtils.js" />
     <Content Include="Scripts\Utils\redux.js" />
     <Content Include="Scripts\vc-scanning.js" />
+    <Content Include="Scripts\Vendor\angular\angular-touch.js" />
+    <Content Include="Scripts\Vendor\angular\angular.js" />
+    <Content Include="Scripts\Vendor\angular\angular-animate.js" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap-csp.css" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap.js" />
     <Content Include="Scripts\Vendor\cldr\cldr.js" />
     <Content Include="Scripts\Vendor\cldr\cldr\event.js" />
     <Content Include="Scripts\Vendor\cldr\cldr\supplemental.js" />

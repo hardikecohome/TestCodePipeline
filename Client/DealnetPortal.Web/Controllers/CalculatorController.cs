@@ -28,5 +28,14 @@ namespace DealnetPortal.Web.Controllers
             };
             return View(viewModel);
         }
+        public async Task<ActionResult> CalculatorNew()
+        {
+            var viewModel = new LoanCalculatorViewModel
+            {
+                EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
+                ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1
+            };
+            return View(viewModel);
+        }
     }
 }
