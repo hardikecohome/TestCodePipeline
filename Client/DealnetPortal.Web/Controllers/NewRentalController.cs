@@ -117,24 +117,36 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
             if (!ModelState.IsValid)
             {
                 basicInfo.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+
                 return View(basicInfo);
             }
-            var contractResult = basicInfo.ContractId == null ?
-                await _contractServiceAgent.CreateContract() :
+
+            Tuple<ContractDTO, IList<Alert>> result = basicInfo.ContractId == null ? 
+                await _contractServiceAgent.CreateContract() : 
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
-            if (contractResult?.Item1 != null)
+
+            if (result.Item1 == null)
             {
-                var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
-                if (updateResult.Any(r => r.Type == AlertType.Error))
-                {
-                    TempData[PortalConstants.CurrentAlerts] = updateResult;
-                    return RedirectToAction("Error", "Info");
-                }
+                return RedirectToAction("Error", "Info");
             }
-            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
+
+            var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
+
+            if (updateResult.Any(r => r.Type == AlertType.Error))
+            {
+                TempData[PortalConstants.CurrentAlerts] = updateResult;
+
+                return RedirectToAction("Error", "Info");
+            }
+
+            //Initiate a credit check here!
+            await _contractServiceAgent.InitiateCreditCheck(result.Item1.Id);
+
+            return RedirectToAction("CreditCheck", new { contractId = result.Item1.Id });
         }
 
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
@@ -321,7 +333,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            return View(await _contractManager.GetEquipmentInfoAsync(contractId));
+            return View("NewSecondStep", await _contractManager.GetEquipmentInfoAsync(contractId));
         }
 
         [HttpPost]

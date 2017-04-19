@@ -812,6 +812,7 @@
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\Pages\newEquipment\index.js" />
     <Content Include="Scripts\Pages\newEquipment\template.js" />
+    <Content Include="Scripts\standalone-calculator.js" />
     <Content Include="Scripts\Utils\financial-functions.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -896,11 +897,13 @@
     <Content Include="Views\Reports\Contracts.cshtml" />
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
-    <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\ShareableLink\Index.cshtml" />
     <Content Include="Views\CustomerForm\Index.cshtml" />
     <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
     <Content Include="Views\Info\AnonymousError.cshtml" />
+    <Content Include="Views\Calculator\Index.cshtml" />
+    <Content Include="Views\NewRental\RateCard.cshtml" />
+    <Content Include="Views\NewRental\NewSecondStep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
@@ -26,15 +23,7 @@ namespace DealnetPortal.Web.Controllers
                 EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
                 ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1
             };
-            return View(viewModel);
-        }
-        public async Task<ActionResult> CalculatorNew()
-        {
-            var viewModel = new LoanCalculatorViewModel
-            {
-                EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
-                ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1
-            };
+
             return View(viewModel);
         }
     }
