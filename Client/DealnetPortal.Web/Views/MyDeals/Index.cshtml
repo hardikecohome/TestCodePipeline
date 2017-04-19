@@ -127,6 +127,7 @@
     translations['Entries'] = "@Resources.Entries";
     translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
     translations['New'] = "@Resources.New";
+    translations['Remove'] = "@Resources.Remove";
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
@@ -140,6 +141,7 @@
     <script type="text/javascript">
         var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
         var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
+        var removeItemUrl = '@Url.Action("ContractRemove", "NewRental")';
     </script>
     
     @Scripts.Render("~/bundles/data-tables-scripts")

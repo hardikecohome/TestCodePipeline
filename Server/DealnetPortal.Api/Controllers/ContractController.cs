@@ -479,5 +479,20 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("RemoveContract")]
+        [HttpPost]
+        public IHttpActionResult RemoveContract(int contractId)
+        {
+            try
+            {
+                var result = ContractService.RemoveContract(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

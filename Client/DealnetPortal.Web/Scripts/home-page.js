@@ -179,7 +179,7 @@ function showTable() {
                       { "data" : 'TransactionId', className: 'contract-cell' },
                       { "data": 'CustomerName', className: 'customer-cell' },
                       { "data": 'Status', className: 'status-cell' },
-                      { "data": 'Action', className: 'action-cell' },
+                      { "data": 'Action', className: 'action-cell' },                      
                       { "data": 'Email', className: 'email-cell' },
                       { "data": 'Phone', className: 'phone-cell' },
                       { "data": 'Date', className: 'date-cell' },
@@ -187,7 +187,7 @@ function showTable() {
                           "data": 'RemainingDescription',
                           "visible": false
                       },
-                      {// this is Actions Column
+                      {// this is Edit Actions Column
                           "render": function (sdata, type, row) {
                               if (row.Id != 0) {
                                   return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
@@ -201,7 +201,19 @@ function showTable() {
                       {
                           "data": 'Id',
                           "visible": false
+                      },
+                      {// this is Remove Actions Column
+                          "render": function (sdata, type, row) {
+                              if (row.IsInternal) {
+                                  return '<div class="remove-control"><a href="" onclick="removeContract.call(this)" title="' + translations['Remove'] + '"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
+                              } else {
+                                  return '';
+                              }
+                          },
+                          className: 'remove-cell',
+                          orderable: false
                       }
+
                   ],
                 dom:
                 "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
@@ -223,4 +235,11 @@ function showTable() {
           $('#work-items-table_filter').slideToggle();
         });
     });
+    function removeContract() {
+        var tr = $(this).parents('tr');
+        var id = $(tr)[0].id;
+
+        $("#remove-contract").val(id);
+        $("#remove-contract-form").submit();
+    };
 };

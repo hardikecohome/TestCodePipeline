@@ -7,8 +7,8 @@
                 });
                 $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
                 $('.select-filter').val($('.select-filter > option:first').val());
-                $('.dataTable ')
-            });
+        $('.dataTable ');
+    });
 
 function assignDatepicker(input) {
     inputDateFocus(input);
@@ -128,6 +128,17 @@ function showTable() {
                         {
                             "data": "IsCreatedByCustomer",
                             "visible": false
+                        },
+                        {// this is Remove Actions Column
+                            "render": function (sdata, type, row) {
+                                if (row.TransactionId) {
+                                    return '<div class="remove-control"><a href=' + removeItemUrl + '/' + row.Id + ' title="' + translations['Remove'] + '"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
+                                } else {
+                                    return '';
+                                }
+                            },
+                            className: 'remove-cell',
+                            orderable: false
                         }
                     ],
 

@@ -47,6 +47,7 @@
                     <th class="hidden">RemainingDescription</th>
                     <th class="all edit-cell"></th>
                     <th class="id-cell hidden">@Resources.Id</th>
+                    <th class="all remove-cell"></th>
                 </tr>
                 </thead>
             </table>
@@ -69,6 +70,11 @@
     </div>
 </div>
 
+@using (Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+{
+    <input type="hidden" name="contractId" id="remove-contract" />
+}
+
 <script type="text/javascript">
     var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
     var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
@@ -85,6 +91,7 @@
     translations['Entries'] = "@Resources.Entries";
     translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
     translations['New'] = "@Resources.New";
+    translations['Remove'] = "@Resources.Remove";
 }
 
 @section Styles
