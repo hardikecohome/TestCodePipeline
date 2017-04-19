@@ -188,7 +188,16 @@
 				</label>
 			</div>
 			<div id="installation-address" style="display: none;">
-				<h3 class="dealnet-section-title">Installation Address Information</h3>
+				<div class="clearfix">
+					<h3 class="dealnet-section-title pull-left">Installation Address Information</h3>
+					<div class="installation-address-unknown-control pull-left">
+						<label for="installation-address-unknown-checkbox" class="align-middle custom-checkbox">
+							<input type="checkbox" class="dealnet-checkbox address-checkbox" id="installation-address-unknown-checkbox" checked="checked"/>
+							<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+							<span>Installation address is still unknown</span>
+						</label>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-6 col-md-6">
 						<div class="form-group">
