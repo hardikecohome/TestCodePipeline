@@ -271,7 +271,9 @@ namespace DealnetPortal.Api.Integration.Services
 
                     for (int i = 0; i < (contract.Equipment?.NewEquipment?.Count ?? 1); i++)
                     {
-
+                        var eqToUpdate = (contract.Equipment?.NewEquipment?.Any() ?? false)
+                            ? new List<NewEquipment> {contract.Equipment?.NewEquipment.ElementAt(i)}
+                            : null;
                         request.Header = new RequestHeader()
                         {
                             From = new From()
@@ -284,7 +286,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Lease = new Lease()
                             {
-                                Application = GetContractApplication(contract, (contract.Equipment?.NewEquipment?.Any() ?? false) ? new List<NewEquipment> { contract.Equipment?.NewEquipment.ElementAt(i) } : null)
+                                Application = GetContractApplication(contract, eqToUpdate)
                             }
                         };
 
@@ -305,7 +307,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 throw new TimeoutException("External system operation has timed out.");
                             }
 
-                            var rAlerts = AnalyzeResponse(response, contract);
+                            var rAlerts = AnalyzeResponse(response, contract, eqToUpdate);
                             if (rAlerts.Any())
                             {
                                 alerts.AddRange(rAlerts);
@@ -941,7 +943,7 @@ namespace DealnetPortal.Api.Integration.Services
             return application;
         }
 
-        private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract)
+        private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
         {
             var alerts = new List<Alert>();
 
@@ -1012,8 +1014,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (response.Payload.Asset != null)
                     {
-                        var aEq =
-                            contract?.Equipment?.NewEquipment?.FirstOrDefault(
+                        var eqCollection = newEquipments ?? contract?.Equipment?.NewEquipment;
+                        var aEq = eqCollection?.FirstOrDefault(
                                 eq => eq.Description == response.Payload.Asset.Name);
                         if (aEq != null)
                         {
