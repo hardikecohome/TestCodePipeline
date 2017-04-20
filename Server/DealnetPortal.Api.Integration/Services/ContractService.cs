@@ -874,7 +874,13 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<ContractDTO> GetContractsOffers(string userId)
         {
-            throw new NotImplementedException();
+            var contractDTOs = new List<ContractDTO>();            
+            // temporary using a flag IsCreatedByBroker
+            var contracts = _contractRepository.GetContractsOffers(userId);            
+            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
+            AftermapContracts(contracts, mappedContracts, userId);
+            contractDTOs.AddRange(mappedContracts);
+            return contractDTOs;
         }
 
         private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)

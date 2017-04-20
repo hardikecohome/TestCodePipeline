@@ -161,7 +161,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.HomeOwners, d => d.Ignore())
                 .ForMember(x => x.InitialCustomers, d => d.Ignore())
                 .ForMember(x => x.CreateOperator, d => d.Ignore())
-                .ForMember(x => x.LastUpdateOperator, d => d.Ignore());
+                .ForMember(x => x.LastUpdateOperator, d => d.Ignore())
+                .ForMember(x => x.IsCreatedByBroker, d => d.Ignore());
 
             mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
                 .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))

@@ -53,6 +53,22 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
+        public IList<Contract> GetContractsOffers(string userId)
+        {
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)
+                .Where(c => c.IsCreatedByBroker == true).ToList();
+            return contracts;
+        }
+
         public int GetNewlyCreatedCustomersContractsCount(string ownerUserId)
         {
             var contractsCount = _dbContext.Contracts
