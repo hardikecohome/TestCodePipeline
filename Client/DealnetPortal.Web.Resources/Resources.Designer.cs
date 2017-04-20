@@ -133,6 +133,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Customer.
+        /// </summary>
+        public static string AddCustomer {
+            get {
+                return ResourceManager.GetString("AddCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Added on.
+        /// </summary>
+        public static string AddedOn {
+            get {
+                return ResourceManager.GetString("AddedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant.
         /// </summary>
         public static string AdditionalApplicant {
@@ -2239,6 +2257,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Customers.
+        /// </summary>
+        public static string MyCustomers {
+            get {
+                return ResourceManager.GetString("MyCustomers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Deals.
         /// </summary>
         public static string MyDeals {
@@ -2298,6 +2325,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NewApplication {
             get {
                 return ResourceManager.GetString("NewApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Customer.
+        /// </summary>
+        public static string NewCustomer {
+            get {
+                return ResourceManager.GetString("NewCustomer", resourceCulture);
             }
         }
         
