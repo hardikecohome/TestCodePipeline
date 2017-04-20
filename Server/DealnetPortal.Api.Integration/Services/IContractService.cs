@@ -20,6 +20,8 @@ namespace DealnetPortal.Api.Integration.Services
     {
         ContractDTO CreateContract(string contractOwnerId);
 
+        bool CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer);
+
         IList<ContractDTO> GetContracts(string contractOwnerId);
 
         int GetCustomersContractsCount(string contractOwnerId);

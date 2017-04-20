@@ -462,14 +462,14 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<Tuple<int?, IList<Alert>>> SubmitNewCustomer(NewCustomerDTO customerForm)
+        public async Task<IList<Alert>> CreateContractForCustomer(NewCustomerDTO customerForm)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<NewCustomerDTO, Tuple<int?, IList<Alert>>>(
-                            $"{_fullUri}/SubmitCustomerForm", customerForm);
+                        Client.PostAsync<NewCustomerDTO, IList<Alert>>(
+                            $"{_fullUri}/CreateContractForCustomer", customerForm);
             }
             catch (Exception ex)
             {

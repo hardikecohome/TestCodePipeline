@@ -57,11 +57,11 @@ namespace DealnetPortal.Web.Controllers
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
             newCustomerDto.CustomerComment = newCustomer.CustomerComment;
             newCustomerDto.HomeImprovementTypes = newCustomer.HomeImprovementTypes;
-            var submitResult = await _contractServiceAgent.SubmitNewCustomer(newCustomerDto);
+            var submitResult = await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
 
-            if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
+            if (submitResult?.Any(x => x.Type == AlertType.Error) ?? false)
             {
-                TempData[PortalConstants.CurrentAlerts] = submitResult?.Item2;
+                TempData[PortalConstants.CurrentAlerts] = submitResult;
                 return RedirectToAction("Error", "Info");
             }
             return RedirectToAction("CustomerCreationSuccess", new { contractId =  0 });
