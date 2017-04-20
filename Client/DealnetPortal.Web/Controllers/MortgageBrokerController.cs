@@ -67,7 +67,7 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("CustomerCreationSuccess", new { contractId =  0 });
         }
 
-        public ActionResult CustomerCreationSuccess(int contractId)
+        public ActionResult CustomerCreationSuccess(int id)
         {
             return View();
         }
