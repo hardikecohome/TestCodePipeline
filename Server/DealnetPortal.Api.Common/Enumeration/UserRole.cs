@@ -12,6 +12,7 @@ namespace DealnetPortal.Api.Common.Enumeration
         Admin = 0,
         Dealer = 1,
         SubDealer = 2,
-        MortgageBroker = 3
+        MortgageBroker = 3,
+        Customer = 4
     }
 }

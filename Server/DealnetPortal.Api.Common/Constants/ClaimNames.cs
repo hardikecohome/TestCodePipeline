@@ -13,5 +13,6 @@ namespace DealnetPortal.Api.Common.Constants
         public const string ShowMyDeals = "ShowMyDeals";
         public const string ShowMyCustomers = "ShowMyCustomers";
         public const string ShowAbout = "ShowAbout";
+        public const string HasSkin = "HasSkin";
     }
 }

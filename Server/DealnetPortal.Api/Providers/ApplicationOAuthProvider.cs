@@ -112,6 +112,22 @@ namespace DealnetPortal.Api.Providers
                 oAuthIdentity.AddClaims(claims);
                 cookiesIdentity.AddClaims(claims);
             }
+            //update user roles
+            if (claims?.Any() ?? false)
+            {
+                var roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray();
+                if (roles.Any())
+                {
+                    try
+                    {
+                        await userManager.AddToRolesAsync(user.Id, roles);
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService?.LogError($"Cannot set roles for user [{user.UserName}]", ex);
+                    }
+                }
+            }
 
             AuthenticationProperties properties = CreateProperties(user.UserName, claims);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
@@ -291,6 +307,6 @@ namespace DealnetPortal.Api.Providers
                 }
             }
             return new Tuple<ApplicationUser, IList<Alert>>(user, outAlerts);
-        }
+        }        
     }
 }
