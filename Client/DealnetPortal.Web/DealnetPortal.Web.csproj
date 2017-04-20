@@ -818,6 +818,7 @@
     <Content Include="Scripts\loan-calculator.js" />
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
+    <Content Include="Scripts\my-customers.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
