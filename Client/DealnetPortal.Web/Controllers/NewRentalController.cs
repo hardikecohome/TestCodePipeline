@@ -169,20 +169,20 @@ namespace DealnetPortal.Web.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
-        {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-            if (!ModelState.IsValid)
-            {
-                return View(basicInfo);
-            }
-            //Initiate a credit check here!
-            var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
+        //{
+        //    ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(basicInfo);
+        //    }
+        //    //Initiate a credit check here!
+        //    var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
 
-            return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
-        }
+        //    return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
+        //}
 
         public ActionResult CreditCheck(int contractId)
         {
@@ -330,10 +330,13 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            return View("NewSecondStep", await _contractManager.GetEquipmentInfoAsync(contractId));
+            var model = await _contractManager.GetEquipmentInfoAsync(contractId);
+
+            return View("NewSecondStep", model);
         }
 
         [HttpPost]
@@ -341,11 +344,11 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-            if (!ModelState.IsValid)
-            {
-                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-                return View(equipmentInfo);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            //    return View("NewSecondStep", equipmentInfo);
+            //}
             var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
@@ -358,7 +361,8 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-            return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId));
+
+            return View("NewThirdStep", await _contractManager.GetContactAndPaymentInfoAsync(contractId));
         }
 
         [HttpPost]

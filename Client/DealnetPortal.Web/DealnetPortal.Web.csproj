@@ -904,6 +904,12 @@
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
     <Content Include="Views\NewRental\NewSecondStep.cshtml" />
+    <Content Include="Views\NewRental\NewThirdStep.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_FixedRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NoInterestRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_DeferralRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

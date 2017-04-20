@@ -300,7 +300,35 @@
             };
         };
 
-        var id = 1;
+        var submitForm = function(event) {
+            var agreementType = $("#agreement-type").find(":selected").val();
+            if (agreementType === "0") {
+                //isCalculationValid = false;
+                //recalculateTotalCashPrice();
+                if (!isCalculationValid) {
+                    event.preventDefault();
+                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
+                }
+            } else {
+                var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
+                if (isNaN(monthPayment) || (monthPayment == 0)) {
+                    event.preventDefault();
+                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
+                }
+            }
+        }
+
+        var resetFormValidator = function (formId) {
+            $(formId).removeData('validator');
+            $(formId).removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(formId);
+            //$("#customer-rate").rules("add", "required");
+            //$("#amortization-term").rules("add", "required");
+            //$("#requested-term").rules("add", "required");
+            //$("#loan-term").rules("add", "required");
+        }
+
+        var id = 0;
         var addEquipment = function() {
             var newId = id.toString();
             state.equipments[newId] = {
@@ -311,7 +339,7 @@
             };
 
             var index = Object.keys(state.equipments).length;
-            var newTemplate = equipmentTemplateFactory($('<div></div>'), { index: index });
+            var newTemplate = equipmentTemplateFactory($('<div></div>'), { index: index, id: id });
 
             state.equipments[newId].template = newTemplate;
 
@@ -322,7 +350,12 @@
             $('#new-equipments').append(newTemplate);
 
             id++;
+
+            resetFormValidator("#equipment-form");
         };
+
+        // submit
+        $('#equipment-form').submit(submitForm);
 
         // handlers
         $('#addEquipment').on('click', addEquipment);
