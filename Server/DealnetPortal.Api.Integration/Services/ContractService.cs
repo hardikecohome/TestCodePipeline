@@ -101,22 +101,28 @@ namespace DealnetPortal.Api.Integration.Services
                             contractData.Equipment.NewEquipment.Add(new NewEquipment { Type = hi });
                         });
                     }
-                    _contractRepository.UpdateContractData(contractData, contractOwnerId);
+                    var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
+                    if (updatedContract == null) { return false; }
                     _unitOfWork.Save();
 
-                    _contractRepository.UpdateCustomerData(newContract.PrimaryCustomer.Id, customer, null, null, null);
-                    if (newContract.Details != null && newCustomer.CustomerComment != null)
+                    _contractRepository.UpdateCustomerData(updatedContract.PrimaryCustomer.Id, customer, null, null, null);
+                    if (updatedContract.Details != null && newCustomer.CustomerComment != null)
                     {
-                        if (string.IsNullOrEmpty(newContract.Details.Notes))
+                        if (string.IsNullOrEmpty(updatedContract.Details.Notes))
                         {
-                            newContract.Details.Notes = newCustomer.CustomerComment;
+                            updatedContract.Details.Notes = newCustomer.CustomerComment;
                         }
                         else
                         {
-                            newContract.Details.Notes += newCustomer.CustomerComment;
+                            updatedContract.Details.Notes += newCustomer.CustomerComment;
                         }
                     }
                     _unitOfWork.Save();
+
+                    if (updatedContract.PrimaryCustomer != null)
+                    {
+                        _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
+                    }
                     return true;
                 }
                 else
