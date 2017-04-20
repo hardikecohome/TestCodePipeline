@@ -1033,5 +1033,41 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
         }
+
+        public IList<Alert> RemoveContract(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.DeleteContract(contractOwnerId, contractId))
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot remove contract";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractRemoveFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to remove contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.DocumentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
+        }
     }
 }

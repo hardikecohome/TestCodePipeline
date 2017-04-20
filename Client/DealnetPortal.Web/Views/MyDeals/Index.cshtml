@@ -1,121 +1,128 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
 <div id="label-steps">
-	<div class="dealnet-action-link">@Resources.MyDeals</div> >
+    <div class="dealnet-action-link">@Resources.MyDeals</div> >
 </div>
 
 <div class="expand-filter-template">
-	<h2 class="dealnet-middle-header">@Resources.Filter</h2>
+    <h2 class="dealnet-middle-header">@Resources.Filter</h2>
 
-	<div class="expand-filter-navigation">
-		<a class="clear-data-link" id="clear-filters">
-			<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
-		</a>
-		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#deal-info-tab" aria-controls="deal-info-tab" role="tab" data-toggle="tab">@Resources.DealInfo</a></li>
-			<li role="presentation"><a href="#detailed-info-tab" aria-controls="profile" role="tab" data-toggle="tab">@Resources.DetailedInfo</a></li>
-		</ul>
-	</div>
+    <div class="expand-filter-navigation">
+        <a class="clear-data-link" id="clear-filters">
+            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
+        </a>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#deal-info-tab" aria-controls="deal-info-tab" role="tab" data-toggle="tab">@Resources.DealInfo</a></li>
+            <li role="presentation"><a href="#detailed-info-tab" aria-controls="profile" role="tab" data-toggle="tab">@Resources.DetailedInfo</a></li>
+        </ul>
+    </div>
 
-	<!-- Tab panes -->
-	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane active" id="deal-info-tab">
-			<div class="reset-form-inline">
-				<div class="row">
-					<div class="col-sm-6 col-md-4">
-						<div class="form-group">
-							<label for="deal-type">@Resources.DealType</label>
-							<div class="control-group">
-								<select id="agreement-type" class="form-control select-filter filter-input"></select>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-2 col-sm-6">
-						<div class="form-group">
-							<label for="">@Resources.DateFrom</label>
-							<div class="control-group date-group">
-								<input type="text" class="form-control date-control filter-input" id="date-from">
-							</div>
-						</div>
-					</div>
-					<div class="col-md-2 col-sm-6">
-						<div class="form-group">
-					<label for="">@Resources.DateTo</label>
-							<div class="control-group date-group">
-								<input type="text" class="form-control date-control filter-input" id="date-to">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<div class="form-group">
-							<label for="">@Resources.DealStatus</label>
-							<div class="control-group">
-								@*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
-								<select id="deal-status" class = "form-control select-filter filter-input"></select>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-4">
-						<div class="form-group">
-							<label for="">@Resources.ApplicationSubmittedBy</label>
-							<div class="control-group">
-								<select class="form-control filter-input" id="created-by">
-									<option value="">- @Resources.NotSelected -</option>
-									<option value="true">@Resources.Customer</option>
-									<option value="false">@Resources.DealerSalesAgent</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-offset-4 col-md-4 col-sm-6 text-right">
-						<div class="form-group">
-							<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div role="tabpanel" class="tab-pane" id="detailed-info-tab">
-			<div class="reset-form-inline">
-				<div class="row">
-					<div class="col-sm-6 col-md-4">
-						<div class="form-group">
-							<label for="">@Resources.SalesRep</label>
-							<div class="control-group">
-								<select class="form-control filter-input select-filter" id="sales-rep"></select>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-offset-4 col-md-4 col-sm-6 text-right">
-						<div class="form-group">
-							<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="deal-info-tab">
+            <div class="reset-form-inline">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="deal-type">@Resources.DealType</label>
+                            <div class="control-group">
+                                <select id="agreement-type" class="form-control select-filter filter-input"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <label for="">@Resources.DateFrom</label>
+                            <div class="control-group date-group">
+                                <input type="text" class="form-control date-control filter-input" id="date-from">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <label for="">@Resources.DateTo</label>
+                            <div class="control-group date-group">
+                                <input type="text" class="form-control date-control filter-input" id="date-to">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="">@Resources.DealStatus</label>
+                            <div class="control-group">
+                                @*@Html.EnumDropDownListFor(s => dealStatus, null, new { @class = "form-control", id = "deal-status" })*@
+                                <select id="deal-status" class="form-control select-filter filter-input"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label for="">@Resources.ApplicationSubmittedBy</label>
+                            <div class="control-group">
+                                <select class="form-control filter-input" id="created-by">
+                                    <option value="">- @Resources.NotSelected -</option>
+                                    <option value="true">@Resources.Customer</option>
+                                    <option value="false">@Resources.DealerSalesAgent</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-4 col-md-4 col-sm-6 text-right">
+                        <div class="form-group">
+                            <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="detailed-info-tab">
+            <div class="reset-form-inline">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="">@Resources.SalesRep</label>
+                            <div class="control-group">
+                                <select class="form-control filter-input select-filter" id="sales-rep"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-4 col-md-4 col-sm-6 text-right">
+                        <div class="form-group">
+                            <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <table id="work-items-table" class="display responsive my-deals-table" width="100%">
     <thead>
-    <tr>
-        <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
-        <th class="all customer-cell">@Resources.Customer</th>
-        <th class="min-mobile-l status-cell">@Resources.Status</th>
-        <th class="min-desktop type-cell">@Resources.Type</th>
-        <th class="min-desktop email-cell">@Resources.Email</th>
-        <th class="min-desktop phone-cell">@Resources.Phone</th>
-        <th class="min-desktop date-cell">@Resources.Date</th>
-        <th class="min-desktop">@Resources.Equipment</th>
-        <th class="min-desktop sales-rep-cell">@Resources.SalesRep</th>
-        <th class="min-desktop">@Resources.Value</th>
-        <th class="hidden">RemainingDescription</th>
-        <th class="all edit-cell"></th>
-        <th class="id-cell hidden">@Resources.Id</th>
-    </tr>
+        <tr>
+            <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
+            <th class="all customer-cell">@Resources.Customer</th>
+            <th class="min-mobile-l status-cell">@Resources.Status</th>
+            <th class="min-desktop type-cell">@Resources.Type</th>
+            <th class="min-desktop email-cell">@Resources.Email</th>
+            <th class="min-desktop phone-cell">@Resources.Phone</th>
+            <th class="min-desktop date-cell">@Resources.Date</th>
+            <th class="min-desktop">@Resources.Equipment</th>
+            <th class="min-desktop sales-rep-cell">@Resources.SalesRep</th>
+            <th class="min-desktop">@Resources.Value</th>
+            <th class="hidden">RemainingDescription</th>
+            <th class="all edit-cell"></th>
+            <th class="id-cell hidden">@Resources.Id</th>
+            <th class="hidden">IsCreatedByCustomer</th>
+            <th class="all remove-cell"></th>
+        </tr>
     </thead>
 </table>
+
+@using (Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+{
+    <input type="hidden" name="contractId" id="remove-contract" />
+}
 
 @section Translations
 {
@@ -127,6 +134,9 @@
     translations['Entries'] = "@Resources.Entries";
     translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
     translations['New'] = "@Resources.New";
+    translations['Remove'] = "@Resources.Remove";
+    translations['Error'] = "@Resources.Error";
+    translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
@@ -141,7 +151,7 @@
         var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
         var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
     </script>
-    
+
     @Scripts.Render("~/bundles/data-tables-scripts")
     @Scripts.Render("~/bundles/my-deals")
 }
