@@ -8,6 +8,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Migrations
@@ -33,6 +34,7 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             //  This method will be called after migrating to the latest version.
             var applications = SetApplications(context);
+            SetRoles(context);
             SetTestUsers(context, context.Applications.Local.ToArray());
             SetAspireTestUsers(context, context.Applications.Local.ToArray());
             SetTestEquipmentTypes(context);
@@ -51,6 +53,12 @@ namespace DealnetPortal.DataAccess.Migrations
             SetSettingItems(context);
             SetUserSettings(context);
             SetUserLogos(context);
+        }
+
+        private void SetRoles(ApplicationDbContext context)
+        {
+            var roles = Enum.GetValues(typeof(UserRole)).Cast<UserRole>().Select(r => new IdentityRole() {Name = r.ToString()});
+            context.Roles.AddOrUpdate(r => r.Name, roles.ToArray());
         }
 
         private Application[] SetApplications(ApplicationDbContext context)

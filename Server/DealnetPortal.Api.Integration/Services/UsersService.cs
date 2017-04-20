@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain;
+using Microsoft.AspNet.Identity;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -51,6 +52,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (!(user.Settings?.SettingValues?.Any() ?? false))
             {
                 claims.Add(new Claim(ClaimNames.ShowAbout, true.ToString()));
+                claims.Add(new Claim(ClaimNames.HasSkin, true.ToString()));
             }
 
             return claims;

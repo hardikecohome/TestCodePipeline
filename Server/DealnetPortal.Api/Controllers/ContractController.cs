@@ -109,6 +109,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetContractsOffers")]
+        [HttpGet]
+        public IHttpActionResult GetContractsOffers()
+        {
+            try
+            {
+                var contractsOffers = ContractService.GetContractsOffers(LoggedInUser.UserId);
+                return Ok(contractsOffers);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts offers for the User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("CreateContract")]
         [HttpPut]
         public IHttpActionResult CreateContract()
@@ -494,6 +510,6 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
+        }        
     }
 }
