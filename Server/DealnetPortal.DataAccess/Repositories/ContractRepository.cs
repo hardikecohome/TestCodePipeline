@@ -361,6 +361,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         dbCustomer.AllowCommunicate = customerInfo.AllowCommunicate;
                     }
+                    if (customerInfo.PreferredContactMethod.HasValue)
+                    {
+                        dbCustomer.PreferredContactMethod = customerInfo.PreferredContactMethod;
+                    }
                     if (customerInfo.DriverLicenseNumber != null)
                     {
                         dbCustomer.DriverLicenseNumber = customerInfo.DriverLicenseNumber;

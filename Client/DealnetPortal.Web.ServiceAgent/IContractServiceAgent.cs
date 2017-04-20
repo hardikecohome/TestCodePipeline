@@ -141,5 +141,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<int?, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm);
 
         Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName);
+
+        Task<Tuple<int?, IList<Alert>>> SubmitNewCustomer(NewCustomerDTO customerForm);
     }
 }

@@ -1024,6 +1024,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer&apos;s Comment.
+        /// </summary>
+        public static string CustomersComment {
+            get {
+                return ResourceManager.GetString("CustomersComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
@@ -1483,6 +1492,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Estimated move in date.
+        /// </summary>
+        public static string EstimatedMoveInDate {
+            get {
+                return ResourceManager.GetString("EstimatedMoveInDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Existing Equipment Information.
         /// </summary>
         public static string ExistingEquipmentInformation {
@@ -1677,6 +1695,15 @@ namespace DealnetPortal.Web.Resources {
         public static string GstHst {
             get {
                 return ResourceManager.GetString("GstHst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home Improvement Type.
+        /// </summary>
+        public static string HomeImprovementType {
+            get {
+                return ResourceManager.GetString("HomeImprovementType", resourceCulture);
             }
         }
         
@@ -2595,6 +2622,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PreApprovedFor {
             get {
                 return ResourceManager.GetString("PreApprovedFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred contact method.
+        /// </summary>
+        public static string PreferredContactMethod {
+            get {
+                return ResourceManager.GetString("PreferredContactMethod", resourceCulture);
             }
         }
         

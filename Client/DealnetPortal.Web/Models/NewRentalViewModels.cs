@@ -165,6 +165,9 @@ namespace DealnetPortal.Web.Models
 
         public bool AllowCommunicate { get; set; }
 
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredContactMethod")]
+        public PreferredContactMethod? PreferredContactMethod { get; set; }
+
         public int CustomerId { get; set; }
     }
 

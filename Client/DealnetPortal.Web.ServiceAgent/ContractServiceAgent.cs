@@ -461,5 +461,21 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<Tuple<int?, IList<Alert>>> SubmitNewCustomer(NewCustomerDTO customerForm)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<NewCustomerDTO, Tuple<int?, IList<Alert>>>(
+                            $"{_fullUri}/SubmitCustomerForm", customerForm);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't submit New Customer", ex);
+                throw;
+            }
+        }
     }
 }
