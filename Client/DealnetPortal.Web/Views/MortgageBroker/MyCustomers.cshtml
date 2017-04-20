@@ -1,5 +1,5 @@
 ﻿<div id="label-steps">
-	<div class="dealnet-action-link">My Customers</div> >
+	<div class="dealnet-action-link">@Resources.MyCustomers</div> >
 </div>
 
 <div class="expand-filter-template">
@@ -9,7 +9,7 @@
 				<div class="form-group">
                     <a class="btn dealnet-button dealnet-success-button block-button" href="@Url.Action("NewCustomer", "MortgageBroker")">
                         <span class="button-inner">
-                            <span>+ Add Customer</span>
+                            <span>+ @Resources.AddCustomer</span>
                         </span>
                     </a>
 				</div>
@@ -54,7 +54,7 @@
 	<thead>
 		<tr>
 			<th class="all contract-cell">@Resources.Contract&nbsp;#</th>
-			<th class="all customer-cell">Added on</th>
+			<th class="all customer-cell">@Resources.AddedOn</th>
 			<th class="all customer-cell">@Resources.Customer</th>
 			<th class="min-mobile-l status-cell">@Resources.Status</th>
 			<th class="min-desktop email-cell">@Resources.Email</th>
@@ -70,6 +70,7 @@
     translations['Show'] = "@Resources.Show";
     translations['Entries'] = "@Resources.Entries";
     translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+    translations['MyCustomers'] = "@Resources.MyCustomers";
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">

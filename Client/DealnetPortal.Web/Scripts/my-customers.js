@@ -66,7 +66,7 @@ function showTable() {
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
-            $('#table-title').html('<div class="dealnet-large-header">My Customers<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+            $('#table-title').html('<div class="dealnet-large-header">' + translations['MyCustomers'] + '<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
                 $(this).toggleClass('active');
                 $('#work-items-table_filter').slideToggle();

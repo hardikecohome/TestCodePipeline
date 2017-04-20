@@ -1373,4 +1373,16 @@
   <data name="PreferredContactMethod" xml:space="preserve">
     <value>Preferred contact method</value>
   </data>
+  <data name="AddCustomer" xml:space="preserve">
+    <value>Add Customer</value>
+  </data>
+  <data name="AddedOn" xml:space="preserve">
+    <value>Added on</value>
+  </data>
+  <data name="MyCustomers" xml:space="preserve">
+    <value>My Customers</value>
+  </data>
+  <data name="NewCustomer" xml:space="preserve">
+    <value>New Customer</value>
+  </data>
 </root>
