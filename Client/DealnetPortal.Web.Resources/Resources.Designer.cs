@@ -394,6 +394,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this application.
+        /// </summary>
+        public static string AreYouSureYouWantToRemoveThisApplication {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToRemoveThisApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to At least one of the applicants should be aged 75 or less..
         /// </summary>
         public static string AtLeastOne75OrLess {

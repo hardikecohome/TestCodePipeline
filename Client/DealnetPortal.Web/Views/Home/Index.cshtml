@@ -21,7 +21,7 @@
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
             <a class="dealnet-page-button" href="@Url.Action("Index", "Reports")">
                 <span class="button-inner">
-                    <svg aria-hidden="true" class="icon icon-reports-big"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-big")"></use></svg><span>@Resources.Reports</span>
+                  <svg aria-hidden="true" class="icon icon-reports-big"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-big")"></use></svg><span>@Resources.Reports</span>
                 </span>
             </a>
         </div>
@@ -34,21 +34,21 @@
 
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-            <table id="work-items-table" class="display responsive home-page-table"  width="100%">
+            <table id="work-items-table" class="display responsive home-page-table" width="100%">
                 <thead>
-                <tr>
-                    <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
-                    <th class="min-mobile-p customer-cell">@Resources.Customer</th>
-                    <th class="min-mobile-l status-cell">@Resources.Status</th>
-                    <th class="min-tablet action-cell">@Resources.ActionReq</th>
-                    <th class="min-desktop email-cell">@Resources.Email</th>
-                    <th class="min-desktop phone-cell">@Resources.Phone</th>
-                    <th class="min-desktop date-cell">@Resources.Date</th>
-                    <th class="hidden">RemainingDescription</th>
-                    <th class="all edit-cell"></th>
-                    <th class="id-cell hidden">@Resources.Id</th>
-                    <th class="all remove-cell"></th>
-                </tr>
+                    <tr>
+                        <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
+                        <th class="min-mobile-p customer-cell">@Resources.Customer</th>
+                        <th class="min-mobile-l status-cell">@Resources.Status</th>
+                        <th class="min-tablet action-cell">@Resources.ActionReq</th>
+                        <th class="min-desktop email-cell">@Resources.Email</th>
+                        <th class="min-desktop phone-cell">@Resources.Phone</th>
+                        <th class="min-desktop date-cell">@Resources.Date</th>
+                        <th class="hidden">RemainingDescription</th>
+                        <th class="all edit-cell"></th>
+                        <th class="id-cell hidden">@Resources.Id</th>
+                        <th class="all remove-cell"></th>
+                    </tr>
                 </thead>
             </table>
         </div>
@@ -92,6 +92,8 @@
     translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
     translations['New'] = "@Resources.New";
     translations['Remove'] = "@Resources.Remove";
+    translations['Error'] = "@Resources.Error";
+    translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
 }
 
 @section Styles

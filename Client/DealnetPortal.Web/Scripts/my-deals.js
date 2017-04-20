@@ -1,4 +1,6 @@
-﻿$(document)
+﻿var table;
+
+$(document)
             .ready(function () {
                 showTable();
                 assignDatepicker($(".date-control"));
@@ -7,8 +9,8 @@
                 });
                 $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
                 $('.select-filter').val($('.select-filter > option:first').val());
-        $('.dataTable ');
-    });
+                $('.dataTable ');
+            });
 
 function assignDatepicker(input) {
     inputDateFocus(input);
@@ -19,8 +21,8 @@ function assignDatepicker(input) {
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(),
-        onClose: function(){
-          onDateSelect($(this));
+        onClose: function () {
+            onDateSelect($(this));
         }
     });
 }
@@ -66,19 +68,20 @@ function showTable() {
                 $("#sales-rep").append($("<option />").val(e).text(e));
             });
 
-            var table = $('#work-items-table')
+            table = $('#work-items-table')
                 .DataTable({
                     data: data,
+                    rowId: 'Id',
                     responsive: {
-                      breakpoints: [
-                        { name: 'desktop-lg', width: Infinity },
-                        { name: 'desktop',  width: 1169 },
-                        { name: 'tablet-l',  width: $('body').is('.tablet-device') ? 1025 : 1023 },
-                        { name: 'tablet',  width: 1023 },
-                        { name: 'mobile',   width: 767 },
-                        { name: 'mobile-l',   width: 767 },
-                        { name: 'mobile-p',   width: 480 },
-                      ]
+                        breakpoints: [
+                          { name: 'desktop-lg', width: Infinity },
+                          { name: 'desktop', width: 1169 },
+                          { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
+                          { name: 'tablet', width: 1023 },
+                          { name: 'mobile', width: 767 },
+                          { name: 'mobile-l', width: 767 },
+                          { name: 'mobile-p', width: 480 },
+                        ]
                     },
                     oLanguage: {
                         "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
@@ -90,12 +93,12 @@ function showTable() {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     createdRow: function (row, data, dataIndex) {
-                      if (data.IsNewlyCreated) {
-                          $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
-                      }
+                        if (data.IsNewlyCreated) {
+                            $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
+                        }
                     },
                     columns: [
-                        { "data": "TransactionId", className: 'contract-cell'},
+                        { "data": "TransactionId", className: 'contract-cell' },
                         { "data": "CustomerName", className: 'customer-cell' },
                         { "data": "Status", className: 'status-cell' },
                         { "data": "AgreementType", className: 'type-cell' },
@@ -103,7 +106,7 @@ function showTable() {
                         { "data": "Phone", className: 'phone-cell' },
                         { "data": "Date", className: 'date-cell' },
                         { "data": "Equipment" },
-                        { "data": "SalesRep", className:"sales-rep-cell" },
+                        { "data": "SalesRep", className: "sales-rep-cell" },
                         { "data": "Value" },
                         {
                             "data": "RemainingDescription",
@@ -131,8 +134,8 @@ function showTable() {
                         },
                         {// this is Remove Actions Column
                             "render": function (sdata, type, row) {
-                                if (row.TransactionId) {
-                                    return '<div class="remove-control"><a href=' + removeItemUrl + '/' + row.Id + ' title="' + translations['Remove'] + '"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
+                                if (row.IsInternal) {
+                                    return '<div class="remove-control"><a onclick="removeContract.call(this)" title="' + translations['Remove'] + '"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
                                 } else {
                                     return '';
                                 }
@@ -153,7 +156,7 @@ function showTable() {
                     order: []
                 });
 
-            var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
+            var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
             $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
@@ -169,9 +172,9 @@ function showTable() {
                 table.draw();
             });
 
-            table.on('draw.dt', function(){
-              redrawDataTablesSvgIcons();
-              resetDataTablesExpandedRows(table);
+            table.on('draw.dt', function () {
+                redrawDataTablesSvgIcons();
+                resetDataTablesExpandedRows(table);
             });
             $('#clear-filters').click(function () {
                 $('.filter-input').val("");
@@ -200,3 +203,59 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
+function removeContract() {
+    var tr = $(this).parents('tr');
+    var id = $(tr)[0].id;
+    var data = {
+        message: translations['AreYouSureYouWantToRemoveThisApplication'] + '?',
+        title: translations['Remove'],
+        confirmBtnText: translations['Remove']
+    };
+    dynamicAlertModal(data);
+
+    $('#confirmAlert').on('click', function () {
+        $("#remove-contract").val(id);
+        showLoader();
+        $("#remove-contract-form").ajaxSubmit({
+            method: 'post',
+            success: function (result) {
+                if (result.isSuccess) {
+                    table.row(tr).remove().draw();
+                } else if (result.isError) {
+                    alert(translations['Error']);
+                }
+            },
+            error: function () {
+                alert(translations['Error']);
+            },
+            complete: function (xhr) {
+                hideLoader();
+                hideDynamicAlertModal();
+            }
+        });
+    });
+
+};
+//function removeContract() {
+//    var tr = $(this).parents('tr');
+//    var id = $(tr)[0].id;
+
+//    $("#remove-contract").val(id);
+//    showLoader();
+//    $("#remove-contract-form").ajaxSubmit({
+//        method: 'post',
+//        success: function (result) {
+//            if (result.isSuccess) {
+//                table.row(tr).remove().draw();
+//            } else if (result.isError) {
+//                alert(translations['Error']);
+//            }
+//        },
+//        error: function () {
+//            alert(translations['Error']);
+//        },
+//        complete: function (xhr) {
+//            hideLoader();
+//        }
+//    });
+//};
