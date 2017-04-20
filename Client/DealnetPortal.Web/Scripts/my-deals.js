@@ -236,26 +236,3 @@ function removeContract() {
     });
 
 };
-//function removeContract() {
-//    var tr = $(this).parents('tr');
-//    var id = $(tr)[0].id;
-
-//    $("#remove-contract").val(id);
-//    showLoader();
-//    $("#remove-contract-form").ajaxSubmit({
-//        method: 'post',
-//        success: function (result) {
-//            if (result.isSuccess) {
-//                table.row(tr).remove().draw();
-//            } else if (result.isError) {
-//                alert(translations['Error']);
-//            }
-//        },
-//        error: function () {
-//            alert(translations['Error']);
-//        },
-//        complete: function (xhr) {
-//            hideLoader();
-//        }
-//    });
-//};
