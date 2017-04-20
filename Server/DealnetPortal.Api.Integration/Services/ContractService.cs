@@ -75,7 +75,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public bool CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
+        public async Task<bool> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (updatedContract.PrimaryCustomer != null)
                     {
-                        _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
+                        await _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
                     }
                     return true;
                 }

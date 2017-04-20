@@ -482,12 +482,12 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CreateContractForCustomer")]
         [HttpPost]
-        public IHttpActionResult CreateContractForCustomer(NewCustomerDTO customerFormData)
+        public async Task<IHttpActionResult> CreateContractForCustomer(NewCustomerDTO customerFormData)
         {
             var alerts = new List<Alert>();
             try
             {
-                var creationResult = ContractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
+                var creationResult = await ContractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
                 if (creationResult)
                 {
                     alerts.Add(new Alert()
