@@ -270,53 +270,63 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    request.Header = new RequestHeader()
-                    {
-                        From = new From()
-                        {
-                            AccountNumber = userResult.Item1.UserId,
-                            Password = userResult.Item1.Password
-                        }
-                    };
-                    request.Payload = new Payload()
-                    {
-                        Lease = new Lease()
-                        {
-                            Application = GetContractApplication(contract)
-                        }
-                    };                   
+                    // send each equipment separately using same call for avoid Aspire issue
 
-                    try
+                    for (int i = 0; i < (contract.Equipment?.NewEquipment?.Count ?? 1); i++)
                     {
-                        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                        var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
-                        DealUploadResponse response = null;
+                        var eqToUpdate = (contract.Equipment?.NewEquipment?.Any() ?? false)
+                            ? new List<NewEquipment> {contract.Equipment?.NewEquipment.ElementAt(i)}
+                            : null;
+                        request.Header = new RequestHeader()
+                        {
+                            From = new From()
+                            {
+                                AccountNumber = userResult.Item1.UserId,
+                                Password = userResult.Item1.Password
+                            }
+                        };
+                        request.Payload = new Payload()
+                        {
+                            Lease = new Lease()
+                            {
+                                Application = GetContractApplication(contract, eqToUpdate)
+                            }
+                        };
 
-                        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                        try
                         {
-                            response = await aspireRequestTask.ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            throw new TimeoutException("External system operation has timed out.");
-                        }
+                            Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                           
+                            var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
+                            DealUploadResponse response = null;
 
-                        var rAlerts = AnalyzeResponse(response, contract);
-                        if (rAlerts.Any())
-                        {
-                            alerts.AddRange(rAlerts);
+                            if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) ==
+                                aspireRequestTask)
+                            {
+                                response = await aspireRequestTask.ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                throw new TimeoutException("External system operation has timed out.");
+                            }
+
+                            var rAlerts = AnalyzeResponse(response, contract, eqToUpdate);
+                            if (rAlerts.Any())
+                            {
+                                alerts.AddRange(rAlerts);
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        alerts.Add(new Alert()
+                        catch (Exception ex)
                         {
-                            Code = ErrorCodes.AspireConnectionFailed,
-                            Header = ErrorConstants.AspireConnectionFailed,
-                            Type = AlertType.Error,
-                            Message = ex.ToString()
-                        });
-                        _loggingService.LogError("Failed to communicate with Aspire", ex);
+                            alerts.Add(new Alert()
+                            {
+                                Code = ErrorCodes.AspireConnectionFailed,
+                                Header = ErrorConstants.AspireConnectionFailed,
+                                Type = AlertType.Error,
+                                Message = ex.ToString()
+                            });
+                            _loggingService.LogError("Failed to communicate with Aspire", ex);
+                        }
                     }
                 }
             }
@@ -807,7 +817,7 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts;
         }
 
-        private Application GetContractApplication(Domain.Contract contract)
+        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
         {
             var application = new Application()
             {
@@ -815,7 +825,8 @@ namespace DealnetPortal.Api.Integration.Services
             };
             if (contract.Equipment != null)
             {
-                contract.Equipment.NewEquipment?.ForEach(eq =>
+                var equipments = newEquipments ?? contract.Equipment.NewEquipment;
+                equipments?.ForEach(eq =>
                 {
                     if (application.Equipments == null)
                     {
@@ -935,7 +946,7 @@ namespace DealnetPortal.Api.Integration.Services
             return application;
         }
 
-        private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract)
+        private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
         {
             var alerts = new List<Alert>();
 
@@ -1006,8 +1017,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (response.Payload.Asset != null)
                     {
-                        var aEq =
-                            contract?.Equipment?.NewEquipment?.FirstOrDefault(
+                        var eqCollection = newEquipments ?? contract?.Equipment?.NewEquipment;
+                        var aEq = eqCollection?.FirstOrDefault(
                                 eq => eq.Description == response.Payload.Asset.Name);
                         if (aEq != null)
                         {
