@@ -78,6 +78,6 @@
             monthlyPayment: monthlyPayment,
             totalAmountFinanced: totalAmountFinanced,
             totalBorrowingCost: totalBorrowingCost,
-            yourCost: yourCost,
+            yourCost: yourCost
         };
     });

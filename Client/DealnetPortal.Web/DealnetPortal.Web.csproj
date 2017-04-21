@@ -811,6 +811,7 @@
     <Content Include="Scripts\loan-calculator.js" />
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
+    <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
     <Content Include="Scripts\Pages\newEquipment\index.js" />
     <Content Include="Scripts\Pages\newEquipment\template.js" />
     <Content Include="Scripts\standalone-calculator.js" />
@@ -905,6 +906,13 @@
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
     <Content Include="Views\NewRental\NewSecondStep.cshtml" />
+    <Content Include="Views\NewRental\NewThirdStep.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_FixedRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NoInterestRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_DeferralRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

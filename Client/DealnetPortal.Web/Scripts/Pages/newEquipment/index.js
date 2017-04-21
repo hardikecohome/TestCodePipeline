@@ -137,9 +137,9 @@
             var eSum = equipmentSum(state.equipments);
 
             renderTotalPrice({
-                equipmentSum: eSum,
-                tax: tax({ equipmentSum: eSum, tax: state.tax }),
-                totalPrice: totalPrice({ equipmentSum: eSum, tax: state.tax }),
+                equipmentSum: eSum !== 0 ? eSum : '-',
+                tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
+                totalPrice: eSum !== 0 ? totalPrice({ equipmentSum: eSum, tax: state.tax }) : '-'
             });
 
             optionsToCompute.forEach(function(option) {
@@ -300,7 +300,36 @@
             };
         };
 
-        var id = 1;
+        var submitForm = function(event) {
+            var agreementType = $("#agreement-type").find(":selected").val();
+            if (agreementType === "0") {
+                //isCalculationValid = false;
+                //recalculateTotalCashPrice();
+                if (!isCalculationValid) {
+                    event.preventDefault();
+                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
+                }
+            } else {
+                var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
+                if (isNaN(monthPayment) || (monthPayment == 0)) {
+                    event.preventDefault();
+                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
+                }
+            }
+        }
+
+        var resetFormValidator = function (formId) {
+            $(formId).removeData('validator');
+            $(formId).removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(formId);
+            //$("#customer-rate").rules("add", "required");
+            //$("#amortization-term").rules("add", "required");
+            //$("#requested-term").rules("add", "required");
+            //$("#loan-term").rules("add", "required");
+        }
+
+
+        var id = $('div#new-equipments').find('[id^=new-equipment-]').length;
         var addEquipment = function() {
             var newId = id.toString();
             state.equipments[newId] = {
@@ -311,7 +340,7 @@
             };
 
             var index = Object.keys(state.equipments).length;
-            var newTemplate = equipmentTemplateFactory($('<div></div>'), { index: index });
+            var newTemplate = equipmentTemplateFactory($('<div></div>'), { id: id });
 
             state.equipments[newId].template = newTemplate;
 
@@ -321,8 +350,11 @@
 
             $('#new-equipments').append(newTemplate);
 
-            id++;
+            resetFormValidator("#equipment-form");
         };
+
+        // submit
+        $('#equipment-form').submit(submitForm);
 
         // handlers
         $('#addEquipment').on('click', addEquipment);

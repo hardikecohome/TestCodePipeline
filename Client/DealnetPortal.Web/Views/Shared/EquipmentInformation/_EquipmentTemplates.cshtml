@@ -1,0 +1,43 @@
+﻿@using DealnetPortal.Api.Models.Contract
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+<div class="hidden">
+  <div id="new-equipment-base" class="new-equipment">
+    <div class="dealnet-middle-header equipment-number-header">
+      <span class="equipment-number">№1</span>
+      <div id="new-equipment-remove-0" class="additional-remove">
+        <i class="glyphicon glyphicon-remove"></i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          @Html.LabelFor(m => m.NewEquipment[0].Type)
+          @Html.DropDownListFor(m => m.NewEquipment[0].Type,
+            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+            new { @class = "form-control", @Value = 0 })
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="form-group">
+          @Html.LabelFor(m => m.NewEquipment[0].Description)
+          <div class="control-group">
+            @Html.TextBoxFor(m => m.NewEquipment[0].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description, @Value = "" })
+            @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new { @class = "text-danger" })
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          @Html.LabelFor(m => m.NewEquipment[0].Cost)
+          <div class="control-group has-addon-left">
+            <div class="control-group-addon">$</div>
+            @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new { @class = "form-control dealnet-input equipment-cost", type="text", placeholder = Resources.Cost, @Value = "" })
+            @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new { @class = "text-danger" })
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

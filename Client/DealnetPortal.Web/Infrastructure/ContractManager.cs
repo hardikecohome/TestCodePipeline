@@ -51,6 +51,24 @@ namespace DealnetPortal.Web.Infrastructure
             return basicInfo;
         }
 
+        public async Task<ContactAndPaymentInfoViewModelNew> GetAdditionalContactInfoAsyncNew(int contractId)
+        {
+            var contactAndPaymentInfo = new ContactAndPaymentInfoViewModelNew();
+            var contractResult = await _contractServiceAgent.GetContract(contractId);
+            if (contractResult.Item1 == null)
+            {
+                return contactAndPaymentInfo;
+            }
+
+            contactAndPaymentInfo.ContractId = contractId;
+            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
+            contactAndPaymentInfo.HouseSize = contractResult.Item1.Details.HouseSize;
+
+            //MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
+
+            return contactAndPaymentInfo;
+        }
+
         public async Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId)
         {
             var contactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
@@ -63,6 +81,33 @@ namespace DealnetPortal.Web.Infrastructure
             contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
             return contactAndPaymentInfo;
+        }
+
+        public async Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsyncNew(int contractId)
+        {
+            Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.GetContract(contractId);
+
+            if (result.Item1 == null)
+            {
+                return new EquipmentInformationViewModelNew();
+            }
+
+            var equipmentInfo = new EquipmentInformationViewModelNew()
+            {
+                ContractId = contractId,
+            };
+
+            if (result.Item1.Equipment != null)
+            {
+                equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
+
+                if (!equipmentInfo.NewEquipment.Any())
+                {
+                    equipmentInfo.NewEquipment = null;
+                }
+            }
+
+            return equipmentInfo;
         }
 
         public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
@@ -295,6 +340,28 @@ namespace DealnetPortal.Web.Infrastructure
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
+        public async Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModelNew equipmnetInfo)
+        {
+            var contractData = new ContractDataDTO
+            {
+                Id = equipmnetInfo.ContractId ?? 0,
+                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+            };
+
+            return await _contractServiceAgent.UpdateContractData(contractData);
+        }
+
+        public async Task<IList<Alert>> UpdateContractAsyncNew(ContactAndPaymentInfoViewModelNew equipmnetInfo)
+        {
+            var contractData = new ContractDataDTO
+            {
+                Id = equipmnetInfo.ContractId ?? 0,
+                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+            };
+
+            return await _contractServiceAgent.UpdateContractData(contractData);
+        }
+
         public async Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo)
         {
             var contractData = new ContractDataDTO
@@ -336,13 +403,13 @@ namespace DealnetPortal.Web.Infrastructure
                 alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
             }
 
-            if (contactAndPaymentInfo.HouseSize.HasValue)
-            {
-                contractData.Details = new ContractDetailsDTO()
-                {
-                    HouseSize = contactAndPaymentInfo.HouseSize
-                };
-            }
+            //if (contactAndPaymentInfo.HouseSize.HasValue)
+            //{
+            //    contractData.Details = new ContractDetailsDTO()
+            //    {
+            //        HouseSize = contactAndPaymentInfo.HouseSize
+            //    };
+            //}
 
             if (contactAndPaymentInfo.PaymentInfo != null)
             {
