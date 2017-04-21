@@ -180,82 +180,7 @@
 				</div>
 			</div>
 			<!--End Living time-->
-			<div id="installation-address-control" class="form-group">
-				<label for="installation-address-checkbox" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="installation-address-checkbox" checked="checked"/>
-					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-					<span>Installation address will be the same as current address</span>
-				</label>
-			</div>
-			<div id="installation-address" style="display: none;">
-				<div class="clearfix">
-					<h3 class="dealnet-section-title pull-left">Installation Address Information</h3>
-					<div class="installation-address-unknown-control pull-left">
-						<label for="installation-address-unknown-checkbox" class="align-middle custom-checkbox">
-							<input type="checkbox" class="dealnet-checkbox address-checkbox" id="installation-address-unknown-checkbox" checked="checked"/>
-							<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-							<span>Installation address is still unknown</span>
-						</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6 col-md-6">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Street</label>
-							<div class="control-group">
-								<input type="text" placeholder="St." class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-2">
-						<div class="form-group">
-							<label for="">Unit #</label>
-							<div class="control-group">
-								<input type="text" placeholder="12345" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">City</label>
-							<div class="control-group">
-								<input type="text" placeholder="City" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Province</label>
-							<div class="control-group">
-								<select name="" id="" class="form-control">
-									<option value="">-not selected-</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Postal Code</label>
-							<div class="control-group">
-								<input type="text" placeholder="12345" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<div class="form-group">
-							<label for="">Estimated move in date</label>
-							<div class="control-group">
-								<input type="text" placeholder="mm/dd/yyyy" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12">
-						<a href="#" class="dealnet-disabled-text clear-address">
-							<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-						</a>
-					</div>
-				</div>
-			</div>
+
 		</div>
 	</div>
 	<div class="panel accordion-panel panel-collapsed">
@@ -312,10 +237,86 @@
 	</div>
 	<div class="panel accordion-panel panel-collapsed">
 		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">4. Customer's Needs</h3>
+			<h3 class="panel-title dealnet-middle-header">4. Home improvements</h3>
 			<span class="arrow"><i class="glyphicon"></i></span>
 		</div>
 		<div class="panel-body">
+			<div class="text-md-sm">
+				<div class="form-group">Where home improvement project will take place?</div>
+				<div class="form-group">
+					<label for="currentAddressIsMortgage" class="align-middle custom-radio">
+						<input type="radio" name="improvement" id="currentAddressIsMortgage" checked="checked">
+						<span class="custom-radio-icon"></span>
+						<span>At current address – it’s mortgage renewal.</span>
+					</label>
+				</div>
+				<div class="form-group">
+					<label for="newHouseAddressUnknown" class="align-middle custom-radio">
+						<input type="radio" name="improvement" id="newHouseAddressUnknown">
+						<span class="custom-radio-icon"></span>
+						<span>At a new house, but address is unknown – customer is still shopping for a new house.</span>
+					</label>
+				</div>
+				<div class="form-group">
+					<label for="houseCustomerChosen" class="align-middle custom-radio">
+						<input type="radio" name="improvement" id="houseCustomerChosen">
+						<span class="custom-radio-icon"></span>
+						<span>At a new house customer has already chosen.</span>
+					</label>
+				</div>
+			</div>
+			<div id="installation-address" style="display: none;">
+				<h3 class="dealnet-section-title">New Address Information</h3>
+				<div class="row">
+					<div class="col-sm-6 col-md-6">
+						<div class="form-group">
+							<label for="" class="mandatory-field">Street</label>
+							<div class="control-group">
+								<input type="text" placeholder="St." class="form-control dealnet-input">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Unit #</label>
+							<div class="control-group">
+								<input type="text" placeholder="12345" class="form-control dealnet-input">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group">
+							<label for="" class="mandatory-field">City</label>
+							<div class="control-group">
+								<input type="text" placeholder="City" class="form-control dealnet-input">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group">
+							<label for="" class="mandatory-field">Province</label>
+							<div class="control-group">
+								<select name="" id="" class="form-control">
+									<option value="">-not selected-</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group">
+							<label for="" class="mandatory-field">Postal Code</label>
+							<div class="control-group">
+								<input type="text" placeholder="12345" class="form-control dealnet-input">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4">
+						<a href="#" class="dealnet-disabled-text clear-address">
+							<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+						</a>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-4 col-sm-6">
 					<div class="form-group">
@@ -352,7 +353,7 @@
 	</div>
 	<div class="panel accordion-panel panel-collapsed">
 		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">5. Customer's Consents</h3>
+			<h3 class="panel-title dealnet-middle-header">5. Customer Consents</h3>
 			<span class="arrow"><i class="glyphicon"></i></span>
 		</div>
 		<div class="panel-body">
@@ -384,11 +385,16 @@
 		$(document).ready(function(){
 			$('#living-time-checkbox').on('change', function(){
 				if($(this).is(':checked')){$('#previous-address').show()}else{$('#previous-address').hide()}
-			}).change();
+			});
 
-			$('#installation-address-checkbox').on('change', function(){
-				if($(this).is(':checked')){$('#installation-address').hide()}else{$('#installation-address').show()}
-			}).change();
+
+			$("input[name$='improvement']").on('click', function() {
+				if($(this).is("#houseCustomerChosen")){
+					$('#installation-address').show()
+				}else{
+					$('#installation-address').hide()
+				}
+			});
 		})
 	</script>
 }
