@@ -76,6 +76,69 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task<bool> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
+        {
+            try
+            {
+                var newContract = _contractRepository.CreateContract(contractOwnerId);
+                if (newContract != null)
+                {
+                    _unitOfWork.Save();
+                    var customer = Mapper.Map<Customer>(newCustomer.PrimaryCustomer);
+                    var contractData = new ContractData()
+                    {
+                        PrimaryCustomer = customer,
+                        HomeOwners = new List<Customer> { customer },
+                        DealerId = contractOwnerId,
+                        Id = newContract.Id
+                    };
+                    if (newCustomer.EstimatedMoveInDate != null || newCustomer.HomeImprovementTypes != null)
+                    {
+                        contractData.Equipment = new EquipmentInfo();
+                        contractData.Equipment.NewEquipment = new List<NewEquipment>();
+                        contractData.Equipment.EstimatedInstallationDate = newCustomer.EstimatedMoveInDate;
+                        newCustomer.HomeImprovementTypes?.ForEach(hi =>
+                        {
+                            contractData.Equipment.NewEquipment.Add(new NewEquipment { Type = hi });
+                        });
+                    }
+                    var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
+                    if (updatedContract == null) { return false; }
+                    _unitOfWork.Save();
+
+                    _contractRepository.UpdateCustomerData(updatedContract.PrimaryCustomer.Id, customer, null, null, null);
+                    if (updatedContract.Details != null && newCustomer.CustomerComment != null)
+                    {
+                        if (string.IsNullOrEmpty(updatedContract.Details.Notes))
+                        {
+                            updatedContract.Details.Notes = newCustomer.CustomerComment;
+                        }
+                        else
+                        {
+                            updatedContract.Details.Notes += newCustomer.CustomerComment;
+                        }
+                    }
+                    _unitOfWork.Save();
+
+                    if (updatedContract.PrimaryCustomer != null)
+                    {
+                        await _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
+                    }
+                    return true;
+                }
+                else
+                {
+                    _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]", ex);
+                throw;
+            }
+        }
+
         public IList<ContractDTO> GetContracts(string contractOwnerId)
         {
             var contractDTOs = new List<ContractDTO>();
