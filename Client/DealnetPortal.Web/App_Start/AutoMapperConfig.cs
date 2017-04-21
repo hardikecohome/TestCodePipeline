@@ -255,7 +255,26 @@ namespace DealnetPortal.Web.App_Start
                             return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                         }
                         return string.Empty;
-                    }));
+                    }))
+                    .ForMember(d => d.PostalCode, s => s.ResolveUsing(src =>
+                    {
+                        var location =
+                            src.PrimaryCustomer?.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
+                        if (location?.PostalCode != null)
+                        {
+                            return $"{location.PostalCode.ToUpperInvariant()}***";
+                        }             
+                        return string.Empty;
+                    }))
+                    .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src =>
+                    {
+                        if (src.Details?.CreditAmount != null)
+                        {
+                            return FormattableString.Invariant($"$ {src.Details.CreditAmount:0.00}");
+                        }
+                        return string.Empty;
+                    }))
+                    .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => src.Details?.Notes));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
