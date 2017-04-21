@@ -46,12 +46,9 @@
           @Html.HiddenFor(m => m.NewEquipment[i].Id)
           <div class="dealnet-middle-header equipment-number-header">
             <span class="equipment-number">№@(i + 1)</span>
-            @if (i != 0)
-            {
-              <div id="new-equipment-remove-@(i)" class="additional-remove">
-                <i class="glyphicon glyphicon-remove"></i>
-              </div>
-            }
+            <div class="additional-remove">
+              <i class="glyphicon glyphicon-remove"></i>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-3">
@@ -131,19 +128,19 @@
       <div class="row form-group">
         <div class="col-sm-6">@Resources.CashPriceOfEquipment</div>
         <div class="col-sm-6 text-right text-semibold">
-          <span id="totalEquipmentPrice">$ -</span>
+          $ <span id="totalEquipmentPrice">-</span>
         </div>
       </div>
       <div class="row form-group">
         <div class="col-sm-6">HST</div>
         <div class="col-sm-6 text-right text-semibold">
-          <span id="tax">$ -</span>
+          $ <span id="tax">-</span>
         </div>
       </div>
       <div class="row form-group">
         <div class="col-sm-6">@Resources.TotalCashPrice</div>
         <div class="col-sm-6 text-right text-semibold">
-          <span id="totalPrice">$ -</span>
+          $ <span id="totalPrice">-</span>
         </div>
       </div>
     </div>
@@ -165,12 +162,12 @@
   <div class="financing-options">
     <h3 class="dealnet-middle-header">
       Financing Options
-      <a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
+      @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
         <svg aria-hidden="true" class="icon icon-info-well">
           <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
         </svg>
         Rate Card
-      </a>
+      </a>*@
     </h3>
     <div class="row rental-element">
       <div class="col-md-3">
@@ -194,9 +191,13 @@
     </div>
     <!--<div class="rate-cards-container row one-rate-card">-->
     <div class="rate-cards-container rate-card-grid row loan-element">
-      @Html.Partial("EquipmentInformation/_FixedRateCard")
-      @Html.Partial("EquipmentInformation/_NoInterestRateCard")
-      @Html.Partial("EquipmentInformation/_DeferralRateCard")
+      @if (Model.DealerTier?.RateCards != null)
+      {
+        foreach (var rateCard in Model.DealerTier?.RateCards)
+        {
+          @Html.Partial("EquipmentInformation/_" + rateCard.CardType, rateCard)
+        }
+      }
       @Html.Partial("EquipmentInformation/_CustomRateCard")
     </div>
   </div>
@@ -219,10 +220,6 @@
 </div>
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
-
-@Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/localization")
-@Scripts.Render("~/bundles/new-equipment-information")
 
 @section Translations
 {
@@ -311,10 +308,15 @@
         }
       }
     });
+  </script>
+  
+  @Scripts.Render("~/bundles/jqueryval")
+  @Scripts.Render("~/bundles/localization")
+  @Scripts.Render("~/bundles/new-equipment-information")
 
-    configInitialized.then(function() {
+  <script type="text/javascript">
+    configInitialized.then(function () {
       module.require('new-equipment');
     });
-
   </script>
 }

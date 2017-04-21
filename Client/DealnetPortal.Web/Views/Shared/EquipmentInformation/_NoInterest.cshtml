@@ -1,7 +1,8 @@
-﻿<div class="rate-card table-mode">
+﻿@model DealnetPortal.Api.Models.Contract.RateCardDTO
+
+<div class="rate-card table-mode">
   <div class="rate-card-header equal-height-row-1">
-    <span class="promo-label">Promo</span>
-    <h4 class="rate-card-title">Fixed rate</h4>
+    <h4 class="card-title">NO INTEREST</h4>
   </div>
   <hr>
   <div class="equal-height-row-2">
@@ -13,54 +14,50 @@
     </div>
   </div>
   <div class="equal-height-row-3">
-    <div class="rate-card-notify">
-      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-      180 month amortization is available only on loans over $5,000
-    </div>
   </div>
   <div class="equal-height-row-4">
     <div class="row form-group">
       <div class="col-xs-6">Customer Rate</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateCRate"></div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestCRate">@Html.DisplayFor(x => x.CustomerRate)</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Your Cost</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateYCostVal"></div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestYCostVal">@Html.DisplayFor(x => x.DealerCost)</div>
     </div>
   </div>
   <hr>
   <div class="">
     <div class="row form-group align-middle">
       <div class="col-xs-6">Admin Fee</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateAFee">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestAFee">@Html.DisplayFor(x => x.AdminFee)</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Monthly Payment</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateMPayment">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestMPayment">-</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Cost of Borrowing</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateCBorrowing">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestCBorrowing">-</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Your Cost</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateYCost">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestYCost">-</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Total Amount Financed</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateTAFinanced">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestTAFinanced">-</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Total of All Monthly Payments</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateTMPayments">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestTMPayments">-</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateRBalance">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestRBalance">-</div>
     </div>
     <div class="row form-group">
       <div class="col-xs-6">Total Obligation</div>
-      <div class="col-xs-6 text-right text-semibold" id="fixedRateTObligation">-</div>
+      <div class="col-xs-6 text-right text-semibold" id="noInterestTObligation">-</div>
     </div>
   </div>
   <button class="btn dealnet-button dealnet-success-button btn-select-card">

@@ -908,9 +908,9 @@
     <Content Include="Views\NewRental\NewSecondStep.cshtml" />
     <Content Include="Views\NewRental\NewThirdStep.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_FixedRateCard.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_NoInterestRateCard.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_DeferralRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Defferal.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
   </ItemGroup>

@@ -9,6 +9,8 @@
         
         parentNode.append($.parseHTML(result));
 
+        $(parentNode).attr('id', 'new-equipment-' + options.id);
+
         return parentNode;
     };
 

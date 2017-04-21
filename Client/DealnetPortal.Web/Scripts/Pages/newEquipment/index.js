@@ -31,7 +31,7 @@
                 deferralPeriod: '',
                 customerRate: 5,
                 yourCost: 10,
-                adminFee: 100,
+                adminFee: '',
             },
             noInterest: {
                 loanTerm: 36,
@@ -74,7 +74,7 @@
         };
 
         ['fixedRate', 'noInterest', 'deferral'].forEach(function(option) {
-            renderStaticFields(option, state[option]);
+            //renderStaticFields(option, state[option]);
         });
 
         var numberFields = ['equipmentSum', 'loanTerm', 'amortTerm', 'customerRate', 'adminFee'];
@@ -83,9 +83,9 @@
         var renderTotalPrice = function(data) {
             var notNan = !Object.keys(data).map(idToValue(data)).some(function(val) { return isNaN(val); });
             if (notNan) {
-                $('#totalEquipmentPrice').text(formatCurrency(data.equipmentSum));
-                $('#tax').text(formatCurrency(data.tax));
-                $('#totalPrice').text(formatCurrency(data.totalPrice));
+                $('#totalEquipmentPrice').text(formatNumber(data.equipmentSum));
+                $('#tax').text(formatNumber(data.tax));
+                $('#totalPrice').text(formatNumber(data.totalPrice));
             } else {
                 $('#totalEquipmentPrice').text('-');
                 $('#tax').text('-');
