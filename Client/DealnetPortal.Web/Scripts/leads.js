@@ -83,7 +83,7 @@ function showTable() {
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
-            $('#table-title').html('<div class="dealnet-large-header">Leads<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+            $('#table-title').html('<div class="dealnet-large-header">' + translations['Leads'] + '<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
                 $(this).toggleClass('active');
                 $('#work-items-table_filter').slideToggle();
@@ -141,9 +141,9 @@ function assignDatepicker(input) {
 
 function addLead() {
     var data = {
-        message: 'Are you sure that you want to accept this lead? In this case you will pay $50.00 fee.',
-        title: 'Accept Lead',
-        confirmBtnText: 'Accept Lead'
+        message: translations['YouSureYouWantToAcceptLeadThenYouPay'],
+        title: translations['AcceptLead'],
+        confirmBtnText: translations['AcceptLead']
     };
     dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {

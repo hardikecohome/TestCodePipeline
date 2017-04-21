@@ -1,5 +1,5 @@
 ﻿<div id="label-steps">
-	<div class="dealnet-action-link">Leads</div> >
+	<div class="dealnet-action-link">@Resources.Leads</div> >
 </div>
 
 <div class="expand-filter-template">
@@ -46,9 +46,15 @@
 	</div>
 </div>
 
+@{
+    var wasAcceptedResource = Resources.LeadWasAcceptedYouCanFind.Split(new[] { "{0}" }, StringSplitOptions.None);
+}
 <div class="well success-well success-message collapse" id="msg-lead-accepted">
-	<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-	Selected lead was accepted by you. You can find it in @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" }) page.
+    <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+    @if (wasAcceptedResource.Length >= 2)
+    {
+        @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
+    }
 </div>
 
 <table id="work-items-table" class="display responsive my-customers-table" width="100%">
@@ -57,9 +63,9 @@
         <th class="all date-cell">@Resources.Date</th>
         <th class="min-mobile">@Resources.PostalCode</th>
         <th class="min-mobile-l">@Resources.PreApprovedFor</th>
-        <th class="min-tablet">Requested equipment/service</th>
-        <th class="min-tablet">Customer comment</th>
-        <th class="all controls-cell">Accept Lead</th>
+        <th class="min-tablet">@Resources.RequestedEquipmentService</th>
+        <th class="min-tablet">@Resources.CustomerComment</th>
+        <th class="all controls-cell">@Resources.AcceptLead</th>
     </tr>
     </thead>
 </table>
@@ -71,6 +77,9 @@
     translations['Show'] = "@Resources.Show";
     translations['Entries'] = "@Resources.Entries";
     translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+    translations['Leads'] = "@Resources.Leads";
+    translations['AcceptLead'] = "@Resources.AcceptLead";
+    translations['YouSureYouWantToAcceptLeadThenYouPay'] = "@Resources.YouSureYouWantToAcceptLeadThenYouPay.Replace("{0}", "50")"; //Replace fee value here.
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
@@ -82,7 +91,7 @@
 @section scripts
 {
     <script type="text/javascript">
-        var itemsUrl = '@Url.Action("GetWorkOffers", "Home")';
+        var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
     </script>
     @Scripts.Render("~/bundles/data-tables-scripts")
     @Scripts.Render("~/bundles/leads")

@@ -70,6 +70,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accept Lead.
+        /// </summary>
+        public static string AcceptLead {
+            get {
+                return ResourceManager.GetString("AcceptLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Number.
         /// </summary>
         public static string AccountNumber {
@@ -1020,6 +1029,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Customer {
             get {
                 return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer comment.
+        /// </summary>
+        public static string CustomerComment {
+            get {
+                return ResourceManager.GetString("CustomerComment", resourceCulture);
             }
         }
         
@@ -2023,6 +2041,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leads.
+        /// </summary>
+        public static string Leads {
+            get {
+                return ResourceManager.GetString("Leads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected lead was accepted by you. You can find it in {0} page..
+        /// </summary>
+        public static string LeadWasAcceptedYouCanFind {
+            get {
+                return ResourceManager.GetString("LeadWasAcceptedYouCanFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lived at current address less than 6 month.
         /// </summary>
         public static string LivedAtCurrentLessThan {
@@ -2865,6 +2901,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Reports {
             get {
                 return ResourceManager.GetString("Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested equipment/service.
+        /// </summary>
+        public static string RequestedEquipmentService {
+            get {
+                return ResourceManager.GetString("RequestedEquipmentService", resourceCulture);
             }
         }
         
@@ -3828,6 +3873,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YouShouldFillAllMandatoryFields {
             get {
                 return ResourceManager.GetString("YouShouldFillAllMandatoryFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure that you want to accept this lead? In this case you will pay ${0} fee..
+        /// </summary>
+        public static string YouSureYouWantToAcceptLeadThenYouPay {
+            get {
+                return ResourceManager.GetString("YouSureYouWantToAcceptLeadThenYouPay", resourceCulture);
             }
         }
     }
