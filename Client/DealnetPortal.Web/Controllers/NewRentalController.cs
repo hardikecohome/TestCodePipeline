@@ -203,17 +203,20 @@ namespace DealnetPortal.Web.Controllers
                 {
                     break;
                 }
+
                 if (checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
                 {
                     break;                    
                 }
+
                 await Task.Delay(timeOut);
             }
 
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
                 TempData["CreditCheckErrorMessage"] = Resources.Resources.CreditCheckErrorMessage;
-                return RedirectToAction("CreditCheckConfirmation", new { contractId });
+
+                return RedirectToAction("BasicInfo", new { contractId });
             }
 
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
@@ -334,35 +337,94 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            var model = await _contractManager.GetEquipmentInfoAsync(contractId);
+            var model = await _contractManager.GetEquipmentInfoAsyncNew(contractId);
 
             return View("NewSecondStep", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
+        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-            //if (!ModelState.IsValid)
-            //{
-            //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            //    return View("NewSecondStep", equipmentInfo);
-            //}
-            var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+
+                return View("NewSecondStep", equipmentInfo);
+            }
+
+            var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
+
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
                 TempData[PortalConstants.CurrentAlerts] = updateResult;
+
                 return RedirectToAction("Error", "Info");
             }
-            return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
+
+            return RedirectToAction("AdditionalEquipmentInformation", new { contractId = equipmentInfo.ContractId });
         }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
+        //{
+        //    ViewBag.IsAllInfoCompleted = false;
+
+        //    //if (!ModelState.IsValid)
+        //    //{
+        //    //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+        //    //    return View("NewSecondStep", equipmentInfo);
+        //    //}
+        //    var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
+
+        //    if (updateResult.Any(r => r.Type == AlertType.Error))
+        //    {
+        //        TempData[PortalConstants.CurrentAlerts] = updateResult;
+
+        //        return RedirectToAction("Error", "Info");
+        //    }
+
+        //    return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
+        //}
+
+
+        public async Task<ActionResult> AdditionalEquipmentInformation(int contractId)
+        {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
+            return View("NewThirdStep", await _contractManager.GetAdditionalContactInfoAsyncNew(contractId));
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AdditionalEquipmentInformation(ContactAndPaymentInfoViewModelNew contactAndPaymentInfo)
+        {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+            if (!ModelState.IsValid)
+            {
+                return View("NewThirdStep");
+            }
+            var updateResult = await _contractManager.UpdateContractAsyncNew(contactAndPaymentInfo);
+
+            if (updateResult.Any(r => r.Type == AlertType.Error))
+            {
+                TempData[PortalConstants.CurrentAlerts] = updateResult;
+
+                return RedirectToAction("Error", "Info");
+            }
+
+            return RedirectToAction("ContactAndPaymentInfo", new { contractId = contactAndPaymentInfo.ContractId });
+        }
+
+        [HttpGet]
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            return View("NewThirdStep", await _contractManager.GetContactAndPaymentInfoAsync(contractId));
+            return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId));
         }
 
         [HttpPost]
@@ -370,17 +432,22 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
             if (!ModelState.IsValid)
             {
                 return View();
             }
+
             var updateResult = await _contractManager.UpdateContractAsync(contactAndPaymentInfo);
+
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
                 TempData[PortalConstants.CurrentAlerts] = updateResult;
+
                 return RedirectToAction("Error", "Info");
             }
-            return RedirectToAction("SummaryAndConfirmation", new {contractId = contactAndPaymentInfo.ContractId});
+
+            return RedirectToAction("SummaryAndConfirmation", new { contractId = contactAndPaymentInfo.ContractId });
         }
 
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)

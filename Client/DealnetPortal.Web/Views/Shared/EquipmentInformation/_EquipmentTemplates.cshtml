@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 <div class="hidden">
   <div id="new-equipment-base" class="new-equipment">
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12 col-md-6">
+      <div class="col-md-3">
         <div class="form-group">
           @Html.LabelFor(m => m.NewEquipment[0].Type)
           @Html.DropDownListFor(m => m.NewEquipment[0].Type,
@@ -27,10 +27,7 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4 loan-col-md-6 equipment-cost-col">
+      <div class="col-md-3">
         <div class="form-group">
           @Html.LabelFor(m => m.NewEquipment[0].Cost)
           <div class="control-group has-addon-left">
@@ -40,16 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 loan-col-md-6 monthly-cost-col">
-        <div class="form-group">
-          @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
-          <div class="control-group has-addon-left">
-            <div class="control-group-addon">$</div>
-            @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type="text", placeholder = Resources.MonthlyCost, @Value = "" })
-            @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new { @class = "text-danger" })
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
+

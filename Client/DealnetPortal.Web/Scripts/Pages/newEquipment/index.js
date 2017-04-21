@@ -137,9 +137,9 @@
             var eSum = equipmentSum(state.equipments);
 
             renderTotalPrice({
-                equipmentSum: eSum,
-                tax: tax({ equipmentSum: eSum, tax: state.tax }),
-                totalPrice: totalPrice({ equipmentSum: eSum, tax: state.tax }),
+                equipmentSum: eSum !== 0 ? eSum : '-',
+                tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
+                totalPrice: eSum !== 0 ? totalPrice({ equipmentSum: eSum, tax: state.tax }) : '-'
             });
 
             optionsToCompute.forEach(function(option) {
@@ -328,7 +328,8 @@
             //$("#loan-term").rules("add", "required");
         }
 
-        var id = 0;
+
+        var id = $('div#new-equipments').find('[id^=new-equipment-]').length;
         var addEquipment = function() {
             var newId = id.toString();
             state.equipments[newId] = {
@@ -339,7 +340,7 @@
             };
 
             var index = Object.keys(state.equipments).length;
-            var newTemplate = equipmentTemplateFactory($('<div></div>'), { index: index, id: id });
+            var newTemplate = equipmentTemplateFactory($('<div></div>'), { id: id });
 
             state.equipments[newId].template = newTemplate;
 
@@ -348,8 +349,6 @@
             newTemplate.find('.glyphicon-remove').on('click', removeEquipment(newId));
 
             $('#new-equipments').append(newTemplate);
-
-            id++;
 
             resetFormValidator("#equipment-form");
         };
