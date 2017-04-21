@@ -8,25 +8,19 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Results;
-using AutoMapper;
+
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Utility;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
-using DealnetPortal.DataAccess.Repositories;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers
 {
-    using Models.Contract.EquipmentInformation;
-
     [Authorize]
     [RoutePrefix("api/Contract")]
     public class ContractController : BaseApiController
@@ -267,6 +261,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = ContractService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -282,6 +277,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = ContractService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -297,6 +293,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {                
                 var result = ContractService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -312,6 +309,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = ContractService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -473,6 +471,21 @@ namespace DealnetPortal.Api.Controllers
             {
                 var submitResult = CustomerFormService.GetCustomerContractInfo(contractId, dealerName);
                 return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("RemoveContract")]
+        [HttpPost]
+        public IHttpActionResult RemoveContract(int contractId)
+        {
+            try
+            {
+                var result = ContractService.RemoveContract(contractId, LoggedInUser?.UserId);
+                return Ok(result);
             }
             catch (Exception ex)
             {

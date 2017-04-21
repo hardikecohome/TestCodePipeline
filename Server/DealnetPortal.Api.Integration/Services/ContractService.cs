@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Practices.ObjectBuilder2;
+
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -38,8 +34,14 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
 
-        public ContractService(IContractRepository contractRepository, IUnitOfWork unitOfWork, 
-            IAspireService aspireService, IAspireStorageService aspireStorageService, ISignatureService signatureService, IMailService mailService, ILoggingService loggingService)
+        public ContractService(
+            IContractRepository contractRepository, 
+            IUnitOfWork unitOfWork, 
+            IAspireService aspireService, 
+            IAspireStorageService aspireStorageService, 
+            ISignatureService signatureService, 
+            IMailService mailService, 
+            ILoggingService loggingService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -1032,6 +1034,42 @@ namespace DealnetPortal.Api.Integration.Services
                     contract.LastUpdateTime = DateTime.Now;
                 }
             }
+        }
+
+        public IList<Alert> RemoveContract(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.DeleteContract(contractOwnerId, contractId))
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot remove contract";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractRemoveFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to remove contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.DocumentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
         }
     }
 }

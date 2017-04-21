@@ -1361,4 +1361,7 @@
   <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
     <value>Your financing application was successfully submitted.</value>
   </data>
+  <data name="AreYouSureYouWantToRemoveThisApplication" xml:space="preserve">
+    <value>Are you sure you want to remove this application</value>
+  </data>
 </root>

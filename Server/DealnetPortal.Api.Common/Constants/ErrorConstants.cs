@@ -12,6 +12,7 @@
         public const string ContractUpdateFailed = "contract_update_failed";
         public const string CreditCheckFailed = "credit_check_failed";
         public const string SubmitFailed = "submit_failed";
+        public const string ContractRemoveFailed = "contract_remove_failed";
 
         public const string EcoreConnectionFailed = "ecore_connection_failed";
 
