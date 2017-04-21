@@ -1,5 +1,11 @@
 <svg width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
+        <symbol id="icon-accept-lead" viewBox="0 0 20 20">
+            <path fill="#5EBE3A" fill-rule="evenodd" d="M11 9V6H9v3H6v2h3v3h2v-3h3V9h-3zM0 10C0 4.477 4.477 0 10 0s10 4.477 10 10-4.477 10-10 10S0 15.523 0 10z"/>
+        </symbol>
+        <symbol id="icon-list-request" viewBox="0 0 20 20">
+            <g fill="#FFF" fill-rule="evenodd"><rect width="12" height="2" x="6" y="13" rx="1"/><rect width="2" height="2" x="2" y="13" rx="1"/><rect width="12" height="2" x="6" y="9" rx="1"/><rect width="2" height="2" x="2" y="9" rx="1"/><rect width="12" height="2" x="6" y="5" rx="1"/><rect width="2" height="2" x="2" y="5" rx="1"/></g>
+        </symbol>
         <symbol id="icon-calculator" viewBox="0 0 20 20">
             <path fill="currentColor" fill-rule="evenodd" d="M5 4.5C5 3.672 5.672 3 6.497 3h7.006C14.33 3 15 3.666 15 4.5V6H5V4.5zM5 8h2v2H5V8zm0 3h2v2H5v-2zm0 3h2v2H6c-.552 0-1-.444-1-1v-1zm4-6h2v2H9V8zm0 3h2v2H9v-2zm0 3h2v2H9v-2zm4-6h2v2h-2V8zm0 3h2v4c0 .552-.444 1-1 1h-1v-5z"/>
         </symbol>

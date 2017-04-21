@@ -204,6 +204,7 @@
     <Compile Include="Controllers\CustomerFormController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\LeadsController.cs" />
     <Compile Include="Controllers\MortgageBrokerController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
@@ -439,6 +440,7 @@
     <Content Include="Content\images\sprite\back-to-top.svg" />
     <Content Include="Content\images\sprite\delete-name.svg" />
     <Content Include="Content\images\sprite\get-location.svg" />
+    <Content Include="Content\images\sprite\icon-accept-lead.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
     <Content Include="Content\images\sprite\icon-audio.svg" />
     <Content Include="Content\images\sprite\icon-calculator.svg" />
@@ -456,6 +458,7 @@
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
     <Content Include="Content\images\sprite\icon-info-well.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
+    <Content Include="Content\images\sprite\icon-list-request.svg" />
     <Content Include="Content\images\sprite\icon-my-deals-side.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
     <Content Include="Content\images\sprite\icon-new-rental-side.svg" />
@@ -464,10 +467,12 @@
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
+    <Content Include="Content\images\sprite\icon-remove-cross.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
+    <Content Include="Content\images\sprite\icon-shareable-link.svg" />
     <Content Include="Content\images\sprite\icon-successfully.svg" />
     <Content Include="Content\images\sprite\icon-successfully1.svg" />
     <Content Include="Content\images\sprite\icon-upload.svg" />
@@ -903,6 +908,7 @@
     <Content Include="Views\MortgageBroker\NewCustomer.cshtml" />
     <Content Include="Views\MortgageBroker\MyCustomers.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
+    <Content Include="Views\Leads\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

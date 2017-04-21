@@ -1,0 +1,267 @@
+﻿<div id="label-steps">
+	<div class="dealnet-action-link">Leads</div> >
+</div>
+
+<div class="expand-filter-template">
+	<div class="reset-form-inline">
+		<div class="row">
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="">@Resources.PostalCode</label>
+					<div class="control-group">
+						<select id="deal-status" class = "form-control select-filter filter-input">
+							<option value="">- not selected -</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-6">
+				<div class="form-group">
+					<label for="">@Resources.DateFrom</label>
+					<div class="control-group date-group">
+						<input type="text" class="form-control date-control filter-input" id="date-from">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-6">
+				<div class="form-group">
+					<label for="">@Resources.DateTo</label>
+					<div class="control-group date-group">
+						<input type="text" class="form-control date-control filter-input" id="date-to">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="">@Resources.PreApprovedFor</label>
+					<div class="control-group">
+						<select id="deal-status" class = "form-control select-filter filter-input">
+							<option value="">- not selected -</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-6 text-right">
+				<div class="form-group">
+					<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="well success-well success-message collapse" id="msg-lead-accepted">
+	<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+	Selected lead was accepted by you. You can find it in @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" }) page.
+</div>
+
+<table id="work-items-table" class="display responsive my-customers-table" width="100%">
+	<thead>
+	<tr>
+		<th class="all date-cell">@Resources.Date</th>
+		<th class="min-mobile">@Resources.PostalCode</th>
+		<th class="min-mobile-l">@Resources.PreApprovedFor</th>
+		<th class="min-tablet">Requested equipment/service</th>
+		<th class="min-tablet">Customer comment</th>
+		<th class="all controls-cell">Accept Lead</th>
+	</tr>
+	</thead>
+</table>
+<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+@section Styles
+{
+@Styles.Render("~/bundles/data-tables-content")
+}
+@section scripts
+{
+@Scripts.Render("~/bundles/data-tables-scripts")
+
+
+<script>
+	$(document).ready(function(){
+		var data = [
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			},
+			{
+				"Date":       "2015/10/01",
+				"PostalCode":   "F3A***",
+				"PreApproved":     "$ 30 000",
+				"RequestedEquipment": "Air Conditioner",
+				"Comment":     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			}
+		];
+		var table = $('#work-items-table')
+			.DataTable({
+				data: data,
+				responsive: {
+					breakpoints: [
+						{ name: 'desktop-lg', width: Infinity },
+						{ name: 'desktop',  width: 1169 },
+						{ name: 'tablet-l',  width: $('body').is('.tablet-device') ? 1025 : 1023 },
+						{ name: 'tablet',  width: 1023 },
+						{ name: 'mobile',   width: 767 },
+						{ name: 'mobile-l',   width: 767 },
+						{ name: 'mobile-p',   width: 480 },
+					]
+				},
+				oLanguage: {
+					"sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+					"oPaginate": {
+						"sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
+						"sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
+					},
+					"sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
+					"sZeroRecords": translations['NoMatchingRecordsFound']
+				},
+				columns: [
+					{ "data": "Date", className: 'contract-cell'},
+					{ "data": "PostalCode", className: '' },
+					{ "data": "PreApproved", className: 'customer-cell' },
+					{ "data": "RequestedEquipment", className: 'status-cell' },
+					{ "data": "Comment", className: 'email-cell' },
+					{// this is Actions Column
+						"render": function (sdata, type, row) {
+							if (row.Id != 0) {
+								return '<div class="contract-controls text-center"><a onclick="addLead()"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
+							} else {
+								return '';
+							}
+						},
+						className: 'controls-cell',
+						orderable: false
+					},
+				],
+				dom:
+				"<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+				"<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+				"<'row'<'col-md-12 col-sm-6'l>>" +
+				"<'row'<'col-md-12''<'#section-before-table'>'>>" +
+				"<'row'<'col-md-12'tr>>" +
+				"<'row'<'col-md-12'p>>" +
+				"<'row'<'col-md-12'i>>",
+				renderer: 'bootstrap',
+				order: []
+			});
+		var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
+		var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
+		$('#table-title').html('<div class="dealnet-large-header">Leads<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+		$('#table-title .icon-search-control').on('click', function () {
+			$(this).toggleClass('active');
+			$('#work-items-table_filter').slideToggle();
+		});
+		$('#table-title .icon-filter-control').on('click', function () {
+			$(this).toggleClass('active');
+			$('#expand-table-filter').slideToggle();
+		});
+		$('#expand-table-filter').html($('.expand-filter-template').detach());
+		$('.filter-button').click(function () {
+			table.draw();
+		});
+		table.on('draw.dt', function(){
+			redrawDataTablesSvgIcons();
+			resetDataTablesExpandedRows(table);
+		});
+		$('#clear-filters').click(function () {
+			$('.filter-input').val("");
+			table.search('').draw();
+		});
+
+	});
+
+	function addLead(){
+		var data = {
+			message: 'Are you sure that you want to accept this lead? In this case you will pay $50.00 fee.',
+			title: 'Accept Lead',
+			confirmBtnText: 'Accept Lead'
+		};
+		dynamicAlertModal(data);
+		$('#confirmAlert').on('click', function(){
+			$('#section-before-table').append($('#msg-lead-accepted'));
+			$('#section-before-table #msg-lead-accepted').show();
+			$('.modal').modal('hide');
+		});
+	}
+</script>
+}
