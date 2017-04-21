@@ -132,6 +132,7 @@
     <Compile Include="Controllers\DictionaryControllerTest.cs" />
     <Compile Include="ESignature\ESignatureServiceAgentTest.cs" />
     <Compile Include="Repositories\BaseRepositoryTest.cs" />
+    <Compile Include="Repositories\RateCardsRepositoryTest.cs" />
     <Compile Include="Repositories\SettingsRepositoryTest.cs" />
     <Compile Include="Repositories\CustomerFormRepositoryTest.cs" />
     <Compile Include="Security\PassworHashTest.cs" />

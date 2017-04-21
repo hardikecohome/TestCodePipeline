@@ -33,27 +33,32 @@ namespace DealnetPortal.Api
 
         public static void RegisterTypes(IUnityContainer container)
         {
-            container.RegisterType<ILoggingService, LoggingService>();
-
             container.RegisterType<IDatabaseFactory, DatabaseFactory>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
 
+            #region Repsoitories
             container.RegisterType<IContractRepository, ContractRepository>();
             container.RegisterType<IFileRepository, FileRepository>();
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
             container.RegisterType<ISettingsRepository, SettingsRepository>();
             container.RegisterType<ICustomerFormRepository, CustomerFormRepository>();
             container.RegisterType<IDealerRepository, DealerRepository>();
-
+            container.RegisterType<IRateCardsRepository, RateCardsRepository>();
+            #endregion
+            #region Services
+            container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IContractService, ContractService>();
             container.RegisterType<ICustomerFormService, CustomerFormService>();
+            container.RegisterType<ISignatureService, SignatureService>();
+            container.RegisterType<IMailService, MailService>();
+            container.RegisterType<IEmailService, EmailService>();
+            container.RegisterType<IRateCardsService, RateCardsService>();
+            #endregion
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
             container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["EcoreApiUrl"]));
-
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
-
             container.RegisterType<IQueriesStorage, QueriesFileStorage>();
             container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
                 new InjectionConstructor(System.Configuration.ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
@@ -62,10 +67,8 @@ namespace DealnetPortal.Api
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));
             container.RegisterType<ISignatureEngine, DocuSignSignatureEngine>();
             container.RegisterType<IPdfEngine, PdfSharpEngine>();
-            //container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
-            container.RegisterType<ISignatureService, SignatureService>();
-            container.RegisterType<IMailService, MailService>();
-            container.RegisterType<IEmailService, EmailService>();
+            
+            
 
         }
     }

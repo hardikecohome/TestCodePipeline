@@ -113,6 +113,8 @@
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IMailService.cs" />
+    <Compile Include="Services\IRateCardsService.cs" />
+    <Compile Include="Services\RateCardsService.cs" />
     <Compile Include="Services\Signature\DocuSignSignatureEngine.cs" />
     <Compile Include="Services\Signature\EcoreSignatureEngine.cs" />
     <Compile Include="Services\Signature\IPdfEngine.cs" />

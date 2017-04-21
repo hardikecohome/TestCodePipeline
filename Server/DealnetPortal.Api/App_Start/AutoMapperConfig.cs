@@ -97,9 +97,34 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<CustomerLink, CustomerLinkDTO>()
                 .ForMember(x => x.EnabledLanguages,
-                    d => d.ResolveUsing(src => src.EnabledLanguages?.Select(l => l.LanguageId).Cast<LanguageCode>().ToList()))
-                .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink))
-                .ForMember(x => x.Services, d => d.ResolveUsing(src => src.Services?.GroupBy(k => k.LanguageId).ToDictionary(ds => (LanguageCode)ds.Key, ds => ds.Select(s => s.Service).ToList())));
+                    d =>
+                        d.ResolveUsing(
+                            src => src.EnabledLanguages?.Select(l => l.LanguageId).Cast<LanguageCode>().ToList()))
+                .ForMember(x => x.HashLink, d => d.MapFrom(s => s.HashLink))
+                .ForMember(x => x.Services,
+                    d =>
+                        d.ResolveUsing(
+                            src =>
+                                src.Services?.GroupBy(k => k.LanguageId)
+                                    .ToDictionary(ds => (LanguageCode) ds.Key, ds => ds.Select(s => s.Service).ToList())));
+            mapperConfig.CreateMap<RateCard, RateCardDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
+                .ForMember(x => x.AdminFee, d => d.MapFrom(s => s.AdminFee))
+                .ForMember(x => x.AmortizationTerm, d => d.MapFrom(s => s.AmortizationTerm))
+                .ForMember(x => x.CardType, d => d.MapFrom(s => s.CardType))
+                .ForMember(x => x.CustomerRate, d => d.MapFrom(s => s.CustomerRate))
+                .ForMember(x => x.DealerCost, d => d.MapFrom(s => s.DealerCost))
+                .ForMember(x => x.DeferralPeriod, d => d.MapFrom(s => s.DeferralPeriod))
+                .ForMember(x => x.LoanTerm, d => d.MapFrom(s => s.LoanTerm))
+                .ForMember(x => x.LoanValueFrom, d => d.MapFrom(s => s.LoanValueFrom))
+                .ForMember(x => x.LoanValueTo, d => d.MapFrom(s => s.LoanValueTo))
+                .ForMember(x => x.ValidFrom, d => d.MapFrom(s => s.ValidFrom))
+                .ForMember(x => x.LoanValueTo, d => d.MapFrom(s => s.ValidTo));
+               
+            mapperConfig.CreateMap<Tier, TierDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
+                .ForMember(x=>x.Name, d=>d.MapFrom(s=>s.Name))
+                .ForMember(x=>x.RateCards, d=>d.MapFrom(s=>s.RateCards));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
