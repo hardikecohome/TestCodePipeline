@@ -95,6 +95,7 @@ namespace DealnetPortal.Web.Infrastructure
             var equipmentInfo = new EquipmentInformationViewModelNew()
             {
                 ContractId = contractId,
+                DealerTier = await _contractServiceAgent.GetDealerTier()
             };
 
             if (result.Item1.Equipment != null)

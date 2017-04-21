@@ -94,6 +94,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public decimal? CreditAmount { get; set; }
 
         public double? ValueOfDeal { get; set; }
+
+        public TierDTO DealerTier { get; set; }
     }
 
     public class EquipmentInformationViewModel

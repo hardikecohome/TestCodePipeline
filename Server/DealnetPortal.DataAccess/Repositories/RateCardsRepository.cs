@@ -17,7 +17,10 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public Tier GetTierByDealerId(string id)
         {
-            var dealer = base.GetUserById(id);
+            var dealer = _dbContext.Users
+                .Include(x => x.Tier)
+                .Include(x => x.Tier.RateCards)
+                .SingleOrDefault(u => u.Id == id);
             return dealer.Tier;
         }
     }
