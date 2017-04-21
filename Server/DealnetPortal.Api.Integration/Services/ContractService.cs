@@ -107,6 +107,21 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
 
                     _contractRepository.UpdateCustomerData(updatedContract.PrimaryCustomer.Id, customer, null, null, null);
+                    
+                    //Start credit check for this contract
+                    var creditCheckAlerts = new List<Alert>();
+                    var initAlerts = InitiateCreditCheck(updatedContract.Id, contractOwnerId);
+                    if (initAlerts?.Any() ?? false)
+                    {
+                        creditCheckAlerts.AddRange(initAlerts);
+                    }
+                    var checkResult = GetCreditCheckResult(updatedContract.Id, contractOwnerId);
+                    if (checkResult != null)
+                    {
+                        creditCheckAlerts.AddRange(checkResult.Item2); 
+                    }
+                    if (creditCheckAlerts.Any(x => x.Type == AlertType.Error)) { return false; }
+
                     if (updatedContract.Details != null && newCustomer.CustomerComment != null)
                     {
                         if (string.IsNullOrEmpty(updatedContract.Details.Notes))
@@ -118,6 +133,7 @@ namespace DealnetPortal.Api.Integration.Services
                             updatedContract.Details.Notes += newCustomer.CustomerComment;
                         }
                     }
+                    updatedContract.IsCreatedByBroker = true;
                     _unitOfWork.Save();
 
                     if (updatedContract.PrimaryCustomer != null)
