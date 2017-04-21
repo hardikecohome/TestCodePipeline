@@ -218,7 +218,7 @@
                             @if ((User as ClaimsPrincipal)?.HasClaim("ShowMyCustomers", "True") ?? false)
                             {
                                 <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg></span>
+                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account")"></use></svg></span>
                                     @Html.ActionLink(Resources.MyCustomers, "MyCustomers", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                 </li>
                             }

@@ -170,7 +170,8 @@ html.ie9{
 }
 
 
-.custom-checkbox{
+.custom-checkbox,
+.custom-radio{
   position: relative;
   min-height: 20px;
   min-width: 20px;
@@ -178,7 +179,8 @@ html.ie9{
   &.set-margin{
     margin: 20px 0;
   }
-  input[type="checkbox"]{
+  input[type="checkbox"],
+  input[type="radio"]{
     position: absolute;
     width: 0;
     height: 0;
@@ -189,7 +191,8 @@ html.ie9{
       }
     }
   }
-  .checkbox-icon{
+  .checkbox-icon,
+  .custom-radio-icon{
     position: absolute;
     top: 3px;
     left: 0;
@@ -211,6 +214,35 @@ html.ie9{
   }
 
 }
+
+.custom-radio {
+  input:checked ~ .custom-radio-icon{
+    &:before{
+      display: block;
+    }
+  }
+  .custom-radio-icon{
+    border-radius: 10px;
+    width: 12px;
+    height: 12px;
+    box-shadow: 0 0 2px 1px rgba(112, 112, 112, 0.05);
+    top: 4px;
+    &:before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      margin: 2px;
+      background: @btn-success-bg;
+      border-radius: inherit;
+      display: none;
+    }
+  }
+}
+
+
 .validation-summary-errors{
   ul{
     padding: 0;

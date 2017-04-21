@@ -456,6 +456,7 @@
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
     <Content Include="Content\images\sprite\icon-info-well.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
+    <Content Include="Content\images\sprite\icon-my-account.svg" />
     <Content Include="Content\images\sprite\icon-my-deals-side.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
     <Content Include="Content\images\sprite\icon-new-rental-side.svg" />
@@ -464,10 +465,12 @@
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
+    <Content Include="Content\images\sprite\icon-remove-cross.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
+    <Content Include="Content\images\sprite\icon-shareable-link.svg" />
     <Content Include="Content\images\sprite\icon-successfully.svg" />
     <Content Include="Content\images\sprite\icon-successfully1.svg" />
     <Content Include="Content\images\sprite\icon-upload.svg" />
