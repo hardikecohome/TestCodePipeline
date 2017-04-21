@@ -1195,6 +1195,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Defferal.
+        /// </summary>
+        public static string Defferal {
+            get {
+                return ResourceManager.GetString("Defferal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Define your equipment/service.
         /// </summary>
         public static string DefineYourEquipmentService {
@@ -1569,6 +1578,15 @@ namespace DealnetPortal.Web.Resources {
         public static string FirstNameIncorrectFormat {
             get {
                 return ResourceManager.GetString("FirstNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fixed Rate.
+        /// </summary>
+        public static string FixedRate {
+            get {
+                return ResourceManager.GetString("FixedRate", resourceCulture);
             }
         }
         
@@ -2334,6 +2352,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NoDeferral {
             get {
                 return ResourceManager.GetString("NoDeferral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Interest.
+        /// </summary>
+        public static string NoInterest {
+            get {
+                return ResourceManager.GetString("NoInterest", resourceCulture);
             }
         }
         

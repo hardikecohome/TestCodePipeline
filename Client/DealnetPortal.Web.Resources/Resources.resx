@@ -1364,4 +1364,13 @@
   <data name="AreYouSureYouWantToRemoveThisApplication" xml:space="preserve">
     <value>Are you sure you want to remove this application</value>
   </data>
+  <data name="Defferal" xml:space="preserve">
+    <value>Defferal</value>
+  </data>
+  <data name="FixedRate" xml:space="preserve">
+    <value>Fixed Rate</value>
+  </data>
+  <data name="NoInterest" xml:space="preserve">
+    <value>No Interest</value>
+  </data>
 </root>

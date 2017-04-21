@@ -497,7 +497,6 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("GetDealerTier")]
         [HttpGet]
-        // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}
         [AllowAnonymous]
         public IHttpActionResult GetDealerTier()
         {
