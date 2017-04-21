@@ -13,6 +13,6 @@ namespace DealnetPortal.Web.Common.Constants
         public const string LogoImage2X = "LogoImage2X";
         public const string Favicon = "Favicon";
 
-        public const int MaxAdditionalApplicants = 3;
+        public const int MaxAdditionalApplicants = 1;
     }
 }
