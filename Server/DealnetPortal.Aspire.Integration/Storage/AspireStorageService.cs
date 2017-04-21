@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Models.Aspire.AspireDb;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Contract.EquipmentInformation;
-using DealnetPortal.DataAccess;
-using DealnetPortal.Utilities;
+using DealnetPortal.Aspire.Integration.Models.AspireDb;
+using DealnetPortal.Aspire.Integration.Services;
 using DealnetPortal.Utilities.Logging;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Aspire.Integration.Storage
 {
     public class AspireStorageService : IAspireStorageService
     {

@@ -1,4 +1,4 @@
-﻿namespace DealnetPortal.Api.Models.Aspire.AspireDb
+﻿namespace DealnetPortal.Aspire.Integration.Models.AspireDb
 {
     public class DropDownItem
     {

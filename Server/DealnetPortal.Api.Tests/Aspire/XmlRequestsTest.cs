@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.ServiceAgents;
-using DealnetPortal.Api.Models.Aspire;
+using DealnetPortal.Aspire.Integration.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DealnetPortal.Api.Tests.Aspire

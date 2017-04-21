@@ -42,19 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBindingModels.cs" />
-    <Compile Include="Aspire\AspireDb\GenericSubDealer.cs" />
-    <Compile Include="Aspire\CreditCheckRequest.cs" />
-    <Compile Include="Aspire\CreditCheckResponse.cs" />
-    <Compile Include="Aspire\CustomerRequest.cs" />
-    <Compile Include="Aspire\DealUploadRequest.cs" />
-    <Compile Include="Aspire\DealUploadResponse.cs" />
-    <Compile Include="Aspire\DecisionCustomerResponse.cs" />
-    <Compile Include="Aspire\DecisionLoginResponse.cs" />
-    <Compile Include="Aspire\DocumentUploadRequest.cs" />
-    <Compile Include="Aspire\DocumentUploadResponse.cs" />
-    <Compile Include="Aspire\AspireDb\DropDownItem.cs" />
-    <Compile Include="Aspire\Header.cs" />
-    <Compile Include="Aspire\Payload.cs" />
     <Compile Include="Contract\ApplicationUserDTO.cs" />
     <Compile Include="Contract\CommentDTO.cs" />
     <Compile Include="Contract\ContractDataDTO.cs" />

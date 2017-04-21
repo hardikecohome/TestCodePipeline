@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DealnetPortal.Api.Models.Aspire.AspireDb;
 
 namespace DealnetPortal.Api.Models.Contract
 {

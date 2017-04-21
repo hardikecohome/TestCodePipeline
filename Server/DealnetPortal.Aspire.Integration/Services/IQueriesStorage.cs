@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace DealnetPortal.DataAccess
+namespace DealnetPortal.Aspire.Integration.Services
 {
     /// <summary>
     /// Get sql query by name

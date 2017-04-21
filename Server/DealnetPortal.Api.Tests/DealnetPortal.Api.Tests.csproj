@@ -194,6 +194,10 @@
       <Project>{B71FAE74-16C0-4380-B747-7EAD31D64062}</Project>
       <Name>DealnetPortal.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Aspire.Integration\DealnetPortal.Aspire.Integration.csproj">
+      <Project>{70E5423B-4DDD-4711-B56E-A28A0BBE473F}</Project>
+      <Name>DealnetPortal.Aspire.Integration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.DataAccess\DealnetPortal.DataAccess.csproj">
       <Project>{5981D1A4-2F9D-4438-947B-4BE667530BFC}</Project>
       <Name>DealnetPortal.DataAccess</Name>

@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace DealnetPortal.Api.Models.Aspire
+namespace DealnetPortal.Aspire.Integration.Models
 {
     [Serializable]
     public class Payload

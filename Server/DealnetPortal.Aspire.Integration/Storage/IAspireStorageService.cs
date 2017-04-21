@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Models.Aspire.AspireDb;
-using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Models.AspireDb;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Aspire.Integration.Storage
 {
     public interface IAspireStorageService
     {
