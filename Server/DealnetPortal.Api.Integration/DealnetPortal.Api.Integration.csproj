@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\AspireService.cs" />
-    <Compile Include="Services\AspireStorageService.cs" />
     <Compile Include="Services\ContractService.cs" />
     <Compile Include="ServiceAgents\ESignature\ECoreTypes.cs" />
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\ResponseTypes.cs" />
@@ -105,7 +104,6 @@
     <Compile Include="Services\CustomerFormService.cs" />
     <Compile Include="Services\EmailMailgunService.cs" />
     <Compile Include="Services\IAspireService.cs" />
-    <Compile Include="Services\IAspireStorageService.cs" />
     <Compile Include="Services\IContractService.cs" />
     <Compile Include="Services\ICustomerFormService.cs" />
     <Compile Include="Services\ImageScanService.cs" />

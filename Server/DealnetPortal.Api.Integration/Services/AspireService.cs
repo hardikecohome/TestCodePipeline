@@ -26,7 +26,7 @@ namespace DealnetPortal.Api.Integration.Services
     public class AspireService : IAspireService
     {
         private readonly IAspireServiceAgent _aspireServiceAgent;
-        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -37,10 +37,10 @@ namespace DealnetPortal.Api.Integration.Services
         private const string CodeSuccess = "T000";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
-            IUnitOfWork unitOfWork, IAspireStorageService aspireStorageService, ILoggingService loggingService)
+            IUnitOfWork unitOfWork, IAspireStorageReader aspireStorageReader, ILoggingService loggingService)
         {
             _aspireServiceAgent = aspireServiceAgent;
-            _aspireStorageService = aspireStorageService;
+            _aspireStorageReader = aspireStorageReader;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
@@ -767,7 +767,7 @@ namespace DealnetPortal.Api.Integration.Services
                         c.Locations?.FirstOrDefault()?.PostalCode;
                     try
                     {                    
-                        var aspireCustomer = _aspireStorageService.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth, postalCode);
+                        var aspireCustomer = AutoMapper.Mapper.Map<CustomerDTO>(_aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth, postalCode));
                         if (aspireCustomer != null)
                         {
                             account.ClientId = aspireCustomer.AccountId?.Trim();
@@ -901,7 +901,7 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {                
                     var subDealers =
-                        _aspireStorageService.GetSubDealersList(contract.Dealer.AspireLogin ?? contract.Dealer.UserName);
+                        _aspireStorageReader.GetSubDealersList(contract.Dealer.AspireLogin ?? contract.Dealer.UserName);
                     var sbd = subDealers?.FirstOrDefault(sd => sd.SubmissionValue == contract.ExternalSubDealerId);
                     if (sbd != null)
                     {

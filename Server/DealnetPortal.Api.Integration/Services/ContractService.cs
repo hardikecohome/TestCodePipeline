@@ -30,15 +30,15 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
-        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
 
         public ContractService(
             IContractRepository contractRepository, 
             IUnitOfWork unitOfWork, 
-            IAspireService aspireService, 
-            IAspireStorageService aspireStorageService, 
+            IAspireService aspireService,
+            IAspireStorageReader aspireStorageReader, 
             ISignatureService signatureService, 
             IMailService mailService, 
             ILoggingService loggingService)
@@ -47,7 +47,7 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _aspireService = aspireService;
-            _aspireStorageService = aspireStorageService;
+            _aspireStorageReader = aspireStorageReader;
             _signatureService = signatureService;
             _mailService = mailService;
         }
@@ -841,7 +841,7 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     //var deals = _aspireStorageService.GetDealerDeals(user.DisplayName);
-                    var deals = _aspireStorageService.GetDealerDeals(user.UserName);
+                    var deals = Mapper.Map<IList<ContractDTO>>(_aspireStorageReader.GetDealerDeals(user.UserName));
                     if (deals?.Any() ?? false)
                     {
                         //skip deals that already in DB                        

@@ -234,8 +234,9 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.IsInitialCustomer, s => s.Ignore());
                 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, DealerDTO>()
-                .IncludeBase<Aspire.Integration.Models.AspireDb.Entity, CustomerDTO>()
-                .ForMember(d => d.ParentDealerUserName, s => s.MapFrom(src => src.ParentUserName));
+                .IncludeBase<Entity, CustomerDTO>()
+                .ForMember(d => d.ParentDealerUserName, s => s.MapFrom(src => src.ParentUserName))
+                .ForMember(d => d.FirstName, s => s.MapFrom(src => src.FirstName ?? src.Name));
 
         }
 

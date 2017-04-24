@@ -12,6 +12,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services.Signature;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
@@ -35,7 +36,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IFileRepository _fileRepository;
         private readonly IDealerRepository _dealerRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IAspireStorageReader _aspireStorageReader;
 
         private readonly string _eCoreSignatureRole;
         private readonly string _eCoreAgreementTemplate;
@@ -50,7 +51,7 @@ namespace DealnetPortal.Api.Integration.Services
             IContractRepository contractRepository,
             IFileRepository fileRepository, 
             IUnitOfWork unitOfWork, 
-            IAspireStorageService aspireStorageService,
+            IAspireStorageReader aspireStorageReader,
             ILoggingService loggingService, 
             IDealerRepository dealerRepository)
         {
@@ -62,7 +63,7 @@ namespace DealnetPortal.Api.Integration.Services
             _dealerRepository = dealerRepository;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
-            _aspireStorageService = aspireStorageService;
+            _aspireStorageReader = aspireStorageReader;
 
             _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
             _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
@@ -1515,14 +1516,14 @@ namespace DealnetPortal.Api.Integration.Services
                 TimeSpan aspireRequestTimeout = TimeSpan.FromSeconds(5);
                 Task timeoutTask = Task.Delay(aspireRequestTimeout);
                 var aspireRequestTask =
-                    Task.Run(() => _aspireStorageService.GetDealerInfo(contract?.Dealer.AspireLogin));
+                    Task.Run(() => _aspireStorageReader.GetDealerInfo(contract?.Dealer.AspireLogin));
 
                 try
                 {
                     if (Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false).GetAwaiter().GetResult() ==
                         aspireRequestTask)
                     {
-                        var dealerInfo = aspireRequestTask.Result;
+                        var dealerInfo = AutoMapper.Mapper.Map<DealerDTO>(aspireRequestTask.Result);
 
                         if (dealerInfo != null)
                         {
