@@ -30,7 +30,7 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerFormRepository _customerFormRepository;
-        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IMailService _mailService;
         private readonly ISettingsRepository _settingsRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -40,12 +40,12 @@ namespace DealnetPortal.Api.Integration.Services
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository,
             IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IContractService contractService,
-            ILoggingService loggingService, IMailService mailService, IAspireStorageService aspireStorageService)
+            ILoggingService loggingService, IMailService mailService, IAspireStorageReader aspireStorageReader)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
             _dealerRepository = dealerRepository;
-            _aspireStorageService = aspireStorageService;
+            _aspireStorageReader = aspireStorageReader;
             _settingsRepository = settingsRepository;
             _mailService = mailService;
             _unitOfWork = unitOfWork;
@@ -174,7 +174,7 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         //get dealer info
-                        var dealer = _aspireStorageService.GetDealerInfo(dealerName);
+                        var dealer = Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(dealerName));
                         if (dealer != null)
                         {
                             contractInfo.DealerName = dealer.FirstName;

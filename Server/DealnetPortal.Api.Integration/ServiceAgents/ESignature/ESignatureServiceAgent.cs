@@ -24,7 +24,6 @@ using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWe
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;

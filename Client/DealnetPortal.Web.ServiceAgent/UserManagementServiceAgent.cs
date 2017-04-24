@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Aspire;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;
