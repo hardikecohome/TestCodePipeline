@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace DealnetPortal.Aspire.Integration.Services
+namespace DealnetPortal.Utilities.DataAccess
 {
     public interface IDatabaseService
     {

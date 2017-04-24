@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Models;
+using DealnetPortal.Aspire.Integration.ServiceAgents;
+using DealnetPortal.DataAccess;
+using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
-using Application = DealnetPortal.Api.Models.Aspire.Application;
+using Microsoft.Practices.ObjectBuilder2;
+using Application = DealnetPortal.Aspire.Integration.Models.Application;
 
 namespace DealnetPortal.Api.Integration.Services
 {

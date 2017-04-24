@@ -12,6 +12,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Api.Models.UserSettings;
+using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -36,6 +37,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(x => x.SubDealers, o => o.Ignore())
                 .ForMember(x => x.UdfSubDealers, d => d.Ignore());
+            mapperConfig.CreateMap<GenericSubDealer, SubDealerDTO>();
             mapperConfig.CreateMap<Location, LocationDTO>();
             mapperConfig.CreateMap<Phone, PhoneDTO>()
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));

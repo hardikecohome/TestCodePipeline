@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
-using DealnetPortal.Aspire.Integration.Services;
+using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
 
-namespace DealnetPortal.Aspire.Integration.Storage
+namespace DealnetPortal.Api.Integration.Services
 {
     public class AspireStorageService : IAspireStorageService
     {

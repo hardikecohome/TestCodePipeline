@@ -15,6 +15,6 @@ namespace DealnetPortal.Api.Models.Contract
         /// <summary>
         /// Sub-dealers from aspire tables
         /// </summary>
-        public IList<GenericSubDealer> UdfSubDealers { get; set; }
+        public IList<SubDealerDTO> UdfSubDealers { get; set; }
     }
 }

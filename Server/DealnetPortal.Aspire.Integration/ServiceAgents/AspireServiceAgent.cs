@@ -1,4 +1,7 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
+using DealnetPortal.Api.Core.ApiClient;
+using DealnetPortal.Aspire.Integration.Models;
 
 namespace DealnetPortal.Aspire.Integration.ServiceAgents
 {

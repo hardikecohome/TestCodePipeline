@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DealnetPortal.Aspire.Integration.Services
+namespace DealnetPortal.Utilities.DataAccess
 {
     /// <summary>
     /// Get sql query by name

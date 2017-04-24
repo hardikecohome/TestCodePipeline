@@ -1,5 +1,6 @@
 ﻿using System;
 using DealnetPortal.DataAccess;
+using DealnetPortal.Utilities.DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DealnetPortal.Api.Tests.Services
@@ -12,7 +13,7 @@ namespace DealnetPortal.Api.Tests.Services
         [TestInitialize]
         public void Intialize()
         {
-            _queriesStorage = new QueriesFileStorage();
+            _queriesStorage = new QueriesFileStorage("Queries");
         }
 
         [TestMethod]

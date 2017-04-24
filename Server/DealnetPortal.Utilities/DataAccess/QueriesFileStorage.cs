@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 
-namespace DealnetPortal.Aspire.Integration.Services
+namespace DealnetPortal.Utilities.DataAccess
 {
     public class QueriesFileStorage : IQueriesStorage
     {
         private Dictionary<string, string> _sqlQueries;
+        private string _queriesFolder;
 
-        public QueriesFileStorage()
+        public QueriesFileStorage(string queriesFolder = null)
         {
-            var folderName = ConfigurationManager.AppSettings["QueriesFolder"] ?? "Queries";
-            var folder = HostingEnvironment.MapPath($"~/{folderName}") ?? folderName;
-            _sqlQueries = ReadQueries(folder);
+            _queriesFolder = queriesFolder;            
+            _sqlQueries = ReadQueries(_queriesFolder);
         }
 
         public Dictionary<string, string> Queries => _sqlQueries;        

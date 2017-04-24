@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 
-namespace DealnetPortal.Aspire.Integration.Services
+namespace DealnetPortal.Utilities.DataAccess
 {
     public class MsSqlDatabaseService : IDatabaseService
     {

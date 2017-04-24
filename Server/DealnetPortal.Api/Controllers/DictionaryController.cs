@@ -171,7 +171,7 @@ namespace DealnetPortal.Api.Controllers
 
                 try
                 {                
-                    dealerDto.UdfSubDealers = AspireStorageService.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName);
+                    dealerDto.UdfSubDealers = Mapper.Map<IList<SubDealerDTO>>(AspireStorageService.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName));
                 }
                 catch (Exception ex)
                 {

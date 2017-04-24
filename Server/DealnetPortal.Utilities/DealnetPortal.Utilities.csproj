@@ -47,6 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IDatabaseService.cs" />
+    <Compile Include="DataAccess\IQueriesStorage.cs" />
+    <Compile Include="DataAccess\MsSqlDatabaseService.cs" />
+    <Compile Include="DataAccess\QueriesFileStorage.cs" />
     <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Logging\LoggingService.cs" />
     <Compile Include="Messaging\EmailService.cs" />
