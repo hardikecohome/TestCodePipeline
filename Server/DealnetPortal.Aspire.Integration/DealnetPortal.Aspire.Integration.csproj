@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AspireDb\Contract.cs" />
     <Compile Include="Models\AspireDb\DropDownItem.cs" />
+    <Compile Include="Models\AspireDb\Entity.cs" />
     <Compile Include="Models\AspireDb\GenericSubDealer.cs" />
     <Compile Include="Models\CreditCheckRequest.cs" />
     <Compile Include="Models\CreditCheckResponse.cs" />
@@ -59,6 +61,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAgents\AspireServiceAgent.cs" />
     <Compile Include="ServiceAgents\IAspireServiceAgent.cs" />
+    <Compile Include="Storage\AspireStorageReader.cs" />
+    <Compile Include="Storage\IAspireStorageReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Api.Core\DealnetPortal.Api.Core.csproj">
@@ -73,7 +77,6 @@
   <ItemGroup>
     <Folder Include="API\" />
     <Folder Include="Services\" />
-    <Folder Include="Storage\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
