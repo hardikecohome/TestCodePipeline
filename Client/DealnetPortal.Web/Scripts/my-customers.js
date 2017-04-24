@@ -47,11 +47,13 @@ function showTable() {
                     },
                     columns: [
 				        { "data": "TransactionId", className: 'contract-cell' },
-				        { "data": "Date", className: '' },
+				        { "data": "Date", className: 'date-cell' },
 				        { "data": "CustomerName", className: 'customer-cell' },
 				        { "data": "Status", className: 'status-cell' },
 				        { "data": "Email", className: 'email-cell' },
-				        { "data": "Phone", className: 'phone-cell' }
+				        { "data": "Phone", className: 'phone-cell' },
+				        { "data": "Improvement", className: 'improvement-cell' },
+				        { "data": "SalesAgent", className: 'email-cell' },
                     ],
                     dom:
 			            "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +

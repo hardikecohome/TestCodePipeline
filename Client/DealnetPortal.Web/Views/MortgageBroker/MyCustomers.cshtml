@@ -7,7 +7,7 @@
 		<div class="row">
 			<div class="col-md-3 col-sm-3 ">
 				<div class="form-group">
-                    <a class="btn dealnet-button dealnet-success-button block-button" href="@Url.Action("NewCustomer", "MortgageBroker")">
+                    <a class="btn dealnet-button dealnet-success-button block-button add-customer-btn" href="@Url.Action("NewCustomer", "MortgageBroker")">
                         <span class="button-inner">
                             <span>+ @Resources.AddCustomer</span>
                         </span>
@@ -40,8 +40,18 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="">Sales agent</label>
+					<div class="control-group">
+						<select id="" class="form-control select-filter filter-input">
+							<option value="">- not selected-</option>
+						</select>
+					</div>
+				</div>
+			</div>
 
-			<div class="col-md-offset-3 col-md-2 col-sm-6 text-right">
+			<div class="col-md-offset-0 col-md-2 col-sm-offset-6 col-sm-6 text-right">
 				<div class="form-group">
 					<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
 				</div>
@@ -54,11 +64,13 @@
 	<thead>
 		<tr>
 			<th class="all contract-cell">@Resources.Contract&nbsp;#</th>
-			<th class="all customer-cell">@Resources.AddedOn</th>
+			<th class="all data-cell">@Resources.AddedOn</th>
 			<th class="all customer-cell">@Resources.Customer</th>
 			<th class="min-mobile-l status-cell">@Resources.Status</th>
 			<th class="min-desktop email-cell">@Resources.Email</th>
 			<th class="min-desktop phone-cell">@Resources.Phone</th>
+			<th class="min-desktop improvement-cell">Home improvement</th>
+			<th class="min-desktop email-cell">Sales agent</th>
 		</tr>
 	</thead>
 </table>
