@@ -1385,4 +1385,25 @@
   <data name="NewCustomer" xml:space="preserve">
     <value>New Customer</value>
   </data>
+  <data name="AcceptLead" xml:space="preserve">
+    <value>Accept Lead</value>
+  </data>
+  <data name="CustomerComment" xml:space="preserve">
+    <value>Customer comment</value>
+  </data>
+  <data name="Leads" xml:space="preserve">
+    <value>Leads</value>
+    <comment>It's noun in plural</comment>
+  </data>
+  <data name="LeadWasAcceptedYouCanFind" xml:space="preserve">
+    <value>Selected lead was accepted by you. You can find it in {0} page.</value>
+    <comment>Context: Selected lead was accepted by you. You can find it in My Deals page.</comment>
+  </data>
+  <data name="RequestedEquipmentService" xml:space="preserve">
+    <value>Requested equipment/service</value>
+  </data>
+  <data name="YouSureYouWantToAcceptLeadThenYouPay" xml:space="preserve">
+    <value>Are you sure that you want to accept this lead? In this case you will pay ${0} fee.</value>
+    <comment>Context: In this case you will pay $50 fee.</comment>
+  </data>
 </root>

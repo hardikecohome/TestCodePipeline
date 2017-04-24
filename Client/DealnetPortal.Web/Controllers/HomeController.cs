@@ -111,5 +111,14 @@ namespace DealnetPortal.Web.Controllers
 
             return this.Json(contractsVms, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetWorkOffers()
+        {
+            var contracts = (await _contractServiceAgent.GetContractsOffers()).OrderByDescending(x => x.LastUpdateTime).ToList();
+            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);           
+
+            return Json(contractsVms, JsonRequestBehavior.AllowGet);
+        }
     }
 }

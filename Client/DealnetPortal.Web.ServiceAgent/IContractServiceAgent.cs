@@ -41,6 +41,8 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<ContractDTO>> GetCompletedContracts();
 
+        Task<IList<ContractDTO>> GetContractsOffers();
+
         Task<Tuple<IList<ContractDTO>, IList<Alert>>> GetContracts(IEnumerable<int> ids);
 
         Task<IList<Alert>> NotifyContractEdit(int contractId);
@@ -142,6 +144,6 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName);
 
-        Task<Tuple<int?, IList<Alert>>> SubmitNewCustomer(NewCustomerDTO customerForm);
+        Task<IList<Alert>> CreateContractForCustomer(NewCustomerDTO customerForm);
     }
 }

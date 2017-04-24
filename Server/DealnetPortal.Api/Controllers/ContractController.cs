@@ -496,20 +496,35 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("SubmitNewCustomer")]
+        [Route("CreateContractForCustomer")]
         [HttpPost]
-        [AllowAnonymous]
-        public IHttpActionResult SubmitNewCustomer(NewCustomerDTO customerFormData)
+        public async Task<IHttpActionResult> CreateContractForCustomer(NewCustomerDTO customerFormData)
         {
+            var alerts = new List<Alert>();
             try
             {
-                //TODO
-                return Ok();
+                var creationResult = await ContractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
+                if (creationResult)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractCreateFailed,
+                        Message = $"Failed to create contract for a user [{LoggedInUser?.UserId}]"
+                    });
+                }
+                return Ok(alerts);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.ContractCreateFailed,
+                    Message = ex.ToString()
+                });
             }
+            return Ok(alerts);
         }        
     }
 }

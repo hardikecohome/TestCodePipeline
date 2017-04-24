@@ -1,0 +1,98 @@
+﻿<div id="label-steps">
+	<div class="dealnet-action-link">@Resources.Leads</div> >
+</div>
+
+<div class="expand-filter-template">
+	<div class="reset-form-inline">
+		<div class="row">
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="">@Resources.PostalCode</label>
+					<div class="control-group">
+						<select id="postal-code" class="form-control select-filter filter-input"></select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-6">
+				<div class="form-group">
+					<label for="">@Resources.DateFrom</label>
+					<div class="control-group date-group">
+						<input type="text" class="form-control date-control filter-input" id="date-from">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-6">
+				<div class="form-group">
+					<label for="">@Resources.DateTo</label>
+					<div class="control-group date-group">
+						<input type="text" class="form-control date-control filter-input" id="date-to">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="">@Resources.PreApprovedFor</label>
+					<div class="control-group">
+						<select id="pre-approved-for" class="form-control select-filter filter-input"></select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-6 text-right">
+				<div class="form-group">
+					<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@{
+    var wasAcceptedResource = Resources.LeadWasAcceptedYouCanFind.Split(new[] { "{0}" }, StringSplitOptions.None);
+}
+<div class="well success-well success-message collapse" id="msg-lead-accepted">
+    <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+    @if (wasAcceptedResource.Length >= 2)
+    {
+        @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
+    }
+</div>
+
+<table id="work-items-table" class="display responsive my-customers-table" width="100%">
+    <thead>
+    <tr>
+        <th class="all date-cell">@Resources.Date</th>
+        <th class="min-mobile">@Resources.PostalCode</th>
+        <th class="min-mobile-l">@Resources.PreApprovedFor</th>
+        <th class="min-tablet">@Resources.RequestedEquipmentService</th>
+        <th class="min-tablet">@Resources.CustomerComment</th>
+        <th class="all controls-cell">@Resources.AcceptLead</th>
+    </tr>
+    </thead>
+</table>
+
+@section Translations
+{
+    translations['NotSelected'] = "@Resources.NotSelected";
+    translations['Search'] = "@Resources.Search";
+    translations['Show'] = "@Resources.Show";
+    translations['Entries'] = "@Resources.Entries";
+    translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+    translations['Leads'] = "@Resources.Leads";
+    translations['AcceptLead'] = "@Resources.AcceptLead";
+    translations['YouSureYouWantToAcceptLeadThenYouPay'] = "@Resources.YouSureYouWantToAcceptLeadThenYouPay.Replace("{0}", "50")"; //Replace fee value here.
+}
+
+<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+@section Styles
+{
+    @Styles.Render("~/bundles/data-tables-content")
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+    </script>
+    @Scripts.Render("~/bundles/data-tables-scripts")
+    @Scripts.Render("~/bundles/leads")
+}

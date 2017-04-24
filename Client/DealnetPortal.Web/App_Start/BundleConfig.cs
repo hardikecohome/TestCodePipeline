@@ -70,6 +70,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/print-contract.js").Include("~/Scripts/agreement-submit-success.js"));
             bundles.Add(new ScriptBundle("~/bundles/my-deals").Include("~/Scripts/datejs.js").Include("~/Scripts/my-deals.js"));
             bundles.Add(new ScriptBundle("~/bundles/my-customers").Include("~/Scripts/datejs.js").Include("~/Scripts/my-customers.js"));
+            bundles.Add(new ScriptBundle("~/bundles/leads").Include("~/Scripts/datejs.js").Include("~/Scripts/leads.js"));
             bundles.Add(new ScriptBundle("~/bundles/reports").Include("~/Scripts/datejs.js").Include("~/Scripts/reports.js"));
             bundles.Add(new ScriptBundle("~/bundles/contract-edit").Include("~/Scripts/datejs.js").Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js").Include("~/Scripts/print-contract.js")
