@@ -14,12 +14,12 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class UsersService : IUsersService
     {
-        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly List<string> _mortgageBrokers = new List<string>() {"user@user.com", "enertech"};
 
-        public UsersService(IAspireStorageService aspireStorageService)
+        public UsersService(IAspireStorageReader aspireStorageReader)
         {
-            _aspireStorageService = aspireStorageService;
+            _aspireStorageReader = aspireStorageReader;
         }
 
         public IEnumerable<Claim> GetUserClaims(ApplicationUser user)

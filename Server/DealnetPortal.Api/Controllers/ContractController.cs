@@ -523,8 +523,7 @@ namespace DealnetPortal.Api.Controllers
                 });
             }
             return Ok(alerts);
-        }        
-        }
+        }                
 
         [Route("RemoveContract")]
         [HttpPost]
