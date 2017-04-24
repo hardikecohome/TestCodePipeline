@@ -220,6 +220,7 @@
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
+    <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
     <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
@@ -813,6 +814,7 @@
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
     <Content Include="Scripts\Pages\newEquipment\index.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards.js" />
     <Content Include="Scripts\Pages\newEquipment\template.js" />
     <Content Include="Scripts\standalone-calculator.js" />
     <Content Include="Scripts\Utils\financial-functions.js" />
@@ -910,7 +912,7 @@
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_Defferal.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
   </ItemGroup>

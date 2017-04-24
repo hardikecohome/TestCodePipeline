@@ -13,7 +13,7 @@ namespace DealnetPortal.Api.Common.Enumeration
         FixedRate = 0,
         [Display(ResourceType = typeof(Resources.Resources), Name = "NoInterest")]
         NoInterest = 1,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Defferal")]
-        Defferal = 2
+        [Display(ResourceType = typeof(Resources.Resources), Name = "Deferral")]
+        Deferral = 2
     }
 }

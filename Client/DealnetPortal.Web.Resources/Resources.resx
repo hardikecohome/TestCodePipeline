@@ -1373,4 +1373,8 @@
   <data name="NoInterest" xml:space="preserve">
     <value>No Interest</value>
   </data>
+  <data name="FormatMonth" xml:space="preserve">
+    <value>{0} months</value>
+    <comment>Context: Deferral Period in dropdown</comment>
+  </data>
 </root>

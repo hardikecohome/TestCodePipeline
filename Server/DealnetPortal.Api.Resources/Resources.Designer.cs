@@ -277,11 +277,11 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Defferal.
+        ///   Looks up a localized string similar to Deferral.
         /// </summary>
-        public static string Defferal {
+        public static string Deferral {
             get {
-                return ResourceManager.GetString("Defferal", resourceCulture);
+                return ResourceManager.GetString("Deferral", resourceCulture);
             }
         }
         

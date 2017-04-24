@@ -111,6 +111,16 @@ namespace DealnetPortal.Web.Infrastructure
             return equipmentInfo;
         }
 
+        public async Task<List<RateCardDTO>> GetRatesCardsByContractAsync(int contractId)
+        {
+            var contract = await _contractServiceAgent.GetContract(contractId);
+            var amount = Convert.ToDouble(contract.Item1.Details.CreditAmount);
+
+            var tier = await _contractServiceAgent.GetDealerTier();
+
+            return tier.RateCards.Where(x => x.LoanValueFrom <= amount && x.LoanValueTo <= amount).ToList();
+        }
+
         public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
         {            
             var contractResult = await _contractServiceAgent.GetContract(contractId);

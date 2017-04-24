@@ -337,7 +337,13 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+
             var model = await _contractManager.GetEquipmentInfoAsyncNew(contractId);
+
+            ViewBag.CardTypes = model.DealerTier.RateCards.Select(x => x.CardType).Distinct().ToList();
+
+            ViewBag.AmortizationTerm = model.DealerTier.RateCards.ConvertToAmortizationSelectList();
+            ViewBag.DefferalPeriod = model.DealerTier.RateCards.ConvertToDeferralSelectList();
 
             return View("NewSecondStep", model);
         }
@@ -367,28 +373,28 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("AdditionalEquipmentInformation", new { contractId = equipmentInfo.ContractId });
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
-        //{
-        //    ViewBag.IsAllInfoCompleted = false;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
+        {
+            ViewBag.IsAllInfoCompleted = false;
 
-        //    //if (!ModelState.IsValid)
-        //    //{
-        //    //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-        //    //    return View("NewSecondStep", equipmentInfo);
-        //    //}
-        //    var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
+            //if (!ModelState.IsValid)
+            //{
+            //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            //    return View("NewSecondStep", equipmentInfo);
+            //}
+            var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
 
-        //    if (updateResult.Any(r => r.Type == AlertType.Error))
-        //    {
-        //        TempData[PortalConstants.CurrentAlerts] = updateResult;
+            if (updateResult.Any(r => r.Type == AlertType.Error))
+            {
+                TempData[PortalConstants.CurrentAlerts] = updateResult;
 
-        //        return RedirectToAction("Error", "Info");
-        //    }
+                return RedirectToAction("Error", "Info");
+            }
 
-        //    return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
-        //}
+            return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
+        }
 
 
         public async Task<ActionResult> AdditionalEquipmentInformation(int contractId)
@@ -689,6 +695,14 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _contractServiceAgent.RemoveContract(contractId);
             return result.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetRatesCards(int contractId)
+        {
+            var result = await _contractManager.GetRatesCardsByContractAsync(contractId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
