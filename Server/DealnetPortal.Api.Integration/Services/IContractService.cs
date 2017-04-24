@@ -75,5 +75,7 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> RemoveComment(int commentId, string contractOwnerId);
 
         IList<ContractDTO> GetContractsOffers(string userId);
+
+        IList<Alert> RemoveContract(int documentId, string contractOwnerId);
     }
 }

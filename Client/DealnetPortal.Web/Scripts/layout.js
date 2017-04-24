@@ -570,6 +570,9 @@ function redrawDataTablesSvgIcons(){
     if($('.dataTable .contract-controls a.export-item').length > 0){
       $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
     }
+    if ($('.dataTable .remove-control a').length > 0) {
+        $('.remove-control a').html('<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg>');
+    }
   }
 }
 

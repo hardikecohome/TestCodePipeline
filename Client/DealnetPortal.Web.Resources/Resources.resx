@@ -1406,4 +1406,7 @@
     <value>Are you sure that you want to accept this lead? In this case you will pay ${0} fee.</value>
     <comment>Context: In this case you will pay $50 fee.</comment>
   </data>
+  <data name="AreYouSureYouWantToRemoveThisApplication" xml:space="preserve">
+    <value>Are you sure you want to remove this application</value>
+  </data>
 </root>

@@ -145,5 +145,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName);
 
         Task<IList<Alert>> CreateContractForCustomer(NewCustomerDTO customerForm);
+
+        Task<IList<Alert>> RemoveContract(int contractId);
     }
 }

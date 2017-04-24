@@ -10,7 +10,6 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Aspire.AspireDb;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
@@ -180,7 +179,7 @@ namespace DealnetPortal.Web.App_Start
         {
             cfg.CreateMap<ApplicationUserDTO, SubDealer>()
                 .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.UserName));
-            cfg.CreateMap<GenericSubDealer, SubDealer>()
+            cfg.CreateMap<SubDealerDTO, SubDealer>()
                 .ForMember(x => x.Id, o => o.MapFrom(src => src.SubmissionValue))
                 .ForMember(x => x.DisplayName, o => o.MapFrom(src => src.SubDealerName));
             cfg.CreateMap<DriverLicenseData, RecognizedLicense>();
@@ -191,6 +190,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<ContractDTO, DealItemOverviewViewModel>()
                 .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.Details?.TransactionId ?? string.Concat(Resources.Resources.Internal, $" : {src.Id}")))
+                .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.Details?.TransactionId == null ))
                 .ForMember(d => d.CustomerName, s => s.ResolveUsing(src =>
                 {
                     var customer = src.PrimaryCustomer;

@@ -27,7 +27,7 @@ namespace DealnetPortal.Api.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly IAspireService _aspireService;
-        private readonly IAspireStorageService _aspireStorageService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IUsersService _usersService;
         private readonly ILoggingService _loggingService;
         private readonly string _publicClientId;
@@ -36,7 +36,7 @@ namespace DealnetPortal.Api.Providers
         public ApplicationOAuthProvider(string publicClientId)
         {
             _aspireService = (IAspireService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
-            _aspireStorageService = (IAspireStorageService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireStorageService));
+            _aspireStorageReader = (IAspireStorageReader)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireStorageReader));
             _usersService = (IUsersService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
             _loggingService = (ILoggingService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
 
@@ -214,7 +214,7 @@ namespace DealnetPortal.Api.Providers
                     DealerDTO aspireDealerInfo = null;
                     try
                     {
-                        aspireDealerInfo = _aspireStorageService.GetDealerInfo(context.UserName);
+                        aspireDealerInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(context.UserName));
                     }
                     catch (Exception ex)
                     {

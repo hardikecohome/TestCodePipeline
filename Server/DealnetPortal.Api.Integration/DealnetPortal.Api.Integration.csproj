@@ -91,10 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ServiceAgents\AspireServiceAgent.cs" />
-    <Compile Include="ServiceAgents\IAspireServiceAgent.cs" />
     <Compile Include="Services\AspireService.cs" />
-    <Compile Include="Services\AspireStorageService.cs" />
     <Compile Include="Services\ContractService.cs" />
     <Compile Include="ServiceAgents\ESignature\ECoreTypes.cs" />
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\ResponseTypes.cs" />
@@ -107,7 +104,6 @@
     <Compile Include="Services\CustomerFormService.cs" />
     <Compile Include="Services\EmailMailgunService.cs" />
     <Compile Include="Services\IAspireService.cs" />
-    <Compile Include="Services\IAspireStorageService.cs" />
     <Compile Include="Services\IContractService.cs" />
     <Compile Include="Services\ICustomerFormService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
@@ -144,6 +140,10 @@
     <ProjectReference Include="..\DealnetPortal.Api.Resources\DealnetPortal.Api.Resources.csproj">
       <Project>{783de205-0ee3-429c-a85e-09f83f86dd4a}</Project>
       <Name>DealnetPortal.Api.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Aspire.Integration\DealnetPortal.Aspire.Integration.csproj">
+      <Project>{70E5423B-4DDD-4711-B56E-A28A0BBE473F}</Project>
+      <Name>DealnetPortal.Aspire.Integration</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.DataAccess\DealnetPortal.DataAccess.csproj">
       <Project>{5981D1A4-2F9D-4438-947B-4BE667530BFC}</Project>

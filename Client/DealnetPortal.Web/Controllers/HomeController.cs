@@ -86,7 +86,13 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> GetWorkItems(bool? completedOnly)
         {
-            var contracts = (completedOnly ?? false ? await _contractServiceAgent.GetCompletedContracts() : await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false).ThenByDescending(x => x.LastUpdateTime).ToList();
+            var contracts =
+                (completedOnly ?? false
+                    ? await _contractServiceAgent.GetCompletedContracts()
+                    : await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false)
+                    .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
+                    .ThenByDescending(x => x.LastUpdateTime)
+                    .ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
@@ -95,7 +101,10 @@ namespace DealnetPortal.Web.Controllers
             {
                 contracts.Where(c => c.ContractState == ContractState.Completed).ForEach(c =>
                 {
-                    var absentDocs = docTypes.Item1.Where(dt => c.Documents.All(d => dt.Id != d.DocumentTypeId) && !string.IsNullOrEmpty(dt.Prefix)).ToList();
+                    var absentDocs =
+                        docTypes.Item1.Where(
+                            dt => c.Documents.All(d => dt.Id != d.DocumentTypeId) && !string.IsNullOrEmpty(dt.Prefix))
+                            .ToList();
                     if (absentDocs.Any())
                     {
                         var actList = new StringBuilder();
@@ -105,7 +114,7 @@ namespace DealnetPortal.Web.Controllers
                         {
                             cntrc.Action = actList.ToString();
                         }
-                    }                    
+                    }
                 });
             }
 

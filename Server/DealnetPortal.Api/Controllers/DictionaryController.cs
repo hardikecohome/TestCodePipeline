@@ -26,17 +26,17 @@ namespace DealnetPortal.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private IContractRepository ContractRepository { get; set; }
         private ISettingsRepository SettingsRepository { get; set; }
-        private IAspireStorageService AspireStorageService { get; set; }
+        private IAspireStorageReader AspireStorageReader { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageService aspireStorageService, ICustomerFormService customerFormService)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             ContractRepository = contractRepository;
             SettingsRepository = settingsRepository;
-            AspireStorageService = aspireStorageService;
+            AspireStorageReader = aspireStorageReader;
             CustomerFormService = customerFormService;
         }             
 
@@ -171,7 +171,7 @@ namespace DealnetPortal.Api.Controllers
 
                 try
                 {                
-                    dealerDto.UdfSubDealers = AspireStorageService.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName);
+                    dealerDto.UdfSubDealers = Mapper.Map<IList<SubDealerDTO>>(AspireStorageReader.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName));
                 }
                 catch (Exception ex)
                 {

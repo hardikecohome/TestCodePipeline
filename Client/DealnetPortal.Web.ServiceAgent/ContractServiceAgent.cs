@@ -490,5 +490,21 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<IList<Alert>> RemoveContract(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/RemoveContract?contractId={contractId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove contract", ex);
+                throw;
+            }
+        }
     }
 }

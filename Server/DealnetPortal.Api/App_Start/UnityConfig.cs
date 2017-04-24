@@ -1,3 +1,5 @@
+using System.Configuration;
+using System.Web.Hosting;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
 using DealnetPortal.Api.Controllers;
@@ -6,9 +8,11 @@ using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Services.Signature;
+using DealnetPortal.Aspire.Integration.ServiceAgents;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
 using Microsoft.AspNet.Identity;
@@ -54,10 +58,13 @@ namespace DealnetPortal.Api
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
 
-            container.RegisterType<IQueriesStorage, QueriesFileStorage>();
+            var queryFolderName = ConfigurationManager.AppSettings["QueriesFolder"] ?? "Queries";
+            var queryFolder = HostingEnvironment.MapPath($"~/{queryFolderName}") ?? queryFolderName;
+
+            container.RegisterType<IQueriesStorage, QueriesFileStorage>(new InjectionConstructor(queryFolder));
             container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
                 new InjectionConstructor(System.Configuration.ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
-            container.RegisterType<IAspireStorageService, AspireStorageService>();
+            container.RegisterType<IAspireStorageReader, AspireStorageReader>();
             container.RegisterType<IUsersService, UsersService>();
 
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));

@@ -40,7 +40,7 @@ namespace DealnetPortal.Web
                      "~/Scripts/DataTables/jquery.dataTables.js",
                      "~/Scripts/datatables/dataTables.bootstrap.js",
                      "~/Scripts/datatables/dataTables.responsive.js"));
-            bundles.Add(new ScriptBundle("~/bundles/home-page").Include(
+            bundles.Add(new ScriptBundle("~/bundles/home-page").Include("~/Scripts/jquery.form.js").Include(
                 "~/Scripts/chart.js", "~/Scripts/home-page.js"));
             bundles.Add(new ScriptBundle("~/bundles/basic-info").Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/customer-validation.js")
@@ -59,7 +59,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/equipment-information.js").Include("~/Scripts/datejs.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/contact-and-payment").Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js")/*.Include("~/Scripts/camera-capturing.js")*/
-                /*.Include("~/Scripts/vc-scanning.js")*/.Include("~/Scripts/navigation-with-warning.js"));
+                                                                       /*.Include("~/Scripts/vc-scanning.js")*/.Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation").Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/province-codes-helper.js").Include("~/Scripts/financial-functions.js")
                 .Include("~/Scripts/loan-calculator.js").Include("~/Scripts/contact-and-payment-management.js")
@@ -68,9 +68,9 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/editable-in-modal.js").Include("~/Scripts/navigation-with-warning.js"));
             bundles.Add(new ScriptBundle("~/bundles/agreement-submit-success").Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/print-contract.js").Include("~/Scripts/agreement-submit-success.js"));
-            bundles.Add(new ScriptBundle("~/bundles/my-deals").Include("~/Scripts/datejs.js").Include("~/Scripts/my-deals.js"));
             bundles.Add(new ScriptBundle("~/bundles/my-customers").Include("~/Scripts/datejs.js").Include("~/Scripts/my-customers.js"));
             bundles.Add(new ScriptBundle("~/bundles/leads").Include("~/Scripts/datejs.js").Include("~/Scripts/leads.js"));
+            bundles.Add(new ScriptBundle("~/bundles/my-deals").Include("~/Scripts/datejs.js").Include("~/Scripts/jquery.form.js").Include("~/Scripts/my-deals.js"));
             bundles.Add(new ScriptBundle("~/bundles/reports").Include("~/Scripts/datejs.js").Include("~/Scripts/reports.js"));
             bundles.Add(new ScriptBundle("~/bundles/contract-edit").Include("~/Scripts/datejs.js").Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js").Include("~/Scripts/print-contract.js")

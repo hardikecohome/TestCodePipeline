@@ -36,5 +36,6 @@ namespace DealnetPortal.Web.Models
         public string PostalCode { get; set; }
         public string PreApprovalAmount { get; set; }
         public string CustomerComment { get; set; }
+        public bool IsInternal { get; set; }
     }
 }

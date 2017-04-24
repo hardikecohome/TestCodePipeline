@@ -580,5 +580,12 @@ namespace DealnetPortal.Web.Controllers
             var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
             return Json(result.Item1);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> ContractRemove(int contractId)
+        {
+            var result = await _contractServiceAgent.RemoveContract(contractId);
+            return result.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
     }
 }
