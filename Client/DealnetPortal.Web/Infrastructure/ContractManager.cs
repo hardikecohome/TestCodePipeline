@@ -33,11 +33,6 @@ namespace DealnetPortal.Web.Infrastructure
             _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
-        public async Task<DealItemOverviewViewModel> GetWorkItemsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
         {
             var basicInfo = new BasicInfoViewModel();

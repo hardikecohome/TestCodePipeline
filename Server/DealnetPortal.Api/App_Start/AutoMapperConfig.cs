@@ -52,7 +52,16 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();
-            mapperConfig.CreateMap<ContractDetails, ContractDetailsDTO>();
+            mapperConfig.CreateMap<ContractDetails, ContractDetailsDTO>()
+                .ForMember(d => d.Status, s => s.ResolveUsing(src => !string.IsNullOrEmpty(src.Status)
+                    ? ResourceHelper.GetGlobalStringResource("_" + src.Status
+                        .Replace('-', '_')
+                        .Replace(" ", string.Empty)
+                        .Replace("$", string.Empty)
+                        .Replace("/", string.Empty)
+                        .Replace("(", string.Empty)
+                        .Replace(")", string.Empty))
+                    : null));
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
                 .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))
@@ -63,7 +72,8 @@ namespace DealnetPortal.Api.App_Start
                     if (d?.PrimaryCustomer != null)
                     {
                         d.PrimaryCustomer.IsHomeOwner = c.HomeOwners?.Any(ho => ho.Id == d.PrimaryCustomer.Id) ?? false;
-                        d.PrimaryCustomer.IsInitialCustomer = c.InitialCustomers?.Any(ho => ho.Id == d.PrimaryCustomer.Id) ?? false;
+                        d.PrimaryCustomer.IsInitialCustomer =
+                            c.InitialCustomers?.Any(ho => ho.Id == d.PrimaryCustomer.Id) ?? false;
                     }
                     d?.SecondaryCustomers?.ForEach(sc =>
                     {
@@ -74,20 +84,23 @@ namespace DealnetPortal.Api.App_Start
                     {
                         d.Details.Notes = c.Equipment?.Notes;
                     }
-                });                
-                //.ForMember(x => x.Documents, d => d.Ignore());
+                });
+            //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
-                ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
+                ForMember(x => x.Description,
+                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
             mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>().
-                ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description)));
+                ForMember(x => x.Description,
+                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description)));
 
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
                 .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
                 .ForMember(d => d.DealerName, s => s.ResolveUsing(src => src.Dealer?.UserName ?? string.Empty));
-                //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src => src.EquipmentTypes?.Select(e => e.Type)));
+            //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src => src.EquipmentTypes?.Select(e => e.Type)));
 
             mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>().
-                ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
+                ForMember(x => x.Description,
+                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
             mapperConfig.CreateMap<ContractDocument, ContractDocumentDTO>()
                 .ForMember(x => x.DocumentBytes, d => d.Ignore());
 
@@ -97,9 +110,16 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<CustomerLink, CustomerLinkDTO>()
                 .ForMember(x => x.EnabledLanguages,
-                    d => d.ResolveUsing(src => src.EnabledLanguages?.Select(l => l.LanguageId).Cast<LanguageCode>().ToList()))
-                .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink))
-                .ForMember(x => x.Services, d => d.ResolveUsing(src => src.Services?.GroupBy(k => k.LanguageId).ToDictionary(ds => (LanguageCode)ds.Key, ds => ds.Select(s => s.Service).ToList())));
+                    d =>
+                        d.ResolveUsing(
+                            src => src.EnabledLanguages?.Select(l => l.LanguageId).Cast<LanguageCode>().ToList()))
+                .ForMember(x => x.HashLink, d => d.MapFrom(s => s.HashLink))
+                .ForMember(x => x.Services,
+                    d =>
+                        d.ResolveUsing(
+                            src =>
+                                src.Services?.GroupBy(k => k.LanguageId)
+                                    .ToDictionary(ds => (LanguageCode) ds.Key, ds => ds.Select(s => s.Service).ToList())));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
