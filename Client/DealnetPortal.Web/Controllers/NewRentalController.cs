@@ -281,7 +281,7 @@ namespace DealnetPortal.Web.Controllers
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
                 TempData["CreditCheckErrorMessage"] = Resources.Resources.CreditCheckErrorMessage;
-                var redirectStr = Url.Action("CreditCheckConfirmation", new { contractId });
+                var redirectStr = Url.Action("BasicInfo", new { contractId });
                 return Json(redirectStr);
             }
 
@@ -313,21 +313,6 @@ namespace DealnetPortal.Web.Controllers
             }            
         }
 
-        public ActionResult NewSecondStep()
-        {
-            return View();
-        }
-
-        public ActionResult NewThirdStep()
-        {
-            return View();
-        }
-
-        public ActionResult RateCards()
-        {
-            return View();
-        }
-
         public ActionResult RateCard()
         {
             return View();
@@ -339,11 +324,11 @@ namespace DealnetPortal.Web.Controllers
             var model = await _contractManager.GetEquipmentInfoAsyncNew(contractId);
 
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            ViewBag.CardTypes = model.DealerTier.RateCards.Select(x => x.CardType).Distinct().ToList();
-            ViewBag.AmortizationTerm = model.DealerTier.RateCards.ConvertToAmortizationSelectList();
-            ViewBag.DefferalPeriod = model.DealerTier.RateCards.ConvertToDeferralSelectList();
+            ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
+            ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
+            ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
 
-            return View("NewSecondStep", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -356,7 +341,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
 
-                return View("NewSecondStep", equipmentInfo);
+                return View(equipmentInfo);
             }
 
             var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
@@ -371,35 +356,11 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("AdditionalEquipmentInformation", new { contractId = equipmentInfo.ContractId });
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
-        {
-            ViewBag.IsAllInfoCompleted = false;
-
-            //if (!ModelState.IsValid)
-            //{
-            //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            //    return View("NewSecondStep", equipmentInfo);
-            //}
-            var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
-
-            if (updateResult.Any(r => r.Type == AlertType.Error))
-            {
-                TempData[PortalConstants.CurrentAlerts] = updateResult;
-
-                return RedirectToAction("Error", "Info");
-            }
-
-            return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
-        }
-
-
         public async Task<ActionResult> AdditionalEquipmentInformation(int contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            return View("NewThirdStep", await _contractManager.GetAdditionalContactInfoAsyncNew(contractId));
+            return View(await _contractManager.GetAdditionalContactInfoAsyncNew(contractId));
         }
         
         [HttpPost]
@@ -409,7 +370,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             if (!ModelState.IsValid)
             {
-                return View("NewThirdStep");
+                return View();
             }
             var updateResult = await _contractManager.UpdateContractAsyncNew(contactAndPaymentInfo);
 
@@ -458,6 +419,7 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
         
@@ -696,11 +658,11 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetRatesCards(int contractId)
+        public async Task<JsonResult> GetRatesCards(double creditAmount)
         {
-            var result = await _contractManager.GetRatesCardsByContractAsync(contractId);
+            var result = await _contractServiceAgent.GetRateCardsByDealer(creditAmount);
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(result.RateCards, JsonRequestBehavior.AllowGet);
         }
     }
 }

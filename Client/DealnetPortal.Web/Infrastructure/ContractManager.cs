@@ -55,16 +55,19 @@ namespace DealnetPortal.Web.Infrastructure
         {
             var contactAndPaymentInfo = new ContactAndPaymentInfoViewModelNew();
             var contractResult = await _contractServiceAgent.GetContract(contractId);
+
             if (contractResult.Item1 == null)
             {
                 return contactAndPaymentInfo;
             }
 
-            contactAndPaymentInfo.ContractId = contractId;
-            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
+            contactAndPaymentInfo.Notes = contractResult.Item1.Details.Notes;
             contactAndPaymentInfo.HouseSize = contractResult.Item1.Details.HouseSize;
+            contactAndPaymentInfo.EstimatedInstallationDate = contractResult.Item1.Equipment.EstimatedInstallationDate;
+            contactAndPaymentInfo.SalesRep = contractResult.Item1.Equipment.SalesRep;
+            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
 
-            //MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
+            contactAndPaymentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
 
             return contactAndPaymentInfo;
         }
@@ -95,7 +98,6 @@ namespace DealnetPortal.Web.Infrastructure
             var equipmentInfo = new EquipmentInformationViewModelNew()
             {
                 ContractId = contractId,
-                DealerTier = await _contractServiceAgent.GetRateCardsByDealer(Convert.ToDouble(result.Item1.Details.CreditAmount))
             };
 
             if (result.Item1.Equipment != null)
@@ -108,21 +110,10 @@ namespace DealnetPortal.Web.Infrastructure
                 }
             }
 
+            equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
+            equipmentInfo.DealerTier = await _contractServiceAgent.GetDealerTier();
+
             return equipmentInfo;
-        }
-
-        public async Task<List<RateCardDTO>> GetRatesCardsByContractAsync(int contractId)
-        {
-            var contract = await _contractServiceAgent.GetContract(contractId);
-
-            if (contract.Item1 == null)
-            {
-                return new List<RateCardDTO>();
-            }
-
-            var tier = await _contractServiceAgent.GetRateCardsByDealer(Convert.ToDouble(contract.Item1.Details.CreditAmount));
-
-            return tier.RateCards;
         }
 
         public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
@@ -371,8 +362,25 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
+                Details = new ContractDetailsDTO
+                {
+                    Notes = equipmnetInfo.Notes
+                },
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
+
+            contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
+            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
+
+            contractData.Details = new ContractDetailsDTO
+            {
+                Notes = equipmnetInfo.Notes
+            };
+
+            if (equipmnetInfo.HouseSize.HasValue)
+            {
+                contractData.Details.HouseSize = equipmnetInfo.HouseSize;
+            }
 
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
@@ -386,12 +394,14 @@ namespace DealnetPortal.Web.Infrastructure
                 {
                     Notes = equipmnetInfo.Notes 
                 },
-                Equipment = AutoMapper.Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
+
             if (equipmnetInfo.FullUpdate && equipmnetInfo.ExistingEquipment == null)
             {
                 contractData.Equipment.ExistingEquipment = new List<ExistingEquipmentDTO>();
             }
+
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 

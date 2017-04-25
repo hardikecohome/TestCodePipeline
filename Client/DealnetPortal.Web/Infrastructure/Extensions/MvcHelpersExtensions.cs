@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.Infrastructure.Extensions
                 .GroupBy(type => type.CardType, val => Convert.ToInt32(val.DeferralPeriod))
                 .ToDictionary(k => k.Key, v =>
                 {
-                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.ToString(), Text = string.Format(Resources.Resources.FormatMonth, value) });
+                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.ToString(), Text = value + Resources.Resources.Month });
 
                     return new SelectList(distincted, "Value", "Text");
                 });

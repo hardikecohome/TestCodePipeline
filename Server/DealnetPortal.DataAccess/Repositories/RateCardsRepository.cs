@@ -39,7 +39,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var result = _dbContext.RateCards
                 .Where(x => x.TierId == tier.Id)
                 .Where(x => x.LoanValueFrom <= creditAmount && x.LoanValueTo >= creditAmount)
-                .Where(x => x.ValidFrom >= EntityFunctions.TruncateTime(DateTime.UtcNow.Date) && x.ValidTo <= EntityFunctions.TruncateTime(DateTime.UtcNow.Date))
+                //.Where(x => x.ValidFrom >= EntityFunctions.TruncateTime(DateTime.UtcNow.Date) && x.ValidTo <= EntityFunctions.TruncateTime(DateTime.UtcNow.Date))
                 .ToList();
 
             tier.RateCards = result;

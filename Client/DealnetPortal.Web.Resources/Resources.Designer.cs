@@ -1600,15 +1600,6 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} months.
-        /// </summary>
-        public static string FormatMonth {
-            get {
-                return ResourceManager.GetString("FormatMonth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Form in English.
         /// </summary>
         public static string FormInEnglish {

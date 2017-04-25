@@ -220,7 +220,7 @@ namespace DealnetPortal.DataAccess.Repositories
                             updated = true;
                         }
                     }
-
+                    
                     if (contractData.ExternalSubDealerId != null &&
                         contract.ExternalSubDealerId != contractData.ExternalSubDealerId)
                     {

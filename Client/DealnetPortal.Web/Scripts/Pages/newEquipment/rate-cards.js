@@ -12,8 +12,8 @@
 
     var contractId;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
-    var numberFields = ['equipmentSum', 'loanTerm', 'amortTerm', 'customerRate', 'adminFee'];
-    var notCero = ['equipmentSum', 'loanTerm', 'amortTerm'];
+    var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
+    var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
 
     window.state = {
         agreementType: 0,
@@ -29,12 +29,12 @@
         downPayment: 0,
         rentalMPayment: 0,
         Custom: {
-            loanTerm: '',
-            amortTerm: '',
-            deferralPeriod: '',
-            customerRate: '',
+            LoanTerm: '',
+            AmortiztionTerm: '',
+            DeferralPeriod: '',
+            CustomerRate: '',
             yourCost: '',
-            adminFee: ''
+            AdminFee: ''
         }
     };
 
@@ -71,8 +71,9 @@
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
             var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
+            var totalCash = +$('#totalPrice').text();
             var amortization = $.grep(items, function (i) {
-                return i.AmortizationTerm === formatted;
+                return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
             })[0];
 
             if (amortization !== null && amortization !== undefined) {
@@ -90,15 +91,15 @@
     var renderOption = function (option, data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = numberFields.every(function (field) {
-            return typeof data[field] === 'number';
+            var result = typeof data[field] === 'number';
+            return result;
         });
 
         var validateNotEmpty = notCero.every(function (field) {
             return data[field] !== 0;
         });
 
-       // if (notNan && validateNumber && validateNotEmpty) {
-        if (validateNotEmpty) {
+       if (notNan && validateNumber && validateNotEmpty) {
             $('#' + option + 'MPayment').text(formatCurrency(data.monthlyPayment));
             $('#' + option + 'CBorrowing').text(formatCurrency(data.costOfBorrowing));
             $('#' + option + 'TAFinanced').text(formatCurrency(data.totalAmountFinanced));
@@ -186,33 +187,24 @@
         }
     };
     function setHandlers(option) {
-        $('#' + option.name + 'AmortizationDropdown').change(function() {
+        $('#' + option.name + 'AmortizationDropdown').change(function () {
+            $(this).prop('selected',true);
             recalculateValuesAndRender();
         });
     }
-    var initializeRateCards = function (id, targetUrl) {
+
+    var initializeRateCards = function (id, cards) {
         contractId = id;
-        var cards = sessionStorage.getItem(contractId);
-        if (cards === null) {
-            $.ajax({
-                type: 'GET',
-                url: targetUrl,
-                cache: true,
-                success: function (result) {
-                    rateCards.forEach(function(option) {
-                        var filtred = $.grep(result, function(v) {
-                            return v.CardType === option.id;
-                        });
-                        sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
-                        setHandlers(option);
-                    });
-                    recalculateValuesAndRender();
-                },
-                error: function () {
-                    alert('error');
-                }
-            });
-        }
+        rateCards.forEach(function (option) {
+            var filtred = $.grep(cards,
+                function (v) {
+                    return v.CardType === option.id;
+                });
+            sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
+            setHandlers(option);
+        });
+
+        recalculateValuesAndRender();
     }
 
     return {

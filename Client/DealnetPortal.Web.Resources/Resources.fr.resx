@@ -1473,8 +1473,4 @@
   <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
     <value>Votre demande de financement a été soumise.</value>
   </data>
-  <data name="FormatMonth" xml:space="preserve">
-    <value>{0} mois</value>
-    <comment>Context: Deferral Period in dropdown</comment>
-  </data>
 </root>
