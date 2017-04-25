@@ -490,5 +490,18 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<TierDTO> GetRateCardsByDealer(double creditAmount)
+        {
+            try
+            {
+                return await Client.GetAsync<TierDTO>($"{_fullUri}/GetRateCards?creditAmount={creditAmount}");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove contract", ex);
+                throw;
+            }
+        }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities.Logging;
@@ -24,7 +19,15 @@ namespace DealnetPortal.Api.Integration.Services
         public TierDTO GetRateCardsByDealerId(string id)
         {
             var tier = _rateCardsRepository.GetTierByDealerId(id);
+            
             return Mapper.Map<TierDTO>(tier);
+        }
+
+        public TierDTO GetFiltredRateCards(string id, double creditAmount)
+        {
+            var result = _rateCardsRepository.GetFiltredRateCards(id, creditAmount);
+
+            return Mapper.Map<TierDTO>(result);
         }
     }
 }

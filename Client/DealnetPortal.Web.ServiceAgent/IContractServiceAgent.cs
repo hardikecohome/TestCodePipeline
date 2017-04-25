@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    using Api.Models.Contract.EquipmentInformation;
-
     /// <summary>
     /// Service agent for communicate with server-side service and controller for processing contracts (deals)
     /// </summary>
@@ -144,6 +139,16 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> RemoveContract(int contractId);
 
+        /// <summary>
+        /// Get Rates Card by Dealer
+        /// </summary>
         Task<TierDTO> GetDealerTier();
+
+        /// <summary>
+        /// Get Rates Cards Filtred by LoanAmount and Valid Date
+        /// </summary>
+        /// <param name="creditAmount">Contract Credit Limit</param>
+        /// <returns></returns>
+        Task<TierDTO> GetRateCardsByDealer(double creditAmount);
     }
 }

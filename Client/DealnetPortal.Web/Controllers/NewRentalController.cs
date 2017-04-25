@@ -336,12 +336,10 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-
             var model = await _contractManager.GetEquipmentInfoAsyncNew(contractId);
 
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.CardTypes = model.DealerTier.RateCards.Select(x => x.CardType).Distinct().ToList();
-
             ViewBag.AmortizationTerm = model.DealerTier.RateCards.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier.RateCards.ConvertToDeferralSelectList();
 

@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.Infrastructure
             var equipmentInfo = new EquipmentInformationViewModelNew()
             {
                 ContractId = contractId,
-                DealerTier = await _contractServiceAgent.GetDealerTier()
+                DealerTier = await _contractServiceAgent.GetRateCardsByDealer(Convert.ToDouble(result.Item1.Details.CreditAmount))
             };
 
             if (result.Item1.Equipment != null)
@@ -114,11 +114,15 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<List<RateCardDTO>> GetRatesCardsByContractAsync(int contractId)
         {
             var contract = await _contractServiceAgent.GetContract(contractId);
-            var amount = Convert.ToDouble(contract.Item1.Details.CreditAmount);
 
-            var tier = await _contractServiceAgent.GetDealerTier();
+            if (contract.Item1 == null)
+            {
+                return new List<RateCardDTO>();
+            }
 
-            return tier.RateCards.Where(x => x.LoanValueFrom <= amount && x.LoanValueTo <= amount).ToList();
+            var tier = await _contractServiceAgent.GetRateCardsByDealer(Convert.ToDouble(contract.Item1.Details.CreditAmount));
+
+            return tier.RateCards;
         }
 
         public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
