@@ -208,6 +208,7 @@
     <Compile Include="Controllers\MortgageBrokerController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ShareableLinkController.cs" />
@@ -912,6 +913,7 @@
     <Content Include="Views\MortgageBroker\MyCustomers.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
     <Content Include="Views\Leads\Index.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
