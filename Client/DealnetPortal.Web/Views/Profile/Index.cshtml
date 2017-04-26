@@ -3,5 +3,91 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div id="label-steps">
+    <div class="dealnet-action-link">My Profile</div>
+</div>
+<div class="profile-header">
+    <div class="main-heading profile-heading">My Profile</div>
 
+    <label for="show-profile" class="align-middle custom-checkbox">
+        <input type="checkbox" class="dealnet-checkbox address-checkbox" id="show-profile" />
+        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+        <span>Show my profile to customers</span>
+    </label>
+</div>
+
+<div class="form-container profile-form-container">
+    <form action="">
+        <h3 class="dealnet-middle-header address-info-label">Offered service</h3>
+        <div class="row">
+            <div class="col-md-3 col-sm-4">
+                <div class="form-group">
+                    <label for="">Select category</label>
+                    <div class="control-group">
+                        <select name="" id="" class="form-control">
+                            <option value="">- not selected-</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a id="add-category" class="align-middle dealnet-info-link">
+                <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                <span>Add Category</span>
+            </a>
+        </div>
+        <h3 class="dealnet-middle-header address-info-label">Description of my company</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="">Description (English)</label>
+                    <div class="control-group">
+                        <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="">Description (French)</label>
+                    <div class="control-group">
+                        <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="dealnet-middle-header address-info-label">Area of my service</h3>
+        <div class="row">
+            <div class="col-md-3 col-sm-4">
+                <div class="form-group">
+                    <label for="">Prostal Code</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control" placeholder="12345" value="345677">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-4">
+                <div class="form-group">
+                    <label for="">Prostal Code</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control" placeholder="12345" value="345677">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a id="add-category" class="align-middle dealnet-info-link">
+                <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                <span>Add Postal Code</span>
+            </a>
+        </div>
+        <div class="clearfix">
+            <br>
+            <br>
+            <button class="btn dealnet-button dealnet-success-button btn-form-common">@Resources.Save</button>
+        </div>
+    </form>
+</div>
