@@ -27,6 +27,7 @@ namespace DealnetPortal.Api.Integration.Services
             var claims = new List<Claim>();
             var roles = GetUserRoles(user);
 
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
             roles?.ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.ToString())));
             //foreach (var role in roles)
             //{

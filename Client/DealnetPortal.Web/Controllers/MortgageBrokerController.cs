@@ -15,6 +15,7 @@ using DealnetPortal.Web.ServiceAgent;
 namespace DealnetPortal.Web.Controllers
 {
 
+    [Authorize]
     public class MortgageBrokerController : Controller
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
@@ -72,8 +73,11 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        public ActionResult MyCustomers()
+        public async Task<ActionResult> MyCustomers()
         {
+            // TODO: call _contractServiceAgent.GetContracts()) here and then map to ViewModel with customer's information            
+            var createdContracts = await _contractServiceAgent.GetCreatedContracts();            
+
             return View();
         }
     }

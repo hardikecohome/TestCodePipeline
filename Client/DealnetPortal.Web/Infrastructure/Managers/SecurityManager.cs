@@ -17,13 +17,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class SecurityManager : ISecurityManager
     {
-        private readonly ISecurityServiceAgent _securityService;
-        private readonly IUserManagementServiceAgent _userManagementService;
-        private readonly ILoggingService _loggingService;
+        protected readonly ISecurityServiceAgent _securityService;
+        protected readonly IUserManagementServiceAgent _userManagementService;
+        protected readonly ILoggingService _loggingService;
 
-        private const string EmptyUser = "Admin";//use administrator here because for testing empty username and password are using
+        protected const string EmptyUser = "Admin";//use administrator here because for testing empty username and password are using
 
-        private readonly string _cookieName;
+        protected readonly string _cookieName;
 
         public SecurityManager(ISecurityServiceAgent securityService, IUserManagementServiceAgent userManagementService,
             ILoggingService loggingService, PortalType portalType)
@@ -35,7 +35,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 //"DEALNET_AUTH_COOKIE_" + portalType.ToString().ToUpper();
         }
 
-        public async Task<IList<Alert>> Login(string userName, string password, string portalId)
+        public virtual async Task<IList<Alert>> Login(string userName, string password, string portalId)
         {
             var alerts = new List<Alert>();
 
@@ -89,7 +89,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return alerts;
         }
 
-        public IPrincipal GetUser()
+        public virtual IPrincipal GetUser()
         {
             //HttpContext.Current.User
             var authCookie = HttpContext.Current.Request.Cookies[_cookieName];
@@ -106,7 +106,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return null;
         }
 
-        public void SetUser(IPrincipal user)
+        public virtual void SetUser(IPrincipal user)
         {
             CreateCookie(user);
             if (HttpContext.Current != null)
@@ -115,7 +115,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
         }
 
-        public void SetUserFromContext()
+        public virtual void SetUserFromContext()
         {
             var user = GetUser();
             if (user != null)
@@ -128,7 +128,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
         }
 
-        public void Logout()
+        public virtual void Logout()
         {
             var httpCookie = HttpContext.Current?.Response.Cookies[_cookieName];
             if (httpCookie != null)
