@@ -460,9 +460,11 @@
     <Content Include="Content\images\sprite\icon-info-well.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
     <Content Include="Content\images\sprite\icon-list-request.svg" />
+    <Content Include="Content\images\sprite\icon-my-account-one-persone.svg" />
     <Content Include="Content\images\sprite\icon-my-account.svg" />
     <Content Include="Content\images\sprite\icon-my-deals-side.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
+    <Content Include="Content\images\sprite\icon-new-customer.svg" />
     <Content Include="Content\images\sprite\icon-new-rental-side.svg" />
     <Content Include="Content\images\sprite\icon-pdf.svg" />
     <Content Include="Content\images\sprite\icon-phone.svg" />

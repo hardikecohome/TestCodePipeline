@@ -205,6 +205,10 @@
                                 <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-list-request"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-list-request")"></use></svg></span>
                                 @Html.ActionLink("Leads", "Index", "Leads", null, new { @class = "dealnet-sidebar-link" })
                             </li>
+                            <li class="dealnet-sidebar-item">
+                                <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
+                                @Html.ActionLink("My Profile", "Index", "Profile", null, new { @class = "dealnet-sidebar-link" })
+                            </li>
                             @if ((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
                             {
                                 <li class="dealnet-sidebar-item">
@@ -215,15 +219,15 @@
                             @if ((User as ClaimsPrincipal)?.HasClaim("AllowCreateCustomer", "True") ?? false)
                             {
                                 <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental-side")"></use></svg></span>
-                                    @Html.ActionLink(Resources.NewCustomer, "NewCustomer", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
+                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-client"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-client")"></use></svg></span>
+                                    @Html.ActionLink("New client", "NewCustomer", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                 </li>
                             }
                             @if ((User as ClaimsPrincipal)?.HasClaim("ShowMyCustomers", "True") ?? false)
                             {
                                 <li class="dealnet-sidebar-item">
                                     <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account")"></use></svg></span>
-                                    @Html.ActionLink(Resources.MyCustomers, "MyCustomers", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
+                                    @Html.ActionLink("My clients", "MyCustomers", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                 </li>
                             }
                         </ul>
