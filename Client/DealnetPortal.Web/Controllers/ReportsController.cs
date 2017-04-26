@@ -11,7 +11,7 @@ using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize]
     public class ReportsController : Controller
     {
         private readonly IContractServiceAgent _contractServiceAgent;

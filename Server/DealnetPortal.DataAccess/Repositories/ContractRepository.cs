@@ -69,6 +69,28 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
+        /// <summary>
+        /// Get contract created by an user (dealer)
+        /// </summary>
+        /// <param name="ownerUserId">user Id</param>
+        /// <returns>List of contracts</returns>
+        public IList<Contract> GetContractsCreatedByUser(string userId)
+        {
+            var user = GetUserById(userId);
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)
+                .Where(c => c.CreateOperator == user.UserName).ToList();
+            return contracts;
+        }
+
         public int GetNewlyCreatedCustomersContractsCount(string ownerUserId)
         {
             var contractsCount = _dbContext.Contracts

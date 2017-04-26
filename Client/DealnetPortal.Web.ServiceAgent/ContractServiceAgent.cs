@@ -71,6 +71,19 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<ContractDTO>> GetCreatedContracts()
+        {
+            try
+            {
+                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetCreatedContracts");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts created by an user", ex);
+                return new List<ContractDTO>();
+            }
+        }
+
         public async Task<int> GetCustomersContractsCount()
         {
             try
@@ -79,7 +92,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Can't get numberof customer contracts for an user", ex);
+                _loggingService.LogError("Can't get number of customer contracts for an user", ex);
                 return 0;
             }
         }

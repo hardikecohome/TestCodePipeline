@@ -963,6 +963,14 @@ namespace DealnetPortal.Api.Integration.Services
             return contractDTOs;
         }
 
+        public IList<ContractDTO> GetCreatedContracts(string userId)
+        {
+            var contracts = _contractRepository.GetContractsCreatedByUser(userId);
+            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
+            AftermapContracts(contracts, contractDTOs, userId);
+            return contractDTOs;
+        }
+
         private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
         {
             var equipmentTypes = _contractRepository.GetEquipmentTypes();
