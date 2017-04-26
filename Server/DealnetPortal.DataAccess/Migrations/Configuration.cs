@@ -509,7 +509,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "Hst"},
                 new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "Hst"},
                 new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GstQst"},
-                new ProvinceTaxRate {Province = "SK", Rate = 10, Description = "GstPst"},
+                new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GstPst"},
                 new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst"}
             };
             //leave existing data
