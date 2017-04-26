@@ -1,5 +1,8 @@
 <svg width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
+        <symbol id="icon-new-client" viewBox="0 0 20 20">
+            <path fill="#FFF" fill-rule="evenodd" d="M7 13h1.01c.546 0 .99.444.99 1a1 1 0 0 1-.99 1H7v1.01c0 .546-.444.99-1 .99a1 1 0 0 1-1-.99V15H3.99A.993.993 0 0 1 3 14a1 1 0 0 1 .99-1H5v-1.01c0-.546.444-.99 1-.99a1 1 0 0 1 1 .99V13zm4.997-3.005a2.497 2.497 0 1 1 0-4.995 2.497 2.497 0 0 1 0 4.995zM10 13c0-.552-.45-1-1.002-1H7.973l1.477-.73c.496-.244 1.27-.2 1.763.037l-.153-.064c.536.13 1.414.18 1.936-.007l-.198.085c.477-.272 1.272-.29 1.756-.047l1.545.773c.492.246.89.894.89 1.438v.525a.996.996 0 0 1-1 .99H10v-2z"/>
+        </symbol>
         <symbol id="icon-accept-lead" viewBox="0 0 20 20">
             <path fill="#5EBE3A" fill-rule="evenodd" d="M11 9V6H9v3H6v2h3v3h2v-3h3V9h-3zM0 10C0 4.477 4.477 0 10 0s10 4.477 10 10-4.477 10-10 10S0 15.523 0 10z"/>
         </symbol>

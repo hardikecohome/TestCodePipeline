@@ -5,15 +5,18 @@
 </div>
 
 <div class="accordion-panels-hold">
-	<div class="main-heading customer-heading">New Customer</div>
+	<div class="main-heading customer-heading">New Client</div>
 	<div class="panel accordion-panel active-panel">
 		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">1. Main Information</h3>
+			<h3 class="panel-title dealnet-middle-header">1. Basic Information</h3>
 			<span class="arrow"><i class="glyphicon"></i></span>
 		</div>
 		<div class="panel-body">
 			<div class="form-group">
-				<button class="file-upload btn dealnet-button dealnet-success-button">@Resources.ScanLicense</button>
+				<button class="file-upload btn dealnet-button dealnet-success-button">
+					<svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+					<span>@Resources.ScanLicense</span>
+				</button>
 			</div>
 
 			<div class="row">
@@ -67,7 +70,7 @@
 		</div>
 		<div class="panel-body">
 			<div id="address-section">
-				<h3 class="dealnet-section-title">Current Address Information</h3>
+				<h3 class="dealnet-section-title">Current Address</h3>
 				<div class="row">
 					<div class="col-sm-6 col-md-6 col-lg-4">
 						<div class="form-group">
@@ -98,7 +101,7 @@
 							<label for="" class="mandatory-field">Province</label>
 							<div class="control-group">
 								<select name="" id="" class="form-control">
-									<option value="">-not selected-</option>
+									<option value="">Please select</option>
 								</select>
 							</div>
 						</div>
@@ -124,11 +127,11 @@
 				<label for="living-time-checkbox" class="align-middle custom-checkbox">
 					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox"/>
 					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-					<span>Customer lived at current address for less than 6 month</span>
+					<span>Client lived at current address for less than 6 month</span>
 				</label>
 			</div>
 			<div id="previous-address" style="display: none;">
-				<h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+				<h3 class="dealnet-section-title">Previous Address</h3>
 				<div class="row">
 					<div class="col-sm-6 col-md-6 col-lg-4">
 						<div class="form-group">
@@ -159,7 +162,7 @@
 							<label for="" class="mandatory-field">Province</label>
 							<div class="control-group">
 								<select name="" id="" class="form-control">
-									<option value="">-not selected-</option>
+									<option value="">Please select</option>
 								</select>
 							</div>
 						</div>
@@ -227,7 +230,7 @@
 						<label for="" class="mandatory-field">Preferred contact method</label>
 						<div class="control-group">
 							<select name="" id="" class="form-control">
-								<option value="">- not selected -</option>
+								<option value="">Please select</option>
 							</select>
 						</div>
 					</div>
@@ -242,31 +245,31 @@
 		</div>
 		<div class="panel-body">
 			<div class="text-md-sm">
-				<div class="form-group">Where home improvement project will take place?</div>
+				<div class="form-group">Where will the home improvement project take place?</div>
 				<div class="form-group">
 					<label for="currentAddressIsMortgage" class="align-middle custom-radio">
 						<input type="radio" name="improvement" id="currentAddressIsMortgage" checked="checked">
 						<span class="custom-radio-icon"></span>
-						<span>At current address – it’s mortgage renewal.</span>
-					</label>
-				</div>
-				<div class="form-group">
-					<label for="newHouseAddressUnknown" class="align-middle custom-radio">
-						<input type="radio" name="improvement" id="newHouseAddressUnknown">
-						<span class="custom-radio-icon"></span>
-						<span>At a new house, but address is unknown – customer is still shopping for a new house.</span>
+						<span>At current address.</span>
 					</label>
 				</div>
 				<div class="form-group">
 					<label for="houseCustomerChosen" class="align-middle custom-radio">
 						<input type="radio" name="improvement" id="houseCustomerChosen">
 						<span class="custom-radio-icon"></span>
-						<span>At a new house customer has already chosen.</span>
+						<span>At other address.</span>
 					</label>
 				</div>
 			</div>
 			<div id="installation-address" style="display: none;">
-				<h3 class="dealnet-section-title">New Address Information</h3>
+				<div id="addressUnknown" class="form-group">
+					<label for="addressUnknownCheckbox" class="align-middle custom-checkbox">
+						<input type="checkbox" class="dealnet-checkbox address-checkbox" id="addressUnknownCheckbox"/>
+						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+						<span>Address unknown.  Client is shopping for other property.</span>
+					</label>
+				</div>
+				<h3 class="dealnet-section-title">Location of Property Improvement</h3>
 				<div class="row">
 					<div class="col-sm-6 col-md-6 col-lg-4">
 						<div class="form-group">
@@ -297,7 +300,7 @@
 							<label for="" class="mandatory-field">Province</label>
 							<div class="control-group">
 								<select name="" id="" class="form-control">
-									<option value="">-not selected-</option>
+									<option value="">Please select</option>
 								</select>
 							</div>
 						</div>
@@ -335,7 +338,7 @@
 						<label for="">Home Improvement type</label>
 						<div class="control-group">
 							<select name="" id="" class="form-control">
-								<option value="">-not selected-</option>
+								<option value="">Please select</option>
 							</select>
 						</div>
 					</div>
@@ -354,7 +357,7 @@
 			<div class="row">
 				<div class="col-md-8 col-sm-8 col-lg-6">
 					<div class="form-group">
-						<label for="">Customer's Comment</label>
+						<label for="">At other address.</label>
 						<div class="control-group">
 							<textarea name="" id="" placeholder="Write comment (please don't provide any contact or address information in this field)" class="form-control" style="height: 120px;"></textarea>
 						</div>
@@ -371,14 +374,14 @@
 		<div class="panel-body">
 			<div class="form-group">
 				<label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1" checked="checked"/>
+					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
 					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 					<span class="mandatory-field">Agrees to send his/her personal data to credit check</span>
 				</label>
 			</div>
 			<div class="form-group">
 				<label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2" checked="checked"/>
+					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
 					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 					<span class="mandatory-field"> Agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her by email or phone</span>
 				</label>
@@ -387,7 +390,7 @@
 	</div>
 	<div class="clearfix">
 		<br>
-		<button class="btn dealnet-button dealnet-success-button btn-form-common">@Resources.SaveAndProceed</button>
+		<button class="btn dealnet-button dealnet-success-button btn-form-common">Add Client</button>
 	</div>
 </div>
 
