@@ -922,8 +922,6 @@
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
-    <Folder Include="Views\Rentals\" />
-    <Folder Include="Views\Settings\" />
     <Folder Include="Views\UpdateData\" />
     <Folder Include="Views\Update\" />
   </ItemGroup>
