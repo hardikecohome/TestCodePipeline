@@ -944,7 +944,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
                 ExternalDealerName = "fahrhall",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "8f5686e3-8a2a-4fa4-9243-7f52527f67ac",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -957,7 +957,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
                 ExternalDealerName = "Dangelo",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "8f5686e3-8a2a-4fa4-9243-7f52527f67ac",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -970,7 +970,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
                 ExternalDealerName = "lifetimewater",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "8f5686e3-8a2a-4fa4-9243-7f52527f67ac",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -983,7 +983,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
                 ExternalDealerName = "phphome",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "8f5686e3-8a2a-4fa4-9243-7f52527f67ac",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -999,7 +999,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
                 ExternalDealerName = "fahrhall",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "df2b6600-2492-4fa7-8e4c-f9e4edf0b620",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1012,7 +1012,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
                 ExternalDealerName = "Dangelo",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "df2b6600-2492-4fa7-8e4c-f9e4edf0b620",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1025,7 +1025,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
                 ExternalDealerName = "lifetimewater",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "df2b6600-2492-4fa7-8e4c-f9e4edf0b620",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1038,7 +1038,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
                 ExternalDealerName = "phphome",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "df2b6600-2492-4fa7-8e4c-f9e4edf0b620",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1053,7 +1053,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
                 ExternalDealerName = "fahrhall",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "1327014e-97a1-4508-9214-c19e0460ac0c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1066,7 +1066,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
                 ExternalDealerName = "Dangelo",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "1327014e-97a1-4508-9214-c19e0460ac0c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1079,7 +1079,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
                 ExternalDealerName = "lifetimewater",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "1327014e-97a1-4508-9214-c19e0460ac0c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1092,7 +1092,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
                 ExternalDealerName = "phphome",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "1327014e-97a1-4508-9214-c19e0460ac0c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1108,7 +1108,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
                 ExternalDealerName = "fahrhall",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "485094e9-7b66-4a26-a756-7e2d8e35641a",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1121,7 +1121,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
                 ExternalDealerName = "Dangelo",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "485094e9-7b66-4a26-a756-7e2d8e35641a",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1134,7 +1134,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
                 ExternalDealerName = "lifetimewater",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "485094e9-7b66-4a26-a756-7e2d8e35641a",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1147,7 +1147,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
                 ExternalDealerName = "phphome",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "485094e9-7b66-4a26-a756-7e2d8e35641a",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1163,7 +1163,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplicationHwt,
                 TemplateName = "One Dealer Generic Consumer Initiated Water Heater Agreement Nov 2016 M",
                 ExternalDealerName = "onedealer",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "f1dcbf9d-134a-4708-b590-eb45617d5816",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1181,7 +1181,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplicationHwt,
                 TemplateName = "One Dealer Generic Water Heater Agreement (SF) Nov 2016 M",
                 ExternalDealerName = "onedealer",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "f8d76adf-0f27-442a-a775-43d1f830c0c8",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1198,7 +1198,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplicationHwt,
                 TemplateName = "One Dealer Generic Water Heater Agreement Nov 2016 M",
                 ExternalDealerName = "onedealer",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "f1dcbf9d-134a-4708-b590-eb45617d5816",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1216,7 +1216,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.LoanApplication,
                 TemplateName = "One Dealer HVAC Other Equipment - GENERIC ON Nov 2016 M",
                 ExternalDealerName = "onedealer",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "ebe0f469-8386-4888-9009-3b457479489a",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1234,7 +1234,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplication,
                 TemplateName = "One Dealer Rental Agreement - Alberta (OD) - Nov 2016 M",
                 ExternalDealerName = "onedealer",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "2e9001b3-ff94-44a0-a27c-54f6fb533688",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1252,7 +1252,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplication,
                 TemplateName = "One Dealer Rental Agreement - Saskatchewan M - Nov 2016",
                 ExternalDealerName = "onedealer",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "c7e3750a-b24c-4860-afd7-8f1bf5978546",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
@@ -1270,7 +1270,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AgreementType = AgreementType.RentalApplication,
                 TemplateName = "One Dealer Rental Program Agreement (MB) Nov 2016 M",
                 ExternalDealerName = "onedealer",
-                ExternalTemplateId = string.Empty,
+                ExternalTemplateId = "e473e31a-7b75-4578-8364-861fa827e073",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
                 DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
