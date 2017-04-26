@@ -455,6 +455,7 @@
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-fax.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
+    <Content Include="Content\images\sprite\icon-help-page.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
     <Content Include="Content\images\sprite\icon-info-well.svg" />
@@ -708,6 +709,7 @@
     <Content Include="Content\less\pages\customer-loan-form.less" />
     <Content Include="Content\less\pages\customer-loan-success-page.less" />
     <Content Include="Content\less\components\accordion-panel.less" />
+    <Content Include="Content\files\Help.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
