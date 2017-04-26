@@ -153,10 +153,6 @@
             $(formId).removeData('validator');
             $(formId).removeData('unobtrusiveValidation');
             $.validator.unobtrusive.parse(formId);
-            //$("#customer-rate").rules("add", "required");
-            //$("#amortization-term").rules("add", "required");
-            //$("#requested-term").rules("add", "required");
-            //$("#loan-term").rules("add", "required");
         }
 
         var addEquipment = function () {
@@ -204,7 +200,23 @@
             var loanAmort = e.target.value.split('/');
             setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
         });
+        
+        var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
 
-        // attatch handler to first equipment
-        $('#new-equipment-0').find('.equipment-cost').on('change', updateCost(0));
+        var initEquipment = function (i) {
+            var cost = parseFloat($('#NewEquipment_' + i + '__Cost').val());
+            if (state.equipments[i] === undefined) {
+                state.equipments[i] = { cost: cost }
+            } else {
+                state.equipments[i].cost = cost;
+            }
+
+            $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost(i));
+        }
+
+        for (var i = 0; i <= equipments; i++) {
+            // attatch handler to equipments
+            initEquipment(i);
+            recalculateValuesAndRender();
+        }
     });

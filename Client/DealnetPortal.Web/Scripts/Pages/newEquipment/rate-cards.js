@@ -17,14 +17,7 @@
 
     window.state = {
         agreementType: 0,
-        equipments: {
-            '0': {
-                type: '',
-                description: '',
-                cost: 0,
-                template: ''
-            }
-        },
+        equipments: { },
         tax: 12,
         downPayment: 0,
         rentalMPayment: 0,
@@ -71,7 +64,18 @@
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
             var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
-            var totalCash = +$('#totalPrice').text();
+            var totalCash;
+            if (isNaN(+$('#totalPrice').text())) {
+                //minimum loan value
+                totalCash = 1000;
+            } else {
+                totalCash = +$('#totalPrice').text();
+
+                if (totalCash < 1000) {
+                    totalCash = 1000;
+                }
+            }
+
             var amortization = $.grep(items, function (i) {
                 return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
             })[0];
@@ -156,7 +160,7 @@
 
         var data = {
             tax: state.tax,
-            equipmentSum: eSum,
+            equipmentSum: eSum
         };
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
@@ -174,7 +178,7 @@
     var recalculateRentalTaxAndPrice = function () {
         var data = {
             tax: state.tax,
-            equipmentSum: state.rentalMPayment,
+            equipmentSum: state.rentalMPayment
         };
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
@@ -196,11 +200,14 @@
     var initializeRateCards = function (id, cards) {
         contractId = id;
         rateCards.forEach(function (option) {
-            var filtred = $.grep(cards,
-                function (v) {
-                    return v.CardType === option.id;
-                });
-            sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
+            if (sessionStorage.getItem(contractId + option.name) === null) {
+                var filtred = $.grep(cards,
+                    function (v) {
+                        return v.CardType === option.id;
+                    });
+                sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
+            }
+
             setHandlers(option);
         });
 

@@ -656,13 +656,5 @@ namespace DealnetPortal.Web.Controllers
             var result = await _contractServiceAgent.RemoveContract(contractId);
             return result.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
-
-        [HttpGet]
-        public async Task<JsonResult> GetRatesCards(double creditAmount)
-        {
-            var result = await _contractServiceAgent.GetRateCardsByDealer(creditAmount);
-
-            return Json(result.RateCards, JsonRequestBehavior.AllowGet);
-        }
     }
 }
