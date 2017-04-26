@@ -36,6 +36,8 @@ namespace DealnetPortal.Domain
         
         public DateTime? ValidTo { get; set; }
 
+        public bool IsPromo { get; set; }
+
         public int TierId { get; set; }
         [ForeignKey("TierId")]
         public virtual Tier Tier { get; set; }

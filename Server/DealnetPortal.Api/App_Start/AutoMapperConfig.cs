@@ -120,6 +120,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.LoanValueTo, d => d.MapFrom(s => s.LoanValueTo))
                 .ForMember(x => x.ValidFrom, d => d.MapFrom(s => s.ValidFrom))
                 .ForMember(x => x.ValidTo, d => d.MapFrom(s => s.ValidTo));
+                .ForMember(x => x.IsPromo, d => d.MapFrom(s => s.IsPromo));
                
             mapperConfig.CreateMap<Tier, TierDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
