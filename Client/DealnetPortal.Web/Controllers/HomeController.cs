@@ -65,6 +65,11 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        public ActionResult Help()
+        {
+            return File("~/Content/files/Help.pdf", "application/pdf");
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

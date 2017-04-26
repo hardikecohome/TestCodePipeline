@@ -19,14 +19,17 @@
                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
             </ol>*@
 
-            <div class="button-container">
-                    <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text @if(!Model.CanAddAdditionalApplicants) {<text>disabled</text>} ">
-                        <span>@Resources.AddAdditionalApplicant</span>
-                    </a>
-                    <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text">
-                        <span>@Resources.CreateAnotherApplicationForThis</span>
-                    </a>
-            </div>
+          <div class="button-container">
+            <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text @if (!Model.CanAddAdditionalApplicants)
+                                                                                                                                      {
+                                                                                                                                        <text>disabled</text>
+                                                                                                                                      } ">
+              <span>@Resources.AddAdditionalApplicant</span>
+            </a>
+            <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text">
+              <span>@Resources.CreateAnotherApplicationForThis</span>
+            </a>
+          </div>
         </div>    
     </div>
     <div class="col-lg-3 col-md-2 col-sm-3"></div>
