@@ -4,7 +4,7 @@
     $('.select-filter option').each(function () {
         $(this).val($(this).text());
     });
-    $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+    $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
     $('.select-filter').val($('.select-filter > option:first').val()); 
 });
 
