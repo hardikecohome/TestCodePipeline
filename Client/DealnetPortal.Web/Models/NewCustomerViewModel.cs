@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models.Validation;
 
 namespace DealnetPortal.Web.Models
@@ -20,5 +21,8 @@ namespace DealnetPortal.Web.Models
         public List<string> HomeImprovementTypes { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
         public string CustomerComment { get; set; }
+
+        public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
+        public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }
     }
 }

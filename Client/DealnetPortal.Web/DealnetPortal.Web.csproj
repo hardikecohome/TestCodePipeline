@@ -225,6 +225,8 @@
     <Compile Include="Infrastructure\ClaimsProvider.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
+    <Compile Include="Infrastructure\CustomerManager.cs" />
+    <Compile Include="Infrastructure\ICustomerManager.cs" />
     <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
@@ -830,6 +832,8 @@
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\my-customers.js" />
+    <Content Include="Scripts\Pages\Clients\index.js" />
+    <Content Include="Scripts\Pages\Clients\new-customer-ui.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -871,7 +875,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\About.cshtml" />

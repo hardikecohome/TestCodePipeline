@@ -1,70 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using AutoMapper;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
-using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-
     public class MortgageBrokerController : Controller
     {
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private readonly IContractServiceAgent _contractServiceAgent;
+        private readonly ICustomerManager _customerManager;
 
-        public MortgageBrokerController(IDictionaryServiceAgent dictionaryServiceAgent, IContractServiceAgent contractServiceAgent)
+        public MortgageBrokerController(ICustomerManager customerManager)
         {
-            _dictionaryServiceAgent = dictionaryServiceAgent;
-            _contractServiceAgent = contractServiceAgent;
+            _customerManager = customerManager;
         }
+
         public async Task<ActionResult> NewCustomer()
         {
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            return View();
+            return View(await _customerManager.GetTemplateAsync());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> NewCustomer(NewCustomerViewModel newCustomer)
         {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-                return View();
-            }
-            var newCustomerDto = new NewCustomerDTO();
-            newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(newCustomer.HomeOwner);
-            newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
-            var mainAddress = Mapper.Map<LocationDTO>(newCustomer.HomeOwner.AddressInformation);
-            mainAddress.AddressType = AddressType.MainAddress;
-            newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
-            if (newCustomer.HomeOwner.PreviousAddressInformation != null)
-            {
-                var previousAddress = Mapper.Map<LocationDTO>(newCustomer.HomeOwner.PreviousAddressInformation);
-                previousAddress.AddressType = AddressType.PreviousAddress;
-                newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
-            }
-            var customerContactInfo = Mapper.Map<CustomerDataDTO>(newCustomer.HomeOwnerContactInfo);
-            newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
-            newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
-            newCustomerDto.CustomerComment = newCustomer.CustomerComment;
-            newCustomerDto.HomeImprovementTypes = newCustomer.HomeImprovementTypes;
-            var submitResult = await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
+            //if (!ModelState.IsValid)
+            //{
+            //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            //    return View();
+            //}
 
-            if (submitResult?.Any(x => x.Type == AlertType.Error) ?? false)
-            {
-                TempData[PortalConstants.CurrentAlerts] = submitResult;
-                return RedirectToAction("Error", "Info");
-            }
-            return RedirectToAction("CustomerCreationSuccess", new { contractId =  0 });
+            //var newCustomerDto = new NewCustomerDTO();
+            //newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(newCustomer.HomeOwner);
+            //newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
+            //var mainAddress = Mapper.Map<LocationDTO>(newCustomer.HomeOwner.AddressInformation);
+            //mainAddress.AddressType = AddressType.MainAddress;
+            //newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
+            //if (newCustomer.HomeOwner.PreviousAddressInformation != null)
+            //{
+            //    var previousAddress = Mapper.Map<LocationDTO>(newCustomer.HomeOwner.PreviousAddressInformation);
+            //    previousAddress.AddressType = AddressType.PreviousAddress;
+            //    newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
+            //}
+            //var customerContactInfo = Mapper.Map<CustomerDataDTO>(newCustomer.HomeOwnerContactInfo);
+            //newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
+            //newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
+            //newCustomerDto.CustomerComment = newCustomer.CustomerComment;
+            //newCustomerDto.HomeImprovementTypes = newCustomer.HomeImprovementTypes;
+            //var submitResult = await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
+
+            //if (submitResult?.Any(x => x.Type == AlertType.Error) ?? false)
+            //{
+            //    TempData[PortalConstants.CurrentAlerts] = submitResult;
+            //    return RedirectToAction("Error", "Info");
+            //}
+
+            return RedirectToAction("CustomerCreationSuccess", new {contractId = 0});
         }
 
         public ActionResult CustomerCreationSuccess(int id)

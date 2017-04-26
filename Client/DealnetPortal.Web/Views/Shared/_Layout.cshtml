@@ -216,20 +216,20 @@
                                     @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new {@class = "dealnet-sidebar-link"})
                                 </li>
                             }
-                            @if ((User as ClaimsPrincipal)?.HasClaim("AllowCreateCustomer", "True") ?? false)
-                            {
+                            @*@if ((User as ClaimsPrincipal)?.HasClaim("AllowCreateCustomer", "True") ?? false)
+                            {*@
                                 <li class="dealnet-sidebar-item">
                                     <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-client"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-client")"></use></svg></span>
                                     @Html.ActionLink("New client", "NewCustomer", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                 </li>
-                            }
-                            @if ((User as ClaimsPrincipal)?.HasClaim("ShowMyCustomers", "True") ?? false)
-                            {
+                            @*}*@
+                            @*@if ((User as ClaimsPrincipal)?.HasClaim("ShowMyCustomers", "True") ?? false)
+                            {*@
                                 <li class="dealnet-sidebar-item">
                                     <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account")"></use></svg></span>
                                     @Html.ActionLink("My clients", "MyCustomers", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                 </li>
-                            }
+                            @*}*@
                         </ul>
 
                     </div>

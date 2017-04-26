@@ -62,6 +62,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<IContractManager, ContractManager>();
             container.RegisterType<ICacheService, MemoryCacheService>();
             container.RegisterType<ISettingsManager, SettingsManager>();
+            container.RegisterType<ICustomerManager, CustomerManager>();
         }
     }
 }
