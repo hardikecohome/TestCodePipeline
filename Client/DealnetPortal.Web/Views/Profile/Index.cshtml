@@ -9,16 +9,16 @@
 <div class="profile-header">
     <div class="main-heading profile-heading">My Profile</div>
 
-    <label for="show-profile" class="align-middle custom-checkbox">
+    <!--<label for="show-profile" class="align-middle custom-checkbox">
         <input type="checkbox" class="dealnet-checkbox address-checkbox" id="show-profile" />
         <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
         <span>Show my profile to customers</span>
-    </label>
+    </label>-->
 </div>
 
 <div class="form-container profile-form-container">
     <form action="">
-        <h3 class="dealnet-middle-header address-info-label">Offered service</h3>
+        <h3 class="dealnet-middle-header">Offered service</h3>
         <div class="row">
             <div class="col-md-3 col-sm-4">
                 <div class="form-group">
@@ -37,6 +37,7 @@
                 <span>Add Category</span>
             </a>
         </div>
+<!--
         <h3 class="dealnet-middle-header address-info-label">Description of my company</h3>
         <div class="row">
             <div class="col-sm-6">
@@ -56,10 +57,11 @@
                 </div>
             </div>
         </div>
+-->
 
-        <h3 class="dealnet-middle-header address-info-label">Area of my service</h3>
-        <div class="row">
-            <div class="col-md-3 col-sm-4">
+        <h3 class="dealnet-middle-header">Area of my service</h3>
+        <div class="row postal-code-hold">
+            <div class="col-md-3 col-sm-4 col-xs-10">
                 <div class="form-group">
                     <label for="">Prostal Code</label>
                     <div class="control-group">
@@ -67,13 +69,33 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xs-2">
+                <div class="form-group">
+                    <label for="">&nbsp;</label>
+                    <div class="control-group">
+                        <a href="" class="remove-postal-code">
+                            <svg aria-hidden="true" class="icon icon-remove-cross"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-md-3 col-sm-4">
+        <div class="row postal-code-hold">
+            <div class="col-md-3 col-sm-4 col-xs-10">
                 <div class="form-group">
                     <label for="">Prostal Code</label>
                     <div class="control-group">
                         <input type="text" class="form-control" placeholder="12345" value="345677">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="form-group">
+                    <label for="">&nbsp;</label>
+                    <div class="control-group">
+                        <a href="" class="remove-postal-code">
+                            <svg aria-hidden="true" class="icon icon-remove-cross"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -91,3 +113,17 @@
         </div>
     </form>
 </div>
+
+@section scripts
+{
+
+<script>
+    $(document).ready(function(){
+        $('.remove-postal-code').on('click', function(){
+            $(this).parents('.postal-code-hold').remove();
+            return false;
+        });
+    });
+</script>
+
+}
