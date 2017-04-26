@@ -33,6 +33,7 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             //  This method will be called after migrating to the latest version.
             var applications = SetApplications(context);
+            SetTiers(context);
             SetTestUsers(context, context.Applications.Local.ToArray());
             SetAspireTestUsers(context, context.Applications.Local.ToArray());
             SetTestEquipmentTypes(context);
@@ -51,6 +52,23 @@ namespace DealnetPortal.DataAccess.Migrations
             SetSettingItems(context);
             SetUserSettings(context);
             SetUserLogos(context);
+            SetRateCards(context);
+        }
+
+        public void SetTiers(ApplicationDbContext context)
+        {
+            context.Tiers.AddOrUpdate(new Tier
+            {
+                Id = 1,
+                Name = "Tier1"
+            });
+
+            context.Tiers.AddOrUpdate(new Tier
+            {
+                Id = 2,
+                Name = "Tier2",
+
+            });
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -81,7 +99,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 EsignatureEnabled = false,
                 PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
                 //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                TierId = 1
             };
             var user2 = new ApplicationUser()
             {
@@ -97,7 +116,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 EsignatureEnabled = false,
                 PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
                 //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                TierId = 1
             };
             var users = new List<ApplicationUser>() {user1, user2};
             //leave existing users data
@@ -128,7 +148,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Eco Smart Home Services",
                 AspireAccountId = "70017",
                 AspireLogin = "ecosmart",
-                AspirePassword = "123456"
+                AspirePassword = "123456",
+                TierId = 1
             };
             //context.Users.Add(ecosmartUser);
             users.Add(ecosmartUser);
@@ -151,7 +172,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Canadian Home Efficiency Services",
                 AspireAccountId = "70122",
                 AspireLogin = "canadianhome",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             //context.Users.Add(canadianhomeUser);
             users.Add(canadianhomeUser);
@@ -174,7 +196,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Enertech Home Services",
                 AspireAccountId = "70133",
                 AspireLogin = "enertech",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             //context.Users.Add(enertechUser);
             users.Add(enertechUser);
@@ -197,7 +220,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Efficiency Standard Home Services",
                 AspireAccountId = "70116",
                 AspireLogin = "efficiency",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             //context.Users.Add(efficiencyUser);
             users.Add(efficiencyUser);
@@ -222,7 +246,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Eco Energy Home Services",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
 
             ecoenergyUser.SubDealers = new HashSet<ApplicationUser>();
@@ -244,7 +269,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Apex Home Services",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -266,7 +292,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Ontario Safety Standards",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -288,7 +315,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Ikotel O/A Ontario Water Health Safety",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -310,7 +338,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Ontario Green Solutions",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -332,7 +361,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "EcoLife",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -358,7 +388,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Smart Home",
                 AspireAccountId = "70101",
                 AspireLogin = "smarthome",
-                AspirePassword = "password"
+                AspirePassword = "password",
+                TierId = 1
             };
             users.Add(smartHomeUser);
 
@@ -381,7 +412,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Eco Home",
                 AspireAccountId = "70073",
                 AspireLogin = "Dangelo",
-                AspirePassword = "dangelo"
+                AspirePassword = "dangelo",
+                TierId = 1
             };
             users.Add(ecoHomeUser);
 
@@ -404,7 +436,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Farhall Mechanical",
                 AspireAccountId = "70266",
                 AspireLogin = "fahrhall",
-                AspirePassword = "fahrhall"
+                AspirePassword = "fahrhall",
+                TierId = 1
             };
             users.Add(newUser);
 
@@ -427,7 +460,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Life-Time Water",
                 AspireAccountId = "70182",
                 AspireLogin = "lifetimewater",
-                AspirePassword = "lifetimewater"
+                AspirePassword = "lifetimewater",
+                TierId = 1
             };
             users.Add(newUser);
 
@@ -450,7 +484,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "PHP Home Services",
                 AspireAccountId = "70214",
                 AspireLogin = "phphome",
-                AspirePassword = "phphome"
+                AspirePassword = "phphome",
+                TierId = 1
             };
             users.Add(newUser);
 
@@ -1336,6 +1371,2891 @@ namespace DealnetPortal.DataAccess.Migrations
                     // ignored
                 }
             });
+        }
+
+        private void SetRateCards(ApplicationDbContext context)
+        {
+            #region RateCards - Fixed Rate 1000 - 4999.99 Tier 1
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 1,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 2,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 3,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 4,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Fixed Rate 5000 - 9999.99 Tier 1
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 5,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 6,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 7,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 8,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 9,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Fixed Rate 10000 - 19999.99 Tier 1
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 10,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 11,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 12,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 13,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 14,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Fixed Rate 20000 - 50000 Tier 1
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 15,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 16,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 17,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 18,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 19,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - NoInterest 1000 - 50000 Tier 1
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 20,
+                LoanValueFrom = 1000,
+                LoanValueTo = 50000,
+                CustomerRate = 0,
+                DealerCost = 8.25,
+                AdminFee = 39.95,
+                LoanTerm = 24,
+                AmortizationTerm = 24,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.NoInterest,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 21,
+                LoanValueFrom = 1000,
+                LoanValueTo = 50000,
+                CustomerRate = 0,
+                DealerCost = 11.8,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.NoInterest,
+                IsPromo = false
+            });
+
+            #endregion
+
+            #region RateCards - Deferral 1000 - 4999.99 Tier 1 Defferal Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 22,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 23,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 24,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 25,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 5000 - 9999.99 Tier 1 Deferral Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 26,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 27,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 28,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 29,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 30,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 10000 - 19999.99 Tier 1 Deferral Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 31,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 32,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 33,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 34,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 35,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 20000 - 50000 Tier 1 Deferral Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 36,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 37,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 38,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 39,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 40,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 2.2,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 1000 - 4999.99 Tier 1 Defferal Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 41,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 42,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 43,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 44,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 5000 - 9999.99 Tier 1 Deferral Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 45,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 46,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 47,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 48,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 49,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 10000 - 19999.99 Tier 1 Deferral Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 50,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 51,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 52,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 53,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 54,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 20000 - 50000 Tier 1 Deferral Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 55,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 56,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 57,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 58,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 59,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 1000 - 4999.99 Tier 1 Defferal Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 60,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 61,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 62,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 63,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 5000 - 9999.99 Tier 1 Deferral Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 64,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 65,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 66,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 67,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 68,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 8.74,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 10000 - 19999.99 Tier 1 Deferral Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 69,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 70,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 71,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 72,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 73,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 7.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 20000 - 50000 Tier 1 Deferral Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 74,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 75,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 76,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 77,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 78,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 6.99,
+                DealerCost = 9,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Fixed Rate 1000 - 4999.99 Tier 2
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 79,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 80,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 81,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 82,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Fixed Rate 5000 - 9999.99 Tier 2
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 83,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 84,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 85,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 86,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 87,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Fixed Rate 10000 - 19999.99 Tier 2
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 88,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 89,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 90,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 91,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 92,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Fixed Rate 20000 - 50000 Tier 2
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 93,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 94,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 95,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 96,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 97,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 0,
+                AdminFee = 39.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.FixedRate,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - NoInterest 1000 - 50000 Tier 2
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 98,
+                LoanValueFrom = 1000,
+                LoanValueTo = 50000,
+                CustomerRate = 0,
+                DealerCost = 8.6,
+                AdminFee = 39.95,
+                LoanTerm = 24,
+                AmortizationTerm = 24,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.NoInterest,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 99,
+                LoanValueFrom = 1000,
+                LoanValueTo = 50000,
+                CustomerRate = 0,
+                DealerCost = 12.3,
+                AdminFee = 39.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 0,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.NoInterest,
+                IsPromo = false
+            });
+
+            #endregion
+
+            #region RateCards - Deferral 1000 - 4999.99 Tier 2 Defferal Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 100,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 101,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 102,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 103,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 5000 - 9999.99 Tier 2 Deferral Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 104,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 105,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 106,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 107,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 108,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 10000 - 19999.99 Tier 2 Deferral Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 109,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 110,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 111,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 112,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 113,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 20000 - 50000 Tier 2 Deferral Period 3
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 114,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 115,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 116,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 117,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 118,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 2.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 1000 - 4999.99 Tier 2 Defferal Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 119,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 120,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 121,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 3,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 122,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 5000 - 9999.99 Tier 2 Deferral Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 123,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 124,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 125,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 126,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 127,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 10000 - 19999.99 Tier 2 Deferral Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 128,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 129,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 130,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 131,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 132,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 20000 - 50000 Tier 2 Deferral Period 6
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 133,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 134,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 135,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 136,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 137,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 1000 - 4999.99 Tier 2 Defferal Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 138,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 139,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 140,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 141,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 5000 - 9999.99 Tier 2 Deferral Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 142,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 143,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 144,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 145,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 146,
+                LoanValueFrom = 5000,
+                LoanValueTo = 9999.99,
+                CustomerRate = 9.74,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 10000 - 19999.99 Tier 2 Deferral Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 147,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 148,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 149,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 150,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 151,
+                LoanValueFrom = 10000,
+                LoanValueTo = 19999.99,
+                CustomerRate = 8.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+            #region RateCards - Deferral 20000 - 50000 Tier 2 Deferral Period 12
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 152,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 36,
+                AmortizationTerm = 36,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 153,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 48,
+                AmortizationTerm = 48,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 154,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 155,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 120,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 156,
+                LoanValueFrom = 20000,
+                LoanValueTo = 50000,
+                CustomerRate = 7.99,
+                DealerCost = 9.7,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 180,
+                DeferralPeriod = 12,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
+            #endregion
+
+
         }
 
         public static void AddOrUpdate<TEntity>(DbContext context, Expression<Func<TEntity, object>> identifiers, params TEntity[] entities) where TEntity : class
