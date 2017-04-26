@@ -108,6 +108,31 @@ namespace DealnetPortal.DataAccess.Migrations
         private void SetAspireTestUsers(ApplicationDbContext context, Application[] applications)
         {
             List<ApplicationUser> users = new List<ApplicationUser>();
+
+            //One Dealer users
+            var onedealerUser = new ApplicationUser()
+            {
+                Email = "onedealer@onedealer.com",
+                UserName = "onedealer",
+                Application = applications.First(x => x.Id == OdiAppId),
+                ApplicationId = applications.First(x => x.Id == OdiAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("123456789"),// "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ODI",
+                DisplayName = "One Dealer",
+                AspireAccountId = string.Empty,
+                AspireLogin = string.Empty,
+                AspirePassword = string.Empty
+            };
+            users.Add(onedealerUser);
+
             //EcoSmarts users
             var ecosmartUser = new ApplicationUser()
             {
@@ -909,6 +934,351 @@ namespace DealnetPortal.DataAccess.Migrations
                 DocumentTypeId = (int)DocumentTemplateType.SignedContract
             };
             templates.Add(template);
+
+            // New Templates
+
+            #region EcoHome (MB) Financial  Loan Agreement - MB Aug 2016
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
+                ExternalDealerName = "fahrhall",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
+                ExternalDealerName = "Dangelo",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
+                ExternalDealerName = "lifetimewater",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (MB) Financial  Loan Agreement - MB Aug 2016",
+                ExternalDealerName = "phphome",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            #endregion
+
+            #region EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016
+            template = new AgreementTemplate()
+            {
+                State = "SK",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
+                ExternalDealerName = "fahrhall",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "SK",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
+                ExternalDealerName = "Dangelo",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "SK",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
+                ExternalDealerName = "lifetimewater",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "SK",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome (SK) Credit Application and Loan Agreement (Saskatchewan) Aug 2016",
+                ExternalDealerName = "phphome",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            #endregion
+
+            #region EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M
+            template = new AgreementTemplate()
+            {
+                State = "NB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
+                ExternalDealerName = "fahrhall",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "NB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
+                ExternalDealerName = "Dangelo",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "NB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
+                ExternalDealerName = "lifetimewater",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "NB",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "EcoHome Credit Application and Loan Agreement  (New Brunswick) Nov 2016 M",
+                ExternalDealerName = "phphome",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            #endregion
+
+            #region EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
+                ExternalDealerName = "fahrhall",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("fahrhall"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
+                ExternalDealerName = "Dangelo",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("Dangelo"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
+                ExternalDealerName = "lifetimewater",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("lifetimewater"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "EcoHome Rental Program Agreement (MB) 11.99% M Nov 2016 ",
+                ExternalDealerName = "phphome",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("phphome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            #endregion
+
+            #region One Dealer Generic Consumer Initiated Water Heater Agreement Nov 2016 M
+
+            template = new AgreementTemplate()
+            {
+                AgreementType = AgreementType.RentalApplicationHwt,
+                TemplateName = "One Dealer Generic Consumer Initiated Water Heater Agreement Nov 2016 M",
+                ExternalDealerName = "onedealer",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+
+            templates.Add(template);
+
+            #endregion
+
+            #region One Dealer Generic Water Heater Agreement (SF) Nov 2016 M
+
+            template = new AgreementTemplate()
+            {
+                State = "SF",
+                AgreementType = AgreementType.RentalApplicationHwt,
+                TemplateName = "One Dealer Generic Water Heater Agreement (SF) Nov 2016 M",
+                ExternalDealerName = "onedealer",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+
+            templates.Add(template);
+
+            #endregion
+
+            #region One Dealer Generic Water Heater Agreement Nov 2016 M
+
+            template = new AgreementTemplate()
+            {
+                AgreementType = AgreementType.RentalApplicationHwt,
+                TemplateName = "One Dealer Generic Water Heater Agreement Nov 2016 M",
+                ExternalDealerName = "onedealer",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+
+            templates.Add(template);
+
+            #endregion
+
+            #region One Dealer HVAC Other Equipment - GENERIC ON Nov 2016 M
+
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateName = "One Dealer HVAC Other Equipment - GENERIC ON Nov 2016 M",
+                ExternalDealerName = "onedealer",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+
+            templates.Add(template);
+
+            #endregion
+
+            #region One Dealer Rental Agreement - Alberta (OD) - Nov 2016 M
+
+            template = new AgreementTemplate()
+            {
+                State = "OD",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "One Dealer Rental Agreement - Alberta (OD) - Nov 2016 M",
+                ExternalDealerName = "onedealer",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+
+            templates.Add(template);
+
+            #endregion
+
+            #region One Dealer Rental Agreement - Saskatchewan M - Nov 2016
+
+            template = new AgreementTemplate()
+            {
+                State = "SK",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "One Dealer Rental Agreement - Saskatchewan M - Nov 2016",
+                ExternalDealerName = "onedealer",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+
+            templates.Add(template);
+
+            #endregion
+
+            #region One Dealer Rental Program Agreement (MB) Nov 2016 M
+
+            template = new AgreementTemplate()
+            {
+                State = "MB",
+                AgreementType = AgreementType.RentalApplication,
+                TemplateName = "One Dealer Rental Program Agreement (MB) Nov 2016 M",
+                ExternalDealerName = "onedealer",
+                ExternalTemplateId = string.Empty,
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("onedealer"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+
+            templates.Add(template);
+
+            #endregion
 
             templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName && at.DealerId == t.DealerId && at.AgreementType == t.AgreementType));
             //context.AgreementTemplates.AddOrUpdate(t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());
