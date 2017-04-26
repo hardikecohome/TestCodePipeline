@@ -156,7 +156,8 @@
     <div class="col-md-3">
       <div class="form-group">
         @Html.LabelFor(m => m.DownPayment)
-        <div class="control-group">
+        <div class="control-group has-addon-left">
+          <div class="control-group-addon">$</div>
           @Html.TextBoxFor(m => m.DownPayment, new {@class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment"})
           @Html.ValidationMessageFor(m => m.DownPayment, "", new {@class = "text-danger"})
         </div>

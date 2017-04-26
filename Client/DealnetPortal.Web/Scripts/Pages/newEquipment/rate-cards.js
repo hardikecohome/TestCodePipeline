@@ -59,6 +59,18 @@
             $('#totalPrice').text('-');
         }
     };
+    var togglePromoLabel = function(option) {
+        var isPromo = state[option.name].IsPromo;
+        if (isPromo) {
+            if ($('#' + option.name + 'Promo').is('.hidden')) {
+                $('#' + option.name + 'Promo').removeClass('hidden');
+            }
+        } else {
+            if (!$('#' + option.name + 'Promo').is('.hidden')) {
+                $('#' + option.name + 'Promo').addClass('hidden');
+            }
+        }
+    }
 
     var setBasicValues = function () {
         rateCards.forEach(function (option) {
@@ -84,6 +96,8 @@
 
                 state[option.name] = amortization;
                 state[option.name].yourCost = '';
+
+                togglePromoLabel(option);
 
                 $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
                 $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
@@ -210,8 +224,6 @@
 
             setHandlers(option);
         });
-
-        recalculateValuesAndRender();
     }
 
     return {

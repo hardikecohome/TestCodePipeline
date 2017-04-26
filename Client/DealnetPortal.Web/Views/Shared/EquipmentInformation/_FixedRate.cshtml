@@ -8,13 +8,13 @@
 
 <div class="rate-card table-mode">
   <div class="rate-card-header equal-height-row-1">
-    <span class="promo-label">Promo</span>
+    <span class="promo-label hidden" id="FixedRatePromo">Promo</span>
     <h4 class="rate-card-title">FIXED RATE</h4>
   </div>
   <hr>
   <div class="equal-height-row-2">
     <div class="form-group">
-      <label for="">Loan/Amortization Term</label>
+      <label>Loan/Amortization Term</label>
       @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
     </div>
   </div>
