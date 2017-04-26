@@ -12,29 +12,22 @@
 
     var contractId;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
-    var numberFields = ['equipmentSum', 'loanTerm', 'amortTerm', 'customerRate', 'adminFee'];
-    var notCero = ['equipmentSum', 'loanTerm', 'amortTerm'];
+    var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
+    var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
 
     window.state = {
         agreementType: 0,
-        equipments: {
-            '0': {
-                type: '',
-                description: '',
-                cost: 0,
-                template: ''
-            }
-        },
+        equipments: { },
         tax: 12,
         downPayment: 0,
         rentalMPayment: 0,
         Custom: {
-            loanTerm: '',
-            amortTerm: '',
-            deferralPeriod: '',
-            customerRate: '',
+            LoanTerm: '',
+            AmortiztionTerm: '',
+            DeferralPeriod: '',
+            CustomerRate: '',
             yourCost: '',
-            adminFee: ''
+            AdminFee: ''
         }
     };
 
@@ -66,19 +59,45 @@
             $('#totalPrice').text('-');
         }
     };
+    var togglePromoLabel = function(option) {
+        var isPromo = state[option.name].IsPromo;
+        if (isPromo) {
+            if ($('#' + option.name + 'Promo').is('.hidden')) {
+                $('#' + option.name + 'Promo').removeClass('hidden');
+            }
+        } else {
+            if (!$('#' + option.name + 'Promo').is('.hidden')) {
+                $('#' + option.name + 'Promo').addClass('hidden');
+            }
+        }
+    }
 
     var setBasicValues = function () {
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
             var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
+            var totalCash;
+            if (isNaN(+$('#totalPrice').text())) {
+                //minimum loan value
+                totalCash = 1000;
+            } else {
+                totalCash = +$('#totalPrice').text();
+
+                if (totalCash < 1000) {
+                    totalCash = 1000;
+                }
+            }
+
             var amortization = $.grep(items, function (i) {
-                return i.AmortizationTerm === formatted;
+                return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
             })[0];
 
             if (amortization !== null && amortization !== undefined) {
 
                 state[option.name] = amortization;
                 state[option.name].yourCost = '';
+
+                togglePromoLabel(option);
 
                 $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
                 $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
@@ -90,15 +109,15 @@
     var renderOption = function (option, data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = numberFields.every(function (field) {
-            return typeof data[field] === 'number';
+            var result = typeof data[field] === 'number';
+            return result;
         });
 
         var validateNotEmpty = notCero.every(function (field) {
             return data[field] !== 0;
         });
 
-       // if (notNan && validateNumber && validateNotEmpty) {
-        if (validateNotEmpty) {
+       if (notNan && validateNumber && validateNotEmpty) {
             $('#' + option + 'MPayment').text(formatCurrency(data.monthlyPayment));
             $('#' + option + 'CBorrowing').text(formatCurrency(data.costOfBorrowing));
             $('#' + option + 'TAFinanced').text(formatCurrency(data.totalAmountFinanced));
@@ -155,7 +174,7 @@
 
         var data = {
             tax: state.tax,
-            equipmentSum: eSum,
+            equipmentSum: eSum
         };
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
@@ -173,7 +192,7 @@
     var recalculateRentalTaxAndPrice = function () {
         var data = {
             tax: state.tax,
-            equipmentSum: state.rentalMPayment,
+            equipmentSum: state.rentalMPayment
         };
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
@@ -186,33 +205,25 @@
         }
     };
     function setHandlers(option) {
-        $('#' + option.name + 'AmortizationDropdown').change(function() {
+        $('#' + option.name + 'AmortizationDropdown').change(function () {
+            $(this).prop('selected',true);
             recalculateValuesAndRender();
         });
     }
-    var initializeRateCards = function (id, targetUrl) {
+
+    var initializeRateCards = function (id, cards) {
         contractId = id;
-        var cards = sessionStorage.getItem(contractId);
-        if (cards === null) {
-            $.ajax({
-                type: 'GET',
-                url: targetUrl,
-                cache: true,
-                success: function (result) {
-                    rateCards.forEach(function(option) {
-                        var filtred = $.grep(result, function(v) {
-                            return v.CardType === option.id;
-                        });
-                        sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
-                        setHandlers(option);
+        rateCards.forEach(function (option) {
+            if (sessionStorage.getItem(contractId + option.name) === null) {
+                var filtred = $.grep(cards,
+                    function (v) {
+                        return v.CardType === option.id;
                     });
-                    recalculateValuesAndRender();
-                },
-                error: function () {
-                    alert('error');
-                }
-            });
-        }
+                sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
+            }
+
+            setHandlers(option);
+        });
     }
 
     return {

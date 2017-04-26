@@ -1,8 +1,8 @@
 ﻿module.exports('new-equipment',
     function(require) {
         var equipmentTemplateFactory = require('equipment-template');
-        var tax = require('financial-functions').tax;
         var state = require('rate-cards').state;
+
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('rate-cards').recalculateRentalTaxAndPrice;
@@ -22,35 +22,49 @@
             return function(loanTerm, amortTerm) {
                 state[optionKey].loanTerm = parseFloat(loanTerm);
                 state[optionKey].amortTerm = parseFloat(amortTerm);
-                recalculateValuesAndRender([optionKey]);
+                recalculateValuesAndRender([{ name: optionKey }]);
+            };
+        };
+
+        var setLoanTerm = function (optionKey) {
+            return function (e) {
+                state[optionKey].LoanTerm = parseFloat(e.target.value);
+                recalculateValuesAndRender([{ name: optionKey }]);
+            };
+        };
+
+        var setAmortTerm = function (optionKey) {
+            return function (e) {
+                state[optionKey].AmortizationTerm = parseFloat(e.target.value);
+                recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
 
         var setDeferralPeriod = function(optionKey) {
             return function(e) {
-                state[optionKey].deferralPeriod = parseFloat(e.target.value);
-                recalculateValuesAndRender([optionKey]);
+                state[optionKey].DeferralPeriod = parseFloat(e.target.value);
+                recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
 
         var setCustomerRate = function(optionKey) {
             return function(e) {
-                state[optionKey].customerRate = parseFloat(e.target.value);
-                recalculateValuesAndRender([optionKey]);
+                state[optionKey].CustomerRate = parseFloat(e.target.value);
+                recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
 
         var setYourCost = function(optionKey) {
             return function(e) {
                 state[optionKey].yourCost = parseFloat(e.target.value);
-                recalculateValuesAndRender([optionKey]);
+                recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
 
         var setAdminFee = function(optionKey) {
             return function(e) {
-                state[optionKey].adminFee = parseFloat(e.target.value);
-                recalculateValuesAndRender([optionKey]);
+                state[optionKey].AdminFee = parseFloat(e.target.value);
+                recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
 
@@ -95,17 +109,39 @@
             };
         };
 
-        var submitForm = function(event) {
-            var agreementType = $("#agreement-type").find(":selected").val();
+        var submitForm = function (event) {
+            var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
             if (agreementType === "0") {
-                //isCalculationValid = false;
-                //recalculateTotalCashPrice();
-                if (!isCalculationValid) {
+                var rateCard = $('.checked');
+                if (rateCard.length === 0) {
                     event.preventDefault();
-                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
+                } else {
+                    var monthPayment = Globalize.parseNumber($("#totalPrice").text());
+
+                    if (isNaN(monthPayment) || (monthPayment == 0)) {
+                        event.preventDefault();
+                        $('#new-equipment-validation-message')
+                            .text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
+                    } else {
+                        var option = rateCard.find('#hidden-option').text();
+                        if (option === 'Custom') {
+                            $('#AmortizationTerm').val($('#CustomAmortTerm').text());
+                            $('#CustomerRate').val($('#CustomCustomerRate').text());
+                            $('#AdminFee').val($('#CustomAdminFee').text());
+                        } else {
+                            $('#AmortizationTerm').val($('#' + option + 'AmortizationDropdown').val());
+
+                            //remove percentage symbol
+                            var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
+                            var slicedAdminFee = $('#' + option + 'AFee').text().substring(1);
+
+                            $('#CustomerRate').val(slicedCustomerRate);
+                            $('#AdminFee').val(slicedAdminFee);
+                        }
+                    }
                 }
             } else {
-                var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
+                var monthPayment = Globalize.parseNumber($("#totalPrice").text());
                 if (isNaN(monthPayment) || (monthPayment == 0)) {
                     event.preventDefault();
                     $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
@@ -117,10 +153,6 @@
             $(formId).removeData('validator');
             $(formId).removeData('unobtrusiveValidation');
             $.validator.unobtrusive.parse(formId);
-            //$("#customer-rate").rules("add", "required");
-            //$("#amortization-term").rules("add", "required");
-            //$("#requested-term").rules("add", "required");
-            //$("#loan-term").rules("add", "required");
         }
 
         var addEquipment = function () {
@@ -156,19 +188,35 @@
         $('#rentalMPayment').on('change', setRentalMPayment);
 
         // custom option
-        $('#customLoanTerm').on('change', setLoanTerm('custom'));
-        $('#customAmortTerm').on('change', setAmortTerm('custom'));
-        $('#customDeferralPeriod').on('change', setDeferralPeriod('custom'));
-        $('#customCustomerRate').on('change', setCustomerRate('custom'));
-        $('#customYourCost').on('change', setYourCost('custom'));
-        $('#customAdminFee').on('change', setAdminFee('custom'));
+        $('#CustomLoanTerm').on('change', setLoanTerm('Custom'));
+        $('#CustomAmortTerm').on('change', setAmortTerm('Custom'));
+        $('#CustomDeferralPeriod').on('change', setDeferralPeriod('Custom'));
+        $('#CustomCustomerRate').on('change', setCustomerRate('Custom'));
+        $('#CustomYourCost').on('change', setYourCost('Custom'));
+        $('#CustomAdminFee').on('change', setAdminFee('Custom'));
 
         // deferral
         $('#deferralLATerm').on('change', function(e) {
             var loanAmort = e.target.value.split('/');
             setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
         });
+        
+        var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
 
-        // attatch handler to first equipment
-        $('#new-equipment-0').find('.equipment-cost').on('change', updateCost(0));
+        var initEquipment = function (i) {
+            var cost = parseFloat($('#NewEquipment_' + i + '__Cost').val());
+            if (state.equipments[i] === undefined) {
+                state.equipments[i] = { cost: cost }
+            } else {
+                state.equipments[i].cost = cost;
+            }
+
+            $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost(i));
+        }
+
+        for (var i = 0; i <= equipments; i++) {
+            // attatch handler to equipments
+            initEquipment(i);
+            recalculateValuesAndRender();
+        }
     });

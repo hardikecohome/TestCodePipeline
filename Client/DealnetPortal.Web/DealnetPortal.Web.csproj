@@ -887,8 +887,6 @@
     <Content Include="Views\Stub\CreditCheck.cshtml" />
     <Content Include="Views\Stub\MyDeals.cshtml" />
     <Content Include="Views\Stub\Reports.cshtml" />
-    <Content Include="Views\NewRental\CreditCheckConfirmation.cshtml" />
-    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\NewRental\ContactAndPaymentInfo.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\NewRental\CreditCheck.cshtml" />
@@ -907,8 +905,8 @@
     <Content Include="Views\Info\AnonymousError.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
-    <Content Include="Views\NewRental\NewSecondStep.cshtml" />
-    <Content Include="Views\NewRental\NewThirdStep.cshtml" />
+    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
+    <Content Include="Views\NewRental\AdditionalEquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />

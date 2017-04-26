@@ -19,16 +19,16 @@
                 });
 
                 $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
-                //sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
+                sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
                 sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
-               // $("#new-equipment-base").remove();
+                $("#new-equipment-base").remove();
                 $("#existing-equipment-base").remove();
 
-                //if (sessionStorage.newEquipmets == 0) {
-                //    addNewEquipment();
-                //    $('#new-equipment-remove-0').remove();
-                //    sessionStorage.newEquipmets = 1;
-                //}
+                if (sessionStorage.newEquipmets == 0) {
+                    addNewEquipment();
+                    $('#new-equipment-remove-0').remove();
+                    sessionStorage.newEquipmets = 1;
+                }
 
                 $('.date-input').each(assignDatepicker);
                 $.validator.addMethod(

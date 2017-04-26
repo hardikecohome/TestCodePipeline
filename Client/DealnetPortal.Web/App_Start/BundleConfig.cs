@@ -19,8 +19,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/Vendor/angular/angular-animate.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular-ui")
-                .Include(
-                    "~/Scripts/Vendor/angular/ui-bootstrap-tpls.js"));
+                .Include("~/Scripts/Vendor/angular/ui-bootstrap-tpls.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include("~/Scripts/jquery.validate*")

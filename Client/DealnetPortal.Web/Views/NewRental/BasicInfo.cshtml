@@ -33,6 +33,18 @@
     </div>
 </div>
 
+@{
+    var creditCheckError = TempData["CreditCheckErrorMessage"];
+
+    if (creditCheckError != null)
+    {
+    <div class="well danger-well error-descr">
+      <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+      @creditCheckError
+    </div>
+  }
+}
+
 @if (Model.ContractWasDeclined)
 {
     <!--Show/hide warning depend on status-deal-submitted-->
