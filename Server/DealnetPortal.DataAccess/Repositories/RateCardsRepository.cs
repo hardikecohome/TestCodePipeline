@@ -27,6 +27,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var dealer = _dbContext.Users
                 .Include(x => x.Tier)
+                .Include(x => x.Tier.RateCards)
                 .FirstOrDefault(x => x.Id == id);
 
             if (dealer == null)
