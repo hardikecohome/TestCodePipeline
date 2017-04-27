@@ -7,7 +7,7 @@ using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize]
     public class AsyncCancellationController : Controller
     {
         [HttpPost]

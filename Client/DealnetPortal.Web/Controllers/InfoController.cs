@@ -13,7 +13,7 @@ namespace DealnetPortal.Web.Controllers
     public class InfoController : Controller
     {        
         [HttpGet]
-        [AuthFromContext]
+        [Authorize]
         public ActionResult Error()
         {
             var alerts = (IList<Alert>) TempData[PortalConstants.CurrentAlerts];

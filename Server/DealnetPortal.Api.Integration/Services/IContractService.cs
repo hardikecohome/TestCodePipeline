@@ -28,6 +28,10 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId);
 
+        IList<ContractDTO> GetContractsOffers(string userId);
+
+        IList<ContractDTO> GetCreatedContracts(string userId);
+
         ContractDTO GetContract(int contractId, string contractOwnerId);
 
         IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId);
@@ -72,9 +76,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<int?, IList<Alert>> AddComment(CommentDTO comment, string contractOwnerId);
 
-        IList<Alert> RemoveComment(int commentId, string contractOwnerId);
-
-        IList<ContractDTO> GetContractsOffers(string userId);
+        IList<Alert> RemoveComment(int commentId, string contractOwnerId);        
 
         IList<Alert> RemoveContract(int documentId, string contractOwnerId);
     }

@@ -54,7 +54,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
             container.RegisterType<ICultureManager, CultureManager>();
             container.RegisterType<CultureSetterManager>();
-            container.RegisterType<ISecurityManager, SecurityManager>(new InjectionConstructor(typeof(ISecurityServiceAgent), typeof(IUserManagementServiceAgent), typeof(ILoggingService), ApplicationSettingsManager.PortalType));
+            container.RegisterType<ISecurityManager, OwinSecurityManager>(new InjectionConstructor(typeof(ISecurityServiceAgent), typeof(IUserManagementServiceAgent), typeof(ILoggingService), ApplicationSettingsManager.PortalType));
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();

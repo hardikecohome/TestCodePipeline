@@ -12,6 +12,9 @@ namespace DealnetPortal.Web.Common.Security
         public UserIdentity(IEnumerable<Claim> claims) : base(claims, "OWIN")
         { }
 
+        public UserIdentity(IEnumerable<Claim> claims, string authentificationType) : base(claims, authentificationType)
+        { }
+
         public UserIdentity() : base("OWIN")
         { }
 

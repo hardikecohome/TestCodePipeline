@@ -18,7 +18,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IContractServiceAgent _contractServiceAgent;
@@ -38,6 +38,10 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult Index()
         {
             ViewBag.LangSwitcherAvailable = true;
+            if (User.IsInRole("MortgageBroker"))
+            {
+                return RedirectToAction("MyCustomers", "MortgageBroker");
+            }
             return View();
         }
         
@@ -63,6 +67,11 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult About()
         {
             return View();
+        }
+
+        public ActionResult Help()
+        {
+            return File("~/Content/files/Help.pdf", "application/pdf");
         }
 
         public ActionResult Contact()
