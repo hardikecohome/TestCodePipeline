@@ -83,16 +83,39 @@ namespace DealnetPortal.Web
                       "~/Content/datatables/css/dataTables.bootstrap.css",
                       "~/Content/datatables/css/responsive.bootstrap.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/customer-form")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Logger/log.js")
-                .Include("~/Scripts/customer-form.js")
-                .Include("~/Scripts/Utils/functionUtils.js")
-                .Include("~/Scripts/Utils/logMiddleware.js")
-                .Include("~/Scripts/Utils/objectUtils.js")
-                .Include("~/Scripts/Utils/redux.js")
-            );
+            bundles.Add(new ScriptBundle("~/bundles/customer-form").Include(
+                "~/Scripts/datejs.js",
+                "~/Scripts/Modules/index.js",
+                "~/Scripts/Logger/logdebug.js",
+                "~/Scripts/Pages/customer-form.js",
+                "~/Scripts/Reducers/customer.js",
+                "~/Scripts/Actions/customer.js",
+                "~/Scripts/Selectors/customer.js",
+                "~/Scripts/Views/agreement.js",
+                "~/Scripts/Views/contact-info.js",
+                "~/Scripts/Views/your-info.js",
+                "~/Scripts/Views/installation-address.js",
+                "~/Scripts/Utils/functionUtils.js",
+                "~/Scripts/Utils/logMiddleware.js",
+                "~/Scripts/Utils/objectUtils.js",
+                "~/Scripts/Utils/redux.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/new-customer").Include(
+                "~/Scripts/datejs.js",
+                "~/Scripts/Modules/index.js",
+                "~/Scripts/Logger/logdebug.js",
+                "~/Scripts/Pages/new-customer.js",
+                "~/Scripts/Reducers/customer.js",
+                "~/Scripts/Actions/customer.js",
+                "~/Scripts/Selectors/customer.js",
+                "~/Scripts/Views/agreement.js",
+                "~/Scripts/Views/contact-info.js",
+                "~/Scripts/Views/your-info.js",
+                "~/Scripts/Views/installation-address.js",
+                "~/Scripts/Utils/functionUtils.js",
+                "~/Scripts/Utils/logMiddleware.js",
+                "~/Scripts/Utils/objectUtils.js",
+                "~/Scripts/Utils/redux.js"));
         }
     }
 }

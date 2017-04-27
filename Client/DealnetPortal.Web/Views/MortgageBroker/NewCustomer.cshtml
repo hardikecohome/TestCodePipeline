@@ -1,4 +1,9 @@
-﻿@model DealnetPortal.Web.Models.NewCustomerViewModel
+﻿@using DealnetPortal.Api.Core.Helpers
+@model DealnetPortal.Web.Models.NewCustomerViewModel
+@{
+    bool reCaptchaEnabled;
+    bool.TryParse(System.Configuration.ConfigurationManager.AppSettings["ReCaptchaEnabled"], out reCaptchaEnabled);
+}
 
 <div id="label-steps">
 	<div class="dealnet-action-link">New Customer</div> &gt;
@@ -21,7 +26,7 @@
 					<div class="form-group">
 						<label for="" class="mandatory-field">First Name</label>
 						<div class="control-group">
-							<input type="text" class="form-control dealnet-input" placeholder="First Name">
+							<input type="text" class="form-control dealnet-input" placeholder="First Name" id="firstName">
 						</div>
 					</div>
 				</div>
@@ -29,7 +34,7 @@
 					<div class="form-group">
 						<label for="" class="mandatory-field">Last Name</label>
 						<div class="control-group">
-							<input type="text" class="form-control dealnet-input" placeholder="Last Name">
+							<input type="text" class="form-control dealnet-input" placeholder="Last Name" id="lastName">
 						</div>
 					</div>
 				</div>
@@ -37,7 +42,7 @@
 					<div class="form-group">
 						<label for="" class="mandatory-field">Date of Birth</label>
 						<div class="control-group date-group">
-							<input type="text" class="form-control dealnet-input" placeholder="mm/dd/yyyy">
+							<input type="text" class="form-control dealnet-input" placeholder="mm/dd/yyyy" id="birth-date-customer">
 						</div>
 					</div>
 				</div>
@@ -45,7 +50,7 @@
 					<div class="form-group">
 						<label for="">SIN (Social insurance number)</label>
 						<div class="control-group control-group-pass">
-							<input type="text" class="form-control dealnet-input" placeholder="Social insurance number">
+							<input type="text" class="form-control dealnet-input" placeholder="Social insurance number" id="sin">
 						</div>
 					</div>
 				</div>
@@ -60,12 +65,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel accordion-panel panel-collapsed">
+	<div class="panel accordion-panel panel-collapsed" id="installationAddressPanel">
 		<div class="panel-heading">
 			<h3 class="panel-title dealnet-middle-header">2. Address Information</h3>
 			<span class="arrow"><i class="glyphicon"></i></span>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" id="installationAddressForm">
 			<div id="address-section">
 				<h3 class="dealnet-section-title">Current Address Information</h3>
 				<div class="row">
@@ -73,7 +78,7 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">Street</label>
 							<div class="control-group">
-								<input type="text" placeholder="St." class="form-control dealnet-input">
+								<input type="text" placeholder="St." class="form-control dealnet-input" id="street">
 							</div>
 						</div>
 					</div>
@@ -81,7 +86,7 @@
 						<div class="form-group">
 							<label for="">Unit #</label>
 							<div class="control-group">
-								<input type="text" placeholder="12345" class="form-control dealnet-input">
+								<input type="text" placeholder="12345" class="form-control dealnet-input" id="unit">
 							</div>
 						</div>
 					</div>
@@ -89,7 +94,7 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">City</label>
 							<div class="control-group">
-								<input type="text" placeholder="City" class="form-control dealnet-input">
+								<input type="text" placeholder="City" class="form-control dealnet-input" id="city">
 							</div>
 						</div>
 					</div>
@@ -97,7 +102,7 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">Province</label>
 							<div class="control-group">
-								<select name="" id="" class="form-control">
+								<select name="" id="province" class="form-control">
 									<option value="">-not selected-</option>
 								</select>
 							</div>
@@ -107,12 +112,12 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">Postal Code</label>
 							<div class="control-group">
-								<input type="text" placeholder="12345" class="form-control dealnet-input">
+								<input type="text" placeholder="12345" class="form-control dealnet-input" id="postalCode">
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4">
-						<a href="#" class="dealnet-disabled-text clear-address">
+						<a href="#" class="dealnet-disabled-text clear-address" id="clearAddress">
 							<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
 						</a>
 					</div>
@@ -134,7 +139,7 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">Street</label>
 							<div class="control-group">
-								<input type="text" placeholder="St." class="form-control dealnet-input">
+								<input type="text" placeholder="St." class="form-control dealnet-input" id="pstreet">
 							</div>
 						</div>
 					</div>
@@ -142,7 +147,7 @@
 						<div class="form-group">
 							<label for="">Unit #</label>
 							<div class="control-group">
-								<input type="text" placeholder="12345" class="form-control dealnet-input">
+								<input type="text" placeholder="12345" class="form-control dealnet-input" id="punit">
 							</div>
 						</div>
 					</div>
@@ -150,7 +155,7 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">City</label>
 							<div class="control-group">
-								<input type="text" placeholder="City" class="form-control dealnet-input">
+								<input type="text" placeholder="City" class="form-control dealnet-input" id="pcity">
 							</div>
 						</div>
 					</div>
@@ -158,7 +163,7 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">Province</label>
 							<div class="control-group">
-								<select name="" id="" class="form-control">
+								<select name="" id="pprovince" class="form-control">
 									<option value="">-not selected-</option>
 								</select>
 							</div>
@@ -168,12 +173,12 @@
 						<div class="form-group">
 							<label for="" class="mandatory-field">Postal Code</label>
 							<div class="control-group">
-								<input type="text" placeholder="12345" class="form-control dealnet-input">
+								<input type="text" placeholder="12345" class="form-control dealnet-input" id="ppostalCode">
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4">
-						<a href="#" class="dealnet-disabled-text clear-address">
+						<a href="#" class="dealnet-disabled-text clear-address" id="pclearAddress">
 							<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
 						</a>
 					</div>
@@ -183,18 +188,18 @@
 
 		</div>
 	</div>
-	<div class="panel accordion-panel panel-collapsed">
+	<div class="panel accordion-panel panel-collapsed" id="contactInfoPanel">
 		<div class="panel-heading">
 			<h3 class="panel-title dealnet-middle-header">3. Contact Information</h3>
 			<span class="arrow"><i class="glyphicon"></i></span>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" id="contactInfoForm">
 			<div class="row">
 				<div class="col-md-4 col-sm-6 col-lg-3">
 					<div class="form-group">
 						<label for="">Home Phone</label>
 						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
+							<input type="text" class="form-control dealnet-input" id="phone">
 						</div>
 					</div>
 				</div>
@@ -202,7 +207,7 @@
 					<div class="form-group">
 						<label for="" class="mandatory-field">Cell Phone</label>
 						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
+							<input type="text" class="form-control dealnet-input" id="cellPhone">
 						</div>
 					</div>
 				</div>
@@ -210,7 +215,7 @@
 					<div class="form-group">
 						<label for="">Business Phone</label>
 						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
+							<input type="text" class="form-control dealnet-input" id="businessPhone">
 						</div>
 					</div>
 				</div>
@@ -218,7 +223,7 @@
 					<div class="form-group">
 						<label for="" class="mandatory-field">Email Address</label>
 						<div class="control-group">
-							<input type="email" class="form-control dealnet-input">
+							<input type="email" class="form-control dealnet-input" id="email">
 						</div>
 					</div>
 				</div>
@@ -356,7 +361,7 @@
 					<div class="form-group">
 						<label for="">Customer's Comment</label>
 						<div class="control-group">
-							<textarea name="" id="" placeholder="Write comment (please don't provide any contact or address information in this field)" class="form-control" style="height: 120px;"></textarea>
+							<textarea name="" id="comment" placeholder="Write comment (please don't provide any contact or address information in this field)" class="form-control" style="height: 120px;"></textarea>
 						</div>
 					</div>
 				</div>
@@ -371,14 +376,14 @@
 		<div class="panel-body">
 			<div class="form-group">
 				<label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1" checked="checked"/>
+					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement1" checked="checked"/>
 					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 					<span class="mandatory-field">Agrees to send his/her personal data to credit check</span>
 				</label>
 			</div>
 			<div class="form-group">
 				<label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2" checked="checked"/>
+					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement2" checked="checked"/>
 					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 					<span class="mandatory-field"> Agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her by email or phone</span>
 				</label>
@@ -409,4 +414,13 @@
 			});
 		})
 	</script>
+    <script>
+        window.config = { reCaptchaKey: '@(System.Configuration.ConfigurationManager.AppSettings["ReCaptchaKey"])', reCaptchaEnabled: @(reCaptchaEnabled ? "true" : "false") }
+        window.__DEBUG__ = true;
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/new-customer")
+    <script>
+        module.require('new-customer');
+    </script>
 }
