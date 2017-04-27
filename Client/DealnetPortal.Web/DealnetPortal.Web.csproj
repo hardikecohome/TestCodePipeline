@@ -833,7 +833,7 @@
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\my-customers.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
-    <Content Include="Scripts\Pages\Clients\new-customer-ui.js" />
+    <Content Include="Scripts\Pages\Clients\new-client-ui.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />

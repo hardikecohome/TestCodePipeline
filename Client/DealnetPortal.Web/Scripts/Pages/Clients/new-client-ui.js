@@ -1,4 +1,4 @@
-﻿module.exports('new-customer-ui', function () {
+﻿module.exports('new-client-ui', function () {
 
     var assignDatepicker = function (input) {
 

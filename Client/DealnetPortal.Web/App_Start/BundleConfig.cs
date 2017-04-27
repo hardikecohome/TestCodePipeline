@@ -103,7 +103,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/camera-capturing.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Pages/Clients/index.js")
-                .Include("~/Scripts/Pages/Clients/new-customer-ui.js"));
+                .Include("~/Scripts/Pages/Clients/new-client-ui.js"));
 
         }
     }

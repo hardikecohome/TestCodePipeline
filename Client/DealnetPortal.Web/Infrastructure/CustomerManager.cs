@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -31,6 +33,14 @@ namespace DealnetPortal.Web.Infrastructure
 
             var taxes = await _dictionaryServiceAgent.GetAllProvinceTaxRates();
             model.ProvinceTaxRates = taxes.Item1 ?? new List<ProvinceTaxRateDTO>();
+
+            var contactMethods = new SelectList(Enum.GetValues(typeof(PreferredContactMethod)).Cast<PreferredContactMethod>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList(), "Value", "Text");
+
+            model.ContactMethods = contactMethods;
 
             return model;
         }
