@@ -22,13 +22,13 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireStorageReader = aspireStorageReader;
         }
 
-        public IEnumerable<Claim> GetUserClaims(ApplicationUser user)
+        public IList<Claim> GetUserClaims(ApplicationUser user)
         {
             var claims = new List<Claim>();
-            //var roles = GetUserRoles(user);
-
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+            //var roles = GetUserRoles(user);            
             //roles?.ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.ToString())));
+
             //foreach (var role in roles)
             //{
             //    claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
@@ -59,7 +59,7 @@ namespace DealnetPortal.Api.Integration.Services
             return claims;
         }
 
-        public IEnumerable<UserRole> GetUserRoles(ApplicationUser user)
+        public IList<UserRole> GetUserRoles(ApplicationUser user)
         {
             List<UserRole> roles = new List<UserRole>();
             if (_mortgageBrokers.Contains(user.UserName))

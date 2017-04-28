@@ -7,7 +7,7 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public interface IUsersService
     {
-        IEnumerable<Claim> GetUserClaims(ApplicationUser user);
-        IEnumerable<UserRole> GetUserRoles(ApplicationUser user);
+        IList<Claim> GetUserClaims(ApplicationUser user);
+        IList<UserRole> GetUserRoles(ApplicationUser user);
     }
 }

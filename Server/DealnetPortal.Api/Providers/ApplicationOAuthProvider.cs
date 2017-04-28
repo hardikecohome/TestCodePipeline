@@ -106,7 +106,8 @@ namespace DealnetPortal.Api.Providers
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-            var claims = _usersService.GetUserClaims(user);
+            var claims = _usersService.GetUserClaims(user);            
+
             if (claims?.Any() ?? false)
             {
                 oAuthIdentity.AddClaims(claims);
@@ -128,6 +129,7 @@ namespace DealnetPortal.Api.Providers
                     }
                 }
             }
+            userManager.GetRoles(user.Id)?.ForEach(r => claims?.Add(new Claim(ClaimTypes.Role, r)));
 
             AuthenticationProperties properties = CreateProperties(user.UserName, claims);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
