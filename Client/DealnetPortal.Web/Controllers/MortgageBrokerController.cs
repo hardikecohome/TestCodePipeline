@@ -80,5 +80,14 @@ namespace DealnetPortal.Web.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetCreatedContracts()
+        {
+            var contracts = (await _contractServiceAgent.GetCreatedContracts()).OrderByDescending(x => x.LastUpdateTime).ToList();
+            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
+
+            return Json(contractsVms, JsonRequestBehavior.AllowGet);
+        }
     }
 }
