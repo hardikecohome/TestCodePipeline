@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.ApiClient;
@@ -34,8 +35,8 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
 
             string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];
             _mainClient = new HttpApiClient(baseUrl);
-            _anonymClient = new HttpApiClient(baseUrl);
-            _client = new TransientHttpApiClient(_mainClient, _anonymClient);
+            //_anonymClient = new HttpApiClient(baseUrl);
+            _client = new TransientHttpApiClient(_mainClient, null);
         }
 
         [TestMethod]
@@ -56,7 +57,6 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_mainClient, _loggingService.Object);
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
-
             IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object);
             var result = await contractServiceAgent.CreateContract();
 

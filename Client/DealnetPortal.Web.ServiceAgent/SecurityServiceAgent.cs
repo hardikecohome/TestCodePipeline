@@ -18,10 +18,10 @@ using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Common.Types;
 using DealnetPortal.Web.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -110,7 +110,7 @@ namespace DealnetPortal.Web.ServiceAgent
                             claims.Add(new Claim(claimType, c.Value));
                         }
                     });
-
+                    
                     var identity = new UserIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie) {Token = results["access_token"]};
                     user = new UserPrincipal(identity);
                 }

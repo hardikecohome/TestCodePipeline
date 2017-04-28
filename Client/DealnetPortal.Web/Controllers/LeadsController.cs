@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> Index()
         {
             //TODO: Map to ViewModels and show to a Dealet
-            var leads = await _contractServiceAgent.GetContractsOffers();
+            //var leads = await _contractServiceAgent.GetContractsOffers();
             
             return View();
         }
