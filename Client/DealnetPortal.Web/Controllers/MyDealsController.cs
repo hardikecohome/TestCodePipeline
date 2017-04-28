@@ -20,7 +20,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize]
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class MyDealsController : UpdateDataController
     {

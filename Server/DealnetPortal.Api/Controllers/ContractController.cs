@@ -119,6 +119,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetCreatedContracts")]
+        [HttpGet]
+        public IHttpActionResult GetCreatedContracts()
+        {
+            try
+            {
+                var contractsOffers = ContractService.GetCreatedContracts(LoggedInUser.UserId);
+                return Ok(contractsOffers);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts created by User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("CreateContract")]
         [HttpPut]
         public IHttpActionResult CreateContract()

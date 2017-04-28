@@ -186,6 +186,10 @@ namespace DealnetPortal.Api.Providers
             {
                 data.Add($"claim:{claim.Type}", claim.Value);
             });
+            if (claims?.Any(c => c.Type == ClaimTypes.NameIdentifier) ?? false)
+            {
+                data.Add("userId", claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            }
             var roles = string.Join(":", claims?.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray());
             if (!string.IsNullOrEmpty(roles))
             {

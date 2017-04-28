@@ -1409,4 +1409,7 @@
   <data name="AreYouSureYouWantToRemoveThisApplication" xml:space="preserve">
     <value>Are you sure you want to remove this application</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
 </root>
