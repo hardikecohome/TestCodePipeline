@@ -225,28 +225,18 @@ function showTable() {
                         {// this is Edit Actions Column
                             "render": function (sdata, type, row) {
                                 if (row.Id != 0) {
-                                    return '<div class="edit-control"><a href=' + editItemUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                                    return '<div class="controls-hold">' +
+                                      '<a href=' + editItemUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a><a class="icon-link icon-remove" onclick="removeContract.call(this)" title="' + translations['Remove'] + '"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
                                 } else {
                                     return '';
                                 }
                             },
-                            className: 'edit-cell',
+                            className: 'controls-cell',
                             orderable: false
                         },
                         {
                             "data": 'Id',
                             "visible": false
-                        },
-                        {// this is Remove Actions Column
-                            "render": function (sdata, type, row) {
-                                if (row.IsInternal) {
-                                    return '<div class="remove-control"><a onclick="removeContract.call(this)" title="' + translations['Remove'] + '"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
-                                } else {
-                                    return '';
-                                }
-                            },
-                            className: 'remove-cell',
-                            orderable: false
                         }
 
                   ],
