@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -45,9 +47,35 @@ namespace DealnetPortal.Web.Infrastructure
             return model;
         }
 
-        public void Add(NewCustomerViewModel customer)
+        public async Task<IList<Alert>> AddAsync(NewCustomerViewModel customer)
         {
-            throw new NotImplementedException();
+            var newCustomerDto = new NewCustomerDTO();
+            newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
+            newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
+            var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
+            mainAddress.AddressType = AddressType.MainAddress;
+            newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
+            if (customer.HomeOwner.PreviousAddressInformation?.City != null)
+            {
+                var previousAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.PreviousAddressInformation);
+                previousAddress.AddressType = AddressType.PreviousAddress;
+                newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
+            }
+            var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
+            newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
+            newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
+            newCustomerDto.CustomerComment = customer.CustomerComment;
+            newCustomerDto.HomeImprovementTypes = customer.HomeImprovementTypes;
+
+            return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
+        }
+
+        public async Task<IList<ClientsInformationViewModel>> GetCreatedContractsAsync()
+        {
+            var contracts = await _contractServiceAgent.GetCreatedContracts();
+            var contractsVms = Mapper.Map<IList<ClientsInformationViewModel>>(contracts);
+
+            return contractsVms.OrderByDescending(x => x.Date).ToList();
         }
     }
 }

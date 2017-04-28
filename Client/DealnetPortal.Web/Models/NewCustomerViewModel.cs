@@ -11,7 +11,7 @@ namespace DealnetPortal.Web.Models
         public ApplicantPersonalInfo HomeOwner { get; set; }
 
         public CustomerContactInfoViewModel HomeOwnerContactInfo { get; set; }
-
+        public AddressInformation ImprovmentLocation { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedMoveInDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]

@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 
@@ -14,47 +17,25 @@ namespace DealnetPortal.Web.Controllers
             _customerManager = customerManager;
         }
 
-        public async Task<ActionResult> NewCustomer()
+        public async Task<ActionResult> NewClient()
         {
             return View(await _customerManager.GetTemplateAsync());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> NewCustomer(NewCustomerViewModel newCustomer)
+        public async Task<ActionResult> NewClient(NewCustomerViewModel newCustomer)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            //    return View();
-            //}
+            var result = await _customerManager.AddAsync(newCustomer);
 
-            //var newCustomerDto = new NewCustomerDTO();
-            //newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(newCustomer.HomeOwner);
-            //newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
-            //var mainAddress = Mapper.Map<LocationDTO>(newCustomer.HomeOwner.AddressInformation);
-            //mainAddress.AddressType = AddressType.MainAddress;
-            //newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
-            //if (newCustomer.HomeOwner.PreviousAddressInformation != null)
-            //{
-            //    var previousAddress = Mapper.Map<LocationDTO>(newCustomer.HomeOwner.PreviousAddressInformation);
-            //    previousAddress.AddressType = AddressType.PreviousAddress;
-            //    newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
-            //}
-            //var customerContactInfo = Mapper.Map<CustomerDataDTO>(newCustomer.HomeOwnerContactInfo);
-            //newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
-            //newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
-            //newCustomerDto.CustomerComment = newCustomer.CustomerComment;
-            //newCustomerDto.HomeImprovementTypes = newCustomer.HomeImprovementTypes;
-            //var submitResult = await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
+            if (result?.Any(x => x.Type == AlertType.Error) ?? false)
+            {
+                TempData[PortalConstants.CurrentAlerts] = result;
 
-            //if (submitResult?.Any(x => x.Type == AlertType.Error) ?? false)
-            //{
-            //    TempData[PortalConstants.CurrentAlerts] = submitResult;
-            //    return RedirectToAction("Error", "Info");
-            //}
+                return RedirectToAction("Error", "Info");
+            }
 
-            return RedirectToAction("CustomerCreationSuccess", new {contractId = 0});
+            return RedirectToAction("MyClients");
         }
 
         public ActionResult CustomerCreationSuccess(int id)
@@ -62,7 +43,7 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        public ActionResult MyCustomers()
+        public ActionResult MyClients()
         {
             return View();
         }
@@ -70,10 +51,9 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> GetCreatedContracts()
         {
-            var contracts = (await _contractServiceAgent.GetCreatedContracts()).OrderByDescending(x => x.LastUpdateTime).ToList();
-            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
+            var result = await _customerManager.GetCreatedContractsAsync();
 
-            return Json(contractsVms, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

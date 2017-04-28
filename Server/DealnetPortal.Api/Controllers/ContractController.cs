@@ -518,7 +518,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var creationResult = await ContractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
-                if (creationResult)
+                if (!creationResult)
                 {
                     alerts.Add(new Alert()
                     {
