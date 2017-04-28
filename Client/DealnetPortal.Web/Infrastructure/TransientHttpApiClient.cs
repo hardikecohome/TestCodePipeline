@@ -25,7 +25,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             get
             {
-                if (HttpContext.Current?.User?.Identity?.IsAuthenticated ?? false)
+                if (HttpContext.Current?.User?.Identity?.IsAuthenticated == true || _anonymousHttpClient == null)
                 {
                     return _authorizedHttpClient;
                 }
