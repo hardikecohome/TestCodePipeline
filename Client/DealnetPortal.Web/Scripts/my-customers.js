@@ -4,7 +4,7 @@
     $('.select-filter option').each(function () {
         $(this).val($(this).text());
     });
-    $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+    $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
     $('.select-filter').val($('.select-filter > option:first').val()); 
 });
 
@@ -48,12 +48,12 @@ function showTable() {
                     columns: [
 				        { "data": "TransactionId", className: 'contract-cell' },
 				        { "data": "Date", className: 'date-cell' },
-				        { "data": "CustomerName", className: 'customer-cell' },
-				        { "data": "Status", className: 'status-cell' },
-				        { "data": "Email", className: 'email-cell' },
-				        { "data": "Phone", className: 'phone-cell' },
-				        { "data": "Improvement", className: 'improvement-cell' },
-				        { "data": "SalesAgent", className: 'email-cell' },
+				        { "data": "CustomerName", className: 'customer-cell', orderable: false },
+				        { "data": "Status", className: 'status-cell', orderable: false },
+				        { "data": "Email", className: 'email-cell', orderable: false },
+				        { "data": "Phone", className: 'phone-cell', orderable: false },
+				        { "data": "Improvement", className: 'improvement-cell', orderable: false },
+				        { "data": "SalesAgent", className: 'email-cell', orderable: false },
                     ],
                     dom:
 			            "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
@@ -68,7 +68,7 @@ function showTable() {
 
             var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
             var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
-            $('#table-title').html('<div class="dealnet-large-header">' + translations['MyCustomers'] + '<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+            $('#table-title').html('<div class="dealnet-large-header">' + "My Clients" + '<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
                 $(this).toggleClass('active');
                 $('#work-items-table_filter').slideToggle();
@@ -90,6 +90,7 @@ function showTable() {
                 $('.filter-input').val("");
                 table.search('').draw();
             });
+            $('.dataTables_filter input[type="search"]').attr('placeholder','Client name, email, phone, home improvement category');
         });
 };
 

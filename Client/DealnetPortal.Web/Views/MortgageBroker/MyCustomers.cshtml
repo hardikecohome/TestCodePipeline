@@ -1,7 +1,8 @@
-﻿<div id="label-steps">
-	<div class="dealnet-action-link">@Resources.MyCustomers</div> >
+﻿<!--
+<div id="label-steps">
+	<div class="dealnet-action-link">My Clients</div>
 </div>
-
+-->
 <div class="expand-filter-template">
 	<div class="reset-form-inline">
 		<div class="row">
@@ -9,7 +10,7 @@
 				<div class="form-group">
                     <a class="btn dealnet-button dealnet-success-button block-button add-customer-btn" href="@Url.Action("NewCustomer", "MortgageBroker")">
                         <span class="button-inner">
-                            <span>+ @Resources.AddCustomer</span>
+                            <span>+ Add Client</span>
                         </span>
                     </a>
 				</div>
@@ -44,9 +45,7 @@
 				<div class="form-group">
 					<label for="">Sales agent</label>
 					<div class="control-group">
-						<select id="" class="form-control select-filter filter-input">
-							<option value="">- not selected-</option>
-						</select>
+						<select id="" class="form-control select-filter filter-input"></select>
 					</div>
 				</div>
 			</div>
@@ -65,9 +64,9 @@
 		<tr>
 			<th class="all contract-cell">@Resources.Contract&nbsp;#</th>
 			<th class="all data-cell">@Resources.AddedOn</th>
-			<th class="all customer-cell">@Resources.Customer</th>
+			<th class="all customer-cell">Client</th>
 			<th class="min-mobile-l status-cell">@Resources.Status</th>
-			<th class="min-desktop email-cell">@Resources.Email</th>
+			<th class="min-desktop email-cell">Client email</th>
 			<th class="min-desktop phone-cell">@Resources.Phone</th>
 			<th class="min-desktop improvement-cell">Home improvement</th>
 			<th class="min-desktop email-cell">Sales agent</th>
