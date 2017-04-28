@@ -153,7 +153,6 @@ namespace DealnetPortal.DataAccess.Migrations
                 AspireAccountId = string.Empty,
                 AspireLogin = "greenessential",
                 AspirePassword = "123456",
-                ParentDealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")) ?? users.FirstOrDefault(u => u.UserName.Contains("onedealer")),
             };
             users.Add(onedealerUser);
 
@@ -177,7 +176,6 @@ namespace DealnetPortal.DataAccess.Migrations
                 AspireAccountId = string.Empty,
                 AspireLogin = "ohwater",
                 AspirePassword = "123456",
-                ParentDealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")) ?? users.FirstOrDefault(u => u.UserName.Contains("onedealer")),
             };
             users.Add(onedealerUser);
 
@@ -529,7 +527,8 @@ namespace DealnetPortal.DataAccess.Migrations
 
             //leave existing users data
             users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
-            context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
+            //add new to db
+            context.Users.AddOrUpdate(u => u.UserName, users.ToArray());                       
         }
 
         private void SetTestEquipmentTypes(ApplicationDbContext context)
