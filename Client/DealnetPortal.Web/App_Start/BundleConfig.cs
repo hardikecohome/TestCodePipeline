@@ -93,6 +93,18 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Utils/objectUtils.js")
                 .Include("~/Scripts/Utils/redux.js")
             );
+
+            bundles.Add(new ScriptBundle("~/bundles/new-customer")
+                .Include("~/Scripts/general-address-autocomplete.js")
+                .Include("~/Scripts/customer-validation.js")
+                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/BasicInfo/DlScanning/dl-scanning.js")
+                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/camera-capturing.js")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Pages/Clients/index.js")
+                .Include("~/Scripts/Pages/Clients/new-client-ui.js"));
+
         }
     }
 }

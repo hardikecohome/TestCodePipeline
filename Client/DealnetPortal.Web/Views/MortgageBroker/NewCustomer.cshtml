@@ -1,416 +1,471 @@
 ﻿@model DealnetPortal.Web.Models.NewCustomerViewModel
 
+<div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="dealnet-middle-header">@Resources.ScanLicense</div>
+        <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
+
+        <ul class="nav nav-tabs" role="tablist">
+          <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
+          <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="home">
+            <div id="capture-area">
+              <video autoplay class="capture-frame" id="video"></video>
+              <canvas id="capture-canvas" class="capture-frame"></canvas>
+              <canvas id="big-capture-canvas"></canvas>
+              <div id="capture-buttons">
+                <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture"/>
+                <div id="capture-buttons-2">
+                  <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
+                  <div id="retake">@Resources.Retake</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="profile">
+            <div id="upload-area">
+              <div id="upload-buttons">
+                <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                  <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
+                  <span>@Resources.Upload Photo</span>
+                  <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="label-steps">
-	<div class="dealnet-action-link">New Customer</div> &gt;
+  <div class="dealnet-action-link">New Customer</div> &gt;
 </div>
 
-<div class="accordion-panels-hold">
-	<div class="main-heading customer-heading">New Client</div>
-	<div class="panel accordion-panel active-panel">
-		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">1. Client Information</h3>
-			<span class="arrow"><i class="glyphicon"></i></span>
-		</div>
-		<div class="panel-body">
-			<div class="form-group">
-				<button class="file-upload btn dealnet-button dealnet-success-button">
-					<svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-					<span>@Resources.ScanLicense</span>
-				</button>
-			</div>
+@using (Html.BeginForm("NewCustomer", "MortgageBroker", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13" }))
+{
+  <div class="accordion-panels-hold">
+    <div class="main-heading customer-heading">New Client</div>
+  <div class="panel accordion-panel active-panel" id="basic-information">
+      <div class="panel-heading">
+        <h3 class="panel-title dealnet-middle-header">1. Basic Information</h3>
+        <span class="arrow"><i class="glyphicon"></i></span>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <button class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+            <span>@Resources.ScanLicense</span>
+          </button>
+        </div>
 
-			<div class="row">
-				<div class="col-sm-6 col-md-4 col-lg-3">
-					<div class="form-group">
-						<label for="" class="mandatory-field">First Name</label>
-						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-3">
-					<div class="form-group">
-						<label for="" class="mandatory-field">Last Name</label>
-						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6">
-					<div class="form-group">
-						<label for="" class="mandatory-field">Date of Birth</label>
-						<div class="control-group date-group">
-							<input type="text" class="form-control dealnet-input" placeholder="mm/dd/yyyy">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-3 col-clear-md-4">
-					<div class="form-group">
-						<label for="">SIN (Social insurance number)</label>
-						<div class="control-group control-group-pass">
-							<input type="text" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-3 col-clear-lg-3 col-clear-sm-6">
-					<div class="form-group">
-						<label for="">Driver License Number</label>
-						<div class="control-group control-group-pass">
-							<input type="text" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="panel accordion-panel panel-collapsed">
-		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">2. Address Information</h3>
-			<span class="arrow"><i class="glyphicon"></i></span>
-		</div>
-		<div class="panel-body">
-			<div id="address-section">
-				<h3 class="dealnet-section-title">Current Address</h3>
-				<div class="row">
-					<div class="col-sm-6 col-md-6 col-lg-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Street</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-2">
-						<div class="form-group">
-							<label for="">Unit #</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6">
-						<div class="form-group">
-							<label for="" class="mandatory-field">City</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-md-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Province</label>
-							<div class="control-group">
-								<select name="" id="" class="form-control">
-									<option value="">Please select</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-lg-3 col-clear-sm-6">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Postal Code</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<a href="#" class="dealnet-disabled-text clear-address">
-							<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-						</a>
-					</div>
-				</div>
-			</div>
-			<!--Living time-->
-			<br>
-			<div id="living-time" class="form-group">
-				<label for="living-time-checkbox" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox"/>
-					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-					<span>Client lived at current address for less than 6 month</span>
-				</label>
-			</div>
-			<div id="previous-address" style="display: none;">
-				<h3 class="dealnet-section-title">Previous Address</h3>
-				<div class="row">
-					<div class="col-sm-6 col-md-6 col-lg-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Street</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-2">
-						<div class="form-group">
-							<label for="">Unit #</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6">
-						<div class="form-group">
-							<label for="" class="mandatory-field">City</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-md-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Province</label>
-							<div class="control-group">
-								<select name="" id="" class="form-control">
-									<option value="">Please select</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6 col-clear-lg-3">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Postal Code</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<a href="#" class="dealnet-disabled-text clear-address">
-							<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-						</a>
-					</div>
-				</div>
-			</div>
-			<!--End Living time-->
+        <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.FirstName, new {@for = "first-name", @class = "mandatory-field"})
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName})
+                @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.LastName, new {@for = "last-name", @class = "mandatory-field"})
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName})
+                @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.BirthDate, new {@for = "birth-date", @class = "mandatory-field"})
+              <div class="control-group date-group">
+                @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = ""})
+                @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.Sin, new {@for = "sin-number"})
+              <div class="control-group control-group-pass">
+                @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", type = "text", placeholder = Resources.Sin})
+                @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new {@for = "dl-number"})
+              <div class="control-group control-group-pass">
+                @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", placeholder = Resources.DriverLicenseNumber})
+                @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new {@class = "text-danger"})
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="panel accordion-panel panel-collapsed" id="additional-infomration">
+    <div class="panel-heading">
+      <h3 class="panel-title dealnet-middle-header">2. Address Information</h3>
+      <span class="arrow"><i class="glyphicon"></i></span>
+    </div>
+    <div class="panel-body">
+      <div id="address-section">
+        <h3 class="dealnet-section-title">Current Address</h3>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.AddressInformation.Street, new { @for = "street", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street", placeholder = Resources.StreetPlaceholder})
+                @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new {@class = "text-danger"})
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-2 ">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @for = "unit_number" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type="text", id = "unit_number", placeholder = "12345" })
+                @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.AddressInformation.City, new { @for = "locality", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = Resources.Ottawa })
+                @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, Model.ProvinceTaxRates.Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province }),"",
+                  new { @class = "form-control dealnet-input", id = "province"})
+                @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @for = "postal_code", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
+                @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <a href="#" class="dealnet-disabled-text clear-address">
+              <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!--Living time-->
+      <br>
+      <div id="living-time" class="form-group">
+        <label for="living-time-checkbox" class="align-middle custom-checkbox">
+          <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox"/>
+          <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+          <span>Client lived at current address for less than 6 month</span>
+        </label>
+      </div>
+      <div id="previous-address" style="display: none;">
+        <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @for = "previous_street", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @class = "form-control dealnet-input", id = "previous_street", placeholder = Resources.StreetPlaceholder, disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Street, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-2">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.UnitNumber, new { @for = "previous_unit_number" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "previous_unit_number", placeholder = "12345", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.UnitNumber, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @for = "previous_locality", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @class = "form-control dealnet-input", id = "previous_locality", placeholder = Resources.Ottawa, disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.City, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "previous_administrative_area_level_1", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.PreviousAddressInformation?.Province == x.Province }), "",
+                  new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1", disabled = "disabled"})
+                @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @for = "previous_postal_code", @class = "mandatory-field" })
+              <div class="control-group">
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "previous_postal_code", placeholder = "12345", disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <a href="#" class="dealnet-disabled-text clear-address">
+              <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+            </a>
+          </div>
+        </div>
+        <!--End Living time-->
 
-		</div>
-	</div>
-	<div class="panel accordion-panel panel-collapsed">
-		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">3. Contact Information</h3>
-			<span class="arrow"><i class="glyphicon"></i></span>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-md-4 col-sm-6 col-lg-3">
-					<div class="form-group">
-						<label for="">Home Phone</label>
-						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-6 col-lg-3">
-					<div class="form-group">
-						<label for="" class="mandatory-field">Cell Phone</label>
-						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-6 col-lg-3 col-clear-sm-6">
-					<div class="form-group">
-						<label for="">Business Phone</label>
-						<div class="control-group">
-							<input type="text" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-6 col-lg-3 col-clear-md-4">
-					<div class="form-group">
-						<label for="" class="mandatory-field">Email Address</label>
-						<div class="control-group">
-							<input type="email" class="form-control dealnet-input">
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-6 col-lg-3 col-clear-sm-6 col-clear-lg-3">
-					<div class="form-group">
-						<label for="" class="mandatory-field">Preferred contact method</label>
-						<div class="control-group">
-							<select name="" id="" class="form-control">
-								<option value="">Please select</option>
-							</select>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="panel accordion-panel panel-collapsed">
-		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">4. Home improvements</h3>
-			<span class="arrow"><i class="glyphicon"></i></span>
-		</div>
-		<div class="panel-body">
-			<div class="text-md-sm">
-				<div class="form-group">Where will the home improvement project take place?</div>
-				<div class="form-group">
-					<label for="currentAddressIsMortgage" class="align-middle custom-radio">
-						<input type="radio" name="improvement" id="currentAddressIsMortgage" checked="checked">
-						<span class="custom-radio-icon"></span>
-						<span>At current address.</span>
-					</label>
-				</div>
-				<div class="form-group">
-					<label for="houseCustomerChosen" class="align-middle custom-radio">
-						<input type="radio" name="improvement" id="houseCustomerChosen">
-						<span class="custom-radio-icon"></span>
-						<span>At other address.</span>
-					</label>
-				</div>
-			</div>
-			<div id="installation-address" style="display: none;">
-				<div id="addressUnknown" class="form-group">
-					<label for="addressUnknownCheckbox" class="align-middle custom-checkbox">
-						<input type="checkbox" class="dealnet-checkbox address-checkbox" id="addressUnknownCheckbox"/>
-						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-						<span>Address unknown.  Client is shopping for other property.</span>
-					</label>
-				</div>
-				<h3 class="dealnet-section-title">Location of Property Improvement</h3>
-				<div class="row">
-					<div class="col-sm-6 col-md-6 col-lg-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Street</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-								asdf
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-2">
-						<div class="form-group">
-							<label for="">Unit #</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6">
-						<div class="form-group">
-							<label for="" class="mandatory-field">City</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-md-4">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Province</label>
-							<div class="control-group">
-								<select name="" id="" class="form-control">
-									<option value="">Please select</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6 col-clear-lg-3">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Postal Code</label>
-							<div class="control-group">
-								<input type="text" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3">
-						<div class="form-group">
-							<label for="" class="mandatory-field">Estimated move in date</label>
-							<div class="control-group date-group">
-								<input type="text" placeholder="mm/dd/yyyy" class="form-control dealnet-input">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6">
-						<label for="" class="hidden visible-lg">&nbsp;</label>
-						<div class="control-group">
-							<a href="#" class="dealnet-disabled-text clear-address">
-								<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-							</a>
-						</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel accordion-panel panel-collapsed">
+    <div class="panel-heading">
+      <h3 class="panel-title dealnet-middle-header">3. Contact Information</h3>
+      <span class="arrow"><i class="glyphicon"></i></span>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            @Html.LabelFor(m => m.HomeOwnerContactInfo.HomePhone, new { @class = "mandatory-field" })
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new { @class = "form-control dealnet-input", placeholder = Resources.HomePhone, id = "homePhone" })
+              @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.HomePhone, "", new { @class = "text-danger" })
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            @Html.LabelFor(m => m.HomeOwnerContactInfo.CellPhone, new { @class = "mandatory-field" })
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.CellPhone, new { @class = "form-control dealnet-input", placeholder = Resources.CellPhone, id = "cellPhone" })
+              @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.CellPhone, "", new { @class = "text-danger" })
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            @Html.LabelFor(m => m.HomeOwnerContactInfo.BusinessPhone)
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new { @class = "form-control dealnet-input", placeholder = Resources.BusinessPhone, id = "businessPhone" })
+              @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.BusinessPhone, "", new { @class = "text-danger" })
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "mandatory-field" })
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", placeholder = Resources.EmailAddress, id = "email" })
+              @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            @Html.LabelFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, new { @class = "mandatory-field" })
+            <div class="control-group">
+              @Html.DropDownListFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, Model.ContactMethods,"", new { @class = "form-control dealnet-input", id = "province"})
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel accordion-panel panel-collapsed">
+    <div class="panel-heading">
+      <h3 class="panel-title dealnet-middle-header">4. Home improvements</h3>
+      <span class="arrow"><i class="glyphicon"></i></span>
+    </div>
+    <div class="panel-body">
+      <div class="text-md-sm">
+        <div class="form-group">Where will the home improvement project take place?</div>
+        <div class="form-group">
+          <label for="currentAddressIsMortgage" class="align-middle custom-radio">
+            <input type="radio" name="improvement" id="currentAddressIsMortgage" checked="checked">
+            <span class="custom-radio-icon"></span>
+            <span>At current address.</span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="houseCustomerChosen" class="align-middle custom-radio">
+            <input type="radio" name="improvement" id="houseCustomerChosen">
+            <span class="custom-radio-icon"></span>
+            <span>At other address.</span>
+          </label>
+        </div>
+      </div>
+      <div id="installation-address" style="display: none;">
+        <div id="addressUnknown" class="form-group">
+          <label for="addressUnknownCheckbox" class="align-middle custom-checkbox">
+            <input type="checkbox" class="dealnet-checkbox address-checkbox" id="addressUnknownCheckbox"/>
+            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+            <span>Address unknown. Client is shopping for other property.</span>
+          </label>
+        </div>
+        <h3 class="dealnet-section-title">Location of Property Improvement</h3>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="form-group">
+              <label for="" class="mandatory-field">Street</label>
+              <div class="control-group">
+                <input type="text" placeholder="St." class="form-control dealnet-input">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-2">
+            <div class="form-group">
+              <label for="">Unit #</label>
+              <div class="control-group">
+                <input type="text" placeholder="12345" class="form-control dealnet-input">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label for="" class="mandatory-field">City</label>
+              <div class="control-group">
+                <input type="text" placeholder="City" class="form-control dealnet-input">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label for="" class="mandatory-field">Province</label>
+              <div class="control-group">
+                <select name="" id="" class="form-control">
+                  <option value="">Please select</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label for="" class="mandatory-field">Postal Code</label>
+              <div class="control-group">
+                <input type="text" placeholder="12345" class="form-control dealnet-input">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label for="" class="mandatory-field">Estimated move in date</label>
+              <div class="control-group date-group">
+                <input type="text" placeholder="mm/dd/yyyy" class="form-control dealnet-input">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <label for="" class="hidden visible-lg">&nbsp;</label>
+            <div class="control-group">
+              <a href="#" class="dealnet-disabled-text clear-address">
+                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+              </a>
+            </div>
 
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 col-sm-6 col-lg-3">
-					<div class="form-group">
-						<label for="">Home Improvement type</label>
-						<div class="control-group">
-							<select name="" id="" class="form-control">
-								<option value="">Please select</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-8 col-sm-6 col-lg-6">
-					<div class="form-group">
-						<label for="" class="hidden-xs">&nbsp;</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            <label for="">Home Improvement type</label>
+            <div class="control-group">
+              <select name="" id="" class="form-control">
+                <option value="">Please select</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label for="" class="hidden-xs">&nbsp;</label>
 
-					<ul class="customer-needs-list tags-list">
-						<li>Air Conditioner <span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
-						<li>Air Handler <span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
-					</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-8 col-sm-8 col-lg-6">
-					<div class="form-group">
-						<label for="">At other address.</label>
-						<div class="control-group">
-							<textarea name="" id="" placeholder="Please describe your home improvement project (please don't provide any contact or address information in this field)" class="form-control" style="height: 120px;"></textarea>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="panel accordion-panel panel-collapsed">
-		<div class="panel-heading">
-			<h3 class="panel-title dealnet-middle-header">5. Customer Consents</h3>
-			<span class="arrow"><i class="glyphicon"></i></span>
-		</div>
-		<div class="panel-body">
-			<div class="form-group">
-				<label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
-					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-					<span class="mandatory-field">Client agrees to send his/her personal data to credit check</span>
-				</label>
-			</div>
-			<div class="form-group">
-				<label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
-					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
-					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-					<span class="mandatory-field"> Client agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her by email or phone</span>
-				</label>
-			</div>
-		</div>
-	</div>
-	<div class="clearfix">
-		<br>
-		<button class="btn dealnet-button dealnet-success-button btn-form-common">Add Client</button>
-	</div>
+            <ul class="customer-needs-list tags-list">
+              <li>Air Conditioner <span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+              <li>Air Handler <span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-sm-8 col-lg-6">
+          <div class="form-group">
+            <label for="">At other address.</label>
+            <div class="control-group">
+              <textarea name="" id="" placeholder="Write comment (please don't provide any contact or address information in this field)" class="form-control" style="height: 120px;"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel accordion-panel panel-collapsed">
+    <div class="panel-heading">
+      <h3 class="panel-title dealnet-middle-header">5. Customer Consents</h3>
+      <span class="arrow"><i class="glyphicon"></i></span>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
+          <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
+          <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+          <span class="mandatory-field">Agrees to send his/her personal data to credit check</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
+          <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
+          <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+          <span class="mandatory-field"> Agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her by email or phone</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix">
+    <br>
+    <button class="btn dealnet-button dealnet-success-button btn-form-common">Add Client</button>
+  </div>
 </div>
+}
+
+<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 
 @section scripts
 {
-	<script>
-		$(document).ready(function(){
-			$('#living-time-checkbox').on('change', function(){
-				if($(this).is(':checked')){$('#previous-address').show()}else{$('#previous-address').hide()}
-			});
+  @Scripts.Render("~/bundles/jqueryval")
+  @Scripts.Render("~/bundles/localization")
+  @Scripts.Render("~/bundles/new-customer")
 
-
-			$("input[name$='improvement']").on('click', function() {
-				if($(this).is("#houseCustomerChosen")){
-					$('#installation-address').show()
-				}else{
-					$('#installation-address').hide()
-				}
-			});
-		})
-	</script>
+  <script type="text/javascript">
+    module.require('new-customer');
+  </script>
 }
