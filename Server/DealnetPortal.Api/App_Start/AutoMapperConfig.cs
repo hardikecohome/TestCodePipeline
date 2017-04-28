@@ -178,7 +178,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Emails, s => s.ResolveUsing(src =>
                 {
                     List<EmailDTO> emails = null;
-                    if (string.IsNullOrEmpty(src.EmailAddress))
+                    if (!string.IsNullOrEmpty(src.EmailAddress))
                     {
                         emails = new List<EmailDTO>()
                         {
