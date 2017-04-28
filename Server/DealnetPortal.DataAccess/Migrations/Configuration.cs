@@ -128,8 +128,56 @@ namespace DealnetPortal.DataAccess.Migrations
                 Company = "ODI",
                 DisplayName = "One Dealer",
                 AspireAccountId = string.Empty,
-                AspireLogin = string.Empty,
-                AspirePassword = string.Empty
+                AspireLogin = "onedealer",
+                AspirePassword = "123456789"
+            };
+            users.Add(onedealerUser);
+
+            onedealerUser = new ApplicationUser()
+            {
+                Email = "onedealer@onedealer.com",
+                UserName = "greenessential",
+                Application = applications.First(x => x.Id == OdiAppId),
+                ApplicationId = applications.First(x => x.Id == OdiAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("123456"),// "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "Green Essential Services",
+                DisplayName = "Green Essential Services",
+                AspireAccountId = string.Empty,
+                AspireLogin = "greenessential",
+                AspirePassword = "123456",
+                ParentDealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")) ?? users.FirstOrDefault(u => u.UserName.Contains("onedealer")),
+            };
+            users.Add(onedealerUser);
+
+            onedealerUser = new ApplicationUser()
+            {
+                Email = "onedealer@onedealer.com",
+                UserName = "ohwater",
+                Application = applications.First(x => x.Id == OdiAppId),
+                ApplicationId = applications.First(x => x.Id == OdiAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("123456789"),// "ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "Ontario HVAC and Water",
+                DisplayName = "Ontario HVAC and Water",
+                AspireAccountId = string.Empty,
+                AspireLogin = "ohwater",
+                AspirePassword = "123456",
+                ParentDealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("onedealer")) ?? users.FirstOrDefault(u => u.UserName.Contains("onedealer")),
             };
             users.Add(onedealerUser);
 
