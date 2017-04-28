@@ -268,6 +268,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
     <Compile Include="Models\CertificateInformationViewModel.cs" />
+    <Compile Include="Models\ClientsInformationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
@@ -945,8 +946,8 @@
     <Content Include="Views\CustomerForm\Index.cshtml" />
     <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
     <Content Include="Views\Info\AnonymousError.cshtml" />
-    <Content Include="Views\MortgageBroker\NewCustomer.cshtml" />
-    <Content Include="Views\MortgageBroker\MyCustomers.cshtml" />
+    <Content Include="Views\MortgageBroker\NewClient.cshtml" />
+    <Content Include="Views\MortgageBroker\MyClients.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
     <Content Include="Views\Leads\Index.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />

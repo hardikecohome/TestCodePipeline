@@ -22,17 +22,43 @@
         if (isValid) isValidBehavior();
     }
 
+    var selected = [];
+
+    function removeEquipment() {
+        var value = $(this).val();
+        if (value) {
+            var index = selected.indexOf(value);
+            if (index !== -1) {
+                selected.splice(index, 1);
+            }
+        }
+
+        $(this).parent().remove();
+    }
+
+    $('span.icon-remove').on('click', 'div.form-group', removeEquipment);
+
+    // action handlers
+    $('#improvment-equipment').on('change', function () {
+        var equipmentValue = $(this).val();
+        var equipmentText = $("#improvment-equipment :selected").text();
+        if (equipmentValue && selected.indexOf(equipmentValue) === -1) {
+            selected.push(equipmentValue);
+            $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+        }
+    });
 
     //handlers
-    basicInfoMandotaryFields.forEach(function(i) {
-         $(i).on('change', checkForm(basicInfoBehavior));
-    });
+    //basicInfoMandotaryFields.forEach(function(i) {
+    //     $(i).on('change', checkForm(basicInfoBehavior));
+    //});
 
-    addressInformationMandotaryFields.forEach(function(f) {
+    //addressInformationMandotaryFields.forEach(function(f) {
         
-    });
+    //});
     //datepickers
     assignDatepicker($('#birth-date'));
+    assignDatepicker($('#impvoment-date'));
 
     //license-scan
     $('#capture-buttons-1').on('click', takePhoto);

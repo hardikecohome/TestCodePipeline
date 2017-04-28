@@ -1,5 +1,5 @@
 ﻿<div id="label-steps">
-	<div class="dealnet-action-link">@Resources.MyCustomers</div> >
+	<div class="dealnet-action-link">My Clients</div>
 </div>
 
 <div class="expand-filter-template">
@@ -9,7 +9,7 @@
 				<div class="form-group">
                     <a class="btn dealnet-button dealnet-success-button block-button add-customer-btn" href="@Url.Action("NewCustomer", "MortgageBroker")">
                         <span class="button-inner">
-                            <span>+ @Resources.AddCustomer</span>
+                            <span>+ Add Client</span>
                         </span>
                     </a>
 				</div>
@@ -96,7 +96,7 @@
 @section scripts
 {
     <script type="text/javascript">
-    	var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+    	var itemsUrl = '@Url.Action("GetCreatedContracts", "MortgageBroker")';
     </script>
     
     @Scripts.Render("~/bundles/data-tables-scripts")
