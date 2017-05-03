@@ -1,4 +1,4 @@
-﻿module.exports('new-customer', function (require) {
+﻿module.exports('new-client', function (require) {
     var applyMiddleware = require('redux').applyMiddleware;
     var makeStore = require('redux').makeStore;
     var createAction = require('redux').createAction;
@@ -20,7 +20,7 @@
 
     var log = require('logMiddleware');
 
-    var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
+    var requiredFields = ['first-name', 'last-name', 'birth-date', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
     var getErrors = configGetErrors(requiredFields, requiredPFields);
@@ -34,7 +34,7 @@
                 var state = store.getState();
 
                 var nextAction = next(action);
-                if (state.activePanel === 'yourInfo') {
+                if (state.activePanel === 'basic-information') {
                     var index1 = flow1.indexOf(action.type);
                     if (index1 >= 0) {
                         flow1.splice(index1, 1);
@@ -49,7 +49,7 @@
                     if (index2 >= 0) {
                         flow2.splice(index2, 1);
                     }
-                    if (action.type === customerActions.SET_ADDRESS && action.payload.streeet !== '') {
+                    if (action.type === customerActions.SET_ADDRESS && action.payload.street !== '') {
                         addressFlow.forEach(function (action) {
                             var index3 = flow2.indexOf(action);
                             if (index3 >= 0) {
@@ -109,20 +109,6 @@
     // view layer
     var observeCustomerFormStore = observe(customerFormStore);
 
-    if (config.reCaptchaEnabled) {
-        window.onLoadCaptcha = function () {
-            grecaptcha.render('gcaptcha', {
-                sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
-                callback: function (response) {
-                    dispatch(createAction(customerActions.SET_CAPTCHA_CODE, response));
-                },
-                'expired-callback': function () {
-                    dispatch(createAction(customerActions.SET_CAPTCHA_CODE, ''));
-                },
-            });
-        };
-    }
-
     var addressForm = {
         street_number: 'short_name',
         route: 'long_name',
@@ -145,7 +131,7 @@
 
     var setAutocomplete = function (streetElmId, cityElmId) {
         var extendCommonOpts = extendObj({
-            componentRestrictions: { country: 'ca' },
+            componentRestrictions: { country: 'ca' }
         });
 
         var streetElm = document.getElementById(streetElmId);
@@ -158,13 +144,13 @@
 
         return {
             street: streetAutocomplete,
-            city: cityAutocomplete,
+            city: cityAutocomplete
         };
     };
 
     window.initAutocomplete = function () {
         $(document).ready(function () {
-            var gAutoCompletes = setAutocomplete('street', 'city');
+            var gAutoCompletes = setAutocomplete('street', 'locality');
             var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
 
             gAutoCompletes.street.addListener('place_changed',
@@ -225,8 +211,6 @@
 
     $(document)
         .ready(function () {
-            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
-            $('#selectedService').val($('#selectedService > option:first').val());
 
             // init views
             initYourInfo(customerFormStore);
@@ -248,7 +232,7 @@
                 return {
                     displayInstallation: state.displayInstallation,
                     displayContactInfo: state.displayContactInfo,
-                    activePanel: state.activePanel,
+                    activePanel: state.activePanel
                 };
             })(function (props) {
                 if (props.activePanel === 'yourInfo') {

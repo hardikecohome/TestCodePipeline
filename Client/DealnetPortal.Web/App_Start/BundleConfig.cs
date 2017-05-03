@@ -100,14 +100,24 @@ namespace DealnetPortal.Web
                 "~/Scripts/Utils/objectUtils.js",
                 "~/Scripts/Utils/redux.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/new-customer").Include(
+            bundles.Add(new ScriptBundle("~/bundles/new-client")
+                .Include(
+                "~/Scripts/general-address-autocomplete.js",
+                "~/Scripts/BasicInfo/DlScanning/dl-scanning.js",
+                "~/Scripts/camera-capturing.js",
                 "~/Scripts/datejs.js",
                 "~/Scripts/Modules/index.js",
                 "~/Scripts/Logger/logdebug.js",
-                "~/Scripts/Pages/new-customer.js",
-                "~/Scripts/Reducers/customer.js",
-                "~/Scripts/Actions/customer.js",
-                "~/Scripts/Selectors/customer.js",
+                "~/Scripts/Pages/Clients/index.js",
+                "~/Scripts/Pages/Clients/new-client-ui.js",
+                "~/Scripts/Pages/Clients/new-client-autocomplete.js",
+                "~/Scripts/Pages/Clients/new-client-flow.js",
+                "~/Scripts/Pages/Clients/new-client-store.js",
+                "~/Scripts/Reducers/new-client-reducer.js",
+                "~/Scripts/Actions/new-client-actions.js",
+                "~/Scripts/Views/Clients/basic-information.js",
+                "~/Scripts/Views/Clients/address-information.js",
+                "~/Scripts/Views/Clients/contact-information.js",
                 "~/Scripts/Views/agreement.js",
                 "~/Scripts/Views/contact-info.js",
                 "~/Scripts/Views/your-info.js",

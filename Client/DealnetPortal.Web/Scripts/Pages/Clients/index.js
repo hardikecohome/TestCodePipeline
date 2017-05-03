@@ -1,40 +1,21 @@
-﻿module.exports('new-customer', function(require) {
-    var assignDatepicker = require('new-client-ui').assignDatepicker;
+﻿module.exports('new-client-index', function (require) {
+
     var togglePreviousAddress = require('new-client-ui').togglePreviousAddress;
     var toggleInstallationAddress = require('new-client-ui').toggleInstallationAddress;
-    var basicInfoMandotaryFields = ['#first-name', '#last-name', '#birth-date'];
-    var addressInformationMandotaryFields = ['#street', '#locality', '#province', '#postal_code'];
-    var makeReducer = require('redux').makeReducer;
-    var applyMiddleware = require('redux').applyMiddleware;
-    var makeStore = require('redux').makeStore;
-    var createAction = require('redux').createAction;
     var observe = require('redux').observe;
 
-    var concatObj = require('objectUtils').concatObj;
-    var mapObj = require('objectUtils').mapObj;
-    var filterObj = require('objectUtils').filterObj;
-    var compose = require('functionUtils').compose;
+    var initBasicInfo = require('basic-information-view');
+    var initAddressInfo = require('address-information-view');
+    var initContactInfo = require('contact-information-view');
 
-    var log = require('logMiddleware');
+    var customerFormStore = require('new-client-store');
 
-    var basicInfoBehavior = function () {
+    var dispatch = customerFormStore.dispatch;
+   
+    // view layer
+    var observeCustomerFormStore = observe(customerFormStore);
 
-        if (!$('#additional-infomration').is('.active-panel')) {
-            $('#basic-information').removeClass('active-panel');
-            $('#additional-infomration').removeClass('panel-collapsed');
-            $('#additional-infomration').addClass('active-panel');
-        }
-    }
-    var checkForm = function () {
-        var isValid = false;
-        basicInfoMandotaryFields.forEach(function(field) {
-            isValid = $(field).valid();
-        });
-
-        if (isValid) {
-            basicInfoBehavior();
-        }
-    }
+    var initAutocomplete = require('new-client-autocomplete').initAutocomplete;
 
     var selected = [];
 
@@ -63,16 +44,8 @@
     });
 
     //handlers
-    basicInfoMandotaryFields.forEach(function(i) {
-         $(i).on('change', checkForm);
-    });
-
-    //addressInformationMandotaryFields.forEach(function(f) {
-        
-    //});
+  
     //datepickers
-    assignDatepicker($('#birth-date'));
-    assignDatepicker($('#impvoment-date'));
 
     //license-scan
     $('#capture-buttons-1').on('click', takePhoto);
@@ -81,65 +54,92 @@
     $('#living-time-checkbox').on('change', togglePreviousAddress);
     $("input[name$='improvement']").on('click', toggleInstallationAddress);
 
-    window.initAutocomplete = function () {
-        $(document).ready(function () {
-            var gAutoCompletes = setAutocomplete('street', 'city');
-            var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
+    window.initAutocomplete = initAutocomplete;
 
-            gAutoCompletes.street.addListener('place_changed',
-                function () {
-                    var place = gAutoCompletes.street.getPlace().address_components
-                        .map(getAddress(addressForm)).reduce(concatObj);
+    // init views
+    initBasicInfo(customerFormStore);
+    initAddressInfo(customerFormStore);
+    initContactInfo(customerFormStore);
+    //initInstallationAddress(customerFormStore);
+    //initContactInfo(customerFormStore);
+    //initAgreement(customerFormStore);
 
-                    dispatch(createAction(SET_ADDRESS,
-                        {
-                            street: place['route'] || '',
-                            number: place['street_number'] || '',
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
-                        }));
-                });
+    // observers
+    observeCustomerFormStore(function (state) {
+        return {
+            displayAddressInfo: state.displayAddressInfo,
+            displayContactInfo: state.displayContactInfo,
+            activePanel: state.activePanel
+        };
+    })(function (props) {
+        if (props.activePanel === 'basic-information') {
+            $('#basic-information').addClass('active-panel');
+        } else {
+            $('#basic-information').removeClass('active-panel');
+        }
 
-            gAutoCompletes.city.addListener('place_changed',
-                function () {
-                    var place = gAutoCompletes.city.getPlace().address_components
-                        .map(getAddress(addressForm)).reduce(concatObj);
+        if (props.displayAddressInfo) {
+            $('#installationAddressForm').slideDown();
+        }
 
-                    dispatch(createAction(SET_ADDRESS,
-                        {
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                        }));
-                });
+        if (props.activePanel === 'additional-infomration') {
+            $('#additional-infomration').addClass('active-panel');
+            $('#additional-infomration').removeClass('panel-collapsed');
+        } else {
+            $('#additional-infomration').removeClass('active-panel');
+        }
 
-            gPAutoCompletes.street.addListener('place_changed',
-                function () {
-                    var place = gPAutoCompletes.street.getPlace().address_components
-                        .map(getAddress(addressForm)).reduce(concatObj);
+        if (props.displayContactInfo) {
+            $('#contactInfoForm').slideDown();
+        }
 
-                    dispatch(createAction(SET_PADDRESS,
-                        {
-                            street: place['route'] || '',
-                            number: place['street_number'] || '',
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
-                        }));
-                });
+        if (props.activePanel === 'contact-information') {
+            $('#contact-information').addClass('active-panel');
+            $('#contact-information').removeClass('panel-collapsed');
+        } else {
+            $('#contact-information').removeClass('active-panel');
+        }
 
-            gPAutoCompletes.city.addListener('place_changed',
-                function () {
-                    var place = gPAutoCompletes.city.getPlace().address_components
-                        .map(getAddress(addressForm)).reduce(concatObj);
+        if (props.activePanel === 'home-improvments') {
+            $('#home-improvments').addClass('active-panel');
+            $('#home-improvments').removeClass('panel-collapsed');
+        } else {
+            $('#home-improvments').removeClass('active-panel');
+        }
+    });
 
-                    dispatch(createAction(SET_PADDRESS,
-                        {
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                        }));
-                });
-        });
+    var createError = function (msg) {
+        var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
+        err.append(msg);
+        return err;
     };
+
+    observeCustomerFormStore(function (state) {
+        return {
+            errors: function(state) {},
+            displaySubmitErrors: state.displaySubmitErrors
+        }
+    })(function (props) {
+        $('#yourInfoErrors').empty();
+        //if (props.errors.length > 0) {
+        //    props.errors
+        //        .filter(function (error) { return error.type === 'birthday' })
+        //        .forEach(function (error) {
+        //            $('#yourInfoErrors').append(createError(window.translations[error.messageKey]));
+        //        });
+        //}
+
+        //var emptyError = props.errors.filter(function (error) {
+        //    return error.type === 'empty';
+        //});
+
+        //if (emptyError.length) {
+        //    $('#submit').addClass('disabled');
+        //    $('#submit').parent().popover();
+        //} else {
+        //    $('#submit').removeClass('disabled');
+        //    $('#submit').parent().popover('destroy');
+        //}
+    });
 
 })

@@ -50,6 +50,6 @@
 
     return {
         getRequiredPhones: getRequiredPhones,
-        getErrors: getErrors,
+        getErrors: getErrors
     };
 });

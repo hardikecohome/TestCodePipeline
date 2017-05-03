@@ -1,4 +1,5 @@
-﻿module.exports('new-client-ui', function () {
+﻿module.exports('new-client-ui', function (require) {
+    // view layer
 
     var assignDatepicker = function (input) {
 
