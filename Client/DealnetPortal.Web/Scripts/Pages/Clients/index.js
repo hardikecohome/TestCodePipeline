@@ -4,6 +4,18 @@
     var toggleInstallationAddress = require('new-client-ui').toggleInstallationAddress;
     var basicInfoMandotaryFields = ['#first-name', '#last-name', '#birth-date'];
     var addressInformationMandotaryFields = ['#street', '#locality', '#province', '#postal_code'];
+    var makeReducer = require('redux').makeReducer;
+    var applyMiddleware = require('redux').applyMiddleware;
+    var makeStore = require('redux').makeStore;
+    var createAction = require('redux').createAction;
+    var observe = require('redux').observe;
+
+    var concatObj = require('objectUtils').concatObj;
+    var mapObj = require('objectUtils').mapObj;
+    var filterObj = require('objectUtils').filterObj;
+    var compose = require('functionUtils').compose;
+
+    var log = require('logMiddleware');
 
     var basicInfoBehavior = function () {
 
@@ -13,13 +25,15 @@
             $('#additional-infomration').addClass('active-panel');
         }
     }
-    var checkForm = function (isValidBehavior) {
-        var isValid;
+    var checkForm = function () {
+        var isValid = false;
         basicInfoMandotaryFields.forEach(function(field) {
             isValid = $(field).valid();
         });
 
-        if (isValid) isValidBehavior();
+        if (isValid) {
+            basicInfoBehavior();
+        }
     }
 
     var selected = [];
@@ -49,9 +63,9 @@
     });
 
     //handlers
-    //basicInfoMandotaryFields.forEach(function(i) {
-    //     $(i).on('change', checkForm(basicInfoBehavior));
-    //});
+    basicInfoMandotaryFields.forEach(function(i) {
+         $(i).on('change', checkForm);
+    });
 
     //addressInformationMandotaryFields.forEach(function(f) {
         
@@ -66,4 +80,66 @@
 
     $('#living-time-checkbox').on('change', togglePreviousAddress);
     $("input[name$='improvement']").on('click', toggleInstallationAddress);
+
+    window.initAutocomplete = function () {
+        $(document).ready(function () {
+            var gAutoCompletes = setAutocomplete('street', 'city');
+            var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
+
+            gAutoCompletes.street.addListener('place_changed',
+                function () {
+                    var place = gAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_ADDRESS,
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                        }));
+                });
+
+            gAutoCompletes.city.addListener('place_changed',
+                function () {
+                    var place = gAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_ADDRESS,
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                        }));
+                });
+
+            gPAutoCompletes.street.addListener('place_changed',
+                function () {
+                    var place = gPAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_PADDRESS,
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                        }));
+                });
+
+            gPAutoCompletes.city.addListener('place_changed',
+                function () {
+                    var place = gPAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(SET_PADDRESS,
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                        }));
+                });
+        });
+    };
+
 })
