@@ -251,11 +251,13 @@
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\CustomerManager.cs" />
     <Compile Include="Infrastructure\ICustomerManager.cs" />
+    <Compile Include="Infrastructure\IProfileManager.cs" />
     <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
     <Compile Include="Infrastructure\Managers\OwinSecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
+    <Compile Include="Infrastructure\ProfileManager.cs" />
     <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
+    <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
@@ -669,6 +672,7 @@
     <Content Include="favicon_Life_Time.ico" />
     <Content Include="favicon_Smart_Home.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Actions\my-profile-actions.js" />
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
@@ -863,6 +867,9 @@
     <Content Include="Scripts\my-customers.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-ui.js" />
+    <Content Include="Scripts\Pages\MyProfile\index.js" />
+    <Content Include="Scripts\Pages\MyProfile\my-profile-store.js" />
+    <Content Include="Scripts\Reducers\my-profile-reducer.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -894,6 +901,7 @@
     <Content Include="Scripts\Vendor\globalize\globalize\plural.js" />
     <Content Include="Scripts\Vendor\globalize\globalize\relative-time.js" />
     <Content Include="Scripts\Vendor\globalize\globalize\unit.js" />
+    <Content Include="Scripts\Views\MyProfile\my-profile.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
