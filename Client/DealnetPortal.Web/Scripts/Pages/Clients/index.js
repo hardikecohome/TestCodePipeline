@@ -25,7 +25,7 @@
     var currentAddressRequiredFields = ['street', 'city', 'province', 'postalCode'];
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
     var contactInfoRequiredFields = ['phone', 'cellPhone', 'email', 'contactMethod'];
-    var homeImprovmentsRequiredFields = ['improvmnetStreet', 'improvmnetCity', 'improvmnetProvince', 'improvmnetPostalCode', 'improvmentMoveInDate'];
+    var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode', 'improvmentMoveInDate'];
     var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);

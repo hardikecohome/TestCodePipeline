@@ -45,6 +45,12 @@
         SET_IMPROVMENT_MOVE_DATE: 'set_improvment_move_date',
         CLEAR_IMPROVMENT_ADDRESS: 'clear_improvment_address',
         SET_UNKNOWN_ADDRESS: 'set_unknown_address',
-        SET_CURRENT_ADDRESS: 'set_current_address'
+        SET_CURRENT_ADDRESS: 'set_current_address',
+        SET_IMPROVMENT_STREET: 'set_improvment_street',
+        SET_IMPROVMENT_UNIT: 'set_improvment_unit',
+        SET_IMPROVMENT_CITY: 'set_improvment_city',
+        SET_IMPROVMENT_PROVINCE: 'set_improvment_province',
+        SET_IMPROVMENT_POSTAL_CODE: 'set_improvment_postal_code',
+        SET_IMPROVMENT_MOVE_IN_DATE: 'set_improvment_move_in_date'
     };
 });

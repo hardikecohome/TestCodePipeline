@@ -40,7 +40,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.LangSwitcherAvailable = true;
             if (User.IsInRole("MortgageBroker"))
             {
-                return RedirectToAction("MyCustomers", "MortgageBroker");
+                return RedirectToAction("MyClients", "MortgageBroker");
             }
             return View();
         }

@@ -48,7 +48,7 @@ function showTable() {
                     columns: [
 				        { "data": "TransactionId", className: 'contract-cell' },
 				        { "data": "Date", className: 'date-cell' },
-				        { "data": "CustomerName", className: 'customer-cell', orderable: false },
+				        { "data": "Client", className: 'client-cell', orderable: false },
 				        { "data": "Status", className: 'status-cell', orderable: false },
 				        { "data": "Email", className: 'email-cell', orderable: false },
 				        { "data": "Phone", className: 'phone-cell', orderable: false },

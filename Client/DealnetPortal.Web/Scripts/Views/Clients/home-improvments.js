@@ -11,9 +11,9 @@
             $(this).parent().remove();
         });
 
-        var birth = $("#impvoment-date");
+        var improvmentMoveInDate = $("#impvoment-date");
 
-        birth.datepicker({
+        improvmentMoveInDate.datepicker({
             dateFormat: 'mm/dd/yy',
             changeYear: true,
             changeMonth: (viewport().width < 768) ? true : false,
@@ -60,7 +60,50 @@
             dispatch(createAction(clientActions.CLEAR_IMPROVMENT_ADDRESS, e.target.value));
         });
 
+        var street = $('#improvment_street');
+        street.on('change', function (e) {
+            dispatch(createAction(clientActions.SET_IMPROVMENT_STREET, e.target.value));
+        });
+
+        var unit = $('#improvment_unit_number');
+        unit.on('change', function (e) {
+            dispatch(createAction(clientActions.SET_IMPROVMENT_UNIT, e.target.value));
+        });
+
+        var city = $('#improvment_locality');
+        city.on('change', function (e) {
+            dispatch(createAction(clientActions.SET_IMPROVMENT_CITY, e.target.value));
+        });
+
+        var province = $('#improvment_administrative_area_level_1');
+        province.on('change', function (e) {
+            dispatch(createAction(clientActions.SET_IMPROVMENT_PROVINCE, e.target.value));
+        });
+
+        var postalCode = $('#improvment_postal_code');
+        postalCode.on('change', function (e) {
+            dispatch(createAction(clientActions.SET_IMPROVMENT_POSTAL_CODE, e.target.value));
+        });
+
         var observeCustomerFormStore = observe(store);
+
+        observeCustomerFormStore(function (state) {
+            return {
+                street: state.improvmentStreet,
+                unit: state.improvmentUnit,
+                city: state.improvmentCity,
+                province: state.improvmentProvince,
+                postalCode: state.improvmentPostalCode,
+                moveInDate: state.improvmentMoveInDate
+            };
+        })(function (props) {
+            street.val(props.street);
+            unit.val(props.unit);
+            city.val(props.city);
+            province.val(props.province);
+            postalCode.val(props.postalCode);
+            improvmentMoveInDate.val(props.moveInDate);
+        });
 
         observeCustomerFormStore(function (state) {
             return {

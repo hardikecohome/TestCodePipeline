@@ -34,11 +34,11 @@
         lessThanSix: false,
         improvmentOtherAddress: false,
         improvmentCurrentAddress: true,
-        improvmnetStreet: '',
-        improvmnetUnit: '',
-        improvmnetCity: '',
-        improvmnetProvince: '',
-        improvmnetPostalCode: '',
+        improvmentStreet: '',
+        improvmentUnit: '',
+        improvmentCity: '',
+        improvmentProvince: '',
+        improvmentPostalCode: '', 
         improvmentMoveInDate: ''
     };
 
@@ -64,22 +64,31 @@
     reducerObj[clientActions.SET_CITY] = setFormField('city');
     reducerObj[clientActions.SET_PROVINCE] = setFormField('province');
     reducerObj[clientActions.SET_POSTAL_CODE] = setFormField('postalCode');
+
+    reducerObj[clientActions.SET_IMPROVMENT_STREET] = setFormField('improvmentStreet');
+    reducerObj[clientActions.SET_IMPROVMENT_UNIT] = setFormField('improvmentUnit');
+    reducerObj[clientActions.SET_IMPROVMENT_CITY] = setFormField('improvmentCity');
+    reducerObj[clientActions.SET_IMPROVMENT_PROVINCE] = setFormField('improvmentProvince');
+    reducerObj[clientActions.SET_IMPROVMENT_POSTAL_CODE] = setFormField('improvmentPostalCode');
+    reducerObj[clientActions.SET_IMPROVMENT_MOVE_DATE] = setFormField('improvmentMoveInDate');
+
     reducerObj[clientActions.SET_IMPROVMENT_INFO] = setFormField('displayImprovmentInfo');
     reducerObj[clientActions.SET_CURRENT_ADDRESS] = function(state, action) {
         var fieldObj = {};
         fieldObj['improvmentCurrentAddress'] = action.payload;
-        fieldObj['improvmentOtherAddress'] =!action.payload;
+        fieldObj['improvmentOtherAddress'] = !action.payload;
 
         return $.extend({}, state, fieldObj);
     }
 
     reducerObj[clientActions.SET_UNKNOWN_ADDRESS] = function(state, action) {
         return {
-            improvmnetStreet: '',
-            improvmnetUnit: '',
-            improvmnetCity: '',
-            improvmnetProvince: '',
-            improvmnetPostalCode: '',
+            improvmentStreet: '',
+            improvmentUnit: '',
+            improvmentCity: '',
+            improvmentProvince: '',
+            improvmentPostalCode: '',
+            improvmentMoveInDate: '',
             unknownAddress: action.payload
         }
     }

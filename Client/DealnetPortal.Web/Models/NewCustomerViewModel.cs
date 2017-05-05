@@ -16,7 +16,7 @@ namespace DealnetPortal.Web.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? EstimatedMoveInDate { get; set; }
-
+        public bool IsLessThenSix { get; set; }
         public bool IsUnknownAddress { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "HomeImprovementType")]

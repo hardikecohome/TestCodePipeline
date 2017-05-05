@@ -51,11 +51,12 @@ namespace DealnetPortal.Web.Infrastructure
             var newCustomerDto = new NewCustomerDTO();
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
             newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
+
             var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
             mainAddress.AddressType = AddressType.MainAddress;
             newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
 
-            if (customer.HomeOwner.PreviousAddressInformation?.City != null)
+            if (customer.IsLessThenSix && customer.HomeOwner.PreviousAddressInformation?.City != null)
             {
                 var previousAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.PreviousAddressInformation);
                 previousAddress.AddressType = AddressType.PreviousAddress;
@@ -65,11 +66,13 @@ namespace DealnetPortal.Web.Infrastructure
             if (!customer.IsUnknownAddress && customer.ImprovmentLocation?.City != null)
             {
                 var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
+                //TODO: Ask about AddressType
                 improvmentAddress.AddressType = AddressType.MailAddress;
                 newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
             }
 
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
+
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
             newCustomerDto.CustomerComment = customer.CustomerComment;

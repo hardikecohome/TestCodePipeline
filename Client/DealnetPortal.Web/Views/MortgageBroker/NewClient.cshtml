@@ -162,7 +162,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="col-sm-6 col-md-4 col-lg-3 col-clear-lg-3 col-clear-sm-6">
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @for = "postal_code", @class = "mandatory-field" })
               <div class="control-group">
@@ -182,7 +182,7 @@
       <br>
       <div id="living-time" class="form-group">
         <label for="living-time-checkbox" class="align-middle custom-checkbox">
-          <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox"/>
+          @Html.CheckBoxFor(m => m.IsLessThenSix, new { @class = "dealnet-checkbox address-checkbox", id = "living-time-checkbox" })
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
           <span>Client lived at current address for less than 6 month</span>
         </label>
@@ -227,7 +227,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="col-sm-6 col-md-4 col-lg-3 col-clear-lg-3 col-clear-sm-6">
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @for = "previous_postal_code", @class = "mandatory-field" })
               <div class="control-group">
@@ -290,7 +290,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 col-sm-6 col-lg-3">
+        <div class="col-md-4 col-sm-6 col-lg-3 col-clear-lg-3 col-clear-sm-6">
           <div class="form-group">
             @Html.LabelFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, new { @class = "mandatory-field", @for="contact-method" })
             <div class="control-group">
@@ -371,7 +371,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="col-sm-6 col-md-4 col-lg-3 col-clear-lg-3 col-clear-sm-6">
             <div class="form-group">
               @Html.LabelFor(m => m.ImprovmentLocation.PostalCode, new { @for = "improvment_postal_code", @class = "mandatory-field" })
               <div class="control-group">
@@ -465,7 +465,7 @@
     <div id="formErrors"></div>
     <br>
     <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-      <button class="btn dealnet-button dealnet-success-button btn-form-common" id="submit">Add Client</button>
+      <button class="btn dealnet-success-button btn-proceed  btn-form-common" id="submit">Add Client</button>
     </span>
   </div>
 </div>
