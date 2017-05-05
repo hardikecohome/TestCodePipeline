@@ -8,17 +8,23 @@
 
         var homePhone = $('#home-phone');
         homePhone.on('change', function (e) {
-            dispatch(createAction(clientActions.SET_PHONE, e.target.value));
+            if ($(this).valid()) {
+                dispatch(createAction(clientActions.SET_PHONE, e.target.value));
+            }
         });
 
         var cellPhone = $('#cell-phone');
         cellPhone.on('change', function (e) {
-            dispatch(createAction(clientActions.SET_CELL_PHONE, e.target.value));
+            if ($(this).valid()) {
+                dispatch(createAction(clientActions.SET_CELL_PHONE, e.target.value));
+            }
         });
 
         var email = $('#email');
         email.on('change', function (e) {
-            dispatch(createAction(clientActions.SET_EMAIL, e.target.value));
+            if ($(this).valid()) {
+                dispatch(createAction(clientActions.SET_EMAIL, e.target.value));
+            }
         });
 
         var contactMethod = $('#contact-method');

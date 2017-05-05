@@ -54,12 +54,21 @@ namespace DealnetPortal.Web.Infrastructure
             var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
             mainAddress.AddressType = AddressType.MainAddress;
             newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
+
             if (customer.HomeOwner.PreviousAddressInformation?.City != null)
             {
                 var previousAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.PreviousAddressInformation);
                 previousAddress.AddressType = AddressType.PreviousAddress;
                 newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
             }
+
+            if (!customer.IsUnknownAddress && customer.ImprovmentLocation?.City != null)
+            {
+                var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
+                improvmentAddress.AddressType = AddressType.MailAddress;
+                newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
+            }
+
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;

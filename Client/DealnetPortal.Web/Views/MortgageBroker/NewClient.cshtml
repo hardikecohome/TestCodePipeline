@@ -327,7 +327,7 @@
       <div id="installation-address" style="display: none;">
         <div id="addressUnknown" class="form-group">
           <label for="addressUnknownCheckbox" class="align-middle custom-checkbox">
-            <input type="checkbox" class="dealnet-checkbox address-checkbox" id="addressUnknownCheckbox"/>
+            @Html.CheckBoxFor(m => m.IsUnknownAddress, new { @class = "dealnet-checkbox address-checkbox", id = "addressUnknownCheckbox" })
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             <span>Address unknown. Client is shopping for other property.</span>
           </label>
@@ -392,7 +392,7 @@
           <div class="col-sm-6 col-md-4 col-lg-3">
             <label for="" class="hidden visible-lg">&nbsp;</label>
             <div class="control-group">
-              <a href="#" class="dealnet-disabled-text clear-address">
+              <a href="#" class="dealnet-disabled-text clear-address" id="clearImprovmentAddress">
                 <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
               </a>
             </div>
@@ -439,7 +439,7 @@
       </div>
     </div>
   </div>
-  <div class="panel accordion-panel panel-collapsed">
+  <div class="panel accordion-panel panel-collapsed" id="client-consents">
     <div class="panel-heading">
       <h3 class="panel-title dealnet-middle-header">5. Client Consents</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
@@ -462,13 +462,30 @@
     </div>
   </div>
   <div class="clearfix">
+    <div id="formErrors"></div>
     <br>
-    <button class="btn dealnet-button dealnet-success-button btn-form-common">Add Client</button>
+    <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+      <button class="btn dealnet-button dealnet-success-button btn-form-common" id="submit">Add Client</button>
+    </span>
   </div>
 </div>
 }
 
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+
+
+@section Translations
+{
+  translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
+  translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
+  translations['YouShouldBe75OrLess'] = "@Resources.ToProceedYouNeedToBe75LessPleaseContact";
+  translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
+  translations['EnterValidDate'] = "@Resources.EnterValidDate";
+  // translations['YouShouldBeHomeOwner'] = ""; TODO: add resources in next release
+  translations['EmptyCreditAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
+  // translations['EmptyContactAgreement'] = ""; TODO: add resources in next Release
+  translations['NotSelected'] = "@Resources.NotSelected";
+}
 
 @section scripts
 {

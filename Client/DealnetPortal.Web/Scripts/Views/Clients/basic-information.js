@@ -21,11 +21,15 @@
 
         var name = $('#first-name');
         name.on('change', function (e) {
-            dispatch(createAction(clientActions.SET_NAME, e.target.value));
+            if ($(this).valid()) {
+                dispatch(createAction(clientActions.SET_NAME, e.target.value));
+            }
         });
         var lastName = $('#last-name');
         lastName.on('change', function (e) {
-            dispatch(createAction(clientActions.SET_LAST, e.target.value));
+            if ($(this).valid()) {
+                dispatch(createAction(clientActions.SET_LAST, e.target.value));
+            }
         });
 
         var initialStateMap = {

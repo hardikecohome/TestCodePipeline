@@ -95,7 +95,7 @@
                 unit: state.unit,
                 city: state.city,
                 province: state.province,
-                postalCode: state.postalCode,
+                postalCode: state.postalCode
             };
         })(function (props) {
             street.val(props.street);
@@ -111,7 +111,7 @@
                 unit: state.punit,
                 city: state.pcity,
                 province: state.pprovince,
-                postalCode: state.ppostalCode,
+                postalCode: state.ppostalCode
             };
         })(function (props) {
             pstreet.val(props.street);
@@ -123,7 +123,7 @@
 
         observeCustomerFormStore(function (state) {
             return {
-                lessThanSix: state.lessThanSix,
+                lessThanSix: state.lessThanSix
             };
         })(function (props) {
             $('#previous-address').find('input, select').each(function () {

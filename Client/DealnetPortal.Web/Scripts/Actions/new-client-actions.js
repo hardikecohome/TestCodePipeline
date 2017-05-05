@@ -22,9 +22,11 @@
         DISPLAY_SUBMIT_ERRORS: 'display_submit_errors',
         DISPLAY_ADDRESS_INFO: 'display_address_info',
         DISPLAY_CONTACT_INFO: 'display_contact_info',
+        DISPLAY_CLIENT_CONSENTS: 'display_client_consents',
         ACTIVATE_ADDRESS_INFO: 'activate_address_info',
         ACTIVATE_CONTACT_INFO: 'activate_contact_info',
         ACTIVATE_HOME_IMPROVMENTS: 'activate_home_improvments',
+        ACTIVATE_CLIENT_CONSENTS: 'activate_client_consents',
         TOGGLE_CREDIT_AGREEMENT: 'toggle_credit_agreement',
         TOGGLE_CONTACT_AGREEMENT: 'toggle_contact_agreement',
         SET_LESS_THAN_SIX: 'set_less_than_six',
@@ -34,6 +36,15 @@
         SET_PADDRESS: 'set_paddress',
         SET_COMMENT: 'set_comment',
         SET_EMAIL: 'set_email',
-        SET_CONTACT_METHOD: 'set_contact_method'
+        SET_CONTACT_METHOD: 'set_contact_method',
+        SET_NEW_EQUIPMENT: 'set_new_equipment',
+        REMOVE_EQUIPMENT: 'remove_equipment',
+        SET_IMPROVMENT_INFO: 'set_improvment_info',
+        SET_IMPROVMENT_ADDRESS: 'set_improvment_address',
+        SET_IMPROVMENT_OTHER_ADDRESS: 'set_improvment_other_address',
+        SET_IMPROVMENT_MOVE_DATE: 'set_improvment_move_date',
+        CLEAR_IMPROVMENT_ADDRESS: 'clear_improvment_address',
+        SET_UNKNOWN_ADDRESS: 'set_unknown_address',
+        SET_CURRENT_ADDRESS: 'set_current_address'
     };
 });

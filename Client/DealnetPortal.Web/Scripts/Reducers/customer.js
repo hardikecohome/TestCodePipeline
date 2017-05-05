@@ -25,10 +25,10 @@
         cellPhone: '',
         email: '',
         comment: '',
-        captchaCode: config.reCaptchaEnabled ? '' : 'empty' ,
+       captchaCode: config.reCaptchaEnabled ? '' : 'empty' ,
         creditAgreement: false,
         contactAgreement: false,
-        lessThanSix: false
+        lessThanSix: false,
     };
 
     var setFormField = function (field) {

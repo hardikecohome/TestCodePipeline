@@ -50,14 +50,8 @@
     var initAutocomplete = function () {
         $(document).ready(function () {
             var gAutoCompletes = setAutocomplete('street', 'locality');
-            var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
-            var test = [
-                { 'route': clientActions.SET_STREET },
-                { 'street_number': clientActions.SET_UNIT },
-                { 'locality': clientActions.SET_CITY },
-                { 'administrative_area_level_1': clientActions.SET_PROVINCE },
-                { 'postal_code': clientActions.SET_POSTAL_CODE }
-            ];
+            var gPAutoCompletes = setAutocomplete('previous_street', 'previous_locality');
+            var gImprovmentAutoCompletes = setAutocomplete('improvment_street', 'improvment_locality');
 
             gAutoCompletes.street.addListener('place_changed',
                 function () {
@@ -70,7 +64,7 @@
                             number: place['street_number'] || '',
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : ''
                         }));
                 });
 
@@ -110,6 +104,33 @@
                         {
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
+                        }));
+                });
+
+            gImprovmentAutoCompletes.street.addListener('place_changed',
+                function () {
+                    var place = gImprovmentAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(clientActions.SET_IMPROVMENT_ADDRESS,
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : ''
+                        }));
+                });
+
+            gImprovmentAutoCompletes.city.addListener('place_changed',
+                function () {
+                    var place = gImprovmentAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(clientActions.SET_IMPROVMENT_ADDRESS,
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || ''
                         }));
                 });
         });
