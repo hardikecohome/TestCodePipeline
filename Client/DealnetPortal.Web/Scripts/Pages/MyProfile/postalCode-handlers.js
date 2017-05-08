@@ -44,9 +44,16 @@
                 if (valFor == null) { return; }
                 $(this).attr('data-valmsg-for', valFor.replace('PostalCodes[' + index, 'PostalCodes[' + (index - 1)));
             });
+            resetFormValidator('#main-form');
         }
 
         state.postalCodeSecondId--;
+    }
+
+    function resetFormValidator(formId) {
+        $(formId).removeData('validator');
+        $(formId).removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(formId);
     }
 
     function setHandlers(item) {
@@ -71,6 +78,7 @@
 
         $('#postal-code-area').append(newTemplate);
         setHandlers({ id: state.postalCodeSecondId, value: '' });
+        resetFormValidator('#main-form');
     };
 
     return {

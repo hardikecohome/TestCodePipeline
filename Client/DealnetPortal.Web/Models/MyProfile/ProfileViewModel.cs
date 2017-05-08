@@ -19,6 +19,7 @@ namespace DealnetPortal.Web.Models.MyProfile
     {
         public int Id { get; set; }
         public string Type { get; set; }
+        public string Description { get; set; }
     }
 
     public class PostalCodeInformation

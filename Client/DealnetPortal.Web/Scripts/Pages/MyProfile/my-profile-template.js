@@ -5,7 +5,7 @@
             .join("PostalCodes[" + options.id + "]")
             .split("PostalCodes_0").join("PostalCodes_" + options.id);
 
-        parentNode.append($.parseHTML(result));
+        parentNode.append(result);
 
         $(parentNode).attr('id', 'postal-code-' + options.id);
         $(parentNode).find('#remove-postal-code-')
