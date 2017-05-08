@@ -34,7 +34,7 @@
             {
               foreach (var category in Model.Categories)
               {
-                <li><input class="hidden" name="Categories" value="@category">@category <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                <li><input class="hidden" name="Categories" value="@category.Type">@category.Type <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
               }
             }
           </ul>
@@ -42,49 +42,39 @@
       </div>
     </div>
     <h3 class="dealnet-middle-header">Area of my service</h3>
-    <div class="row postal-code-hold">
-      <div class="col-md-3 col-sm-4 col-xs-10">
-        <div class="form-group">
-          <label for="">Postal Code</label>
-          <div class="control-group">
-            <input type="text" class="form-control" value="345677">
+    <div id="postal-code-area">
+      @if (Model.PostalCodes != null)
+      {
+        for (int i = 0; i < Model.PostalCodes.Count; i++)
+        {
+        <div class="row postal-code-hold" id="postal-code-@(i)">
+          <div class="col-md-3 col-sm-4 col-xs-10">
+            <div class="form-group">
+              <label for="">Postal Code</label>
+              <div class="control-group">
+                @Html.HiddenFor(x => x.PostalCodes[i].Id)
+                @Html.TextBoxFor(x => x.PostalCodes[i].Value, new { @class = "form-control", placeholder = Resources.PostalCode })
+                @Html.ValidationMessageFor(x => x.PostalCodes[i].Value, "", new { @class = "text-danger" })
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-2">
+            <div class="form-group">
+              <label for="">&nbsp;</label>
+              <div class="control-group">
+                <a href="" class="remove-postal-code" id="remove-postal-code-@(i)" hidden-value="@(i)">
+                  <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-xs-2">
-        <div class="form-group">
-          <label for="">&nbsp;</label>
-          <div class="control-group">
-            <a href="" class="remove-postal-code">
-              <svg aria-hidden="true" class="icon icon-remove-cross"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row postal-code-hold">
-      <div class="col-md-3 col-sm-4 col-xs-10">
-        <div class="form-group">
-          <label for="">Postal Code</label>
-          <div class="control-group">
-            <input type="text" class="form-control" value="345677">
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-2">
-        <div class="form-group">
-          <label for="">&nbsp;</label>
-          <div class="control-group">
-            <a href="" class="remove-postal-code">
-              <svg aria-hidden="true" class="icon icon-remove-cross"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg>
-            </a>
-          </div>
-        </div>
-      </div>
+        }
+      }
     </div>
     <div>
-      <a id="add-category" class="align-middle dealnet-info-link">
-        <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+      <a id="add-postalCode" class="align-middle dealnet-info-link">
+        <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
         <span>Add Postal Code</span>
       </a>
     </div>
@@ -94,6 +84,33 @@
       <button class="btn dealnet-button dealnet-success-button btn-form-common">@Resources.Save</button>
     </div>
   }
+</div>
+
+<div class="hidden">
+  <div id="postal-template">
+    <div class="row postal-code-hold">
+      <div class="col-md-3 col-sm-4 col-xs-10">
+        <div class="form-group">
+          <label for="">Postal Code</label>
+          <div class="control-group">
+            @Html.HiddenFor(x => x.PostalCodes[0].Id)
+            @Html.TextBoxFor(x => x.PostalCodes[0].Value, new {@class = "form-control", placeholder = Resources.PostalCode})
+            @Html.ValidationMessageFor(x => x.PostalCodes[0].Value, "", new { @class = "text-danger" })
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="form-group">
+          <label for="">&nbsp;</label>
+          <div class="control-group">
+            <a href="" class="remove-postal-code" id="remove-postal-code-" hidden-value=" ">
+              <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 @section scripts

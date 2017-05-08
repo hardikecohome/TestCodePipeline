@@ -107,15 +107,11 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
                 .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Utils/functionUtils.js")
-                .Include("~/Scripts/Utils/logMiddleware.js")
-                .Include("~/Scripts/Utils/objectUtils.js")
-                .Include("~/Scripts/Utils/redux.js")
-                .Include("~/Scripts/Actions/my-profile-actions.js")
                 .Include("~/Scripts/Pages/MyProfile/index.js")
-                .Include("~/Scripts/Pages/MyProfile/my-profile-store.js")
-                .Include("~/Scripts/Reducers/my-profile-reducer.js")
-                .Include("~/Scripts/Views/MyProfile/my-profile.js")
+                .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")
+                .Include("~/Scripts/Pages/MyProfile/my-profile-template.js")
             );
 
         }

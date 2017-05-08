@@ -19,6 +19,11 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<ProfileViewModel> Get()
         {
             var model = new ProfileViewModel();
+            model.PostalCodes = new List<PostalCodeInformation>
+            {
+                new PostalCodeInformation {Id = 1, Value = "12345"},
+                new PostalCodeInformation {Id = 2, Value = "qwerty"},
+            };
 
             var equipment = await _dictionaryServiceAgent.GetEquipmentTypes();
             model.EquipmentTypes = equipment.Item1?.OrderBy(x => x.Description).ToList() ?? new List<EquipmentTypeDTO>();
