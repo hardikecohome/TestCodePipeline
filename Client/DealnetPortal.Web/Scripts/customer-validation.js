@@ -24,3 +24,7 @@ function checkHomeOwner() {
     });
     return isHomeOwner;
 };
+
+function checkCreditAgree() {
+    return $('#agreement-checkbox').prop('checked') ? true : false;
+}

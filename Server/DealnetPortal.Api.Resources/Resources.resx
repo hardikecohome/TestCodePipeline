@@ -652,4 +652,13 @@
   <data name="_S_Submitted" xml:space="preserve">
     <value>Submitted</value>
   </data>
+  <data name="Deferral" xml:space="preserve">
+    <value>Deferral</value>
+  </data>
+  <data name="FixedRate" xml:space="preserve">
+    <value>Fixed Rate</value>
+  </data>
+  <data name="NoInterest" xml:space="preserve">
+    <value>No Interest</value>
+  </data>
 </root>

@@ -11,6 +11,14 @@ configInitialized
     assignDatepicker($("#additional-birth-date-1"));
     assignDatepicker($("#additional-birth-date-2"));
     assignDatepicker($("#additional-birth-date-3"));
+
+    $('#agreement-checkbox').change(function () {
+        var isValid = checkCreditAgree();
+        if (isValid) {
+            $('#proceed-error-message').hide();
+        }
+    });
+
     $('.check-age').change(function () {
         var atLeastOneValid = checkApplicantsAge();
         if (atLeastOneValid) {
@@ -120,6 +128,8 @@ configInitialized
     $("#save-and-proceed-button").click(function (event) {
         var isApprovalAge = checkApplicantsAge();
         var isHomeOwner = checkHomeOwner();
+        var isAgreesToCreditCheck = checkCreditAgree();
+
         if (!isApprovalAge) {
             $('#age-warning-message').hide();
             $('#age-error-message').show();
@@ -129,7 +139,13 @@ configInitialized
             $("#proceed-homeowner-errormessage").show();
             scrollPageTo($("#borrower-is-homeowner"));
         }
-        if (!isHomeOwner || !isApprovalAge) {
+
+        if (!isAgreesToCreditCheck) {
+            $('#proceed-error-message').show();
+            scrollPageTo($("#proceed-error-message"));
+        }
+
+        if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
             if ($('#main-form').valid()) {
                 event.preventDefault();
             }

@@ -979,6 +979,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deferral.
+        /// </summary>
+        public static string Deferral {
+            get {
+                return ResourceManager.GetString("Deferral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Doors.
         /// </summary>
         public static string Doors {
@@ -1065,6 +1074,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Fireplace {
             get {
                 return ResourceManager.GetString("Fireplace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fixed Rate.
+        /// </summary>
+        public static string FixedRate {
+            get {
+                return ResourceManager.GetString("FixedRate", resourceCulture);
             }
         }
         
@@ -1254,6 +1272,15 @@ namespace DealnetPortal.Api.Resources {
         public static string NewCustomerAppliedForFinancing {
             get {
                 return ResourceManager.GetString("NewCustomerAppliedForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Interest.
+        /// </summary>
+        public static string NoInterest {
+            get {
+                return ResourceManager.GetString("NoInterest", resourceCulture);
             }
         }
         

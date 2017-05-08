@@ -73,8 +73,10 @@
     <Compile Include="Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvinceTaxRate.cs" />
+    <Compile Include="RateCard.cs" />
     <Compile Include="SettingItem.cs" />
     <Compile Include="SettingValue.cs" />
+    <Compile Include="Tier.cs" />
     <Compile Include="UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>
