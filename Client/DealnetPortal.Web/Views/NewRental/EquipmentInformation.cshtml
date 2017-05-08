@@ -35,6 +35,9 @@
   @Html.HiddenFor(x => x.AmortizationTerm)
   @Html.HiddenFor(x => x.AdminFee)
   @Html.HiddenFor(x => x.CustomerRate)
+  @Html.HiddenFor(x => x.ValueOfDeal)
+  @Html.HiddenFor(x => x.LoanTerm)
+  @Html.HiddenFor(x => x.LoanDeferralType)
 
   <div class="row form-group">
     <div class="col-md-3">
@@ -106,7 +109,7 @@
         @Html.LabelFor(m => m.TotalMonthlyPayment)
         <div class="control-group has-addon-left">
           <div class="control-group-addon">$</div>
-          @Html.TextBoxFor(m => m.TotalMonthlyPayment, new {@class = "form-control dealnet-input", id = "rentalMPayment", type = "text", placeholder = Resources.TotalMonthlyPayment})
+          @Html.TextBoxFor(m => m.TotalMonthlyPayment, new {@class = "form-control dealnet-input", id = "total-monthly-payment", type = "text", placeholder = Resources.TotalMonthlyPayment})
           @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new {@class = "text-danger"})
         </div>
       </div>
@@ -179,19 +182,19 @@
     <div class="row rental-element">
       <div class="col-md-3">
         <div class="form-group">
-          <label for="">Requested Term</label>
+          @Html.LabelFor(m => m.RequestedTerm)
           <div class="control-group">
-            <input class="form-control dealnet-input" placeholder="Requested Term" type="text">
+            @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input", type="text", placeholder = Resources.RequestedTerm, id = "requested-term"})
+            @Html.ValidationMessageFor(m => m.RequestedTerm, "", new {@class = "text-danger"})
           </div>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
-          <label for="">Deferral Type</label>
+          @Html.LabelFor(m => m.RentalDeferralType)
           <div class="control-group">
-            <select name="" id="" class="form-control">
-              <option value="">- not-selected -</option>
-            </select>
+            @Html.EnumDropDownListFor(m => m.RentalDeferralType, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.RentalDeferralType, "", new {@class = "text-danger"})
           </div>
         </div>
       </div>

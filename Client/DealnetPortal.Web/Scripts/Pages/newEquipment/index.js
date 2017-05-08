@@ -125,23 +125,39 @@
                     } else {
                         var option = rateCard.find('#hidden-option').text();
                         if (option === 'Custom') {
+
+                            var customSlicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
                             $('#AmortizationTerm').val($('#CustomAmortTerm').text());
+                            $('#LoanTerm').val($('#CustomAmortTerm').text());
                             $('#CustomerRate').val($('#CustomCustomerRate').text());
                             $('#AdminFee').val($('#CustomAdminFee').text());
+                            $('#total-monthly-payment').val(customSlicedTotalMPayment);
                         } else {
-                            $('#AmortizationTerm').val($('#' + option + 'AmortizationDropdown').val());
+
+                            if (option === 'Deferral') {
+                                $('#LoanDeferralType').val($('#DeferralPeriodDropdown').val());
+                            } else {
+                                $('#LoanDeferralType').val('0');
+                            }
 
                             //remove percentage symbol
+                            var amortizationTerm = $('#' + option + 'AmortizationDropdown').val();
+                            var loanTerm = amortizationTerm;
+
                             var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
                             var slicedAdminFee = $('#' + option + 'AFee').text().substring(1);
+                            var slicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
 
+                            $('#AmortizationTerm').val(amortizationTerm);
+                            $('#LoanTerm').val(loanTerm);
+                            $('#total-monthly-payment').val(slicedTotalMPayment);
                             $('#CustomerRate').val(slicedCustomerRate);
                             $('#AdminFee').val(slicedAdminFee);
                         }
                     }
                 }
             } else {
-                var monthPayment = Globalize.parseNumber($("#totalPrice").text());
+                var monthPayment = Globalize.parseNumber($("#rentalTMPayment").text());
                 if (isNaN(monthPayment) || (monthPayment == 0)) {
                     event.preventDefault();
                     $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
@@ -185,7 +201,7 @@
         $('#addEquipment').on('click', addEquipment);
         $('#downPayment').on('change', setDownPayment);
         $('#typeOfAgreementSelect').on('change', setAgreement);
-        $('#rentalMPayment').on('change', setRentalMPayment);
+        $('#total-monthly-payment').on('change', setRentalMPayment);
 
         // custom option
         $('#CustomLoanTerm').on('change', setLoanTerm('Custom'));
