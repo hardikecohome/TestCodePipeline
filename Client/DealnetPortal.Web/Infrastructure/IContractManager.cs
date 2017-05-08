@@ -20,8 +20,6 @@ namespace DealnetPortal.Web.Infrastructure
 
         Task<ContactAndPaymentInfoViewModelNew> GetAdditionalContactInfoAsyncNew(int contractId);
 
-        Task<DealItemOverviewViewModel> GetWorkItemsAsync();
-
         Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId);
 
         Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId);
