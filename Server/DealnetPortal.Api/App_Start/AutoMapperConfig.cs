@@ -41,8 +41,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
             mapperConfig.CreateMap<Email, EmailDTO>()
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
-            mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>();
-                //.ForMember(x=>x.RateCardId, o => o.MapFrom(d=>d.RateCard.Id));
+            mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>()
+                .ForMember(x=>x.RateCardId, o => o.MapFrom(d=>d.RateCard.Id));
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
@@ -108,25 +108,6 @@ namespace DealnetPortal.Api.App_Start
                             src =>
                                 src.Services?.GroupBy(k => k.LanguageId)
                                     .ToDictionary(ds => (LanguageCode) ds.Key, ds => ds.Select(s => s.Service).ToList())));
-            mapperConfig.CreateMap<RateCard, RateCardDTO>()
-                .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
-                .ForMember(x => x.AdminFee, d => d.MapFrom(s => s.AdminFee))
-                .ForMember(x => x.AmortizationTerm, d => d.MapFrom(s => s.AmortizationTerm))
-                .ForMember(x => x.CardType, d => d.MapFrom(s => s.CardType))
-                .ForMember(x => x.CustomerRate, d => d.MapFrom(s => s.CustomerRate))
-                .ForMember(x => x.DealerCost, d => d.MapFrom(s => s.DealerCost))
-                .ForMember(x => x.DeferralPeriod, d => d.MapFrom(s => s.DeferralPeriod))
-                .ForMember(x => x.LoanTerm, d => d.MapFrom(s => s.LoanTerm))
-                .ForMember(x => x.LoanValueFrom, d => d.MapFrom(s => s.LoanValueFrom))
-                .ForMember(x => x.LoanValueTo, d => d.MapFrom(s => s.LoanValueTo))
-                .ForMember(x => x.ValidFrom, d => d.MapFrom(s => s.ValidFrom))
-                .ForMember(x => x.ValidTo, d => d.MapFrom(s => s.ValidTo))
-                .ForMember(x => x.IsPromo, d => d.MapFrom(s => s.IsPromo));
-               
-            mapperConfig.CreateMap<Tier, TierDTO>()
-                .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
-                .ForMember(x=>x.Name, d=>d.MapFrom(s=>s.Name))
-                .ForMember(x=>x.RateCards, d=>d.MapFrom(s=>s.RateCards));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
@@ -142,7 +123,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Contract, x => x.Ignore())
                 .ForMember(d => d.ValueOfDeal, x => x.Ignore())
                 .ForMember(d => d.Notes, x => x.Ignore());
-                //.ForMember(d => d.RateCard, x => x.ResolveUsing(d => new RateCard() {Id = d.RateCardId}));
             mapperConfig.CreateMap<NewEquipmentDTO, NewEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());
