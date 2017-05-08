@@ -21,14 +21,11 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public class ContractManager : IContractManager
     {
-        private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public ContractManager(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent,
-            IDictionaryServiceAgent dictionaryServiceAgent)
+        public ContractManager(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent)
         {
-            _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
         }

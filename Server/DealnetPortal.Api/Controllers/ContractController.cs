@@ -511,22 +511,5 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
-
-        [Route("GetRateCards")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult GetRateCards([FromUri]double creditAmount)
-        {
-            try
-            {
-                var result = RateCardsService.GetFiltredRateCards(LoggedInUser?.UserId, creditAmount);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
     }
 }

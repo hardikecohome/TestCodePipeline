@@ -143,12 +143,5 @@ namespace DealnetPortal.Web.ServiceAgent
         /// Get Rates Card by Dealer
         /// </summary>
         Task<TierDTO> GetDealerTier();
-
-        /// <summary>
-        /// Get Rates Cards Filtred by LoanAmount and Valid Date
-        /// </summary>
-        /// <param name="creditAmount">Contract Credit Limit</param>
-        /// <returns></returns>
-        Task<TierDTO> GetRateCardsByDealer(double creditAmount);
     }
 }

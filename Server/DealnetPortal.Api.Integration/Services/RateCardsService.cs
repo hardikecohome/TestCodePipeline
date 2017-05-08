@@ -22,12 +22,5 @@ namespace DealnetPortal.Api.Integration.Services
             
             return Mapper.Map<TierDTO>(tier);
         }
-
-        public TierDTO GetFiltredRateCards(string id, double creditAmount)
-        {
-            var result = _rateCardsRepository.GetFiltredRateCards(id, creditAmount);
-
-            return Mapper.Map<TierDTO>(result);
-        }
     }
 }
