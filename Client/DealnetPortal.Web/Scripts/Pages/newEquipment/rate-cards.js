@@ -231,6 +231,7 @@
         initializeRateCards: initializeRateCards,
         recalculateValuesAndRender: recalculateValuesAndRender,
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
-        recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
+        recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
+        rateCards: rateCards
     }
 })

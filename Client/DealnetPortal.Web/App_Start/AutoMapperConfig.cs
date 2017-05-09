@@ -174,9 +174,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
             //New Version
-            cfg.CreateMap<ContactAndPaymentInfoViewModelNew, EquipmentInfoDTO>()
-                .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0));
-
+          
             cfg.CreateMap<EquipmentInformationViewModelNew, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
                 .ForMember(x => x.ValueOfDeal, d => d.Ignore())

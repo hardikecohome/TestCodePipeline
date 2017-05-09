@@ -2,7 +2,7 @@
     function(require) {
         var equipmentTemplateFactory = require('equipment-template');
         var state = require('rate-cards').state;
-
+        var rateCards = require('rate-cards').rateCards;
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('rate-cards').recalculateRentalTaxAndPrice;
@@ -125,23 +125,57 @@
                     } else {
                         var option = rateCard.find('#hidden-option').text();
                         if (option === 'Custom') {
-                            $('#AmortizationTerm').val($('#CustomAmortTerm').text());
-                            $('#CustomerRate').val($('#CustomCustomerRate').text());
-                            $('#AdminFee').val($('#CustomAdminFee').text());
+
+                            var customSlicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
+                            $('#AmortizationTerm').val(state[option].AmortizationTerm);
+                            $('#LoanTerm').val(state[option].LoanTerm);
+                            $('#CustomerRate').val(state[option].CustomerRate);
+                            $('#AdminFee').val(state[option].AdminFee);
+                            $('#total-monthly-payment').val(customSlicedTotalMPayment);
+                            $('#LoanDeferralType').val(state[option].DeferralPeriod);
+                            $('#SelectedRateCardId').val(0);
                         } else {
-                            $('#AmortizationTerm').val($('#' + option + 'AmortizationDropdown').val());
+
+                            if (option === 'Deferral') {
+                                $('#LoanDeferralType').val($('#DeferralPeriodDropdown').val());
+                            } else {
+                                $('#LoanDeferralType').val('0');
+                            }
 
                             //remove percentage symbol
+                            var amortizationTerm = $('#' + option + 'AmortizationDropdown').val();
+                            var loanTerm = amortizationTerm;
+
                             var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
                             var slicedAdminFee = $('#' + option + 'AFee').text().substring(1);
+                            var slicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
+                            var contractId = $('#ContractId').val();
+                            var cards = sessionStorage.getItem(contractId + option);
+                            if (cards !== null) {
+                                var cardType = $.grep(rateCards, function (c) { return c.name === option; })[0].id;
 
+                                var filtred = $.grep($.parseJSON(cards),
+                                    function (v) {
+                                        return v.CardType === cardType
+                                            && v.AmortizationTerm === Number(amortizationTerm)
+                                            && v.AdminFee === Number(slicedAdminFee)
+                                            && v.CustomerRate === Number(slicedCustomerRate);
+                                    })[0];
+
+                                if (filtred !== undefined) {
+                                    $('#SelectedRateCardId').val(filtred.Id);
+                                }
+                            }
+                            $('#AmortizationTerm').val(amortizationTerm);
+                            $('#LoanTerm').val(loanTerm);
+                            $('#total-monthly-payment').val(slicedTotalMPayment);
                             $('#CustomerRate').val(slicedCustomerRate);
                             $('#AdminFee').val(slicedAdminFee);
                         }
                     }
                 }
             } else {
-                var monthPayment = Globalize.parseNumber($("#totalPrice").text());
+                var monthPayment = Globalize.parseNumber($("#rentalTMPayment").text());
                 if (isNaN(monthPayment) || (monthPayment == 0)) {
                     event.preventDefault();
                     $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
@@ -185,7 +219,7 @@
         $('#addEquipment').on('click', addEquipment);
         $('#downPayment').on('change', setDownPayment);
         $('#typeOfAgreementSelect').on('change', setAgreement);
-        $('#rentalMPayment').on('change', setRentalMPayment);
+        $('#total-monthly-payment').on('change', setRentalMPayment);
 
         // custom option
         $('#CustomLoanTerm').on('change', setLoanTerm('Custom'));

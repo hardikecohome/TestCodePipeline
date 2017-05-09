@@ -45,7 +45,7 @@ namespace DealnetPortal.Domain
 
         public string InstallerLastName { get; set; }
 
-        public RateCard RateCard { get; set; }
+        public int? RateCardId { get; set; }
 
         public Contract Contract { get; set; }
     }

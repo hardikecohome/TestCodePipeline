@@ -691,6 +691,46 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
 
+                if (equipmentInfo.AgreementType == AgreementType.LoanApplication)
+                {
+                    equipmentInfo.AgreementType = dbEquipment.AgreementType;
+                }
+                if (equipmentInfo.CustomerRate == null)
+                {
+                    equipmentInfo.CustomerRate = dbEquipment.CustomerRate;
+                }
+                if (equipmentInfo.TotalMonthlyPayment == null)
+                {
+                    equipmentInfo.TotalMonthlyPayment = dbEquipment.TotalMonthlyPayment;
+                }
+                if (equipmentInfo.RequestedTerm == null)
+                {
+                    equipmentInfo.RequestedTerm = dbEquipment.RequestedTerm;
+                }
+                if (equipmentInfo.LoanTerm == null)
+                {
+                    equipmentInfo.LoanTerm = dbEquipment.LoanTerm;
+                }
+                if (equipmentInfo.AmortizationTerm == null)
+                {
+                    equipmentInfo.AmortizationTerm = dbEquipment.AmortizationTerm;
+                }
+                if (equipmentInfo.DeferralType == 0)
+                {
+                    equipmentInfo.DeferralType = dbEquipment.DeferralType;
+                }
+                if (equipmentInfo.AdminFee == null)
+                {
+                    equipmentInfo.AdminFee = dbEquipment.AdminFee;
+                }
+                if (equipmentInfo.DownPayment == null)
+                {
+                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
+                }
+                if (equipmentInfo.ValueOfDeal == null)
+                {
+                    equipmentInfo.ValueOfDeal = dbEquipment.ValueOfDeal;
+                }
                 if (string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
                 {
                     equipmentInfo.InstallerFirstName = dbEquipment.InstallerFirstName;
@@ -706,6 +746,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (!equipmentInfo.EstimatedInstallationDate.HasValue)
                 {
                     equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
+                }
+                if (!equipmentInfo.RateCardId.HasValue)
+                {
+                    equipmentInfo.RateCardId = dbEquipment.RateCardId;
                 }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);

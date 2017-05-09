@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.Infrastructure
             contactAndPaymentInfo.EstimatedInstallationDate = contractResult.Item1.Equipment.EstimatedInstallationDate;
             contactAndPaymentInfo.SalesRep = contractResult.Item1.Equipment.SalesRep;
             contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
-
+            contactAndPaymentInfo.ContractId = contractId;
             contactAndPaymentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
 
             return contactAndPaymentInfo;
@@ -354,13 +354,13 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
-                Details = new ContractDetailsDTO
+                Equipment = new EquipmentInfoDTO
                 {
-                    Notes = equipmnetInfo.Notes
-                },
-                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+                    Id = equipmnetInfo.ContractId ?? 0
+                }
             };
 
+            contractData.Equipment.ExistingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
             contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
 
