@@ -42,7 +42,6 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<Email, EmailDTO>()
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
             mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>();
-                //.ForMember(x=>x.RateCardId, o => o.MapFrom(d=>d.RateCard.Id));
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
@@ -140,9 +139,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDetailsDTO, ContractDetails>();
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
                 .ForMember(d => d.Contract, x => x.Ignore())
-                .ForMember(d => d.ValueOfDeal, x => x.Ignore())
-                .ForMember(d => d.Notes, x => x.Ignore());
-                //.ForMember(d => d.RateCard, x => x.ResolveUsing(d => new RateCard() {Id = d.RateCardId}));
+                .ForMember(d => d.ValueOfDeal, x => x.Ignore());
             mapperConfig.CreateMap<NewEquipmentDTO, NewEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());

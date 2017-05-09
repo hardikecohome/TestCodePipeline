@@ -747,6 +747,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
                 }
+                if (!equipmentInfo.RateCardId.HasValue)
+                {
+                    equipmentInfo.RateCardId = dbEquipment.RateCardId;
+                }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
                 dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
