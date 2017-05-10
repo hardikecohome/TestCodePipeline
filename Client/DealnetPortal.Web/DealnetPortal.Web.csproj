@@ -669,6 +669,8 @@
     <Content Include="favicon_Life_Time.ico" />
     <Content Include="favicon_Smart_Home.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Actions\customer.js" />
+    <Content Include="Scripts\Actions\new-client-actions.js" />
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
@@ -748,7 +750,11 @@
     <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
-    <Content Include="Scripts\customer-form.js" />
+    <Content Include="Scripts\Pages\Clients\index.js" />
+    <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
+    <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
+    <Content Include="Scripts\Pages\Clients\new-client-store.js" />
+    <Content Include="Scripts\Pages\customer-form.js" />
     <Content Include="Scripts\customer-validation.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
@@ -861,8 +867,11 @@
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\my-customers.js" />
-    <Content Include="Scripts\Pages\Clients\index.js" />
-    <Content Include="Scripts\Pages\Clients\new-client-ui.js" />
+    <Content Include="Scripts\Pages\Clients\new-client.js" />
+    <Content Include="Scripts\Reducers\customer.js" />
+    <Content Include="Scripts\Reducers\new-client-reducer.js" />
+    <Content Include="Scripts\Selectors\customer.js" />
+    <Content Include="Scripts\Selectors\new-client-selectors.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -894,6 +903,15 @@
     <Content Include="Scripts\Vendor\globalize\globalize\plural.js" />
     <Content Include="Scripts\Vendor\globalize\globalize\relative-time.js" />
     <Content Include="Scripts\Vendor\globalize\globalize\unit.js" />
+    <Content Include="Scripts\Views\agreement.js" />
+    <Content Include="Scripts\Views\Clients\address-information.js" />
+    <Content Include="Scripts\Views\Clients\basic-information.js" />
+    <Content Include="Scripts\Views\Clients\client-consents.js" />
+    <Content Include="Scripts\Views\Clients\contact-information.js" />
+    <Content Include="Scripts\Views\Clients\home-improvments.js" />
+    <Content Include="Scripts\Views\contact-info.js" />
+    <Content Include="Scripts\Views\installation-address.js" />
+    <Content Include="Scripts\Views\your-info.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

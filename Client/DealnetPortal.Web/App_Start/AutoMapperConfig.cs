@@ -189,7 +189,9 @@ namespace DealnetPortal.Web.App_Start
                 src.Item2.Select(e => e.Header).ToList()));
 
             cfg.CreateMap<ContractDTO, ClientsInformationViewModel>()
-                .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.Details?.TransactionId ?? string.Concat(Resources.Resources.Internal, $" : {src.Id}")))
+                .ForMember(d => d.TransactionId,
+                    s => s.ResolveUsing(src => src.Details?.TransactionId ??
+                                               string.Concat(Resources.Resources.Internal, $" : {src.Id}")))
                 .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.Details?.TransactionId == null))
                 .ForMember(d => d.Improvement, s => s.ResolveUsing(src =>
                 {
@@ -200,7 +202,7 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.CustomerName, s => s.ResolveUsing(src =>
+                .ForMember(d => d.Client, s => s.ResolveUsing(src =>
                 {
                     var customer = src.PrimaryCustomer;
                     if (customer != null)
@@ -209,25 +211,25 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
-                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.Equipment?.AgreementType.ConvertTo<Models.Enumeration.AgreementType>().GetEnumDescription()))
-                .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription()))
+                .ForMember(d => d.Status,
+                    s => s.ResolveUsing(src => src.Details?.Status ??
+                                               (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.PaymentType,
+                    s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>()
+                        .GetEnumDescription()))
                 .ForMember(d => d.Action, s => s.Ignore())
-                .ForMember(d => d.Email, s => s.ResolveUsing(src => src.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
-                .ForMember(d => d.Phone, s => s.ResolveUsing(src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
-                                                                    ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))
+                .ForMember(d => d.Email,
+                    s => s.ResolveUsing(src => src.PrimaryCustomer?.Emails
+                        ?.FirstOrDefault(e => e.EmailType == EmailType.Main)
+                        ?.EmailAddress))
+                .ForMember(d => d.Phone, s => s.ResolveUsing(
+                    src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
+                           ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)
+                               ?.PhoneNum))
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
-                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
+                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy",
+                        CultureInfo.InvariantCulture)))
                 .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
-                .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
-                {
-                    var equipment = src.Equipment?.NewEquipment;
-                    if (equipment != null)
-                    {
-                        return equipment.Select(eq => eq.TypeDescription).ConcatWithComma();
-                    }
-                    return string.Empty;
-                }))
                 .ForMember(d => d.RemainingDescription, s => s.ResolveUsing(src =>
                 {
                     var stb = new StringBuilder();
@@ -265,16 +267,6 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.PostalCode, s => s.ResolveUsing(src =>
-                {
-                    var location =
-                        src.PrimaryCustomer?.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
-                    if (location?.PostalCode != null)
-                    {
-                        return $"{location.PostalCode.ToUpperInvariant()}***";
-                    }
-                    return string.Empty;
-                }))
                 .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src =>
                 {
                     if (src.Details?.CreditAmount != null)
@@ -282,8 +274,8 @@ namespace DealnetPortal.Web.App_Start
                         return FormattableString.Invariant($"$ {src.Details.CreditAmount:0.00}");
                     }
                     return string.Empty;
-                }))
-                .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => src.Details?.Notes));
+                }));
+                
 
             cfg.CreateMap<ContractDTO, DealItemOverviewViewModel>()
                 .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.Details?.TransactionId ?? string.Concat(Resources.Resources.Internal, $" : {src.Id}")))
