@@ -49,11 +49,11 @@ function showTable() {
 				        { "data": "TransactionId", className: 'contract-cell' },
 				        { "data": "Date", className: 'date-cell' },
 				        { "data": "CustomerName", className: 'customer-cell', orderable: false },
-				        { "data": "Status", className: 'status-cell', orderable: false },
 				        { "data": "Email", className: 'email-cell', orderable: false },
 				        { "data": "Phone", className: 'phone-cell', orderable: false },
 				        { "data": "Improvement", className: 'improvement-cell', orderable: false },
 				        { "data": "SalesAgent", className: 'email-cell', orderable: false },
+                { "data": "Status", className: 'status-cell', orderable: false },
                     ],
                     dom:
 			            "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +

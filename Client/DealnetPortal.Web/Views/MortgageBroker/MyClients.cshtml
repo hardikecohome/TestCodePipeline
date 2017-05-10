@@ -18,9 +18,19 @@
 		<div class="row">
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
-					<label for="">@Resources.DealStatus</label>
+					<label for="">Status</label>
 					<div class="control-group">
 						<select id="deal-status" class="form-control select-filter filter-input"></select>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="">Sales Agent</label>
+					<div class="control-group">
+						<select id="" class="form-control select-filter filter-input">
+							<option value="">- not selected-</option>
+						</select>
 					</div>
 				</div>
 			</div>
@@ -40,16 +50,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="">Sales agent</label>
-					<div class="control-group">
-						<select id="" class="form-control select-filter filter-input">
-							<option value="">- not selected-</option>
-						</select>
-					</div>
-				</div>
-			</div>
 
 			<div class="col-md-offset-0 col-md-2 col-sm-offset-6 col-sm-6 text-right">
 				<div class="form-group">
@@ -63,14 +63,14 @@
 <table id="work-items-table" class="display responsive my-customers-table" width="100%">
 	<thead>
 		<tr>
-			<th class="all contract-cell">@Resources.Contract&nbsp;#</th>
+			<th class="all contract-cell">Application Number</th>
 			<th class="all data-cell">@Resources.AddedOn</th>
-			<th class="all customer-cell">@Resources.Customer</th>
-			<th class="min-mobile-l status-cell">@Resources.Status</th>
-			<th class="min-desktop email-cell">@Resources.Email</th>
+			<th class="all customer-cell">Client</th>
+			<th class="min-desktop email-cell">Client Email</th>
 			<th class="min-desktop phone-cell">@Resources.Phone</th>
-			<th class="min-desktop improvement-cell">Home improvement</th>
-			<th class="min-desktop email-cell">Sales agent</th>
+			<th class="min-desktop improvement-cell">Home Improvement</th>
+			<th class="min-desktop email-cell">Sales Agent</th>
+			<th class="min-mobile-l status-cell">@Resources.Status</th>
 		</tr>
 	</thead>
 </table>
