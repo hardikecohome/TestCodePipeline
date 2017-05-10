@@ -51,7 +51,8 @@ table.dataTable.dtr-column.collapsed > tbody > tr > th:not(.child).control{
   }
 }
 table.dataTable.collapsed{
-  td.contract-cell{
+  td.contract-cell,
+  td.expanded-cell{
     &:after{
       content: '';
       display: inline-block;
@@ -65,7 +66,8 @@ table.dataTable.collapsed{
     }
   }
   tr.parent:not(.child){
-    td.contract-cell {
+    td.contract-cell,
+    td.expanded-cell{
       &:after {
         border-width: 0 5px 5px 5px;
         border-color: transparent transparent @default-dark-grey-color transparent;
@@ -264,6 +266,11 @@ table.dataTable > tbody > tr.child ul{
   }
 
   td, th{
+    &.controls-cell.accept-cell{
+      min-width: 40px !important;
+      width: 90px !important;
+      text-align: center;
+    }
     &.edit-cell{
       text-align: center;
       width: 40px !important;
@@ -315,8 +322,12 @@ body:not(.tablet-device){
   .dataTable {
     td, th{
       &.date-cell{
-        width: 80px;
-        min-width: 80px;
+        width: 80px !important;
+        min-width: 80px !important;
+        &.expanded-cell{
+          width: 90px !important;
+          min-width: 90px !important;
+        }
       }
       &.phone-cell{
         width: 80px;
@@ -325,3 +336,4 @@ body:not(.tablet-device){
     }
   }
 }
+

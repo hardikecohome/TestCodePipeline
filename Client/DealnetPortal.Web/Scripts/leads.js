@@ -56,16 +56,16 @@ function showTable() {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     columns: [
-					    { "data": "Date", className: 'contract-cell' },
-					    { "data": "PostalCode", className: '' },
-					    { "data": "PreApprovalAmount", className: 'customer-cell' },
-					    { "data": "Equipment", className: 'status-cell' },
-					    { "data": "CustomerComment", className: 'email-cell' },
+					    { "data": "Date", className: 'date-cell expanded-cell' },
+					    { "data": "PostalCode", className: 'code-cell' },
+					    { "data": "PreApprovalAmount", className: 'preapproved-cell' },
+					    { "data": "Equipment", className: 'equipment-cell' },
+					    { "data": "CustomerComment", className: 'customer-cell' },
 					    {// this is Actions Column
 					        "render": function (sdata, type, row) {
 					            return '<div class="contract-controls text-center"><a onclick="addLead()"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
 					        },
-					        className: 'controls-cell',
+					        className: 'controls-cell accept-cell',
 					        orderable: false
 					    },
                     ],

@@ -1389,7 +1389,7 @@
     <value>Accept Lead</value>
   </data>
   <data name="CustomerComment" xml:space="preserve">
-    <value>Customer comment</value>
+    <value>Customer Comment</value>
   </data>
   <data name="Leads" xml:space="preserve">
     <value>Leads</value>
@@ -1400,7 +1400,7 @@
     <comment>Context: Selected lead was accepted by you. You can find it in My Deals page.</comment>
   </data>
   <data name="RequestedEquipmentService" xml:space="preserve">
-    <value>Requested equipment/service</value>
+    <value>Requested Equipment/Service</value>
   </data>
   <data name="YouSureYouWantToAcceptLeadThenYouPay" xml:space="preserve">
     <value>Are you sure that you want to accept this lead? In this case you will pay ${0} fee.</value>

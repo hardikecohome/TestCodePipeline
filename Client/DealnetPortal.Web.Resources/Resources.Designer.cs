@@ -1042,7 +1042,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer comment.
+        ///   Looks up a localized string similar to Customer Comment.
         /// </summary>
         public static string CustomerComment {
             get {
@@ -1744,20 +1744,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Home Improvement Type.
-        /// </summary>
-        public static string HomeImprovementType {
-            get {
-                return ResourceManager.GetString("HomeImprovementType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home Improvement Type.
+        /// </summary>
+        public static string HomeImprovementType {
+            get {
+                return ResourceManager.GetString("HomeImprovementType", resourceCulture);
             }
         }
         
@@ -2923,7 +2923,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Requested equipment/service.
+        ///   Looks up a localized string similar to Requested Equipment/Service.
         /// </summary>
         public static string RequestedEquipmentService {
             get {
