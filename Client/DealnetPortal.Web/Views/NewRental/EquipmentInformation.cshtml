@@ -52,9 +52,12 @@
           @Html.HiddenFor(m => m.NewEquipment[i].Id)
           <div class="dealnet-middle-header equipment-number-header">
             <span class="equipment-number">№@(i + 1)</span>
-            <div class="additional-remove">
-              <i class="glyphicon glyphicon-remove"></i>
-            </div>
+            @if (i > 0)
+            {
+              <div class="additional-remove">
+                <i class="glyphicon glyphicon-remove"></i>
+              </div>
+            }
           </div>
           <div class="row">
             <div class="col-md-3">

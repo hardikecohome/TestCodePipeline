@@ -10,7 +10,9 @@
         parentNode.append($.parseHTML(result));
 
         $(parentNode).attr('id', 'new-equipment-' + options.id);
-
+        if (options.id === 0) {
+            $(parentNode).find("div.additional-remove").remove();
+        }
         return parentNode;
     };
 
