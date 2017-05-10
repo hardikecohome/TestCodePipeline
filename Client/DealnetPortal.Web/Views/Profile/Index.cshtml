@@ -14,6 +14,7 @@
 <div class="form-container profile-form-container">
   @using (Html.BeginForm("SetProfile", "Profile", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13"}))
   {
+      @Html.AntiForgeryToken()
     <h3 class="dealnet-middle-header">Offered service</h3>
     <div class="row">
       <div class="col-md-4 col-sm-6 col-lg-3">
@@ -32,10 +33,17 @@
           <ul class="customer-needs-list tags-list" id="selected-categories">
             @if (Model.Categories != null)
             {
-              foreach (var category in Model.Categories)
-              {
-                <li><input class="hidden" name="Categories" value="@category.Type">@category.Type <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
-              }
+                for (int i = 0; i < Model.Categories.Count; i++)
+                {
+                    <li id="category-index-@(i)">
+                        @Html.HiddenFor(s => s.Categories[i].Type)
+                        @Html.HiddenFor(s => s.Categories[i].Description)
+                        <input class="hidden" name="selectedCategory" value="@Model.Categories[i].Type">@Model.Categories[i].Description
+                        <span class="icon-remove" id="@Model.Categories[i].Type.ToLower()">
+                            <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
+                        </span>
+                    </li>
+                }
             }
           </ul>
         </div>

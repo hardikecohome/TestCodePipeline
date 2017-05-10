@@ -868,8 +868,9 @@
     <Content Include="Scripts\Pages\Clients\new-client-ui.js" />
     <Content Include="Scripts\Pages\MyProfile\index.js" />
     <Content Include="Scripts\Pages\MyProfile\category-handlers.js" />
+    <Content Include="Scripts\Pages\MyProfile\category-template.js" />
     <Content Include="Scripts\Pages\MyProfile\my-profile-state.js" />
-    <Content Include="Scripts\Pages\MyProfile\my-profile-template.js" />
+    <Content Include="Scripts\Pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

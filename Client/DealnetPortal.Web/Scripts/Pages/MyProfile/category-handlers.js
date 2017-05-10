@@ -1,17 +1,77 @@
-﻿module.exports('category-handlers', function() {
+﻿module.exports('category-handlers', function (require) {
+    var template = require('category-template');
+    var state = require('my-profile-state');
+
+    var init = function() {
+        $('input[name="selectedCategory"]').next().each(function() {
+            if (this.id !== undefined) {
+                if (state.categories.indexOf(this.id) === -1) {
+                    state.categories.push(this.id);
+                    $('#' + this.id).on('click', remove);
+                    state.categorySecondId++;
+                }
+            }
+        });
+    }
 
     var add = function() {
-        var equipmentValue = $(this).val();
-        var equipmentText = $("#offered-service :selected").text();
-        if (equipmentValue) {
-            $('#selected-categories').append($('<li><input class="hidden" name="Categories" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+        var value = $(this).val();
+        var description = $("#offered-service :selected").text();
+        if (value) {
+            var lowerCaseValue = value.toLowerCase();
+            if (state.categories.indexOf(lowerCaseValue) === -1) {
+                state.categories.push(lowerCaseValue);
+
+                $('#selected-categories').append($(template(state.categorySecondId, lowerCaseValue, description)));
+                $('#' + lowerCaseValue).on('click', remove);
+
+                state.categorySecondId++;
+            }
         }
     }
 
-    var remove = function () { };
+    function remove() {
+        var oldId = $(this).parent().attr('id');
+        var value = $(this).attr('id');
+
+        if (value) {
+            var index = state.categories.indexOf(value);
+
+            if (index !== -1) {
+                state.categories.splice(index, 1);
+                state.categorySecondId--;
+            }
+        }
+
+        var substringIndex = Number(oldId.substr(oldId.lastIndexOf("-") + 1));
+
+        $('li#' + oldId).remove();
+
+        rebuildCategoryIndex(substringIndex);
+    };
+
+    function rebuildCategoryIndex(id) {
+        while (true) {
+            id++;
+            var div = $('li#category-index-' + id);
+
+            if (!div.length) { break; }
+
+            div.attr('id', 'category-index-' + (id - 1));
+            div.find('input[name*="Type"]').each(function () {
+                $(this).attr('id', $(this).attr('id').replace('Categories_' + id, 'PostalCodes_' + (id - 1)));
+                $(this).attr('name', $(this).attr('name').replace('Categories[' + id, 'Categories[' + (id - 1)));
+            });
+
+            div.find('input[name*="Description"]').each(function () {
+                $(this).attr('id', $(this).attr('id').replace('Categories_' + id, 'PostalCodes_' + (id - 1)));
+                $(this).attr('name', $(this).attr('name').replace('Categories[' + id, 'Categories[' + (id - 1)));
+            });
+        }
+    }
 
     return {
-        addCategory: add,
-        removeCategory: remove
+        initCategoryState: init,
+        addCategory: add
     }
 })

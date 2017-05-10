@@ -1,6 +1,23 @@
 ﻿module.exports('postalCode-handlers', function (require) {
-    var template = require('my-profile-template');
+    var template = require('postalCode-template');
     var state = require('my-profile-state');
+
+    var init = function () {
+        var postalCodes = $('div#postal-code-area').find('[id^=postal-code-]');
+        for (var i = 0; i < postalCodes.length; i++) {
+            var value = $(postalCodes[i]).find('#PostalCodes_' + i + '__Value').val();
+            setHandlers({ id: i, value: value });
+        }
+    }
+
+    var add = function () {
+        var newTemplate = template($('<div></div>'), { id: state.postalCodeSecondId });
+        state.postalCodes.push({ id: state.postalCodeSecondId, value: '' });
+
+        $('#postal-code-area').append(newTemplate);
+        setHandlers({ id: state.postalCodeSecondId, value: '' });
+        resetFormValidator('#main-form');
+    };
 
     var change = function (id) {
         console.log('set id ' + id);
@@ -23,31 +40,33 @@
             state.postalCodes.splice(state.postalCodes.indexOf(codeToDelete), 1);
         }
 
-        while (true) {
-            index++;
-            var nextPostalCode = $('div#postal-code-' + index);
-            if (!nextPostalCode.length) { break; }
-
-            var updatedState = $.grep(state.postalCodes, function (i) { return i.id === index })[0];
-            updatedState.id--;
-
-            var inputs = nextPostalCode.find('input');
-
-            inputs.each(function () {
-                $(this).attr('id', $(this).attr('id').replace('PostalCodes_' + index, 'PostalCodes_' + (index - 1)));
-                $(this).attr('name', $(this).attr('name').replace('PostalCodes[' + index, 'PostalCodes[' + (index - 1)));
-            });
-
-            var spans = nextPostalCode.find('span');
-            spans.each(function () {
-                var valFor = $(this).attr('data-valmsg-for');
-                if (valFor == null) { return; }
-                $(this).attr('data-valmsg-for', valFor.replace('PostalCodes[' + index, 'PostalCodes[' + (index - 1)));
-            });
-            resetFormValidator('#main-form');
-        }
+        rebuildPostalCodeIndex(index);
 
         state.postalCodeSecondId--;
+    }
+
+    function rebuildPostalCodeIndex(id) {
+        while (true) {
+            id++;
+            var nextPostalCode = $('div#postal-code-' + id);
+            if (!nextPostalCode.length) { break; }
+
+            var updatedState = $.grep(state.postalCodes, function (i) { return i.id === id })[0];
+            updatedState.id--;
+            
+            nextPostalCode.find('input').each(function () {
+                $(this).attr('id', $(this).attr('id').replace('PostalCodes_' + id, 'PostalCodes_' + (id - 1)));
+                $(this).attr('name', $(this).attr('name').replace('PostalCodes[' + id, 'PostalCodes[' + (id - 1)));
+            });
+
+            nextPostalCode.find('span').each(function () {
+                var valFor = $(this).attr('data-valmsg-for');
+                if (valFor == null) { return; }
+                $(this).attr('data-valmsg-for', valFor.replace('PostalCodes[' + id, 'PostalCodes[' + (id - 1)));
+            });
+
+            resetFormValidator('#main-form');
+        }
     }
 
     function resetFormValidator(formId) {
@@ -63,23 +82,6 @@
 
         state.postalCodeSecondId++;
     }
-
-    var init = function () {
-        var postalCodes = $('div#postal-code-area').find('[id^=postal-code-]');
-        for (var i = 0; i < postalCodes.length; i++) {
-            var value = $(postalCodes[i]).find('#PostalCodes_' + i + '__Value').val();
-            setHandlers({ id: i, value: value });
-        }
-    }
-
-    var add = function() {
-        var newTemplate = template($('<div></div>'), { id: state.postalCodeSecondId });
-        state.postalCodes.push({ id: state.postalCodeSecondId, value: '' });
-
-        $('#postal-code-area').append(newTemplate);
-        setHandlers({ id: state.postalCodeSecondId, value: '' });
-        resetFormValidator('#main-form');
-    };
 
     return {
         initPostalCodeState: init,

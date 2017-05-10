@@ -17,7 +17,6 @@ namespace DealnetPortal.Web.Models.MyProfile
 
     public class CategoryInformation
     {
-        public int Id { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
     }

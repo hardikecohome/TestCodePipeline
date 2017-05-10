@@ -1,4 +1,4 @@
-﻿module.exports('my-profile-template', function () {
+﻿module.exports('postalCode-template', function () {
     var equipmentFactory = function (parentNode, options) {
         var template = document.getElementById('postal-template').innerHTML;
         var result = template.split("PostalCodes[0]")

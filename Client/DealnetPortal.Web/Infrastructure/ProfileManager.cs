@@ -19,10 +19,25 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<ProfileViewModel> Get()
         {
             var model = new ProfileViewModel();
+
             model.PostalCodes = new List<PostalCodeInformation>
             {
                 new PostalCodeInformation {Id = 1, Value = "12345"},
-                new PostalCodeInformation {Id = 2, Value = "qwerty"},
+                new PostalCodeInformation {Id = 2, Value = "qwerty"}
+            };
+
+            model.Categories = new List<CategoryInformation>()
+            {
+                new CategoryInformation
+                {
+                    Type = "ECO1",
+                    Description = "Air Conditioner"
+                },
+                new CategoryInformation
+                {
+                    Type = "ECO2",
+                    Description = "Boiler"
+                },
             };
 
             var equipment = await _dictionaryServiceAgent.GetEquipmentTypes();

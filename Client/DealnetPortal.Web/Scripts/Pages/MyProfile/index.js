@@ -4,6 +4,7 @@
 
     //init 
     postalCodeHandlers.initPostalCodeState();
+    categoryHandlers.initCategoryState();
 
     //handlers 
     $('#offered-service').on('change', categoryHandlers.addCategory);

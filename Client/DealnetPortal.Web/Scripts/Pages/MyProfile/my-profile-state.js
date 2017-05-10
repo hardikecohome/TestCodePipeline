@@ -1,7 +1,9 @@
 ﻿module.exports('my-profile-state', function () {
     var state = {
         postalCodes: [],
-        postalCodeSecondId: 0
+        categories: [],
+        postalCodeSecondId: 0,
+        categorySecondId: 0
     };
 
     window.state = state;

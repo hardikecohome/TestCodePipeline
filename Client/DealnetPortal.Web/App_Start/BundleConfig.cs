@@ -111,7 +111,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
                 .Include("~/Scripts/Pages/MyProfile/postalCode-handlers.js")
                 .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")
-                .Include("~/Scripts/Pages/MyProfile/my-profile-template.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-template.js")
+                .Include("~/Scripts/Pages/MyProfile/category-template.js")
             );
 
         }
