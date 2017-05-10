@@ -104,6 +104,7 @@ function showTable() {
                 $('.filter-input').val("");
                 table.search('').draw();
             });
+          $('.dataTables_filter input[type="search"]').attr('placeholder','Requested service, customer comment');
         });
 };
 
