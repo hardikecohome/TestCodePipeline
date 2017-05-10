@@ -394,6 +394,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application Number.
+        /// </summary>
+        public static string ApplicationNumber {
+            get {
+                return ResourceManager.GetString("ApplicationNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application submitted.
         /// </summary>
         public static string ApplicationSubmitted {
@@ -790,11 +799,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client.
+        /// </summary>
+        public static string Client {
+            get {
+                return ResourceManager.GetString("Client", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client data inputted.
         /// </summary>
         public static string ClientDataInputted {
             get {
                 return ResourceManager.GetString("ClientDataInputted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client Email.
+        /// </summary>
+        public static string ClientEmail {
+            get {
+                return ResourceManager.GetString("ClientEmail", resourceCulture);
             }
         }
         
@@ -1749,6 +1776,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home Improvement.
+        /// </summary>
+        public static string HomeImprovement {
+            get {
+                return ResourceManager.GetString("HomeImprovement", resourceCulture);
             }
         }
         
@@ -2982,6 +3018,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Reupload {
             get {
                 return ResourceManager.GetString("Reupload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sales Agent.
+        /// </summary>
+        public static string SalesAgent {
+            get {
+                return ResourceManager.GetString("SalesAgent", resourceCulture);
             }
         }
         

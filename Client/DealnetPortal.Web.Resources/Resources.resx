@@ -1412,4 +1412,19 @@
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="ApplicationNumber" xml:space="preserve">
+    <value>Application Number</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ClientEmail" xml:space="preserve">
+    <value>Client Email</value>
+  </data>
+  <data name="HomeImprovement" xml:space="preserve">
+    <value>Home Improvement</value>
+  </data>
+  <data name="SalesAgent" xml:space="preserve">
+    <value>Sales Agent</value>
+  </data>
 </root>
