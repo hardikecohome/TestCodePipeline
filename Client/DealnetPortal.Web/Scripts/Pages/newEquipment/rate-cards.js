@@ -11,6 +11,7 @@
     var tax = require('financial-functions').tax;
 
     var contractId;
+    var selectedCardId;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
     var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
@@ -211,8 +212,9 @@
         });
     }
 
-    var initializeRateCards = function (id, cards) {
+    var initializeRateCards = function (id, cardId, cards) {
         contractId = id;
+        selectedCardId = cardId;
         rateCards.forEach(function (option) {
             if (sessionStorage.getItem(contractId + option.name) === null) {
                 var filtred = $.grep(cards,
