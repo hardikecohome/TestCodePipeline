@@ -28,3 +28,10 @@ function checkHomeOwner() {
 function checkCreditAgree() {
     return $('#agreement-checkbox').prop('checked') ? true : false;
 }
+function checkCreditAgreeAp() {
+    if ($('#agreement-checkbox1')) {
+        return $('#agreement-checkbox1').prop('checked') ? true : false;
+    } else {
+        return true;
+    }
+}
