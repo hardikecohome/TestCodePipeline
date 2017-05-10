@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public double? ValueOfDeal { get; set; }
 
-        //public int? SelectedRateCardId { get; set; }
+        public int? SelectedRateCardId { get; set; }
 
         public TierDTO DealerTier { get; set; }
     }
