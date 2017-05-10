@@ -12,6 +12,7 @@
 
     var contractId;
     var selectedCardId;
+    var isInialized = false;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
     var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
@@ -76,35 +77,52 @@
     var setBasicValues = function () {
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
-            var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
-            var totalCash;
-            if (isNaN(+$('#totalPrice').text())) {
-                //minimum loan value
-                totalCash = 1000;
-            } else {
-                totalCash = +$('#totalPrice').text();
+            
+            if (selectedCardId !== null) {
+                var selectedCard = $.grep(items,
+                    function(card) {
+                        return card.Id === Number(selectedCardId);
+                    })[0];
 
-                if (totalCash < 1000) {
-                    totalCash = 1000;
+                if (selectedCard !== null && selectedCard !== undefined) {
+                    state[option.name] = selectedCard;
+                    state[option.name].yourCost = '';
+
+                    togglePromoLabel(option);
+
+                    //just find parent div
+                    toggleSelectedRateCard('#' + option.name + 'AFee');
+
+                    $('#' + option.name + 'AmortizationDropdown').val(state[option.name].AmortizationTerm);
+                    $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
+                    $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
+                    $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
+                } else {
+                    calculateRateCardValues(option, items);
+                }
+            } else {
+                if (option.name === 'Custom' && !isInialized) {
+                    $('#CustomLoanTerm').val($('#LoanTerm').val());
+                    state[option.name].LoanTerm = $('#LoanTerm').val();
+                    $('#CustomAmortTerm').val($('#AmortizationTerm').val());
+                    state[option.name].AmortiztionTerm = $('#AmortizationTerm').val();
+                    $('#CustomDeferralPeriod').val(3);
+                    state[option.name].DeferralPeriod = 3;
+                    $('#CustomCRate').val($('#CustomerRate').val());
+                    state[option.name].CustomerRate = $('#CustomerRate').val();
+                    $('#CustomAFee').val($('#AdminFee').val());
+                    state[option.name].AdminFee = $('#AdminFee').val();
+                    $('#CustomYCost').val(0);
+                    state[option.name].yourCost = 0;
+                    toggleSelectedRateCard('#CustomLoanTerm');
+
+                    isInialized = true;
+                } else {
+                    calculateRateCardValues(option, items);
                 }
             }
-
-            var amortization = $.grep(items, function (i) {
-                return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
-            })[0];
-
-            if (amortization !== null && amortization !== undefined) {
-
-                state[option.name] = amortization;
-                state[option.name].yourCost = '';
-
-                togglePromoLabel(option);
-
-                $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
-                $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
-                $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
-            }
         });
+        selectedCardId = null;
     }
 
     var renderOption = function (option, data) {
@@ -205,6 +223,43 @@
             $('#rentalTMPayment').text('-');
         }
     };
+
+    function calculateRateCardValues(option, items) {
+        var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
+        var totalCash;
+        if (isNaN(+$('#totalPrice').text())) {
+            //minimum loan value
+            totalCash = 1000;
+        } else {
+            totalCash = +$('#totalPrice').text();
+
+            if (totalCash < 1000) {
+                totalCash = 1000;
+            }
+        }
+
+        var rateCard = $.grep(items, function (i) {
+            return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+        })[0];
+
+        if (rateCard !== null && rateCard !== undefined) {
+
+            state[option.name] = rateCard;
+            state[option.name].yourCost = '';
+
+            togglePromoLabel(option);
+
+            $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
+            $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
+            $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
+        }
+
+    }
+
+    function toggleSelectedRateCard(selector) {
+        $(selector).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
+    }
+
     function setHandlers(option) {
         $('#' + option.name + 'AmortizationDropdown').change(function () {
             $(this).prop('selected',true);
@@ -212,14 +267,18 @@
         });
     }
 
-    var initializeRateCards = function (id, cardId, cards) {
+    var initializeRateCards = function (id, cards) {
         contractId = id;
-        selectedCardId = cardId;
+        if ($('#SelectedRateCardId').val() === "") {
+            selectedCardId = null;
+        } else {
+            selectedCardId = $('#SelectedRateCardId').val();
+        }
         rateCards.forEach(function (option) {
             if (sessionStorage.getItem(contractId + option.name) === null) {
                 var filtred = $.grep(cards,
-                    function (v) {
-                        return v.CardType === option.id;
+                    function (card) {
+                        return card.CardType === option.id;
                     });
                 sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
             }

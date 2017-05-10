@@ -225,9 +225,9 @@
         $('#CustomLoanTerm').on('change', setLoanTerm('Custom'));
         $('#CustomAmortTerm').on('change', setAmortTerm('Custom'));
         $('#CustomDeferralPeriod').on('change', setDeferralPeriod('Custom'));
-        $('#CustomCustomerRate').on('change', setCustomerRate('Custom'));
-        $('#CustomYourCost').on('change', setYourCost('Custom'));
-        $('#CustomAdminFee').on('change', setAdminFee('Custom'));
+        $('#CustomCRate').on('change', setCustomerRate('Custom'));
+        $('#CustomYCostVal').on('change', setYourCost('Custom'));
+        $('#CustomAFee').on('change', setAdminFee('Custom'));
 
         // deferral
         $('#deferralLATerm').on('change', function(e) {

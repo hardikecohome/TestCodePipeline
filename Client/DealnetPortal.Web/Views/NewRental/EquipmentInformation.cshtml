@@ -244,7 +244,7 @@
   </script>
   <script type="text/javascript">
     configInitialized.then(function () {
-      module.require('rate-cards').initializeRateCards(@Model.ContractId, @Model.SelectedRateCardId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+      module.require('rate-cards').initializeRateCards(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
       module.require('new-equipment');
     });
   </script>
