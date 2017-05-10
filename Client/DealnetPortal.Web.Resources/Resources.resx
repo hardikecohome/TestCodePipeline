@@ -1412,6 +1412,9 @@
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="ApplicationCreatedBy" xml:space="preserve">
+    <value>Application Created By</value>
+  </data>
   <data name="ApplicationNumber" xml:space="preserve">
     <value>Application Number</value>
   </data>
