@@ -815,7 +815,14 @@
                     <span>Agrees to send his/her personal data to credit check</span>
                 </label>
             </div>
-            <!--Agreement section-->
+          <!--Agreement section-->
+
+          <!--Warning Section if isn't chosen homeowner checkbox-->
+          <div class="well danger-well over-aged-well collapse" id="proceed-error-message1">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.YouCannotProceedUntilAllAgree
+          </div>
+          <!--End Warning Section if isn't chosen homeowner checkbox-->
         </div>
     }
     <!--END Add Additional Applicant-->

@@ -19,6 +19,13 @@ configInitialized
         }
     });
 
+    $('#agreement-checkbox1').change(function () {
+        var isValid = checkCreditAgreeAp();
+        if (isValid) {
+            $('#proceed-error-message1').hide();
+        }
+    });
+
     $('.check-age').change(function () {
         var atLeastOneValid = checkApplicantsAge();
         if (atLeastOneValid) {
@@ -129,6 +136,7 @@ configInitialized
         var isApprovalAge = checkApplicantsAge();
         var isHomeOwner = checkHomeOwner();
         var isAgreesToCreditCheck = checkCreditAgree();
+        var isAgreesToCreditCheckAp = checkCreditAgreeAp();
 
         if (!isApprovalAge) {
             $('#age-warning-message').hide();
@@ -145,7 +153,12 @@ configInitialized
             scrollPageTo($("#proceed-error-message"));
         }
 
-        if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
+        if (!isAgreesToCreditCheckAp) {
+            $('#proceed-error-message1').show();
+            scrollPageTo($("#proceed-error-message1"));
+        }
+
+        if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck || !isAgreesToCreditCheckAp) {
             if ($('#main-form').valid()) {
                 event.preventDefault();
             }
