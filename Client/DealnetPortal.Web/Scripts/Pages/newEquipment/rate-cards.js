@@ -144,7 +144,7 @@
             : '';
         if (notNan && validateNumber && validateNotEmpty) {
             if (option === selectedRateCard) {
-                $('#displayLoanAmortTerm').text(data["AmortizationTerm"] + '/' + data["LoanTerm"]);
+                $('#displayLoanAmortTerm').text(data["LoanTerm"]+ '/' + data["AmortizationTerm"]);
                 $('#displayCustomerRate').text(data["CustomerRate"]);
                 $('#displayTFinanced').text(formatCurrency(data.totalAmountFinanced));
                 $('#displayMPayment').text(formatCurrency(data.monthlyPayment));
@@ -245,6 +245,9 @@
 
     function calculateRateCardValues(option, items) {
         var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
+        var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
+        var loanTerm = +(selectedValues[0]);
+        var amortTerm = +(selectedValues[1]);
         var totalCash;
         if (isNaN(+$('#totalPrice').text())) {
             //minimum loan value
@@ -258,7 +261,7 @@
         }
 
         var rateCard = $.grep(items, function (i) {
-            return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+            return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm &&  i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
         })[0];
 
         if (rateCard !== null && rateCard !== undefined) {
