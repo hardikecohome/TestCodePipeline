@@ -22,7 +22,7 @@
     window.state = {
         agreementType: 0,
         equipments: { },
-        tax: 12,
+        tax: taxRate,
         downPayment: 0,
         rentalMPayment: 0,
         Custom: {

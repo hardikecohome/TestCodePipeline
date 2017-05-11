@@ -29,7 +29,7 @@ function checkCreditAgree() {
     return $('#agreement-checkbox').prop('checked') ? true : false;
 }
 function checkCreditAgreeAp() {
-    if ($('#agreement-checkbox1')) {
+    if ($("#additional1-section").data('active')) {
         return $('#agreement-checkbox1').prop('checked') ? true : false;
     } else {
         return true;
