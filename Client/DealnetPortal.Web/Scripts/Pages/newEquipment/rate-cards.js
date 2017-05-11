@@ -14,6 +14,7 @@
     var selectedCardId;
     var isInialized = false;
     var isNewContract = true;
+    var isRenderDropdown = true;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
     var customDeferralPeriods = [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
@@ -79,7 +80,7 @@
     var setBasicValues = function () {
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
-            
+
             if (selectedCardId !== null && !isInialized) {
                 var selectedCard = $.grep(items,
                     function(card) {
@@ -139,10 +140,13 @@
         var validateNotEmpty = notCero.every(function (field) {
             return data[field] !== 0;
         });
+
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
         if (notNan && validateNumber && validateNotEmpty) {
+            renderDropdownValues(option, data.totalAmountFinanced);
+
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(data["LoanTerm"]+ '/' + data["AmortizationTerm"]);
                 $('#displayCustomerRate').text(data["CustomerRate"]);
@@ -243,22 +247,47 @@
         }
     };
 
+    function renderDropdownValues(option, totalAmountFinanced) {
+        var totalCash = 1000;
+        if (totalAmountFinanced > 1000) {
+            if (!(state[option].LoanValueFrom <= totalAmountFinanced &&
+                state[option].LoanValueTo >= totalAmountFinanced)) {
+                state[option].isRenderDropdown = true;
+            }
+            totalCash = totalAmountFinanced;
+        }
+
+        if (state[option].isRenderDropdown) {
+            var items = $.parseJSON(sessionStorage.getItem(contractId + option));
+            var dropdownValues = $.grep(items, function (card) {
+                return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash;
+            });
+
+            var options = $('#' + option + 'AmortizationDropdown');
+            options.empty();
+
+            $.each(dropdownValues, function (item) {
+                options.append($("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm));
+            });
+
+            state[option].isRenderDropdown = false;
+        }
+    }
+
     function calculateRateCardValues(option, items) {
-        var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
+        //minimum loan value
+        var totalCash = 1000;
+        var totalAmountFinanced = +$('#' + option.name + 'TAFinanced').text();
+
+        if (!isNaN(totalAmountFinanced)) {
+            if (totalAmountFinanced > totalCash) {
+                totalCash = totalAmountFinanced;
+            }
+        }
+        
         var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
         var loanTerm = +(selectedValues[0]);
         var amortTerm = +(selectedValues[1]);
-        var totalCash;
-        if (isNaN(+$('#totalPrice').text())) {
-            //minimum loan value
-            totalCash = 1000;
-        } else {
-            totalCash = +$('#totalPrice').text();
-
-            if (totalCash < 1000) {
-                totalCash = 1000;
-            }
-        }
 
         var rateCard = $.grep(items, function (i) {
             return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm &&  i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
@@ -267,6 +296,7 @@
         if (rateCard !== null && rateCard !== undefined) {
 
             state[option.name] = rateCard;
+            state[option.name].isRenderDropdown = true;
             state[option.name].yourCost = '';
 
             togglePromoLabel(option);
@@ -284,7 +314,9 @@
 
     function setHandlers(option) {
         $('#' + option.name + 'AmortizationDropdown').change(function () {
-            $(this).prop('selected',true);
+            $(this).prop('selected', true);
+            state[option.name].isRenderDropdown = false;
+
             recalculateValuesAndRender();
         });
     }
