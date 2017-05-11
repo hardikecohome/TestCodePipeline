@@ -169,7 +169,7 @@
                   <div class="form-group">
                     @Html.LabelFor(m => m.ExistingEquipment[i].Notes)
                     <div class="control-group">
-                      @Html.TextAreaFor(m => m.ExistingEquipment[i].Notes, new {@class = "form-control", placeholder = Resources.Notes})
+                      @Html.TextAreaFor(m => m.ExistingEquipment[i].Notes, new {@class = "form-control textarea-input-height", placeholder = Resources.Notes})
                       @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Notes, "", new {@class = "text-danger"})
                     </div>
                   </div>
@@ -179,22 +179,20 @@
           }
         }
       </div>
-      <div class="col-md-12">
-        <div class="align-middle dealnet-info-link add-equip-link" onclick="addExistingEquipment()">
-          <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-          <span>@Resources.AddAdditionalEquipment</span>
-        </div>
+
+      <div class="align-middle dealnet-info-link add-equip-link" onclick="addExistingEquipment()">
+        <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+        <span>@Resources.AddAdditionalEquipment</span>
       </div>
     </div>
     <div class="row">
     </div>
-    <h3 class="dealnet-middle-header">@Resources.AdditionalContractInformation</h3>
+    <h3 class="dealnet-middle-header">@Resources.ContractNotes</h3>
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          @Html.LabelFor(m => m.Notes)
           <div class="control-group">
-            @Html.TextAreaFor(m => m.Notes, new {@class = "form-control", placeholder = Resources.ContractNotes})
+            @Html.TextAreaFor(m => m.Notes, new {@class = "form-control", placeholder = Resources.Notes})
             @Html.ValidationMessageFor(m => m.Notes, "", new {@class = "text-danger"})
           </div>
         </div>
@@ -304,7 +302,7 @@
         <div class="form-group">
           @Html.LabelFor(m => m.ExistingEquipment[0].Notes)
           <div class="control-group">
-            @Html.TextAreaFor(m => m.ExistingEquipment[0].Notes, new {@class = "form-control", placeholder = Resources.Notes})
+            @Html.TextAreaFor(m => m.ExistingEquipment[0].Notes, new {@class = "form-control textarea-input-height", placeholder = Resources.Notes})
             @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Notes, "", new {@class = "text-danger"})
           </div>
         </div>
