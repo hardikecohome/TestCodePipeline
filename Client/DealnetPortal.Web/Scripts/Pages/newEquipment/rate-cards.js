@@ -11,6 +11,7 @@
     var tax = require('financial-functions').tax;
 
     var contractId;
+    var isNewContract = true;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
     var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
@@ -116,8 +117,17 @@
         var validateNotEmpty = notCero.every(function (field) {
             return data[field] !== 0;
         });
+        var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
+            ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
+            : '';
+        if (notNan && validateNumber && validateNotEmpty) {
+            if (option === selectedRateCard) {
+                $('#displayLoanAmortTerm').text(data["AmortizationTerm"] + '/' + data["LoanTerm"]);
+                $('#displayCustomerRate').text(data["CustomerRate"]);
+                $('#displayTFinanced').text(formatCurrency(data.totalAmountFinanced));
+                $('#displayMPayment').text(formatCurrency(data.monthlyPayment));
+            }
 
-       if (notNan && validateNumber && validateNotEmpty) {
             $('#' + option + 'MPayment').text(formatCurrency(data.monthlyPayment));
             $('#' + option + 'CBorrowing').text(formatCurrency(data.costOfBorrowing));
             $('#' + option + 'TAFinanced').text(formatCurrency(data.totalAmountFinanced));
@@ -126,6 +136,12 @@
             $('#' + option + 'TObligation').text(formatCurrency(data.totalObligation));
             $('#' + option + 'YCost').text(formatCurrency(data.yourCost));
         } else {
+            if (option === selectedRateCard) {
+                $('#displayLoanAmortTerm').text('-');
+                $('#displayCustomerRate').text('-');
+                $('#displayTFinanced').text('-');
+                $('#displayMPayment').text('-');
+            }
             $('#' + option + 'MPayment').text('-');
             $('#' + option + 'CBorrowing').text('-');
             $('#' + option + 'TAFinanced').text('-');
@@ -213,6 +229,21 @@
 
     var initializeRateCards = function (id, cards) {
         contractId = id;
+        isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
+        if (isNewContract) {
+            $('#rateCardsBlock').show('slow',function() {
+                    $('#loanRateCardToggle').find('i.glyphicon')
+                        .removeClass('glyphicon-chevron-right')
+                        .addClass('glyphicon-chevron-down');
+                });
+        } else {
+            $('#rateCardsBlock').hide('slow', function () {
+                    $('#loanRateCardToggle').find('i.glyphicon')
+                        .removeClass('glyphicon-chevron-down')
+                        .addClass('glyphicon-chevron-right');
+                });
+        }
+        
         rateCards.forEach(function (option) {
             if (sessionStorage.getItem(contractId + option.name) === null) {
                 var filtred = $.grep(cards,

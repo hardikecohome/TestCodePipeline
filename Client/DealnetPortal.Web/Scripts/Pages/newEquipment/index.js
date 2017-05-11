@@ -220,6 +220,9 @@
         $('#downPayment').on('change', setDownPayment);
         $('#typeOfAgreementSelect').on('change', setAgreement);
         $('#total-monthly-payment').on('change', setRentalMPayment);
+        $('.btn-select-card').on('click', function () {
+            recalculateValuesAndRender();
+        });
 
         // custom option
         $('#CustomLoanTerm').on('change', setLoanTerm('Custom'));

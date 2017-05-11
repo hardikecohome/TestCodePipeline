@@ -91,6 +91,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
 
+        public bool IsNewContract { get; set; }
+
         public decimal? CreditAmount { get; set; }
 
         public double? ValueOfDeal { get; set; }
