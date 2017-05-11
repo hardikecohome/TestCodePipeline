@@ -18,6 +18,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
 
+        [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
@@ -90,6 +91,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public bool IsAllInfoCompleted { get; set; }
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
+        public bool IsNewContract { get; set; }
 
         public decimal? CreditAmount { get; set; }
 

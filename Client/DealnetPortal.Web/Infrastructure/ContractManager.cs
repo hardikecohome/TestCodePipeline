@@ -101,6 +101,10 @@ namespace DealnetPortal.Web.Infrastructure
                     equipmentInfo.NewEquipment = null;
                 }
             }
+            else
+            {
+                equipmentInfo.IsNewContract = true;
+            }
 
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(result.Item1.PrimaryCustomer.Locations.First(
                         l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;

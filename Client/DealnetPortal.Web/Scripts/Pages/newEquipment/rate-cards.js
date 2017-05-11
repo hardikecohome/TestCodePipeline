@@ -11,7 +11,11 @@
     var tax = require('financial-functions').tax;
 
     var contractId;
+    var selectedCardId;
+    var isInialized = false;
+    var isNewContract = true;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
+    var customDeferralPeriods = [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
     var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
 
@@ -75,35 +79,54 @@
     var setBasicValues = function () {
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
-            var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
-            var totalCash;
-            if (isNaN(+$('#totalPrice').text())) {
-                //minimum loan value
-                totalCash = 1000;
-            } else {
-                totalCash = +$('#totalPrice').text();
+            
+            if (selectedCardId !== null && !isInialized) {
+                var selectedCard = $.grep(items,
+                    function(card) {
+                        return card.Id === Number(selectedCardId);
+                    })[0];
 
-                if (totalCash < 1000) {
-                    totalCash = 1000;
+                if (selectedCard !== null && selectedCard !== undefined) {
+                    state[option.name] = selectedCard;
+                    state[option.name].yourCost = '';
+
+                    togglePromoLabel(option);
+
+                    //just find parent div
+                    toggleSelectedRateCard('#' + option.name + 'AFee');
+
+                    $('#' + option.name + 'AmortizationDropdown').val(state[option.name].AmortizationTerm);
+                    $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
+                    $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
+                    $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
+                    isInialized = true;
+                } else {
+                    calculateRateCardValues(option, items);
+                }
+            } else {
+                if (option.name === 'Custom' && !isInialized && !isNewContract) {
+                    $('#CustomLoanTerm').val($('#LoanTerm').val());
+                    state[option.name].LoanTerm = Number($('#LoanTerm').val());
+                    $('#CustomAmortTerm').val($('#AmortizationTerm').val());
+                    state[option.name].AmortizationTerm = Number($('#AmortizationTerm').val());
+                    var deferralPeriod = $.grep(customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
+                    $('#CustomDeferralPeriod').val(deferralPeriod === undefined ? 0 : deferralPeriod.val);
+                    state[option.name].DeferralPeriod = deferralPeriod === undefined ? 0 : deferralPeriod.val;
+                    $('#CustomCRate').val($('#CustomerRate').val());
+                    state[option.name].CustomerRate = Number($('#CustomerRate').val());
+                    $('#CustomAFee').val($('#AdminFee').val());
+                    state[option.name].AdminFee = Number($('#AdminFee').val());
+                    $('#CustomYCost').val(0);
+                    state[option.name].yourCost = 0;
+                    toggleSelectedRateCard('#CustomLoanTerm');
+
+                    isInialized = true;
+                } else {
+                    calculateRateCardValues(option, items);
                 }
             }
-
-            var amortization = $.grep(items, function (i) {
-                return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
-            })[0];
-
-            if (amortization !== null && amortization !== undefined) {
-
-                state[option.name] = amortization;
-                state[option.name].yourCost = '';
-
-                togglePromoLabel(option);
-
-                $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
-                $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
-                $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
-            }
         });
+        selectedCardId = null;
     }
 
     var renderOption = function (option, data) {
@@ -204,6 +227,43 @@
             $('#rentalTMPayment').text('-');
         }
     };
+
+    function calculateRateCardValues(option, items) {
+        var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
+        var totalCash;
+        if (isNaN(+$('#totalPrice').text())) {
+            //minimum loan value
+            totalCash = 1000;
+        } else {
+            totalCash = +$('#totalPrice').text();
+
+            if (totalCash < 1000) {
+                totalCash = 1000;
+            }
+        }
+
+        var rateCard = $.grep(items, function (i) {
+            return i.AmortizationTerm === formatted && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+        })[0];
+
+        if (rateCard !== null && rateCard !== undefined) {
+
+            state[option.name] = rateCard;
+            state[option.name].yourCost = '';
+
+            togglePromoLabel(option);
+
+            $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
+            $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
+            $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
+        }
+
+    }
+
+    function toggleSelectedRateCard(selector) {
+        $(selector).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
+    }
+
     function setHandlers(option) {
         $('#' + option.name + 'AmortizationDropdown').change(function () {
             $(this).prop('selected',true);
@@ -213,11 +273,17 @@
 
     var initializeRateCards = function (id, cards) {
         contractId = id;
+        isNewContract = $('#IsNewContract').val().toLowerCase() === "true";
+        if ($('#SelectedRateCardId').val() === "") {
+            selectedCardId = null;
+        } else {
+            selectedCardId = $('#SelectedRateCardId').val();
+        }
         rateCards.forEach(function (option) {
             if (sessionStorage.getItem(contractId + option.name) === null) {
                 var filtred = $.grep(cards,
-                    function (v) {
-                        return v.CardType === option.id;
+                    function (card) {
+                        return card.CardType === option.id;
                     });
                 sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
             }

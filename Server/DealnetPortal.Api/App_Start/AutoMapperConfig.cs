@@ -88,6 +88,10 @@ namespace DealnetPortal.Api.App_Start
                     {
                         d.Details.Notes = c.Equipment?.Notes;
                     }
+                    if (!string.IsNullOrEmpty(c.Equipment?.SalesRep))
+                    {
+                        d.Equipment.SalesRep = c.Equipment?.SalesRep;
+                    }
                 });
             //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().

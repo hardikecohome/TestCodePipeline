@@ -20,8 +20,8 @@
 
         var setLoanAmortTerm = function(optionKey) {
             return function(loanTerm, amortTerm) {
-                state[optionKey].loanTerm = parseFloat(loanTerm);
-                state[optionKey].amortTerm = parseFloat(amortTerm);
+                state[optionKey].LoanTerm = parseFloat(loanTerm);
+                state[optionKey].AmortizationTerm = parseFloat(amortTerm);
                 recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
@@ -29,6 +29,10 @@
         var setLoanTerm = function (optionKey) {
             return function (e) {
                 state[optionKey].LoanTerm = parseFloat(e.target.value);
+
+                if (optionKey === 'Custom') {
+                    validateLoanAmortTerm();
+                }
                 recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
@@ -36,6 +40,11 @@
         var setAmortTerm = function (optionKey) {
             return function (e) {
                 state[optionKey].AmortizationTerm = parseFloat(e.target.value);
+
+                if (optionKey === 'Custom') {
+                    validateLoanAmortTerm();
+                }
+
                 recalculateValuesAndRender([{ name: optionKey }]);
             };
         };
@@ -126,6 +135,10 @@
                         var option = rateCard.find('#hidden-option').text();
                         if (option === 'Custom') {
 
+                            if ($('#amortLoanTermError').is(':visible')) {
+                                event.preventDefault();
+                            }
+
                             var customSlicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
                             $('#AmortizationTerm').val(state[option].AmortizationTerm);
                             $('#LoanTerm').val(state[option].LoanTerm);
@@ -212,6 +225,25 @@
             resetFormValidator("#equipment-form");
         };
 
+        function validateLoanAmortTerm() {
+            var amortTerm = state['Custom'].AmortizationTerm;
+            var loanTerm = state['Custom'].LoanTerm;
+            if (typeof amortTerm == 'number' && typeof loanTerm == 'number') {
+                if (loanTerm > amortTerm) {
+                    if ($('#amortLoanTermError').is(':hidden')) {
+                        $('#amortLoanTermError').show();
+                        $('#amortLoanTermError').parent().find('input[type="text"]')
+                            .addClass('input-validation-error');
+                    }
+                } else {
+                    if ($('#amortLoanTermError').is(':visible')) {
+                        $('#amortLoanTermError').hide();
+                        $('#amortLoanTermError').parent().find('input[type="text"]')
+                            .removeClass('input-validation-error');
+                    }
+                }
+            }
+        }
         // submit
         $('#equipment-form').submit(submitForm);
 
@@ -225,9 +257,9 @@
         $('#CustomLoanTerm').on('change', setLoanTerm('Custom'));
         $('#CustomAmortTerm').on('change', setAmortTerm('Custom'));
         $('#CustomDeferralPeriod').on('change', setDeferralPeriod('Custom'));
-        $('#CustomCustomerRate').on('change', setCustomerRate('Custom'));
-        $('#CustomYourCost').on('change', setYourCost('Custom'));
-        $('#CustomAdminFee').on('change', setAdminFee('Custom'));
+        $('#CustomCRate').on('change', setCustomerRate('Custom'));
+        $('#CustomYCostVal').on('change', setYourCost('Custom'));
+        $('#CustomAFee').on('change', setAdminFee('Custom'));
 
         // deferral
         $('#deferralLATerm').on('change', function(e) {
