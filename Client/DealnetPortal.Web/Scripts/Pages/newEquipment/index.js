@@ -285,4 +285,7 @@
             initEquipment(i);
             recalculateValuesAndRender();
         }
+        if (equipments < 1) {
+            addEquipment();
+        }
     });
