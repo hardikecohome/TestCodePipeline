@@ -29,7 +29,7 @@
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
         {
-            <a href="@Url.Action("EquipmentInformation", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step2" class="step-item">2</a>
+            <a href="@Url.Action("EquipmentInformation", new {contractId = Model.BasicInfo.ContractId})"  id="step2" class="step-item">2</a>
         }
         else
         {
@@ -37,7 +37,7 @@
         }
         @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
         {
-            <a href="@Url.Action("AdditionalEquipmentInformation", new { contractId = Model.BasicInfo.ContractId })" id="step3" class="step-item">3</a>
+            <a href="@Url.Action("AdditionalEquipmentInformation", new { contractId = Model.BasicInfo.ContractId })"  id="step3" class="step-item">3</a>
         }
         else
         {
