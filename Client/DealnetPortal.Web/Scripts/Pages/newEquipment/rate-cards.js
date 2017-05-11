@@ -13,7 +13,9 @@
     var contractId;
     var selectedCardId;
     var isInialized = false;
+    var isNewContract = true;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
+    var customDeferralPeriods = [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
     var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
 
@@ -78,7 +80,7 @@
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
             
-            if (selectedCardId !== null) {
+            if (selectedCardId !== null && !isInialized) {
                 var selectedCard = $.grep(items,
                     function(card) {
                         return card.Id === Number(selectedCardId);
@@ -97,21 +99,23 @@
                     $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
                     $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
                     $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
+                    isInialized = true;
                 } else {
                     calculateRateCardValues(option, items);
                 }
             } else {
-                if (option.name === 'Custom' && !isInialized) {
+                if (option.name === 'Custom' && !isInialized && !isNewContract) {
                     $('#CustomLoanTerm').val($('#LoanTerm').val());
-                    state[option.name].LoanTerm = $('#LoanTerm').val();
+                    state[option.name].LoanTerm = Number($('#LoanTerm').val());
                     $('#CustomAmortTerm').val($('#AmortizationTerm').val());
-                    state[option.name].AmortiztionTerm = $('#AmortizationTerm').val();
-                    $('#CustomDeferralPeriod').val(3);
-                    state[option.name].DeferralPeriod = 3;
+                    state[option.name].AmortizationTerm = Number($('#AmortizationTerm').val());
+                    var deferralPeriod = $.grep(customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
+                    $('#CustomDeferralPeriod').val(deferralPeriod === undefined ? 0 : deferralPeriod.val);
+                    state[option.name].DeferralPeriod = deferralPeriod === undefined ? 0 : deferralPeriod.val;
                     $('#CustomCRate').val($('#CustomerRate').val());
-                    state[option.name].CustomerRate = $('#CustomerRate').val();
+                    state[option.name].CustomerRate = Number($('#CustomerRate').val());
                     $('#CustomAFee').val($('#AdminFee').val());
-                    state[option.name].AdminFee = $('#AdminFee').val();
+                    state[option.name].AdminFee = Number($('#AdminFee').val());
                     $('#CustomYCost').val(0);
                     state[option.name].yourCost = 0;
                     toggleSelectedRateCard('#CustomLoanTerm');
@@ -269,6 +273,7 @@
 
     var initializeRateCards = function (id, cards) {
         contractId = id;
+        isNewContract = $('#IsNewContract').val().toLowerCase() === "true";
         if ($('#SelectedRateCardId').val() === "") {
             selectedCardId = null;
         } else {

@@ -1,42 +1,42 @@
-﻿<div class="rate-card table-mode shown-card">
+﻿@using DealnetPortal.Web.Models.Enumeration
+
+<div class="rate-card table-mode shown-card">
   <div class="rate-card-header equal-height-row-1">
     <h4 class="card-title">CUSTOM</h4>
   </div>
   <hr>
   <div class="row row-mode">
-    <div class="col-md-6 col-cards-md-12 equal-height-row-2 row-mode">
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="form-group">
-            <label for="">Loan Term</label>
-            <div class="control-group">
-              <input type="text" class="form-control" id="CustomLoanTerm">
-            </div>
+      <div class="col-md-6 col-cards-md-12 equal-height-row-2 row-mode">
+          <div class="row">
+              <div class="col-xs-6">
+                  <div class="form-group">
+                      <label for="">Loan Term</label>
+                      <div class="control-group">
+                          <input type="text" class="form-control" id="CustomLoanTerm">
+                      </div>
+                  </div>
+              </div>
+              <div class="col-xs-6">
+                  <div class="form-group">
+                
+                      <label for="">Amort. Term</label>
+                      <div class="control-group">
+                          <input type="text" class="form-control" id="CustomAmortTerm">
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
-        <div class="col-xs-6">
-          <div class="form-group">
-            <label for="">Amort. Term</label>
-            <div class="control-group">
-              <input type="text" class="form-control" id="CustomAmortTerm">
-            </div>
-          </div>
-        </div>
+          <div id="amortLoanTermError" class="error-message text-danger" style="display: none; margin-top: -10px; margin-left: 45px; position: absolute">Amortization term cannot be shorter than Loan term.</div>
       </div>
-    </div>
     <div class="col-md-3 col-cards-md-12 equal-height-row-3 col-sm-6">
       <div class="clearfix">
         <div class="form-group">
           <label for="">Deferral Period</label>
-          <div class="control-group">
-            <select name="" class="form-control" id="CustomDeferralPeriod">
-              <option value="0">- No Deferral -</option>
-              <option value="3">3 month</option>
-              <option value="6">6 month</option>
-              <option value="9">9 month</option>
-              <option value="12">12 month</option>
-            </select>
-          </div>
+            <div class="control-group">
+                @Html.DropDownList("CustomDeferralDropdown",
+                    EnumHelper.GetSelectList(typeof(LoanDeferralType)) ,
+                    new { @class = "form-control", @id= "CustomDeferralPeriod" })
+            </div>
         </div>
       </div>
     </div>

@@ -35,6 +35,7 @@
   @Html.HiddenFor(x => x.LoanTerm)
   @Html.HiddenFor(x => x.LoanDeferralType)
   @Html.HiddenFor(x => x.SelectedRateCardId)
+  @Html.HiddenFor(x => x.IsNewContract)
 
   <div class="row form-group">
     <div class="col-md-3">
@@ -240,7 +241,7 @@
 {
   <script type="text/javascript">
     var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
-    var isCalculationValid = false;
+      var isCalculationValid = false;
   </script>
   <script type="text/javascript">
     configInitialized.then(function () {

@@ -690,7 +690,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.Contract = contract;
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
-
+                if (string.IsNullOrEmpty(equipmentInfo.SalesRep))
+                {
+                    equipmentInfo.SalesRep = dbEquipment.SalesRep;
+                }
                 if (equipmentInfo.AgreementType == AgreementType.LoanApplication)
                 {
                     equipmentInfo.AgreementType = dbEquipment.AgreementType;

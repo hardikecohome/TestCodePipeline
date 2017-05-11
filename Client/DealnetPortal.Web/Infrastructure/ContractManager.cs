@@ -101,6 +101,11 @@ namespace DealnetPortal.Web.Infrastructure
                     equipmentInfo.NewEquipment = null;
                 }
             }
+            else
+            {
+                equipmentInfo.IsNewContract = true;
+            }
+
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.DealerTier = await _contractServiceAgent.GetDealerTier();
 

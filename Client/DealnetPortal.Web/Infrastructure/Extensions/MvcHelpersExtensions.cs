@@ -12,10 +12,10 @@ namespace DealnetPortal.Web.Infrastructure.Extensions
         public static Dictionary<RateCardType, SelectList> ConvertToAmortizationSelectList(this List<RateCardDTO> list)
         {
             var result = list
-                .GroupBy(type => type.CardType, val => Convert.ToInt32(val.AmortizationTerm))
+                .GroupBy(type => type.CardType, val => new { Amortization = Convert.ToInt32(val.AmortizationTerm), Loan = Convert.ToInt32(val.LoanTerm) })
                 .ToDictionary(k => k.Key, v =>
                 {
-                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.ToString(), Text = $"{value} / {value}"});
+                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.Amortization.ToString(), Text = $"{value.Loan} / {value.Amortization}"});
 
                     return new SelectList(distincted, "Value", "Text");
                 });
