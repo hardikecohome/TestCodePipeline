@@ -210,6 +210,9 @@ table.dataTable > tbody > tr.child ul{
       font-size: 12px;
     }
     &.unread-deals{
+      .icon-link.icon-remove{
+        display: inline-block;
+      }
       &:hover{
         background: transparent !important;
         td{
@@ -307,6 +310,43 @@ table.dataTable > tbody > tr.child ul{
     &.status-cell{
       min-width: 50px;
     }
+
+    &.controls-cell{
+      padding: 0 !important;
+      text-align: center;
+      white-space: nowrap;
+      width: 80px;
+      @media @mobile {
+        width: 60px;
+      }
+      .controls-hold{
+        width: 80px;
+        margin: 0 auto;
+        @media @mobile {
+          width: 60px;
+        }
+      }
+    }
+  }
+}
+
+
+.icon-link{
+  display: inline-block;
+  padding: 5px;
+  margin: 0 5px;
+  color: #9a9a99;
+  cursor: pointer;
+  &:hover{
+    color: #9a9a99;
+  }
+  @media @mobile {
+    padding: 2px;
+    margin: 0 2px;
+  }
+
+  &.icon-remove{
+    display: none;
   }
 }
 
