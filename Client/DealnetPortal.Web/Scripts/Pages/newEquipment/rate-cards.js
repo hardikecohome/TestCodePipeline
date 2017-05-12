@@ -130,7 +130,7 @@
         selectedCardId = null;
     }
 
-    var renderOption = function (option, data) {
+    var renderOption = function (option, data, isRenderDropdowns) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = numberFields.every(function (field) {
             var result = typeof data[field] === 'number';
@@ -145,7 +145,7 @@
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
         if (notNan && validateNumber && validateNotEmpty) {
-            renderDropdownValues(option, data.totalAmountFinanced);
+            renderDropdownValues(option, data.totalAmountFinanced, isRenderDropdowns);
 
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(data["LoanTerm"]+ '/' + data["AmortizationTerm"]);
@@ -178,13 +178,18 @@
         }
     };
 
-    var recalculateValuesAndRender = function (options) {
-        setBasicValues();
+    var recalculateValuesAndRender = function (options, isRenderDropdowns) {
+        var optionsToCompute;
+        var renderDropdowns = isRenderDropdowns === undefined ? true : isRenderDropdowns;
 
-        var optionsToCompute = options || rateCards;
-
+        if (options !== undefined && options.length > 0) {
+            optionsToCompute = options;
+        } else {
+            optionsToCompute = rateCards;
+        }
         var eSum = equipmentSum(state.equipments);
 
+        setBasicValues();
         renderTotalPrice({
             equipmentSum: eSum !== 0 ? eSum : '-',
             tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
@@ -207,7 +212,7 @@
                 residualBalance: residualBalance(data),
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data)
-            }));
+            }), renderDropdowns);
         });
     };
 
@@ -247,21 +252,25 @@
         }
     };
 
-    function renderDropdownValues(option, totalAmountFinanced) {
+    function renderDropdownValues(option, totalAmountFinanced, isRenderDropdowns) {
         var totalCash = 1000;
         if (totalAmountFinanced > 1000) {
-            if (!(state[option].LoanValueFrom <= totalAmountFinanced &&
-                state[option].LoanValueTo >= totalAmountFinanced)) {
-                state[option].isRenderDropdown = true;
-            }
             totalCash = totalAmountFinanced;
         }
 
-        if (state[option].isRenderDropdown) {
+        if (isRenderDropdowns) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option));
-            var dropdownValues = $.grep(items, function (card) {
-                return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash;
-            });
+            var dropdownValues;
+            if (option === 'Deferral') {
+                var dealerCost = state[option].DealerCost;
+                dropdownValues = $.grep(items, function (card) {
+                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash && card.DealerCost === dealerCost;
+                });
+            } else {
+                dropdownValues = $.grep(items, function (card) {
+                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash;
+                });
+            }
 
             var options = $('#' + option + 'AmortizationDropdown');
             options.empty();
@@ -269,15 +278,13 @@
             $.each(dropdownValues, function (item) {
                 options.append($("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm));
             });
-
-            state[option].isRenderDropdown = false;
         }
     }
 
     function calculateRateCardValues(option, items) {
         //minimum loan value
         var totalCash = 1000;
-        var totalAmountFinanced = +$('#' + option.name + 'TAFinanced').text();
+        var totalAmountFinanced = +$('#' + option.name + 'TAFinanced').text().substring(1);
 
         if (!isNaN(totalAmountFinanced)) {
             if (totalAmountFinanced > totalCash) {
@@ -296,7 +303,6 @@
         if (rateCard !== null && rateCard !== undefined) {
 
             state[option.name] = rateCard;
-            state[option.name].isRenderDropdown = true;
             state[option.name].yourCost = '';
 
             togglePromoLabel(option);
@@ -315,9 +321,8 @@
     function setHandlers(option) {
         $('#' + option.name + 'AmortizationDropdown').change(function () {
             $(this).prop('selected', true);
-            state[option.name].isRenderDropdown = false;
 
-            recalculateValuesAndRender();
+            recalculateValuesAndRender([], false);
         });
     }
 
@@ -352,8 +357,8 @@
                     });
                 sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
             }
-
             setHandlers(option);
+
         });
     }
 
