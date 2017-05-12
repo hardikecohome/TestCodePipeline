@@ -52,7 +52,7 @@ function showTable() {
 				        { "data": "Email", className: 'email-cell', orderable: false },
 				        { "data": "Phone", className: 'phone-cell', orderable: false },
 				        { "data": "Improvement", className: 'improvement-cell', orderable: false },
-				        { "data": "SalesAgent", className: 'email-cell', orderable: false },
+				        { "data": "SalesAgent", className: 'email-cell', orderable: false, "visible": false },
                 { "data": "Status", className: 'status-cell', orderable: false },
                     ],
                     dom:
