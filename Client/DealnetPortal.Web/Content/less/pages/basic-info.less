@@ -92,18 +92,15 @@
   cursor: pointer;
   display: inline-block;
   line-height: 38px !important;
-  color: #dcdcdc;
+  color: @clear-link-color;
   text-decoration: none;
-  &:visited{
-    color: #dcdcdc;
-    text-decoration: none;
-  }
   &:focus{
+    color: @clear-link-color;
     outline: none;
     text-decoration: none;
   }
   &:hover {
-    color: #cacaca;
+    color: @clear-link-hover-color;
     text-decoration: none;
   }
   @media @desktop-up {
