@@ -26,12 +26,10 @@ function checkHomeOwner() {
 };
 
 function checkCreditAgree() {
-    return $('#agreement-checkbox').prop('checked') ? true : false;
-}
-function checkCreditAgreeAp() {
     if ($("#additional1-section").data('active')) {
-        return $('#agreement-checkbox1').prop('checked') ? true : false;
+        return $('#agreement-checkbox1').prop('checked') && $('#agreement-checkbox').prop('checked') ? true: false;
     } else {
-        return true;
+        return $('#agreement-checkbox').prop('checked') ? true : false;
     }
+    
 }
