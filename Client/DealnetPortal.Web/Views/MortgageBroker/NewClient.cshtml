@@ -46,17 +46,17 @@
 </div>
 
 <div id="label-steps">
-  <div class="dealnet-action-link">New Client</div> &gt;
+  <div class="dealnet-action-link">@Resources.NewClient</div> &gt;
 </div>
 
 @using (Html.BeginForm("NewClient", "MortgageBroker", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13" }))
 {
   @Html.AntiForgeryToken()
   <div class="accordion-panels-hold">
-    <div class="main-heading customer-heading">New Client</div>
+    <div class="main-heading customer-heading">@Resources.NewClient</div>
   <div class="panel accordion-panel active-panel" id="basic-information">
       <div class="panel-heading">
-        <h3 class="panel-title dealnet-middle-header">1. Basic Information</h3>
+        <h3 class="panel-title dealnet-middle-header">1. @Resources.ClientInformation</h3>
         <span class="arrow"><i class="glyphicon"></i></span>
       </div>
       <div class="panel-body">
@@ -118,12 +118,12 @@
     </div>
   <div class="panel accordion-panel panel-collapsed" id="additional-infomration">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">2. Address Information</h3>
+      <h3 class="panel-title dealnet-middle-header">2. @Resources.AddressInformation</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
       <div id="address-section">
-        <h3 class="dealnet-section-title">Current Address</h3>
+        <h3 class="dealnet-section-title">@Resources.CurrentAddress</h3>
         <div class="row">
           <div class="col-sm-6 col-md-6 col-lg-4">
             <div class="form-group">
@@ -188,7 +188,7 @@
         </label>
       </div>
       <div id="previous-address" style="display: none;">
-        <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+        <h3 class="dealnet-section-title">@Resources.PreviousAddress</h3>
         <div class="row">
           <div class="col-sm-6 col-md-6 col-lg-4">
             <div class="form-group">
@@ -249,7 +249,7 @@
   </div>
   <div class="panel accordion-panel panel-collapsed" id="contact-information">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">3. Contact Information</h3>
+      <h3 class="panel-title dealnet-middle-header">3. @Resources.ContactInformation</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
@@ -303,24 +303,24 @@
   </div>
   <div class="panel accordion-panel panel-collapsed" id="home-improvments">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">4. Home improvements</h3>
+      <h3 class="panel-title dealnet-middle-header">4. @Resources.HomeImprovements</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
       <div class="text-md-sm">
-        <div class="form-group">Where will the home improvement project take place?</div>
+        <div class="form-group">@Resources.WhereHomeImprovementProjectTakePlace</div>
         <div class="form-group">
           <label for="currentAddressIsMortgage" class="align-middle custom-radio">
             <input type="radio" name="improvement" id="currentAddressIsMortgage" checked="checked">
             <span class="custom-radio-icon"></span>
-            <span>At current address.</span>
+            <span>@Resources.AtCurrentAddress</span>
           </label>
         </div>
         <div class="form-group">
           <label for="houseCustomerChosen" class="align-middle custom-radio">
             <input type="radio" name="improvement" id="houseCustomerChosen">
             <span class="custom-radio-icon"></span>
-            <span>At other address.</span>
+            <span>@Resources.AtNewHomeAddress</span>
           </label>
         </div>
       </div>
@@ -329,10 +329,10 @@
           <label for="addressUnknownCheckbox" class="align-middle custom-checkbox">
             @Html.CheckBoxFor(m => m.IsUnknownAddress, new { @class = "dealnet-checkbox address-checkbox", id = "addressUnknownCheckbox" })
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>Address unknown. Client is shopping for other property.</span>
+            <span>@Resources.AddressUnknownClientShoppingOtherProperty</span>
           </label>
         </div>
-        <h3 class="dealnet-section-title">Location of Property Improvement</h3>
+        <h3 class="dealnet-section-title">@Resources.NewHomeAddress</h3>
         <div class="row">
           <div class="col-sm-6 col-md-6 col-lg-4">
             <div class="form-group">
@@ -403,7 +403,7 @@
       <div class="row">
         <div class="col-md-4 col-sm-6 col-lg-3">
           <div class="form-group">
-            <label for="">Home Improvement type</label>
+            <label for="">@Resources.HomeImprovementType</label>
             <div class="control-group">
               @Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), "Please select",
                 new { @class = "form-control dealnet-input", id="improvment-equipment"})
@@ -441,7 +441,7 @@
   </div>
   <div class="panel accordion-panel panel-collapsed" id="client-consents">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">5. Client Consents</h3>
+      <h3 class="panel-title dealnet-middle-header">5. @Resources.ClientConsent</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
@@ -449,14 +449,14 @@
         <label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field">Agrees to send his/her personal data to credit check</span>
+          <span class="mandatory-field">@Resources.ClientAgreesSendPersonalDataToCreditCheck</span>
         </label>
       </div>
       <div class="form-group">
         <label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field"> Agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her by email or phone</span>
+          <span class="mandatory-field">@Resources.ClientAgreesPassPersonalInfoToDealNetCapital</span>
         </label>
       </div>
     </div>
