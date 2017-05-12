@@ -151,6 +151,11 @@
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
+        if (selectedRateCard !== '') {
+            if ($("#submit").hasClass('disabled')) {
+                $('#submit').removeClass('disabled');
+            }
+        }
         if (notNan && validateNumber && validateNotEmpty) {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(data["LoanTerm"]+ '/' + data["AmortizationTerm"]);

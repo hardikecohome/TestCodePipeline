@@ -164,8 +164,14 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Logger/log.js")
                 .Include("~/Scripts/Utils/financial-functions.js")
+                .Include("~/Scripts/Pages/newEquipment/rate-cards.js")
                 .Include("~/Scripts/Pages/newEquipment/template.js")
                 .Include("~/Scripts/Pages/newEquipment/index.js")
+            );
+
+            bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
+                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/Pages/additionalContractInfo/contract-information.js")
             );
         }
     }

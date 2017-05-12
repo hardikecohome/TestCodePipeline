@@ -264,7 +264,6 @@
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/localization")
 @Scripts.Render("~/bundles/new-equipment-information")
-<script type="text/javascript" src="~/Scripts/Pages/newEquipment/rate-cards.js"></script>
 @section scripts
 {
   <script type="text/javascript">
@@ -305,6 +304,7 @@
           if ($(this).find("option:selected").text() === "Loan") {
             //If loan is chosen
               setHeight();
+
               if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
                   $('#submit').addClass('disabled');
               }
