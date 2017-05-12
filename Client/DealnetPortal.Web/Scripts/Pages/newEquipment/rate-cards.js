@@ -15,6 +15,7 @@
     var isInialized = false;
     var isNewContract = true;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
+    var requiredCustomRateCardField = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'];
     var customDeferralPeriods = [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
     var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
@@ -34,6 +35,14 @@
             AdminFee: ''
         }
     };
+
+    var validateCustomRateCardOnSubmit = function () {
+        var isValid = requiredCustomRateCardField.every(function (field) {
+            return $("#" + field).valid();
+        });
+
+        return isValid;
+    }
 
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -278,39 +287,11 @@
 
     }
 
-    function toggleSelectedRateCard(selector) {
-        $(selector).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
-    }
-
-    function setHandlers(option) {
-        $('#' + option.name + 'AmortizationDropdown').change(function () {
-            $(this).prop('selected',true);
-            recalculateValuesAndRender();
-        });
-    }
-
     var initializeRateCards = function (id, cards) {
         contractId = id;
         isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
-        if (isNewContract) {
-            $('#rateCardsBlock').show('slow',function() {
-                    $('#loanRateCardToggle').find('i.glyphicon')
-                        .removeClass('glyphicon-chevron-right')
-                        .addClass('glyphicon-chevron-down');
-                });
-        } else {
-            $('#rateCardsBlock').hide('slow', function () {
-                    $('#loanRateCardToggle').find('i.glyphicon')
-                        .removeClass('glyphicon-chevron-down')
-                        .addClass('glyphicon-chevron-right');
-                });
-        }
 
-        if ($('#SelectedRateCardId').val() === "") {
-            selectedCardId = null;
-        } else {
-            selectedCardId = $('#SelectedRateCardId').val();
-        }
+        renderRateCardUi(isNewContract);
 
         rateCards.forEach(function (option) {
             if (sessionStorage.getItem(contractId + option.name) === null) {
@@ -325,12 +306,65 @@
         });
     }
 
+    function toggleSelectedRateCard(selector) {
+        $(selector).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
+    }
+
+    function setHandlers(option) {
+        $('#' + option.name + 'AmortizationDropdown').change(function () {
+            $(this).prop('selected', true);
+            recalculateValuesAndRender();
+        });
+    }
+
+    function renderRateCardUi(isNewContract) {
+        setValidationOnCustomRateCard();
+
+        if (isNewContract) {
+            $('#rateCardsBlock').show('slow', function () {
+                $('#loanRateCardToggle').find('i.glyphicon')
+                    .removeClass('glyphicon-chevron-right')
+                    .addClass('glyphicon-chevron-down');
+            });
+
+
+        } else {
+            $('#rateCardsBlock').hide('slow', function () {
+                $('#loanRateCardToggle').find('i.glyphicon')
+                    .removeClass('glyphicon-chevron-down')
+                    .addClass('glyphicon-chevron-right');
+            });
+        }
+
+        if ($('#SelectedRateCardId').val() === "") {
+            selectedCardId = null;
+        } else {
+            selectedCardId = $('#SelectedRateCardId').val();
+        }
+
+        if (isNewContract && selectedCardId === null) {
+            $('#submit').addClass('disabled');
+        }
+    }
+
+    function setValidationOnCustomRateCard() {
+        requiredCustomRateCardField.forEach(function(input) {
+            $('#' + input).rules('add',
+                {
+                    required: true,
+                    minlength: 1,
+                    regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+                });
+        });
+    }
+
     return {
         state : state,
         initializeRateCards: initializeRateCards,
         recalculateValuesAndRender: recalculateValuesAndRender,
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
-        rateCards: rateCards
+        rateCards: rateCards,
+        validateCustomRateCard : validateCustomRateCardOnSubmit
     }
 })

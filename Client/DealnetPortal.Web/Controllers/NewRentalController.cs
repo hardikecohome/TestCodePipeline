@@ -368,10 +368,12 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> AdditionalEquipmentInformation(ContactAndPaymentInfoViewModelNew contactAndPaymentInfo)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
             if (!ModelState.IsValid)
             {
                 return View();
             }
+
             var updateResult = await _contractManager.UpdateContractAsyncNew(contactAndPaymentInfo);
 
             if (updateResult.Any(r => r.Type == AlertType.Error))

@@ -6,6 +6,7 @@
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('rate-cards').recalculateRentalTaxAndPrice;
+        var validateCustomRateCard = require('rate-cards').validateCustomRateCard;
 
         // setters
 
@@ -139,6 +140,10 @@
                                 event.preventDefault();
                             }
 
+                            if (!validateCustomRateCard()) {
+                                event.preventDefault();
+                            }
+
                             var customSlicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
                             $('#AmortizationTerm').val(state[option].AmortizationTerm);
                             $('#LoanTerm').val(state[option].LoanTerm);
@@ -253,6 +258,7 @@
         $('#typeOfAgreementSelect').on('change', setAgreement);
         $('#total-monthly-payment').on('change', setRentalMPayment);
         $('.btn-select-card').on('click', function () {
+            $('#submit').removeClass('disabled');
             recalculateValuesAndRender();
         });
 

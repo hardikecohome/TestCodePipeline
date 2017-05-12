@@ -249,7 +249,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="rate-card-button-proceed">
-        <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button"/>
+        <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit"/>
       </div>
     </div>
   </div>
@@ -304,12 +304,19 @@
         function() {
           if ($(this).find("option:selected").text() === "Loan") {
             //If loan is chosen
-            setHeight();
+              setHeight();
+              if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
+                  $('#submit').addClass('disabled');
+              }
+
             $('#loanRateCardToggle').show();
             $('.rental-element').hide();
             $('.loan-element').show();
           } else {
             //If rental is chosen
+              if ($("#submit").hasClass('disabled')) {
+                  $('#submit').removeClass('disabled');
+              }
               setHeight();
               $('#loanRateCardToggle').hide();
             $('.rental-element').show();
