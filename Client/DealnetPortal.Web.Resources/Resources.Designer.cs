@@ -899,6 +899,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client&apos;s Comment.
+        /// </summary>
+        public static string ClientsComment {
+            get {
+                return ResourceManager.GetString("ClientsComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
@@ -1354,6 +1363,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DefineYourEquipmentService {
             get {
                 return ResourceManager.GetString("DefineYourEquipmentService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please describe your home improvement project (please don&apos;t provide any contact or address information in this field).
+        /// </summary>
+        public static string DescribeYourHomeImprovementProject {
+            get {
+                return ResourceManager.GetString("DescribeYourHomeImprovementProject", resourceCulture);
             }
         }
         

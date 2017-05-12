@@ -1452,8 +1452,14 @@ by email or phone</value>
   <data name="ClientInformation" xml:space="preserve">
     <value>Client Information</value>
   </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Client's Comment</value>
+  </data>
   <data name="CurrentAddress" xml:space="preserve">
     <value>Current Address</value>
+  </data>
+  <data name="DescribeYourHomeImprovementProject" xml:space="preserve">
+    <value>Please describe your home improvement project (please don't provide any contact or address information in this field)</value>
   </data>
   <data name="HomeImprovements" xml:space="preserve">
     <value>Home Improvements</value>
