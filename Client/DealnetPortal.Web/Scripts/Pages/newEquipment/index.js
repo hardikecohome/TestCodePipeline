@@ -107,9 +107,36 @@
                 if (!state.equipments.hasOwnProperty(id)) {
                     return;
                 }
-
                 state.equipments[id].template.remove();
+                
+                var nextId = Number(id);
+                while (true) {
+                    nextId++;
+                    var nextEquipment = $('#new-equipment-' + nextId);
+                    if (!nextEquipment.length) { break; }
+
+                    var labels = nextEquipment.find('label');
+                    labels.each(function () {
+                        $(this).attr('for', $(this).attr('for').replace('NewEquipment_' + nextId, 'NewEquipment_' + nextId - 1));
+                    });
+                    var inputs = nextEquipment.find('input, select, textarea');
+                    inputs.each(function () {
+                        $(this).attr('id', $(this).attr('id').replace('NewEquipment_' + nextId, 'NewEquipment_' + (nextId - 1)));
+                        $(this).attr('name', $(this).attr('name').replace('NewEquipment[' + nextId, 'NewEquipment[' + (nextId - 1)));
+                    });
+                    var spans = nextEquipment.find('span');
+                    spans.each(function () {
+                        var valFor = $(this).attr('data-valmsg-for');
+                        if (valFor == null) { return; }
+                        $(this).attr('data-valmsg-for', valFor.replace('NewEquipment[' + nextId, 'NewEquipment[' + (nextId - 1)));
+                    });
+                    nextEquipment.find('.equipment-number').text('№' + nextId);
+                    var removeButton = nextEquipment.find('#addequipment-remove-' + nextId);
+                    removeButton.attr('id', 'addequipment-remove-' + (nextId - 1));
+                    nextEquipment.attr('id', 'new-equipment-' + (nextId - 1));
+                }
                 delete state.equipments[id];
+
                 if (state.agreementType === 1 || state.agreementType === 2) {
                     recalculateAndRenderRentalValues();
                 } else {
@@ -213,13 +240,20 @@
             };
 
             var newTemplate = equipmentTemplateFactory($('<div></div>'), { id: id });
-
+            if (id > 0) {
+                newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
+            }
             state.equipments[newId].template = newTemplate;
 
             // equipment handlers
             newTemplate.find('.equipment-cost').on('change', updateCost(newId));
             newTemplate.find('.glyphicon-remove').on('click', removeEquipment(newId));
-
+            //if (newId !== "0") {
+            //    var removeButton = newTemplate.find('#new-equipment-remove-' + newId);
+            //    removeButton.attr('onclick',
+            //        removeButton.attr('onclick')
+            //        .replace('removeNewEquipment(' + newId, 'removeNewEquipment(' + (newId - 1)));
+            //}
             $('#new-equipments').append(newTemplate);
 
             resetFormValidator("#equipment-form");
