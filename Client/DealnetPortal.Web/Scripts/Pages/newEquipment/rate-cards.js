@@ -14,6 +14,7 @@
     var selectedCardId;
     var isInialized = false;
     var isNewContract = true;
+    var isRenderDropdown = true;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
     var requiredCustomRateCardField = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'];
     var customDeferralPeriods = [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }];
@@ -88,7 +89,7 @@
     var setBasicValues = function () {
         rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
-            
+
             if (selectedCardId !== null && !isInialized) {
                 var selectedCard = $.grep(items,
                     function(card) {
@@ -138,7 +139,7 @@
         selectedCardId = null;
     }
 
-    var renderOption = function (option, data) {
+    var renderOption = function (option, data, isRenderDropdowns) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = numberFields.every(function (field) {
             var result = typeof data[field] === 'number';
@@ -148,6 +149,7 @@
         var validateNotEmpty = notCero.every(function (field) {
             return data[field] !== 0;
         });
+
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
@@ -157,6 +159,8 @@
             }
         }
         if (notNan && validateNumber && validateNotEmpty) {
+            renderDropdownValues(option, data.totalAmountFinanced, isRenderDropdowns);
+
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(data["LoanTerm"]+ '/' + data["AmortizationTerm"]);
                 $('#displayCustomerRate').text(data["CustomerRate"]);
@@ -188,13 +192,18 @@
         }
     };
 
-    var recalculateValuesAndRender = function (options) {
-        setBasicValues();
+    var recalculateValuesAndRender = function (options, isRenderDropdowns) {
+        var optionsToCompute;
+        var renderDropdowns = isRenderDropdowns === undefined ? true : isRenderDropdowns;
 
-        var optionsToCompute = options || rateCards;
-
+        if (options !== undefined && options.length > 0) {
+            optionsToCompute = options;
+        } else {
+            optionsToCompute = rateCards;
+        }
         var eSum = equipmentSum(state.equipments);
 
+        setBasicValues();
         renderTotalPrice({
             equipmentSum: eSum !== 0 ? eSum : '-',
             tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
@@ -217,7 +226,7 @@
                 residualBalance: residualBalance(data),
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data)
-            }));
+            }), renderDropdowns);
         });
     };
 
@@ -257,22 +266,49 @@
         }
     };
 
+    function renderDropdownValues(option, totalAmountFinanced, isRenderDropdowns) {
+        var totalCash = 1000;
+        if (totalAmountFinanced > 1000) {
+            totalCash = totalAmountFinanced;
+        }
+
+        if (isRenderDropdowns) {
+            var items = $.parseJSON(sessionStorage.getItem(contractId + option));
+            var dropdownValues;
+            if (option === 'Deferral') {
+                var dealerCost = state[option].DealerCost;
+                dropdownValues = $.grep(items, function (card) {
+                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash && card.DealerCost === dealerCost;
+                });
+            } else {
+                dropdownValues = $.grep(items, function (card) {
+                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash;
+                });
+            }
+
+            var options = $('#' + option + 'AmortizationDropdown');
+            options.empty();
+
+            $.each(dropdownValues, function (item) {
+                options.append($("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm));
+            });
+        }
+    }
+
     function calculateRateCardValues(option, items) {
-        var formatted = +$('#' + option.name + 'AmortizationDropdown').val();
+        //minimum loan value
+        var totalCash = 1000;
+        var totalAmountFinanced = +$('#' + option.name + 'TAFinanced').text().substring(1);
+
+        if (!isNaN(totalAmountFinanced)) {
+            if (totalAmountFinanced > totalCash) {
+                totalCash = totalAmountFinanced;
+            }
+        }
+        
         var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
         var loanTerm = +(selectedValues[0]);
         var amortTerm = +(selectedValues[1]);
-        var totalCash;
-        if (isNaN(+$('#totalPrice').text())) {
-            //minimum loan value
-            totalCash = 1000;
-        } else {
-            totalCash = +$('#totalPrice').text();
-
-            if (totalCash < 1000) {
-                totalCash = 1000;
-            }
-        }
 
         var rateCard = $.grep(items, function (i) {
             return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm &&  i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
@@ -318,7 +354,8 @@
     function setHandlers(option) {
         $('#' + option.name + 'AmortizationDropdown').change(function () {
             $(this).prop('selected', true);
-            recalculateValuesAndRender();
+
+            recalculateValuesAndRender([], false);
         });
     }
 

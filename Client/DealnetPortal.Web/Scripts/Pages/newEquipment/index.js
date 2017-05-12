@@ -258,8 +258,12 @@
         $('#typeOfAgreementSelect').on('change', setAgreement);
         $('#total-monthly-payment').on('change', setRentalMPayment);
         $('.btn-select-card').on('click', function () {
-            $('#submit').removeClass('disabled');
-            recalculateValuesAndRender();
+            recalculateValuesAndRender([], false);
+            $('#rateCardsBlock').hide('slow', function () {
+                $('#loanRateCardToggle').find('i.glyphicon')
+                    .removeClass('glyphicon-chevron-down')
+                    .addClass('glyphicon-chevron-right');
+            });
         });
 
         // custom option
