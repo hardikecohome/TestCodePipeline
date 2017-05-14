@@ -175,20 +175,20 @@
         }
 
         return {
-            improvmnetStreet: street,
-            improvmnetCity: action.payload.city || state.city,
-            improvmnetProvince: action.payload.province || state.province,
-            improvmnetPostalCode: action.payload.postalCode || state.postalCode
+            improvmentStreet: street,
+            improvmentCity: action.payload.city || state.city,
+            improvmentProvince: action.payload.province || state.province,
+            improvmentPostalCode: action.payload.postalCode || state.postalCode
         };
     };
 
     reducerObj[clientActions.CLEAR_IMPROVMENT_ADDRESS] = function () {
         return {
-            improvmnetStreet: '',
-            improvmnetUnit: '',
-            improvmnetCity: '',
-            improvmnetProvince: '',
-            improvmnetPostalCode: ''
+            improvmentStreet: '',
+            improvmentUnit: '',
+            improvmentCity: '',
+            improvmentProvince: '',
+            improvmentPostalCode: ''
         };
     };
 
@@ -228,13 +228,6 @@
     reducerObj[clientActions.SET_COMMENT] = setFormField('comment');
     reducerObj[clientActions.SET_EMAIL] = setFormField('email');
     reducerObj[clientActions.SET_CONTACT_METHOD] = setFormField('contactMethod');
-    reducerObj[clientActions.SET_NEW_EQUIPMENT] = function (state, action) {
-        var fieldObj = {};
-        fieldObj['selectedEquipment'] = [];
-        fieldObj['selectedEquipment'].push(action.payload);
-
-        return $.extend({}, state, fieldObj);
-    }
 
     reducerObj[clientActions.REMOVE_EQUIPMENT] = function (state, action) {
         var fieldObj = {};

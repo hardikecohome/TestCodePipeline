@@ -3,7 +3,7 @@
     var createAction = require('redux').createAction;
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
     var observe = require('redux').observe;
-
+    var improvments = [];
     return function(store) {
         var dispatch = store.dispatch;
         $('span.icon-remove').on('click', 'div.form-group', function (e) {
@@ -17,9 +17,8 @@
             dateFormat: 'mm/dd/yy',
             changeYear: true,
             changeMonth: (viewport().width < 768) ? true : false,
-            yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: Date.parse("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+            yearRange: '1900:2200',
+            minDate: new Date(),
             onSelect: function (day) {
                 dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
             }
@@ -30,14 +29,31 @@
         });
 
         // action handlers
-        $('#improvment-equipment').on('change', function (e) {
-            var equipmentValue = $(this).val();
-            dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
-            var equipmentText = $("#improvment-equipment :selected").text();
-            if (equipmentValue) {
-                $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+        $('#improvment-equipment').mouseup(function() {
+            var open = $(this).data("isopen");
+
+            if (open) {
+                var equipmentValue = $(this).val();
+                dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
+                var equipmentText = $("#improvment-equipment :selected").text();
+                if (equipmentValue) {
+                    $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+                }
+
             }
+
+            $(this).data("isopen", !open);
         });
+
+        //$('#improvment-equipment').on('change', function (e) {
+        //    var equipmentValue = $(this).val();
+
+        //    var equipmentText = $("#improvment-equipment :selected").text();
+        //    if (equipmentValue) {
+        //        $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+        //    }
+            
+        //});
 
         var houseCustomer = $('#houseCustomerChosen');
         houseCustomer.on('click', function (e) {

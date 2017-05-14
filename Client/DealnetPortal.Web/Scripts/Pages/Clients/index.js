@@ -24,7 +24,7 @@
     var basicInfoRequiredFields = ['name', 'lastName', 'birthday'];
     var currentAddressRequiredFields = ['street', 'city', 'province', 'postalCode'];
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
-    var contactInfoRequiredFields = ['phone', 'cellPhone', 'email', 'contactMethod'];
+    var contactInfoRequiredFields = ['email', 'contactMethod'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode', 'improvmentMoveInDate'];
     var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
 
@@ -37,8 +37,16 @@
     //license-scan
     $('#capture-buttons-1').on('click', takePhoto);
     $('#retake').on('click', retakePhoto);
+    $('#retake').on('click', retakePhoto);
+    $('#owner-scan-button').on('click', function(e) {
+        e.preventDefault();
+    });
 
     window.initAutocomplete = initAutocomplete;
+    $(document).ready(function() {
+        $('#home-phone').rules('add', 'required');
+        $('#cell-phone').rules('add', 'required');
+    });
 
     // init views
     initBasicInfo(clientStore);
@@ -48,10 +56,22 @@
     initClientConsents(clientStore);
 
     var form = $('#main-form');
-    $('#submit').on('click', function (e) {
+    form.on('submit', function() {
+        $('#submit').prop('disabled', true);
+    });
+
+    $('#submit').one('click', function (e) {
+
+        if (!form.valid()) {
+            e.preventDefault();
+            $(this).prop('disabled', 'false');
+        }
+
         dispatch(createAction(clientActions.SUBMIT));
+
         var errors = getErrors(clientStore.getState());
         if (errors.length > 0 && form.valid()) {
+            $(this).prop('disabled', 'false');
             e.preventDefault();
         }
     });
