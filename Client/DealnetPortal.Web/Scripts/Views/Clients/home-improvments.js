@@ -12,7 +12,7 @@
         });
 
         var improvmentMoveInDate = $("#impvoment-date");
-
+        inputDateFocus(improvmentMoveInDate);
         improvmentMoveInDate.datepicker({
             dateFormat: 'mm/dd/yy',
             changeYear: true,
@@ -20,6 +20,7 @@
             yearRange: '1900:2200',
             minDate: new Date(),
             onSelect: function (day) {
+                onDateSelect($(this));
                 dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
             }
         });

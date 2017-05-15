@@ -1430,4 +1430,50 @@
   <data name="SalesAgent" xml:space="preserve">
     <value>Sales Agent</value>
   </data>
+  <data name="AddressUnknownClientShoppingOtherProperty" xml:space="preserve">
+    <value>Address unknown. Client is shopping for other property.</value>
+  </data>
+  <data name="AtCurrentAddress" xml:space="preserve">
+    <value>At current address.</value>
+  </data>
+  <data name="AtNewHomeAddress" xml:space="preserve">
+    <value>At new home address.</value>
+  </data>
+  <data name="ClientAgreesPassPersonalInfoToDealNetCapital" xml:space="preserve">
+    <value>Client agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her
+by email or phone</value>
+  </data>
+  <data name="ClientAgreesSendPersonalDataToCreditCheck" xml:space="preserve">
+    <value>Client agrees to send his/her personal data to credit check</value>
+  </data>
+  <data name="ClientConsent" xml:space="preserve">
+    <value>Client Consent</value>
+  </data>
+  <data name="ClientInformation" xml:space="preserve">
+    <value>Client Information</value>
+  </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Client's Comment</value>
+  </data>
+  <data name="CurrentAddress" xml:space="preserve">
+    <value>Current Address</value>
+  </data>
+  <data name="DescribeYourHomeImprovementProject" xml:space="preserve">
+    <value>Please describe your home improvement project (please don't provide any contact or address information in this field)</value>
+  </data>
+  <data name="HomeImprovements" xml:space="preserve">
+    <value>Home Improvements</value>
+  </data>
+  <data name="NewClient" xml:space="preserve">
+    <value>New Client</value>
+  </data>
+  <data name="NewHomeAddress" xml:space="preserve">
+    <value>New Home Address</value>
+  </data>
+  <data name="PreviousAddress" xml:space="preserve">
+    <value>Previous Address</value>
+  </data>
+  <data name="WhereHomeImprovementProjectTakePlace" xml:space="preserve">
+    <value>Where will the home improvement project take place?</value>
+  </data>
 </root>

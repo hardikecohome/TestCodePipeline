@@ -46,17 +46,17 @@
 </div>
 
 <div id="label-steps">
-  <div class="dealnet-action-link">New Client</div> &gt;
+  <div class="dealnet-action-link">@Resources.NewClient</div> &gt;
 </div>
 
 @using (Html.BeginForm("NewClient", "MortgageBroker", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13" }))
 {
   @Html.AntiForgeryToken()
   <div class="accordion-panels-hold">
-    <div class="main-heading customer-heading">New Client</div>
+    <div class="main-heading customer-heading">@Resources.NewClient</div>
   <div class="panel accordion-panel active-panel" id="basic-information">
       <div class="panel-heading">
-        <h3 class="panel-title dealnet-middle-header">1. Basic Information</h3>
+        <h3 class="panel-title dealnet-middle-header">1. @Resources.ClientInformation</h3>
         <span class="arrow"><i class="glyphicon"></i></span>
       </div>
       <div class="panel-body">
@@ -72,7 +72,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.FirstName, new {@for = "first-name", @class = "mandatory-field"})
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName})
+                @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
               </div>
             </div>
@@ -81,7 +81,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.LastName, new {@for = "last-name", @class = "mandatory-field"})
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName})
+                @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
               </div>
             </div>
@@ -99,7 +99,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.Sin, new {@for = "sin-number"})
               <div class="control-group control-group-pass">
-                @Html.TextBoxFor(m => m.HomeOwner.Sin, new { @class = "form-control dealnet-input", id = "sin-number", type = "password", placeholder = Resources.Sin})
+                @Html.TextBoxFor(m => m.HomeOwner.Sin, new { @class = "form-control dealnet-input", id = "sin-number", type = "password"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
               </div>
             </div>
@@ -108,7 +108,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new {@for = "dl-number"})
               <div class="control-group control-group-pass">
-                @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", type = "password", placeholder = Resources.DriverLicenseNumber})
+                @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", type = "password"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new {@class = "text-danger"})
               </div>
             </div>
@@ -118,18 +118,18 @@
     </div>
   <div class="panel accordion-panel panel-collapsed" id="additional-infomration">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">2. Address Information</h3>
+      <h3 class="panel-title dealnet-middle-header">2. @Resources.AddressInformation</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
       <div id="address-section">
-        <h3 class="dealnet-section-title">Current Address</h3>
+        <h3 class="dealnet-section-title">@Resources.CurrentAddress</h3>
         <div class="row">
           <div class="col-sm-6 col-md-6 col-lg-4">
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.AddressInformation.Street, new { @for = "street", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street", placeholder = Resources.StreetPlaceholder})
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new {@class = "form-control dealnet-input", id = "street", placeholder=""})
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new {@class = "text-danger"})
               </div>
             </div>
@@ -138,7 +138,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @for = "unit_number" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type="text", id = "unit_number", placeholder = "12345" })
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type="text", id = "unit_number"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.UnitNumber, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -147,7 +147,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.AddressInformation.City, new { @for = "locality", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = Resources.Ottawa })
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder=""})
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -156,7 +156,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, Model.ProvinceTaxRates.Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province }),"",
+                @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, Model.ProvinceTaxRates.Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province }), "Please Select",
                   new { @class = "form-control dealnet-input", id = "province"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
               </div>
@@ -166,7 +166,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @for = "postal_code", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -188,13 +188,13 @@
         </label>
       </div>
       <div id="previous-address" style="display: none;">
-        <h3 class="dealnet-section-title">@Resources.PreviousAddressInformation</h3>
+        <h3 class="dealnet-section-title">@Resources.PreviousAddress</h3>
         <div class="row">
           <div class="col-sm-6 col-md-6 col-lg-4">
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @for = "previous_street", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @class = "form-control dealnet-input", id = "previous_street", placeholder = Resources.StreetPlaceholder })
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @class = "form-control dealnet-input", id = "previous_street", placeholder="" })
                 @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Street, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -203,7 +203,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.UnitNumber, new { @for = "previous_unit_number" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "previous_unit_number", placeholder = "12345" })
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "previous_unit_number"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.UnitNumber, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -212,7 +212,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @for = "previous_locality", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @class = "form-control dealnet-input", id = "previous_locality", placeholder = Resources.Ottawa})
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @class = "form-control dealnet-input", id = "previous_locality", placeholder=""})
                 @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.City, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -221,7 +221,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "previous_administrative_area_level_1", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.PreviousAddressInformation?.Province == x.Province }), "",
+                @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.PreviousAddressInformation?.Province == x.Province }), "Please Select",
                   new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1" })
                 @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
               </div>
@@ -231,7 +231,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @for = "previous_postal_code", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "previous_postal_code", placeholder = "12345" })
+                @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "previous_postal_code"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -249,7 +249,7 @@
   </div>
   <div class="panel accordion-panel panel-collapsed" id="contact-information">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">3. Contact Information</h3>
+      <h3 class="panel-title dealnet-middle-header">3. @Resources.ContactInformation</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
@@ -258,7 +258,7 @@
           <div class="form-group">
             @Html.LabelFor(m => m.HomeOwnerContactInfo.HomePhone, new { @class = "mandatory-field", @for="home-phone" })
             <div class="control-group">
-              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new { @class = "form-control dealnet-input", placeholder = Resources.HomePhone, id = "home-phone" })
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new { @class = "form-control dealnet-input", id = "home-phone" })
               @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.HomePhone, "", new { @class = "text-danger" })
             </div>
           </div>
@@ -267,7 +267,7 @@
           <div class="form-group">
             @Html.LabelFor(m => m.HomeOwnerContactInfo.CellPhone, new { @class = "mandatory-field", @for="cell-phone" })
             <div class="control-group">
-              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.CellPhone, new { @class = "form-control dealnet-input", placeholder = Resources.CellPhone, id = "cell-phone" })
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.CellPhone, new { @class = "form-control dealnet-input", id = "cell-phone" })
               @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.CellPhone, "", new { @class = "text-danger" })
             </div>
           </div>
@@ -276,7 +276,7 @@
           <div class="form-group">
             @Html.LabelFor(m => m.HomeOwnerContactInfo.BusinessPhone)
             <div class="control-group">
-              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new { @class = "form-control dealnet-input", placeholder = Resources.BusinessPhone, id = "businessPhone" })
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new { @class = "form-control dealnet-input", id = "businessPhone" })
               @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.BusinessPhone, "", new { @class = "text-danger" })
             </div>
           </div>
@@ -285,7 +285,7 @@
           <div class="form-group">
             @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "mandatory-field", @for="email" })
             <div class="control-group">
-              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", placeholder = Resources.EmailAddress, id = "email" })
+              @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email" })
               @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
             </div>
           </div>
@@ -294,7 +294,7 @@
           <div class="form-group">
             @Html.LabelFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, new { @class = "mandatory-field", @for="contact-method" })
             <div class="control-group">
-              @Html.DropDownListFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, Model.ContactMethods,"", new { @class = "form-control dealnet-input", id = "contact-method"})
+              @Html.DropDownListFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, Model.ContactMethods, "Please Select", new { @class = "form-control dealnet-input", id = "contact-method"})
             </div>
           </div>
         </div>
@@ -303,24 +303,24 @@
   </div>
   <div class="panel accordion-panel panel-collapsed" id="home-improvments">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">4. Home improvements</h3>
+      <h3 class="panel-title dealnet-middle-header">4. @Resources.HomeImprovements</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
       <div class="text-md-sm">
-        <div class="form-group">Where will the home improvement project take place?</div>
+        <div class="form-group">@Resources.WhereHomeImprovementProjectTakePlace</div>
         <div class="form-group">
           <label for="currentAddressIsMortgage" class="align-middle custom-radio">
             <input type="radio" name="improvement" id="currentAddressIsMortgage" checked="checked">
             <span class="custom-radio-icon"></span>
-            <span>At current address.</span>
+            <span>@Resources.AtCurrentAddress</span>
           </label>
         </div>
         <div class="form-group">
           <label for="houseCustomerChosen" class="align-middle custom-radio">
             <input type="radio" name="improvement" id="houseCustomerChosen">
             <span class="custom-radio-icon"></span>
-            <span>At other address.</span>
+            <span>@Resources.AtNewHomeAddress</span>
           </label>
         </div>
       </div>
@@ -329,16 +329,16 @@
           <label for="addressUnknownCheckbox" class="align-middle custom-checkbox">
             @Html.CheckBoxFor(m => m.IsUnknownAddress, new { @class = "dealnet-checkbox address-checkbox", id = "addressUnknownCheckbox" })
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>Address unknown. Client is shopping for other property.</span>
+            <span>@Resources.AddressUnknownClientShoppingOtherProperty</span>
           </label>
         </div>
-        <h3 class="dealnet-section-title">Location of Property Improvement</h3>
+        <h3 class="dealnet-section-title">@Resources.NewHomeAddress</h3>
         <div class="row">
           <div class="col-sm-6 col-md-6 col-lg-4">
             <div class="form-group">
               @Html.LabelFor(m => m.ImprovmentLocation.Street, new { @for = "improvment_street", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.ImprovmentLocation.Street, new { @class = "form-control dealnet-input", id = "improvment_street", placeholder = Resources.StreetPlaceholder })
+                @Html.TextBoxFor(m => m.ImprovmentLocation.Street, new { @class = "form-control dealnet-input", id = "improvment_street", placeholder=""})
                 @Html.ValidationMessageFor(m => m.ImprovmentLocation.Street, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -347,7 +347,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.ImprovmentLocation.UnitNumber, new { @for = "improvment_unit_number" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.ImprovmentLocation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "improvment_unit_number", placeholder = "12345" })
+                @Html.TextBoxFor(m => m.ImprovmentLocation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "improvment_unit_number"})
                 @Html.ValidationMessageFor(m => m.ImprovmentLocation.UnitNumber, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -356,7 +356,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.ImprovmentLocation.City, new { @for = "improvment_locality", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.ImprovmentLocation.City, new { @class = "form-control dealnet-input", id = "improvment_locality", placeholder = Resources.Ottawa })
+                @Html.TextBoxFor(m => m.ImprovmentLocation.City, new { @class = "form-control dealnet-input", id = "improvment_locality", placeholder=""})
                 @Html.ValidationMessageFor(m => m.ImprovmentLocation.City, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -365,7 +365,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.ImprovmentLocation.Province, new { @for = "improvment_administrative_area_level_1", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.DropDownListFor(m => m.ImprovmentLocation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model?.ImprovmentLocation?.Province == x.Province }), "",
+                @Html.DropDownListFor(m => m.ImprovmentLocation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model?.ImprovmentLocation?.Province == x.Province }), "Please select",
                   new { @class = "form-control dealnet-input", id = "improvment_administrative_area_level_1" })
                 @Html.ValidationMessageFor(m => m.ImprovmentLocation.Province, "", new { @class = "text-danger" })
               </div>
@@ -375,7 +375,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.ImprovmentLocation.PostalCode, new { @for = "improvment_postal_code", @class = "mandatory-field" })
               <div class="control-group">
-                @Html.TextBoxFor(m => m.ImprovmentLocation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "improvment_postal_code", placeholder = "12345" })
+                @Html.TextBoxFor(m => m.ImprovmentLocation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "improvment_postal_code"})
                 @Html.ValidationMessageFor(m => m.ImprovmentLocation.PostalCode, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -403,7 +403,7 @@
       <div class="row">
         <div class="col-md-4 col-sm-6 col-lg-3">
           <div class="form-group">
-            <label for="">Home Improvement type</label>
+            <label for="">@Resources.HomeImprovementType</label>
             <div class="control-group">
               @Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), "Please select",
                 new { @class = "form-control dealnet-input", id="improvment-equipment"})
@@ -429,9 +429,10 @@
       <div class="row">
         <div class="col-md-8 col-sm-8 col-lg-6">
           <div class="form-group">
-            @Html.LabelFor(m => m.CustomerComment)
+            @*@Html.LabelFor(m => m.CustomerComment)*@
+            <label for="">@Resources.ClientsComment</label>
             <div class="control-group">
-              @Html.TextAreaFor(m => m.CustomerComment, new { @class = "form-control dealnet-input", placeholder = Resources.WriteYourComment, id = "comment", style = "height: 120px;" })
+              @Html.TextAreaFor(m => m.CustomerComment, new { @class = "form-control dealnet-input", placeholder = Resources.DescribeYourHomeImprovementProject, id = "comment", style = "height: 120px;" })
               @Html.ValidationMessageFor(m => m.CustomerComment, "", new { @class = "text-danger" })
             </div>
           </div>
@@ -441,7 +442,7 @@
   </div>
   <div class="panel accordion-panel panel-collapsed" id="client-consents">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">5. Client Consents</h3>
+      <h3 class="panel-title dealnet-middle-header">5. @Resources.ClientConsent</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
@@ -449,14 +450,14 @@
         <label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field">Agrees to send his/her personal data to credit check</span>
+          <span class="mandatory-field">@Resources.ClientAgreesSendPersonalDataToCreditCheck</span>
         </label>
       </div>
       <div class="form-group">
         <label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field"> Agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her by email or phone</span>
+          <span class="mandatory-field">@Resources.ClientAgreesPassPersonalInfoToDealNetCapital</span>
         </label>
       </div>
     </div>
