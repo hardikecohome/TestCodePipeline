@@ -29,6 +29,7 @@
             dispatch(createAction(clientActions.SET_COMMENT, e.target.value));
         });
 
+
         // action handlers
         $('#improvment-equipment').mouseup(function() {
             var open = $(this).data("isopen");
@@ -38,7 +39,11 @@
                 dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
                 var equipmentText = $("#improvment-equipment :selected").text();
                 if (equipmentValue) {
-                    $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+                    if (improvments.indexOf(equipmentValue) === -1) {
+                        improvments.push(equipmentValue);
+                        $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" id="' + equipmentValue + '"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+                        $('#' + equipmentValue).on('click', deleteEquipment);
+                    }
                 }
 
             }
@@ -46,15 +51,6 @@
             $(this).data("isopen", !open);
         });
 
-        //$('#improvment-equipment').on('change', function (e) {
-        //    var equipmentValue = $(this).val();
-
-        //    var equipmentText = $("#improvment-equipment :selected").text();
-        //    if (equipmentValue) {
-        //        $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
-        //    }
-            
-        //});
 
         var houseCustomer = $('#houseCustomerChosen');
         houseCustomer.on('click', function (e) {
@@ -102,6 +98,16 @@
             dispatch(createAction(clientActions.SET_IMPROVMENT_POSTAL_CODE, e.target.value));
         });
 
+        function deleteEquipment() {
+            $(this).parent().remove();
+
+            var imprValue = $(this).attr('id');
+            var index = improvments.indexOf(imprValue);
+
+            if (index !== -1) {
+                improvments.splice(index, 1);
+            }
+        }
         var observeCustomerFormStore = observe(store);
 
         observeCustomerFormStore(function (state) {

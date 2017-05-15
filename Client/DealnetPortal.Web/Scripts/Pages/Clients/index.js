@@ -56,8 +56,12 @@
     initClientConsents(clientStore);
 
     var form = $('#main-form');
-    form.on('submit', function() {
+    form.on('submit', function (e) {
         $('#submit').prop('disabled', true);
+        if (!form.valid()) {
+            e.preventDefault();
+            $('#submit').prop('disabled', false);
+        }
     });
 
     $('#submit').one('click', function (e) {
@@ -83,7 +87,7 @@
             displayContactInfo: state.displayContactInfo,
             displayPreviousAddress: state.lessThanSix,
             activePanel: state.activePanel,
-            displayImprovmentOtherAddress: state.improvmentOtherAddress
+            displayImprovmentOtherAddress: state.improvmentOtherAddress,
         };
     })(function (props) {
         if (props.activePanel === 'basic-information') {
@@ -91,6 +95,8 @@
         } else {
             $('#basic-information').removeClass('active-panel');
         }
+
+        $('#IsLiveInCurrentAddress').val(!props.displayImprovmentOtherAddress);
 
         if (props.displayImprovmentOtherAddress) {
             $('#installation-address').show();

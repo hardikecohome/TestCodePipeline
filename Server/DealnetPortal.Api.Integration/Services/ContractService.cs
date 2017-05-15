@@ -24,7 +24,7 @@ namespace DealnetPortal.Api.Integration.Services
 {
     using Models.Contract.EquipmentInformation;
 
-    public class ContractService : IContractService
+    public partial class ContractService : IContractService
     {
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
@@ -73,85 +73,6 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to create a new contract for a user [{contractOwnerId}]", ex);
-                throw;
-            }
-        }
-
-        public async Task<bool> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
-        {
-            try
-            {
-                var newContract = _contractRepository.CreateContract(contractOwnerId);
-                if (newContract != null)
-                {
-                    _unitOfWork.Save();
-                    var customer = Mapper.Map<Customer>(newCustomer.PrimaryCustomer);
-                    var contractData = new ContractData()
-                    {
-                        PrimaryCustomer = customer,
-                        HomeOwners = new List<Customer> { customer },
-                        DealerId = contractOwnerId,
-                        Id = newContract.Id
-                    };
-                    if (newCustomer.EstimatedMoveInDate != null || newCustomer.HomeImprovementTypes != null)
-                    {
-                        contractData.Equipment = new EquipmentInfo();
-                        contractData.Equipment.NewEquipment = new List<NewEquipment>();
-                        contractData.Equipment.EstimatedInstallationDate = newCustomer.EstimatedMoveInDate;
-                        newCustomer.HomeImprovementTypes?.ForEach(hi =>
-                        {
-                            contractData.Equipment.NewEquipment.Add(new NewEquipment { Type = hi });
-                        });
-                    }
-                    var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
-                    if (updatedContract == null) { return false; }
-                    _unitOfWork.Save();
-
-                    updatedContract.IsCreatedByBroker = true;
-                    _unitOfWork.Save();
-
-                    if (updatedContract.PrimaryCustomer != null)
-                    {
-                        await _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
-                    }
-                    //_contractRepository.UpdateCustomerData(updatedContract.PrimaryCustomer.Id, customer, null, null, null);
-
-                    //Start credit check for this contract
-                    var creditCheckAlerts = new List<Alert>();
-                    var initAlerts = InitiateCreditCheck(updatedContract.Id, contractOwnerId);
-                    if (initAlerts?.Any() ?? false)
-                    {
-                        creditCheckAlerts.AddRange(initAlerts);
-                    }
-                    var checkResult = GetCreditCheckResult(updatedContract.Id, contractOwnerId);
-                    if (checkResult != null)
-                    {
-                        creditCheckAlerts.AddRange(checkResult.Item2); 
-                    }
-                    if (creditCheckAlerts.Any(x => x.Type == AlertType.Error)) { return false; }
-
-                    if (updatedContract.Details != null && newCustomer.CustomerComment != null)
-                    {
-                        if (string.IsNullOrEmpty(updatedContract.Details.Notes))
-                        {
-                            updatedContract.Details.Notes = newCustomer.CustomerComment;
-                        }
-                        else
-                        {
-                            updatedContract.Details.Notes += newCustomer.CustomerComment;
-                        }
-                    }                                        
-                    return true;
-                }
-                else
-                {
-                    _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]", ex);
                 throw;
             }
         }

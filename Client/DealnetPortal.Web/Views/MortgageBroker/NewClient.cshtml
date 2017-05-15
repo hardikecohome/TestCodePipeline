@@ -52,6 +52,7 @@
 @using (Html.BeginForm("NewClient", "MortgageBroker", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13" }))
 {
   @Html.AntiForgeryToken()
+  @Html.HiddenFor(x => x.IsLiveInCurrentAddress)
   <div class="accordion-panels-hold">
     <div class="main-heading customer-heading">@Resources.NewClient</div>
   <div class="panel accordion-panel active-panel" id="basic-information">
