@@ -103,6 +103,7 @@
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\Transformation\Instructions.cs" />
     <Compile Include="ServiceAgents\ESignature\ESignatureServiceAgent.cs" />
     <Compile Include="ServiceAgents\ESignature\IESignatureServiceAgent.cs" />
+    <Compile Include="Services\ContractService.Customer.cs" />
     <Compile Include="Services\CustomerFormService.cs" />
     <Compile Include="Services\EmailMailgunService.cs" />
     <Compile Include="Services\IAspireService.cs" />

@@ -22,6 +22,8 @@ $(document).ready(function () {
                 return !isNaN(Globalize.parseNumber(value));
             }
 
+            var oldParseFloat = window.parseFloat;
+
             window.parseFloat = function(number) {
                 if (typeof number === 'undefined') {
                     return number;
@@ -29,7 +31,8 @@ $(document).ready(function () {
                 if (typeof number === 'number') {
                     return number;
                 }
-                return Globalize.parseNumber(number);
+                var res = Globalize.parseNumber(number);
+                return isNaN(res) ? oldParseFloat(number) : res;
             };
 
             window.formatNumber = Globalize.numberFormatter({

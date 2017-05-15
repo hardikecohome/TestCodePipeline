@@ -63,7 +63,7 @@ namespace DealnetPortal.Web.Infrastructure
                 newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
             }
 
-            if (!customer.IsUnknownAddress && customer.ImprovmentLocation?.City != null)
+            if (!customer.IsLiveInCurrentAddress && !customer.IsUnknownAddress && customer.ImprovmentLocation?.City != null)
             {
                 var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
                 //TODO: Ask about AddressType

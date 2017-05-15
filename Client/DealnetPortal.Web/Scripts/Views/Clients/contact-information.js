@@ -5,18 +5,28 @@
 
     return function (store) {
         var dispatch = store.dispatch;
-
+       
         var homePhone = $('#home-phone');
         homePhone.on('change', function (e) {
             if ($(this).valid()) {
+                $('#cell-phone').rules("remove", "required");
+                $('#cell-phone').removeClass('input-validation-error');
+                $('#cell-phone').next('.text-danger').empty();
                 dispatch(createAction(clientActions.SET_PHONE, e.target.value));
+            } else {
+                $('#cell-phone').rules("add", "required");
             }
         });
 
         var cellPhone = $('#cell-phone');
         cellPhone.on('change', function (e) {
             if ($(this).valid()) {
+                $('#home-phone').rules("remove", "required");
+                $('#home-phone').removeClass('input-validation-error');
+                $('#home-phone').next('.text-danger').empty();
                 dispatch(createAction(clientActions.SET_CELL_PHONE, e.target.value));
+            } else {
+                $('#home-phone').rules("add", "required");
             }
         });
 
@@ -38,6 +48,18 @@
             email: email,
             contactMethod: contactMethod
         };
+
+        function setValidationRelation(elem1, elem2) {
+            elem1.change(function () {
+                if ($(this).val()) {
+                    elem2.rules("remove", "required");
+                    elem2.removeClass('input-validation-error');
+                    elem2.next('.text-danger').empty();
+                } else {
+                    elem2.rules("add", "required");
+                }
+            });
+        }
 
         dispatch(createAction(clientActions.SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
     };

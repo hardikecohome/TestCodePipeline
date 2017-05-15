@@ -24,7 +24,7 @@
     var basicInfoRequiredFields = ['name', 'lastName', 'birthday'];
     var currentAddressRequiredFields = ['street', 'city', 'province', 'postalCode'];
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
-    var contactInfoRequiredFields = ['phone', 'cellPhone', 'email', 'contactMethod'];
+    var contactInfoRequiredFields = ['email', 'contactMethod'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode', 'improvmentMoveInDate'];
     var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
 
@@ -37,8 +37,16 @@
     //license-scan
     $('#capture-buttons-1').on('click', takePhoto);
     $('#retake').on('click', retakePhoto);
+    $('#retake').on('click', retakePhoto);
+    $('#owner-scan-button').on('click', function(e) {
+        e.preventDefault();
+    });
 
     window.initAutocomplete = initAutocomplete;
+    $(document).ready(function() {
+        $('#home-phone').rules('add', 'required');
+        $('#cell-phone').rules('add', 'required');
+    });
 
     // init views
     initBasicInfo(clientStore);
@@ -48,10 +56,26 @@
     initClientConsents(clientStore);
 
     var form = $('#main-form');
-    $('#submit').on('click', function (e) {
+    form.on('submit', function (e) {
+        $('#submit').prop('disabled', true);
+        if (!form.valid()) {
+            e.preventDefault();
+            $('#submit').prop('disabled', false);
+        }
+    });
+
+    $('#submit').one('click', function (e) {
+
+        if (!form.valid()) {
+            e.preventDefault();
+            $(this).prop('disabled', 'false');
+        }
+
         dispatch(createAction(clientActions.SUBMIT));
+
         var errors = getErrors(clientStore.getState());
         if (errors.length > 0 && form.valid()) {
+            $(this).prop('disabled', 'false');
             e.preventDefault();
         }
     });
@@ -63,7 +87,7 @@
             displayContactInfo: state.displayContactInfo,
             displayPreviousAddress: state.lessThanSix,
             activePanel: state.activePanel,
-            displayImprovmentOtherAddress: state.improvmentOtherAddress
+            displayImprovmentOtherAddress: state.improvmentOtherAddress,
         };
     })(function (props) {
         if (props.activePanel === 'basic-information') {
@@ -71,6 +95,8 @@
         } else {
             $('#basic-information').removeClass('active-panel');
         }
+
+        $('#IsLiveInCurrentAddress').val(!props.displayImprovmentOtherAddress);
 
         if (props.displayImprovmentOtherAddress) {
             $('#installation-address').show();
