@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
@@ -35,12 +36,12 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (contractsResultList.All(x => x.Item2 == false))
                 {
-                    _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]");
+                    _loggingService.LogError($"Failed to create a new contract for customer by [{contractOwnerId}]");
 
                     return false;
                 }
 
-                //todo: maybe it's better to try few times initiate contract check for unseccessful contracts
+                //TODO: maybe it's better to try few times initiate contract check for unseccessful contracts
                 var aspireFailedResults = new List<Tuple<int, bool>>();
 
                 foreach (var contractResult in contractsResultList.Where(x => x.Item1 != null).ToList())
@@ -64,14 +65,29 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Value, false));
                     }
-                }
+                }                
 
                 //if all aspire opertaion is failed
-                if (aspireFailedResults.Any())
+                if (aspireFailedResults.Any() )
                 {
                     return false;
                 }
 
+                //select any of newly created contracts for create a new user in Customer Wallet portal
+                var succededContract = _contractRepository.GetContracts(
+                    contractsResultList.Where(r => r.Item2 && r.Item1.HasValue).Select(r => r.Item1.Value),
+                    contractOwnerId)?
+                    .FirstOrDefault(c => c.ContractState >= ContractState.CreditContirmed);
+                if (succededContract != null)
+                {
+                    var cwCustomerResult = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
+                }
+                else
+                {
+                    _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");
+                }
+
+                //TODO: return Alerts?
                 return true;
             }
             catch (Exception ex)

@@ -31,6 +31,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
+        private readonly ICustomerWalletService _customerWalletService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
 
@@ -39,6 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
             IUnitOfWork unitOfWork, 
             IAspireService aspireService,
             IAspireStorageReader aspireStorageReader, 
+            ICustomerWalletService customerWalletService,
             ISignatureService signatureService, 
             IMailService mailService, 
             ILoggingService loggingService)
@@ -48,6 +50,7 @@ namespace DealnetPortal.Api.Integration.Services
             _unitOfWork = unitOfWork;
             _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;
+            _customerWalletService = customerWalletService;
             _signatureService = signatureService;
             _mailService = mailService;
         }

@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace DealnetPortal.Api.Integration.ServiceAgents
 {
     public interface ICustomerWalletServiceAgent
-    {
+    {        
     }
 }

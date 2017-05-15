@@ -60,6 +60,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IAspireService, AspireService>();
 
             container.RegisterType<ICustomerWalletServiceAgent, CustomerWalletServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("CustomerWalletClient")));
+            container.RegisterType<ICustomerWalletService, CustomerWalletService>();
 
             var queryFolderName = ConfigurationManager.AppSettings["QueriesFolder"] ?? "Queries";
             var queryFolder = HostingEnvironment.MapPath($"~/{queryFolderName}") ?? queryFolderName;
