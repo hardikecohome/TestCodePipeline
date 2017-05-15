@@ -6,6 +6,7 @@
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('rate-cards').recalculateRentalTaxAndPrice;
+        var idToValue = require('rate-cards').idToValue;
 
         // setters
 
@@ -87,31 +88,26 @@
             recalculateRentalTaxAndPrice();
         };
 
-        var updateCost = function(id) {
-            return function(e) {
-                if (!state.equipments.hasOwnProperty(id)) {
-                    return;
-                }
-
-                state.equipments[id].cost = parseFloat(e.target.value);
-                if (state.agreementType === 1 || state.agreementType === 2) {
-                    recalculateAndRenderRentalValues();
-                } else {
-                    recalculateValuesAndRender();
-                }
-            };
+        var updateCost = function () {
+            var mvcId = $(this).attr("id");
+            var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
+            state.equipments[id].cost = parseFloat($(this).val());
+            if (state.agreementType === 1 || state.agreementType === 2) {
+                recalculateAndRenderRentalValues();
+            } else {
+                recalculateValuesAndRender();
+            }
         };
 
         var removeEquipment = function () {
-
             var fullId = $(this).attr('id');
             var id = fullId.substr(fullId.lastIndexOf('-') + 1);
 
             if (!state.equipments.hasOwnProperty(id)) {
                 return;
             }
-
-            state.equipments[id].template.remove();
+            $('#new-equipment-' + id).remove();
+            delete state.equipments[id];
 
             var nextId = Number(id);
             while (true) {
@@ -138,8 +134,11 @@
                 var removeButton = nextEquipment.find('#addequipment-remove-' + nextId);
                 removeButton.attr('id', 'addequipment-remove-' + (nextId - 1));
                 nextEquipment.attr('id', 'new-equipment-' + (nextId - 1));
+
+                state.equipments[nextId].id = (nextId - 1).toString();
+                state.equipments[nextId - 1] = state.equipments[nextId];
+                delete state.equipments[nextId];
             }
-            delete state.equipments[id];
 
             if (state.agreementType === 1 || state.agreementType === 2) {
                 recalculateAndRenderRentalValues();
@@ -249,7 +248,7 @@
             state.equipments[newId].template = newTemplate;
 
             // equipment handlers
-            newTemplate.find('.equipment-cost').on('change', updateCost(newId));
+            newTemplate.find('.equipment-cost').on('change', updateCost);
             newTemplate.find('#addequipment-remove-' + id).on('click', removeEquipment);
             //if (newId !== "0") {
             //    var removeButton = newTemplate.find('#new-equipment-remove-' + newId);
@@ -306,24 +305,31 @@
             var loanAmort = e.target.value.split('/');
             setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
         });
-        
+
+        var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
+        state.agreementType = Number(agreementType);
+
         var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
 
         var initEquipment = function (i) {
             var cost = parseFloat($('#NewEquipment_' + i + '__Cost').val());
             if (state.equipments[i] === undefined) {
-                state.equipments[i] = { cost: cost }
+                state.equipments[i] = { id: i.toString(), cost: cost }
             } else {
                 state.equipments[i].cost = cost;
             }
 
-            $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost(i));
+            $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
         }
 
-        for (var i = 0; i <= equipments; i++) {
+        for (var i = 0; i < equipments; i++) {
             // attatch handler to equipments
             initEquipment(i);
-            recalculateValuesAndRender();
+            if (state.agreementType === 1 || state.agreementType === 2) {
+                recalculateAndRenderRentalValues();
+            } else {
+                recalculateValuesAndRender();
+            }
         }
         if (equipments < 1) {
             addEquipment();
