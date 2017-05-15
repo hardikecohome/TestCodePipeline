@@ -407,8 +407,7 @@
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
         rateCards: rateCards,
-        idToValue: idToValue
-}
+        idToValue: idToValue,
         rateCards: rateCards,
         validateCustomRateCard : validateCustomRateCardOnSubmit
     }
