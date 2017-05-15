@@ -6,7 +6,7 @@
     return function (store) {
         var dispatch = store.dispatch;
         var birth = $("#birth-date");
-
+        inputDateFocus(birth);
         birth.datepicker({
             dateFormat: 'mm/dd/yy',
             changeYear: true,
@@ -15,6 +15,7 @@
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
+                onDateSelect($(this));
                 dispatch(createAction(clientActions.SET_BIRTH, day));
             }
         });
