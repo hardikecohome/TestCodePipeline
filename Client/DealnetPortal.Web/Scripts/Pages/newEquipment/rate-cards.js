@@ -240,9 +240,9 @@
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
-            $('#rentalMPayment').val(eSum);
-            $('#rentalTax').text(tax(data));
-            $('#rentalTMPayment').text(totalPrice(data));
+            $('#rentalMPayment').val(formatNumber(eSum));
+            $('#rentalTax').text(formatNumber(tax(data)));
+            $('#rentalTMPayment').text(formatNumber(totalPrice(data)));
         } else {
             $('#rentalMPayment').val('');
             $('#rentalTax').text('-');
@@ -401,11 +401,14 @@
     }
 
     return {
-        state : state,
+        state: state,
         initializeRateCards: initializeRateCards,
         recalculateValuesAndRender: recalculateValuesAndRender,
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
+        rateCards: rateCards,
+        idToValue: idToValue
+}
         rateCards: rateCards,
         validateCustomRateCard : validateCustomRateCardOnSubmit
     }
