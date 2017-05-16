@@ -100,7 +100,7 @@ $.fn.dataTable.ext.search.push(
         var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
         var date = Date.parseExact(data[1], "M/d/yyyy");
-        if ((!status || status === data[3]) &&
+        if ((!status || status === data[7]) &&
             (!dateTo || date <= dateTo) &&
             (!dateFrom || date >= dateFrom)) {
             return true;
