@@ -11,8 +11,8 @@
     <div class="main-heading profile-heading">My Profile</div>
 </div>
 
-<div class="form-container profile-form-container">
-  @using (Html.BeginForm("SetProfile", "Profile", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13"}))
+<div class="form-container profile-form-container shareable-link-page">
+  @using (Html.BeginForm("Index", "Profile", FormMethod.Post, new {id = "mainForm", onkeydown = "return event.keyCode!=13"}))
   {
       @Html.AntiForgeryToken()
     <h3 class="dealnet-middle-header">Offered service</h3>
@@ -86,12 +86,18 @@
         <span>Add Postal Code</span>
       </a>
     </div>
-    <div class="clearfix">
-      <br>
-      <br>
-      <button class="btn dealnet-button dealnet-success-button btn-form-common">@Resources.Save</button>
-    </div>
   }
+    <div class="save-proceed-btn-hold">
+        <button class="btn dealnet-button dealnet-success-button btn-form-common" id="saveBtn">@Resources.Save</button>
+        <div class="well success-well success-message collapse" id="success-message-enabled">
+            <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+            Your configuration was successfully updated
+        </div>
+        <div class="well success-well success-message collapse" id="success-message-disabled">
+            <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+            Your configuration was successfully updated
+        </div>
+    </div>
 </div>
 
 <div class="hidden">
@@ -120,6 +126,11 @@
     </div>
   </div>
 </div>
+
+@section Translations
+{
+    translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
+}
 
 @section scripts
 {

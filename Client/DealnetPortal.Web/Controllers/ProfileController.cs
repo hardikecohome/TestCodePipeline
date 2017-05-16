@@ -6,7 +6,7 @@ using DealnetPortal.Web.Models.MyProfile;
 namespace DealnetPortal.Web.Controllers
 {
     [Authorize]
-    public class ProfileController : Controller
+    public class ProfileController : UpdateController
     {
         private readonly IProfileManager _profileManager;
 
@@ -24,9 +24,14 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SetProfile(ProfileViewModel model)
+        public JsonResult Index(ProfileViewModel model)
         {
-            return RedirectToAction("Index");
+            if (!ModelState.IsValid)
+            {
+                return GetErrorJson();
+            }
+
+            return GetSuccessJson();
         }
     }
 }
