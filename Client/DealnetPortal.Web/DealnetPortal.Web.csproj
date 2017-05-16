@@ -969,6 +969,7 @@
     <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
     <Content Include="Views\Leads\Index.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
