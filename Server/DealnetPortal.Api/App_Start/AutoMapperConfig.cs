@@ -231,12 +231,14 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.DriverLicenseNumber, s => s.Ignore())
                 .ForMember(d => d.AllowCommunicate, s => s.Ignore())
                 .ForMember(d => d.IsHomeOwner, s => s.Ignore())
-                .ForMember(d => d.IsInitialCustomer, s => s.Ignore());
+                .ForMember(d => d.IsInitialCustomer, s => s.Ignore())
+                .ForMember(d => d.PreferredContactMethod, s => s.Ignore());
                 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, DealerDTO>()
                 .IncludeBase<Entity, CustomerDTO>()
                 .ForMember(d => d.ParentDealerUserName, s => s.MapFrom(src => src.ParentUserName))
-                .ForMember(d => d.FirstName, s => s.MapFrom(src => src.FirstName ?? src.Name));
+                .ForMember(d => d.FirstName, s => s.MapFrom(src => src.FirstName ?? src.Name))
+                .ForMember(d => d.PreferredContactMethod, s => s.Ignore());
 
         }
 

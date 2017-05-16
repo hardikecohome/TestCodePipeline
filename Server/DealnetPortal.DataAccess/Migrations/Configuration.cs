@@ -107,6 +107,24 @@ namespace DealnetPortal.DataAccess.Migrations
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
             };
+
+            var customerCreator = new ApplicationUser()
+            {
+                Email = "customerCreator@user.com",
+                UserName = "CustomerCreator",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = false,
+                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                //Password: 123_Qwe
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"                
+            };
+
             var users = new List<ApplicationUser>() {user1, user2};
             //leave existing users data
             users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
