@@ -35,9 +35,13 @@
 
 
 .customer-success-page{
-  font-size: 20px;
-  line-height: 1.5;
   width: 100%;
+  font-size: 18px;
+  line-height: 1.5;
+  &.unsubscribe-page{
+    font-size: 20px;
+    line-height: 1.5;
+  }
   @media @tablet-up {
     display: table;
   }
@@ -53,9 +57,30 @@
   }
 }
 .customer-success-page-inner{
-  @media @tablet-up {
     height: 600px;
     display: table-cell;
     vertical-align: middle;
+
+  @media @mobile {
+    height: calc(~"100vh - 70px");
   }
+
+  .icon-hold{
+    margin-bottom: 20px;
+  }
+
+  .customer-success-page-content{
+    padding: 25px 0;
+  }
+
+  .dealnet-link-button{
+    font-size: 14px;
+  }
+
+  .btn-container{
+    &+.btn-container{
+      margin-top: 15px;
+    }
+  }
+
 }
