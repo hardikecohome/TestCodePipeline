@@ -73,6 +73,10 @@
     <Compile Include="Contract\ProvinceTaxRateDTO.cs" />
     <Compile Include="Contract\CustomerDataDTO.cs" />
     <Compile Include="Contract\SubDealerDTO.cs" />
+    <Compile Include="CustomerWallet\CustomerCreditInfo.cs" />
+    <Compile Include="CustomerWallet\CustomerProfile.cs" />
+    <Compile Include="CustomerWallet\RegisterCustomerBindingModel.cs" />
+    <Compile Include="CustomerWallet\RegisterInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />

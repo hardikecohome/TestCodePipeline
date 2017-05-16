@@ -80,7 +80,7 @@ namespace DealnetPortal.Api.Integration.Services
                     .FirstOrDefault(c => c.ContractState >= ContractState.CreditContirmed);
                 if (succededContract != null)
                 {
-                    var cwCustomerResult = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
+                    var noWait = _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
                 }
                 else
                 {
