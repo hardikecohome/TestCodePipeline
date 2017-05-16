@@ -61,7 +61,7 @@
               <label for="">Postal Code</label>
               <div class="control-group">
                 @Html.HiddenFor(x => x.PostalCodes[i].Id)
-                @Html.TextBoxFor(x => x.PostalCodes[i].Value, new { @class = "form-control", placeholder = Resources.PostalCode })
+                @Html.TextBoxFor(x => x.PostalCodes[i].Value, new { @class = "form-control form-control-not-clear", placeholder = Resources.PostalCode })
                 @Html.ValidationMessageFor(x => x.PostalCodes[i].Value, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="form-group">
               <label for="">&nbsp;</label>
               <div class="control-group">
-                <a href="" class="remove-postal-code" id="remove-postal-code-@(i)" hidden-value="@(i)">
+                <a href="" class="remove-postal-code link-default" id="remove-postal-code-@(i)" hidden-value="@(i)">
                   <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
                 </a>
               </div>

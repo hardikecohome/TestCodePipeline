@@ -211,11 +211,11 @@
                             @*@if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true)
                             {*@
                               <li class="dealnet-sidebar-item">
-                                <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental-side")"></use></svg></span>
+                                <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
                                 @Html.ActionLink("My Profile", "Index", "Profile", null, new {@class = "dealnet-sidebar-link"})
                               </li>
                                 <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental-side")"></use></svg></span>
+                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-client"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-client")"></use></svg></span>
                                     @Html.ActionLink("New Client", "NewClient", "MortgageBroker", null, new {@class = "dealnet-sidebar-link"})
                                 </li>
                                 <li class="dealnet-sidebar-item">
