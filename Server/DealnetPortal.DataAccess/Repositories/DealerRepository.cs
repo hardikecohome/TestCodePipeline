@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Domain;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -28,7 +29,12 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Users
                 .FirstOrDefault(u => u.CustomerLinkId == customerLinkId)?.UserName;
         }
-    }
+
+        public DealerProfile GetDealerProfile(string dealerId)
+        {
+            return base.GetUserById(dealerId).DealerProfile;
+        }
+    } 
 
     
 }

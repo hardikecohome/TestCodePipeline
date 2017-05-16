@@ -60,5 +60,9 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<DealerService> DealerServices { get; set; }
         public virtual DbSet<DealerLanguage> DealerLanguages { get; set; }
 
+        public virtual DbSet<DealerProfile> DealerProfiles { get; set; }
+        public virtual DbSet<DealerArea> DealerArears { get; set; }
+        public virtual DbSet<DealerEquipment> DealerEquipments { get; set; }
+
     }
 }

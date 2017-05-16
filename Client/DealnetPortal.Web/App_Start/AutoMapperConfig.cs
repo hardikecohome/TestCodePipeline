@@ -11,8 +11,10 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Models.MyProfile;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 
@@ -173,6 +175,9 @@ namespace DealnetPortal.Web.App_Start
                     return services;
                 }))
                 .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
+            cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
+                .ForMember(x => x.EquipmentList, d => d.MapFrom(src => src.EquipmentTypes))
+                .ForMember(d => d.PostalCodesList, d => d.MapFrom(src => src.PostalCodes));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -433,6 +438,9 @@ namespace DealnetPortal.Web.App_Start
                     return services;
                 }))
                 .ForMember(x=>x.HashDealerName, d=>d.MapFrom(s=>s.HashLink));
+            cfg.CreateMap<DealerProfileDTO, ProfileViewModel>()
+                .ForMember(x => x.EquipmentTypes, d => d.MapFrom(src => src.EquipmentList))
+                .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList));
         }
 
 

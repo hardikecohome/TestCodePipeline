@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
@@ -104,6 +105,9 @@ namespace DealnetPortal.Api.App_Start
                     d => d.ResolveUsing(src => src.EnabledLanguages?.Select(l => l.LanguageId).Cast<LanguageCode>().ToList()))
                 .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src => src.Services?.GroupBy(k => k.LanguageId).ToDictionary(ds => (LanguageCode)ds.Key, ds => ds.Select(s => s.Service).ToList())));
+            mapperConfig.CreateMap<DealerProfile, DealerProfileDTO>();
+            mapperConfig.CreateMap<DealerEquipment, DealerEquipmentDTO>();
+            mapperConfig.CreateMap<DealerArea, DealerAreaDTO>();
         }
 
         private static void MapAspireDomainsToModels(IMapperConfigurationExpression mapperConfig)
@@ -324,6 +328,10 @@ namespace DealnetPortal.Api.App_Start
                     src.Services?.SelectMany(ds => ds.Value.Select(dsv => new DealerService() {LanguageId = (int)ds.Key, Service = dsv}))))
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink));
+
+            mapperConfig.CreateMap<DealerProfileDTO, DealerProfile>();
+            mapperConfig.CreateMap<DealerEquipmentDTO, DealerEquipment>();
+            mapperConfig.CreateMap<DealerAreaDTO, DealerArea>();
         }
     }
 }

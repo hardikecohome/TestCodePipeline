@@ -17,7 +17,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var model = await _profileManager.Get();
+            var model = await _profileManager.GetDealerProfile();
 
             return View(model);
         }
@@ -26,7 +26,12 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SetProfile(ProfileViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
+
         }
     }
 }

@@ -5,6 +5,6 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public interface IProfileManager
     {
-        Task<ProfileViewModel> Get();
+        Task<ProfileViewModel> GetDealerProfile();
     }
 }

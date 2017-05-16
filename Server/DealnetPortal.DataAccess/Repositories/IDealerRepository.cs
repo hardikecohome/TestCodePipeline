@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DealnetPortal.Domain;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -13,5 +9,7 @@ namespace DealnetPortal.DataAccess.Repositories
         string GetUserIdByName(string userName);
 
         string GetDealerNameByCustomerLinkId(int customerLinkId);
+
+        DealerProfile GetDealerProfile(string dealerId);
     }
 }

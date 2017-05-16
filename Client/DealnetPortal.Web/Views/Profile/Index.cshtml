@@ -31,15 +31,15 @@
           <label for="" class="hidden-xs">&nbsp;</label>
 
           <ul class="customer-needs-list tags-list" id="selected-categories">
-            @if (Model.Categories != null)
+            @if (Model.DealerEquipments != null)
             {
-                for (int i = 0; i < Model.Categories.Count; i++)
+                for (int i = 0; i < Model.DealerEquipments.Count; i++)
                 {
                     <li id="category-index-@(i)">
-                        @Html.HiddenFor(s => s.Categories[i].Type)
-                        @Html.HiddenFor(s => s.Categories[i].Description)
-                        <input class="hidden" name="selectedCategory" value="@Model.Categories[i].Type">@Model.Categories[i].Description
-                        <span class="icon-remove" id="@Model.Categories[i].Type.ToLower()">
+                        @Html.HiddenFor(s => s.DealerEquipments[i].Type)
+                        @Html.HiddenFor(s => s.DealerEquipments[i].Description)
+                        <input class="hidden" name="selectedCategory" value="@Model.DealerEquipments[i].Type">@Model.DealerEquipments[i].Description
+                        <span class="icon-remove" id="@Model.DealerEquipments[i].Type.ToLower()">
                             <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
                         </span>
                     </li>
