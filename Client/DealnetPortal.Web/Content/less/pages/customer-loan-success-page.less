@@ -35,12 +35,15 @@
 
 
 .customer-success-page{
-  font-size: 20px;
-  line-height: 1.5;
+  display: table;
   width: 100%;
-  @media @tablet-up {
-    display: table;
+  font-size: 18px;
+  line-height: 1.67;
+  &.unsubscribe-page{
+    font-size: 20px;
+    line-height: 1.5;
   }
+
   .dealnet-large-header{
     margin-bottom: 20px;
     font-size: 26px;
@@ -53,9 +56,40 @@
   }
 }
 .customer-success-page-inner{
-  @media @tablet-up {
-    height: 600px;
     display: table-cell;
+    height: calc(~"100vh - 120px");
     vertical-align: middle;
+
+  @media @mobile {
+    height: calc(~"100vh - 120px");
   }
+
+  .icon-hold{
+    margin-bottom: 20px;
+  }
+
+  .customer-success-page-content{
+    padding: 25px 0;
+    @media @mobile {
+      padding:  10px 0;
+    }
+  }
+
+  .customer-decline-address{
+    margin-top: 30px;
+    @media @mobile {
+      margin-top: 20px;
+    }
+  }
+
+  .dealnet-link-button{
+    font-size: 14px;
+  }
+
+  .btn-container{
+    &+.btn-container{
+      margin-top: 15px;
+    }
+  }
+
 }

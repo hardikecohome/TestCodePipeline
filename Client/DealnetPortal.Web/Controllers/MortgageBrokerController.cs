@@ -49,6 +49,18 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult Success()
+        {
+            return View("CustomerCreationSuccess");
+        }
+
+        [HttpGet]
+        public ActionResult Decline()
+        {
+            return View("CustomerCreationDecline");
+        }
+
+        [HttpGet]
         public async Task<ActionResult> GetCreatedContracts()
         {
             var result = await _customerManager.GetCreatedContractsAsync();
