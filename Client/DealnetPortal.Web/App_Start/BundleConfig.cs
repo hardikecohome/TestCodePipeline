@@ -106,6 +106,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/Clients/new-client-ui.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
+                .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Pages/MyProfile/index.js")
                 .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
