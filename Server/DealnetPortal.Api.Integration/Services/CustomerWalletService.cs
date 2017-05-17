@@ -66,7 +66,8 @@ namespace DealnetPortal.Api.Integration.Services
                     CreditAmount = contract.Details.CreditAmount,
                     ScorecardPoints = contract.Details.ScorecardPoints,
                     AspireStatus = contract.Details.Status,
-                    AspireTransactionId = contract.Details.TransactionId
+                    AspireTransactionId = contract.Details.TransactionId,
+                    UpdateTime = DateTime.Now
                 }
             };            
 

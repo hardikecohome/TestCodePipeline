@@ -13,5 +13,7 @@ namespace DealnetPortal.Api.Models.CustomerWallet
         public string AspireStatus { get; set; }
         public int? ScorecardPoints { get; set; }
         public decimal? CreditAmount { get; set; }
+
+        public DateTime? UpdateTime { get; set; }
     }
 }
