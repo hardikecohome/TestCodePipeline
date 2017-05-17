@@ -404,6 +404,7 @@ namespace DealnetPortal.Web.Controllers
                         ContractId = emails.ContractId,
                         Emails = emls
                     };
+
                     await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] { customer });
                 }
             }

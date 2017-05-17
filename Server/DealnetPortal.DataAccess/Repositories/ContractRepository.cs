@@ -405,11 +405,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         dbCustomer.PreferredContactMethod = customerInfo.PreferredContactMethod;
                     }
-                    if (customerInfo.DriverLicenseNumber != null)
+                    if (!string.IsNullOrWhiteSpace(customerInfo.DriverLicenseNumber))
                     {
                         dbCustomer.DriverLicenseNumber = customerInfo.DriverLicenseNumber;
                     }
-                    if (customerInfo.Sin != null)
+                    if (!string.IsNullOrWhiteSpace(customerInfo.Sin))
                     {
                         dbCustomer.Sin = customerInfo.Sin;
                     }

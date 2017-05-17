@@ -46,7 +46,7 @@ namespace DealnetPortal.Web.Infrastructure
             return model;
         }
 
-        public async Task<IList<Alert>> AddAsync(NewCustomerViewModel customer)
+        public async Task<Tuple<ContractDTO, IList<Alert>>> AddAsync(NewCustomerViewModel customer)
         {
             var newCustomerDto = new NewCustomerDTO();
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);

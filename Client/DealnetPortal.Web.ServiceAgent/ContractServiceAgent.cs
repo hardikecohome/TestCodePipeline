@@ -488,14 +488,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> CreateContractForCustomer(NewCustomerDTO customerForm)
+        public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(NewCustomerDTO customerForm)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<NewCustomerDTO, IList<Alert>>(
-                            $"{_fullUri}/CreateContractForCustomer", customerForm);
+                        Client.PostAsync<NewCustomerDTO, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContractForCustomer", customerForm);
             }
             catch (Exception ex)
             {

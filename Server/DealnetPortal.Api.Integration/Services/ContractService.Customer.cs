@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
@@ -14,11 +15,11 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public partial class ContractService
     {
-        public async Task<bool> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
+        public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try
             {
-                var contractsResultList = new List<Tuple<int?, bool>>();
+                var contractsResultList = new List<Tuple<Contract, bool>>();
 
                 if (newCustomer.HomeImprovementTypes != null && newCustomer.HomeImprovementTypes.Any())
                 {
@@ -36,26 +37,33 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (contractsResultList.All(x => x.Item2 == false))
                 {
-                    _loggingService.LogError($"Failed to create a new contract for customer by [{contractOwnerId}]");
+                    var alerts = new List<Alert>();
+                    _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]");
 
-                    return false;
+                    var errorMsg = "Cannot create contract";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractCreateFailed,
+                        Message = errorMsg
+                    });
+                    return new Tuple<ContractDTO, IList<Alert>>(null, alerts);
                 }
 
                 //TODO: maybe it's better to try few times initiate contract check for unseccessful contracts
                 var aspireFailedResults = new List<Tuple<int, bool>>();
+                var creditCheckAlerts = new List<Alert>();
 
                 foreach (var contractResult in contractsResultList.Where(x => x.Item1 != null).ToList())
                 {
-                    var creditCheckAlerts = new List<Alert>();
-
-                    var initAlerts = InitiateCreditCheck(contractResult.Item1.Value, contractOwnerId);
+                    var initAlerts = InitiateCreditCheck(contractResult.Item1.Id, contractOwnerId);
 
                     if (initAlerts?.Any() ?? false)
                     {
                         creditCheckAlerts.AddRange(initAlerts);
                     }
 
-                    var checkResult = GetCreditCheckResult(contractResult.Item1.Value, contractOwnerId);
+                    var checkResult = GetCreditCheckResult(contractResult.Item1.Id, contractOwnerId);
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);
@@ -63,14 +71,14 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (creditCheckAlerts.Any(x => x.Type == AlertType.Error))
                     {
-                        aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Value, false));
+                        aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
                     }
                 }                
 
                 //if all aspire opertaion is failed
-                if (aspireFailedResults.Any() )
+                if (creditCheckAlerts.Any(x => x.Type == AlertType.Error) || aspireFailedResults.Any())
                 {
-                    return false;
+                    return new Tuple<ContractDTO, IList<Alert>>(null, creditCheckAlerts);
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
@@ -87,8 +95,9 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");
                 }
 
-                //TODO: return Alerts?
-                return true;
+                var contractDTO = Mapper.Map<ContractDTO>(contractsResultList.First().Item1);
+
+                return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
             {
@@ -97,7 +106,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private async Task<Tuple<int?, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, string improvmentType = null)
+        private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, string improvmentType = null)
         {
             var contract = _contractRepository.CreateContract(contractOwnerId);
 
@@ -129,16 +138,16 @@ namespace DealnetPortal.Api.Integration.Services
 
            _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}] with improvment type [{improvmentType}]");
 
-            return new Tuple<int?, bool>(null, false);
+            return new Tuple<Contract, bool>(null, false);
         }
 
-        private async Task<Tuple<int?, bool>> UpdateNewContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer, ContractData contractData)
+        private async Task<Tuple<Contract, bool>> UpdateNewContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer, ContractData contractData)
         {
             var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
 
             if (updatedContract == null)
             {
-                return new Tuple<int?, bool>(null, false);
+                return new Tuple<Contract, bool>(null, false);
             }
 
             _unitOfWork.Save();
@@ -163,7 +172,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
 
-            return new Tuple<int?, bool>(updatedContract.Id, true);
+            return new Tuple<Contract, bool>(updatedContract, true);
         }
     }
 }
