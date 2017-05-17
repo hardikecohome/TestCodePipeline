@@ -661,7 +661,7 @@ function addIconsToFields(fields){
   fields.each(function(){
     //var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
     var fieldParent = $(this).parent('.control-group').not(fieldDateParent).not(fieldPassParent);
-    if(!$(this).is(".dealnet-disabled-input") && $(this).attr("type") !== "hidden"){
+    if(!$(this).is(".dealnet-disabled-input") && !$(this).is(".form-control-not-clear") && $(this).attr("type") !== "hidden"){
       if(fieldParent.children('.clear-input').length === 0){
         fieldParent.append(iconClearField);
       }

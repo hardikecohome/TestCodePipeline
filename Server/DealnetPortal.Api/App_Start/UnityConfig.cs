@@ -78,6 +78,7 @@ namespace DealnetPortal.Api
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();
             container.RegisterType<IEmailService, EmailService>();
+            container.RegisterType<IDealerService, DealerService>();
 
         }
     }

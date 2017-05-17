@@ -149,6 +149,19 @@ namespace DealnetPortal.Web
                     "~/Scripts/Utils/logMiddleware.js",
                     "~/Scripts/Utils/objectUtils.js",
                     "~/Scripts/Utils/redux.js"));
+            bundles.Add(new ScriptBundle("~/bundles/my-profile")
+                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Pages/MyProfile/index.js")
+                .Include("~/Scripts/Pages/MyProfile/form-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-template.js")
+                .Include("~/Scripts/Pages/MyProfile/category-template.js")
+                .Include("~/Scripts/jquery.form.js")
+            );
+
         }
     }
 }

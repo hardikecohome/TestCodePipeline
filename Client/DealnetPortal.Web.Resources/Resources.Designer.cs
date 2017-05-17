@@ -241,6 +241,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Postal Code.
+        /// </summary>
+        public static string AddPostalCode {
+            get {
+                return ResourceManager.GetString("AddPostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address Information.
         /// </summary>
         public static string AddressInformation {
@@ -444,6 +453,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ApplyForFinancing {
             get {
                 return ResourceManager.GetString("ApplyForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Area of my service.
+        /// </summary>
+        public static string AreaOfMyService {
+            get {
+                return ResourceManager.GetString("AreaOfMyService", resourceCulture);
             }
         }
         
@@ -2474,6 +2492,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Profile.
+        /// </summary>
+        public static string MyProfile {
+            get {
+                return ResourceManager.GetString("MyProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Work Items.
         /// </summary>
         public static string MyWorkItems {
@@ -2641,6 +2668,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NowYouCanLogIn {
             get {
                 return ResourceManager.GetString("NowYouCanLogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offered service.
+        /// </summary>
+        public static string OfferedService {
+            get {
+                return ResourceManager.GetString("OfferedService", resourceCulture);
             }
         }
         
@@ -3266,6 +3302,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select category.
+        /// </summary>
+        public static string SelectCategory {
+            get {
+                return ResourceManager.GetString("SelectCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select scanning method.
         /// </summary>
         public static string SelectScanningMethod {
@@ -3487,6 +3532,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SubmitDeal {
             get {
                 return ResourceManager.GetString("SubmitDeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Such postal code already exist.
+        /// </summary>
+        public static string SuchPostalCodeAlreadyExist {
+            get {
+                return ResourceManager.GetString("SuchPostalCodeAlreadyExist", resourceCulture);
             }
         }
         
@@ -4054,6 +4108,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YourComment {
             get {
                 return ResourceManager.GetString("YourComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your configuration was successfully updated.
+        /// </summary>
+        public static string YourConfigurationWasSuccessfullyUpdated {
+            get {
+                return ResourceManager.GetString("YourConfigurationWasSuccessfullyUpdated", resourceCulture);
             }
         }
         

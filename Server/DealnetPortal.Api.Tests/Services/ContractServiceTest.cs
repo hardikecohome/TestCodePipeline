@@ -24,6 +24,7 @@ namespace DealnetPortal.Api.Tests.Services
         private IAspireStorageReader _aspireStorageReader;
         private ISignatureService _signatureService;
         private IMailService _mailService;
+        private IDealerRepository _dealerRepository;
 
         [TestInitialize]
         public void Intialize()

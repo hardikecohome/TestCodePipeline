@@ -1,129 +1,123 @@
-﻿
+﻿@model DealnetPortal.Web.Models.MyProfile.ProfileViewModel
+
 @{
     ViewBag.Title = "Index";
 }
 
 <div id="label-steps">
-    <div class="dealnet-action-link">My Profile</div>
+  <div class="dealnet-action-link">@Resources.MyProfile</div>
 </div>
 <div class="profile-header">
-    <div class="main-heading profile-heading">My Profile</div>
-
-    <!--<label for="show-profile" class="align-middle custom-checkbox">
-        <input type="checkbox" class="dealnet-checkbox address-checkbox" id="show-profile" />
-        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-        <span>Show my profile to customers</span>
-    </label>-->
+  <div class="main-heading profile-heading">@Resources.MyProfile</div>
 </div>
 
 <div class="form-container profile-form-container">
-    <form action="">
-        <h3 class="dealnet-middle-header">Offered service</h3>
-        <div class="row">
-            <div class="col-md-3 col-sm-4">
-                <div class="form-group">
-                    <label for="">Select category</label>
-                    <div class="control-group">
-                        <select name="" id="" class="form-control">
-                            <option value="">Please select</option>
-                        </select>
-                    </div>
-                </div>
+  @using (Html.BeginForm("SetProfile", "Profile", FormMethod.Post, new { id = "main-form", onkeydown = "return event.keyCode!=13" }))
+  {
+      @Html.HiddenFor(s => s.ProfileId)
+      @Html.AntiForgeryToken()
+      <h3 class="dealnet-middle-header">@Resources.OfferedService</h3>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            <label for="">@Resources.SelectCategory</label>
+            <div class="control-group">
+              @Html.DropDownList("SelectedCategories", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), "Please select",
+              new { @class = "form-control dealnet-input", id = "offered-service" })
             </div>
+          </div>
         </div>
-        <div>
-            <a id="add-category" class="align-middle dealnet-info-link">
-                <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
-                <span>Add Category</span>
-            </a>
-        </div>
-<!--
-        <h3 class="dealnet-middle-header address-info-label">Description of my company</h3>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="">Description (English)</label>
-                    <div class="control-group">
-                        <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="">Description (French)</label>
-                    <div class="control-group">
-                        <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
--->
+        <div class="col-md-8 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label for="" class="hidden-xs">&nbsp;</label>
 
-        <h3 class="dealnet-middle-header">Area of my service</h3>
-        <div class="row postal-code-hold">
-            <div class="col-md-3 col-sm-4 col-xs-10">
-                <div class="form-group">
-                    <label for="">Postal Code</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control" value="345677">
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-2">
-                <div class="form-group">
-                    <label for="">&nbsp;</label>
-                    <div class="control-group">
-                        <a href="" class="remove-postal-code">
-                            <svg aria-hidden="true" class="icon icon-remove-cross"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <ul class="customer-needs-list tags-list" id="selected-categories">
+              @if (Model.DealerEquipments != null)
+              {
+                  @Html.Partial("Profile/_DealerEquipment", Model)
+              }
+            </ul>
+          </div>
         </div>
-        <div class="row postal-code-hold">
-            <div class="col-md-3 col-sm-4 col-xs-10">
-                <div class="form-group">
-                    <label for="">Postal Code</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control" value="345677">
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-2">
-                <div class="form-group">
-                    <label for="">&nbsp;</label>
-                    <div class="control-group">
-                        <a href="" class="remove-postal-code">
-                            <svg aria-hidden="true" class="icon icon-remove-cross"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <a id="add-category" class="align-middle dealnet-info-link">
-                <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
-                <span>Add Postal Code</span>
-            </a>
-        </div>
-        <div class="clearfix">
-            <br>
-            <br>
-            <button class="btn dealnet-button dealnet-success-button btn-form-common">@Resources.Save</button>
-        </div>
-    </form>
+      </div>
+      <h3 class="dealnet-middle-header">@Resources.AreaOfMyService</h3>
+      <div id="postal-code-area">
+        @if (Model.PostalCodes != null)
+        {
+          @Html.Partial("Profile/_PostalCode", Model)
+        }
+      </div>
+      <div>
+        <a id="add-postalCode" class="align-middle dealnet-info-link">
+          <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+          <span>@Resources.AddPostalCode</span>
+        </a>
+      </div>
+  }
+  <div class="clearfix">
+    <br>
+    <br>
+    <button class="btn dealnet-button dealnet-success-button btn-form-common" id="saveProfileBtn">@Resources.Save</button>
+    <div id="infoErrors"></div>
+    <br>
+    <br>
+    <div class="well success-well success-message collapse" id="success-message">
+      <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+      @Resources.YourConfigurationWasSuccessfullyUpdated
+    </div>
+  </div>
 </div>
+
+<div class="hidden">
+  <div id="postal-template">
+    <div class="row postal-code-hold">
+      <div class="col-md-3 col-sm-4 col-xs-10">
+        <div class="form-group">
+          <label for="">@Resources.PostalCode</label>
+          <div class="control-group">
+            @Html.HiddenFor(x => x.PostalCodes[0].Id)
+            @Html.TextBoxFor(x => x.PostalCodes[0].PostalCode, new { @class = "form-control", placeholder = Resources.PostalCode })
+            @Html.ValidationMessageFor(x => x.PostalCodes[0].PostalCode, "", new { @class = "text-danger" })
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="form-group">
+          <label for="">&nbsp;</label>
+          <div class="control-group">
+            <a href="" class="remove-postal-code link-default" id="remove-postal-code-" hidden-value=" ">
+              <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Translations
+{
+    translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
+    translations['SuchPostalCodeAlreadyExist'] = "@Resources.SuchPostalCodeAlreadyExist";
+}
 
 @section scripts
 {
+  @Scripts.Render("~/bundles/jqueryval")
+  @Scripts.Render("~/bundles/localization")
+  @Scripts.Render("~/bundles/my-profile")
 
-<script>
+  <script type="text/javascript">
+    module.require('my-profile-index');
+  </script>
+
+  <script>
     $(document).ready(function(){
         $('.remove-postal-code').on('click', function(){
             $(this).parents('.postal-code-hold').remove();
             return false;
         });
     });
-</script>
+  </script>
 
 }
