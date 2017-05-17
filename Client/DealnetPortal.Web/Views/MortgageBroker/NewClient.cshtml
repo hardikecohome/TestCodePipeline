@@ -62,10 +62,12 @@
       </div>
       <div class="panel-body">
         <div class="form-group">
-          <button class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
-            <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
-            <span>@Resources.ScanLicense</span>
-          </button>
+          <div class="scanlicence-hold">
+            <button class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+              <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+              <span>@Resources.ScanLicense</span>
+            </button>
+          </div>
         </div>
 
         <div class="row">
