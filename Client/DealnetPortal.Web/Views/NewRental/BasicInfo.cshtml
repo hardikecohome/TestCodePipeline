@@ -525,16 +525,6 @@
             </label>
         </div>
         <!--Agreement section-->
-
-        <div class="well well-info position-well collapse" id="age-warning-message">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.AtLeastOne75OrLess
-        </div>
-
-        <div class="well danger-well over-aged-well collapse" id="age-error-message">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.AtLeastOne75OrLess
-        </div>
     </div>
 
     <!--Add Additional Applicant-->
@@ -816,7 +806,14 @@
         <span>@Resources.AddAdditionalApplicant</span>
       </div>
     </div>
-
+    <div class="well well-info position-well collapse" id="age-warning-message">
+      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+      @Resources.AtLeastOne75OrLess
+    </div>
+    <div class="well danger-well over-aged-well collapse" id="age-error-message">
+      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+      @Resources.AtLeastOne75OrLess
+    </div>
     <!--Warning Section if isn't chosen homeowner checkbox-->
     <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
       <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
