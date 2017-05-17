@@ -875,7 +875,6 @@
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\my-customers.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
-    <Content Include="Scripts\Pages\Clients\new-client-ui.js" />
     <Content Include="Scripts\Pages\MyProfile\form-handlers.js" />
     <Content Include="Scripts\Pages\MyProfile\index.js" />
     <Content Include="Scripts\Pages\MyProfile\category-handlers.js" />
@@ -993,9 +992,6 @@
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Resources\" />
-    <Folder Include="Scripts\Actions\" />
-    <Folder Include="Scripts\Reducers\" />
-    <Folder Include="Scripts\Views\" />
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
