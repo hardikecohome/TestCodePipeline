@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
@@ -19,6 +22,8 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> NewClient()
         {
+            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
             return View(await _customerManager.GetTemplateAsync());
         }
 
@@ -35,7 +40,15 @@ namespace DealnetPortal.Web.Controllers
                 return View("CustomerCreationDecline");
             }
 
-            return RedirectToAction("MyClients");
+            if (result?.Item1.ContractState == ContractState.CreditCheckDeclined)
+            {
+                return View("CustomerCreationDecline");
+            }
+
+            ViewBag.CreditAmount = Convert.ToInt32(result?.Item1.Details.CreditAmount);
+            ViewBag.FullName = $"{result?.Item1.PrimaryCustomer.FirstName} {result?.Item1.PrimaryCustomer.LastName}";
+
+            return View("CustomerCreationSuccess");
         }
 
         public ActionResult CustomerCreationSuccess(int id)
@@ -48,18 +61,7 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult Success()
-        {
-            return View("CustomerCreationSuccess");
-        }
-
-        [HttpGet]
-        public ActionResult Decline()
-        {
-            return View("CustomerCreationDecline");
-        }
-
+        
         [HttpGet]
         public async Task<ActionResult> GetCreatedContracts()
         {

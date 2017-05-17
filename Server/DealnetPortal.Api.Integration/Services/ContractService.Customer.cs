@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
@@ -35,18 +36,25 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (contractsResultList.All(x => x.Item2 == false))
                 {
+                    var alerts = new List<Alert>();
                     _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]");
 
-                    return false;
+                    var errorMsg = "Cannot create contract";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractCreateFailed,
+                        Message = errorMsg
+                    });
+                    return new Tuple<ContractDTO, IList<Alert>>(null, alerts);
                 }
 
                 //todo: maybe it's better to try few times initiate contract check for unseccessful contracts
                 var aspireFailedResults = new List<Tuple<int, bool>>();
+                var creditCheckAlerts = new List<Alert>();
 
                 foreach (var contractResult in contractsResultList.Where(x => x.Item1 != null).ToList())
                 {
-                    var creditCheckAlerts = new List<Alert>();
-
                     var initAlerts = InitiateCreditCheck(contractResult.Item1.Id, contractOwnerId);
 
                     if (initAlerts?.Any() ?? false)
@@ -67,14 +75,14 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //if all aspire opertaion is failed
-                if (aspireFailedResults.Any())
+                if (creditCheckAlerts.Any(x => x.Type == AlertType.Error) || aspireFailedResults.Any())
                 {
-                    return false;
+                    return new Tuple<ContractDTO, IList<Alert>>(null, creditCheckAlerts);
                 }
 
                 var contractDTO = Mapper.Map<ContractDTO>(contractsResultList.First().Item1);
 
-                return contractDTO;
+                return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
             {

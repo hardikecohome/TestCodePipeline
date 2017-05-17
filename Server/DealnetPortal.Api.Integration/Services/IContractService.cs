@@ -20,7 +20,7 @@ namespace DealnetPortal.Api.Integration.Services
     {
         ContractDTO CreateContract(string contractOwnerId);
 
-        Task<ContractDTO> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer);
+        Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer);
 
         IList<ContractDTO> GetContracts(string contractOwnerId);
 
