@@ -1167,5 +1167,44 @@ namespace DealnetPortal.Api.Integration.Services
 
             return alerts;
         }
+
+        public async Task<IList<Alert>> AssignContract(int contractId, string newContractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.AssignContract(contractId, newContractOwnerId))
+                {
+                    _unitOfWork.Save();
+
+                    await _aspireService.UpdateContractCustomer(contractId, newContractOwnerId);
+                }
+                else
+                {
+                    var errorMsg = "Cannot reasign contract";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractUpdateFailed,
+                        Message = errorMsg
+                    });
+
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to remove contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.DocumentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
+        }
     }
 }

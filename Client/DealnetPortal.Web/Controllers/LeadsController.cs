@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
     [Authorize]
-    public class LeadsController : Controller
+    public class LeadsController : UpdateController
     {
         private readonly IContractServiceAgent _contractServiceAgent;
 
@@ -25,5 +23,19 @@ namespace DealnetPortal.Web.Controllers
             
             return View();
         }
+
+        [HttpPost]
+        public async Task<JsonResult> AcceptLead(int id)
+        {
+            var result = await _contractServiceAgent.AssignContract(id);
+
+            if (result.Any(x => x.Type == AlertType.Error))
+            {
+                return GetErrorJson();
+            }
+
+            return GetSuccessJson();
+        }
+
     }
 }

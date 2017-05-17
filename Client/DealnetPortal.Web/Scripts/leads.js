@@ -63,7 +63,7 @@ function showTable() {
 					    { "data": "CustomerComment", className: 'customer-cell' },
 					    {// this is Actions Column
 					        "render": function (sdata, type, row) {
-					            return '<div class="contract-controls text-center"><a onclick="addLead()"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
+                                return '<div class="contract-controls text-center"><a onclick="addLead(' + row.Id + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
 					        },
 					        className: 'controls-cell accept-cell',
 					        orderable: false
@@ -140,7 +140,7 @@ function assignDatepicker(input) {
     });
 }
 
-function addLead() {
+function addLead(id) {
     var data = {
         message: translations['YouSureYouWantToAcceptLeadThenYouPay'],
         title: translations['AcceptLead'],
@@ -148,8 +148,22 @@ function addLead() {
     };
     dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {
-        $('#section-before-table').append($('#msg-lead-accepted'));
-        $('#section-before-table #msg-lead-accepted').show();
-        $('.modal').modal('hide');
+        $.post({
+            type: "POST",
+            url: 'leads/acceptLead?id=' + id,
+            success: function(json) {
+                if (json.isError) {
+                    $('.success-message').hide();
+                    alert(translations['ErrorWhileUpdatingData']);
+                } else if (json.isSuccess) {
+                    $('#section-before-table').append($('#msg-lead-accepted'));
+                    $('#section-before-table #msg-lead-accepted').show();
+                    window.location.href = '/MyDeals/Index';
+                }
+
+                $('.modal').modal('hide');
+            }
+
+        });
     });
 }
