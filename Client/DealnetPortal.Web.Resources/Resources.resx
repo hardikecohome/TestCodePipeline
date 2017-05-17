@@ -1415,4 +1415,7 @@
   <data name="YourConfigurationWasSuccessfullyUpdated" xml:space="preserve">
     <value>Your configuration was successfully updated</value>
   </data>
+  <data name="SuchPostalCodeAlreadyExist" xml:space="preserve">
+    <value>Such postal code already exist</value>
+  </data>
 </root>

@@ -35,10 +35,8 @@ namespace DealnetPortal.Web.Controllers
                                  .Select(e => e.ErrorMessage)
                                  .ToList();
                 return Json(new { Errors = errorList }, JsonRequestBehavior.AllowGet);
-                
-                //return Json(new { success = false, issue = model, errors = ModelState.Values.Where(i => i.Errors.Count > 0) });
-                //return GetErrorJson()
             }
+
             var alerts = await _profileManager.UpdateDealerProfile(model);
 
             return alerts.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();

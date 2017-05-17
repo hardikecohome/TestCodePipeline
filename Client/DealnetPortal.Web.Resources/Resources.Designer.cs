@@ -3310,6 +3310,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Such postal code already exist.
+        /// </summary>
+        public static string SuchPostalCodeAlreadyExist {
+            get {
+                return ResourceManager.GetString("SuchPostalCodeAlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Summary And Confirmation.
         /// </summary>
         public static string SummaryAndConfirmation {

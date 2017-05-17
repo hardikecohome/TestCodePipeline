@@ -7,22 +7,19 @@
         for (var i = 0; i < postalCodes.length; i++) {
             var value = $(postalCodes[i]).find('#PostalCodes_' + i + '__PostalCode').val();
             var item = { id: i, value: value };
-            state.postalCodes.push(item);
             setHandlers(item);
         }
     }
 
     var add = function () {
         var newTemplate = template($('<div></div>'), { id: state.postalCodeSecondId });
-        state.postalCodes.push({ id: state.postalCodeSecondId, value: '' });
-
         $('#postal-code-area').append(newTemplate);
+
         setHandlers({ id: state.postalCodeSecondId, value: '' });
         resetFormValidator('#main-form');
     };
 
     var change = function (id) {
-        console.log('set id ' + id);
         var item = $.grep(state.postalCodes, function (item) { return item.id === id })[0];
 
         return function (e) {
@@ -46,6 +43,16 @@
         rebuildPostalCodeIndex(index);
 
         state.postalCodeSecondId--;
+    }
+
+    var checkPostalCodeCopies = function() {
+        var uniqOb = {};
+        var arrOfValues = state.postalCodes.map(function(obj) { return obj.value });
+        for (var i in arrOfValues) {
+            uniqOb[arrOfValues[i]] = "";
+        }
+
+        return state.postalCodes.length === Object.keys(uniqOb).length;
     }
 
     function rebuildPostalCodeIndex(id) {
@@ -79,7 +86,7 @@
     }
 
     function setHandlers(item) {
-        //state.postalCodes.push(item); FOR WHAT???
+        state.postalCodes.push(item);
         $('#PostalCodes_' + item.id + '__PostalCode').on('change', change(item.id));
         $('#remove-postal-code-' + item.id).on('click', remove);
 
@@ -89,6 +96,7 @@
     return {
         initPostalCodeState: init,
         addPostalCode: add,
-        removePostalCode: remove
+        removePostalCode: remove,
+        checkCopies: checkPostalCodeCopies
     }
 })

@@ -38,19 +38,20 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool UpdateDealerProfile(DealerProfile profile)
         {
+            if (profile == null)
+            {
+                return false;
+            }
+            if (profile.Id == 0)
+            {
+                _dbContext.Entry(profile).State = profile.Id == 0 ? EntityState.Added : EntityState.Modified;
+                return true;
+            }
             var dbProfile = GetDealerProfile(profile.DealerId);
             var dbEquipments = dbProfile.Equipments;
 
             UpdateProfileEquipments(profile, dbEquipments);
             UpdateProfileArears(profile, dbProfile.Areas);
-
-
-
-            //originEntity.Equipments.ForEach(e=> _dbContext.Entry(e).State = EntityState.Deleted);
-            //_dbContext.DealerEquipments.AddRange(profile.Equipments);
-            //originEntity.Areas.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
-            //_dbContext.DealerArears.AddRange(profile.Areas);
-            //_dbContext.Entry(profile).State = profile.Id == 0 ? EntityState.Added : EntityState.Modified;
 
             return true;
         }

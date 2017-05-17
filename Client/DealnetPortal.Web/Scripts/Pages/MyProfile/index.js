@@ -22,28 +22,37 @@
     $('#offered-service').on('change', categoryHandlers.addCategory);
     $('#add-postalCode').on('click', postalCodeHandlers.addPostalCode);
     $('#saveProfileBtn').on('click', function (e) {
-        if (!$('#main-form').valid()) {
-            e.preventDefault();
-        } else {
-            showLoader();
-            $('#main-form').ajaxSubmit({
-                type: "POST",
-                success: function (json) {
+        var isUniquePostalCodes = postalCodeHandlers.checkCopies();
 
-                    hideLoader();
-                    if (json.isSuccess) {
-                        $('#success-message').show();
-                    } else {
-                        showErrors(json.Errors);
+        if (!isUniquePostalCodes) {
+            e.preventDefault();
+            $('#infoErrors').empty();
+            $('#infoErrors').append(createError([translations['SuchPostalCodeAlreadyExist']]));
+        } else {
+            $('#infoErrors').empty();
+            if (!$('#main-form').valid()) {
+                e.preventDefault();
+            } else {
+                showLoader();
+                $('#main-form').ajaxSubmit({
+                    type: "POST",
+                    success: function (json) {
+
+                        hideLoader();
+                        if (json.isSuccess) {
+                            $('#success-message').show();
+                        } else {
+                            showErrors(json.Errors);
+                            $('#success-message').hide();
+                        }
+                    },
+                    error: function (xhr, status, p3) {
+                        hideLoader();
+                        alert(translations['ErrorWhileUpdatingData']);
                         $('#success-message').hide();
                     }
-                },
-                error: function (xhr, status, p3) {
-                    hideLoader();
-                    alert(translations['ErrorWhileUpdatingData']);
-                    $('#success-message').hide();
-                }
-            });
+                });
+            }
         }
     });
 });

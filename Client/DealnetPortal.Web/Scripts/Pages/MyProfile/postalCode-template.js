@@ -7,6 +7,7 @@
 
         parentNode.append(result);
 
+        $(parentNode).find('#PostalCodes_' + options.id + '__Id').val(0);
         $(parentNode).attr('id', 'postal-code-' + options.id);
         $(parentNode).find('#remove-postal-code-')
             .attr('hidden-value', options.id)
