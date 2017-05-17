@@ -11,7 +11,6 @@
         return err;
     };
     var showErrors = function (errors) {
-        $('#infoErrors').empty();
         if (errors.length > 0) {
             errors.forEach(function (er) {
                 $('#infoErrors').append(createError(er));
@@ -22,11 +21,11 @@
     $('#offered-service').on('change', categoryHandlers.addCategory);
     $('#add-postalCode').on('click', postalCodeHandlers.addPostalCode);
     $('#saveProfileBtn').on('click', function () {
+        $('#infoErrors').empty();
         showLoader();
         $('#main-form').ajaxSubmit({
             type: "POST",
             success: function(json) {
-                
                 hideLoader();
                 if (json.isSuccess) {
                     $('#success-message').show();

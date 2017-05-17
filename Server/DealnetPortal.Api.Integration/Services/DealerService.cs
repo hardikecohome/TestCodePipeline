@@ -47,6 +47,16 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     _unitOfWork.Save();
                 }
+                else
+                {
+                    _loggingService.LogError($"Failed to update a dealer profile for [{dealerProfile.DealerId}] dealer");
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Code = ErrorCodes.FailedToUpdateSettings,
+                        Message = "Failed to update a dealer profile"
+                    });
+                }
             }
             catch (Exception ex)
             {

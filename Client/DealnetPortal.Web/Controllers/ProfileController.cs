@@ -29,16 +29,13 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> SetProfile(ProfileViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                var errorList = ModelState.Values.SelectMany(m => m.Errors)
-                                 .Select(e => e.ErrorMessage)
-                                 .ToList();
-                return Json(new { Errors = errorList }, JsonRequestBehavior.AllowGet);
-                
-                //return Json(new { success = false, issue = model, errors = ModelState.Values.Where(i => i.Errors.Count > 0) });
-                //return GetErrorJson()
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    var errorList = ModelState.Values.SelectMany(m => m.Errors)
+            //                     .Select(e => e.ErrorMessage)
+            //                     .ToList();
+            //    return Json(new { Errors = errorList }, JsonRequestBehavior.AllowGet);
+            //}
             var alerts = await _profileManager.UpdateDealerProfile(model);
 
             return alerts.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
