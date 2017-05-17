@@ -867,6 +867,7 @@
     <Content Include="Scripts\my-customers.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-ui.js" />
+    <Content Include="Scripts\Pages\MyProfile\form-handlers.js" />
     <Content Include="Scripts\Pages\MyProfile\index.js" />
     <Content Include="Scripts\Pages\MyProfile\category-handlers.js" />
     <Content Include="Scripts\Pages\MyProfile\category-template.js" />
@@ -961,6 +962,8 @@
     <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
     <Content Include="Views\Leads\Index.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Shared\Profile\_PostalCode.cshtml" />
+    <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

@@ -1418,4 +1418,19 @@
   <data name="SuchPostalCodeAlreadyExist" xml:space="preserve">
     <value>Such postal code already exist</value>
   </data>
+  <data name="AddPostalCode" xml:space="preserve">
+    <value>Add Postal Code</value>
+  </data>
+  <data name="AreaOfMyService" xml:space="preserve">
+    <value>Area of my service</value>
+  </data>
+  <data name="MyProfile" xml:space="preserve">
+    <value>My Profile</value>
+  </data>
+  <data name="OfferedService" xml:space="preserve">
+    <value>Offered service</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Select category</value>
+  </data>
 </root>
