@@ -1,0 +1,16 @@
+﻿@model DealnetPortal.Web.Models.MyProfile.ProfileViewModel
+
+@for (var i = 0; i < Model.DealerEquipments.Count; i++)
+{
+    <li id="equipment-index-@(i)">
+        @Html.HiddenFor(s => s.DealerEquipments[i].Id)
+        @Html.HiddenFor(s => s.DealerEquipments[i].Type)
+        @Html.HiddenFor(s => s.DealerEquipments[i].Description)
+        <input class="hidden" name="selectedEquipment" value="@Model.DealerEquipments[i].Id">@Model.DealerEquipments[i].Description
+        <span class="icon-remove" id="@Model.DealerEquipments[i].Id">
+            <svg aria-hidden="true" class="icon icon-remove-cross">
+                <use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+            </svg>
+        </span>
+    </li>
+}

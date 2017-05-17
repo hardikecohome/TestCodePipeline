@@ -109,6 +109,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Pages/MyProfile/index.js")
+                .Include("~/Scripts/Pages/MyProfile/form-handlers.js")
                 .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
                 .Include("~/Scripts/Pages/MyProfile/postalCode-handlers.js")
                 .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")

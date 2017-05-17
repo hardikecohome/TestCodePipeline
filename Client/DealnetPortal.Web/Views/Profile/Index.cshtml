@@ -5,10 +5,10 @@
 }
 
 <div id="label-steps">
-  <div class="dealnet-action-link">My Profile</div>
+  <div class="dealnet-action-link">@Resources.MyProfile</div>
 </div>
 <div class="profile-header">
-  <div class="main-heading profile-heading">My Profile</div>
+  <div class="main-heading profile-heading">@Resources.MyProfile</div>
 </div>
 
 <div class="form-container profile-form-container">
@@ -16,11 +16,11 @@
   {
       @Html.HiddenFor(s => s.ProfileId)
       @Html.AntiForgeryToken()
-      <h3 class="dealnet-middle-header">Offered service</h3>
+      <h3 class="dealnet-middle-header">@Resources.OfferedService</h3>
       <div class="row">
         <div class="col-md-4 col-sm-6 col-lg-3">
           <div class="form-group">
-            <label for="">Select category</label>
+            <label for="">@Resources.SelectCategory</label>
             <div class="control-group">
               @Html.DropDownList("SelectedCategories", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), "Please select",
               new { @class = "form-control dealnet-input", id = "offered-service" })
@@ -34,58 +34,23 @@
             <ul class="customer-needs-list tags-list" id="selected-categories">
               @if (Model.DealerEquipments != null)
               {
-                for (int i = 0; i < Model.DealerEquipments.Count; i++)
-                {
-                      <li id="equipment-index-@(i)">
-                        @Html.HiddenFor(s => s.DealerEquipments[i].Id)
-                        @Html.HiddenFor(s => s.DealerEquipments[i].Type)
-                        @Html.HiddenFor(s => s.DealerEquipments[i].Description)
-                        <input class="hidden" name="selectedEquipment" value="@Model.DealerEquipments[i].Id">@Model.DealerEquipments[i].Description
-                        <span class="icon-remove" id="@Model.DealerEquipments[i].Id">
-                          <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
-                        </span>
-                      </li>
-                }
+                  @Html.Partial("Profile/_DealerEquipment", Model)
               }
             </ul>
           </div>
         </div>
       </div>
-      <h3 class="dealnet-middle-header">Area of my service</h3>
+      <h3 class="dealnet-middle-header">@Resources.AreaOfMyService</h3>
       <div id="postal-code-area">
         @if (Model.PostalCodes != null)
         {
-          for (int i = 0; i < Model.PostalCodes.Count; i++)
-          {
-                <div class="row postal-code-hold" id="postal-code-@(i)">
-                  <div class="col-md-3 col-sm-4 col-xs-10">
-                    <div class="form-group">
-                      <label for="">Postal Code</label>
-                      <div class="control-group">
-                        @Html.HiddenFor(x => x.PostalCodes[i].Id)
-                        @Html.TextBoxFor(x => x.PostalCodes[i].PostalCode, new { @class = "form-control form-control-not-clear", placeholder = Resources.PostalCode })
-                        @Html.ValidationMessageFor(x => x.PostalCodes[i].PostalCode, "", new { @class = "text-danger" })
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-2">
-                    <div class="form-group">
-                      <label for="">&nbsp;</label>
-                      <div class="control-group">
-                        <a href="" class="remove-postal-code link-default" id="remove-postal-code-@(i)" hidden-value="@(i)">
-                          <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-          }
+          @Html.Partial("Profile/_PostalCode", Model)
         }
       </div>
       <div>
         <a id="add-postalCode" class="align-middle dealnet-info-link">
           <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-          <span>Add Postal Code</span>
+          <span>@Resources.AddPostalCode</span>
         </a>
       </div>
   }
@@ -108,7 +73,7 @@
     <div class="row postal-code-hold">
       <div class="col-md-3 col-sm-4 col-xs-10">
         <div class="form-group">
-          <label for="">Postal Code</label>
+          <label for="">@Resources.PostalCode</label>
           <div class="control-group">
             @Html.HiddenFor(x => x.PostalCodes[0].Id)
             @Html.TextBoxFor(x => x.PostalCodes[0].PostalCode, new { @class = "form-control", placeholder = Resources.PostalCode })
