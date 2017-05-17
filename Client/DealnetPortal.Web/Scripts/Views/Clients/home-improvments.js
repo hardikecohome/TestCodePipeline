@@ -24,6 +24,7 @@
                 dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
             }
         });
+        $('#ui-datepicker-div').addClass('cards-datepicker');
 
         $('#comment').on('change', function(e) {
             dispatch(createAction(clientActions.SET_COMMENT, e.target.value));

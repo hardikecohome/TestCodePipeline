@@ -19,6 +19,7 @@
                 dispatch(createAction(clientActions.SET_BIRTH, day));
             }
         });
+        $('#ui-datepicker-div').addClass('cards-datepicker');
 
         var name = $('#first-name');
         name.on('change', function (e) {
