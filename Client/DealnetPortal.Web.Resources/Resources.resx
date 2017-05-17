@@ -1376,4 +1376,7 @@
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="HouseSize" xml:space="preserve">
+    <value>House Size</value>
+  </data>
 </root>

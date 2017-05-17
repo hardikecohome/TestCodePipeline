@@ -1780,6 +1780,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to House Size.
+        /// </summary>
+        public static string HouseSize {
+            get {
+                return ResourceManager.GetString("HouseSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to House Size (sq feet).
         /// </summary>
         public static string HouseSizeSquareFeet {
