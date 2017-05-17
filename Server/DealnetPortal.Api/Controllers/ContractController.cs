@@ -553,5 +553,21 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("AssignContract")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AssignContract(int contractId)
+        {
+            try
+            {
+                var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

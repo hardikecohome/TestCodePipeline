@@ -190,6 +190,31 @@ namespace DealnetPortal.DataAccess.Repositories
                         (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
         }
 
+        public bool AssignContract(int contractId, string newContractOwnerId)
+        {
+            var updated = false;
+
+            var contract = _dbContext.Contracts.FirstOrDefault(x => x.Id == contractId);
+
+            if (contract != null)
+            {
+                var dealer = GetDealer(newContractOwnerId);
+
+                if (dealer != null)
+                {
+                    contract.DealerId = dealer.Id;
+                    contract.IsNewlyCreated = true;
+                    contract.LastUpdateTime = DateTime.Now;
+
+                    _dbContext.Entry(contract).State = EntityState.Modified;
+
+                    updated = true;
+                }
+            }
+
+            return updated;
+        }
+
         public bool DeleteContract(string contractOwnerId, int contractId)
         {
             bool deleted = false;

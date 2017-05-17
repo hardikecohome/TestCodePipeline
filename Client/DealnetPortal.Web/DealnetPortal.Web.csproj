@@ -465,6 +465,7 @@
     <Content Include="Content\images\logos\logo-smart-home-w%402x.png" />
     <Content Include="Content\images\logos\logo-smart-home-w%403x.png" />
     <Content Include="Content\images\logos\logo-smart-home-w.png" />
+    <Content Include="Content\images\recaptcha.jpg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
@@ -475,6 +476,7 @@
     <Content Include="Content\images\sprite\icon-audio.svg" />
     <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
+    <Content Include="Content\images\sprite\icon-decline-circle.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-email2.svg" />
@@ -490,6 +492,7 @@
     <Content Include="Content\images\sprite\icon-info-well.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
     <Content Include="Content\images\sprite\icon-list-request.svg" />
+    <Content Include="Content\images\sprite\icon-maneger-sales-agent.svg" />
     <Content Include="Content\images\sprite\icon-my-account-one-persone.svg" />
     <Content Include="Content\images\sprite\icon-my-account.svg" />
     <Content Include="Content\images\sprite\icon-my-deals-side.svg" />

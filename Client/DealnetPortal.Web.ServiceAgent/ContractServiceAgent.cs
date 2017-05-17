@@ -518,5 +518,21 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<IList<Alert>> AssignContract(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/AssignContract?contractId={contractId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't assign contract", ex);
+                throw;
+            }
+        }
     }
 }

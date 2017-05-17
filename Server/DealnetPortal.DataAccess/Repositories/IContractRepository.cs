@@ -196,5 +196,13 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="ownerUserId"></param>
         /// <returns>number of updated sub-dealers</returns>
         int UpdateSubDealersHierarchyByRelatedTransactions(IEnumerable<string> transactionIds, string ownerUserId);
+
+        /// <summary>
+        /// resign contract to another dealer
+        /// </summary>
+        /// <param name="contractId">contractId</param>
+        /// <param name="newContractOwnerId">new dealer id</param>
+        /// <returns></returns>
+        bool AssignContract(int contractId, string newContractOwnerId);
     }
 }

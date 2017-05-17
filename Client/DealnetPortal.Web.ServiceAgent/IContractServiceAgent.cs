@@ -149,5 +149,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(NewCustomerDTO customerForm);
 
         Task<IList<Alert>> RemoveContract(int contractId);
+
+        Task<IList<Alert>> AssignContract(int contractId);
     }
 }
