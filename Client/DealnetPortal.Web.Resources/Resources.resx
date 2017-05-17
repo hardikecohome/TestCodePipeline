@@ -1476,4 +1476,7 @@ by email or phone</value>
   <data name="WhereHomeImprovementProjectTakePlace" xml:space="preserve">
     <value>Where will the home improvement project take place?</value>
   </data>
+  <data name="HouseSize" xml:space="preserve">
+    <value>House Size</value>
+  </data>
 </root>

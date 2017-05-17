@@ -24,6 +24,10 @@ input[type="number"] {
 }
 textarea, textarea.form-control{
   resize: vertical;
+  &.textarea-input-height{
+    min-height: 40px;
+    height: 40px;
+  }
 }
 
 
@@ -359,7 +363,8 @@ html.ie9{
     }
   }
 
-  &.has-addon-left{
+  &.has-addon-left,
+  &.has-addon-right{
     input.form-control{
       padding-left: 24px;
     }
@@ -374,6 +379,18 @@ html.ie9{
       text-align: center;
       background: transparent;
       border: 0;
+    }
+  }
+  &.has-addon-right{
+    input.form-control{
+      padding-left: 10px;
+    }
+    .control-group-addon{
+      left: auto;
+      right: 0;
+    }
+    .clear-input{
+      right: 20px;
     }
   }
   &.control-group-pass{
