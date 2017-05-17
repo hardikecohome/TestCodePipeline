@@ -6,7 +6,9 @@
         var postalCodes = $('div#postal-code-area').find('[id^=postal-code-]');
         for (var i = 0; i < postalCodes.length; i++) {
             var value = $(postalCodes[i]).find('#PostalCodes_' + i + '__PostalCode').val();
-            setHandlers({ id: i, value: value });
+            var item = { id: i, value: value };
+            state.postalCodes.push(item);
+            setHandlers(item);
         }
     }
 

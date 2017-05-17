@@ -57,50 +57,65 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private void UpdateProfileEquipments(DealerProfile profile, ICollection<DealerEquipment> dbEquipments)
         {
-            var existingEntities =
-                dbEquipments.Where(
-                    a => profile.Equipments.Any(ee => ee.EquipmentId == a.EquipmentId)).ToList();
-            var newEntities = new List<DealerEquipment>();
-
-            profile.Equipments.ForEach(equipment =>
+            if (profile.Equipments == null)
             {
-                var dbEquipment = dbEquipments.SingleOrDefault(x => x.EquipmentId == equipment.EquipmentId);
-                if (dbEquipment != null)
+                _dbContext.DealerEquipments.ForEach(e => _dbContext.DealerEquipments.Remove(e));
+            }
+            else
+            {
+                var existingEntities =
+                    dbEquipments.Where(
+                        a => profile.Equipments.Any(ee => ee.EquipmentId == a.EquipmentId)).ToList();
+                var newEntities = new List<DealerEquipment>();
+
+                profile.Equipments.ForEach(equipment =>
                 {
-                    equipment.Id = dbEquipment.Id;
-                }
-                else
-                {
-                    newEntities.Add(equipment);
-                    _dbContext.DealerEquipments.Add(equipment);
-                }
-            });
-            var entriesForDelete = dbEquipments.Except(existingEntities).Except(newEntities).ToList();
-            entriesForDelete.ForEach(e => _dbContext.DealerEquipments.Remove(e));
+                    var dbEquipment = dbEquipments.SingleOrDefault(x => x.EquipmentId == equipment.EquipmentId);
+                    if (dbEquipment != null)
+                    {
+                        equipment.Id = dbEquipment.Id;
+                    }
+                    else
+                    {
+                        newEntities.Add(equipment);
+                        _dbContext.DealerEquipments.Add(equipment);
+                    }
+                });
+                var entriesForDelete = dbEquipments.Except(existingEntities).Except(newEntities).ToList();
+                entriesForDelete.ForEach(e => _dbContext.DealerEquipments.Remove(e));
+            }
         }
 
         private void UpdateProfileArears(DealerProfile profile, ICollection<DealerArea> dbArears)
         {
-            var existingEntities =
-                dbArears.Where(
-                    a => profile.Areas.Any(ee => ee.PostalCode == a.PostalCode)).ToList();
-            var newEntities = new List<DealerArea>();
-
-            profile.Areas.ForEach(area =>
+            if (profile.Areas == null)
             {
-                var dbEquipment = dbArears.SingleOrDefault(x => x.PostalCode == area.PostalCode);
-                if (dbEquipment != null)
+                _dbContext.DealerArears.ForEach(ar=> _dbContext.DealerArears.Remove(ar));
+            }
+            else
+            {
+                var existingEntities =
+               dbArears.Where(
+                   a => profile.Areas.Any(ee => ee.PostalCode == a.PostalCode)).ToList();
+                var newEntities = new List<DealerArea>();
+
+                profile.Areas.ForEach(area =>
                 {
-                    area.Id = dbEquipment.Id;
-                }
-                else
-                {
-                    newEntities.Add(area);
-                    _dbContext.DealerArears.Add(area);
-                }
-            });
-            var entriesForDelete = dbArears.Except(existingEntities).Except(newEntities).ToList();
-            entriesForDelete.ForEach(e => _dbContext.DealerArears.Remove(e));
+                    var dbEquipment = dbArears.SingleOrDefault(x => x.PostalCode == area.PostalCode);
+                    if (dbEquipment != null)
+                    {
+                        area.Id = dbEquipment.Id;
+                    }
+                    else
+                    {
+                        newEntities.Add(area);
+                        _dbContext.DealerArears.Add(area);
+                    }
+                });
+                var entriesForDelete = dbArears.Except(existingEntities).Except(newEntities).ToList();
+                entriesForDelete.ForEach(e => _dbContext.DealerArears.Remove(e));
+            }
+           
         }
     } 
 

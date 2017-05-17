@@ -31,36 +31,17 @@ namespace DealnetPortal.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return GetErrorJson();
+                var errorList = ModelState.Values.SelectMany(m => m.Errors)
+                                 .Select(e => e.ErrorMessage)
+                                 .ToList();
+                return Json(new { Errors = errorList }, JsonRequestBehavior.AllowGet);
+                
+                //return Json(new { success = false, issue = model, errors = ModelState.Values.Where(i => i.Errors.Count > 0) });
+                //return GetErrorJson()
             }
             var alerts = await _profileManager.UpdateDealerProfile(model);
 
             return alerts.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> SetProfile(ProfileViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        foreach (ModelState modelState in ViewData.ModelState.Values)
-        //        {
-        //            foreach (ModelError error in modelState.Errors)
-        //            {
-        //                var t = error;
-        //            }
-        //        }
-        //        return RedirectToAction("Index");
-        //    }
-        //    var updateResult = await _profileManager.UpdateDealerProfile(model);
-        //    if (updateResult.Any(r => r.Type == AlertType.Error))
-        //    {
-        //        TempData[PortalConstants.CurrentAlerts] = updateResult;
-        //        return RedirectToAction("Error", "Info");
-        //    }
-        //    return RedirectToAction("Index");
-
-        //}
     }
 }
