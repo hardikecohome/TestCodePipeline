@@ -1,4 +1,5 @@
-﻿using DealnetPortal.Domain;
+﻿using System.Collections.Generic;
+using DealnetPortal.Domain;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
