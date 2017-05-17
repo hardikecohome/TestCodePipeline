@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,16 +37,16 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.DealerProfiles.FirstOrDefault(x => x.DealerId == dealerId);
         }
 
-        public bool UpdateDealerProfile(DealerProfile profile)
+        public DealerProfile UpdateDealerProfile(DealerProfile profile)
         {
             if (profile == null)
             {
-                return false;
+                return null;
             }
             if (profile.Id == 0)
             {
                 _dbContext.Entry(profile).State = profile.Id == 0 ? EntityState.Added : EntityState.Modified;
-                return true;
+                return profile;
             }
             var dbProfile = GetDealerProfile(profile.DealerId);
             var dbEquipments = dbProfile.Equipments;
@@ -53,7 +54,12 @@ namespace DealnetPortal.DataAccess.Repositories
             UpdateProfileEquipments(profile, dbEquipments);
             UpdateProfileArears(profile, dbProfile.Areas);
 
-            return true;
+            return profile;
+        }
+
+        public void UpdateDealer(ApplicationUser dealer)
+        {
+            _dbContext.Users.AddOrUpdate(dealer);
         }
 
         private void UpdateProfileEquipments(DealerProfile profile, ICollection<DealerEquipment> dbEquipments)
@@ -118,6 +124,8 @@ namespace DealnetPortal.DataAccess.Repositories
             }
            
         }
+
+
     } 
 
     

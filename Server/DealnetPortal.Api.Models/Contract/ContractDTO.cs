@@ -48,5 +48,7 @@ namespace DealnetPortal.Api.Models.Contract
         public bool? IsCreatedByCustomer { get; set; }
 
         public bool? IsNewlyCreated { get; set; }
+
+        public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }
     }
 }

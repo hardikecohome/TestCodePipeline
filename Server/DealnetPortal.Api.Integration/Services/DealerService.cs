@@ -19,15 +19,17 @@ namespace DealnetPortal.Api.Integration.Services
     public class DealerService : IDealerService
     {
         private readonly IDealerRepository _dealerRepository;
+        private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService, IUnitOfWork unitOfWork)
+        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
         {
             _dealerRepository = dealerRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _contractRepository = contractRepository;
         }
 
         public DealerProfileDTO GetDealerProfile(string dealerId)
@@ -43,9 +45,18 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var profile = Mapper.Map<DealerProfile>(dealerProfile);
-                if (_dealerRepository.UpdateDealerProfile(profile))
+                var userNeedUpdate = profile.Id == 0;
+                var newProfile = _dealerRepository.UpdateDealerProfile(profile);
+                if (newProfile!=null)
                 {
                     _unitOfWork.Save();
+                    if (userNeedUpdate)
+                    {
+                        var dealer = _contractRepository.GetDealer(newProfile.DealerId);
+                        dealer.DealerProfileId = newProfile.Id;
+                        _dealerRepository.UpdateDealer(dealer);
+                        _unitOfWork.Save();
+                    }
                 }
                 else
                 {
