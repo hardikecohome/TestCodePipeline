@@ -143,8 +143,19 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
+                bool isCustomerCreator = false;
+                var dealerId = customerFormData.DealerId ??
+                               _dealerRepository.GetUserIdByName(customerFormData.DealerName);                
+                if (dealerId != null && _dealerRepository.GetUserIdByName(dealerId).Contains(UserRole.CustomerCreator.ToString()))
+                {
+                    isCustomerCreator = true;
+                }
                 // will not wait end of this operation
-                var noWarning = SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1);
+                if (!isCustomerCreator)
+                {
+                    var noWarning = SendCustomerContractCreationNotifications(customerFormData,
+                        contractCreationRes.Item1);
+                }
             }
 
             return new Tuple<int?, IList<Alert>>(contractCreationRes?.Item1?.ContractId, contractCreationRes?.Item2 ?? new List<Alert>());
@@ -228,6 +239,14 @@ namespace DealnetPortal.Api.Integration.Services
                         DealerId = dealerId,
                         Id = contract.Id
                     };
+                    if (!string.IsNullOrEmpty(customerFormData.SelectedServiceType))
+                    {
+                        contractData.Equipment = new EquipmentInfo
+                        {
+                            NewEquipment =
+                                new List<NewEquipment> {new NewEquipment {Type = customerFormData.SelectedServiceType}}
+                        };
+                    }
 
                     _contractRepository.UpdateContractData(contractData, dealerId);
                     _unitOfWork.Save();

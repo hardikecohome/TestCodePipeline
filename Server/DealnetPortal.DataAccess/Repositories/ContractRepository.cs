@@ -55,6 +55,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetContractsOffers(string userId)
         {
+            var contractCreatorRole = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString());
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -65,7 +66,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
-                .Where(c => c.IsCreatedByBroker == true).ToList();
+                .Where(c => c.IsCreatedByBroker == true
+                || (contractCreatorRole == null || c.Dealer.Roles.Any(r => r.RoleId == contractCreatorRole.Id))).ToList();
             return contracts;
         }
 
