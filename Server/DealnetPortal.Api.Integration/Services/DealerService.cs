@@ -4,9 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -15,18 +20,45 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IDealerRepository _dealerRepository;
         private readonly ILoggingService _loggingService;
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService)
+        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService, IUnitOfWork unitOfWork)
         {
             _dealerRepository = dealerRepository;
             _loggingService = loggingService;
+            _unitOfWork = unitOfWork;
         }
 
         public DealerProfileDTO GetDealerProfile(string dealerId)
         {
             var profile = _dealerRepository.GetDealerProfile(dealerId);
             return Mapper.Map<DealerProfileDTO>(profile);
+        }
+
+        public IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile)
+        {
+            var alerts = new List<Alert>();
+            
+            try
+            {
+                var profile = Mapper.Map<DealerProfile>(dealerProfile);
+                if (_dealerRepository.UpdateDealerProfile(profile))
+                {
+                    _unitOfWork.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Failed to update a dealer profile for [{dealerProfile.DealerId}] dealer", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.FailedToUpdateSettings,
+                    Message = "Failed to update a dealer profile"
+                });
+            }
+            return alerts;
         }
     }
 

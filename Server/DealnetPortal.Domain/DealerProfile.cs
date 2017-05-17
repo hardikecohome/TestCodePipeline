@@ -13,13 +13,14 @@ namespace DealnetPortal.Domain
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        //[ForeignKey("DealerId")]
-        //public virtual ApplicationUser Dealer { get; set; }
+
+        [Required]
+        public string DealerId { get; set; }
+        [ForeignKey("DealerId")]
+        public virtual ApplicationUser Dealer { get; set; }
 
         public virtual ICollection<DealerEquipment> Equipments { get; set; }
 
         public virtual ICollection<DealerArea> Areas { get; set; }
-
-       
     }
 }

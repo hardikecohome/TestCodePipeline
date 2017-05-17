@@ -5,7 +5,7 @@
     var init = function () {
         var postalCodes = $('div#postal-code-area').find('[id^=postal-code-]');
         for (var i = 0; i < postalCodes.length; i++) {
-            var value = $(postalCodes[i]).find('#PostalCodes_' + i + '__Value').val();
+            var value = $(postalCodes[i]).find('#PostalCodes_' + i + '__PostalCode').val();
             setHandlers({ id: i, value: value });
         }
     }
@@ -25,6 +25,7 @@
 
         return function (e) {
             item.value = e.target.value;
+            resetFormValidator('#main-form');
         }
     }
 
@@ -76,8 +77,8 @@
     }
 
     function setHandlers(item) {
-        state.postalCodes.push(item);
-        $('#PostalCodes_' + item.id + '__Value').on('change', change(item.id));
+        //state.postalCodes.push(item); FOR WHAT???
+        $('#PostalCodes_' + item.id + '__PostalCode').on('change', change(item.id));
         $('#remove-postal-code-' + item.id).on('click', remove);
 
         state.postalCodeSecondId++;

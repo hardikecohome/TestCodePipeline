@@ -3,7 +3,7 @@
     var state = require('my-profile-state');
 
     var init = function() {
-        $('input[name="selectedCategory"]').next().each(function() {
+        $('input[name="selectedEquipment"]').next().each(function () {
             if (this.id !== undefined) {
                 if (state.categories.indexOf(this.id) === -1) {
                     state.categories.push(this.id);
@@ -53,19 +53,24 @@
     function rebuildCategoryIndex(id) {
         while (true) {
             id++;
-            var div = $('li#category-index-' + id);
+            var div = $('li#equipment-index-' + id);
 
             if (!div.length) { break; }
 
-            div.attr('id', 'category-index-' + (id - 1));
+            div.attr('id', 'equipment-index-' + (id - 1));
+            div.find('input[name*="Id"]').each(function () {
+                $(this).attr('id', $(this).attr('id').replace('DealerEquipments_' + id, 'DealerEquipments' + (id - 1)));
+                $(this).attr('name', $(this).attr('name').replace('DealerEquipments[' + id, 'DealerEquipments[' + (id - 1)));
+            });
+
             div.find('input[name*="Type"]').each(function () {
-                $(this).attr('id', $(this).attr('id').replace('Categories_' + id, 'PostalCodes_' + (id - 1)));
-                $(this).attr('name', $(this).attr('name').replace('Categories[' + id, 'Categories[' + (id - 1)));
+                $(this).attr('id', $(this).attr('id').replace('DealerEquipments_' + id, 'DealerEquipments' + (id - 1)));
+                $(this).attr('name', $(this).attr('name').replace('DealerEquipments[' + id, 'DealerEquipments[' + (id - 1)));
             });
 
             div.find('input[name*="Description"]').each(function () {
-                $(this).attr('id', $(this).attr('id').replace('Categories_' + id, 'PostalCodes_' + (id - 1)));
-                $(this).attr('name', $(this).attr('name').replace('Categories[' + id, 'Categories[' + (id - 1)));
+                $(this).attr('id', $(this).attr('id').replace('DealerEquipments_' + id, 'DealerEquipments' + (id - 1)));
+                $(this).attr('name', $(this).attr('name').replace('DealerEquipments[' + id, 'DealerEquipments[' + (id - 1)));
             });
         }
     }

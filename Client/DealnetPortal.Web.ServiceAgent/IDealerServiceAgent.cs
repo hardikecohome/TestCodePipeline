@@ -21,6 +21,6 @@ namespace DealnetPortal.Web.ServiceAgent
     {
         Task<DealerProfileDTO> GetDealerProfile();
 
-        
+        Task<IList<Alert>> UpdateDealerProfile(DealerProfileDTO dealerProfile);
     }
 }

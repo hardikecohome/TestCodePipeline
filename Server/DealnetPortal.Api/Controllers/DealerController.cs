@@ -16,6 +16,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
 
@@ -49,7 +50,22 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+        [Route("UpdateDealerProfile")]
+        [HttpPost]
+        public IHttpActionResult UpdateDealerProfile(DealerProfileDTO dealerProfile)
+        {
+            try
+            {
+                dealerProfile.DealerId = LoggedInUser.UserId;
+                var result =  _dealerService.UpdateDealerProfile(dealerProfile);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
-       
+
     }
 }

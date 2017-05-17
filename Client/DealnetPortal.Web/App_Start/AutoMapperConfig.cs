@@ -175,9 +175,16 @@ namespace DealnetPortal.Web.App_Start
                     return services;
                 }))
                 .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
+            //cfg.CreateMap(EquipmentTypeDTO, DealerEquipmentDTO)
+            //    .ForMember(XmlSiteMapProvider=>)
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
-                .ForMember(x => x.EquipmentList, d => d.MapFrom(src => src.EquipmentTypes))
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
+                .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments.Select(s=> new DealerEquipmentDTO() {Equipment = s}).ToList()))
                 .ForMember(d => d.PostalCodesList, d => d.MapFrom(src => src.PostalCodes));
+            cfg.CreateMap<DealerAreaViewModel, DealerAreaDTO>();
+                //.ForMember(x => x.Id, d => d.MapFrom(src => src.Id))
+                //.ForMember(x => x.PostalCode, d => d.MapFrom(src => src.PostalCode))
+                //.ForMember(x => x.ProfileId, d => d.MapFrom(src => src.ProfileId));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -439,8 +446,10 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(x=>x.HashDealerName, d=>d.MapFrom(s=>s.HashLink));
             cfg.CreateMap<DealerProfileDTO, ProfileViewModel>()
-                .ForMember(x => x.EquipmentTypes, d => d.MapFrom(src => src.EquipmentList))
+                .ForMember(x => x.ProfileId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.DealerEquipments, d => d.MapFrom(src => src.EquipmentList.Select(x=> x.Equipment)))
                 .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList));
+            cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
         }
 
 

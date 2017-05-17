@@ -5,93 +5,101 @@
 }
 
 <div id="label-steps">
-    <div class="dealnet-action-link">My Profile</div>
+  <div class="dealnet-action-link">My Profile</div>
 </div>
 <div class="profile-header">
-    <div class="main-heading profile-heading">My Profile</div>
+  <div class="main-heading profile-heading">My Profile</div>
 </div>
 
 <div class="form-container profile-form-container">
-  @using (Html.BeginForm("SetProfile", "Profile", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13"}))
+  @using (Html.BeginForm("SetProfile", "Profile", FormMethod.Post, new { id = "main-form", onkeydown = "return event.keyCode!=13" }))
   {
+      @Html.HiddenFor(s => s.ProfileId)
       @Html.AntiForgeryToken()
-    <h3 class="dealnet-middle-header">Offered service</h3>
-    <div class="row">
-      <div class="col-md-4 col-sm-6 col-lg-3">
-        <div class="form-group">
-          <label for="">Select category</label>
-          <div class="control-group">
-            @Html.DropDownList("SelectedCategories", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), "Please select",
+      <h3 class="dealnet-middle-header">Offered service</h3>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-lg-3">
+          <div class="form-group">
+            <label for="">Select category</label>
+            <div class="control-group">
+              @Html.DropDownList("SelectedCategories", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), "Please select",
               new { @class = "form-control dealnet-input", id = "offered-service" })
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-8 col-sm-6 col-lg-6">
-        <div class="form-group">
-          <label for="" class="hidden-xs">&nbsp;</label>
+        <div class="col-md-8 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label for="" class="hidden-xs">&nbsp;</label>
 
-          <ul class="customer-needs-list tags-list" id="selected-categories">
-            @if (Model.DealerEquipments != null)
-            {
+            <ul class="customer-needs-list tags-list" id="selected-categories">
+              @if (Model.DealerEquipments != null)
+              {
                 for (int i = 0; i < Model.DealerEquipments.Count; i++)
                 {
-                    <li id="category-index-@(i)">
+                      <li id="equipment-index-@(i)">
+                        @Html.HiddenFor(s => s.DealerEquipments[i].Id)
                         @Html.HiddenFor(s => s.DealerEquipments[i].Type)
                         @Html.HiddenFor(s => s.DealerEquipments[i].Description)
-                        <input class="hidden" name="selectedCategory" value="@Model.DealerEquipments[i].Type">@Model.DealerEquipments[i].Description
-                        <span class="icon-remove" id="@Model.DealerEquipments[i].Type.ToLower()">
-                            <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
+                        <input class="hidden" name="selectedEquipment" value="@Model.DealerEquipments[i].Id">@Model.DealerEquipments[i].Description
+                        <span class="icon-remove" id="@Model.DealerEquipments[i].Id">
+                          <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
                         </span>
-                    </li>
+                      </li>
                 }
-            }
-          </ul>
+              }
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-    <h3 class="dealnet-middle-header">Area of my service</h3>
-    <div id="postal-code-area">
-      @if (Model.PostalCodes != null)
-      {
-        for (int i = 0; i < Model.PostalCodes.Count; i++)
+      <h3 class="dealnet-middle-header">Area of my service</h3>
+      <div id="postal-code-area">
+        @if (Model.PostalCodes != null)
         {
-        <div class="row postal-code-hold" id="postal-code-@(i)">
-          <div class="col-md-3 col-sm-4 col-xs-10">
-            <div class="form-group">
-              <label for="">Postal Code</label>
-              <div class="control-group">
-                @Html.HiddenFor(x => x.PostalCodes[i].Id)
-                @Html.TextBoxFor(x => x.PostalCodes[i].Value, new { @class = "form-control form-control-not-clear", placeholder = Resources.PostalCode })
-                @Html.ValidationMessageFor(x => x.PostalCodes[i].Value, "", new { @class = "text-danger" })
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-2">
-            <div class="form-group">
-              <label for="">&nbsp;</label>
-              <div class="control-group">
-                <a href="" class="remove-postal-code link-default" id="remove-postal-code-@(i)" hidden-value="@(i)">
-                  <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+          for (int i = 0; i < Model.PostalCodes.Count; i++)
+          {
+                <div class="row postal-code-hold" id="postal-code-@(i)">
+                  <div class="col-md-3 col-sm-4 col-xs-10">
+                    <div class="form-group">
+                      <label for="">Postal Code</label>
+                      <div class="control-group">
+                        @Html.HiddenFor(x => x.PostalCodes[i].Id)
+                        @Html.TextBoxFor(x => x.PostalCodes[i].PostalCode, new { @class = "form-control form-control-not-clear", placeholder = Resources.PostalCode })
+                        @Html.ValidationMessageFor(x => x.PostalCodes[i].PostalCode, "", new { @class = "text-danger" })
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-2">
+                    <div class="form-group">
+                      <label for="">&nbsp;</label>
+                      <div class="control-group">
+                        <a href="" class="remove-postal-code link-default" id="remove-postal-code-@(i)" hidden-value="@(i)">
+                          <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          }
         }
-      }
-    </div>
-    <div>
-      <a id="add-postalCode" class="align-middle dealnet-info-link">
-        <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-        <span>Add Postal Code</span>
-      </a>
-    </div>
-    <div class="clearfix">
-      <br>
-      <br>
-      <button class="btn dealnet-button dealnet-success-button btn-form-common">@Resources.Save</button>
-    </div>
+      </div>
+      <div>
+        <a id="add-postalCode" class="align-middle dealnet-info-link">
+          <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+          <span>Add Postal Code</span>
+        </a>
+      </div>
   }
+  <div class="clearfix">
+    <br>
+    <br>
+    <button class="btn dealnet-button dealnet-success-button btn-form-common" id="saveProfileBtn">@Resources.Save</button>
+    <br>
+    <br>
+    <div class="well success-well success-message collapse" id="success-message">
+      <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+      @Resources.YourConfigurationWasSuccessfullyUpdated
+    </div>
+  </div>
 </div>
 
 <div class="hidden">
@@ -102,8 +110,8 @@
           <label for="">Postal Code</label>
           <div class="control-group">
             @Html.HiddenFor(x => x.PostalCodes[0].Id)
-            @Html.TextBoxFor(x => x.PostalCodes[0].Value, new {@class = "form-control", placeholder = Resources.PostalCode})
-            @Html.ValidationMessageFor(x => x.PostalCodes[0].Value, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(x => x.PostalCodes[0].PostalCode, new { @class = "form-control", placeholder = Resources.PostalCode })
+            @Html.ValidationMessageFor(x => x.PostalCodes[0].PostalCode, "", new { @class = "text-danger" })
           </div>
         </div>
       </div>
@@ -138,6 +146,6 @@
             return false;
         });
     });
-</script>
+  </script>
 
 }

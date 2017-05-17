@@ -42,7 +42,22 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 _loggingService.LogError("Can't get profile for an user", ex);
                 return new DealerProfileDTO();
-                //throw;
+            }
+        }
+
+        public async Task<IList<Alert>> UpdateDealerProfile(DealerProfileDTO dealerProfile)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<DealerProfileDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateDealerProfile", dealerProfile);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update dealer profile for an user", ex);
+                throw;
             }
         }
     }

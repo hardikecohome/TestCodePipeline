@@ -11,7 +11,7 @@
         $(parentNode).find('#remove-postal-code-')
             .attr('hidden-value', options.id)
             .attr('id', 'remove-postal-code-' + options.id);
-        $(parentNode).find('#PostalCodes_' + options.id + '__Value', '').val('');
+        $(parentNode).find('#PostalCodes_' + options.id + '__PostalCode', '').val('');
 
         return parentNode;
     };

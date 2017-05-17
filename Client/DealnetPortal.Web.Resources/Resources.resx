@@ -1412,4 +1412,7 @@
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="YourConfigurationWasSuccessfullyUpdated" xml:space="preserve">
+    <value>Your configuration was successfully updated</value>
+  </data>
 </root>

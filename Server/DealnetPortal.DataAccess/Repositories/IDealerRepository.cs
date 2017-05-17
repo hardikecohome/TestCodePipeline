@@ -11,5 +11,7 @@ namespace DealnetPortal.DataAccess.Repositories
         string GetDealerNameByCustomerLinkId(int customerLinkId);
 
         DealerProfile GetDealerProfile(string dealerId);
+
+        bool UpdateDealerProfile(DealerProfile profile);
     }
 }

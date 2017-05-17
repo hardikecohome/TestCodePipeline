@@ -1744,20 +1744,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Home Improvement Type.
-        /// </summary>
-        public static string HomeImprovementType {
-            get {
-                return ResourceManager.GetString("HomeImprovementType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home Improvement Type.
+        /// </summary>
+        public static string HomeImprovementType {
+            get {
+                return ResourceManager.GetString("HomeImprovementType", resourceCulture);
             }
         }
         
@@ -3864,6 +3864,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YourComment {
             get {
                 return ResourceManager.GetString("YourComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your configuration was successfully updated.
+        /// </summary>
+        public static string YourConfigurationWasSuccessfullyUpdated {
+            get {
+                return ResourceManager.GetString("YourConfigurationWasSuccessfullyUpdated", resourceCulture);
             }
         }
         
