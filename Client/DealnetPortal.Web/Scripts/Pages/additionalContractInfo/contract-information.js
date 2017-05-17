@@ -1,22 +1,5 @@
 ﻿configInitialized
     .then(function () {
-        $('#equipment-form').submit(function (event) {
-            var agreementType = $("#agreement-type").find(":selected").val();
-            if (agreementType === "0") {
-                isCalculationValid = false;
-                recalculateTotalCashPrice();
-                if (!isCalculationValid) {
-                    event.preventDefault();
-                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
-                }
-            } else {
-                var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
-                if (isNaN(monthPayment) || (monthPayment == 0)) {
-                    event.preventDefault();
-                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
-                }
-            }
-        });
 
         $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
         sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
@@ -88,7 +71,16 @@ function removeExistingEquipment(id) {
         resetFormValidator("#equipment-form");
     }
     sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) - 1;
-}
+};
+
+$(document).ready(function() {
+    $('#equipment-form').submit(function (event) {
+        $('#equipment-form').validate();
+        if (!$('#equipment-form').valid()) {
+            event.preventDefault();
+        }
+    });
+});
 
 function resetFormValidator(formId) {
     $(formId).removeData('validator');

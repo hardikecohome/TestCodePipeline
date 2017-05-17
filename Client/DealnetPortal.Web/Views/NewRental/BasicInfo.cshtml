@@ -535,17 +535,6 @@
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
             @Resources.AtLeastOne75OrLess
         </div>
-
-        <!--Warning Section if isn't chosen homeowner checkbox-->
-        <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.AtLeastOneHomeOwner
-        </div>
-        <div class="well danger-well over-aged-well collapse" id="proceed-error-message">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.YouCannotProceedUntilAllAgree
-        </div>
-        <!--End Warning Section if isn't chosen homeowner checkbox-->
     </div>
 
     <!--Add Additional Applicant-->
@@ -816,24 +805,28 @@
                 </label>
             </div>
           <!--Agreement section-->
-
-          <!--Warning Section if isn't chosen homeowner checkbox-->
-          <div class="well danger-well over-aged-well collapse" id="proceed-error-message1">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.YouCannotProceedUntilAllAgree
-          </div>
-          <!--End Warning Section if isn't chosen homeowner checkbox-->
         </div>
     }
     <!--END Add Additional Applicant-->
 
 
     <div id="add-additional-applicant">
-        <div class="align-middle">
-            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-                <span>@Resources.AddAdditionalApplicant</span>
-        </div>
+      <div class="align-middle">
+        <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+        <span>@Resources.AddAdditionalApplicant</span>
+      </div>
     </div>
+
+    <!--Warning Section if isn't chosen homeowner checkbox-->
+    <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
+      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+      @Resources.AtLeastOneHomeOwner
+    </div>
+    <div class="well danger-well over-aged-well collapse" id="proceed-error-message">
+      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+      @Resources.YouCannotProceedUntilAllAgree
+    </div>
+    <!--End Warning Section if isn't chosen homeowner checkbox-->
 
     <div class="row save-proceed-btn-hold">
         <div class="col-xs-12 col-md-3 col-lg-3">

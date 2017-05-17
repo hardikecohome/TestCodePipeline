@@ -136,7 +136,6 @@ configInitialized
         var isApprovalAge = checkApplicantsAge();
         var isHomeOwner = checkHomeOwner();
         var isAgreesToCreditCheck = checkCreditAgree();
-        var isAgreesToCreditCheckAp = checkCreditAgreeAp();
 
         if (!isApprovalAge) {
             $('#age-warning-message').hide();
@@ -153,12 +152,7 @@ configInitialized
             scrollPageTo($("#proceed-error-message"));
         }
 
-        if (!isAgreesToCreditCheckAp) {
-            $('#proceed-error-message1').show();
-            scrollPageTo($("#proceed-error-message1"));
-        }
-
-        if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck || !isAgreesToCreditCheckAp) {
+        if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
             if ($('#main-form').valid()) {
                 event.preventDefault();
             }

@@ -22,6 +22,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "Description")]
         public string Description { get; set; }
 
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Cost")]
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CostIncorrectFormat")]
         public double? Cost { get; set; }

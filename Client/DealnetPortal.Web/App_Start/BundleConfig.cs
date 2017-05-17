@@ -62,7 +62,8 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/home-page")
                 .Include(
-                    "~/Scripts/chart.js", 
+                    "~/Scripts/chart.js",
+                    "~/Scripts/jquery.form.js",
                     "~/Scripts/home-page.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/basic-info")
@@ -120,6 +121,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
                 .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/my-deals.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
@@ -164,8 +166,14 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Logger/log.js")
                 .Include("~/Scripts/Utils/financial-functions.js")
+                .Include("~/Scripts/Pages/newEquipment/rate-cards.js")
                 .Include("~/Scripts/Pages/newEquipment/template.js")
                 .Include("~/Scripts/Pages/newEquipment/index.js")
+            );
+
+            bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
+                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/Pages/additionalContractInfo/contract-information.js")
             );
         }
     }

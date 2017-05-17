@@ -29,7 +29,7 @@
   </div>
 
   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-    <a href="@Url.Action("EquipmentInformation", new {contractId = Model.ContractId})" data-warning="true" id="step2" class="step-item">2</a>
+    <a href="@Url.Action("EquipmentInformation", new {contractId = Model.ContractId})" id="step2" class="step-item">2</a>
 
     <div id="step3" class="step-item step-active">3</div>
   </div>
@@ -318,9 +318,15 @@
   </div>
 </div>
 
+@section Translations
+{
+    translations['EnterValidDate'] = "@Resources.EnterValidDate";
+}
+
 <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/localization")
+@Scripts.Render("~/bundles/additional-equipment-information")
 
 @section scripts
 {
@@ -330,6 +336,5 @@
         sessionStorage.existingEquipmets = @(Model.ExistingEquipment == null || !Model.ExistingEquipment.Any() ? 0 : Model.ExistingEquipment.Count);
       });
   </script>
-  <script src="~/Scripts/Pages/additionalContractInfo/contract-information.js"></script>
 }
 
