@@ -82,13 +82,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var succededContract = _contractRepository.GetContracts(
-                    contractsResultList.Where(r => r.Item2 && r.Item1.HasValue).Select(r => r.Item1.Value),
-                    contractOwnerId)?
-                    .FirstOrDefault(c => c.ContractState >= ContractState.CreditContirmed);
+                var succededContract = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).FirstOrDefault();
                 if (succededContract != null)
                 {
                     var noWait = _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
+                    //TODO: DEAL-1495 analyze result here and then send invite link to customer
                 }
                 else
                 {
