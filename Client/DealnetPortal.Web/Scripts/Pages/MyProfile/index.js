@@ -12,7 +12,7 @@
     };
     var showErrors = function (errors) {
         $('#infoErrors').empty();
-        if (errors.length > 0) {
+        if (errors && errors.length > 0) {
             errors.forEach(function (er) {
                 $('#infoErrors').append(createError(er));
             });
@@ -21,25 +21,29 @@
     //handlers 
     $('#offered-service').on('change', categoryHandlers.addCategory);
     $('#add-postalCode').on('click', postalCodeHandlers.addPostalCode);
-    $('#saveProfileBtn').on('click', function () {
-        showLoader();
-        $('#main-form').ajaxSubmit({
-            type: "POST",
-            success: function(json) {
-                
-                hideLoader();
-                if (json.isSuccess) {
-                    $('#success-message').show();
-                } else {
-                    showErrors(json.Errors);
+    $('#saveProfileBtn').on('click', function (e) {
+        if (!$('#main-form').valid()) {
+            e.preventDefault();
+        } else {
+            showLoader();
+            $('#main-form').ajaxSubmit({
+                type: "POST",
+                success: function (json) {
+
+                    hideLoader();
+                    if (json.isSuccess) {
+                        $('#success-message').show();
+                    } else {
+                        showErrors(json.Errors);
+                        $('#success-message').hide();
+                    }
+                },
+                error: function (xhr, status, p3) {
+                    hideLoader();
+                    alert(translations['ErrorWhileUpdatingData']);
                     $('#success-message').hide();
                 }
-            },
-            error: function (xhr, status, p3) {
-                hideLoader();
-                alert(translations['ErrorWhileUpdatingData']);
-                $('#success-message').hide();
-            }
-        });
+            });
+        }
     });
 });
