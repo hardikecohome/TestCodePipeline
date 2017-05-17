@@ -28,11 +28,11 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _customerManager.AddAsync(newCustomer);
 
-            if (result?.Any(x => x.Type == AlertType.Error) ?? false)
+            if (result?.Item2.Any(x => x.Type == AlertType.Error) ?? false)
             {
                 TempData[PortalConstants.CurrentAlerts] = result;
 
-                return RedirectToAction("Error", "Info");
+                return View("CustomerCreationDecline");
             }
 
             return RedirectToAction("MyClients");
