@@ -132,7 +132,7 @@ function showTable() {
                                             urlContent +
                                             'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
                                     } else {
-                                        return '<div class="edit-control"><a href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                                        return '<div class="controls-hold"><a class="icon-link icon-edit"  href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
                                     }
                                 } else {
                                     return '';
