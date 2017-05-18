@@ -669,10 +669,21 @@ textarea{
 }
 #expand-table-filter{
   @media @tablet-down {
-    display: none;
+    &:not(.has-visible-elems){
+      display: none;
+    }
   }
   @media @desktop-up {
     display: block !important;
+  }
+
+  .filter-hidden-content{
+    @media @tablet-down {
+      display: none;
+    }
+    @media @desktop-up {
+      display: block !important;
+    }
   }
 }
 

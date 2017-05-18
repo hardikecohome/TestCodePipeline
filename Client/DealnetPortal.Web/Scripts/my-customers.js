@@ -71,13 +71,13 @@ function showTable() {
             $('#table-title').html('<div class="dealnet-large-header">' + "My Clients" + '<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
                 $(this).toggleClass('active');
-                $('#work-items-table_filter').slideToggle();
+                $('#expand-table-filter .filter-hidden-content').slideToggle();
             });
             $('#table-title .icon-filter-control').on('click', function () {
                 $(this).toggleClass('active');
-                $('#expand-table-filter').slideToggle();
+                $('#expand-table-filter .filter-hidden-content').slideToggle();
             });
-            $('#expand-table-filter').html($('.expand-filter-template').detach());
+            $('#expand-table-filter').addClass('has-visible-elems').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
                 table.draw();
             });
