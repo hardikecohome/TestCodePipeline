@@ -1396,8 +1396,8 @@
     <comment>It's noun in plural</comment>
   </data>
   <data name="LeadWasAcceptedYouCanFind" xml:space="preserve">
-    <value>Selected lead was accepted by you. You can find it in {0} page.</value>
-    <comment>Context: Selected lead was accepted by you. You can find it in My Deals page.</comment>
+    <value>Selected lead was accepted by you. You can find it in {0} page (application #  {1}).</value>
+    <comment>Context: Selected lead was accepted by you. You can find it in My Deals page (appliction #1234).</comment>
   </data>
   <data name="RequestedEquipmentService" xml:space="preserve">
     <value>Requested Equipment/Service</value>

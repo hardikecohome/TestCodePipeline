@@ -51,10 +51,12 @@
 }
 <div class="well success-well success-message collapse" id="msg-lead-accepted">
     <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-    @if (wasAcceptedResource.Length >= 2)
-    {
-        @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
-    }
+    <span id="lead-msg">
+        @if (wasAcceptedResource.Length >= 2)
+        {
+            @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
+        } 
+    </span>
 </div>
 
 <table id="work-items-table" class="display responsive my-deals-table my-leads-table " width="100%">
@@ -93,6 +95,7 @@
 {
     <script type="text/javascript">
         var itemsUrl = '@Url.Action("GetWorkOffers", "Home")';
+        var redirectUrl = '@Url.Action("Index", "MyDeals")';
     </script>
 
     @Scripts.Render("~/bundles/data-tables-scripts")
