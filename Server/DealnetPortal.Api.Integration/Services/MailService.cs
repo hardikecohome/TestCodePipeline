@@ -213,6 +213,65 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task SendInviteLinkToCustomer(Contract customerFormData)
+        {
+            string inviteLink = "www.inviteLink.com";
+            string password = "password";
+            string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??
+                string.Empty;//"dmitry.rusak@dataart.com";
+
+            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
+            phoneIcon.ContentId = Guid.NewGuid().ToString();
+            phoneIcon.ContentType.MediaType = "image/png";
+            var phoneImage = "cid:" + phoneIcon.ContentId;
+
+            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
+            emailIcon.ContentId = Guid.NewGuid().ToString();
+            emailIcon.ContentType.MediaType = "image/png";
+            var emailImage = "cid:" + emailIcon.ContentId;
+            var bottomStyle = "style='font-size: 10px; !important'";
+            var pStyle = "style='font-size: 18px; !important'";
+
+            var body = new StringBuilder();
+            body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
+            body.AppendLine("<div>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b>{inviteLink}</b></p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact}: <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            body.AppendLine($"<p><img src='{phoneImage}'>1-886-382-7468</p>");
+            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:info@ecohomefinancial.com'><span>info@ecohomefinancial.com</span></a></li></p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
+            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> 1-866-382-7468 | info@ecohomefinancial.com</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
+            body.AppendLine("</div>");
+
+            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
+            alternateView.LinkedResources.Add(phoneIcon);
+            alternateView.LinkedResources.Add(emailIcon);
+
+            var mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            mail.AlternateViews.Add(alternateView);
+            mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
+            mail.To.Add(customerEmail);
+            mail.Subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            try
+            {
+                await _emailService.SendAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+
         private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
         {
             if (contract != null)

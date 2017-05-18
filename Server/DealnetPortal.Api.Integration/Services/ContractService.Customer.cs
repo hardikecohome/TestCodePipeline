@@ -73,10 +73,11 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
                     }
-                }                
+                }
 
                 //if all aspire opertaion is failed
-                if (creditCheckAlerts.Any(x => x.Type == AlertType.Error) || aspireFailedResults.Any())
+                var isErrors = creditCheckAlerts.Any(x => x.Type == AlertType.Error) || aspireFailedResults.Any();
+                if (isErrors)
                 {
                     return new Tuple<ContractDTO, IList<Alert>>(null, creditCheckAlerts);
                 }
@@ -85,8 +86,12 @@ namespace DealnetPortal.Api.Integration.Services
                 var succededContract = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).FirstOrDefault();
                 if (succededContract != null)
                 {
-                    var noWait = _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
+                    var result = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
                     //TODO: DEAL-1495 analyze result here and then send invite link to customer
+                    //if (result.All(x => x.Type != AlertType.Error))
+                    //{
+                         await _mailService.SendInviteLinkToCustomer(contractsResultList.First().Item1);
+                    //}
                 }
                 else
                 {
@@ -94,7 +99,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 var contractDTO = Mapper.Map<ContractDTO>(contractsResultList.First().Item1);
-
+                
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
