@@ -518,16 +518,13 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var creationResult = await ContractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
-                if (!creationResult)
+
+                if (creationResult.Item1 == null)
                 {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.ContractCreateFailed,
-                        Message = $"Failed to create contract for a user [{LoggedInUser?.UserId}]"
-                    });
+                    alerts.AddRange(creationResult.Item2);
                 }
-                return Ok(alerts);
+
+                return Ok(creationResult);
             }
             catch (Exception ex)
             {
@@ -538,7 +535,8 @@ namespace DealnetPortal.Api.Controllers
                     Message = ex.ToString()
                 });
             }
-            return Ok(alerts);
+
+            return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }                
 
         [Route("RemoveContract")]
@@ -548,6 +546,22 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = ContractService.RemoveContract(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AssignContract")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AssignContract(int contractId)
+        {
+            try
+            {
+                var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId);
+
                 return Ok(result);
             }
             catch (Exception ex)

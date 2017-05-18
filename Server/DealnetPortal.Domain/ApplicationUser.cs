@@ -40,6 +40,10 @@ namespace DealnetPortal.Domain
         [ForeignKey("CustomerLinkId")]
         public virtual CustomerLink CustomerLink { get; set; }
 
+        public int? DealerProfileId { get; set; }
+        ////[ForeignKey("DealerProfile")]
+        //public virtual DealerProfile DealerProfile { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

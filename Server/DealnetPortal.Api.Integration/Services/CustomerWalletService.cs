@@ -62,6 +62,7 @@ namespace DealnetPortal.Api.Integration.Services
                 },
                 CreditInfo = new CustomerCreditInfo()
                 {
+                    DealnetContractId = contract.Id,
                     AspireAccountId = customer.AccountId,
                     CreditAmount = contract.Details.CreditAmount,
                     ScorecardPoints = contract.Details.ScorecardPoints,

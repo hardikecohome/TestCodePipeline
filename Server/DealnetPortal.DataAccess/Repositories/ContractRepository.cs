@@ -55,6 +55,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetContractsOffers(string userId)
         {
+            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -65,7 +66,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
-                .Where(c => c.IsCreatedByBroker == true).ToList();
+                .Where(c => c.IsCreatedByBroker == true
+                || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))).ToList();
             return contracts;
         }
 
@@ -186,6 +188,32 @@ namespace DealnetPortal.DataAccess.Repositories
                     c =>
                         c.Id == contractId &&
                         (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
+        }
+
+        public bool AssignContract(int contractId, string newContractOwnerId)
+        {
+            var updated = false;
+
+            var contract = _dbContext.Contracts.FirstOrDefault(x => x.Id == contractId);
+
+            if (contract != null)
+            {
+                var dealer = GetDealer(newContractOwnerId);
+
+                if (dealer != null)
+                {
+                    contract.DealerId = dealer.Id;
+                    contract.IsNewlyCreated = true;
+                    contract.IsCreatedByBroker = false;
+                    contract.LastUpdateTime = DateTime.Now;
+
+                    _dbContext.Entry(contract).State = EntityState.Modified;
+
+                    updated = true;
+                }
+            }
+
+            return updated;
         }
 
         public bool DeleteContract(string contractOwnerId, int contractId)
@@ -403,11 +431,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         dbCustomer.PreferredContactMethod = customerInfo.PreferredContactMethod;
                     }
-                    if (customerInfo.DriverLicenseNumber != null)
+                    if (!string.IsNullOrWhiteSpace(customerInfo.DriverLicenseNumber))
                     {
                         dbCustomer.DriverLicenseNumber = customerInfo.DriverLicenseNumber;
                     }
-                    if (customerInfo.Sin != null)
+                    if (!string.IsNullOrWhiteSpace(customerInfo.Sin))
                     {
                         dbCustomer.Sin = customerInfo.Sin;
                     }

@@ -458,13 +458,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<Tuple<int?, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm)
+        public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<CustomerFormDTO, Tuple<int?, IList<Alert>>>(
+                        Client.PostAsync<CustomerFormDTO, Tuple<CustomerContractInfoDTO, IList<Alert>>>(
                             $"{_fullUri}/SubmitCustomerForm", customerForm);
             }
             catch (Exception ex)
@@ -488,14 +488,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> CreateContractForCustomer(NewCustomerDTO customerForm)
+        public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(NewCustomerDTO customerForm)
         {
             try
             {
                 return
                     await
-                        Client.PostAsync<NewCustomerDTO, IList<Alert>>(
-                            $"{_fullUri}/CreateContractForCustomer", customerForm);
+                        Client.PostAsync<NewCustomerDTO, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContractForCustomer", customerForm);
             }
             catch (Exception ex)
             {
@@ -516,6 +515,22 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't remove contract", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> AssignContract(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsync<string, IList<Alert>>(
+                            $"{_fullUri}/AssignContract?contractId={contractId}", "");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't assign contract", ex);
                 throw;
             }
         }

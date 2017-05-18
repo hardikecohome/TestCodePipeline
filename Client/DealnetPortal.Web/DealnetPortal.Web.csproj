@@ -251,11 +251,13 @@
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\CustomerManager.cs" />
     <Compile Include="Infrastructure\ICustomerManager.cs" />
+    <Compile Include="Infrastructure\IProfileManager.cs" />
     <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
     <Compile Include="Infrastructure\Managers\OwinSecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
+    <Compile Include="Infrastructure\ProfileManager.cs" />
     <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
@@ -274,6 +276,8 @@
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
+    <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
+    <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
@@ -465,6 +469,7 @@
     <Content Include="Content\images\logos\logo-smart-home-w%402x.png" />
     <Content Include="Content\images\logos\logo-smart-home-w%403x.png" />
     <Content Include="Content\images\logos\logo-smart-home-w.png" />
+    <Content Include="Content\images\recaptcha.jpg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
@@ -475,6 +480,7 @@
     <Content Include="Content\images\sprite\icon-audio.svg" />
     <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
+    <Content Include="Content\images\sprite\icon-decline-circle.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-email2.svg" />
@@ -490,6 +496,7 @@
     <Content Include="Content\images\sprite\icon-info-well.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
     <Content Include="Content\images\sprite\icon-list-request.svg" />
+    <Content Include="Content\images\sprite\icon-maneger-sales-agent.svg" />
     <Content Include="Content\images\sprite\icon-my-account-one-persone.svg" />
     <Content Include="Content\images\sprite\icon-my-account.svg" />
     <Content Include="Content\images\sprite\icon-my-deals-side.svg" />
@@ -867,6 +874,14 @@
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\my-customers.js" />
+    <Content Include="Scripts\Pages\Clients\index.js" />
+    <Content Include="Scripts\Pages\MyProfile\form-handlers.js" />
+    <Content Include="Scripts\Pages\MyProfile\index.js" />
+    <Content Include="Scripts\Pages\MyProfile\category-handlers.js" />
+    <Content Include="Scripts\Pages\MyProfile\category-template.js" />
+    <Content Include="Scripts\Pages\MyProfile\my-profile-state.js" />
+    <Content Include="Scripts\Pages\MyProfile\postalCode-template.js" />
+    <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\Pages\Clients\new-client.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
@@ -969,6 +984,8 @@
     <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
     <Content Include="Views\Leads\Index.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Shared\Profile\_PostalCode.cshtml" />
+    <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
   </ItemGroup>
   <ItemGroup>

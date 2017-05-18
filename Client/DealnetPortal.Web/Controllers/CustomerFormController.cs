@@ -90,7 +90,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, hashDealerName = customerForm.HashDealerName, culture = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["culture"]?.ToString() });
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1?.ContractId, hashDealerName = customerForm.HashDealerName, culture = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["culture"]?.ToString() });
         }
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string hashDealerName, string culture)

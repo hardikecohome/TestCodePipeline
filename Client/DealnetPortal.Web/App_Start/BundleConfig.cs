@@ -124,6 +124,44 @@ namespace DealnetPortal.Web
                 "~/Scripts/Utils/logMiddleware.js",
                 "~/Scripts/Utils/objectUtils.js",
                 "~/Scripts/Utils/redux.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/new-client-mobile")
+                .Include(
+                    "~/Scripts/general-address-autocomplete.js",
+                    "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js",
+                    "~/Scripts/camera-capturing.js",
+                    "~/Scripts/datejs.js",
+                    "~/Scripts/Modules/index.js",
+                    "~/Scripts/Logger/logdebug.js",
+                    "~/Scripts/Selectors/new-client-selectors.js",
+                    "~/Scripts/Pages/Clients/index.js",
+                    "~/Scripts/Pages/Clients/new-client-autocomplete.js",
+                    "~/Scripts/Pages/Clients/new-client-flow.js",
+                    "~/Scripts/Pages/Clients/new-client-store.js",
+                    "~/Scripts/Reducers/new-client-reducer.js",
+                    "~/Scripts/Actions/new-client-actions.js",
+                    "~/Scripts/Views/Clients/basic-information.js",
+                    "~/Scripts/Views/Clients/address-information.js",
+                    "~/Scripts/Views/Clients/contact-information.js",
+                    "~/Scripts/Views/Clients/home-improvments.js",
+                    "~/Scripts/Views/Clients/client-consents.js",
+                    "~/Scripts/Utils/functionUtils.js",
+                    "~/Scripts/Utils/logMiddleware.js",
+                    "~/Scripts/Utils/objectUtils.js",
+                    "~/Scripts/Utils/redux.js"));
+            bundles.Add(new ScriptBundle("~/bundles/my-profile")
+                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Pages/MyProfile/index.js")
+                .Include("~/Scripts/Pages/MyProfile/form-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-template.js")
+                .Include("~/Scripts/Pages/MyProfile/category-template.js")
+                .Include("~/Scripts/jquery.form.js")
+            );
+
         }
     }
 }

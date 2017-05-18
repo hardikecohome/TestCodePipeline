@@ -34,6 +34,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerWalletService _customerWalletService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
+        private readonly IDealerRepository _dealerRepository;
 
         public ContractService(
             IContractRepository contractRepository, 
@@ -43,10 +44,12 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerWalletService customerWalletService,
             ISignatureService signatureService, 
             IMailService mailService, 
-            ILoggingService loggingService)
+            ILoggingService loggingService, 
+            IDealerRepository dealerRepository)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
+            _dealerRepository = dealerRepository;
             _unitOfWork = unitOfWork;
             _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;
@@ -161,7 +164,19 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTO = Mapper.Map<ContractDTO>(contract);
             if (contractDTO != null)
             {
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
+                var equipmentTypes = new List<EquipmentType>();
+                var profile = _dealerRepository.GetDealerProfile(contract.DealerId);
+                if (profile!=null)
+                {
+                     equipmentTypes = profile.Equipments.Select(x => x.Equipment).ToList();
+                }
+                else
+                {
+                    equipmentTypes = _contractRepository.GetEquipmentTypes().ToList();
+                }
+                var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
+                contractDTO.EquipmentTypes = equipmentTypeDtos;
+                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
                 AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
             }
             return contractDTO;
@@ -1151,6 +1166,45 @@ namespace DealnetPortal.Api.Integration.Services
                         Header = ErrorConstants.ContractRemoveFailed,
                         Message = errorMsg
                     });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to remove contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.DocumentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> AssignContract(int contractId, string newContractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.AssignContract(contractId, newContractOwnerId))
+                {
+                    _unitOfWork.Save();
+
+                    await _aspireService.UpdateContractCustomer(contractId, newContractOwnerId);
+                }
+                else
+                {
+                    var errorMsg = "Cannot reasign contract";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractUpdateFailed,
+                        Message = errorMsg
+                    });
+
                     _loggingService.LogError(errorMsg);
                 }
             }

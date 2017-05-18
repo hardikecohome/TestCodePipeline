@@ -486,14 +486,15 @@
   // translations['YouShouldBeHomeOwner'] = ""; TODO: add resources in next release
   translations['EmptyCreditAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
   // translations['EmptyContactAgreement'] = ""; TODO: add resources in next Release
-  translations['NotSelected'] = "@Resources.NotSelected";
+    translations['NotSelected'] = "@Resources.NotSelected";
+    translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
 }
 
 @section scripts
 {
   @Scripts.Render("~/bundles/jqueryval")
   @Scripts.Render("~/bundles/localization")
-  @Scripts.Render("~/bundles/new-client")
+  @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
 
   <script type="text/javascript">
     module.require('new-client-index');

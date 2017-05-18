@@ -17,6 +17,7 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -132,7 +133,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<Tuple<int?, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
             if (customerFormData == null)
             {
@@ -143,11 +144,22 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
+                bool isCustomerCreator = false;
+                var dealerId = customerFormData.DealerId ??
+                               _dealerRepository.GetUserIdByName(customerFormData.DealerName);                
+                if (dealerId != null && _dealerRepository.GetUserIdByName(dealerId).Contains(UserRole.CustomerCreator.ToString()))
+                {
+                    isCustomerCreator = true;
+                }
                 // will not wait end of this operation
-                var noWarning = SendCustomerContractCreationNotifications(customerFormData, contractCreationRes.Item1);
+                if (!isCustomerCreator)
+                {
+                    var noWarning = SendCustomerContractCreationNotifications(customerFormData,
+                        contractCreationRes.Item1);
+                }
             }
 
-            return new Tuple<int?, IList<Alert>>(contractCreationRes?.Item1?.ContractId, contractCreationRes?.Item2 ?? new List<Alert>());
+            return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
         }
 
         public CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName)
@@ -220,17 +232,26 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
 
-                    var customer = Mapper.Map<Customer>(customerFormData.PrimaryCustomer);
-                    var contractData = new ContractData()
+                    //var customer = Mapper.Map<Customer>(customerFormData.PrimaryCustomer);
+                    var contractData = new ContractDataDTO()
                     {
-                        PrimaryCustomer = customer,
-                        HomeOwners = new List<Customer> { customer },
+                        PrimaryCustomer = customerFormData.PrimaryCustomer,
+                        //HomeOwners = new List<Customer> { customer },
                         DealerId = dealerId,
                         Id = contract.Id
                     };
-
-                    _contractRepository.UpdateContractData(contractData, dealerId);
-                    _unitOfWork.Save();
+                    if (!string.IsNullOrEmpty(customerFormData.SelectedServiceType))
+                    {
+                        contractData.Equipment = new EquipmentInfoDTO()
+                        {
+                            NewEquipment =
+                                new List<NewEquipmentDTO> {new NewEquipmentDTO() {Type = customerFormData.SelectedServiceType}}
+                        };
+                    }
+                    //send request to Aspire here
+                    _contractService.UpdateContractData(contractData, dealerId);
+                    //_contractRepository.UpdateContractData(contractData, dealerId);
+                    //_unitOfWork.Save();
 
                     if (!string.IsNullOrEmpty(customerFormData.SelectedService) || !string.IsNullOrEmpty(customerFormData.CustomerComment))
                     {                        
@@ -284,10 +305,10 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         alerts.AddRange(creditCheckRes.Item2);
                     }
-                    if (creditCheckRes?.Item1 != null)
+                    //if (creditCheckRes?.Item1 != null)
                     {
                         submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
-                    }
+                    }                    
                 }
                 else
                 {

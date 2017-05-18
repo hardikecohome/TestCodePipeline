@@ -161,11 +161,46 @@
   background-color: #ffffff;
   border: solid 1px #dcdcdc;
   border-radius: 4px;
-  box-shadow: none;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.07);
   margin-top: 10px;
   @media @tablet-up {
     margin: 10px 0 0 150px;
   }
+}
+.popover.customer-popover{
+  display: table;
+  color: #000;
+  background-color: #ffffff;
+  border: solid 1px #dcdcdc;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.07);
+  color: @form-text-color;
+  font-weight: 600;
+
+  .popover-inner{
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .popover-container{
+    position: relative;
+    padding: 20px 20px 20px 40px;
+  }
+
+  .popover-icon{
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    margin-top: -10px;
+  }
+}
+
+.accepted-leads-popover{
+  width: 260px;
+}
+
+.link-accepted-link{
+  cursor: pointer;
 }
 
 .captcha-section{
