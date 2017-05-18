@@ -55,7 +55,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 if (contractResult.Item1.IsNewlyCreated == true)
                 {
-                    var noWarning = _contractServiceAgent.NotifyContractEdit(contractId);
+                    await _contractServiceAgent.NotifyContractEdit(contractId);
                 }
                 if (contractResult.Item1.ContractState == ContractState.CreditContirmed && contractResult.Item1.IsNewlyCreated != true)
                 {

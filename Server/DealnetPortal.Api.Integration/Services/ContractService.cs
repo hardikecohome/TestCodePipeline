@@ -246,25 +246,22 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             if (contract != null)
             {
-                if (contract.IsCreatedByCustomer == true)
+                //Remove newly created by customer mark, if contract is opened for edit
+                try
                 {
-                    //Remove newly created by customer mark, if contract is opened for edit
-                    try
+                    contract.IsNewlyCreated = false;
+                    _unitOfWork.Save();
+                }
+                catch (Exception ex)
+                {
+                    alerts.Add(new Alert()
                     {
-                        contract.IsNewlyCreated = false;
-                        _unitOfWork.Save();
-                    }
-                    catch (Exception ex)
-                    {
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Error,
-                            Header = ErrorConstants.ContractUpdateFailed,
-                            Code = ErrorCodes.FailedToUpdateContract,
-                            Message = $"Cannot update contract [{contractId}]"
-                        });
-                        _loggingService.LogError($"Cannot update contract [{contractId}]", ex);
-                    }
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractUpdateFailed,
+                        Code = ErrorCodes.FailedToUpdateContract,
+                        Message = $"Cannot update contract [{contractId}]"
+                    });
+                    _loggingService.LogError($"Cannot update contract [{contractId}]", ex);
                 }
             }
             else
