@@ -1434,14 +1434,13 @@
     <value>Address unknown. Client is shopping for other property.</value>
   </data>
   <data name="AtCurrentAddress" xml:space="preserve">
-    <value>At current address.</value>
+    <value>At current address</value>
   </data>
   <data name="AtNewHomeAddress" xml:space="preserve">
-    <value>At new home address.</value>
+    <value>At new home address</value>
   </data>
-  <data name="ClientAgreesPassPersonalInfoToDealNetCapital" xml:space="preserve">
-    <value>Client agrees to pass his personal information to DealNet Capital and agrees that DealNet Capital or its representatives may contact him/her
-by email or phone</value>
+  <data name="ClientAuthorizesReleaseToDealnetCapital" xml:space="preserve">
+    <value>Client authorizes release of personal information to DealNet Capital and its representatives; furthermore, Client authorizes DealNet Capital or its representatives to contact him/her</value>
   </data>
   <data name="ClientAgreesSendPersonalDataToCreditCheck" xml:space="preserve">
     <value>Client agrees to send his/her personal data to credit check</value>
@@ -1496,5 +1495,23 @@ by email or phone</value>
   </data>
   <data name="SelectCategory" xml:space="preserve">
     <value>Select category</value>
+  </data>
+  <data name="AddressDetermined" xml:space="preserve">
+    <value>Address to be determined</value>
+  </data>
+  <data name="ClientLivedCurrentAddressLessThenSixMonth" xml:space="preserve">
+    <value>Client has lived at current address for less than 6 months</value>
+  </data>
+  <data name="ClientProvidesExpressConsentToCreditCheck" xml:space="preserve">
+    <value>Client provides express consent for a credit check</value>
+  </data>
+  <data name="InCaseQuestionsContactSupport" xml:space="preserve">
+    <value>In case of questions please contact EcoHome Financial support:</value>
+  </data>
+  <data name="Legal" xml:space="preserve">
+    <value>Legal</value>
+  </data>
+  <data name="UnableToProcessApplicationAutomatically" xml:space="preserve">
+    <value>Unfortunately, we’re unable to process this application automatically.</value>
   </data>
 </root>

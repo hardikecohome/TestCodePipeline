@@ -514,8 +514,10 @@
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
     <Content Include="Content\images\sprite\icon-shareable-link.svg" />
+    <Content Include="Content\images\sprite\icon-success-gray-circle.svg" />
     <Content Include="Content\images\sprite\icon-successfully.svg" />
     <Content Include="Content\images\sprite\icon-successfully1.svg" />
+    <Content Include="Content\images\sprite\icon-tooltip-info.svg" />
     <Content Include="Content\images\sprite\icon-trash.svg" />
     <Content Include="Content\images\sprite\icon-upload.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
