@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.CustomerWallet;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.ServiceAgents
 {
@@ -26,8 +28,19 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             var alerts = new List<Alert>();
             try
             {
-                return await Client.PostAsync<RegisterCustomerBindingModel, IList<Alert>>(
-                            $"{_fullUri}/Account/RegisterCustomer", registerCustomer);
+                var result =
+                    await Client.PostAsyncWithHttpResponse($"{_fullUri}/Account/RegisterCustomer", registerCustomer);
+                if (!result.IsSuccessStatusCode)
+                {
+                    var errors = await HttpResponseHelpers.GetModelStateErrorsAsync(result.Content);
+                    errors.ModelState?.ForEach(st => st.Value.ForEach(val =>
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Message = val,
+                            Header = st.Key
+                        })));
+                }
             }
             catch (Exception ex)
             {
