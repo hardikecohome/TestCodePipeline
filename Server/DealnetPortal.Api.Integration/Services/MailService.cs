@@ -266,7 +266,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             string inviteLink = "www.myhomewallet.com";//ToDO: should be get external
             var contract = succededContracts.First();
-            string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description));
+            string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description.ToLower()));
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??string.Empty;
 
             var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
