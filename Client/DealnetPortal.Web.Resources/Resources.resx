@@ -1523,4 +1523,7 @@
   <data name="UnableToProcessApplicationAutomatically" xml:space="preserve">
     <value>Unfortunately, we’re unable to process this application automatically.</value>
   </data>
+  <data name="HouseSize" xml:space="preserve">
+    <value>House Size</value>
+  </data>
 </root>
