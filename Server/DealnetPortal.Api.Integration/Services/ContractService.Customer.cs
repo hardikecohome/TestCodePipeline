@@ -83,14 +83,21 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var succededContract = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).FirstOrDefault();
+                var succededContracts =contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed)
+                        .Select(r => r.Item1).ToList();
+                var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
                 {
                     var result = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
-                    //TODO: DEAL-1495 analyze result here and then send invite link to customer
+                    //TODO: DEAL - 1495 analyze result here and then send invite link to customer
                     //if (result.All(x => x.Type != AlertType.Error))
                     //{
-                         await _mailService.SendInviteLinkToCustomer(contractsResultList.First().Item1);
+                    await _mailService.SendInviteLinkToCustomer(succededContracts.First());
+                    if (succededContracts.Select(x => x.Equipment.NewEquipment).ToList().Any() &&
+                        succededContract.PrimaryCustomer.Locations.FirstOrDefault(l=>l.AddressType == AddressType.MailAddress)!=null)
+                    {
+                        await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
+                    }
                     //}
                 }
                 else
@@ -112,6 +119,7 @@ namespace DealnetPortal.Api.Integration.Services
         private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, string improvmentType = null)
         {
             var contract = _contractRepository.CreateContract(contractOwnerId);
+            var equipmentType = _contractRepository.GetEquipmentTypes();
 
             if (contract != null)
             {
@@ -133,7 +141,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (!string.IsNullOrEmpty(improvmentType))
                 {
-                    contractData.Equipment.NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType } };
+                    var eq = equipmentType.SingleOrDefault(x => x.Type == improvmentType);
+                    contractData.Equipment.NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq.Description } };
                 }
 
                 return await UpdateNewContractForCustomer(contractOwnerId, newCustomer, contractData);

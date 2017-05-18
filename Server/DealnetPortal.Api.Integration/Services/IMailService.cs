@@ -35,5 +35,6 @@ namespace DealnetPortal.Api.Integration.Services
             string dealerColor, byte[] dealerLogo);
 
         Task SendInviteLinkToCustomer(Contract customerFormData);
+        Task SendHomeImprovementMailToCustomer(IList<Contract> customerFormData);
     }
 }

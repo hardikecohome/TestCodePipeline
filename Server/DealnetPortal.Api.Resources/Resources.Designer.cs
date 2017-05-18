@@ -583,6 +583,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to on the.
+        /// </summary>
+        public static string OnThe {
+            get {
+                return ResourceManager.GetString("OnThe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your on-time password is correct, now please change the password.
         /// </summary>
         public static string OntimePassCorrectNowChange {
@@ -808,6 +817,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thanks for your interest in home improvement service.
+        /// </summary>
+        public static string ThanksForYourInterestInHomeImprovementService {
+            get {
+                return ResourceManager.GetString("ThanksForYourInterestInHomeImprovementService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thank you for applying for financing..
         /// </summary>
         public static string ThankYouForApplyingForFinancing {
@@ -921,6 +939,15 @@ namespace DealnetPortal.Api.Resources {
         public static string WaterTreatmentSystem {
             get {
                 return ResourceManager.GetString("WaterTreatmentSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We’re now looking for the best home professional in your area - selected contractor will contact you soon..
+        /// </summary>
+        public static string WeAreNowLookingForheBest {
+            get {
+                return ResourceManager.GetString("WeAreNowLookingForheBest", resourceCulture);
             }
         }
         
