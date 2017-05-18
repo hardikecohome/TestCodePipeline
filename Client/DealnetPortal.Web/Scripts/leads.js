@@ -146,9 +146,10 @@ function assignDatepicker(input) {
 
 function addLead(id, transactionId) {
     var data = {
-        message: translations['YouSureYouWantToAcceptLeadThenYouPay'],
+        message: "<div class=\"modal-leads-content\"><div>"+translations['AreYouSure']+"</div><div>"+translations['AcceptanceOfLeadFeeAppliedToYourAccount']+"</div></div>",
         title: translations['AcceptLead'],
-        confirmBtnText: translations['AcceptLead']
+        confirmBtnText: translations['AcceptLead'],
+        class: "modal-leads"
     };
     dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {

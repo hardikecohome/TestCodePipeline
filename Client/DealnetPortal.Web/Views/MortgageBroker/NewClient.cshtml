@@ -185,7 +185,7 @@
         <label for="living-time-checkbox" class="align-middle custom-checkbox">
           @Html.CheckBoxFor(m => m.IsLessThenSix, new { @class = "dealnet-checkbox address-checkbox", id = "living-time-checkbox" })
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span>Client lived at current address for less than 6 month</span>
+          <span>@Resources.ClientLivedCurrentAddressLessThenSixMonth</span>
         </label>
       </div>
       <div id="previous-address" style="display: none;">
@@ -330,7 +330,7 @@
           <label for="addressUnknownCheckbox" class="align-middle custom-checkbox">
             @Html.CheckBoxFor(m => m.IsUnknownAddress, new { @class = "dealnet-checkbox address-checkbox", id = "addressUnknownCheckbox" })
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>@Resources.AddressUnknownClientShoppingOtherProperty</span>
+            <span>@Resources.AddressDetermined</span>
           </label>
         </div>
         <h3 class="dealnet-section-title">@Resources.NewHomeAddress</h3>
@@ -443,7 +443,7 @@
   </div>
   <div class="panel accordion-panel panel-collapsed" id="client-consents">
     <div class="panel-heading">
-      <h3 class="panel-title dealnet-middle-header">5. @Resources.ClientConsent</h3>
+      <h3 class="panel-title dealnet-middle-header">5. @Resources.Legal</h3>
       <span class="arrow"><i class="glyphicon"></i></span>
     </div>
     <div class="panel-body">
@@ -451,14 +451,14 @@
         <label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field">@Resources.ClientAgreesSendPersonalDataToCreditCheck</span>
+          <span class="mandatory-field">@Resources.ClientProvidesExpressConsentToCreditCheck</span>
         </label>
       </div>
       <div class="form-group">
         <label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field">@Resources.ClientAgreesPassPersonalInfoToDealNetCapital</span>
+          <span class="mandatory-field">@Resources.ClientAuthorizesReleaseToDealnetCapital</span>
         </label>
       </div>
     </div>

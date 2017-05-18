@@ -21,12 +21,12 @@
 .modal {
   padding: 0 15px !important;
   .modal-dialog{
-    width: 680px;
+    width: 680px !important;
     @media @tablet-only {
-      width: 550px;
+      width: 550px !important;
     }
     @media @mobile {
-      width: 350px;
+      width: 350px !important;
       max-width: 100%;
       margin: 10px auto 10px;
     }
@@ -54,6 +54,22 @@
   }
   .nav-tabs > li.active > a, .nav-tabs > li > a:hover{
     font-family: @usual-font-family;
+  }
+}
+
+.modal{
+  &.modal-leads{
+    .modal-title{
+      text-align: left;
+    }
+    .modal-content{
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+  }
+  .modal-leads-content{
+    margin-top: 20px;
   }
 }
 
