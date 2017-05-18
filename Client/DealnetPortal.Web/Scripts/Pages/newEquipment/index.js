@@ -155,21 +155,20 @@
                 if (rateCard.length === 0) {
                     event.preventDefault();
                 } else {
-                    var monthPayment = Globalize.parseNumber($("#totalPrice").text());
-
+                    var option = rateCard.find('#hidden-option').text();
+                    var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().substring(1));
                     if (isNaN(monthPayment) || (monthPayment == 0)) {
                         event.preventDefault();
                         $('#new-equipment-validation-message')
                             .text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                     } else {
-                        var option = rateCard.find('#hidden-option').text();
                         if (option === 'Custom') {
-
                             if ($('#amortLoanTermError').is(':visible')) {
                                 event.preventDefault();
                             }
 
                             if (!validateCustomRateCard()) {
+                                $validator.showErrors();
                                 event.preventDefault();
                             }
 
@@ -179,6 +178,7 @@
                             $('#CustomerRate').val(state[option].CustomerRate);
                             $('#AdminFee').val(state[option].AdminFee);
                             $('#total-monthly-payment').val(customSlicedTotalMPayment);
+                            if (state[option].DeferralPeriod === '')
                             $('#LoanDeferralType').val(state[option].DeferralPeriod);
                             $('#SelectedRateCardId').val(0);
                         } else {
@@ -315,6 +315,8 @@
             var loanAmort = e.target.value.split('/');
             setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
         });
+
+        $('#DeferralPeriodDropdown').on('change', setDeferralPeriod('Deferral'));
 
         var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
         state.agreementType = Number(agreementType);

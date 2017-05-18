@@ -2,7 +2,7 @@
 @model RateCardType
 
 @{
-  var amortizationSelectList = ((Dictionary<RateCardType,SelectList>)ViewBag.AmortizationTerm).Where(x => x.Key == Model).SelectMany(x => x.Value);
+    var amortizationSelectList = ((Dictionary<RateCardType, SelectList>)ViewBag.AmortizationTerm).Where(x => x.Key == Model).SelectMany(x => x.Value);
 }
 
 
