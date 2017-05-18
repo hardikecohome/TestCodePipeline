@@ -41,6 +41,7 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
         }
 
+        #region DP
         public async Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
         {
             var alerts = new List<Alert>();
@@ -212,22 +213,20 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Cannot send email", ex);
             }
         }
+        #endregion
 
+        #region Public MB
         public async Task SendInviteLinkToCustomer(Contract customerFormData)
         {
-            string inviteLink = "www.myhomewallet.com";
-            string password = "password";
+            string inviteLink = "www.myhomewallet.com";//ToDO: should be get external
+            string password = "password";//ToDO: should be get external
             string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
 
             var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
-            phoneIcon.ContentId = Guid.NewGuid().ToString();
-            phoneIcon.ContentType.MediaType = "image/png";
-            var phoneImage = "cid:" + phoneIcon.ContentId;
-
+            var phoneImage = GenerateIconImageCid(phoneIcon);
             var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
-            emailIcon.ContentId = Guid.NewGuid().ToString();
-            emailIcon.ContentType.MediaType = "image/png";
-            var emailImage = "cid:" + emailIcon.ContentId;
+            var emailImage = GenerateIconImageCid(emailIcon);
+
             var bottomStyle = "style='font-size: 10px; !important'";
             var pStyle = "style='font-size: 18px; !important'";
 
@@ -249,16 +248,10 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
             body.AppendLine("</div>");
 
-            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
-            alternateView.LinkedResources.Add(phoneIcon);
-            alternateView.LinkedResources.Add(emailIcon);
+            var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
 
-            var mail = new MailMessage();
-            mail.IsBodyHtml = true;
-            mail.AlternateViews.Add(alternateView);
-            mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
-            mail.To.Add(customerEmail);
-            mail.Subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             try
             {
                 await _emailService.SendAsync(mail);
@@ -271,22 +264,17 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendHomeImprovementMailToCustomer(IList<Contract> succededContracts)
         {
-            string inviteLink = "www.myhomewallet.com";
+            string inviteLink = "www.myhomewallet.com";//ToDO: should be get external
             var contract = succededContracts.First();
             string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description));
-            string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??
-                string.Empty;
+            string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??string.Empty;
 
             var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
-            phoneIcon.ContentId = Guid.NewGuid().ToString();
-            phoneIcon.ContentType.MediaType = "image/png";
-            var phoneImage = "cid:" + phoneIcon.ContentId;
-
+            var phoneImage = GenerateIconImageCid(phoneIcon);
             var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
-            emailIcon.ContentId = Guid.NewGuid().ToString();
-            emailIcon.ContentType.MediaType = "image/png";
-            var emailImage = "cid:" + emailIcon.ContentId;
-            var bottomStyle = "style='font-size: 10px; !important'";
+            var emailImage = GenerateIconImageCid(emailIcon);
+
+            var bottomStyle = "style ='font-size: 10px; !important'";
             var pStyle = "style='font-size: 18px; !important'";
 
             var body = new StringBuilder();
@@ -306,16 +294,10 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
             body.AppendLine("</div>");
 
-            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
-            alternateView.LinkedResources.Add(phoneIcon);
-            alternateView.LinkedResources.Add(emailIcon);
+            var alternateView = GenerateAlternateView(body,  new List<LinkedResource>(){phoneIcon, emailIcon});
 
-            var mail = new MailMessage();
-            mail.IsBodyHtml = true;
-            mail.AlternateViews.Add(alternateView);
-            mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
-            mail.To.Add(customerEmail);
-            mail.Subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             try
             {
                 await _emailService.SendAsync(mail);
@@ -325,7 +307,9 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Cannot send email", ex);
             }
         }
+        #endregion
 
+        #region Private
         private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
         {
             if (contract != null)
@@ -381,6 +365,24 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
             }
         }
+        
+        private AlternateView GenerateAlternateView(StringBuilder body, IList<LinkedResource> iconResources)
+        {
+            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
+            iconResources.ForEach(icon => alternateView.LinkedResources.Add(icon));
+            return alternateView;
+        }
+
+        private MailMessage GenerateMailMessage(string customerEmail, string subject, AlternateView alternateView = null)
+        {
+            var mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            mail.AlternateViews.Add(alternateView);
+            mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
+            mail.To.Add(customerEmail);
+            mail.Subject = subject;
+            return mail;
+        }
 
         private IList<string> GetContractRecipients(ContractDTO contract, string dealerEmail)
         {
@@ -411,6 +413,15 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return recipients;
-        }        
+        }
+
+        private string GenerateIconImageCid(LinkedResource icon)
+        {
+            icon.ContentId = Guid.NewGuid().ToString();
+            icon.ContentType.MediaType = "image/png";
+            var emailImage = "cid:" + icon.ContentId;
+            return emailImage;
+        }
+        #endregion
     }
 }

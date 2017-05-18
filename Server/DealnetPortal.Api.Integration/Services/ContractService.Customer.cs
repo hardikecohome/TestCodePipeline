@@ -83,22 +83,27 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var succededContracts =contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed)
-                        .Select(r => r.Item1).ToList();
+                var succededContracts =contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).ToList();
                 var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
                 {
-                    var result = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
+                    var resultAlerts = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
                     //TODO: DEAL - 1495 analyze result here and then send invite link to customer
-                    //if (result.All(x => x.Type != AlertType.Error))
-                    //{
-                    await _mailService.SendInviteLinkToCustomer(succededContracts.First());
-                    if (succededContracts.Select(x => x.Equipment.NewEquipment).ToList().Any() &&
-                        succededContract.PrimaryCustomer.Locations.FirstOrDefault(l=>l.AddressType == AddressType.MailAddress)!=null)
+                    if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
-                        await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
+                        await _mailService.SendInviteLinkToCustomer(succededContract);
+
+                        if (succededContracts.Select(x => x.Equipment.NewEquipment).ToList().Any() &&
+                            succededContract.PrimaryCustomer.Locations
+                            .FirstOrDefault(l =>l.AddressType == AddressType.MailAddress || l.AddressType == AddressType.MainAddress) !=null)
+                        {
+                            await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
+                        }
                     }
-                    //}
+                    else
+                    {
+                        return new Tuple<ContractDTO, IList<Alert>>(null, resultAlerts);
+                    }
                 }
                 else
                 {
