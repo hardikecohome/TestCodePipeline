@@ -70,6 +70,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On acceptance of lead a ${0} fee will be applied to your account..
+        /// </summary>
+        public static string AcceptanceOfLeadFeeAppliedToYourAccount {
+            get {
+                return ResourceManager.GetString("AcceptanceOfLeadFeeAppliedToYourAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept Lead.
         /// </summary>
         public static string AcceptLead {
@@ -471,6 +480,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AreaOfMyService {
             get {
                 return ResourceManager.GetString("AreaOfMyService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string AreYouSure {
+            get {
+                return ResourceManager.GetString("AreYouSure", resourceCulture);
             }
         }
         
@@ -3036,6 +3054,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProcessingYourApplication {
             get {
                 return ResourceManager.GetString("ProcessingYourApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project Type.
+        /// </summary>
+        public static string ProjectType {
+            get {
+                return ResourceManager.GetString("ProjectType", resourceCulture);
             }
         }
         

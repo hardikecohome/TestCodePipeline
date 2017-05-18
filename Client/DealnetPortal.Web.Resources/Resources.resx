@@ -1496,8 +1496,14 @@
   <data name="SelectCategory" xml:space="preserve">
     <value>Select category</value>
   </data>
+  <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
+    <value>On acceptance of lead a ${0} fee will be applied to your account.</value>
+  </data>
   <data name="AddressDetermined" xml:space="preserve">
     <value>Address to be determined</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
   </data>
   <data name="ClientLivedCurrentAddressLessThenSixMonth" xml:space="preserve">
     <value>Client has lived at current address for less than 6 months</value>
@@ -1510,6 +1516,9 @@
   </data>
   <data name="Legal" xml:space="preserve">
     <value>Legal</value>
+  </data>
+  <data name="ProjectType" xml:space="preserve">
+    <value>Project Type</value>
   </data>
   <data name="UnableToProcessApplicationAutomatically" xml:space="preserve">
     <value>Unfortunately, we’re unable to process this application automatically.</value>
