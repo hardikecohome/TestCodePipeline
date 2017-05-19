@@ -2779,6 +2779,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In order to proceed client needs to be aged 75 or less..
+        /// </summary>
+        public static string OrderProceedClientAged75OrLess {
+            get {
+                return ResourceManager.GetString("OrderProceedClientAged75OrLess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Other Documents.
         /// </summary>
         public static string OtherDocuments {
