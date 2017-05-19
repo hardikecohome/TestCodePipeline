@@ -169,6 +169,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Congratulations.
+        /// </summary>
+        public static string Congratulations {
+            get {
+                return ResourceManager.GetString("Congratulations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contract.
         /// </summary>
         public static string Contract {
@@ -430,6 +439,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hi.
+        /// </summary>
+        public static string Hi {
+            get {
+                return ResourceManager.GetString("Hi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home Owner&apos;s Name:.
         /// </summary>
         public static string HomeOwnersName {
@@ -489,6 +507,15 @@ namespace DealnetPortal.Api.Resources {
         public static string IfYouHaveQuestionsPleaseContact {
             get {
                 return ResourceManager.GetString("IfYouHaveQuestionsPleaseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In case of questions please contact.
+        /// </summary>
+        public static string InCaseOfQuestionsPleaseContact {
+            get {
+                return ResourceManager.GetString("InCaseOfQuestionsPleaseContact", resourceCulture);
             }
         }
         
@@ -556,6 +583,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to on the.
+        /// </summary>
+        public static string OnThe {
+            get {
+                return ResourceManager.GetString("OnThe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your on-time password is correct, now please change the password.
         /// </summary>
         public static string OntimePassCorrectNowChange {
@@ -588,6 +624,15 @@ namespace DealnetPortal.Api.Resources {
         public static string PleaseSignAgreement {
             get {
                 return ResourceManager.GetString("PleaseSignAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please sign in using your email address and following password.
+        /// </summary>
+        public static string PleaseSignInUsingYourEmailAddressAndFollowingPassword {
+            get {
+                return ResourceManager.GetString("PleaseSignInUsingYourEmailAddressAndFollowingPassword", resourceCulture);
             }
         }
         
@@ -754,11 +799,29 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        public static string Support {
+            get {
+                return ResourceManager.GetString("Support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tankless Water Heater.
         /// </summary>
         public static string TanklessWaterHeater {
             get {
                 return ResourceManager.GetString("TanklessWaterHeater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thanks for your interest in home improvement service.
+        /// </summary>
+        public static string ThanksForYourInterestInHomeImprovementService {
+            get {
+                return ResourceManager.GetString("ThanksForYourInterestInHomeImprovementService", resourceCulture);
             }
         }
         
@@ -880,6 +943,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We’re now looking for the best home professional in your area - selected contractor will contact you soon..
+        /// </summary>
+        public static string WeAreNowLookingForheBest {
+            get {
+                return ResourceManager.GetString("WeAreNowLookingForheBest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} will contact you soon..
         /// </summary>
         public static string WillContactYouSoon {
@@ -903,6 +975,24 @@ namespace DealnetPortal.Api.Resources {
         public static string YouCanViewThisDealHere {
             get {
                 return ResourceManager.GetString("YouCanViewThisDealHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can view your account on.
+        /// </summary>
+        public static string YouCanViewYourAccountOn {
+            get {
+                return ResourceManager.GetString("YouCanViewYourAccountOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have been.
+        /// </summary>
+        public static string YouHaveBeen {
+            get {
+                return ResourceManager.GetString("YouHaveBeen", resourceCulture);
             }
         }
         

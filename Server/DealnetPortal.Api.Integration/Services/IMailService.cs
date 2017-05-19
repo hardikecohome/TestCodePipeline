@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -32,5 +33,8 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="dealerLogo"></param>
         Task SendCustomerLoanFormContractCreationNotification(string customerEmail, CustomerContractInfoDTO contractData,
             string dealerColor, byte[] dealerLogo);
+
+        Task SendInviteLinkToCustomer(Contract customerFormData, string customerPassword);
+        Task SendHomeImprovementMailToCustomer(IList<Contract> customerFormData);
     }
 }

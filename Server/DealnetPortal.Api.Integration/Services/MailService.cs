@@ -41,6 +41,7 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
         }
 
+        #region DP
         public async Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
         {
             var alerts = new List<Alert>();
@@ -212,7 +213,103 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Cannot send email", ex);
             }
         }
+        #endregion
 
+        #region Public MB
+        public async Task SendInviteLinkToCustomer(Contract customerFormData, string password)
+        {
+            string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletInviteLink"];
+            string hashLogin = SecurityUtils.Hash(customerEmail);
+
+            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
+            var phoneImage = GenerateIconImageCid(phoneIcon);
+            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
+            var emailImage = GenerateIconImageCid(emailIcon);
+
+            var bottomStyle = "style='font-size: 10px; !important'";
+            var pStyle = "style='font-size: 18px; !important'";
+
+            var body = new StringBuilder();
+            body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
+            body.AppendLine("<div>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{inviteLink}/invite/{hashLogin}'><span>{inviteLink}</span></a></b></p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact}: <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            body.AppendLine($"<p><img src='{phoneImage}'>1-888-859-0059</p>");
+            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:myhomewallet@ecohomefinancial.com'><span>myhomewallet@ecohomefinancial.com</span></a></li></p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
+            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> 1-888-859-0059 | myhomewallet@ecohomefinancial.com</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
+            body.AppendLine("</div>");
+
+            var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
+
+            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            try
+            {
+                await _emailService.SendAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+
+        public async Task SendHomeImprovementMailToCustomer(IList<Contract> succededContracts)
+        {
+            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletInviteLink"];
+            var contract = succededContracts.First();
+            string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description.ToLower()));
+            string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??string.Empty;
+
+            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
+            var phoneImage = GenerateIconImageCid(phoneIcon);
+            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
+            var emailImage = GenerateIconImageCid(emailIcon);
+
+            var bottomStyle = "style ='font-size: 10px; !important'";
+            var pStyle = "style='font-size: 18px; !important'";
+
+            var body = new StringBuilder();
+            body.AppendLine($"<h3>{Resources.Resources.Hi} {contract.PrimaryCustomer.FirstName},</h3>");
+            body.AppendLine("<div>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.ThanksForYourInterestInHomeImprovementService} ({services}) {Resources.Resources.OnThe} {inviteLink}.</p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.WeAreNowLookingForheBest}</p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact}: <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            body.AppendLine($"<p><img src='{phoneImage}'>1-888-859-0059</p>");
+            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:myhomewallet@ecohomefinancial.com'><span>myhomewallet@ecohomefinancial.com</span></a></li></p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
+            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> 1-888-859-0059 | myhomewallet@ecohomefinancial.com</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
+            body.AppendLine("</div>");
+
+            var alternateView = GenerateAlternateView(body,  new List<LinkedResource>(){phoneIcon, emailIcon});
+
+            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            try
+            {
+                await _emailService.SendAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+        #endregion
+
+        #region Private
         private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
         {
             if (contract != null)
@@ -268,6 +365,24 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
             }
         }
+        
+        private AlternateView GenerateAlternateView(StringBuilder body, IList<LinkedResource> iconResources)
+        {
+            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
+            iconResources.ForEach(icon => alternateView.LinkedResources.Add(icon));
+            return alternateView;
+        }
+
+        private MailMessage GenerateMailMessage(string customerEmail, string subject, AlternateView alternateView = null)
+        {
+            var mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            mail.AlternateViews.Add(alternateView);
+            mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
+            mail.To.Add(customerEmail);
+            mail.Subject = subject;
+            return mail;
+        }
 
         private IList<string> GetContractRecipients(ContractDTO contract, string dealerEmail)
         {
@@ -298,6 +413,15 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return recipients;
-        }        
+        }
+
+        private string GenerateIconImageCid(LinkedResource icon)
+        {
+            icon.ContentId = Guid.NewGuid().ToString();
+            icon.ContentType.MediaType = "image/png";
+            var emailImage = "cid:" + icon.ContentId;
+            return emailImage;
+        }
+        #endregion
     }
 }

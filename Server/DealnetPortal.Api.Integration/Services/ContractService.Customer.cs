@@ -73,20 +73,35 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
                     }
-                }                
+                }
 
                 //if all aspire opertaion is failed
-                if (creditCheckAlerts.Any(x => x.Type == AlertType.Error) || aspireFailedResults.Any())
+                var isErrors = creditCheckAlerts.Any(x => x.Type == AlertType.Error) || aspireFailedResults.Any();
+                if (isErrors)
                 {
                     return new Tuple<ContractDTO, IList<Alert>>(null, creditCheckAlerts);
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var succededContract = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).FirstOrDefault();
+                var succededContracts =contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).ToList();
+                var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
                 {
-                    var noWait = _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
-                    //TODO: DEAL-1495 analyze result here and then send invite link to customer
+                    var resultAlerts = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
+                    //TODO: DEAL - 1495 analyze result here and then send invite link to customer
+                    if (resultAlerts.All(x => x.Type != AlertType.Error))
+                    {
+                        if (succededContracts.Select(x => x.Equipment.NewEquipment).ToList().Any() &&
+                            succededContract.PrimaryCustomer.Locations
+                            .FirstOrDefault(l =>l.AddressType == AddressType.MailAddress || l.AddressType == AddressType.MainAddress) !=null)
+                        {
+                            await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
+                        }
+                    }
+                    else
+                    {
+                        return new Tuple<ContractDTO, IList<Alert>>(null, resultAlerts);
+                    }
                 }
                 else
                 {
@@ -94,7 +109,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 var contractDTO = Mapper.Map<ContractDTO>(contractsResultList.First().Item1);
-
+                
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
@@ -107,6 +122,7 @@ namespace DealnetPortal.Api.Integration.Services
         private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, string improvmentType = null)
         {
             var contract = _contractRepository.CreateContract(contractOwnerId);
+            var equipmentType = _contractRepository.GetEquipmentTypes();
 
             if (contract != null)
             {
@@ -128,7 +144,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (!string.IsNullOrEmpty(improvmentType))
                 {
-                    contractData.Equipment.NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType } };
+                    var eq = equipmentType.SingleOrDefault(x => x.Type == improvmentType);
+                    contractData.Equipment.NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq.Description } };
                 }
 
                 return await UpdateNewContractForCustomer(contractOwnerId, newCustomer, contractData);
