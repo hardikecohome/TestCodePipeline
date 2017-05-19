@@ -190,11 +190,14 @@ namespace DealnetPortal.DataAccess.Repositories
                         (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
         }
 
-        public bool AssignContract(int contractId, string newContractOwnerId)
+        public Contract AssignContract(int contractId, string newContractOwnerId)
         {
             var updated = false;
 
-            var contract = _dbContext.Contracts.FirstOrDefault(x => x.Id == contractId);
+            var contract = _dbContext.Contracts
+                .Include(x=>x.Equipment.NewEquipment)
+                .Include(x=>x.PrimaryCustomer)
+                .FirstOrDefault(x => x.Id == contractId);
 
             if (contract != null)
             {
@@ -213,7 +216,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
 
-            return updated;
+            return updated ? contract : null;
         }
 
         public bool DeleteContract(string contractOwnerId, int contractId)
