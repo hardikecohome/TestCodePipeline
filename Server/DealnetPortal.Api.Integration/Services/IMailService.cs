@@ -34,7 +34,7 @@ namespace DealnetPortal.Api.Integration.Services
         Task SendCustomerLoanFormContractCreationNotification(string customerEmail, CustomerContractInfoDTO contractData,
             string dealerColor, byte[] dealerLogo);
 
-        Task SendInviteLinkToCustomer(Contract customerFormData);
+        Task SendInviteLinkToCustomer(Contract customerFormData, string customerPassword);
         Task SendHomeImprovementMailToCustomer(IList<Contract> customerFormData);
     }
 }

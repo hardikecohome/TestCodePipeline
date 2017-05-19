@@ -216,11 +216,11 @@ namespace DealnetPortal.Api.Integration.Services
         #endregion
 
         #region Public MB
-        public async Task SendInviteLinkToCustomer(Contract customerFormData)
+        public async Task SendInviteLinkToCustomer(Contract customerFormData, string password)
         {
-            string inviteLink = "www.myhomewallet.com";//ToDO: should be get external
-            string password = "password";//ToDO: should be get external
             string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletInviteLink"];
+            string hashLogin = SecurityUtils.Hash(customerEmail);
 
             var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
             var phoneImage = GenerateIconImageCid(phoneIcon);
@@ -234,7 +234,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
             body.AppendLine("<div>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b>{inviteLink}</b></p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{inviteLink}/invite/{hashLogin}'><span>{inviteLink}</span></a></b></p>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
@@ -264,7 +264,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendHomeImprovementMailToCustomer(IList<Contract> succededContracts)
         {
-            string inviteLink = "www.myhomewallet.com";//ToDO: should be get external
+            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletInviteLink"];
             var contract = succededContracts.First();
             string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description.ToLower()));
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??string.Empty;

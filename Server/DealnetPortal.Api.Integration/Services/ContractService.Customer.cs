@@ -91,8 +91,6 @@ namespace DealnetPortal.Api.Integration.Services
                     //TODO: DEAL - 1495 analyze result here and then send invite link to customer
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
-                        await _mailService.SendInviteLinkToCustomer(succededContract);
-
                         if (succededContracts.Select(x => x.Equipment.NewEquipment).ToList().Any() &&
                             succededContract.PrimaryCustomer.Locations
                             .FirstOrDefault(l =>l.AddressType == AddressType.MailAddress || l.AddressType == AddressType.MainAddress) !=null)

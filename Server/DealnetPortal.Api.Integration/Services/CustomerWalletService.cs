@@ -20,13 +20,15 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly ICustomerWalletServiceAgent _customerWalletServiceAgent;
         private readonly IContractRepository _contractRepository;
+        private readonly IMailService _mailService;
         private readonly ILoggingService _loggingService;
 
-        public CustomerWalletService(ICustomerWalletServiceAgent customerWalletServiceAgent, IContractRepository contractRepository, ILoggingService loggingService)
+        public CustomerWalletService(ICustomerWalletServiceAgent customerWalletServiceAgent, IContractRepository contractRepository, ILoggingService loggingService, IMailService mailService)
         {
             _customerWalletServiceAgent = customerWalletServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
+            _mailService = mailService;
         }
 
         public async Task<IList<Alert>> CreateCustomerByContract(DealnetPortal.Domain.Contract contract, string contractOwnerId)
@@ -82,8 +84,11 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogInfo($"Failed to register new {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
             }
-
-            //TODO: send email notification for DEAL-1490 here !
+            //send email notification for DEAL-1490
+            else
+            {
+                await _mailService.SendInviteLinkToCustomer(contract, randomPassword);
+            }
 
             return alerts;
         }
