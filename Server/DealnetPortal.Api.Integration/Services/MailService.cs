@@ -219,7 +219,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendInviteLinkToCustomer(Contract customerFormData, string password)
         {
             string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
-            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletInviteLink"];
+            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
 
             var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
@@ -264,7 +264,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendHomeImprovementMailToCustomer(IList<Contract> succededContracts)
         {
-            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletInviteLink"];
+            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletClient"];
             var contract = succededContracts.First();
             string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description.ToLower()));
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??string.Empty;
