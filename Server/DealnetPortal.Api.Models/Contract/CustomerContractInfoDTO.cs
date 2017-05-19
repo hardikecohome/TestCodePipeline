@@ -12,7 +12,7 @@ namespace DealnetPortal.Api.Models.Contract
     {
         public int ContractId { get; set; }
         public string TransactionId { get; set; }
-
+        public string AccountId { get; set; }
         public string DealerName { get; set; }
         public LocationDTO DealerAdress { get; set; }
         public string DealerPhone { get; set; }
@@ -21,8 +21,8 @@ namespace DealnetPortal.Api.Models.Contract
         public decimal CreditAmount { get; set; }
         public int ScorecardPoints { get; set; }
         public string Status { get; set; }
+        public IList<string> EquipmentTypes { get; set; }
         public ContractState ContractState { get; set; }
-
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
     }

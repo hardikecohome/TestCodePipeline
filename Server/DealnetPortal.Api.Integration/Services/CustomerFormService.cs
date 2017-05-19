@@ -174,13 +174,16 @@ namespace DealnetPortal.Api.Integration.Services
                     contractInfo = new CustomerContractInfoDTO()
                     {
                         ContractId = contractId,
+                        AccountId = contract.PrimaryCustomer?.AccountId,
+                        DealerName = contract.LastUpdateOperator,
                         TransactionId = contract.Details?.TransactionId,
                         ContractState = contract.ContractState,
                         Status = contract.Details?.Status,
                         CreditAmount = contract.Details?.CreditAmount ?? 0,
                         ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
                         CreationTime = contract.CreationTime,
-                        LastUpdateTime = contract.LastUpdateTime
+                        LastUpdateTime = contract.LastUpdateTime,
+                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
                     };
 
                     try

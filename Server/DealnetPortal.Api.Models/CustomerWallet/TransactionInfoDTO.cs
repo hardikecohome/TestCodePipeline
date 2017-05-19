@@ -8,6 +8,7 @@ namespace DealnetPortal.Api.Models.CustomerWallet
 {
     public class TransactionInfoDTO
     {
+        public string UserName { get; set; }
         public int? DealnetContractId { get; set; }
         public string AspireAccountId { get; set; }
         public string AspireTransactionId { get; set; }

@@ -51,7 +51,29 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
                     Message = ex.Message
                 });
             }
-            return new List<Alert>(alerts);
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> CreateTransaction(TransactionInfoDTO transactionInfo)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                return
+                    await
+                        Client.PutAsync<TransactionInfoDTO, IList<Alert>>($"{_fullUri}/Customer/CreateTransaction",
+                            transactionInfo);
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = $"Creation of a new transaction on Customer Wallet portal failed",
+                    Message = ex.Message
+                });
+            }
+            return alerts;
         }
 
         public Task<bool> CheckUser(string userName)

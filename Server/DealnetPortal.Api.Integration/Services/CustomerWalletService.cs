@@ -78,9 +78,19 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             };
 
-            if (await _customerWalletServiceAgent.CheckUser(registerCustomer.RegisterInfo.Email))
+            if (await _customerWalletServiceAgent.CheckUser(registerCustomer.RegisterInfo.Email).ConfigureAwait(false))
             {
                 _loggingService.LogInfo($"Customer {registerCustomer.RegisterInfo.Email} already registered on Customer Wallet");
+                registerCustomer.TransactionInfo.UserName = registerCustomer.RegisterInfo.Email;
+                var submitAlerts = await _customerWalletServiceAgent.CreateTransaction(registerCustomer.TransactionInfo);
+                if (submitAlerts?.Any() ?? false)
+                {
+                    alerts.AddRange(submitAlerts);
+                }
+                if (alerts.Any(a => a.Type == AlertType.Error))
+                {
+                    _loggingService.LogInfo($"Failed to create a new transaction for {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
+                }
             }
             else
             {
