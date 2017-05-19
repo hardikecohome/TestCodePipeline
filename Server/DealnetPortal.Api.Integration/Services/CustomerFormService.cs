@@ -226,12 +226,29 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerId = _dealerRepository.GetUserIdByName(customerFormData.DealerName);
             if (!string.IsNullOrEmpty(dealerId))
             {
-                var contract = _contractRepository.CreateContract(dealerId);
-                if (contract != null)
-                {                    
+                Contract contract = null;
+                //update or create a brand new contract
+                if (customerFormData.PrecreatedContractId.HasValue)
+                {
+                    contract = _contractRepository.GetContract(customerFormData.PrecreatedContractId.Value, dealerId);
+                    if (contract != null && contract.PrimaryCustomer.AccountId == customerFormData.PrimaryCustomer.AccountId)
+                    {
+                        _loggingService.LogInfo($"Selected contract [{contract.Id}] for update by customer loan form request for {customerFormData.DealerName} dealer");
+                    }
+                    else
+                    {
+                        contract = null;
+                    }
+                }
+                if (contract == null)
+                {
+                    contract = _contractRepository.CreateContract(dealerId);
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
+                }
 
+                if (contract != null)
+                {                                        
                     //var customer = Mapper.Map<Customer>(customerFormData.PrimaryCustomer);
                     var contractData = new ContractDataDTO()
                     {
@@ -310,16 +327,16 @@ namespace DealnetPortal.Api.Integration.Services
                         submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
                     }                    
                 }
-                else
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Code = ErrorCodes.ContractCreateFailed,
-                        Header = "Cannot create contract",
-                        Message = "Cannot create contract from customer loan form"
-                    });
-                }
+                //else
+                //{
+                //    alerts.Add(new Alert()
+                //    {
+                //        Type = AlertType.Error,
+                //        Code = ErrorCodes.ContractCreateFailed,
+                //        Header = "Cannot create contract",
+                //        Message = "Cannot create contract from customer loan form"
+                //    });
+                //}
             }
             else
             {
