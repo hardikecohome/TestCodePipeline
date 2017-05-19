@@ -12,6 +12,6 @@ namespace DealnetPortal.Api.Models.CustomerWallet
 
         public CustomerProfile Profile { get; set; }
 
-        public CustomerCreditInfo CreditInfo { get; set; }
+        public TransactionInfoDTO TransactionInfo { get; set; }
     }
 }

@@ -54,5 +54,17 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             return new List<Alert>(alerts);
         }
 
+        public Task<bool> CheckUser(string userName)
+        {
+            try
+            {
+                return Client.GetAsync<bool>(
+                            $"{_fullUri}/Account/CheckUser?userName={userName}");
+            }
+            catch (Exception ex)
+            {                
+                throw;
+            }
+        }
     }
 }

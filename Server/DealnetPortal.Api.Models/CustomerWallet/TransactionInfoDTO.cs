@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.CustomerWallet
 {
-    public class CustomerCreditInfo
+    public class TransactionInfoDTO
     {
         public int? DealnetContractId { get; set; }
         public string AspireAccountId { get; set; }
@@ -14,7 +14,9 @@ namespace DealnetPortal.Api.Models.CustomerWallet
         public string AspireStatus { get; set; }
         public int? ScorecardPoints { get; set; }
         public decimal? CreditAmount { get; set; }
-
+        public string EquipmentType { get; set; }
+        public string DealerName { get; set; }
         public DateTime? UpdateTime { get; set; }
+        public bool? IsIncomplete { get; set; }
     }
 }

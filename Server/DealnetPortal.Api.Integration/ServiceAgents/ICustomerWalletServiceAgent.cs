@@ -11,5 +11,6 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
     public interface ICustomerWalletServiceAgent
     {
         Task<IList<Alert>> RegisterCustomer(RegisterCustomerBindingModel registerCustomer);
+        Task<bool> CheckUser(string userName);
     }
 }
