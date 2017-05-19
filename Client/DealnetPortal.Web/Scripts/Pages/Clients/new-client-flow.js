@@ -11,8 +11,7 @@
                     .SET_POSTAL_CODE
                 ];
                 var contactInfoFlow = [
-                    clientActions.SET_PHONE, clientActions.SET_CELL_PHONE, clientActions.SET_EMAIL, clientActions
-                    .SET_CONTACT_METHOD
+                    clientActions.SET_PHONE, clientActions.SET_CELL_PHONE, clientActions.SET_EMAIL
                 ];
                 var addressFlow = [
                     clientActions.SET_STREET, clientActions.SET_CITY, clientActions.SET_PROVINCE, clientActions

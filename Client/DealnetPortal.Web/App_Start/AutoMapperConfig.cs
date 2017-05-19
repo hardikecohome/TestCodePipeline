@@ -45,6 +45,7 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
                     .ForMember(x => x.AllowCommunicate, d => d.Ignore())
                     .ForMember(x => x.IsInitialCustomer, d => d.Ignore())
+                    .ForMember(x => x.IsHomeOwner, d => d.ResolveUsing(src => src?.IsHomeOwner == true))
                     .ForMember(x => x.AccountId, d => d.Ignore());
 
             cfg.CreateMap<AddressInformation, LocationDTO>()

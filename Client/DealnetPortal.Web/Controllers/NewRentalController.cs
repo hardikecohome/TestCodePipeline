@@ -51,16 +51,26 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContractEdit(int contractId)
         {
             var contractResult = await _contractServiceAgent.GetContract(contractId);
+
             if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
+                var isNewlyCreated = contractResult.Item1.IsNewlyCreated;
+
                 if (contractResult.Item1.IsNewlyCreated == true)
                 {
-                    await _contractServiceAgent.NotifyContractEdit(contractId);
+                    var result = await _contractServiceAgent.NotifyContractEdit(contractId);
+
+                    if (result.All(c => c.Type != AlertType.Error))
+                    {
+                        isNewlyCreated = false;
+                    }
                 }
-                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && contractResult.Item1.IsNewlyCreated != true)
+
+                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
+
                 if (contractResult.Item1.ContractState >= ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
                 {
                     return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });

@@ -51,8 +51,7 @@ namespace DealnetPortal.Web.Infrastructure
             var newCustomerDto = new NewCustomerDTO();
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
             newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
-
-            var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
+           var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
             mainAddress.AddressType = AddressType.MainAddress;
             newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
 
@@ -77,6 +76,8 @@ namespace DealnetPortal.Web.Infrastructure
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
             newCustomerDto.CustomerComment = customer.CustomerComment;
             newCustomerDto.HomeImprovementTypes = customer.HomeImprovementTypes;
+            newCustomerDto.EstimatedMoveInDate = customer.EstimatedMoveInDate;
+            newCustomerDto.PrimaryCustomer.PreferredContactMethod = customer.HomeOwnerContactInfo.PreferredContactMethod;
 
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }

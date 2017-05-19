@@ -24,7 +24,7 @@
     var basicInfoRequiredFields = ['name', 'lastName', 'birthday'];
     var currentAddressRequiredFields = ['street', 'city', 'province', 'postalCode'];
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
-    var contactInfoRequiredFields = ['email', 'contactMethod'];
+    var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
     var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
 

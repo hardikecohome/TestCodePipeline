@@ -876,7 +876,6 @@
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\my-customers.js" />
-    <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\MyProfile\form-handlers.js" />
     <Content Include="Scripts\Pages\MyProfile\index.js" />
     <Content Include="Scripts\Pages\MyProfile\category-handlers.js" />

@@ -168,7 +168,6 @@ function addLead(id, transactionId) {
                     hideLoader();
                     $('#section-before-table').append($('#msg-lead-accepted'));
                     $('#section-before-table #msg-lead-accepted').show();
-                    window.location.href = redirectUrl;
                 }
 
                 $('.modal').modal('hide');
