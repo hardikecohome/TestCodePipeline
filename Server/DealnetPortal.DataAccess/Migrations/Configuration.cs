@@ -591,7 +591,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
                 new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
                 new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49"},
-                new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
+                //new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
                 new EquipmentType {Description = "Security System", DescriptionResource = "SecuritySystem", Type = "ECO52"},
                 new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"}
             };
