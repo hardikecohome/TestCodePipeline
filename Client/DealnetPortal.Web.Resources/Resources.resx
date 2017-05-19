@@ -1526,4 +1526,7 @@
   <data name="HouseSize" xml:space="preserve">
     <value>House Size</value>
   </data>
+  <data name="OrderProceedClientAged75OrLess" xml:space="preserve">
+    <value>In order to proceed client needs to be aged 75 or less.</value>
+  </data>
 </root>
