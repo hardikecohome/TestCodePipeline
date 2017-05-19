@@ -448,4 +448,7 @@
   <data name="YouHaveBeen" xml:space="preserve">
     <value>You have been</value>
   </data>
+  <data name="WeFoundHomeProfessionalForYour" xml:space="preserve">
+    <value>We found home professional for your home improvement project</value>
+  </data>
 </root>

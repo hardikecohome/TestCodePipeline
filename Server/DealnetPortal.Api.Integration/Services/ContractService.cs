@@ -1186,10 +1186,12 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                if (_contractRepository.AssignContract(contractId, newContractOwnerId))
+                var updatedContract = _contractRepository.AssignContract(contractId, newContractOwnerId);
+                if (updatedContract != null)
                 {
                     _unitOfWork.Save();
-
+                    var dealer = Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(updatedContract.Dealer.UserName));
+                    await _mailService.SendCustomerDealerAcceptLead(updatedContract, dealer.Locations?.FirstOrDefault());
                     await _aspireService.UpdateContractCustomer(contractId, newContractOwnerId);
                 }
                 else

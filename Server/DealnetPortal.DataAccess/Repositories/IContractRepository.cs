@@ -203,6 +203,6 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="contractId">contractId</param>
         /// <param name="newContractOwnerId">new dealer id</param>
         /// <returns></returns>
-        bool AssignContract(int contractId, string newContractOwnerId);
+        Contract AssignContract(int contractId, string newContractOwnerId);
     }
 }
