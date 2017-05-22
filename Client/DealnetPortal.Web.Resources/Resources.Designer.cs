@@ -1024,6 +1024,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consents.
+        /// </summary>
+        public static string Consents {
+            get {
+                return ResourceManager.GetString("Consents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact and Payment Information.
         /// </summary>
         public static string ContactAndPaymentInfo {
