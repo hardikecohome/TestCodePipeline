@@ -85,8 +85,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? EstimatedInstallationDate { get; set; }
-
-        public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }
     }
 
     public class CheckEquipmentsCostAttribute : ValidationAttribute, IClientValidatable
