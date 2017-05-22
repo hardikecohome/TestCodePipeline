@@ -220,7 +220,7 @@ namespace DealnetPortal.Api.Providers
                     DealerDTO aspireDealerInfo = null;
                     try
                     {
-                        aspireDealerInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(context.UserName));
+                        aspireDealerInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(context.UserName));
                     }
                     catch (Exception ex)
                     {

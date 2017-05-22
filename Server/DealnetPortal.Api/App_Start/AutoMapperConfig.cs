@@ -251,8 +251,21 @@ namespace DealnetPortal.Api.App_Start
                 .IncludeBase<Entity, CustomerDTO>()
                 .ForMember(d => d.ParentDealerUserName, s => s.MapFrom(src => src.ParentUserName))
                 .ForMember(d => d.FirstName, s => s.MapFrom(src => src.FirstName ?? src.Name))
-                .ForMember(d => d.PreferredContactMethod, s => s.Ignore());
+                .ForMember(d => d.PreferredContactMethod, s => s.Ignore())
+                .ForMember(d => d.ProductType, s => s.Ignore())
+                .ForMember(d => d.ChannelType, s => s.Ignore())
+                .ForMember(d => d.Role, s => s.Ignore())
+                .ForMember(d => d.Ratecard, s => s.Ignore());
 
+            mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.DealerRoleEntity, DealerDTO>()
+                .IncludeBase<Entity, DealerDTO>()
+                .ForMember(d => d.ParentDealerUserName, s => s.MapFrom(src => src.ParentUserName))
+                .ForMember(d => d.FirstName, s => s.MapFrom(src => src.FirstName ?? src.Name))
+                .ForMember(d => d.PreferredContactMethod, s => s.Ignore())
+                .ForMember(d => d.ProductType, s => s.MapFrom(src => src.ProductType))
+                .ForMember(d => d.ChannelType, s => s.MapFrom(src => src.ChannelType))
+                .ForMember(d => d.Role, s => s.MapFrom(src => src.Role))
+                .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard));
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
@@ -344,13 +357,17 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink));
             mapperConfig.CreateMap<DealerEquipmentDTO, DealerEquipment>()
-                .ForMember(x => x.EquipmentId, d => d.ResolveUsing(src => src.Equipment.Id));
-            mapperConfig.CreateMap<DealerAreaDTO, DealerArea>();
+                .ForMember(x => x.EquipmentId, d => d.ResolveUsing(src => src.Equipment.Id))
+                .ForMember(x => x.DealerProfile, d => d.Ignore())
+                .ForMember(x => x.Id, d => d.Ignore());
+            mapperConfig.CreateMap<DealerAreaDTO, DealerArea>()
+                .ForMember(x => x.DealerProfile, d => d.Ignore());
             mapperConfig.CreateMap<DealerProfileDTO, DealerProfile>()
                 .ForMember(x => x.Id, d => d.MapFrom( src => src.Id))
                 .ForMember(x => x.DealerId, d => d.MapFrom( src => src.DealerId))
                 .ForMember(x => x.Equipments, d => d.MapFrom( src => src.EquipmentList.Select( s=> new DealerEquipment() {EquipmentId = s.Equipment.Id, ProfileId = src.Id})))
-                .ForMember(x => x.Areas, d => d.MapFrom( src => src.PostalCodesList.Select(s => new DealerArea() {ProfileId = src.Id, PostalCode = s.PostalCode})));
+                .ForMember(x => x.Areas, d => d.MapFrom( src => src.PostalCodesList.Select(s => new DealerArea() {ProfileId = src.Id, PostalCode = s.PostalCode})))
+                .ForMember(x => x.Dealer, d => d.Ignore());
            
         }
     }

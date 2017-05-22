@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.DataAccess;
 using DealnetPortal.Domain;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -15,11 +17,13 @@ namespace DealnetPortal.Api.Integration.Services
     public class UsersService : IUsersService
     {
         private readonly IAspireStorageReader _aspireStorageReader;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly List<string> _mortgageBrokers = new List<string>() {"user@user.com", "enertech"};
 
-        public UsersService(IAspireStorageReader aspireStorageReader)
+        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory)
         {
             _aspireStorageReader = aspireStorageReader;
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(databaseFactory.Get()));
         }
 
         public IList<Claim> GetUserClaims(ApplicationUser user)
