@@ -1529,7 +1529,16 @@
   <data name="OrderProceedClientAged75OrLess" xml:space="preserve">
     <value>In order to proceed client needs to be aged 75 or less.</value>
   </data>
+  <data name="AddAnotherClient" xml:space="preserve">
+    <value>Add Another Client</value>
+  </data>
   <data name="Consents" xml:space="preserve">
     <value>Consents</value>
+  </data>
+  <data name="CreditCheckProceedSuccessfully" xml:space="preserve">
+    <value>Credit check processed successfully.</value>
+  </data>
+  <data name="MyClients" xml:space="preserve">
+    <value>My Clients</value>
   </data>
 </root>

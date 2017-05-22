@@ -142,6 +142,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Another Client.
+        /// </summary>
+        public static string AddAnotherClient {
+            get {
+                return ResourceManager.GetString("AddAnotherClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add comment.
         /// </summary>
         public static string AddComment {
@@ -1191,6 +1200,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CreditCheckInitiated {
             get {
                 return ResourceManager.GetString("CreditCheckInitiated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit check processed successfully..
+        /// </summary>
+        public static string CreditCheckProceedSuccessfully {
+            get {
+                return ResourceManager.GetString("CreditCheckProceedSuccessfully", resourceCulture);
             }
         }
         
@@ -2550,6 +2568,15 @@ namespace DealnetPortal.Web.Resources {
         public static string MustBeAtLeastLong {
             get {
                 return ResourceManager.GetString("MustBeAtLeastLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Clients.
+        /// </summary>
+        public static string MyClients {
+            get {
+                return ResourceManager.GetString("MyClients", resourceCulture);
             }
         }
         
