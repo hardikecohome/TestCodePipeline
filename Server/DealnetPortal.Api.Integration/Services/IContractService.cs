@@ -62,7 +62,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
 
-        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();        
+        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes(string dealerId);        
 
         //IList<EquipmentTypeDTO> GetDocumentTypes();
 
@@ -79,6 +79,7 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> RemoveComment(int commentId, string contractOwnerId);        
 
         IList<Alert> RemoveContract(int documentId, string contractOwnerId);
+
         Task<IList<Alert>> AssignContract(int contractId, string newContractOwnerId);
     }
 }

@@ -15,6 +15,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         DealerProfile GetDealerProfile(string dealerId);
 
-        bool UpdateDealerProfile(DealerProfile profile);
+        DealerProfile UpdateDealerProfile(DealerProfile profile);
+
+        void UpdateDealer(ApplicationUser dealer);
     }
 }

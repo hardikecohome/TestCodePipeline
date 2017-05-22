@@ -28,9 +28,10 @@ namespace DealnetPortal.Api.Controllers
         private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageReader AspireStorageReader { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
+        private IContractService _contractService { get; set; }
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -38,6 +39,7 @@ namespace DealnetPortal.Api.Controllers
             SettingsRepository = settingsRepository;
             AspireStorageReader = aspireStorageReader;
             CustomerFormService = customerFormService;
+            _contractService = contractService;
         }             
 
         [Route("DocumentTypes")]
@@ -76,7 +78,7 @@ namespace DealnetPortal.Api.Controllers
             var alerts = new List<Alert>();
             try
             {
-                var equipmentTypes = ContractRepository.GetEquipmentTypes();
+                var equipmentTypes = _contractService.GetEquipmentTypes(LoggedInUser?.UserId);
                 var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
                 if (equipmentTypes == null)
                 {
