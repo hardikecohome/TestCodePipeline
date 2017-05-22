@@ -285,7 +285,7 @@ namespace DealnetPortal.Api.Integration.Services
                 userEntity.EmailAddress = ConvertFromDbVal<string>(dr["email_addr"]);
 
                 var postalCode = ConvertFromDbVal<string>(dr["postal_code"]);
-                if (!string.IsNullOrEmpty(userEntity.PostalCode))
+                if (!string.IsNullOrEmpty(postalCode))
                 {
                     userEntity.PostalCode = postalCode;
                     userEntity.City = ConvertFromDbVal<string>(dr["city"]);
