@@ -663,14 +663,14 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var dealerProfile = _dealerRepository.GetDealerProfile(dealerId);
-                var equipmentTypes = new List<EquipmentType>();
+                IList<EquipmentType> equipmentTypes;
                 if (dealerProfile != null)
                 {
                     equipmentTypes = dealerProfile.Equipments.Select(x=>x.Equipment).ToList();
                 }
                 else
                 {
-                    equipmentTypes = _contractRepository.GetEquipmentTypes().ToList();
+                    equipmentTypes = _contractRepository.GetEquipmentTypes();
                 }
                 
                 var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);

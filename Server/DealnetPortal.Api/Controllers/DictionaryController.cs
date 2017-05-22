@@ -78,9 +78,8 @@ namespace DealnetPortal.Api.Controllers
             var alerts = new List<Alert>();
             try
             {
-                var equipmentTypes = _contractService.GetEquipmentTypes(LoggedInUser?.UserId);
-                var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
-                if (equipmentTypes == null)
+                var result = _contractService.GetEquipmentTypes(LoggedInUser?.UserId);
+                if (result == null)
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
                     alerts.Add(new Alert()
@@ -91,7 +90,6 @@ namespace DealnetPortal.Api.Controllers
                     });
                     LoggingService.LogError(errorMsg);
                 }
-                var result = new Tuple<IList<EquipmentTypeDTO>, IList<Alert>>(equipmentTypeDtos, alerts);
                 return Ok(result);
             }
             catch (Exception ex)
