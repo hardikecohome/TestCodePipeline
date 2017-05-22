@@ -56,6 +56,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 aspireDealerInfo =
                     AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(user.UserName));
+                    //AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(user.UserName));
 
                 if (aspireDealerInfo != null)
                 {

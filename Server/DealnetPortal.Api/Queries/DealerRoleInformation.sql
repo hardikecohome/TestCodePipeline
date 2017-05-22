@@ -37,6 +37,4 @@ LEFT JOIN Phone (nolock) as fax
  LEFT JOIN [DocGenAccOtherUDF-ChannelType] c_type (NOLOCK) ON e.oid = c_type.oid
  LEFT JOIN [DocGenAccOtherUDF-RateCard] ratecard (NOLOCK) ON e.oid = ratecard.oid
 
- where sc.user_id  LIKE '{0}%'
- 
-order by 1 desc
+ where sc.user_id  LIKE '{0}%';
