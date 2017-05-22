@@ -24,7 +24,6 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILoggingService _loggingService;
-        private readonly List<string> _mortgageBrokers = new List<string>() {"user@user.com", "enertech"};
 
         public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService)
         {
@@ -36,30 +35,7 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<Claim> GetUserClaims(ApplicationUser user)
         {
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
-            //var roles = GetUserRoles(user);            
-            //roles?.ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.ToString())));
-
-            //foreach (var role in roles)
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
-            //    switch (role)
-            //    {
-            //        case UserRole.Admin:
-            //            break;
-            //        case UserRole.Dealer:
-            //        case UserRole.SubDealer:
-            //            claims.Add(new Claim(ClaimNames.AllowCreateApplication, true.ToString()));
-            //            claims.Add(new Claim(ClaimNames.ShowMyDeals, true.ToString()));
-            //            break;
-            //        case UserRole.MortgageBroker:
-            //            claims.Add(new Claim(ClaimNames.AllowCreateCustomer, true.ToString()));
-            //            claims.Add(new Claim(ClaimNames.ShowMyCustomers, true.ToString()));
-            //            break;
-            //        default:
-            //            throw new ArgumentOutOfRangeException();
-            //    }
-            //}
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));            
 
             if (!(user.Settings?.SettingValues?.Any() ?? false))
             {
@@ -83,12 +59,12 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (aspireDealerInfo != null)
                 {
-                    var parentAlerts = await UpdateUserParent(user, aspireDealerInfo);
+                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo);
                     if (parentAlerts.Any())
                     {
                         alerts.AddRange(parentAlerts);
                     }
-                    var rolesAlerts = await UpdateUserRoles(user, aspireDealerInfo);
+                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo);
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
@@ -112,7 +88,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private async Task<IList<Alert>> UpdateUserParent(ApplicationUser user, DealerDTO aspireUser)
+        private async Task<IList<Alert>> UpdateUserParent(string userId, DealerDTO aspireUser)
         {
             var alerts = new List<Alert>();
             var parentUser = !string.IsNullOrEmpty(aspireUser?.ParentDealerUserName)
@@ -121,14 +97,14 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (parentUser != null)
             {
-                var updateUser = await _userManager.FindByNameAsync(user.UserName);
+                var updateUser = await _userManager.FindByIdAsync(userId);
                 updateUser.ParentDealer = parentUser;
                 updateUser.ParentDealerId = parentUser.Id;
                 var updateRes = await _userManager.UpdateAsync(updateUser);
                 if (updateRes.Succeeded)
                 {
                     _loggingService?.LogInfo(
-                        $"Parent dealer for Aspire user [{user.UserName}] was updated successefully");
+                        $"Parent dealer for Aspire user [{userId}] was updated successefully");
                 }
                 else
                 {
@@ -158,24 +134,39 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     rolesToSet.Add(UserRole.MortgageBroker.ToString());                    
                 }
-                var userRoles = await _userManager.GetRolesAsync(userId);
-
+                var dbRoles = await _userManager.GetRolesAsync(userId);
+                var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.Except(rolesToSet).ToArray());
+                var addRes = await _userManager.AddToRolesAsync(userId, rolesToSet.Except(dbRoles).ToArray());
+                if(addRes.Succeeded && removeRes.Succeeded)
+                {
+                    _loggingService?.LogInfo(
+                        $"Roles for Aspire user [{userId}] was updated successefully");
+                }
+                else
+                {
+                    removeRes.Errors?.ForEach(e =>
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "Error during remove role",
+                            Message = e
+                        });
+                        _loggingService.LogError($"Error during remove role for an user {userId}: {e}");
+                    });
+                    addRes.Errors?.ForEach(e =>
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "Error during add role",
+                            Message = e
+                        });
+                        _loggingService.LogError($"Error during add role for an user {userId}: {e}");
+                    });
+                }
             }
             return alerts;
-        }
-
-        public IList<UserRole> GetUserRoles(ApplicationUser user)
-        {
-            List<UserRole> roles = new List<UserRole>();
-            if (_mortgageBrokers.Contains(user.UserName))
-            {
-                roles.Add(UserRole.MortgageBroker);
-            }
-            else
-            {
-                roles.Add(user.ParentDealer != null ? UserRole.SubDealer : UserRole.Dealer);
-            }
-            return roles;
-        }
+        }        
     }
 }

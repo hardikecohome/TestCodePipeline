@@ -216,36 +216,10 @@ namespace DealnetPortal.Api.Providers
 
                 if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
                 {
-                    //get user info from aspire DB
-                    DealerDTO aspireDealerInfo = null;
-                    try
-                    {
-                        aspireDealerInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(context.UserName));
-                    }
-                    catch (Exception ex)
-                    {
-                        aspireDealerInfo = null;
-                        var errorMsg = $"Cannot connect to aspire database for get [{context.UserName}] info";
-                        _loggingService?.LogWarning(errorMsg);
-                        alerts.Add(new Alert()
-                        {
-                            Code = ErrorCodes.AspireDatabaseConnectionFailed,
-                            Header = errorMsg,
-                            Type = AlertType.Warning,                                      
-                            Message = ex.ToString()
-                        });
-                    }
-
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
                     var applicationId = context.OwinContext.Get<string>("portalId");
-
                     var oldUser = await userManager.FindByNameAsync(context.UserName);
-
-                    var parentUser = !string.IsNullOrEmpty(aspireDealerInfo?.ParentDealerUserName)
-                        ? await userManager.FindByNameAsync(aspireDealerInfo.ParentDealerUserName)
-                        : null;
-
+                 
                     if (oldUser != null)
                     {
                         //update password for existing aspire user
@@ -253,14 +227,7 @@ namespace DealnetPortal.Api.Providers
                             context.Password);
                         if (updateRes.Succeeded)
                         {
-                            oldUser.AspirePassword = context.Password;
-
-                            if (parentUser != null)
-                            {
-                                oldUser.ParentDealer = parentUser;
-                                oldUser.ParentDealerId = parentUser.Id;
-                            }
-
+                            oldUser.AspirePassword = context.Password;                            
                             updateRes = await userManager.UpdateAsync(oldUser);
                             if (updateRes.Succeeded)
                             {
@@ -272,7 +239,6 @@ namespace DealnetPortal.Api.Providers
                     }
                     else
                     {
-
                         var newUser = new ApplicationUser()
                         {
                             UserName = context.UserName,
@@ -282,13 +248,7 @@ namespace DealnetPortal.Api.Providers
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
                             AspirePassword = context.Password
-                        };
-
-                        if (parentUser != null)
-                        {
-                            newUser.ParentDealer = parentUser;
-                            newUser.ParentDealerId = parentUser.Id;
-                        }
+                        };                        
 
                         try
                         {
@@ -305,6 +265,13 @@ namespace DealnetPortal.Api.Providers
                             user = null;
                         }
                     }
+
+                    var syncAlerts = await _usersService.SyncAspireUser(user);
+                    if (syncAlerts?.Any() ?? false)
+                    {
+                        outAlerts.AddRange(syncAlerts);
+                    }
+
                 }
                 else
                 {

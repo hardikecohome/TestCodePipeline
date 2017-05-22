@@ -10,8 +10,6 @@ namespace DealnetPortal.Api.Integration.Services
     public interface IUsersService
     {
         IList<Claim> GetUserClaims(ApplicationUser user);
-        IList<UserRole> GetUserRoles(ApplicationUser user);
-
         Task<IList<Alert>> SyncAspireUser(ApplicationUser user);
     }
 }
