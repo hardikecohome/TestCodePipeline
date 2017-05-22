@@ -108,7 +108,7 @@
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
                             </div>
-                            @if (User.Identity.IsAuthenticated && (bool)@TempData["LangSwitcherAvailable"])
+                            @if (User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
                             {
                             <div class="lang-switcher pull-right">
                                 <div class="chosen-language">
