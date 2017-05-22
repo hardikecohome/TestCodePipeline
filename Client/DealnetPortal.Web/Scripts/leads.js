@@ -63,7 +63,7 @@ function showTable() {
 					    { "data": "CustomerComment", className: 'customer-cell' },
 					    {// this is Actions Column
 					        "render": function (sdata, type, row) {
-                                return '<div class="contract-controls text-center"><a class="link-accepted-link" data-container="body" data-toggle="popover" data-trigger="hover" data-content="$50.00 fee will be applied to your account" onclick="addLead(' + row.Id + ', '+ row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
+                                return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="$50.00 fee will be applied to your account" onclick="addLead(' + row.Id + ', '+ row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
 					        },
 					        className: 'controls-cell accept-cell',
 					        orderable: false
@@ -105,7 +105,7 @@ function showTable() {
                 table.search('').draw();
             });
           $('.dataTables_filter input[type="search"]').attr('placeholder','Requested service, customer comment');
-          $('.link-accepted-link').popover({
+          $('.link-accepted').popover({
             placement : 'left',
             template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
           });
@@ -145,6 +145,7 @@ function assignDatepicker(input) {
 }
 
 function addLead(id, transactionId) {
+  $('.link-accepted').popover('hide');
     var data = {
         message: "<div class=\"modal-leads-content\"><div>"+translations['AreYouSure']+"</div><div>"+translations['AcceptanceOfLeadFeeAppliedToYourAccount']+"</div></div>",
         title: translations['AcceptLead'],
