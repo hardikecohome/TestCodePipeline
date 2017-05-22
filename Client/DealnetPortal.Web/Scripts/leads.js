@@ -63,7 +63,7 @@ function showTable() {
 					    { "data": "CustomerComment", className: 'customer-cell' },
 					    {// this is Actions Column
 					        "render": function (sdata, type, row) {
-                                return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="$50.00 fee will be applied to your account" onclick="addLead(' + row.Id + ', '+ row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
+                                return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="$50.00 fee will be applied to your account" id = "lead'+row.Id+'"  onclick="addLead(' + row.Id + ', '+ row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
 					        },
 					        className: 'controls-cell accept-cell',
 					        orderable: false
@@ -144,6 +144,14 @@ function assignDatepicker(input) {
     });
 }
 
+function removeLead(id) {
+    var table = $('#work-items-table').DataTable();
+    var rowLead = $("#lead" + id).closest('tr');
+    table.row(rowLead)
+        .remove()
+        .draw();
+};
+
 function addLead(id, transactionId) {
   $('.link-accepted').popover('hide');
     var data = {
@@ -153,6 +161,7 @@ function addLead(id, transactionId) {
         class: "modal-leads"
     };
     dynamicAlertModal(data);
+    
     $('#confirmAlert').on('click', function () {
         var replacedText = $('#lead-msg').html().replace('{1}', transactionId);
         $('#lead-msg').html(replacedText);
@@ -169,6 +178,7 @@ function addLead(id, transactionId) {
                     hideLoader();
                     $('#section-before-table').append($('#msg-lead-accepted'));
                     $('#section-before-table #msg-lead-accepted').show();
+                    removeLead(id);
                 }
 
                 $('.modal').modal('hide');
