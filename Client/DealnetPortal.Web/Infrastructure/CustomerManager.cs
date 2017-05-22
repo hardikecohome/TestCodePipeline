@@ -14,11 +14,11 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public class CustomerManager : ICustomerManager
     {
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly IContractServiceAgent _contractServiceAgent;
+        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
         public CustomerManager(
-            IDictionaryServiceAgent dictionaryServiceAgent, 
+            IDictionaryServiceAgent dictionaryServiceAgent,
             IContractServiceAgent contractServiceAgent)
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
@@ -30,16 +30,18 @@ namespace DealnetPortal.Web.Infrastructure
             var model = new NewCustomerViewModel();
 
             var equipment = await _dictionaryServiceAgent.GetEquipmentTypes();
-            model.EquipmentTypes = equipment.Item1?.OrderBy(x => x.Description).ToList() ?? new List<EquipmentTypeDTO>();
+            model.EquipmentTypes = equipment.Item1?.OrderBy(x => x.Description).ToList() ??
+                                   new List<EquipmentTypeDTO>();
 
             var taxes = await _dictionaryServiceAgent.GetAllProvinceTaxRates();
             model.ProvinceTaxRates = taxes.Item1 ?? new List<ProvinceTaxRateDTO>();
 
-            var contactMethods = new SelectList(Enum.GetValues(typeof(PreferredContactMethod)).Cast<PreferredContactMethod>().Select(v => new SelectListItem
-            {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-            }).ToList(), "Value", "Text");
+            var contactMethods = new SelectList(Enum.GetValues(typeof(PreferredContactMethod))
+                .Cast<PreferredContactMethod>().Select(v => new SelectListItem
+                {
+                    Text = v.ToString(),
+                    Value = ((int) v).ToString()
+                }).ToList(), "Value", "Text");
 
             model.ContactMethods = contactMethods;
 
@@ -49,10 +51,14 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<Tuple<ContractDTO, IList<Alert>>> AddAsync(NewCustomerViewModel customer)
         {
             var newCustomerDto = new NewCustomerDTO();
+            Mapper.Map(customer, newCustomerDto);
+
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
             newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
-           var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
+
+            var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
             mainAddress.AddressType = AddressType.MainAddress;
+
             newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
 
             if (customer.IsLessThenSix && customer.HomeOwner.PreviousAddressInformation?.City != null)
@@ -65,19 +71,29 @@ namespace DealnetPortal.Web.Infrastructure
             if (!customer.IsLiveInCurrentAddress && !customer.IsUnknownAddress && customer.ImprovmentLocation?.City != null)
             {
                 var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
-                //TODO: Ask about AddressType
-                improvmentAddress.AddressType = AddressType.MailAddress;
+
+                var previousMainAddress = newCustomerDto.PrimaryCustomer.Locations
+                    .FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
+
+                if (previousMainAddress != null)
+                {
+                    previousMainAddress.AddressType = AddressType.PreviousAddress;
+                }
+
+                improvmentAddress.AddressType = AddressType.MainAddress;
+
                 newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
             }
 
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
-
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
-            newCustomerDto.CustomerComment = customer.CustomerComment;
-            newCustomerDto.HomeImprovementTypes = customer.HomeImprovementTypes;
-            newCustomerDto.EstimatedMoveInDate = customer.EstimatedMoveInDate;
-            newCustomerDto.PrimaryCustomer.PreferredContactMethod = customer.HomeOwnerContactInfo.PreferredContactMethod;
+
+            //newCustomerDto.CustomerComment = customer.CustomerComment;
+            //newCustomerDto.HomeImprovementTypes = customer.HomeImprovementTypes;
+            //newCustomerDto.EstimatedMoveInDate = customer.EstimatedMoveInDate;
+            //newCustomerDto.PrimaryCustomer.PreferredContactMethod =
+            //    customer.HomeOwnerContactInfo.PreferredContactMethod;
 
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }
@@ -87,7 +103,10 @@ namespace DealnetPortal.Web.Infrastructure
             var contracts = await _contractServiceAgent.GetCreatedContracts();
             var contractsVms = Mapper.Map<IList<ClientsInformationViewModel>>(contracts);
 
-            return contractsVms.Where(x => !x.IsInternal).OrderByDescending(x => x.Date).ToList();
+            return contractsVms
+                .OrderByDescending(x => x.Date)
+                .ThenByDescending(x => x.Id)
+                .ToList();
         }
     }
 }

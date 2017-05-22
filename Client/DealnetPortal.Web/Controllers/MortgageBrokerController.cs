@@ -11,6 +11,7 @@ using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
+    [Authorize(Roles = "MortgageBroker")]
     public class MortgageBrokerController : Controller
     {
         private readonly ICustomerManager _customerManager;
