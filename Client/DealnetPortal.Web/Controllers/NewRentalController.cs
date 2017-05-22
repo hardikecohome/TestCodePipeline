@@ -310,7 +310,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
-            //ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             return View(await _contractManager.GetEquipmentInfoAsync(contractId));
         }
 

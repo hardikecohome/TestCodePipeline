@@ -41,13 +41,13 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile)
         {
             var alerts = new List<Alert>();
-            
+
             try
             {
                 var profile = Mapper.Map<DealerProfile>(dealerProfile);
                 var userNeedUpdate = profile.Id == 0;
                 var newProfile = _dealerRepository.UpdateDealerProfile(profile);
-                if (newProfile!=null)
+                if (newProfile != null)
                 {
                     _unitOfWork.Save();
                     if (userNeedUpdate)

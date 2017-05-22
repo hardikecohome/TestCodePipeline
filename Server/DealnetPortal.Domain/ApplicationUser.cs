@@ -41,7 +41,7 @@ namespace DealnetPortal.Domain
         public virtual CustomerLink CustomerLink { get; set; }
 
         public int? DealerProfileId { get; set; }
-        ////[ForeignKey("DealerProfile")]
+        //[ForeignKey("DealerProfileId")]
         //public virtual DealerProfile DealerProfile { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)

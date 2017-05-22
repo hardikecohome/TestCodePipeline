@@ -71,6 +71,7 @@ namespace DealnetPortal.DataAccess.Repositories
             _dbContext.Users.AddOrUpdate(dealer);
         }
 
+
         private void UpdateProfileEquipments(DealerProfile profile, ICollection<DealerEquipment> dbEquipments)
         {
             if (profile.Equipments == null)
@@ -133,8 +134,6 @@ namespace DealnetPortal.DataAccess.Repositories
             }
            
         }
-
-
     } 
 
     

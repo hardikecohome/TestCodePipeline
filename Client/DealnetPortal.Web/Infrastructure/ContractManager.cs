@@ -100,7 +100,6 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 equipmentInfo.RequestedTerm = 120;
             }
-            equipmentInfo.EquipmentTypes = contractResult.Item1.EquipmentTypes;
             return equipmentInfo;
         }
 

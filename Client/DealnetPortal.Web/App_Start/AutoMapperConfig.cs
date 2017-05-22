@@ -176,12 +176,22 @@ namespace DealnetPortal.Web.App_Start
                     return services;
                 }))
                 .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
-            
+            //cfg.CreateMap(EquipmentTypeDTO, DealerEquipmentDTO)
+            //    .ForMember(XmlSiteMapProvider=>)
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments.Select(s=> new DealerEquipmentDTO() {Equipment = s}).ToList()))
                 .ForMember(d => d.PostalCodesList, d => d.MapFrom(src => src.PostalCodes));
             cfg.CreateMap<DealerAreaViewModel, DealerAreaDTO>();
+
+            cfg.CreateMap<CustomerContactInfoViewModel, CustomerDTO>()
+                .ForMember(x => x.PreferredContactMethod, d => d.MapFrom(src => src.PreferredContactMethod));
+
+            cfg.CreateMap<NewCustomerViewModel, NewCustomerDTO>()
+                .ForMember(x => x.CustomerComment, d => d.MapFrom(src => src.CustomerComment))
+                .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
+                .ForMember(x => x.EstimatedMoveInDate, d => d.MapFrom(src => src.EstimatedMoveInDate))
+                .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -360,7 +370,8 @@ namespace DealnetPortal.Web.App_Start
                             src.PrimaryCustomer?.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
                         if (location?.PostalCode != null)
                         {
-                            return $"{location.PostalCode.ToUpperInvariant()}***";
+                            var substring = location.PostalCode.Substring(0, 3);
+                            return $"{substring.ToUpperInvariant()}***";
                         }             
                         return string.Empty;
                     }))
@@ -439,6 +450,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DealerEquipments, d => d.MapFrom(src => src.EquipmentList.Select(x=> x.Equipment)))
                 .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList));
             cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
+
         }
 
 

@@ -27,6 +27,7 @@ namespace DealnetPortal.Api.Integration.Services
     public partial class ContractService : IContractService
     {
         private readonly IContractRepository _contractRepository;
+        private readonly IDealerRepository _dealerRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
@@ -34,7 +35,6 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerWalletService _customerWalletService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
-        private readonly IDealerRepository _dealerRepository;
 
         public ContractService(
             IContractRepository contractRepository, 
@@ -44,8 +44,7 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerWalletService customerWalletService,
             ISignatureService signatureService, 
             IMailService mailService, 
-            ILoggingService loggingService, 
-            IDealerRepository dealerRepository)
+            ILoggingService loggingService, IDealerRepository dealerRepository)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -164,19 +163,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTO = Mapper.Map<ContractDTO>(contract);
             if (contractDTO != null)
             {
-                var equipmentTypes = new List<EquipmentType>();
-                var profile = _dealerRepository.GetDealerProfile(contract.DealerId);
-                if (profile!=null)
-                {
-                     equipmentTypes = profile.Equipments.Select(x => x.Equipment).ToList();
-                }
-                else
-                {
-                    equipmentTypes = _contractRepository.GetEquipmentTypes().ToList();
-                }
-                var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
-                contractDTO.EquipmentTypes = equipmentTypeDtos;
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
+                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
                 AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
             }
             return contractDTO;
@@ -670,14 +657,24 @@ namespace DealnetPortal.Api.Integration.Services
             return summary;
         }
 
-        public Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes()
+        public Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes(string dealerId)
         {
             var alerts = new List<Alert>();
             try
             {
-                var equipmentTypes = _contractRepository.GetEquipmentTypes();
+                var dealerProfile = _dealerRepository.GetDealerProfile(dealerId);
+                IList<EquipmentType> equipmentTypes;
+                if (dealerProfile != null)
+                {
+                    equipmentTypes = dealerProfile.Equipments.Select(x=>x.Equipment).ToList();
+                }
+                else
+                {
+                    equipmentTypes = _contractRepository.GetEquipmentTypes();
+                }
+                
                 var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
-                if (equipmentTypes == null)
+                if (!equipmentTypes.Any())
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
                     alerts.Add(new Alert()

@@ -31,7 +31,7 @@ namespace DealnetPortal.Api.Tests.Services
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
-            _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, _customerWalletService, _signatureService, _mailService, _loggingService, _dealerRepository);
+            //_contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, _signatureService, _mailService, _loggingService);
         }
 
         private void SetupMocks()
