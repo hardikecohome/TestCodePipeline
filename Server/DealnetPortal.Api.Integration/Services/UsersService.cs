@@ -127,7 +127,7 @@ namespace DealnetPortal.Api.Integration.Services
         private async Task<IList<Alert>> UpdateUserRoles(string userId, DealerDTO aspireUser)
         {
             var alerts = new List<Alert>();
-            if (string.IsNullOrEmpty(aspireUser.Role))
+            if (!string.IsNullOrEmpty(aspireUser.Role))
             {
                 var mbRole = ConfigurationManager.AppSettings["AspireMortgageBrokerRole"] ?? "Broker";                
                 var rolesToSet = new List<string>();

@@ -344,7 +344,8 @@ namespace DealnetPortal.Api.Integration.Services
                     dealerInfo.ProductType = ConvertFromDbVal<string>(dr["Product_Type"]);
                     dealerInfo.ChannelType = ConvertFromDbVal<string>(dr["Channel_Type"]);
                     dealerInfo.Ratecard = ConvertFromDbVal<string>(dr["ratecard"]);
-                    dealerInfo.Role = ConvertFromDbVal<string>(dr["Role"]);                    
+                    dealerInfo.Role = ConvertFromDbVal<string>(dr["Role"]);
+                    dealerInfo.UserId = ConvertFromDbVal<string>(dr["user_id"]);
 
                     return dealerInfo;
                 }
