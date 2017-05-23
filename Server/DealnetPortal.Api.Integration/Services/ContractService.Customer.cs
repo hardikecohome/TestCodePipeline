@@ -76,6 +76,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //if all aspire opertaion is failed
+
                 var isErrors = creditCheckAlerts.Any(x => x.Type == AlertType.Error) || aspireFailedResults.Any();
                 if (isErrors)
                 {

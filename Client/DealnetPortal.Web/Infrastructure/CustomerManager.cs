@@ -55,12 +55,28 @@ namespace DealnetPortal.Web.Infrastructure
 
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
             newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
+            //
+            if (customer.IsLiveInCurrentAddress)
+            {
+                var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
+                mainAddress.AddressType = AddressType.MainAddress;
+                newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
+            }
+            else 
+            {
+                var previousMainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
+                previousMainAddress.AddressType = AddressType.PreviousAddress;
+                newCustomerDto.PrimaryCustomer.Locations.Add(previousMainAddress);
 
-            var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
-            mainAddress.AddressType = AddressType.MainAddress;
-
-            newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
-
+                if (!customer.IsUnknownAddress)
+                {
+                    var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
+                    improvmentAddress.AddressType = AddressType.MainAddress;
+                    newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
+                }
+            }
+           
+            //
             if (customer.IsLessThenSix && customer.HomeOwner.PreviousAddressInformation?.City != null)
             {
                 var previousAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.PreviousAddressInformation);
@@ -68,22 +84,22 @@ namespace DealnetPortal.Web.Infrastructure
                 newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
             }
 
-            if (!customer.IsLiveInCurrentAddress && !customer.IsUnknownAddress && customer.ImprovmentLocation?.City != null)
-            {
-                var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
+            //if (!customer.IsLiveInCurrentAddress && !customer.IsUnknownAddress)
+            //{
+            //    var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
 
-                var previousMainAddress = newCustomerDto.PrimaryCustomer.Locations
-                    .FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
+            //    var previousMainAddress = newCustomerDto.PrimaryCustomer.Locations
+            //        .FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
 
-                if (previousMainAddress != null)
-                {
-                    previousMainAddress.AddressType = AddressType.PreviousAddress;
-                }
+            //    if (previousMainAddress != null)
+            //    {
+            //        previousMainAddress.AddressType = AddressType.PreviousAddress;
+            //    }
 
-                improvmentAddress.AddressType = AddressType.MainAddress;
+            //    improvmentAddress.AddressType = AddressType.MainAddress;
 
-                newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
-            }
+            //    newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
+            //}
 
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
