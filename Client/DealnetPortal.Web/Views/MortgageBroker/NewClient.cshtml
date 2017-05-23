@@ -1,55 +1,58 @@
 ﻿@model DealnetPortal.Web.Models.NewCustomerViewModel
 
-<div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <div class="dealnet-middle-header">@Resources.ScanLicense</div>
-        <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
+@if (!ViewBag.IsMobileRequest)
+{
+    <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="dealnet-middle-header">@Resources.ScanLicense</div>
+                    <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
 
-        <ul class="nav nav-tabs" role="tablist">
-          <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
-          <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
-        </ul>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
+                        <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
+                    </ul>
 
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane fade in active" id="home">
-            <div id="capture-area">
-              <video autoplay class="capture-frame" id="video"></video>
-              <canvas id="capture-canvas" class="capture-frame"></canvas>
-              <canvas id="big-capture-canvas"></canvas>
-              <div id="capture-buttons">
-                <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture"/>
-                <div id="capture-buttons-2">
-                  <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
-                  <div id="retake">@Resources.Retake</div>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div id="capture-area">
+                                <video autoplay class="capture-frame" id="video"></video>
+                                <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                <canvas id="big-capture-canvas"></canvas>
+                                <div id="capture-buttons">
+                                    <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture"/>
+                                    <div id="capture-buttons-2">
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
+                                        <div id="retake">@Resources.Retake</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            <div id="upload-area">
+                                <div id="upload-buttons">
+                                    <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                                        <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
+                                        <span>@Resources.Upload Photo</span>
+                                        <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="profile">
-            <div id="upload-area">
-              <div id="upload-buttons">
-                <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
-                  <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
-                  <span>@Resources.Upload Photo</span>
-                  <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')" />
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
+}
 
 <div id="label-steps">
   <div class="dealnet-action-link">@Resources.NewClient</div> &gt;
 </div>
 
-@using (Html.BeginForm("NewClient", "MortgageBroker", FormMethod.Post, new {id = "main-form", onkeydown = "return event.keyCode!=13" }))
+@using (Html.BeginForm("NewClient", "MortgageBroker", FormMethod.Post, new {id = "main-form" }))
 {
   @Html.AntiForgeryToken()
   @Html.HiddenFor(x => x.IsLiveInCurrentAddress)
@@ -64,7 +67,7 @@
           <div class="form-group">
           @if (!ViewBag.IsMobileRequest)
           {
-              <button class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+              <button class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" formnovalidate data-target="#camera-modal">
                   <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                   <span>@Resources.ScanLicense</span>
               </button>
@@ -507,8 +510,9 @@
   @Scripts.Render("~/bundles/localization")
   @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
 
-  <script type="text/javascript">
-    module.require('new-client-index');
-  </script>
+    <script type="text/javascript">
+        var isMobileRequest = '@ViewBag.IsMobileRequest';
+        module.require('new-client-index');
+    </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
 }

@@ -38,21 +38,32 @@
     $('#capture-buttons-1').on('click', takePhoto);
     $('#retake').on('click', retakePhoto);
     $('#retake').on('click', retakePhoto);
-    $('#owner-scan-button').on('click', function(e) {
-        e.preventDefault();
-        var modal = document.getElementById('camera-modal');
-        modal.setAttribute('data-fnToFill', 'first-name');
-        modal.setAttribute('data-lnToFill', 'last-name');
-        modal.setAttribute('data-bdToFill', 'birth-date');
-        modal.setAttribute('data-dlToFill', 'dl-number');
-        modal.setAttribute('data-stToFill', 'street');
-        modal.setAttribute('data-ctToFill', 'locality');
-        modal.setAttribute('data-prToFill', "administrative_area_level_1");
-        modal.setAttribute('data-pcToFill', "postal_code");
+    $('#owner-scan-button').on('click', function (e) {
+        if (!(isMobileRequest.toLowerCase() === 'true')) {
+            e.preventDefault();
+            var modal = document.getElementById('camera-modal');
+            modal.setAttribute('data-fnToFill', 'first-name');
+            modal.setAttribute('data-lnToFill', 'last-name');
+            modal.setAttribute('data-bdToFill', 'birth-date');
+            modal.setAttribute('data-dlToFill', 'dl-number');
+            modal.setAttribute('data-stToFill', 'street');
+            modal.setAttribute('data-ctToFill', 'locality');
+            modal.setAttribute('data-prToFill', "administrative_area_level_1");
+            modal.setAttribute('data-pcToFill', "postal_code");
+        }
+
+        return true;
     });
 
     window.initAutocomplete = initAutocomplete;
-    $(document).ready(function() {
+    $(document).ready(function () {
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13 && event.target.nodeName != 'TEXTAREA') {
+                event.preventDefault();
+                return false;
+            }
+        });
+
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
     });
@@ -65,6 +76,7 @@
     initClientConsents(clientStore);
 
     var form = $('#main-form');
+
     form.on('submit', function (e) {
         $('#submit').prop('disabled', true);
         if (!form.valid()) {
