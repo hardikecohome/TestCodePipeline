@@ -477,13 +477,16 @@ function inputDateFocus(input){
     if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
       $(this).blur()
         .addClass('focus');
+    }else{
+      $(this).attr('readonly', 'readonly');
     }
   });
 }
 
 function onDateSelect(input){
   input
-    .removeClass('focus');
+    .removeClass('focus')
+    .removeAttr('readonly', 'readonly');
   $('body').removeClass('hasDatepicker');
 }
 
