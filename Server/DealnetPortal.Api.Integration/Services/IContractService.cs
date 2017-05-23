@@ -28,7 +28,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId);
 
-        IList<ContractDTO> GetContractsOffers(string userId);
+        IList<ContractDTO> GetDealerLeads(string userId);
 
         IList<ContractDTO> GetCreatedContracts(string userId);
 

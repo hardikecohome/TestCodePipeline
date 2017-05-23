@@ -41,7 +41,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<ContractDTO>> GetCompletedContracts();
 
-        Task<IList<ContractDTO>> GetContractsOffers();
+        Task<IList<ContractDTO>> GetLeads();
 
         Task<IList<ContractDTO>> GetCreatedContracts();
 

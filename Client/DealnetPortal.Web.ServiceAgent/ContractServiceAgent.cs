@@ -110,11 +110,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<ContractDTO>> GetContractsOffers()
+        public async Task<IList<ContractDTO>> GetLeads()
         {
             try
             {
-                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetContractsOffers");
+                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetDealerLeads");
             }
             catch (Exception ex)
             {

@@ -131,9 +131,9 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetWorkOffers()
+        public async Task<ActionResult> GetLeads()
         {
-            var contracts = (await _contractServiceAgent.GetContractsOffers()).OrderByDescending(x => x.LastUpdateTime).ToList();
+            var contracts = (await _contractServiceAgent.GetLeads()).OrderByDescending(x => x.LastUpdateTime).ToList();
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);           
 
             return Json(contractsVms.Where(x=> !string.IsNullOrEmpty(x.PostalCode) && !string.IsNullOrEmpty(x.Equipment)).ToList(), JsonRequestBehavior.AllowGet);
