@@ -37,7 +37,7 @@ namespace DealnetPortal.Web.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.LangSwitcherAvailable = true;
+            TempData["LangSwitcherAvailable"] = true;
             if (User.IsInRole("MortgageBroker"))
             {
                 return RedirectToAction("MyClients", "MortgageBroker");

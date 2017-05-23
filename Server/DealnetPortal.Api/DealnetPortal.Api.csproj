@@ -296,6 +296,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Queries\DealerRoleInformation.sql" />
     <Content Include="Queries\FindCustomer.sql" />
     <Content Include="Queries\GetCustomerById.sql" />
     <Content Include="Queries\GetDealerDeals.dev.sql">
