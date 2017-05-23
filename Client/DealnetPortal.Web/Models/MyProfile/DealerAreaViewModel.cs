@@ -15,7 +15,7 @@ namespace DealnetPortal.Web.Models.MyProfile
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "PostalCode")]
-        [StringLength(6, MinimumLength = 5, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        [StringLength(6, MinimumLength = 1, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PostalCodeIncorrectFormat")]
         public string PostalCode { get; set; }
     }

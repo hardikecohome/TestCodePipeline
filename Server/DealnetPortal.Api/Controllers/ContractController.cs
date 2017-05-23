@@ -103,13 +103,13 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetContractsOffers")]
+        [Route("GetDealerLeads")]
         [HttpGet]
-        public IHttpActionResult GetContractsOffers()
+        public IHttpActionResult GetDealerLeads()
         {
             try
             {
-                var contractsOffers = ContractService.GetContractsOffers(LoggedInUser.UserId);
+                var contractsOffers = ContractService.GetDealerLeads(LoggedInUser.UserId);
                 return Ok(contractsOffers);
             }
             catch (Exception ex)

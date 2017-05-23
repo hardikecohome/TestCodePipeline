@@ -885,11 +885,11 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public IList<ContractDTO> GetContractsOffers(string userId)
+        public IList<ContractDTO> GetDealerLeads(string userId)
         {
             var contractDTOs = new List<ContractDTO>();            
             // temporary using a flag IsCreatedByBroker
-            var contracts = _contractRepository.GetContractsOffers(userId);            
+            var contracts = _contractRepository.GetDealerLeads(userId);            
             var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
             AftermapContracts(contracts, mappedContracts, userId);
             contractDTOs.AddRange(mappedContracts);

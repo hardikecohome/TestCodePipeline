@@ -53,9 +53,12 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
-        public IList<Contract> GetContractsOffers(string userId)
+        public IList<Contract> GetDealerLeads(string userId)
         {
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
+            var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
+            var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type).ToList();
+            var pcList = dealerProfile?.Areas.Select(e => e.PostalCode).ToList();
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -66,8 +69,19 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
-                .Where(c => c.IsCreatedByBroker == true
-                || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))).ToList();
+                .Where(c => (c.IsCreatedByBroker == true
+                || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
+                c.Equipment.NewEquipment.Any() &&
+                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.MainAddress)).ToList();
+            if (eqList.Any())
+            {
+                contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment.NewEquipment.FirstOrDefault().Type)).ToList();
+            }
+            if (pcList.Any())
+            {
+                contracts = contracts.Where(c => pcList.Any(pc => c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();
+            }
+             
             return contracts;
         }
 
