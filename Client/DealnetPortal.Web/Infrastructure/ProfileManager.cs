@@ -24,7 +24,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             var  dealerProfile = await _dealerServiceAgent.GetDealerProfile();
             var model = AutoMapper.Mapper.Map<ProfileViewModel>(dealerProfile) ?? new ProfileViewModel();
-            var equipment = await _dictionaryServiceAgent.GetEquipmentTypes();
+            var equipment = await _dictionaryServiceAgent.GetAllEquipmentTypes();
             model.EquipmentTypes = equipment.Item1?.OrderBy(x => x.Description).ToList() ?? new List<EquipmentTypeDTO>();
 
             return model;

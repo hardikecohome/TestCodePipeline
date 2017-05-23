@@ -71,9 +71,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("EquipmentTypes")]
+        [Route("DealerEquipmentTypes")]
         [HttpGet]
-        public IHttpActionResult GetEquipmentTypes()
+        public IHttpActionResult GetDealerEquipmentTypes()
         {
             var alerts = new List<Alert>();
             try
@@ -90,6 +90,36 @@ namespace DealnetPortal.Api.Controllers
                     });
                     LoggingService.LogError(errorMsg);
                 }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Equipment Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AllEquipmentTypes")]
+        [HttpGet]
+        public IHttpActionResult GetAllEquipmentTypes()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var equipmentTypes = ContractRepository.GetEquipmentTypes();
+                var equipmentTypeDtos = Mapper.Map<IList<EquipmentTypeDTO>>(equipmentTypes);
+                if (equipmentTypes == null)
+                {
+                    var errorMsg = "Cannot retrieve Equipment Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<EquipmentTypeDTO>, IList<Alert>>(equipmentTypeDtos, alerts);
                 return Ok(result);
             }
             catch (Exception ex)

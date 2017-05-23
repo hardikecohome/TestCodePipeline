@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             var model = new NewCustomerViewModel();
 
-            var equipment = await _dictionaryServiceAgent.GetEquipmentTypes();
+            var equipment = await _dictionaryServiceAgent.GetAllEquipmentTypes();
             model.EquipmentTypes = equipment.Item1?.OrderBy(x => x.Description).ToList() ??
                                    new List<EquipmentTypeDTO>();
 
