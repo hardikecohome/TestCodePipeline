@@ -136,7 +136,7 @@ namespace DealnetPortal.Web.Controllers
             var contracts = (await _contractServiceAgent.GetContractsOffers()).OrderByDescending(x => x.LastUpdateTime).ToList();
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);           
 
-            return Json(contractsVms, JsonRequestBehavior.AllowGet);
+            return Json(contractsVms.Where(x=> !string.IsNullOrEmpty(x.PostalCode) && !string.IsNullOrEmpty(x.Equipment)).ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }
