@@ -32,10 +32,10 @@
 
 
         // action handlers
-        $('#improvment-equipment').mouseup(function() {
-            var open = $(this).data("isopen");
+        $('#improvment-equipment').on('change', function() {
+            //var open = $(this).data("isopen");
 
-            if (open) {
+            //if (open) {
                 var equipmentValue = $(this).val();
                 dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
                 var equipmentText = $("#improvment-equipment :selected").text();
@@ -47,9 +47,9 @@
                     }
                 }
 
-            }
+            //}
 
-            $(this).data("isopen", !open);
+            //$(this).data("isopen", !open);
         });
 
 

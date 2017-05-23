@@ -40,6 +40,15 @@
     $('#retake').on('click', retakePhoto);
     $('#owner-scan-button').on('click', function(e) {
         e.preventDefault();
+        var modal = document.getElementById('camera-modal');
+        modal.setAttribute('data-fnToFill', 'first-name');
+        modal.setAttribute('data-lnToFill', 'last-name');
+        modal.setAttribute('data-bdToFill', 'birth-date');
+        modal.setAttribute('data-dlToFill', 'dl-number');
+        modal.setAttribute('data-stToFill', 'street');
+        modal.setAttribute('data-ctToFill', 'locality');
+        modal.setAttribute('data-prToFill', "administrative_area_level_1");
+        modal.setAttribute('data-pcToFill', "postal_code");
     });
 
     window.initAutocomplete = initAutocomplete;
@@ -169,11 +178,7 @@
                 });
         }
 
-        var emptyError = props.errors.filter(function (error) {
-            return error.type === 'empty';
-        });
-
-        if (emptyError.length) {
+        if (props.errors.length) {
             $('#submit').addClass('disabled');
             $('#submit').parent().popover();
         } else {
