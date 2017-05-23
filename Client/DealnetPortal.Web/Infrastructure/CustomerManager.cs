@@ -89,12 +89,6 @@ namespace DealnetPortal.Web.Infrastructure
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
 
-            //newCustomerDto.CustomerComment = customer.CustomerComment;
-            //newCustomerDto.HomeImprovementTypes = customer.HomeImprovementTypes;
-            //newCustomerDto.EstimatedMoveInDate = customer.EstimatedMoveInDate;
-            //newCustomerDto.PrimaryCustomer.PreferredContactMethod =
-            //    customer.HomeOwnerContactInfo.PreferredContactMethod;
-
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }
 
