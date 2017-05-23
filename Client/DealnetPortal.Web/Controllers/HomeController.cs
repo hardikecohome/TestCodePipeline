@@ -40,6 +40,9 @@ namespace DealnetPortal.Web.Controllers
             TempData["LangSwitcherAvailable"] = true;
             if (User.IsInRole("MortgageBroker"))
             {
+                //just change only for MB release 1.0.6
+                TempData["LangSwitcherAvailable"] = false;
+
                 return RedirectToAction("MyClients", "MortgageBroker");
             }
             return View();
