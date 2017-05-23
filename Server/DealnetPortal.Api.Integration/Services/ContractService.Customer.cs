@@ -91,9 +91,9 @@ namespace DealnetPortal.Api.Integration.Services
                     //TODO: DEAL - 1495 analyze result here and then send invite link to customer
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
-                        if (succededContracts.Select(x => x.Equipment.NewEquipment).ToList().Any() &&
+                        if (succededContracts.Select(x => x.Equipment.NewEquipment.FirstOrDefault()).Any(i=>i!=null) &&
                             succededContract.PrimaryCustomer.Locations
-                            .FirstOrDefault(l =>l.AddressType == AddressType.MailAddress || l.AddressType == AddressType.MainAddress) !=null)
+                            .FirstOrDefault(l => l.AddressType == AddressType.MainAddress) !=null)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
                         }
