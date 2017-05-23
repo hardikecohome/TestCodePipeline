@@ -168,7 +168,7 @@
                             }
 
                             if (!validateCustomRateCard()) {
-                                $validator.showErrors();
+                                $.validator().showErrors();
                                 event.preventDefault();
                             }
 
@@ -295,11 +295,16 @@
         $('#total-monthly-payment').on('change', setRentalMPayment);
         $('.btn-select-card').on('click', function () {
             recalculateValuesAndRender([], false);
-            $('#rateCardsBlock').hide('slow', function () {
-                $('#loanRateCardToggle').find('i.glyphicon')
-                    .removeClass('glyphicon-chevron-down')
-                    .addClass('glyphicon-chevron-right');
-            });
+            var option = $(this).parent().find('#hidden-option').text();
+            if (option === 'Custom' && !validateCustomRateCard()) {
+                $.validator().showErrors();
+            } else {
+                $('#rateCardsBlock').hide('slow', function () {
+                    $('#loanRateCardToggle').find('i.glyphicon')
+                        .removeClass('glyphicon-chevron-down')
+                        .addClass('glyphicon-chevron-right');
+                });
+            }
         });
 
         // custom option
