@@ -85,7 +85,7 @@ function showTable() {
                         ]
                     },
                     oLanguage: {
-                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-search"><i class="glyphicon glyphicon-search"></i></span>',
+                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-hold"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>',
                         "oPaginate": {
                             "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                             "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
@@ -278,7 +278,7 @@ function submitMultiplePreviewRequest(ids) {
 
 function createFilter() {
     var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
-    var iconSearch = '<span class="icon-search-control"><i class="glyphicon glyphicon-search"></i></span>';
+    var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
 
     $('#table-title').html('<div class="dealnet-large-header">' + translations['Reports'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
     $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-link-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');

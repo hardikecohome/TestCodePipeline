@@ -561,8 +561,8 @@ function resetDataTablesExpandedRows(table){
 function redrawDataTablesSvgIcons(){
   /*Redraw svg icons inside dataTable only for ie browsers*/
   if(detectIE()){
-    if($('.dataTable .edit-control a').length > 0){
-      $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
+    if($('.dataTable .edit-control a, .dataTable a.icon-link.icon-edit').length > 0){
+      $('.edit-control a, a.icon-link.icon-edit').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
     }
     if($('.dataTable .checkbox-icon').length > 0){
       $('.checkbox-icon').html('<svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg>');
@@ -573,8 +573,11 @@ function redrawDataTablesSvgIcons(){
     if($('.dataTable .contract-controls a.export-item').length > 0){
       $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
     }
-    if ($('.dataTable .remove-control a').length > 0) {
-        $('.remove-control a').html('<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg>');
+    if ($('.dataTable .remove-control a, .dataTable a.icon-link.icon-remove').length > 0) {
+        $('.remove-control a, a.icon-link.icon-remove').html('<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg>');
+    }
+    if ($('.dataTable a.link-accepted').length > 0) {
+        $('a.link-accepted').html('<svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg>');
     }
   }
 }
