@@ -219,7 +219,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendInviteLinkToCustomer(Contract customerFormData, string password)
         {
             string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
-            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletClient"];
+            string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
             string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
             string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
@@ -236,7 +236,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
             body.AppendLine("<div>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{inviteLink}/invite/{hashLogin}'><span>{inviteLink}</span></a></b></p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{domain}/invite/{hashLogin}'><span>{domain}</span></a></b></p>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
@@ -247,7 +247,8 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine("<br />");
             body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
             body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
+
             body.AppendLine("</div>");
 
             var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
@@ -266,10 +267,11 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendHomeImprovementMailToCustomer(IList<Contract> succededContracts)
         {
-            string inviteLink = ConfigurationManager.AppSettings["CustomerWalletClient"];
+            string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             var contract = succededContracts.First();
             string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description.ToLower()));
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??string.Empty;
+            string hashLogin = SecurityUtils.Hash(customerEmail);
             string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
             string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
 
@@ -284,7 +286,7 @@ namespace DealnetPortal.Api.Integration.Services
             var body = new StringBuilder();
             body.AppendLine($"<h3>{Resources.Resources.Hi} {contract.PrimaryCustomer.FirstName},</h3>");
             body.AppendLine("<div>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.ThanksForYourInterestInHomeImprovementService} ({services}) {Resources.Resources.OnThe} {inviteLink}.</p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.ThanksForYourInterestInHomeImprovementService} ({services}) {Resources.Resources.OnThe} {domain}.</p>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.WeAreNowLookingForheBest}</p>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
@@ -295,7 +297,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine("<br />");
             body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
             body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
             body.AppendLine("</div>");
 
             var alternateView = GenerateAlternateView(body,  new List<LinkedResource>(){phoneIcon, emailIcon});
@@ -318,6 +320,8 @@ namespace DealnetPortal.Api.Integration.Services
             var addres = location != null ? $"{location.Street}, {location.City}, {location.State}, {location.PostalCode}" : "";
 
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
+            string hashLogin = SecurityUtils.Hash(customerEmail);
             string services = contract.Equipment !=null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => i.Description.ToLower())) : string.Empty;
             string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
             string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
@@ -358,7 +362,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine("<br />");
             body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
             body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful.  However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b>click here to unsubscribe</b>.</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
             body.AppendLine("</div>");
 
             var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
