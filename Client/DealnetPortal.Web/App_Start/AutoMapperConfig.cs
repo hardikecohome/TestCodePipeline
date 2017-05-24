@@ -309,7 +309,16 @@ namespace DealnetPortal.Web.App_Start
                     return string.Empty;
                 }))
                 .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
-                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.Equipment?.AgreementType.ConvertTo<Models.Enumeration.AgreementType>().GetEnumDescription()))
+                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src =>
+                {
+                    if (src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null)
+                    {
+                        return src.Equipment?.AgreementType.ConvertTo<AgreementType>()
+                            .GetEnumDescription();
+                    }
+
+                    return string.Empty;
+                }))
                 .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription() ))
                 .ForMember(d => d.Action, s => s.Ignore())
                 .ForMember(d => d.Email, s => s.ResolveUsing(src => src.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))                
@@ -358,7 +367,7 @@ namespace DealnetPortal.Web.App_Start
                     }))
                     .ForMember(d => d.Value, s => s.ResolveUsing(src =>
                     {
-                        if (src.Equipment != null)
+                        if (src.Equipment != null && src.Equipment.ValueOfDeal != null)
                         {
                             return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                         }
