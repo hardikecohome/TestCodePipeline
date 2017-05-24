@@ -71,6 +71,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Authorize]
         [Route("DealerEquipmentTypes")]
         [HttpGet]
         public IHttpActionResult GetDealerEquipmentTypes()
