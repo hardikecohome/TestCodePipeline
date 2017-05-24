@@ -180,7 +180,7 @@ namespace DealnetPortal.Web.App_Start
             //    .ForMember(XmlSiteMapProvider=>)
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
-                .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments.Select(s=> new DealerEquipmentDTO() {Equipment = s}).ToList()))
+                .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments!=null ? src.DealerEquipments.Select(s=> new DealerEquipmentDTO() {Equipment = s}).ToList() : null))
                 .ForMember(d => d.PostalCodesList, d => d.MapFrom(src => src.PostalCodes));
             cfg.CreateMap<DealerAreaViewModel, DealerAreaDTO>();
 
@@ -447,7 +447,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x=>x.HashDealerName, d=>d.MapFrom(s=>s.HashLink));
             cfg.CreateMap<DealerProfileDTO, ProfileViewModel>()
                 .ForMember(x => x.ProfileId, d => d.MapFrom(src => src.Id))
-                .ForMember(x => x.DealerEquipments, d => d.MapFrom(src => src.EquipmentList.Select(x=> x.Equipment)))
+                .ForMember(x => x.DealerEquipments, d => d.ResolveUsing(src => src.EquipmentList?.Select(x=> x.Equipment)))
                 .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList));
             cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
 
