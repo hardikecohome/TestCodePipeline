@@ -34,9 +34,7 @@
                     dispatch(createAction(clientActions.SET_LAST, e.target.value));
                 }
             });
-        //$('#birth-date', '#first-name','#last-name').on('change', function() {
-        //    dispatch(createAction(clientActions.SET_FORM_VALID, e.target.value));
-        //});
+
         var initialStateMap = {
             name: name,
             lastName: lastName,

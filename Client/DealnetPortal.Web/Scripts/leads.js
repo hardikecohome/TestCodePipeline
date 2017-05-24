@@ -100,10 +100,12 @@ function showTable() {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);
             });
-            $('#clear-filters').click(function () {
+
+            $('a.clear-data-link').on('click', function() {
                 $('.filter-input').val("");
                 table.search('').draw();
             });
+
           $('.dataTables_filter input[type="search"]').attr('placeholder','Requested service, customer comment');
           $('.link-accepted').popover({
             placement : 'left',

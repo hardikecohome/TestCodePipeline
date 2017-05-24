@@ -33,7 +33,8 @@
         locality: 'long_name',
         administrative_area_level_1: 'short_name',
         country: 'long_name',
-        postal_code: 'short_name'
+        postal_code: 'short_name',
+        postal_code_prefix: 'short_name'
     };
 
     var getAddress = function (addressForm) {
@@ -58,13 +59,21 @@
                     var place = gAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
+                    var postalCode = '';
+                    if (place['postal_code_prefix']) {
+                        postalCode = place['postal_code_prefix'];
+                    }
+                    if (place['postal_code']) {
+                        postalCode = place['postal_code'].replace(' ', '');
+                    }
+
                     dispatch(createAction(clientActions.SET_ADDRESS,
                         {
                             street: place['route'] || '',
                             number: place['street_number'] || '',
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : ''
+                            postalCode: postalCode
                         }));
                 });
 
@@ -85,13 +94,21 @@
                     var place = gPAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
+                    var postalCode = '';
+                    if (place['postal_code_prefix']) {
+                        postalCode = place['postal_code_prefix'];
+                    }
+                    if (place['postal_code']) {
+                        postalCode = place['postal_code'].replace(' ', '');
+                    }
+
                     dispatch(createAction(clientActions.SET_PADDRESS,
                         {
                             street: place['route'] || '',
                             number: place['street_number'] || '',
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                            postalCode: postalCode,
                         }));
                 });
 
@@ -112,13 +129,21 @@
                     var place = gImprovmentAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
+                    var postalCode = '';
+                    if (place['postal_code_prefix']) {
+                        postalCode = place['postal_code_prefix'];
+                    }
+                    if (place['postal_code']) {
+                        postalCode = place['postal_code'].replace(' ', '');
+                    }
+
                     dispatch(createAction(clientActions.SET_IMPROVMENT_ADDRESS,
                         {
                             street: place['route'] || '',
                             number: place['street_number'] || '',
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : ''
+                            postalCode: postalCode
                         }));
                 });
 
