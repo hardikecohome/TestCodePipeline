@@ -4,45 +4,52 @@
 
 <div class="expand-filter-template leads-filter">
 	<div class="reset-form-inline">
-		<div class="row">
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="">@Resources.PostalCode</label>
-					<div class="control-group">
-						<select id="postal-code" class="form-control select-filter filter-input"></select>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="">@Resources.PreApprovedFor</label>
-					<div class="control-group">
-						<select id="pre-approved-for" class="form-control select-filter filter-input"></select>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6">
-				<div class="form-group">
-					<label for="">@Resources.DateFrom</label>
-					<div class="control-group date-group">
-						<input type="text" class="form-control date-control filter-input" id="date-from">
-					</div>
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6">
-				<div class="form-group">
-					<label for="">@Resources.DateTo</label>
-					<div class="control-group date-group">
-						<input type="text" class="form-control date-control filter-input" id="date-to">
-					</div>
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 text-right">
-				<div class="form-group">
-					<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
-				</div>
-			</div>
-		</div>
+	    <div class="row">
+	        <div class="col-sm-6 col-md-3">
+	            <div class="form-group">
+	                <label for="">@Resources.PostalCode</label>
+	                <div class="control-group">
+	                    <select id="postal-code" class="form-control select-filter filter-input"></select>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-sm-6 col-md-3">
+	            <div class="form-group">
+	                <label for="">@Resources.PreApprovedFor</label>
+	                <div class="control-group">
+	                    <select id="pre-approved-for" class="form-control select-filter filter-input"></select>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-2 col-sm-6">
+	            <div class="form-group">
+	                <label for="">@Resources.DateFrom</label>
+	                <div class="control-group date-group">
+	                    <input type="text" class="form-control date-control filter-input" id="date-from">
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-2 col-sm-6">
+	            <div class="form-group">
+	                <label for="">@Resources.DateTo</label>
+	                <div class="control-group date-group">
+	                    <input type="text" class="form-control date-control filter-input" id="date-to">
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-1 col-sm-6">
+	            <div class="form-group">
+	                <a class="clear-data-link" id="clear-filters" style="margin-top: 20px !important">
+	                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
+	                </a>
+	            </div>
+	        </div>
+	        <div class="col-md-1 col-sm-6 text-right col-md-offset-10">
+	            <div class="form-group">
+	                <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </div>
 
@@ -51,12 +58,14 @@
 }
 <div class="well success-well success-message collapse" id="msg-lead-accepted">
     <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-    <span id="lead-msg">
-        @if (wasAcceptedResource.Length >= 2)
-        {
-            @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
-        } 
-    </span>
+    <span id="lead-msg"></span>
+</div>
+
+<div class="hidden" id="success-message-template">
+    @if (wasAcceptedResource.Length >= 2)
+    {
+        @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
+    } 
 </div>
 
 <table id="work-items-table" class="display responsive my-deals-table my-leads-table " width="100%">
