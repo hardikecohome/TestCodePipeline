@@ -367,7 +367,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
 
-            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var subject = $"{Resources.Resources.WeFoundHomeProfessionalForYourHomeImprovementProject}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             try
             {
