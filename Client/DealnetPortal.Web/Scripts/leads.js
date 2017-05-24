@@ -100,10 +100,12 @@ function showTable() {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);
             });
-            $('#clear-filters').click(function () {
+
+            $('a.clear-data-link').on('click', function() {
                 $('.filter-input').val("");
                 table.search('').draw();
             });
+
           $('.dataTables_filter input[type="search"]').attr('placeholder','Requested service, customer comment');
           $('.link-accepted').popover({
             placement : 'left',
@@ -163,8 +165,6 @@ function addLead(id, transactionId) {
     dynamicAlertModal(data);
     
     $('#confirmAlert').on('click', function () {
-        var replacedText = $('#lead-msg').html().replace('{1}', transactionId);
-        $('#lead-msg').html(replacedText);
         showLoader();
         $.post({
             type: "POST",
@@ -176,6 +176,9 @@ function addLead(id, transactionId) {
                     alert(translations['ErrorWhileUpdatingData']);
                 } else if (json.isSuccess) {
                     hideLoader();
+                    var template = $('#success-message-template').html();
+                    $('#lead-msg').html(template.replace('{1}', transactionId));
+
                     $('#section-before-table').append($('#msg-lead-accepted'));
                     $('#section-before-table #msg-lead-accepted').show();
                     removeLead(id);

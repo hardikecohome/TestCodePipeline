@@ -86,17 +86,16 @@
     });
 
     $('#submit').one('click', function (e) {
-
         if (!form.valid()) {
             e.preventDefault();
-            $(this).prop('disabled', 'false');
+            $(this).prop('disabled', false);
         }
 
         dispatch(createAction(clientActions.SUBMIT));
 
         var errors = getErrors(clientStore.getState());
         if (errors.length > 0 && form.valid()) {
-            $(this).prop('disabled', 'false');
+            $(this).prop('disabled', false);
             e.preventDefault();
         }
     });
@@ -178,7 +177,8 @@
     observeClientFormStore(function (state) {
         return {
             errors: getErrors(state),
-            displaySubmitErrors: state.displaySubmitErrors
+            displaySubmitErrors: state.displaySubmitErrors,
+            isValidForm: state.isValidForm
         }
     })(function (props) {
         $('#formErrors').empty();
