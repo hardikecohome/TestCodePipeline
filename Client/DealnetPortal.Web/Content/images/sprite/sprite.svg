@@ -143,21 +143,8 @@
         <symbol id="icon-preview" viewBox="0 0 24 24">
             <path fill="currentColor" fill-rule="evenodd" d="M16.505 15.09c.448-.714.706-1.56.706-2.465 0-2.56-2.066-4.636-4.617-4.636-2.55 0-4.62 2.074-4.62 4.634 0 2.56 2.07 4.636 4.62 4.636.93 0 1.796-.275 2.52-.75l2.487 2.487 1.406-1.406-2.5-2.5zm-1.283-2.465c0-1.458-1.177-2.64-2.63-2.64-1.452 0-2.63 1.182-2.63 2.64 0 1.458 1.178 2.64 2.63 2.64 1.453 0 2.63-1.182 2.63-2.64zM3 2h1.99v15.97H3V2zm11 0v2H5V2h9zM8 16v2H5v-2h3zm6-14h2v5h-2V2z"/>
         </symbol>
-        <symbol id="icon-search" viewBox="0 0 22 22"><defs>
-            <path d="M14.3198574,12.9056439 L19.0710678,17.6568542 L17.6568542,19.0710678 L12.9056439,14.3198574 C11.5509601,15.3729184 9.84871145,16 8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 C12.418278,0 16,3.581722 16,8 C16,9.84871145 15.3729184,11.5509601 14.3198574,12.9056439 Z" id="path-1"></path>
-            <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="19.0710678" height="19.0710678" fill="white">
-                <use xlink:href="#path-1"></use>
-            </mask>
-        </defs>
-            <g id="UI_KIT" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <g id="UI_Kit" transform="translate(-40.000000, -801.000000)" stroke="currentColor" stroke-width="2">
-                    <g id="Icons" transform="translate(39.000000, 711.000000)">
-                        <g id="Icon_search" transform="translate(1.000000, 90.000000)">
-                            <use id="Combined-Shape" mask="url(#mask-2)" xlink:href="#path-1"></use>
-                        </g>
-                    </g>
-                </g>
-            </g>
+        <symbol id="icon-search" viewBox="0 0 20 20">
+            <path fill="none" d="M-1-1h582v402H-1z"/><g stroke-opacity="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="2" stroke="#989897" fill-opacity="null" fill="none"><path d="M1.266 8.087c0-3.735 3.054-6.76 6.824-6.76s6.825 3.025 6.825 6.76-3.054 6.76-6.825 6.76c-3.77 0-6.824-3.025-6.824-6.76zM12.513 12.575l6.628 6.536"/></g>
         </symbol>
         <symbol id="icon-pdf" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" d="M14 8.228V16H6V4h4.42H9v5h2V4.56L13.528 7H11v2h3v-.772zM11 2.77V2H4v16h12V7h-.743l.555-.574-4.316-4.168L11 2.77z"/></symbol>
         <symbol id="icon-back-to-top" viewBox="0 0 20 20"><g fill="currentColor" fill-rule="evenodd"><path d="M9 7h2v8H9z"/><path d="M10 7.586l-2.828 2.828L5.757 9 8.94 5.818 10 4.758 14.243 9l-1.415 1.414L10 7.586z"/></g></symbol>
