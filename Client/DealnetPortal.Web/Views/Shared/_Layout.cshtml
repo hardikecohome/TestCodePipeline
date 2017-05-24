@@ -208,10 +208,22 @@
                                     <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-list-request"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-list-request")"></use></svg></span>
                                     @Html.ActionLink("Leads", "Index", "Leads", null, new {@class = "dealnet-sidebar-link"})
                                 </li>
-                            <li class="dealnet-sidebar-item">
-                                <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
-                                @Html.ActionLink("My Profile", "Index", "Profile", null, new {@class = "dealnet-sidebar-link"})
-                            </li>
+                                <li class="dealnet-sidebar-item">
+                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
+                                    @Html.ActionLink("My Profile", "Index", "Profile", null, new {@class = "dealnet-sidebar-link"})
+                                </li>
+
+                                if ((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                                {
+                                    <li class="dealnet-sidebar-item">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
+                                        @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                }
+                                <li class="dealnet-sidebar-item" id="sidebar-item-help">
+                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
+                                    @Html.ActionLink(Resources.Help, "Help", "Home", null, new {@class = "dealnet-sidebar-link", target = "_blank"})
+                                </li>
                             }
                             @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true)
                             {
@@ -224,17 +236,6 @@
                                     @Html.ActionLink("My Clients", "MyClients", "MortgageBroker", null, new {@class = "dealnet-sidebar-link"})
                                 </li>
                             }
-                            @if ((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
-                            {
-                                <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
-                                    @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
-                                </li>
-                            }
-                            <li class="dealnet-sidebar-item" id="sidebar-item-help">
-                                <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
-                                @Html.ActionLink(Resources.Help, "Help", "Home", null, new {@class = "dealnet-sidebar-link", target = "_blank"})
-                            </li>
                         </ul>
 
                     </div>
