@@ -28,11 +28,12 @@
             }
         });
         var lastName = $('#last-name');
-        lastName.on('change', function (e) {
-            if ($(this).valid()) {
-                dispatch(createAction(clientActions.SET_LAST, e.target.value));
-            }
-        });
+        lastName.on('change',
+            function(e) {
+                if ($(this).valid()) {
+                    dispatch(createAction(clientActions.SET_LAST, e.target.value));
+                }
+            });
 
         var initialStateMap = {
             name: name,

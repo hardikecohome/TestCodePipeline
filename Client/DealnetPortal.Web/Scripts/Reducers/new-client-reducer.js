@@ -22,6 +22,7 @@
         displayAddressInfo: false,
         displayContactInfo: false,
         displayImprovmentInfo: false,
+        isValidForm: false,
         unknownAddress: false,
         activePanel: 'basic-information',
         phone: '',
@@ -71,6 +72,7 @@
     reducerObj[clientActions.SET_IMPROVMENT_PROVINCE] = setFormField('improvmentProvince');
     reducerObj[clientActions.SET_IMPROVMENT_POSTAL_CODE] = setFormField('improvmentPostalCode');
     reducerObj[clientActions.SET_IMPROVMENT_MOVE_DATE] = setFormField('improvmentMoveInDate');
+    reducerObj[clientActions.SET_VALID_FORM] = setFormField('isValidForm');
 
     reducerObj[clientActions.SET_IMPROVMENT_INFO] = setFormField('displayImprovmentInfo');
     reducerObj[clientActions.SET_CURRENT_ADDRESS] = function(state, action) {

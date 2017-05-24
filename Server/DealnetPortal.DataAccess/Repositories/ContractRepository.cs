@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -55,6 +56,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetDealerLeads(string userId)
         {
+            var aspireCreditReviewState = ConfigurationManager.AppSettings["CreditReviewStatus"] ?? "20-Credit Review";
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
             var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
@@ -72,10 +74,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Where(c => (c.IsCreatedByBroker == true
                 || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
                 c.Equipment.NewEquipment.Any() &&
-                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.MainAddress)).ToList();
+                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.MainAddress) &&
+                (c.ContractState >= ContractState.CreditContirmed && c.Details.Status != aspireCreditReviewState)).ToList();
             if (eqList!=null && eqList.Any())
             {
-                contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment.NewEquipment.FirstOrDefault().Type)).ToList();
+                contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment?.NewEquipment?.FirstOrDefault()?.Type)).ToList();
             }
             if (pcList!=null && pcList.Any())
             {

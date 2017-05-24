@@ -146,8 +146,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 bool isCustomerCreator = false;
                 var dealerId = customerFormData.DealerId ??
-                               _dealerRepository.GetUserIdByName(customerFormData.DealerName);                
-                if (dealerId != null && _dealerRepository.GetUserIdByName(dealerId).Contains(UserRole.CustomerCreator.ToString()))
+                               _dealerRepository.GetUserIdByName(customerFormData.DealerName);
+                //for creation contract from 
+                if (dealerId != null && _dealerRepository.GetUserRoles(dealerId).Contains(UserRole.CustomerCreator.ToString()))
                 {
                     isCustomerCreator = true;
                 }

@@ -33,25 +33,17 @@
 
         // action handlers
         $('#improvment-equipment').on('change', function() {
-            //var open = $(this).data("isopen");
-
-            //if (open) {
-                var equipmentValue = $(this).val();
-                dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
-                var equipmentText = $("#improvment-equipment :selected").text();
-                if (equipmentValue) {
-                    if (improvments.indexOf(equipmentValue) === -1) {
-                        improvments.push(equipmentValue);
-                        $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" id="' + equipmentValue + '"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
-                        $('#' + equipmentValue).on('click', deleteEquipment);
-                    }
+            var equipmentValue = $(this).val();
+            dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
+            var equipmentText = $("#improvment-equipment :selected").text();
+            if (equipmentValue) {
+                if (improvments.indexOf(equipmentValue) === -1) {
+                    improvments.push(equipmentValue);
+                    $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" id="' + equipmentValue + '"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+                    $('#' + equipmentValue).on('click', deleteEquipment);
                 }
-
-            //}
-
-            //$(this).data("isopen", !open);
+            }
         });
-
 
         var houseCustomer = $('#houseCustomerChosen');
         houseCustomer.on('click', function (e) {
