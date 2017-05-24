@@ -1006,6 +1006,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We found home professional for your home improvement project.
+        /// </summary>
+        public static string WeFoundHomeProfessionalForYourHomeImprovementProject {
+            get {
+                return ResourceManager.GetString("WeFoundHomeProfessionalForYourHomeImprovementProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} will contact you soon..
         /// </summary>
         public static string WillContactYouSoon {
