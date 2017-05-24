@@ -451,4 +451,22 @@
   <data name="WeFoundHomeProfessionalForYour" xml:space="preserve">
     <value>We found home professional for your home improvement project</value>
   </data>
+  <data name="For" xml:space="preserve">
+    <value>for</value>
+  </data>
+  <data name="IfYouHaveQuestionsToHomeProfessionalPleaseContact" xml:space="preserve">
+    <value>If you have any question to home professional please contact</value>
+  </data>
+  <data name="InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact" xml:space="preserve">
+    <value>In case remarks about selected home professionals please contact</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Mail</value>
+  </data>
+  <data name="WeAreLookingForTheBestProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>We’re looking for the best professional for your home improvement project</value>
+  </data>
+  <data name="WillContactYouSoonText" xml:space="preserve">
+    <value>will contact you soon</value>
+  </data>
 </root>

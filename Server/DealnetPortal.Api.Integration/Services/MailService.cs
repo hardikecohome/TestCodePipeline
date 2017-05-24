@@ -221,8 +221,8 @@ namespace DealnetPortal.Api.Integration.Services
             string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string inviteLink = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
-            string mbPhone = ConfigurationManager.AppSettings["MortgageBrokerPhone"];
-            string mbEmail = ConfigurationManager.AppSettings["MortgageBrokerEmail"];
+            string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
+            string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
 
             var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
             var phoneImage = GenerateIconImageCid(phoneIcon);
@@ -235,7 +235,7 @@ namespace DealnetPortal.Api.Integration.Services
             var body = new StringBuilder();
             body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
             body.AppendLine("<div>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{inviteLink}/invite/{hashLogin}'><span>{inviteLink}</span></a></b></p>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
             body.AppendLine("<br />");
@@ -252,7 +252,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
 
-            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             try
             {
@@ -270,8 +270,8 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = succededContracts.First();
             string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description.ToLower()));
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ??string.Empty;
-            string mbPhone = ConfigurationManager.AppSettings["MortgageBrokerPhone"];
-            string mbEmail = ConfigurationManager.AppSettings["MortgageBrokerEmail"];
+            string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
+            string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
 
             var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
             var phoneImage = GenerateIconImageCid(phoneIcon);
@@ -300,7 +300,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             var alternateView = GenerateAlternateView(body,  new List<LinkedResource>(){phoneIcon, emailIcon});
 
-            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var subject = $"{Resources.Resources.WeAreLookingForTheBestProfessionalForYourHomeImprovementProject}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             try
             {
@@ -312,9 +312,10 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public async Task SendCustomerDealerAcceptLead(Contract contract, LocationDTO dealerLocation)
+        public async Task SendCustomerDealerAcceptLead(Contract contract, DealerDTO dealer)
         {
-            var addres = dealerLocation != null ? $"{dealerLocation.Street}, {dealerLocation.City}, {dealerLocation.State}, {dealerLocation.PostalCode}" : "";
+            var location = dealer.Locations.FirstOrDefault();
+            var addres = location != null ? $"{location.Street}, {location.City}, {location.State}, {location.PostalCode}" : "";
 
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string services = contract.Equipment !=null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => i.Description.ToLower())) : string.Empty;
@@ -332,25 +333,25 @@ namespace DealnetPortal.Api.Integration.Services
             var body = new StringBuilder();
             body.AppendLine($"<h3>{Resources.Resources.Hi} {contract.PrimaryCustomer.FirstName},</h3>");
             body.AppendLine("<div>");
-            body.AppendLine($"<h4>{Resources.Resources.WeFoundHomeProfessionalForYour} ({services}) - {contract.Dealer.DisplayName}.</h4>");
+            body.AppendLine($"<h4>{Resources.Resources.WeFoundHomeProfessionalForYour} ({services}) - {contract.Dealer.DisplayName} {Resources.Resources.WillContactYouSoonText}.</h4>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.IfYouHaveQuestionsPleaseContact} <b>{contract.Dealer.DisplayName}</b></p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.IfYouHaveQuestionsToHomeProfessionalPleaseContact} <b>{contract.Dealer.DisplayName}.</b></p>");
             if (!string.IsNullOrEmpty(addres))
             {
                 body.AppendLine($"<p {pStyle}>{addres}</p>");
             }
-            if (!string.IsNullOrEmpty(contract.Dealer.PhoneNumber))
+            if (dealer.Phones.Any())
             {
-                body.AppendLine($"<p {pStyle}>{Resources.Resources.Phone}: {contract.Dealer.PhoneNumber}</p>");
+                body.AppendLine($"<p {pStyle}>{Resources.Resources.Phone}: {dealer.Phones.First().PhoneNum}</p>");
             }
             if (!string.IsNullOrEmpty(contract.Dealer.Email))
             {
-                body.AppendLine($"<p {pStyle}>{Resources.Resources.Email}: {contract.Dealer.Email}</p>");
+                body.AppendLine($"<p {pStyle}>{Resources.Resources.Mail}: {contract.Dealer.Email}</p>");
             }
             body.AppendLine("<br />");
             body.AppendLine("<br />");
-            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact}: <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            body.AppendLine($"<p>{Resources.Resources.InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
             body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
             body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
             body.AppendLine("<br />");
