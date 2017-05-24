@@ -14,7 +14,8 @@ using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+
+    [Authorize(Roles = "Dealer")]
     public class UpdateDataController : UpdateController
     {
         private readonly IContractManager _contractManager;

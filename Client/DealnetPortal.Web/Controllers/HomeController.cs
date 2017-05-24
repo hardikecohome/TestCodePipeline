@@ -84,6 +84,7 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Dealer")]
         [HttpGet]
         public async Task<ActionResult> GetDealFlowOverview(FlowingSummaryType type)
         {
@@ -95,6 +96,7 @@ namespace DealnetPortal.Web.Controllers
             return Json(new {labels, datasets}, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Dealer")]
         [HttpGet]
         public async Task<ActionResult> GetWorkItems(bool? completedOnly)
         {
@@ -133,6 +135,7 @@ namespace DealnetPortal.Web.Controllers
             return this.Json(contractsVms, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Dealer")]
         [HttpGet]
         public async Task<ActionResult> GetLeads()
         {
