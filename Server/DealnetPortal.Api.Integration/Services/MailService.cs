@@ -316,10 +316,10 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendCustomerDealerAcceptLead(Contract contract, DealerDTO dealer)
         {
-            var location = dealer.Locations.FirstOrDefault();
+            var location = dealer.Locations?.FirstOrDefault();
             var addres = location != null ? $"{location.Street}, {location.City}, {location.State}, {location.PostalCode}" : "";
 
-            string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            string customerEmail = contract.PrimaryCustomer.Emails?.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
             string services = contract.Equipment.NewEquipment != null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => i.Description.ToLower())) : string.Empty;

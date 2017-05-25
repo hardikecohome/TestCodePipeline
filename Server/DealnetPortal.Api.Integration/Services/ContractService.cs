@@ -1215,7 +1215,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            return alerts;
+            return await Task.FromResult(alerts);
         }
     }
 }
