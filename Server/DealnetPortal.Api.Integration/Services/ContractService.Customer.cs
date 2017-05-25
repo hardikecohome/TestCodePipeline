@@ -10,6 +10,7 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -106,11 +107,28 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");
+                    _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");                    
                 }
 
-                var contractDTO = Mapper.Map<ContractDTO>(contractsResultList.First().Item1);
-                
+                //remove all newly created "internal" (unsubmitted to aspire) contracts here
+                contractsResultList.Where(r => r.Item1 != null && string.IsNullOrEmpty(r.Item1.Details?.TransactionId)).ForEach(
+                    cr =>
+                    {                        
+                        _loggingService.LogWarning($"Internal Contract {cr.Item1.Id} is removing from DB");
+                        creditCheckAlerts.Add(new Alert()
+                        {
+                            Type = AlertType.Warning,
+                            Header = "Internal contract removed",
+                            Message = $"Internal contract { cr.Item1.Id } was removed from DB"
+                        });
+                        var removeAlerts = RemoveContract(cr.Item1.Id, contractOwnerId);
+                        if (removeAlerts.Any())
+                        {
+                            creditCheckAlerts.AddRange(removeAlerts);
+                        }
+                    });
+
+                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)

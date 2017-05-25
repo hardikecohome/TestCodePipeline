@@ -56,7 +56,10 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetDealerLeads(string userId)
         {
-            var aspireCreditReviewState = ConfigurationManager.AppSettings["CreditReviewStatus"] ?? "20-Credit Review";
+            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
+                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
+                : new string[] {"20-Credit Review"};
+            //var aspireCreditReviewState = ConfigurationManager.AppSettings["CreditReviewStatus"] ?? "20-Credit Review";
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
             var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
@@ -75,7 +78,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
                 c.Equipment.NewEquipment.Any() &&
                 c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.MainAddress) &&
-                (c.ContractState >= ContractState.CreditContirmed && c.Details.Status != aspireCreditReviewState)).ToList();
+                (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
             if (eqList!=null && eqList.Any())
             {
                 contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment?.NewEquipment?.FirstOrDefault()?.Type)).ToList();
@@ -106,7 +109,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
-                .Where(c => c.CreateOperator == user.UserName).ToList();
+                .Where(c => c.CreateOperator == user.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList();
             return contracts;
         }
 
@@ -211,10 +214,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var updated = false;
 
-            var contract = _dbContext.Contracts
-                .Include(x=>x.Equipment.NewEquipment)
-                .Include(x=>x.PrimaryCustomer)
-                .FirstOrDefault(x => x.Id == contractId);
+            var contract = _dbContext.Contracts.Find(contractId);
 
             if (contract != null)
             {
