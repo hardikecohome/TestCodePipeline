@@ -298,54 +298,42 @@ namespace DealnetPortal.Api.Integration.Services
                         }                        
                     }                               
 
-                    //Start credit check for this contract
-                    var creditCheckRes = await Task.Run(() =>
+                    //Do credit check only for new contract (not updated from CW)
+                    if (contract.ContractState < ContractState.CreditContirmed)
                     {
-                        var creditCheckAlerts = new List<Alert>();
-                        var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
-                        if (initAlerts?.Any() ?? false)
+                        //Start credit check for this contract
+                        var creditCheckRes = await Task.Run(() =>
                         {
-                            creditCheckAlerts.AddRange(initAlerts);
-                        }
-                        var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
-                        if (checkResult != null)
+                            var creditCheckAlerts = new List<Alert>();
+                            var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
+                            if (initAlerts?.Any() ?? false)
+                            {
+                                creditCheckAlerts.AddRange(initAlerts);
+                            }
+                            var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
+                            if (checkResult != null)
+                            {
+                                creditCheckAlerts.AddRange(checkResult.Item2);
+                                return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
+                            }
+                            return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
+                        }).ConfigureAwait(false);
+                        if (creditCheckRes?.Item2?.Any() ?? false)
                         {
-                            creditCheckAlerts.AddRange(checkResult.Item2);
-                            return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
+                            alerts.AddRange(creditCheckRes.Item2);
                         }
-                        return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
-                    }).ConfigureAwait(false);
+                    }
 
                     // mark as created by customer
                     contract.IsCreatedByCustomer = true;
                     contract.IsNewlyCreated = true;
-
                     //if (_dealerRepository.GetUserRoles(dealerId).Contains(UserRole.CustomerCreator.ToString()))
                     //{
                     //    contract.CreateOperator = null;
                     //}
-
                     _unitOfWork.Save();
-
-                    if (creditCheckRes?.Item2?.Any() ?? false)
-                    {
-                        alerts.AddRange(creditCheckRes.Item2);
-                    }
-                    //if (creditCheckRes?.Item1 != null)
-                    {
-                        submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
-                    }                    
-                }
-                //else
-                //{
-                //    alerts.Add(new Alert()
-                //    {
-                //        Type = AlertType.Error,
-                //        Code = ErrorCodes.ContractCreateFailed,
-                //        Header = "Cannot create contract",
-                //        Message = "Cannot create contract from customer loan form"
-                //    });
-                //}
+                    submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
+                }                
             }
             else
             {

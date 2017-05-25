@@ -177,8 +177,7 @@
     observeClientFormStore(function (state) {
         return {
             errors: getErrors(state),
-            displaySubmitErrors: state.displaySubmitErrors,
-            isValidForm: state.isValidForm
+            displaySubmitErrors: state.displaySubmitErrors
         }
     })(function (props) {
         $('#formErrors').empty();
@@ -189,13 +188,19 @@
                     $('#formErrors').append(createError(window.translations[error.messageKey]));
                 });
         }
-
         if (props.errors.length) {
             $('#submit').addClass('disabled');
             $('#submit').parent().popover();
         } else {
-            $('#submit').removeClass('disabled');
-            $('#submit').parent().popover('destroy');
+            if ($('#main-form').valid()) {
+                $('#submit').removeClass('disabled');
+                $('#submit').parent().popover('destroy');
+            } else {
+                if (!$('#submit').is(':disabled')) {
+                    $('#submit').addClass('disabled');
+                    $('#submit').parent().popover();
+                }
+            }
         }
     });
 
