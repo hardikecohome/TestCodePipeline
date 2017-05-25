@@ -8,39 +8,44 @@
        
         var homePhone = $('#home-phone');
         homePhone.on('change', function (e) {
-            if ($(this).valid()) {
-                $('#cell-phone').rules("remove", "required");
-                $('#cell-phone').removeClass('input-validation-error');
-                $('#cell-phone').next('.text-danger').empty();
-                dispatch(createAction(clientActions.SET_PHONE, e.target.value));
-            } else {
-                $('#cell-phone').rules("add", "required");
-            }
+            togglePhone('#cell-phone', clientActions.SET_PHONE, e);
         });
 
         var cellPhone = $('#cell-phone');
         cellPhone.on('change', function (e) {
-            if ($(this).valid()) {
-                $('#home-phone').rules("remove", "required");
-                $('#home-phone').removeClass('input-validation-error');
-                $('#home-phone').next('.text-danger').empty();
-                dispatch(createAction(clientActions.SET_CELL_PHONE, e.target.value));
-            } else {
-                $('#home-phone').rules("add", "required");
-            }
+            togglePhone('#home-phone', clientActions.SET_CELL_PHONE, e);
         });
 
         var email = $('#email');
         email.on('change', function (e) {
-            if ($(this).valid()) {
-                dispatch(createAction(clientActions.SET_EMAIL, e.target.value));
-            }
+            dispatch(createAction(clientActions.SET_EMAIL, e.target.value));
         });
 
         var contactMethod = $('#contact-method');
         contactMethod.on('change', function (e) {
             dispatch(createAction(clientActions.SET_CONTACT_METHOD, e.target.value));
         });
+
+        function togglePhone(selector, action, event) {
+            var label = $(selector).parent().parent().find('label');
+            if ($(event.currentTarget).valid()) {
+                if (label.hasClass('mandatory-field')) {
+                    label.removeClass('mandatory-field');
+                }
+                $(selector).rules("remove", "required");
+                $(selector).removeClass('input-validation-error');
+                $(selector).next('.text-danger').empty();
+                dispatch(createAction(action, event.target.value));
+            } else {
+                dispatch(createAction(action, event.target.value));
+
+                if (!label.hasClass('mandatory-field')) {
+                    label.addClass('mandatory-field');
+                }
+
+                $(selector).rules("add", "required");
+            }
+        }
 
         var initialStateMap = {
             phone: homePhone,

@@ -51,7 +51,6 @@
         SET_IMPROVMENT_CITY: 'set_improvment_city',
         SET_IMPROVMENT_PROVINCE: 'set_improvment_province',
         SET_IMPROVMENT_POSTAL_CODE: 'set_improvment_postal_code',
-        SET_IMPROVMENT_MOVE_IN_DATE: 'set_improvment_move_in_date',
-        SET_VALID_FORM: 'set_valid_form'
+        SET_IMPROVMENT_MOVE_IN_DATE: 'set_improvment_move_in_date'
     };
 });
