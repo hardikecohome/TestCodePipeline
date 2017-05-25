@@ -8,7 +8,7 @@
             <label for="">@Resources.PostalCode</label>
             <div class="control-group">
                 @Html.HiddenFor(x => x.PostalCodes[i].Id)
-                @Html.TextBoxFor(x => x.PostalCodes[i].PostalCode, new { @class = "form-control form-control-not-clear", placeholder = Resources.PostalCode })
+                @Html.TextBoxFor(x => x.PostalCodes[i].PostalCode, new { @class = "form-control postal-code form-control-not-clear", placeholder = "12345" })
                 @Html.ValidationMessageFor(x => x.PostalCodes[i].PostalCode, "", new { @class = "text-danger" })
             </div>
         </div>

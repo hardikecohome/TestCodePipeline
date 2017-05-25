@@ -240,7 +240,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
-            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact}: <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
             body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
             body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
             body.AppendLine("<br />");
@@ -290,7 +290,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p {pStyle}>{Resources.Resources.WeAreNowLookingForheBest}</p>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
-            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact}: <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
             body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
             body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
             body.AppendLine("<br />");
