@@ -322,7 +322,7 @@ namespace DealnetPortal.Api.Integration.Services
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
-            string services = contract.Equipment !=null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => i.Description.ToLower())) : string.Empty;
+            string services = contract.Equipment.NewEquipment != null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => i.Description.ToLower())) : string.Empty;
             string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
             string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
 

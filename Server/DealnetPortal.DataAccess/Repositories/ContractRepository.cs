@@ -211,10 +211,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var updated = false;
 
-            var contract = _dbContext.Contracts
-                .Include(x=>x.Equipment.NewEquipment)
-                .Include(x=>x.PrimaryCustomer)
-                .FirstOrDefault(x => x.Id == contractId);
+            var contract = _dbContext.Contracts.Find(contractId);
 
             if (contract != null)
             {
