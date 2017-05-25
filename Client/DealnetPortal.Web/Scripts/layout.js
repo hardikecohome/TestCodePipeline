@@ -66,7 +66,7 @@
         $('.lang-switcher').removeClass('open')
       }
 
-      if($('body').is('.ios-device.hasDatepicker') && $(event.target).parents('.ui-datepicker').length == 0){
+      if($('body').is('.ios-device.bodyHasDatepicker') && $(event.target).parents('.ui-datepicker').length == 0){
         $('#ui-datepicker-div').hide();
       }
     });
@@ -473,8 +473,8 @@ function inputDateFocus(input){
   input.on('click touchend', function(){
     if(viewport().width < 768)
     {
-      if($('body').not('.hasDatepicker')){
-        $('body').addClass('hasDatepicker');
+      if($('body').not('.bodyHasDatepicker')){
+        $('body').addClass('bodyHasDatepicker');
       }
       if($(this).not('.acrive-datePicker-input')){
         $(this).addClass('acrive-datePicker-input')
@@ -496,7 +496,7 @@ function onDateSelect(input){
     .removeClass('focus')
     .removeClass('acrive-datePicker-input')
     .removeAttr('readonly', 'readonly');
-  $('body').removeClass('hasDatepicker');
+  $('body').removeClass('bodyHasDatepicker');
 }
 
 function documentsColHeight(){
