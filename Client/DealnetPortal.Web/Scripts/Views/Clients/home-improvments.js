@@ -20,8 +20,10 @@
             yearRange: '1900:2200',
             minDate: new Date(),
             onSelect: function (day) {
-                onDateSelect($(this));
                 dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
+            },
+            onClose: function(){
+                onDateSelect($(this));
             }
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');
