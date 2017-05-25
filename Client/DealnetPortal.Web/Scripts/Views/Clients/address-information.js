@@ -28,6 +28,7 @@
 
         var postalCode = $('#postal_code');
         postalCode.on('change', function (e) {
+            e.target.value = e.target.value.toUpperCase();
             dispatch(createAction(clientActions.SET_POSTAL_CODE, e.target.value));
         });
 
@@ -58,6 +59,7 @@
 
         var ppostalCode = $('#previous_postal_code');
         ppostalCode.on('change', function (e) {
+            e.target.value = e.target.value.toUpperCase();
             dispatch(createAction(clientActions.SET_PPOSTAL_CODE, e.target.value));
         });
 
