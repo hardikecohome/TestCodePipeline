@@ -657,14 +657,14 @@ namespace DealnetPortal.Api.Integration.Services
             return summary;
         }
 
-        public Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes(string dealerId)
+        public Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetDealerEquipmentTypes(string dealerId)
         {
             var alerts = new List<Alert>();
             try
             {
                 var dealerProfile = _dealerRepository.GetDealerProfile(dealerId);
                 IList<EquipmentType> equipmentTypes;
-                if (dealerProfile != null)
+                if (dealerProfile != null && dealerProfile.Equipments.Any())
                 {
                     equipmentTypes = dealerProfile.Equipments.Select(x=>x.Equipment).ToList();
                 }

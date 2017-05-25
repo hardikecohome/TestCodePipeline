@@ -49,6 +49,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var newProfile = _dealerRepository.UpdateDealerProfile(profile);
                 if (newProfile != null)
                 {
+                   
                     _unitOfWork.Save();
                     if (userNeedUpdate)
                     {

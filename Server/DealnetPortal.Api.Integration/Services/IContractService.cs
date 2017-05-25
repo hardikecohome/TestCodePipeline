@@ -62,7 +62,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
 
-        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes(string dealerId);        
+        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetDealerEquipmentTypes(string dealerId);        
 
         //IList<EquipmentTypeDTO> GetDocumentTypes();
 

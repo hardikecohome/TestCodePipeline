@@ -79,7 +79,7 @@ namespace DealnetPortal.Api.Controllers
             var alerts = new List<Alert>();
             try
             {
-                var result = _contractService.GetEquipmentTypes(LoggedInUser?.UserId);
+                var result = _contractService.GetDealerEquipmentTypes(LoggedInUser?.UserId);
                 if (result == null)
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
