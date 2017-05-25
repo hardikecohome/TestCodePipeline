@@ -15,8 +15,10 @@
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
-                onDateSelect($(this));
                 dispatch(createAction(clientActions.SET_BIRTH, day));
+            },
+            onClose: function(){
+                onDateSelect($(this));
             }
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');

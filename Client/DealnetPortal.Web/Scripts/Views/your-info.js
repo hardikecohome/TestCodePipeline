@@ -17,6 +17,9 @@
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
                 dispatch(createAction(customerActions.SET_BIRTH, day));
+            },
+            onClose: function(){
+                onDateSelect($(this));
             }
         });
         var name = $('#firstName');
