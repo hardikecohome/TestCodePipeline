@@ -23,6 +23,7 @@
         var item = $.grep(state.postalCodes, function (item) { return item.id === id })[0];
 
         return function (e) {
+            e.target.value = e.target.value.toUpperCase();
             item.value = e.target.value;
             resetFormValidator('#main-form');
         }
