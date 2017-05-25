@@ -319,7 +319,12 @@ namespace DealnetPortal.Api.Integration.Services
                     // mark as created by customer
                     contract.IsCreatedByCustomer = true;
                     contract.IsNewlyCreated = true;
-                    contract.CreateOperator = null;
+
+                    //if (_dealerRepository.GetUserRoles(dealerId).Contains(UserRole.CustomerCreator.ToString()))
+                    //{
+                    //    contract.CreateOperator = null;
+                    //}
+
                     _unitOfWork.Save();
 
                     if (creditCheckRes?.Item2?.Any() ?? false)

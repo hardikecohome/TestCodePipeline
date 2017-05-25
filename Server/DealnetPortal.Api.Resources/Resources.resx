@@ -469,4 +469,7 @@
   <data name="WillContactYouSoonText" xml:space="preserve">
     <value>will contact you soon</value>
   </data>
+  <data name="WeFoundHomeProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>We found home professional for your home improvement project</value>
+  </data>
 </root>
