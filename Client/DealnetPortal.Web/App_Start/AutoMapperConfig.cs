@@ -43,6 +43,24 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.Phones, d => d.Ignore())
                     .ForMember(x => x.Emails, d => d.Ignore())
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
+                    .ForMember(x => x.Sin, d => d.ResolveUsing(src =>
+                    {
+                        if (src.Sin == null)
+                        {
+                            return src.Sin;
+                        }
+
+                        return src.Sin.Trim().Length > 0 ? src.Sin.Trim() : null;
+                    }))
+                    .ForMember(x => x.DriverLicenseNumber, d => d.ResolveUsing(src =>
+                    {
+                        if (src.DriverLicenseNumber == null)
+                        {
+                            return src.DriverLicenseNumber;
+                        }
+
+                        return src.DriverLicenseNumber.Trim().Length > 0 ? src.DriverLicenseNumber.Trim() : null;
+                    }))
                     .ForMember(x => x.AllowCommunicate, d => d.Ignore())
                     .ForMember(x => x.IsInitialCustomer, d => d.Ignore())
                     .ForMember(x => x.IsHomeOwner, d => d.ResolveUsing(src => src?.IsHomeOwner == true))
