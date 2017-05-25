@@ -52,18 +52,17 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 return null;
             }
-            if (profile.Id == 0)
+            var dbProfile = GetDealerProfile(profile.DealerId);
+            if (dbProfile == null)
             {
                 _dbContext.Entry(profile).State = profile.Id == 0 ? EntityState.Added : EntityState.Modified;
                 return profile;
             }
-            var dbProfile = GetDealerProfile(profile.DealerId);
-            var dbEquipments = dbProfile.Equipments;
-
-            UpdateProfileEquipments(profile, dbEquipments);
+            profile.Id = dbProfile.Id;
+            UpdateProfileEquipments(profile, dbProfile.Equipments);
             UpdateProfileArears(profile, dbProfile.Areas);
 
-            return profile;
+            return dbProfile;
         }
 
         public void UpdateDealer(ApplicationUser dealer)
@@ -88,6 +87,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 profile.Equipments.ForEach(equipment =>
                 {
                     var dbEquipment = dbEquipments.SingleOrDefault(x => x.EquipmentId == equipment.EquipmentId);
+                    equipment.ProfileId = profile.Id;
                     if (dbEquipment != null)
                     {
                         equipment.Id = dbEquipment.Id;
@@ -118,10 +118,11 @@ namespace DealnetPortal.DataAccess.Repositories
 
                 profile.Areas.ForEach(area =>
                 {
-                    var dbEquipment = dbArears.SingleOrDefault(x => x.PostalCode == area.PostalCode);
-                    if (dbEquipment != null)
+                    var dbArea = dbArears.SingleOrDefault(x => x.PostalCode == area.PostalCode);
+                    area.ProfileId = profile.Id;
+                    if (dbArea != null)
                     {
-                        area.Id = dbEquipment.Id;
+                        area.Id = dbArea.Id;
                     }
                     else
                     {
