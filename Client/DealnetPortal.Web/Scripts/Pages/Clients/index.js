@@ -177,7 +177,8 @@
     observeClientFormStore(function (state) {
         return {
             errors: getErrors(state),
-            displaySubmitErrors: state.displaySubmitErrors
+            displaySubmitErrors: state.displaySubmitErrors,
+            isChanged: state.isChanged
         }
     })(function (props) {
         $('#formErrors').empty();
@@ -188,6 +189,7 @@
                     $('#formErrors').append(createError(window.translations[error.messageKey]));
                 });
         }
+
         if (props.errors.length) {
             $('#submit').addClass('disabled');
             $('#submit').parent().popover();

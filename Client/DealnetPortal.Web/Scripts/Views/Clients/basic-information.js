@@ -25,16 +25,12 @@
 
         var name = $('#first-name');
         name.on('change', function (e) {
-            if ($(this).valid()) {
-                dispatch(createAction(clientActions.SET_NAME, e.target.value));
-            }
+            dispatch(createAction(clientActions.SET_NAME, e.target.value));
         });
         var lastName = $('#last-name');
         lastName.on('change',
-            function(e) {
-                if ($(this).valid()) {
-                    dispatch(createAction(clientActions.SET_LAST, e.target.value));
-                }
+            function (e) {
+                dispatch(createAction(clientActions.SET_LAST, e.target.value));
             });
 
         var initialStateMap = {
