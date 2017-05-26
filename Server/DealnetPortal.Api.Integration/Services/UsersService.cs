@@ -35,16 +35,24 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<Claim> GetUserClaims(ApplicationUser user)
         {
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));            
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
-            if (!(user.Settings?.SettingValues?.Any() ?? false))
+            if (user.Settings?.SettingValues != null)
             {
-                claims.Add(new Claim(ClaimNames.ShowAbout, false.ToString()));
-                claims.Add(new Claim(ClaimNames.HasSkin, true.ToString()));
+                if (!user.Settings.SettingValues.Any())
+                {
+                    claims.Add(new Claim(ClaimNames.ShowAbout, false.ToString()));
+                    claims.Add(new Claim(ClaimNames.HasSkin, true.ToString()));
+                }
+                else
+                {
+                    claims.Add(new Claim(ClaimNames.ShowAbout, true.ToString()));
+                }
             }
             else
             {
                 claims.Add(new Claim(ClaimNames.ShowAbout, true.ToString()));
+                claims.Add(new Claim(ClaimNames.HasSkin, false.ToString()));
             }
 
             return claims;
