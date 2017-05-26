@@ -90,6 +90,7 @@
 
         var postalCode = $('#improvment_postal_code');
         postalCode.on('change', function (e) {
+            e.target.value = e.target.value.toUpperCase();
             dispatch(createAction(clientActions.SET_IMPROVMENT_POSTAL_CODE, e.target.value));
         });
 
