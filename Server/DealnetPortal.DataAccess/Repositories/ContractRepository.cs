@@ -85,7 +85,8 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             if (pcList!=null && pcList.Any())
             {
-                contracts = contracts.Where(c => pcList.Any(pc => c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();
+                contracts = contracts.Where(c => pcList.Any(pc => c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress).PostalCode.Length >= pc.Length &&
+                c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();
             }
              
             return contracts;
