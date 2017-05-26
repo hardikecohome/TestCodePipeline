@@ -1,70 +1,71 @@
 ﻿<div id="label-steps">
 	<div class="dealnet-action-link">My Clients</div>
 </div>
-
-<div class="expand-filter-template">
-	<div class="visible-content">
-		<div class="row">
-			<div class="col-md-3 col-sm-3 ">
-				<div class="form-group">
-					<a class="btn dealnet-success-button add-customer-btn" href="@Url.Action("NewClient", "MortgageBroker")">
+<div class="my-clients-page">
+	<div class="expand-filter-template">
+		<div class="visible-content">
+			<div class="row">
+				<div class="col-md-3 col-sm-3 ">
+					<div class="form-group">
+						<a class="btn dealnet-success-button add-customer-btn" href="@Url.Action("NewClient", "MortgageBroker")">
                         <span class="button-inner">
                             <span>+ Add Client</span>
                         </span>
-					</a>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="reset-form-inline filter-hidden-content">
+			<h2 class="dealnet-middle-header hidden-md hidden-lg">Filter</h2>
+			<div class="row">
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="">Status</label>
+						<div class="control-group">
+							<select id="deal-status" class="form-control select-filter filter-input"></select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3 hidden">
+					<div class="form-group">
+						<label for="">Sales Agent</label>
+						<div class="control-group">
+							<select id="" class="form-control select-filter filter-input">
+								<option value="">- not selected-</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6">
+					<div class="form-group">
+						<label for="">@Resources.DateFrom</label>
+						<div class="control-group date-group">
+							<input type="text" class="form-control date-control filter-input" id="date-from">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6">
+					<div class="form-group">
+						<label for="">@Resources.DateTo</label>
+						<div class="control-group date-group">
+							<input type="text" class="form-control date-control filter-input" id="date-to">
+						</div>
+					</div>
+				</div>
+
+				<!--<div class="col-md-offset-0 col-md-2 col-sm-offset-6 col-sm-6 text-right">-->
+				<div class="col-md-offset-3 col-md-2 col-sm-offset-0 col-sm-6 text-right">
+					<div class="form-group">
+						<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="reset-form-inline filter-hidden-content">
-		<div class="row">
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="">Status</label>
-					<div class="control-group">
-						<select id="deal-status" class="form-control select-filter filter-input"></select>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3 hidden">
-				<div class="form-group">
-					<label for="">Sales Agent</label>
-					<div class="control-group">
-						<select id="" class="form-control select-filter filter-input">
-							<option value="">- not selected-</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6">
-				<div class="form-group">
-					<label for="">@Resources.DateFrom</label>
-					<div class="control-group date-group">
-						<input type="text" class="form-control date-control filter-input" id="date-from">
-					</div>
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6">
-				<div class="form-group">
-					<label for="">@Resources.DateTo</label>
-					<div class="control-group date-group">
-						<input type="text" class="form-control date-control filter-input" id="date-to">
-					</div>
-				</div>
-			</div>
 
-			<!--<div class="col-md-offset-0 col-md-2 col-sm-offset-6 col-sm-6 text-right">-->
-			<div class="col-md-offset-3 col-md-2 col-sm-offset-0 col-sm-6 text-right">
-				<div class="form-group">
-					<button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<table id="work-items-table" class="display responsive my-customers-table  my-deals-table" width="100%">
-	<thead>
+	<table id="work-items-table" class="display responsive my-customers-table  my-deals-table" width="100%">
+		<thead>
 		<tr>
 			<th class="all contract-cell">@Resources.ApplicationNumber</th>
 			<th class="all data-cell">@Resources.AddedOn</th>
@@ -75,8 +76,10 @@
 			<th class="min-desktop email-cell">@Resources.SalesAgent</th>
 			<th class="min-desktop status-cell text-center">@Resources.Status</th>
 		</tr>
-	</thead>
-</table>
+		</thead>
+	</table>
+</div>
+
 
 @section Translations
 {

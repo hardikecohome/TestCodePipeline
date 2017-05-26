@@ -56,7 +56,7 @@ function showTable() {
                 { "data": "Status", className: 'status-cell', orderable: false },
                     ],
                     dom:
-			            "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+			            "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-12 col-sm-12 hidden-md hidden-lg''<'#filter-btn-position'>'><'col-md-4 col-sm-6'f>>" +
 			            "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
 			            "<'row'<'col-md-12 col-sm-6'l>>" +
 			            "<'row'<'col-md-12'tr>>" +
@@ -71,12 +71,13 @@ function showTable() {
             $('#table-title').html('<div class="dealnet-large-header">' + "My Clients" + '<div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
             $('#table-title .icon-search-control').on('click', function () {
                 $(this).toggleClass('active');
-                $('#expand-table-filter .filter-hidden-content').slideToggle();
+                $('#work-items-table_filter').slideToggle();
             });
             $('#table-title .icon-filter-control').on('click', function () {
                 $(this).toggleClass('active');
                 $('#expand-table-filter .filter-hidden-content').slideToggle();
             });
+            $('#filter-btn-position').html($('.visible-content').detach());
             $('#expand-table-filter').addClass('has-visible-elems').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
                 table.draw();
