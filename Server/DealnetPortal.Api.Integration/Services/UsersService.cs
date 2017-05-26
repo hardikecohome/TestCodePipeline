@@ -39,8 +39,12 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (!(user.Settings?.SettingValues?.Any() ?? false))
             {
-                claims.Add(new Claim(ClaimNames.ShowAbout, true.ToString()));
+                claims.Add(new Claim(ClaimNames.ShowAbout, false.ToString()));
                 claims.Add(new Claim(ClaimNames.HasSkin, true.ToString()));
+            }
+            else
+            {
+                claims.Add(new Claim(ClaimNames.ShowAbout, true.ToString()));
             }
 
             return claims;
