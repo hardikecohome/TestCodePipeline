@@ -77,7 +77,9 @@ function showTable() {
                 $(this).toggleClass('active');
                 $('#expand-table-filter .filter-hidden-content').slideToggle();
             });
-            $('#filter-btn-position').html($('.visible-content').detach());
+
+            $('#filter-btn-position').html($('.add-customer-btn').clone());
+
             $('#expand-table-filter').addClass('has-visible-elems').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
                 table.draw();

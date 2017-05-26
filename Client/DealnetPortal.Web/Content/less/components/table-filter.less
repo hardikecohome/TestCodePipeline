@@ -119,8 +119,15 @@ div.dataTables_wrapper{
   }
 }
 
-.my-clients-page #work-items-table_filter{
-  @media @tablet-only {
-    margin-top: 15px;
+.my-clients-page{
+  #work-items-table_filter {
+    @media @tablet-only {
+      margin-top: 15px;
+    }
+  }
+  div.dataTables_wrapper div.dataTables_filter{
+    @media @mobile {
+      margin-top: 20px;
+    }
   }
 }
