@@ -242,7 +242,7 @@
 
 
                     <div class="sidebar-bottom sidebar-row">
-                        @if (ViewBag.LangSwitcherAvailable == true)
+                        @if (((bool?)TempData["LangSwitcherAvailable"] ?? false))
                         {
                             <div class="dealnet-sidebar-item sidebar-lang-item">
                                     @switch (CultureHelper.CurrentCultureType)
