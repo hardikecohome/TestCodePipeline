@@ -18,7 +18,7 @@
 
         // action handlers
         var input = $('#enEquipmentTags');
-        var addBtn = $('#addEquipment');
+        var addBtn = $('#addEquipment, #addEquipmentXS');
 
         addBtn.on('click', function () {
             var value = input.val();
