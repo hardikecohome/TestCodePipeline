@@ -27,6 +27,7 @@
     var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
     var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
+    var trimFieldsIds = ['unit_number', 'sin-number', 'dl-number', 'previous_unit_number', 'businessPhone', 'improvment_unit_number'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);
 
@@ -82,8 +83,19 @@
         if (!form.valid()) {
             e.preventDefault();
             $('#submit').prop('disabled', false);
+        } else {
+            trimValues();
         }
     });
+
+    function trimValues() {
+        $.grep(trimFieldsIds, function (field) {
+            var value = $('#' + field).val();
+            if (value !== '') {
+                $('#' + field).val($.trim(value));
+            }
+        });
+    }
 
     $('#submit').one('click', function (e) {
         if (!form.valid()) {
