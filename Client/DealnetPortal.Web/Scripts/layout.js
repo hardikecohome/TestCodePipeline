@@ -68,6 +68,7 @@
 
       if($('body').is('.ios-device.bodyHasDatepicker') && $(event.target).parents('.ui-datepicker').length == 0){
         $('#ui-datepicker-div').hide();
+        $('.acrive-datePicker-input').blur();
       }
     });
 
