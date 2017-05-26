@@ -1043,7 +1043,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (scorePoints > 220 && scorePoints < 1000)
                 {
-                    checkResult.CreditAmount = 20000;
+                    checkResult.CreditAmount = 25000;
                 }
             }
 
