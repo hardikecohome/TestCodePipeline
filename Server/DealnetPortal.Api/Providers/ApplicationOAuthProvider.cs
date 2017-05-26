@@ -106,7 +106,7 @@ namespace DealnetPortal.Api.Providers
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-            var claims = _usersService.GetUserClaims(user);            
+            var claims = _usersService.GetUserClaims(user.Id);            
 
             if (claims?.Any() ?? false)
             {

@@ -9,8 +9,10 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess;
+using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
@@ -24,22 +26,25 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILoggingService _loggingService;
+        private readonly ISettingsRepository _settingsRepository;
 
-        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService)
+        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, ISettingsRepository settingsRepository)
         {
             _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
+            _settingsRepository = settingsRepository;
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(databaseFactory.Get()));
         }        
 
-        public IList<Claim> GetUserClaims(ApplicationUser user)
+        public IList<Claim> GetUserClaims(string userId)
         {
+            var settings = _settingsRepository.GetUserSettings(userId);
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
 
-            if (user.Settings?.SettingValues != null)
+            if (settings?.SettingValues != null)
             {
-                if (!user.Settings.SettingValues.Any())
+                if (settings.SettingValues.Any())
                 {
                     claims.Add(new Claim(ClaimNames.ShowAbout, false.ToString()));
                     claims.Add(new Claim(ClaimNames.HasSkin, true.ToString()));
