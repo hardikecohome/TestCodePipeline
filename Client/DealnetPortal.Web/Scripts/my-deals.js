@@ -3,7 +3,8 @@
 $(document)
             .ready(function () {
                 showTable();
-                assignDatepicker($(".date-control"));
+                assignDatepicker($("#date-from"));
+                assignDatepicker($("#date-to"));
                 $('.select-filter option').each(function () {
                     $(this).val($(this).text());
                 });

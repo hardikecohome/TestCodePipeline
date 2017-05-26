@@ -61,14 +61,18 @@
     });
 
     //If opened switch language dropdown, hide it when click anywhere accept opened dropdown
-    $('html').on('click touchstart', function (event) {
+    $('html').on('click touchstart touchend', function (event) {
       if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
         $('.lang-switcher').removeClass('open')
       }
 
-      if($('body').is('.ios-device') && $('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker').length == 0){
-        $('#ui-datepicker-div').hide();
-        $('.acrive-datePicker-input').blur();
+      if ($('body').is('.ios-device') && $('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker').length == 0) {
+          if ($(event.target).children('input.acrive-datePicker-input').length === 0) {
+              $('#ui-datepicker-div').hide();
+              $('.acrive-datePicker-input').blur();
+              $('.acrive-datePicker-input').removeAttr('readonly');
+              $('.acrive-datePicker-input').removeClass('acrive-datePicker-input');
+          }
       }
     });
 
@@ -471,23 +475,19 @@ function has_scrollbar(elem, className)
 
 function inputDateFocus(input){
 
-  input.on('click touchend', function(){
-    if(viewport().width < 768)
-    {
-      if($('body').not('.bodyHasDatepicker')){
-        $('body').addClass('bodyHasDatepicker');
-      }
-      /*if($(this).not('.acrive-datePicker-input')){
-        $(this).addClass('acrive-datePicker-input')
-      }*/
-    }
-  }).on('focus', function(){
+input.on('focus', function(){
     setTimeout(customDPSelect, 0);
     if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
       $(this).blur()
         .addClass('focus');
-    }else{
-      $(this).attr('readonly', 'readonly').addClass('acrive-datePicker-input');
+    } else {
+        if (!$(this).hasClass('acrive-datePicker-input')) {
+            $(this).addClass('acrive-datePicker-input');
+            $(this).attr('readonly', 'readonly');
+            if (!$('#ui-datepicker-div').is(':visible')) {
+                $('#ui-datepicker-div').show();
+            }
+        }
     }
   });
 }
