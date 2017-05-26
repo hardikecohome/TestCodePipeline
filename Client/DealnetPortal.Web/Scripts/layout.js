@@ -66,8 +66,9 @@
         $('.lang-switcher').removeClass('open')
       }
 
-      if($('body').is('.ios-device.bodyHasDatepicker') && $(event.target).parents('.ui-datepicker').length == 0){
+      if($('body').is('.ios-device') && $('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker').length == 0){
         $('#ui-datepicker-div').hide();
+        $('.acrive-datePicker-input').blur();
       }
     });
 
@@ -476,9 +477,9 @@ function inputDateFocus(input){
       if($('body').not('.bodyHasDatepicker')){
         $('body').addClass('bodyHasDatepicker');
       }
-      if($(this).not('.acrive-datePicker-input')){
+      /*if($(this).not('.acrive-datePicker-input')){
         $(this).addClass('acrive-datePicker-input')
-      }
+      }*/
     }
   }).on('focus', function(){
     setTimeout(customDPSelect, 0);
