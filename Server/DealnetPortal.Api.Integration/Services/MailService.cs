@@ -382,7 +382,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         #region Public DealNet mails
 
-        public async Task SendNotifyMailNoDealerAcceptLead()
+        public async Task SendNotifyMailNoDealerAcceptLead(Contract contract)
         {
         }
 

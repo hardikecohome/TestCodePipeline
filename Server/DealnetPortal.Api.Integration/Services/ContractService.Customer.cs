@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -85,7 +86,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var succededContracts =contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).ToList();
+                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).ToList();
                 var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
                 {
@@ -99,6 +100,14 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
                         }
+                        succededContracts.ForEach(c =>
+                        {
+                            if (IsContractUnassignable(c.Id))
+                            {
+                                var noWait =_mailService.SendNotifyMailNoDealerAcceptLead(c);
+                            }
+                        }
+                        );
                     }
                     else
                     {
@@ -207,6 +216,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return new Tuple<Contract, bool>(updatedContract, true);
+        }
+
+        private bool IsContractUnassignable(int contractId)
+        {
+            return _contractRepository.IsContractUnassignable(contractId);
         }
     }
 }

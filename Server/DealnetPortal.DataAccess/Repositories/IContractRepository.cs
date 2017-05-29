@@ -204,5 +204,7 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="newContractOwnerId">new dealer id</param>
         /// <returns></returns>
         Contract AssignContract(int contractId, string newContractOwnerId);
+
+        bool IsContractUnassignable(int contractId);
     }
 }
