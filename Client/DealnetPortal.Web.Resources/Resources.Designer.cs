@@ -2410,7 +2410,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log In.
+        ///   Looks up a localized string similar to Log in.
         /// </summary>
         public static string Login {
             get {
@@ -2419,7 +2419,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logout.
+        ///   Looks up a localized string similar to Log out.
         /// </summary>
         public static string Logout {
             get {
