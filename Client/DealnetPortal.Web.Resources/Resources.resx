@@ -295,10 +295,10 @@
     <value>Loan Term</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Log In</value>
+    <value>Log in</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>Log out</value>
   </data>
   <data name="MailingAddress" xml:space="preserve">
     <value>Mailing Address</value>
