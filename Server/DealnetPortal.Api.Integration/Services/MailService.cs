@@ -378,6 +378,13 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Cannot send email", ex);
             }
         }
+        #endregion
+
+        #region Public DealNet mails
+
+        public async Task SendNotifyMailNoDealerAcceptLead()
+        {
+        }
 
         #endregion
 
