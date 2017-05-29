@@ -8,7 +8,7 @@ using DealnetPortal.Web.Models.MyProfile;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dealer")]
     public class ProfileController : UpdateController
     {
         private readonly IProfileManager _profileManager;

@@ -6,7 +6,7 @@ using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dealer")]
     public class LeadsController : UpdateController
     {
         private readonly IContractServiceAgent _contractServiceAgent;

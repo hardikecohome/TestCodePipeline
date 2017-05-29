@@ -10,7 +10,7 @@ using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dealer")]
     public class CalculatorController : Controller
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;

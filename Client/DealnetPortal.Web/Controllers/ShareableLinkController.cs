@@ -15,7 +15,7 @@ using DealnetPortal.Utilities;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dealer")]
     public class ShareableLinkController : UpdateController
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
