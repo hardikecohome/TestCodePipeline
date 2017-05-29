@@ -767,7 +767,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue))
                 return false;
-            
+
             var contract = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -775,22 +775,23 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .SingleOrDefault(c => c.Id == contractId);
             if (contract == null)
-                return false;
-            else
             {
-                var contractEquipment = contract?.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
-                var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode;
-                return _dbContext.DealerProfiles.Any(dp => dp.Equipments.Any(e => e.Equipment.Type == contractEquipment)
-                                                        && dp.Areas.Any(a => a.PostalCode.Length <= contractPostalCode.Length &&
-                                                                contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
+                return false;
             }
-            
+            var contractEquipment = contract?.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
+            var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode;
+
+            return _dbContext.DealerProfiles.Any(dp => dp.Equipments.Any(e => e.Equipment.Type == contractEquipment)
+                                                       && dp.Areas.Any( a => a.PostalCode.Length <= contractPostalCode.Length &&
+                                                                contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
+
 
 
             var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
-                : new string[] { "20-Credit Review" };
-            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
+                : new string[] {"20-Credit Review"};
+            var contractCreatorRoleId =
+                _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             //var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
             var eqList = _dbContext.DealerEquipments.Select(e => e.Equipment.Type);
             var pcList = _dbContext.DealerArears.Select(e => e.PostalCode);
@@ -805,10 +806,13 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
                 .Where(c => (c.IsCreatedByBroker == true
-                || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
-                c.Equipment.NewEquipment.Any() &&
-                c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.MainAddress) &&
-                (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
+                             ||
+                             (contractCreatorRoleId == null ||
+                              c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
+                            c.Equipment.NewEquipment.Any() &&
+                            c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.MainAddress) &&
+                            (c.ContractState >= ContractState.CreditContirmed &&
+                             !creditReviewStates.Contains(c.Details.Status))).ToList();
             //if (eqList != null && eqList.Any())
             //{
             //    contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment?.NewEquipment?.FirstOrDefault()?.Type)).ToList();
@@ -821,6 +825,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
             return contracts.Any();
         }
+
         #endregion
 
         #region Private

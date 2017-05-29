@@ -102,9 +102,9 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         succededContracts.ForEach(c =>
                         {
-                            if (IsContractUnassignable(c.Id))
+                            //if (IsContractUnassignable(c.Id))
                             {
-                                var noWait =_mailService.SendNotifyMailNoDealerAcceptLead(c);
+                                var noWait =  _mailService.SendNotifyMailNoDealerAcceptLead(c);
                             }
                         }
                         );
