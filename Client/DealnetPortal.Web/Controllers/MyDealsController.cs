@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
-using DealnetPortal.Api.Common.Enumeration;
+﻿using AutoMapper;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.SessionState;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Storage;
-using DealnetPortal.Web.Infrastructure.Extensions;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dealer")]
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class MyDealsController : UpdateDataController
     {
@@ -138,17 +133,19 @@ namespace DealnetPortal.Web.Controllers
             return Json(result.Item1);
         }
 
-        public async Task<JsonResult> PrepareInstallationCertificate([Bind(Prefix = "InstallCertificateInformation")]CertificateInformationViewModel informationViewModel)
+        public async Task<JsonResult> PrepareInstallationCertificate(
+            [Bind(Prefix = "InstallCertificateInformation")] CertificateInformationViewModel informationViewModel)
         {
             if (informationViewModel == null)
             {
                 throw new ArgumentNullException(nameof(informationViewModel));
             }
             var certificateData = Mapper.Map<InstallationCertificateDataDTO>(informationViewModel);
-            var updateResult = await _contractServiceAgent.UpdateInstallationData(certificateData);            
+            var updateResult = await _contractServiceAgent.UpdateInstallationData(certificateData);
             if (updateResult?.All(r => r.Type != AlertType.Error) ?? false)
             {
-                return Json(Url.Action("GetInstallationCertificate", new {@contractId = informationViewModel.ContractId }));
+                return Json(Url.Action("GetInstallationCertificate",
+                    new {@contractId = informationViewModel.ContractId}));
             }
             return Json(null);
         }
@@ -162,12 +159,13 @@ namespace DealnetPortal.Web.Controllers
                 {
                     FileDownloadName = result.Item1.Name
                 };
-                if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
+                if (!string.IsNullOrEmpty(response.FileDownloadName) &&
+                    !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
                 {
                     response.FileDownloadName += ".pdf";
                 }
                 return response;
-            }            
+            }
             return new FileContentResult(new byte[] { }, "application/pdf");
         }
     }

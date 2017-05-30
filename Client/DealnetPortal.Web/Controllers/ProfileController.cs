@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Web.Common.Constants;
+﻿using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models.MyProfile;
 
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dealer")]
     public class ProfileController : UpdateController
     {
         private readonly IProfileManager _profileManager;
