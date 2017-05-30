@@ -269,17 +269,31 @@ namespace DealnetPortal.Api.Integration.Services
                                 new List<NewEquipmentDTO> {new NewEquipmentDTO() {Type = customerFormData.SelectedServiceType}}
                         };
                     }
-                    //send request to Aspire here
-                    _contractService.UpdateContractData(contractData, dealerId);
-                    //_contractRepository.UpdateContractData(contractData, dealerId);
-                    //_unitOfWork.Save();
 
-                    if (!string.IsNullOrEmpty(customerFormData.SelectedService) || !string.IsNullOrEmpty(customerFormData.CustomerComment))
+                    //add coment from customer
+                    if (!string.IsNullOrEmpty(customerFormData.CustomerComment))
                     {                        
                         try
                         {
-                            _customerFormRepository.AddCustomerContractData(contract.Id, $"{Resources.Resources.CommentFromCustomer}:",
-                                customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
+                            if (!string.IsNullOrEmpty(customerFormData.SelectedService))
+                            {
+                                //if customerFormData.SelectedService - comes from customer form 
+                                _customerFormRepository.AddCustomerContractData(contract.Id,
+                                    $"{Resources.Resources.CommentFromCustomer}:",
+                                    customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
+                            }
+                            else 
+                            if (!string.IsNullOrEmpty(customerFormData.SelectedServiceType))
+                            {
+                                contractData = new ContractDataDTO()
+                                {
+                                    Id = contract.Id,
+                                    Details = new ContractDetailsDTO()
+                                    {
+                                        Notes = customerFormData.CustomerComment
+                                    }
+                                };
+                            }
                             _unitOfWork.Save();
                             _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
                         }
@@ -327,10 +341,7 @@ namespace DealnetPortal.Api.Integration.Services
                     // mark as created by customer
                     contract.IsCreatedByCustomer = true;
                     contract.IsNewlyCreated = true;
-                    //if (_dealerRepository.GetUserRoles(dealerId).Contains(UserRole.CustomerCreator.ToString()))
-                    //{
-                    //    contract.CreateOperator = null;
-                    //}
+
                     _unitOfWork.Save();
                     submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
                 }                
