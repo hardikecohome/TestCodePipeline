@@ -101,10 +101,8 @@ function showTable() {
                 resetDataTablesExpandedRows(table);
             });
 
-            $('a.clear-data-link').on('click', function() {
-                $('.filter-input').val("");
-                table.search('').draw();
-            });
+            $('#clear-filters').on('click', clearFilters);
+            $('#clear-filters-mobile').on('click', clearFilters);
 
           $('.dataTables_filter input[type="search"]').attr('placeholder','Requested service, customer comment');
           $('.link-accepted').popover({
@@ -130,6 +128,12 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
+
+function clearFilters() {
+    $('.filter-input').val("");
+    var table = $('#work-items-table').DataTable();
+    table.search('').draw();
+}
 
 function assignDatepicker(input) {
     inputDateFocus(input);
