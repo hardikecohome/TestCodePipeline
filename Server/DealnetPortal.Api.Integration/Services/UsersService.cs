@@ -152,6 +152,10 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     rolesToSet.Add(UserRole.MortgageBroker.ToString());                    
                 }
+                else
+                {
+                    rolesToSet.Add(UserRole.Dealer.ToString());
+                }
                 var dbRoles = await _userManager.GetRolesAsync(userId);
                 var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.Except(rolesToSet).ToArray());
                 var addRes = await _userManager.AddToRolesAsync(userId, rolesToSet.Except(dbRoles).ToArray());

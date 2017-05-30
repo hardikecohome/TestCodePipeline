@@ -12,6 +12,7 @@ using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 using DealnetPortal.Utilities;
+using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -32,6 +33,7 @@ namespace DealnetPortal.Web.Controllers
             return View(customerLink);
         }
 
+        [Authorize(Roles = "Dealer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> Index(ShareableLinkViewModel customerLink)
@@ -52,5 +54,13 @@ namespace DealnetPortal.Web.Controllers
             var alerts = await _dictionaryServiceAgent.UpdateShareableLinkSettings(customerLinkDto);
             return alerts.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
+
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    var filters = new List<FilterAttribute>();
+        //    filters.AddRange(filterContext.ActionDescriptor.GetFilterAttributes(false));
+        //    filters.AddRange(filterContext.ActionDescriptor.ControllerDescriptor.GetFilterAttributes(false));
+        //    var roles = filters.OfType<AuthorizeAttribute>().Select(f => f.Roles);
+        //}
     }
 }
