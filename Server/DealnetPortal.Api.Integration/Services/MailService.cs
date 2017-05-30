@@ -398,9 +398,9 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p><b>{Resources.Resources.Client}: {contract.PrimaryCustomer.FirstName} {contract.PrimaryCustomer.LastName}</b></p>");
             body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
             body.AppendLine($"<p><b>{Resources.Resources.HomeImprovementType}: {equipment}</b></p>");
-            if (contract.Comments.Any())
+            if (!string.IsNullOrEmpty(contract.Details?.Notes))
             {
-                body.AppendLine($"<p>{Resources.Resources.ClientsComment}: <i>{string.Join(". ", contract.Comments.Select(c => c.Text))}</i></p>");
+                body.AppendLine($"<p>{Resources.Resources.ClientsComment}: <i>{contract.Details.Notes}</i></p>");
             }
             body.AppendLine("<br />");
             body.AppendLine($"<p><b>{Resources.Resources.InstallationAddress}:</b></p>");
@@ -433,10 +433,9 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine("</div>");
 
             var subject = string.Format(Resources.Resources.NoDealersMatchingCustomerLead, equipment, location?.PostalCode ?? string.Empty);
-            var mail = GenerateMailMessage(customerEmail, subject);
             try
             {
-                await _emailService.SendAsync(mail);
+                await _emailService.SendAsync(new List<string> {customerEmail}, string.Empty, subject, body.ToString());
             }
             catch (Exception ex)
             {
@@ -510,14 +509,11 @@ namespace DealnetPortal.Api.Integration.Services
             return alternateView;
         }
 
-        private MailMessage GenerateMailMessage(string customerEmail, string subject, AlternateView alternateView = null)
+        private MailMessage GenerateMailMessage(string customerEmail, string subject, AlternateView alternateView )
         {
             var mail = new MailMessage();
             mail.IsBodyHtml = true;
-            if (alternateView != null)
-            {
-                mail.AlternateViews.Add(alternateView);
-            }
+            mail.AlternateViews.Add(alternateView);
             mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
             mail.To.Add(customerEmail);
             mail.Subject = subject;

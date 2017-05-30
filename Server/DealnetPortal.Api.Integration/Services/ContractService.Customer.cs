@@ -100,14 +100,15 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
                         }
-                        succededContracts.ForEach(c =>
+                        foreach (var contract in succededContracts)
                         {
-                            //if (IsContractUnassignable(c.Id))
+                            if (IsContractUnassignable(contract.Id))
                             {
-                                var noWait =  _mailService.SendNotifyMailNoDealerAcceptLead(c);
+                                await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
                             }
                         }
-                        );
+                        
+                          
                     }
                     else
                     {
