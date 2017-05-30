@@ -6,6 +6,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
