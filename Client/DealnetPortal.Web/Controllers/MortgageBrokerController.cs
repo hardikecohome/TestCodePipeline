@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -46,7 +47,7 @@ namespace DealnetPortal.Web.Controllers
                 return View("CustomerCreationDecline");
             }
 
-            ViewBag.CreditAmount = Convert.ToInt32(result?.Item1.Details.CreditAmount);
+            ViewBag.CreditAmount = Convert.ToInt32(result?.Item1.Details.CreditAmount).ToString("N0", CultureInfo.InvariantCulture);
             ViewBag.FullName = $"{result?.Item1.PrimaryCustomer.FirstName} {result?.Item1.PrimaryCustomer.LastName}";
 
             return View("CustomerCreationSuccess");
