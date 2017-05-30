@@ -15,10 +15,13 @@ namespace DealnetPortal.DataAccess.Repositories
 {
     public class ContractRepository : BaseRepository, IContractRepository
     {
+
+
         public ContractRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
 
+        #region Public
         public Contract CreateContract(string contractOwnerId)
         {
             Contract contract = null;
@@ -760,6 +763,40 @@ namespace DealnetPortal.DataAccess.Repositories
             return cmmntId;
         }
 
+        public bool IsContractUnassignable(int contractId)
+        {
+            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
+                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
+                : new string[] { "20-Credit Review" };
+
+            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue))
+                return false;
+
+            var contract = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .SingleOrDefault(c => c.Id == contractId);
+            if (contract == null)
+            {
+                return false;
+            }
+            if (contract.ContractState < ContractState.CreditContirmed || creditReviewStates.Contains(contract.Details.Status))
+            {
+                return false;
+            }
+            var contractEquipment = contract?.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
+            var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode;
+
+            return _dbContext.DealerProfiles.Any(dp => dp.Equipments.Any(e => e.Equipment.Type == contractEquipment)
+                                                       && dp.Areas.Any( a => a.PostalCode.Length <= contractPostalCode.Length &&
+                                                                contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
+        }
+
+        #endregion
+
+        #region Private
         private bool CheckContractAccess(int contractId, string contractOwnerId)
         {
             return _dbContext.Contracts
@@ -1189,5 +1226,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
             return true;
         }
+        #endregion
+
     }
 }

@@ -142,11 +142,29 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client.
+        /// </summary>
+        public static string Client {
+            get {
+                return ResourceManager.GetString("Client", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client data inputted.
         /// </summary>
         public static string ClientDataInputted {
             get {
                 return ResourceManager.GetString("ClientDataInputted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client’s comment.
+        /// </summary>
+        public static string ClientsComment {
+            get {
+                return ResourceManager.GetString("ClientsComment", resourceCulture);
             }
         }
         
@@ -174,6 +192,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Congratulations {
             get {
                 return ResourceManager.GetString("Congratulations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact information.
+        /// </summary>
+        public static string ContactInformation {
+            get {
+                return ResourceManager.GetString("ContactInformation", resourceCulture);
             }
         }
         
@@ -309,6 +336,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email address.
+        /// </summary>
+        public static string EmailAddress {
+            get {
+                return ResourceManager.GetString("EmailAddress", resourceCulture);
             }
         }
         
@@ -457,6 +493,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home improvement type.
+        /// </summary>
+        public static string HomeImprovementType {
+            get {
+                return ResourceManager.GetString("HomeImprovementType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home Owner&apos;s Name:.
         /// </summary>
         public static string HomeOwnersName {
@@ -601,6 +646,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mobile phone.
+        /// </summary>
+        public static string MobilePhone {
+            get {
+                return ResourceManager.GetString("MobilePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -615,6 +669,15 @@ namespace DealnetPortal.Api.Resources {
         public static string NewCustomerAppliedForFinancing {
             get {
                 return ResourceManager.GetString("NewCustomerAppliedForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No dealers matching customer lead (type: {0}, postal code: {1}).
+        /// </summary>
+        public static string NoDealersMatchingCustomerLead {
+            get {
+                return ResourceManager.GetString("NoDealersMatchingCustomerLead", resourceCulture);
             }
         }
         
@@ -705,6 +768,15 @@ namespace DealnetPortal.Api.Resources {
         public static string PreApproved {
             get {
                 return ResourceManager.GetString("PreApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred contact method.
+        /// </summary>
+        public static string PreferredContactMethod {
+            get {
+                return ResourceManager.GetString("PreferredContactMethod", resourceCulture);
             }
         }
         
@@ -871,6 +943,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no dealers matching following lead.
+        /// </summary>
+        public static string ThereAreNoDealersMatchingFollowingLead {
+            get {
+                return ResourceManager.GetString("ThereAreNoDealersMatchingFollowingLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Third Party Verification Call.
         /// </summary>
         public static string ThirdPartyVerificationCall {
@@ -894,6 +975,15 @@ namespace DealnetPortal.Api.Resources {
         public static string ThisIsYourPass {
             get {
                 return ResourceManager.GetString("ThisIsYourPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction ID.
+        /// </summary>
+        public static string TransactionId {
+            get {
+                return ResourceManager.GetString("TransactionId", resourceCulture);
             }
         }
         

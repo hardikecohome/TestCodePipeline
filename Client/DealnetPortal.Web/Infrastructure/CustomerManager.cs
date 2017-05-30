@@ -86,6 +86,7 @@ namespace DealnetPortal.Web.Infrastructure
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
+            newCustomerDto.PrimaryCustomer.PreferredContactMethod = customer.HomeOwnerContactInfo.PreferredContactMethod;
 
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }
