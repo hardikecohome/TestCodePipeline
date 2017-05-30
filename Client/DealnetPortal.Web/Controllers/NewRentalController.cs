@@ -30,8 +30,8 @@ using Microsoft.Practices.ObjectBuilder2;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Controllers
-{
-    [Authorize(Roles = "Dealer")]
+{    
+    [Authorize]
     public class NewRentalController : UpdateDataController
     {
         private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent; 
