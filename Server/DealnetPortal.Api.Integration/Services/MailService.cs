@@ -387,6 +387,7 @@ namespace DealnetPortal.Api.Integration.Services
             string equipment = contract.Equipment.NewEquipment?.First().Description.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l=> l.AddressType == AddressType.MainAddress);
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
             var homePhone = contract?.PrimaryCustomer?.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty;
             var businessPhone = contract?.PrimaryCustomer?.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty;
             var mobilePhone = contract?.PrimaryCustomer?.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty;
@@ -435,7 +436,7 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = string.Format(Resources.Resources.NoDealersMatchingCustomerLead, equipment, location?.PostalCode ?? string.Empty);
             try
             {
-                await _emailService.SendAsync(new List<string> {customerEmail}, string.Empty, subject, body.ToString());
+                await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
             }
             catch (Exception ex)
             {

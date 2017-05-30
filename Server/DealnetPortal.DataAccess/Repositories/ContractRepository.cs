@@ -765,6 +765,10 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool IsContractUnassignable(int contractId)
         {
+            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
+                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
+                : new string[] { "20-Credit Review" };
+
             if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue))
                 return false;
 
@@ -775,6 +779,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .SingleOrDefault(c => c.Id == contractId);
             if (contract == null)
+            {
+                return false;
+            }
+            if (contract.ContractState < ContractState.CreditContirmed || creditReviewStates.Contains(contract.Details.Status))
             {
                 return false;
             }
