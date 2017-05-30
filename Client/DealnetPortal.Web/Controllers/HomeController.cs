@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Utilities;
-using DealnetPortal.Web.Common.Culture;
+﻿using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+
 using Microsoft.Practices.ObjectBuilder2;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DealnetPortal.Web.Controllers
 {

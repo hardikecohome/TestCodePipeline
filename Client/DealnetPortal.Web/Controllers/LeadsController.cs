@@ -1,12 +1,13 @@
-﻿using System.Linq;
+﻿using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Web.ServiceAgent;
+
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Dealer")]
     public class LeadsController : UpdateController
     {
         private readonly IContractServiceAgent _contractServiceAgent;
@@ -20,7 +21,7 @@ namespace DealnetPortal.Web.Controllers
         {
             //TODO: Map to ViewModels and show to a Dealet
             //var leads = await _contractServiceAgent.GetContractsOffers();
-            
+
             return View();
         }
 
@@ -36,6 +37,5 @@ namespace DealnetPortal.Web.Controllers
 
             return GetSuccessJson();
         }
-
     }
 }
