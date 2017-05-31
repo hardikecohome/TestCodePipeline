@@ -568,35 +568,37 @@ div.dataTables_wrapper div.dataTables_length {
   font: 500 14px/26px @usual-font-family;
   color: @form-text-color;
 }
-
+.placeholder,
+.pac-placeholder,
+input[placeholder],
+input::-moz-placeholder,
+input:-moz-placeholder,
+input:-ms-input-placeholder {
+  text-overflow: ellipsis;
+}
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
   font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
-  text-overflow: ellipsis !important;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
   font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
-  text-overflow: ellipsis !important;
   opacity: 1;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
   font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
-  text-overflow: ellipsis !important;
   opacity: 1;
 }
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
-  text-overflow: ellipsis !important;
 }
 .placeholder,
 .pac-placeholder{ /* Internet Explorer 9 */
   font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
-  text-overflow: ellipsis !important;
 }
 
 textarea.form-control{
