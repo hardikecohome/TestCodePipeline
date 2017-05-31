@@ -167,7 +167,10 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Logger/log.js")
                 .Include("~/Scripts/Utils/financial-functions.js")
                 .Include("~/Scripts/Pages/newEquipment/rate-cards.js")
+                .Include("~/Scripts/Pages/newEquipment/rate-cards-ui.js")
                 .Include("~/Scripts/Pages/newEquipment/template.js")
+                .Include("~/Scripts/Pages/newEquipment/equipment.js")
+                .Include("~/Scripts/Pages/newEquipment/value-setters.js")
                 .Include("~/Scripts/Pages/newEquipment/index.js")
             );
 

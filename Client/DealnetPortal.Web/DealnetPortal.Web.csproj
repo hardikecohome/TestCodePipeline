@@ -816,9 +816,12 @@
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
+    <Content Include="Scripts\Pages\newEquipment\equipment.js" />
     <Content Include="Scripts\Pages\newEquipment\index.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards-ui.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards.js" />
     <Content Include="Scripts\Pages\newEquipment\template.js" />
+    <Content Include="Scripts\Pages\newEquipment\value-setters.js" />
     <Content Include="Scripts\standalone-calculator.js" />
     <Content Include="Scripts\Utils\financial-functions.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
@@ -916,6 +919,11 @@
     <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_Rental.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_Loan.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialRental.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialLoan.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NewEquipments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

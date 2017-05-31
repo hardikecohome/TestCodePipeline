@@ -1,0 +1,14 @@
+﻿@using DealnetPortal.Api.Common.Enumeration
+
+<div class="rate-cards-container rate-card-grid row loan-element" id="rateCardsBlock">
+  @if (ViewBag.CardTypes != null)
+  {
+    foreach (var rateCard in (List<RateCardType>) ViewBag.CardTypes)
+    {
+      @Html.Partial("EquipmentInformation/_" + rateCard, rateCard)
+    }
+  }
+
+  @Html.Partial("EquipmentInformation/_CustomRateCard")
+
+</div>

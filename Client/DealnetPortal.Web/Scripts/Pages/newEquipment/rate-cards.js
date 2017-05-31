@@ -15,7 +15,7 @@
     var isInialized = false;
     var isNewContract = true;
     var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
-    var requiredCustomRateCardField = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal'];
+    var requiredCustomRateCardField = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'];
     var customDeferralPeriods = [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }];
     var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
     var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
@@ -35,6 +35,14 @@
             AdminFee: 0
         }
     };
+
+    var validateOnSelect = function() {
+        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm'].every(function (field) {
+            return $("#" + field).valid();
+        });
+
+        return isValid;
+    }
 
     var validateCustomRateCardOnSubmit = function () {
         var isValid = requiredCustomRateCardField.every(function (field) {
@@ -403,13 +411,32 @@
     }
 
     function setValidationOnCustomRateCard() {
-        requiredCustomRateCardField.forEach(function(input) {
-            $('#' + input).rules('add',
-                {
-                    required: true,
-                    minlength: 1,
-                    regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-                });
+      $('#CustomYCostVal').rules('add', {
+        number: true,
+        minlength: 0
+        });
+
+      $('#CustomAFee').rules('add', {
+        number: true,
+        minlength: 0
+        });
+
+      $('#CustomCRate').rules('add', {
+                required: true,
+                minlength: 1,
+                regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+        });
+
+      $('#CustomAmortTerm').rules('add', {
+                required: true,
+                minlength: 1,
+                regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+        });
+
+      $('#CustomLoanTerm').rules('add', {
+                required: true,
+                minlength: 1,
+                regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
         });
     }
 
@@ -421,6 +448,7 @@
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
         rateCards: rateCards,
         idToValue: idToValue,
-        validateCustomRateCard : validateCustomRateCardOnSubmit
+        validateCustomRateCard : validateCustomRateCardOnSubmit,
+        validateOnSelect : validateOnSelect
     }
 })

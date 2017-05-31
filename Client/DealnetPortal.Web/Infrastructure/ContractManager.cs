@@ -101,6 +101,11 @@ namespace DealnetPortal.Web.Infrastructure
                 {
                     equipmentInfo.NewEquipment = null;
                 }
+
+                if (result.Item1.Equipment.ValueOfDeal == null)
+                {
+                    equipmentInfo.IsNewContract = true;
+                }
             }
             else
             {
@@ -109,10 +114,13 @@ namespace DealnetPortal.Web.Infrastructure
 
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(result.Item1.PrimaryCustomer.Locations.First(
                         l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
+
             if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
+
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
+
             if (!equipmentInfo.RequestedTerm.HasValue)
             {
                 equipmentInfo.RequestedTerm = 120;
@@ -642,3 +650,4 @@ namespace DealnetPortal.Web.Infrastructure
         }
     }
 }
+
