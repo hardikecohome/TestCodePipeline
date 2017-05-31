@@ -77,7 +77,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Where(c => (c.IsCreatedByBroker == true
                 || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
                 c.Equipment.NewEquipment.Any() &&
-                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.MainAddress) &&
+                c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress || l.AddressType == AddressType.MainAddress) &&
                 (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
             if (eqList!=null && eqList.Any())
             {
@@ -85,8 +85,9 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             if (pcList!=null && pcList.Any())
             {
-                contracts = contracts.Where(c => pcList.Any(pc => c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress).PostalCode.Length >= pc.Length &&
-                c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();
+                contracts = contracts.Where(c => pcList.Any(pc => 
+                    (c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress) 
+                    ?? c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)).PostalCode.Contains(pc))).ToList();
             }
              
             return contracts;
@@ -218,10 +219,31 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = _dbContext.Contracts
                .Include(x => x.Equipment.NewEquipment)
                .Include(x => x.PrimaryCustomer)
-               .FirstOrDefault(x => x.Id == contractId);
+               .Include(c => c.PrimaryCustomer.Locations)
+               .FirstOrDefault(x => x.Id == contractId);            
 
             if (contract != null)
             {
+                if (contract.IsCreatedByBroker == true)
+                {
+                    var locations = contract.PrimaryCustomer.Locations.ToList();
+                    if (locations.Exists(l => l.AddressType == AddressType.InstallationAddress))
+                    {
+                        var mainLoc = locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
+                        if (mainLoc != null)
+                        {
+                            locations.Remove(mainLoc);
+                        }
+                        //?
+                        var installLoc = locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
+                        if (installLoc != null)
+                        {
+                            installLoc.AddressType = AddressType.MainAddress;                            
+                        }
+                    }
+                    AddOrUpdateCustomerLocations(contract.PrimaryCustomer, locations);
+                }
+
                 var dealer = GetDealer(newContractOwnerId);
 
                 if (dealer != null)
