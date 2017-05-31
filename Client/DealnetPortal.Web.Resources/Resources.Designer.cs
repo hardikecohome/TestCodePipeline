@@ -3139,7 +3139,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ready for Audit.
+        ///   Looks up a localized string similar to Request to Fund.
         /// </summary>
         public static string ReadyForAudit {
             get {
