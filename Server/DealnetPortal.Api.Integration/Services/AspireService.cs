@@ -1075,16 +1075,30 @@ namespace DealnetPortal.Api.Integration.Services
             return checkResult;
         }
 
-        private IList<UDF> GetApplicationUDFs()
+        private IList<UDF> GetApplicationUDFs(Domain.Contract contract)
         {
             var udfList = new List<UDF>();
-            
+            if (contract?.Equipment != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.DeferralType,
+                    Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RequestedTerm,
+                    Value = contract.Equipment.RequestedTerm.ToString()
+                });
+            }
+
             return udfList;
         }
 
         private IList<UDF> GetCustomerUDFs()
         {
             var udfList = new List<UDF>();
+
 
             return udfList;
         }

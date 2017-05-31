@@ -39,5 +39,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string ContactViaPhone = "Contact Via Phone";
 
         public static string CustomerType = "Customer Type";
+
+        public static string DeferralType = "Deferral Type";
+        public static string RequestedTerm = "Requested Term";        
     }
 }
