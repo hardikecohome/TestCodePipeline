@@ -17,7 +17,12 @@
 			</div>
 		</div>
 		<div class="reset-form-inline filter-hidden-content">
-			<h2 class="dealnet-middle-header hidden-md hidden-lg">Filter</h2>
+			<div class="expand-filter-heading">
+				<a class="clear-data-link hidden-md hidden-lg" id="clear-filters-mobile">
+					<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
+				</a>
+				<h2 class="dealnet-middle-header hidden-md hidden-lg">Filter</h2>
+			</div>
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
@@ -51,6 +56,13 @@
 						<div class="control-group date-group">
 							<input type="text" class="form-control date-control filter-input" id="date-to">
 						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-md-offset-3 col-sm-6 hidden-xs hidden-sm">
+					<div class="form-group">
+						<a class="clear-data-link not-positioned-link" id="clear-filters">
+							<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
+						</a>
 					</div>
 				</div>
 

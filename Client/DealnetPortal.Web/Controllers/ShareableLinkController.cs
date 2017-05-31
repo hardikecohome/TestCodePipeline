@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using DealnetPortal.Api.Common.Enumeration;
+﻿using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Utilities;
-using Microsoft.AspNet.Identity;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -54,13 +50,5 @@ namespace DealnetPortal.Web.Controllers
             var alerts = await _dictionaryServiceAgent.UpdateShareableLinkSettings(customerLinkDto);
             return alerts.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
-
-        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        //{
-        //    var filters = new List<FilterAttribute>();
-        //    filters.AddRange(filterContext.ActionDescriptor.GetFilterAttributes(false));
-        //    filters.AddRange(filterContext.ActionDescriptor.ControllerDescriptor.GetFilterAttributes(false));
-        //    var roles = filters.OfType<AuthorizeAttribute>().Select(f => f.Roles);
-        //}
     }
 }
