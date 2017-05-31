@@ -269,6 +269,8 @@ function auditConfirmModal() {
     dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {
         submitAllDocumentsUploaded();
+
+        ga('send', 'event', 'Button', 'Click', 'SendDocuments');
     });
 }
 

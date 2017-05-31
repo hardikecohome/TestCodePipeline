@@ -110,9 +110,20 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p>{Resources.Resources.YouCanViewThisDealHere}: <a href=\"{customerFormData.DealUri}/{contractData.ContractId}\">{Resources.Resources.DealInfo}</a></p>");
             body.AppendLine("</div>");
 
+            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
+
+            var mail = new MailMessage {IsBodyHtml = true};
+
+            mail.AlternateViews.Add(alternateView);
+            mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
+            mail.To.Add(contractData.DealerEmail);
+            mail.Subject = Resources.Resources.ThankYouForApplyingForFinancing;
+
             try
             {
-                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.NewCustomerAppliedForFinancing, body.ToString());
+                await _emailService.SendAsync(mail);
+
+                //await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.NewCustomerAppliedForFinancing, body.ToString());
             }
             catch (Exception ex)
             {
