@@ -582,19 +582,14 @@ div.dataTables_wrapper div.dataTables_length {
   opacity: 1;
   padding-right: 5px;
 }
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-  font: 400 14px/26px @usual-font-family;
-  color: @default-grey-color;
-  text-overflow: ellipsis !important;
-  opacity: 1;
-  padding-right: 5px;
-}
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   font: 400 14px/26px @usual-font-family;
   color: @default-grey-color;
   text-overflow: ellipsis !important;
   padding-right: 5px;
 }
+::placeholder,
+input::placeholder,
 [placeholder],
 .placeholder,
 .pac-placeholder{ /* Internet Explorer 9 */
