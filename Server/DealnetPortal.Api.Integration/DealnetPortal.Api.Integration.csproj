@@ -103,6 +103,7 @@
     <Compile Include="ServiceAgents\CustomerWalletServiceAgent.cs" />
     <Compile Include="ServiceAgents\ICustomerWalletServiceAgent.cs" />
     <Compile Include="Services\AspireService.cs" />
+    <Compile Include="Services\AspireUdfFields.cs" />
     <Compile Include="Services\ContractService.cs" />
     <Compile Include="ServiceAgents\ESignature\ECoreTypes.cs" />
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\ResponseTypes.cs" />

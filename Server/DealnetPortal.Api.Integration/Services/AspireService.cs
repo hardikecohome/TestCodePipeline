@@ -1074,5 +1074,19 @@ namespace DealnetPortal.Api.Integration.Services
 
             return checkResult;
         }
+
+        private IList<UDF> GetApplicationUDFs()
+        {
+            var udfList = new List<UDF>();
+            
+            return udfList;
+        }
+
+        private IList<UDF> GetCustomerUDFs()
+        {
+            var udfList = new List<UDF>();
+
+            return udfList;
+        }
     }
 }
