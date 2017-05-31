@@ -344,6 +344,10 @@ namespace DealnetPortal.Api.Integration.Services
 
                     _unitOfWork.Save();
                     submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
+                    if (_contractRepository.IsContractUnassignable(contract.Id))
+                    {
+                        await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                    }
                 }                
             }
             else
