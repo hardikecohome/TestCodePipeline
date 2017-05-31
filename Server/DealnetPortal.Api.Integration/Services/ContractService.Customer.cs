@@ -106,9 +106,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
                             }
-                        }
-                        
-                          
+                        }                                                 
                     }
                     else
                     {
