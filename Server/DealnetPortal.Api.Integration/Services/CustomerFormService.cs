@@ -152,7 +152,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
         }
 
-        public async Task<Tuple<IList<CustomerContractInfoDTO>, IList<Alert>>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData)
+        public Tuple<IList<CustomerContractInfoDTO>, IList<Alert>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData)
         {
             var alerts = new List<Alert>();
             IList<CustomerContractInfoDTO> submitResults = null;
@@ -206,14 +206,12 @@ namespace DealnetPortal.Api.Integration.Services
                     }
 
                     //Credit check
-                    newContracts?.ForEach(async c =>
-                    {
-                        //Do credit check only for new contract (not updated from CW)
-                        if (c.ContractState < ContractState.CreditContirmed)
+                    newContracts?.ForEach(c =>
                         {
-                            //Start credit check for this contract
-                            var creditCheckRes = await Task.Run(() =>
+                            //Do credit check only for new contract (not updated from CW)
+                            if (c.ContractState < ContractState.CreditContirmed)
                             {
+                                //Start credit check for this contract                            
                                 var creditCheckAlerts = new List<Alert>();
                                 var initAlerts = _contractService.InitiateCreditCheck(c.Id, dealerId);
                                 if (initAlerts?.Any() ?? false)
@@ -223,17 +221,15 @@ namespace DealnetPortal.Api.Integration.Services
                                 var checkResult = _contractService.GetCreditCheckResult(c.Id, dealerId);
                                 if (checkResult != null)
                                 {
-                                    creditCheckAlerts.AddRange(checkResult.Item2);
-                                    return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
+                                    creditCheckAlerts.AddRange(checkResult.Item2);                                        
                                 }
-                                return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
-                            }).ConfigureAwait(false);
-                            if (creditCheckRes?.Item2?.Any() ?? false)
-                            {
-                                alerts.AddRange(creditCheckRes.Item2);
-                            }
-                        }
-                    });
+                                if (creditCheckAlerts.Any())
+                                {
+                                    alerts.AddRange(creditCheckAlerts);                                    
+                                }
+                            }                            
+                        });
+
 
                     if (newContracts?.Any() == true)
                     {                     
@@ -480,7 +476,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractId.HasValue)
             {
                 contract = _contractRepository.GetContract(contractId.Value, contractOwnerId);
-                if (contract != null && contract.PrimaryCustomer.AccountId == primaryCustomer.AccountId)
+                if (contract != null && (contract.PrimaryCustomer.AccountId == primaryCustomer.AccountId || (contract.PrimaryCustomer.Emails?.Any(e => e.EmailAddress == primaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) == true)))
                 {
                     _loggingService.LogInfo($"Selected contract [{contract.Id}] for update by customer loan form request for {contractOwnerId} dealer");
                 }
@@ -498,23 +494,42 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract != null)
             {
-                var contractData = new ContractDataDTO()
+                var contractDataDto = new ContractDataDTO()
                 {
                     PrimaryCustomer = primaryCustomer,
                     //HomeOwners = new List<Customer> { customer },
                     DealerId = contractOwnerId,
                     Id = contract.Id,
-                    Equipment = !string.IsNullOrEmpty(equipmentType) ? 
-                                new EquipmentInfoDTO()
-                                {
-                                    NewEquipment =
-                                        new List<NewEquipmentDTO> { new NewEquipmentDTO() { Type = equipmentType } }
-                                } : null,
-                    Details = !string.IsNullOrEmpty(customerComment) ?
-                                new ContractDetailsDTO() { Notes = customerComment } : null
+                    Equipment = !string.IsNullOrEmpty(equipmentType)
+                        ? new EquipmentInfoDTO()
+                        {
+                            NewEquipment =
+                                new List<NewEquipmentDTO> {new NewEquipmentDTO() {Type = equipmentType}}
+                        }
+                        : null,
+                    Details = !string.IsNullOrEmpty(customerComment)
+                        ? new ContractDetailsDTO() {Notes = customerComment}
+                        : null
 
                 };
-                _contractService.UpdateContractData(contractData, contractOwnerId);
+                var contractData = Mapper.Map<ContractData>(contractDataDto);
+                if (!string.IsNullOrEmpty(primaryCustomer.AccountId))
+                {
+                    contractData.PrimaryCustomer.AccountId = primaryCustomer.AccountId;
+                    var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
+                    if (updatedContract != null)
+                    {
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+
+                        //update customers on aspire
+                        if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                        {
+                            _contractService.UpdateContractData(new ContractDataDTO() {Id = contractData.Id},
+                                contractOwnerId);
+                        }
+                    }
+                }
             }
 
             return contract;

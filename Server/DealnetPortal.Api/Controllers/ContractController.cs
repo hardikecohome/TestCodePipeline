@@ -500,7 +500,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var submitResult = CustomerFormService.CustomerServiceRequest(customerServiceRequest).GetAwaiter().GetResult();
+                var submitResult = CustomerFormService.CustomerServiceRequest(customerServiceRequest);
                 return Ok(submitResult);
             }
             catch (Exception ex)
@@ -508,8 +508,6 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
-
-
 
         [Route("GetCustomerContractInfo")]
         [HttpGet]
