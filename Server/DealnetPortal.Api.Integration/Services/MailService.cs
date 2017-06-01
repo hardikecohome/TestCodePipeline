@@ -327,6 +327,54 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task SendApprovedMailToCustomer(Contract customerFormData)
+        {
+            string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
+            string hashLogin = SecurityUtils.Hash(customerEmail);
+            string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
+            string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
+
+            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
+            var phoneImage = GenerateIconImageCid(phoneIcon);
+            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
+            var emailImage = GenerateIconImageCid(emailIcon);
+
+            var bottomStyle = "style='font-size: 10px; !important'";
+            var pStyle = "style='font-size: 18px; !important'";
+
+            var body = new StringBuilder();
+            body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
+            body.AppendLine("<div>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{domain}'><span>{domain}</span></a></b></p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
+            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
+            body.AppendLine("<br />");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
+            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
+
+            body.AppendLine("</div>");
+
+            var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
+
+            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
+            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            try
+            {
+                await _emailService.SendAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+
         public async Task SendCustomerDealerAcceptLead(Contract contract, DealerDTO dealer)
         {
             var location = dealer.Locations?.FirstOrDefault();
