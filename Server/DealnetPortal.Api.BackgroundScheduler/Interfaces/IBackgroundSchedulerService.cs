@@ -8,6 +8,6 @@ namespace DealnetPortal.Api.BackgroundScheduler
 {
     public interface IBackgroundSchedulerService
     {
-        void CheckExpiredLeads(DateTime currentDateTime, int hoursPeriod);
+        void CheckExpiredLeads(DateTime currentDateTime, int minutesPeriod);
     }
 }

@@ -20,9 +20,9 @@ namespace DealnetPortal.Api.BackgroundScheduler
             _mailService = (IMailService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IMailService));
         }
 
-        public void CheckExpiredLeads(DateTime currentDateTime, int hoursPeriod)
+        public void CheckExpiredLeads(DateTime currentDateTime, int minutesPeriod)
         {
-            var expiredDateTime = currentDateTime.AddHours(-hoursPeriod);
+            var expiredDateTime = currentDateTime.AddMinutes(-minutesPeriod);
             try
             {
                 var contracts = _contractRepository.GetExpiredContracts(expiredDateTime);
