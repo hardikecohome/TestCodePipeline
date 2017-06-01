@@ -2,6 +2,7 @@ using System.Configuration;
 using System.Web.Hosting;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
+using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.ServiceAgents;
@@ -79,6 +80,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IMailService, MailService>();
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IDealerService, DealerService>();
+            container.RegisterType<IBackgroundSchedulerService, BackgroundSchedulerService>();
 
         }
     }

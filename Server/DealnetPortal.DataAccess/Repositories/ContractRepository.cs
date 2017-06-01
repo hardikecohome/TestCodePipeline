@@ -15,8 +15,6 @@ namespace DealnetPortal.DataAccess.Repositories
 {
     public class ContractRepository : BaseRepository, IContractRepository
     {
-
-
         public ContractRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
@@ -789,13 +787,13 @@ namespace DealnetPortal.DataAccess.Repositories
             var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
                 : new string[] { "20-Credit Review" };
-            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             
-            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue && (contractCreatorRoleId != null && !u.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))))
+            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue))
                 return false;
 
             var contract = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
+                .Include(c => c.Dealer.Roles)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -816,6 +814,22 @@ namespace DealnetPortal.DataAccess.Repositories
                                                                 contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
         }
 
+        public IList<Contract> GetExpiredContracts(DateTime expiredDate)
+        {
+            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
+
+            return _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.Dealer.Roles)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Where(c => c.CreationTime <= expiredDate && 
+                (c.IsCreatedByBroker==true || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId)) &&
+                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.InstallationAddress) &&
+                c.Equipment.NewEquipment.Any()).ToList();
+        }
         #endregion
 
         #region Private

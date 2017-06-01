@@ -502,4 +502,7 @@
   <data name="TransactionId" xml:space="preserve">
     <value>Transaction ID</value>
   </data>
+  <data name="FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h" xml:space="preserve">
+    <value>Following lead has not been accepted by any dealer for 12h</value>
+  </data>
 </root>

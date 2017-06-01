@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -206,5 +207,7 @@ namespace DealnetPortal.DataAccess.Repositories
         Contract AssignContract(int contractId, string newContractOwnerId);
 
         bool IsContractUnassignable(int contractId);
+
+        IList<Contract> GetExpiredContracts(DateTime expiredDate);
     }
 }

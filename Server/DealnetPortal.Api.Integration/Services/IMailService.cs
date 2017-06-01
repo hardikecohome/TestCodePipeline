@@ -38,5 +38,6 @@ namespace DealnetPortal.Api.Integration.Services
         Task SendHomeImprovementMailToCustomer(IList<Contract> customerFormData);
         Task SendCustomerDealerAcceptLead(Contract contract, DealerDTO dealer);
         Task SendNotifyMailNoDealerAcceptLead(Contract contract);
+        void SendNotifyMailNoDealerAcceptedLead12H(Contract contract);
     }
 }
