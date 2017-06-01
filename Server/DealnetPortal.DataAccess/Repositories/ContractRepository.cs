@@ -80,7 +80,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Where(c => (c.IsCreatedByBroker == true
                 || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
                 c.Equipment.NewEquipment.Any() &&
-                c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress || l.AddressType == AddressType.MainAddress) &&
+                c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress) &&
                 (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
             if (eqList!=null && eqList.Any())
             {
@@ -89,8 +89,7 @@ namespace DealnetPortal.DataAccess.Repositories
             if (pcList!=null && pcList.Any())
             {
                 contracts = contracts.Where(c => pcList.Any(pc => 
-                    (c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress) 
-                    ?? c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)).PostalCode.Contains(pc))).ToList();
+                    c.PrimaryCustomer.Locations?.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress)?.PostalCode.Contains(pc) ?? false)).ToList();
             }
              
             return contracts;
@@ -810,7 +809,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 return false;
             }
             var contractEquipment = contract?.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
-            var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode;
+            var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode;
 
             return _dbContext.DealerProfiles.Any(dp => dp.Equipments.Any(e => e.Equipment.Type == contractEquipment)
                                                        && dp.Areas.Any( a => a.PostalCode.Length <= contractPostalCode.Length &&

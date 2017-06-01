@@ -53,9 +53,11 @@ namespace DealnetPortal.Web.Infrastructure
             var newCustomerDto = Mapper.Map<NewCustomerDTO>(customer);
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
             newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
+
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
-            newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;            
+            newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
+
             var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
             mainAddress.AddressType = customer.IsLiveInCurrentAddress ? AddressType.InstallationAddress : AddressType.MainAddress;
             newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);

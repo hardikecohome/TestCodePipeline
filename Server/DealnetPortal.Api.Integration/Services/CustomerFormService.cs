@@ -242,6 +242,12 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
 
                     submitResults = newContracts.Select(c => GetCustomerContractInfo(c.Id, c.Dealer?.UserName)).ToList();
+                    if (newContracts.Select(x => x.Equipment.NewEquipment.FirstOrDefault()).Any(i => i != null) &&
+                        newContracts.FirstOrDefault()?.PrimaryCustomer.Locations
+                            .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null)
+                    {
+                        _mailService.SendHomeImprovementMailToCustomer(newContracts);
+                    }
 
                     newContracts.ForEach(c =>
                     {
