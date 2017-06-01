@@ -421,6 +421,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Following lead has not been accepted by any dealer for 12h.
+        /// </summary>
+        public static string FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h {
+            get {
+                return ResourceManager.GetString("FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to for.
         /// </summary>
         public static string For {

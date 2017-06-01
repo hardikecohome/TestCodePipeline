@@ -102,7 +102,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         foreach (var contract in succededContracts)
                         {
-                            //if (IsContractUnassignable(contract.Id))
+                            if (IsContractUnassignable(contract.Id))
                             {
                                 await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
                             }

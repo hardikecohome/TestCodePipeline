@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using Hangfire;
 using Microsoft.Owin;
 using Owin;
 
@@ -13,6 +13,13 @@ namespace DealnetPortal.Api
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
+
+            BackgroundJob.Enqueue(() => Debug.WriteLine("Getting Started with HangFire!"));
+            RecurringJob.AddOrUpdate(() => Debug.WriteLine("This job will execute once in every minute"), Cron.Minutely);
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
         }
     }
 }

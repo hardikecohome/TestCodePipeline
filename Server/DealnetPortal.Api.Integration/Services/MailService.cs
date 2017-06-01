@@ -444,6 +444,68 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
+        {
+            string equipment = contract.Equipment.NewEquipment?.First().Description.ToLower() ?? string.Empty;
+            var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
+            string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
+            var homePhone = contract?.PrimaryCustomer?.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty;
+            var businessPhone = contract?.PrimaryCustomer?.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty;
+            var mobilePhone = contract?.PrimaryCustomer?.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty;
+
+            var body = new StringBuilder();
+            body.AppendLine("<div>");
+            body.AppendLine($"<u>{Resources.Resources.FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h}.</u>");
+            body.AppendLine($"<p>{Resources.Resources.TransactionId}: {contract.Details?.TransactionId ?? contract.Id.ToString()}</p>");
+            body.AppendLine($"<p><b>{Resources.Resources.Client}: {contract.PrimaryCustomer.FirstName} {contract.PrimaryCustomer.LastName}</b></p>");
+            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
+            body.AppendLine($"<p><b>{Resources.Resources.HomeImprovementType}: {equipment}</b></p>");
+            if (!string.IsNullOrEmpty(contract.Details?.Notes))
+            {
+                body.AppendLine($"<p>{Resources.Resources.ClientsComment}: <i>{contract.Details.Notes}</i></p>");
+            }
+            body.AppendLine("<br />");
+            body.AppendLine($"<p><b>{Resources.Resources.InstallationAddress}:</b></p>");
+            body.AppendLine($"<p>{location?.Street ?? string.Empty}</p>");
+            body.AppendLine($"<p>{location?.City ?? string.Empty}, {location?.State ?? string.Empty} {location?.PostalCode ?? string.Empty}</p>");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p><b>{Resources.Resources.ContactInformation}:</b></p>");
+            body.AppendLine("<ul>");
+            if (!string.IsNullOrEmpty(homePhone))
+            {
+                body.AppendLine($"<li>{Resources.Resources.HomePhone}: {homePhone}</li>");
+            }
+            if (!string.IsNullOrEmpty(mobilePhone))
+            {
+                body.AppendLine($"<li>{Resources.Resources.MobilePhone}: {mobilePhone}</li>");
+            }
+            if (!string.IsNullOrEmpty(businessPhone))
+            {
+                body.AppendLine($"<li>{Resources.Resources.BusinessPhone}: {businessPhone}</li>");
+            }
+            if (!string.IsNullOrEmpty(customerEmail))
+            {
+                body.AppendLine($"<li>{Resources.Resources.EmailAddress}: {customerEmail}</li>");
+            }
+            if (contract.PrimaryCustomer.PreferredContactMethod.HasValue)
+            {
+                body.AppendLine($"<li>{Resources.Resources.PreferredContactMethod}: {contract.PrimaryCustomer.PreferredContactMethod.Value}</li>");
+            }
+            body.AppendLine("</ul>");
+            body.AppendLine("</div>");
+
+            var subject = string.Format(Resources.Resources.NoDealersMatchingCustomerLead, equipment, location?.PostalCode ?? string.Empty);
+            try
+            {
+                await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+
         #endregion
 
         #region Private
