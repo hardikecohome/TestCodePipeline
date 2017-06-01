@@ -1171,16 +1171,13 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            if (customer.AllowCommunicate.HasValue)
-            {
-                udfList.Add(
-                    new UDF()
-                    {
+            udfList.Add(
+                new UDF()
+                {
 
-                        Name = AspireUdfFields.AllowCommunicate,
-                        Value = customer.AllowCommunicate == true ? "Y" : "N"
-                    });
-            }
+                    Name = AspireUdfFields.AllowCommunicate,
+                    Value = customer.AllowCommunicate == false ? "N" : "Y"
+                });
 
             if (customer.PreferredContactMethod.HasValue)
             {

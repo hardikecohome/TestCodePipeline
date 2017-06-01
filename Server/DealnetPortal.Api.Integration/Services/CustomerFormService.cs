@@ -498,7 +498,11 @@ namespace DealnetPortal.Api.Integration.Services
                         ? new EquipmentInfoDTO()
                         {
                             NewEquipment =
-                                new List<NewEquipmentDTO> {new NewEquipmentDTO() {Type = equipmentType}}
+                                new List<NewEquipmentDTO> {new NewEquipmentDTO()
+                                {
+                                    Type = equipmentType,
+                                    Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description
+                                }}
                         }
                         : null,
                     Details = !string.IsNullOrEmpty(customerComment)

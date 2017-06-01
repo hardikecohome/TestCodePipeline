@@ -576,7 +576,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId);
+                var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId).ConfigureAwait(false);
 
                 return Ok(result);
             }
