@@ -70,13 +70,13 @@
                         var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
                         <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
                             <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
-	                            <span class="mandatory-text">
-	                                @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
-		                            @if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
-	                                {
-		                            <i class="mandatory-icon">*</i>
-		                            }
-		                        </span>
+                                <span class="mandatory-text">
+                                    @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+                                    @if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+                                    {
+                                        <i class="mandatory-icon">*</i>
+                                    }
+                                </span>
                             </a>
                         </div>
 					    <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
@@ -109,6 +109,8 @@
 					                <div class="document-item block-item @(document != null ? "" : "collapse")">
 					                    <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
 					                    <span class="document-naming">@(document?.DocumentName)</span>
+					                    <br /> 
+                                        <span class="document-lastUpdateTime">@(document?.LastUpdateTime)</span>
 					                </div>
 					            </div>
 
@@ -173,6 +175,8 @@
 							            <div class="document-item block-item">
 							                <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
 							                <span class="document-naming">@document.DocumentName</span>
+							                <br />
+                                            <span class="document-lastUpdateTime">@(document?.LastUpdateTime)</span>
                                             @Html.Hidden("DocumentName", document.DocumentName)
 							                <a class="upload-doc-link file-upload disablable @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }" href="#" @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text>disabled="disabled"</text> }>
 							                    <svg aria-hidden="true" class="icon icon-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
