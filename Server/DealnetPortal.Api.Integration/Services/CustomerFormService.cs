@@ -157,7 +157,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             IList<CustomerContractInfoDTO> submitResults = null;
 
-            if (customerFormData?.SelectedServices?.Any() != true)
+            if (customerFormData?.ServiceRequests?.Any() != true)
             {
                 alerts.Add(new Alert()
                 {
@@ -170,99 +170,87 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                var dealerId = _dealerRepository.GetUserIdByName(customerFormData?.DealerName);
-                if (!string.IsNullOrEmpty(dealerId))
+                IList<Contract> newContracts = null;
+                try
                 {
-                    IList<Contract> newContracts = null;
-                    try
-                    {
-                        var fst = true;
-                        newContracts =
-                            customerFormData?.SelectedServices?.Select(
-                                eqType =>
+                    newContracts =
+                        customerFormData?.ServiceRequests?.Select(
+                            sRequest =>
+                            {
+                                var dealerId = _dealerRepository.GetUserIdByName(sRequest.DealerName);
+                                if (!string.IsNullOrEmpty(dealerId))
                                 {
-                                    var cId = fst ? customerFormData.PrecreatedContractId : null;
-                                    fst = false;
-                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer, cId, eqType,
+                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
+                                        sRequest.PrecreatedContractId, sRequest.ServiceType,
                                         customerFormData.CustomerComment);
                                     // mark as created by customer
-                                    c.IsCreatedByCustomer = true;                                    
+                                    c.IsCreatedByCustomer = true;
                                     return c;
-                                }).ToList();
-                        _unitOfWork.Save();
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg =
-                                $"Cannot create contract from customer wallet request";
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Warning, //?
-                            Code = ErrorCodes.ContractCreateFailed,
-                            Header = ErrorConstants.ContractCreateFailed,
-                            Message = errorMsg
-                        });
-                        _loggingService.LogError(errorMsg, ex);
-                    }
-
-                    //Credit check
-                    newContracts?.ForEach(c =>
-                        {
-                            //Do credit check only for new contract (not updated from CW)
-                            if (c.ContractState < ContractState.CreditContirmed)
-                            {
-                                //Start credit check for this contract                            
-                                var creditCheckAlerts = new List<Alert>();
-                                var initAlerts = _contractService.InitiateCreditCheck(c.Id, dealerId);
-                                if (initAlerts?.Any() ?? false)
-                                {
-                                    creditCheckAlerts.AddRange(initAlerts);
                                 }
-                                var checkResult = _contractService.GetCreditCheckResult(c.Id, dealerId);
-                                if (checkResult != null)
-                                {
-                                    creditCheckAlerts.AddRange(checkResult.Item2);                                        
-                                }
-                                if (creditCheckAlerts.Any())
-                                {
-                                    alerts.AddRange(creditCheckAlerts);                                    
-                                }
-                            }                            
-                        });
-
-
-                    if (newContracts?.Any() == true)
-                    {                     
-                        newContracts.ForEach(c =>
-                        {
-                            c.IsNewlyCreated = true;
-                            c.IsCreatedByCustomer = true;
-                        });
-                        _unitOfWork.Save();
-
-                        submitResults = newContracts.Select(c => GetCustomerContractInfo(c.Id, customerFormData.DealerName)).ToList();
-                        
-                        newContracts.ForEach(c =>
-                        {
-                            if (_contractRepository.IsContractUnassignable(c.Id))
-                            {
-                                var nowait = _mailService.SendNotifyMailNoDealerAcceptLead(c);
-                            }
-                        });
-                    }
+                                return null;
+                            }).ToList();
+                    _unitOfWork.Save();
                 }
-                else
+                catch (Exception ex)
                 {
-                    var errorMsg = $"Cannot get dealer {customerFormData?.DealerName} from database";
+                    var errorMsg =
+                            $"Cannot create contract from customer wallet request";
                     alerts.Add(new Alert()
                     {
-                        Type = AlertType.Error,
-                        Code = ErrorCodes.CantGetUserFromDb,
-                        Message = errorMsg,
-                        Header = "Cannot get dealer from database"
+                        Type = AlertType.Warning, //?
+                        Code = ErrorCodes.ContractCreateFailed,
+                        Header = ErrorConstants.ContractCreateFailed,
+                        Message = errorMsg
                     });
-                    _loggingService.LogError(errorMsg);
+                    _loggingService.LogError(errorMsg, ex);
                 }
+
+                newContracts = newContracts?.Where(i => i != null).ToList();
+
+                //Credit check
+                newContracts?.ForEach(c =>
+                {
+                    //Do credit check only for new contract (not updated from CW)
+                    if (c.ContractState < ContractState.CreditContirmed)
+                    {
+                        //Start credit check for this contract                            
+                        var creditCheckAlerts = new List<Alert>();
+                        var initAlerts = _contractService.InitiateCreditCheck(c.Id, c.DealerId);
+                        if (initAlerts?.Any() ?? false)
+                        {
+                            creditCheckAlerts.AddRange(initAlerts);
+                        }
+                        var checkResult = _contractService.GetCreditCheckResult(c.Id, c.DealerId);
+                        if (checkResult != null)
+                        {
+                            creditCheckAlerts.AddRange(checkResult.Item2);
+                        }
+                        if (creditCheckAlerts.Any())
+                        {
+                            alerts.AddRange(creditCheckAlerts);
+                        }
+                    }
+                });
+
+                if (newContracts?.Any() == true)
+                {
+                    newContracts.ForEach(c =>
+                    {
+                        c.IsNewlyCreated = true;
+                        c.IsCreatedByCustomer = true;
+                    });
+                    _unitOfWork.Save();
+
+                    submitResults = newContracts.Select(c => GetCustomerContractInfo(c.Id, c.Dealer?.UserName)).ToList();
+
+                    newContracts.ForEach(c =>
+                    {
+                        if (_contractRepository.IsContractUnassignable(c.Id))
+                        {
+                            var nowait = _mailService.SendNotifyMailNoDealerAcceptLead(c);
+                        }
+                    });
+                }               
             }
             if (alerts.Any(a => a.Type == AlertType.Error))
             {

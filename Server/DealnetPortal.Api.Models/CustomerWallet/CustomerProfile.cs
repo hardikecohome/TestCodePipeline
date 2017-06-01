@@ -11,6 +11,7 @@ namespace DealnetPortal.Api.Models.CustomerWallet
     public class CustomerProfile
     {
         public string AccountId { get; set; }
+        public string TransactionId { get; set; }
 
         [MaxLength(100)]
         public string FirstName { get; set; }

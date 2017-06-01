@@ -57,6 +57,7 @@ namespace DealnetPortal.Api.Integration.Services
                 Profile = new CustomerProfile()
                 {
                     AccountId = customer.AccountId,
+                    TransactionId = contract.Details?.TransactionId,
                     DateOfBirth = customer.DateOfBirth,
                     FirstName = customer.FirstName,
                     LastName = customer.LastName,

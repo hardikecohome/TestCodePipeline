@@ -73,6 +73,7 @@
     <Compile Include="Contract\PhoneDTO.cs" />
     <Compile Include="Contract\ProvinceTaxRateDTO.cs" />
     <Compile Include="Contract\CustomerDataDTO.cs" />
+    <Compile Include="Contract\ServiceRequestDTO.cs" />
     <Compile Include="Contract\SubDealerDTO.cs" />
     <Compile Include="CustomerWallet\TransactionInfoDTO.cs" />
     <Compile Include="CustomerWallet\CustomerProfile.cs" />
