@@ -828,7 +828,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Where(c => c.CreationTime <= expiredDate && 
                 (c.IsCreatedByBroker==true || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId)) &&
-                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.MainAddress) &&
+                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.InstallationAddress) &&
                 c.Equipment.NewEquipment.Any()).ToList();
         }
         #endregion
