@@ -97,7 +97,7 @@ namespace DealnetPortal.Api.Integration.Services
                         //??? - what is this?
                         if (succededContracts.Select(x => x.Equipment.NewEquipment.FirstOrDefault()).Any(i=>i!=null) &&
                             succededContract.PrimaryCustomer.Locations
-                            .FirstOrDefault(l => l.AddressType == AddressType.MainAddress) !=null)
+                            .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) !=null)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
                         }
