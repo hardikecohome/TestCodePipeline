@@ -790,8 +790,9 @@ namespace DealnetPortal.DataAccess.Repositories
             var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
                 : new string[] { "20-Credit Review" };
-
-            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue))
+            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
+            
+            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue && (contractCreatorRoleId != null && !u.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))))
                 return false;
 
             var contract = _dbContext.Contracts
