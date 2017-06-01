@@ -472,4 +472,34 @@
   <data name="WeFoundHomeProfessionalForYourHomeImprovementProject" xml:space="preserve">
     <value>We found home professional for your home improvement project</value>
   </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Client’s comment</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Contact information</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="HomeImprovementType" xml:space="preserve">
+    <value>Home improvement type</value>
+  </data>
+  <data name="MobilePhone" xml:space="preserve">
+    <value>Mobile phone</value>
+  </data>
+  <data name="NoDealersMatchingCustomerLead" xml:space="preserve">
+    <value>No dealers matching customer lead (type: {0}, postal code: {1})</value>
+  </data>
+  <data name="PreferredContactMethod" xml:space="preserve">
+    <value>Preferred contact method</value>
+  </data>
+  <data name="ThereAreNoDealersMatchingFollowingLead" xml:space="preserve">
+    <value>There are no dealers matching following lead</value>
+  </data>
+  <data name="TransactionId" xml:space="preserve">
+    <value>Transaction ID</value>
+  </data>
 </root>

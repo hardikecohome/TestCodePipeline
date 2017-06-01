@@ -188,6 +188,16 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
             }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Error during update role",
+                    Message = $"Error during getting user role from Aspire, for an user {userId}"
+                });
+                _loggingService.LogError($"Error during getting user role from Aspire, for an user {userId}");
+            }
             return alerts;
         }        
     }

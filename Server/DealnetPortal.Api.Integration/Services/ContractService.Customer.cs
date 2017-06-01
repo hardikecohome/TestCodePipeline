@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -85,7 +86,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var succededContracts =contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).ToList();
+                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).ToList();
                 var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
                 {
@@ -93,12 +94,20 @@ namespace DealnetPortal.Api.Integration.Services
                     //TODO: DEAL - 1495 analyze result here and then send invite link to customer
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
+                        //??? - what is this?
                         if (succededContracts.Select(x => x.Equipment.NewEquipment.FirstOrDefault()).Any(i=>i!=null) &&
                             succededContract.PrimaryCustomer.Locations
                             .FirstOrDefault(l => l.AddressType == AddressType.MainAddress) !=null)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
                         }
+                        foreach (var contract in succededContracts)
+                        {
+                            //if (IsContractUnassignable(contract.Id))
+                            {
+                                await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                            }
+                        }                                                 
                     }
                     else
                     {
@@ -207,6 +216,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return new Tuple<Contract, bool>(updatedContract, true);
+        }
+
+        private bool IsContractUnassignable(int contractId)
+        {
+            return _contractRepository.IsContractUnassignable(contractId);
         }
     }
 }
