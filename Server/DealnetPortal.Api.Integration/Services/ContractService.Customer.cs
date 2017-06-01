@@ -94,6 +94,7 @@ namespace DealnetPortal.Api.Integration.Services
                     //TODO: DEAL - 1495 analyze result here and then send invite link to customer
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
+                        //??? - what is this?
                         if (succededContracts.Select(x => x.Equipment.NewEquipment.FirstOrDefault()).Any(i=>i!=null) &&
                             succededContract.PrimaryCustomer.Locations
                             .FirstOrDefault(l => l.AddressType == AddressType.MainAddress) !=null)
