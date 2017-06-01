@@ -149,7 +149,16 @@ function showTable() {
             "<'row'<'col-md-12'i>>",
             renderer: 'bootstrap',
             footerCallback: createTableFooter,
-            order: []
+            order: [],
+            drawCallback: function (settings) {
+                var api = this.api();
+                var count = api.rows({ page: 'current' }).data().count();
+                if (count === 0) {
+                    $('#export-all-excel').attr("disabled", "disabled");
+                } else {
+                    $('#export-all-excel').removeAttr("disabled");
+                }
+            }
         });
 
         table.on('draw.dt', function(){
@@ -166,11 +175,11 @@ function showTable() {
             recalculateTotalForSelected();
         });
         $(".filter-button").click(function () {
-            table.draw();
+            table.draw(false);
         });
         $('#clear-filters').click(function () {
             $('.filter-input').val("");
-            table.search('').draw();
+            table.search('').draw(false);
         });
         $('#export-excel').click(function () {
             var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {

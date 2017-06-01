@@ -9,6 +9,7 @@
 });
 
 function showTable() {
+    var table;
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
             var postalCodeOptions = [];
@@ -32,7 +33,7 @@ function showTable() {
                 $("#pre-approved-for").append($("<option />").val(e).text(e));
             });
 
-            var table = $('#work-items-table')
+            table = $('#work-items-table')
                 .DataTable({
                     data: data,
                     responsive: {
@@ -94,7 +95,7 @@ function showTable() {
             });
             $('#expand-table-filter').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
-                table.draw();
+                table.draw(false);
             });
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
@@ -110,6 +111,12 @@ function showTable() {
             template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
           });
         });
+
+    function clearFilters() {
+        $('.filter-input').val("");
+        table.search('').draw(false);
+    }
+
 };
 
 $.fn.dataTable.ext.search.push(
@@ -128,12 +135,6 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
-
-function clearFilters() {
-    $('.filter-input').val("");
-    var table = $('#work-items-table').DataTable();
-    table.search('').draw();
-}
 
 function assignDatepicker(input) {
     inputDateFocus(input);
@@ -155,7 +156,7 @@ function removeLead(id) {
     var rowLead = $("#lead" + id).closest('tr');
     table.row(rowLead)
         .remove()
-        .draw();
+        .draw(false);
 };
 
 function addLead(id, transactionId) {
