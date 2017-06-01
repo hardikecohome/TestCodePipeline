@@ -600,17 +600,17 @@ namespace DealnetPortal.Api.Integration.Services
                     agreementTemplate =
                         dealerTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
                 }
+                //DEAL-1903 Dealer should not generate contracts that are not specific for his role
+                //if (agreementTemplate == null)
+                //{
+                //    agreementTemplate =
+                //        dealerTemplates.FirstOrDefault(at => string.IsNullOrEmpty(at.State) || at.State == province);
+                //}
 
-                if (agreementTemplate == null)
-                {
-                    agreementTemplate =
-                        dealerTemplates.FirstOrDefault(at => string.IsNullOrEmpty(at.State) || at.State == province);
-                }
-
-                if (agreementTemplate == null)
-                {
-                    agreementTemplate = dealerTemplates.First();
-                }
+                //if (agreementTemplate == null)
+                //{
+                //    agreementTemplate = dealerTemplates.First();
+                //}
             }
             else
             {
@@ -625,15 +625,15 @@ namespace DealnetPortal.Api.Integration.Services
                     agreementTemplate =
                         commonTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
 
-                    if (agreementTemplate == null)
-                    {
-                        agreementTemplate = commonTemplates.FirstOrDefault(at => at.State == province);
-                    }
+                    //if (agreementTemplate == null)
+                    //{
+                    //    agreementTemplate = commonTemplates.FirstOrDefault(at => at.State == province);
+                    //}
 
-                    if (agreementTemplate == null)
-                    {
-                        agreementTemplate = commonTemplates.FirstOrDefault(at => at.AgreementForm != null);
-                    }
+                    //if (agreementTemplate == null)
+                    //{
+                    //    agreementTemplate = commonTemplates.FirstOrDefault(at => at.AgreementForm != null);
+                    //}
                 }
             }
 

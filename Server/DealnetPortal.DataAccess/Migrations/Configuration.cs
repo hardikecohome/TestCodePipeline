@@ -670,6 +670,7 @@ namespace DealnetPortal.DataAccess.Migrations
             var template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EcoSmart HVAC Rental",
                 ExternalTemplateId = "96f6775e-a18a-466b-b275-a845d63c6f6c",//"a8c47648-542c-4edf-b222-3168d39d4d68",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecosmart")),
@@ -682,6 +683,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "Canadian Home Efficiency HVAC",
                 ExternalTemplateId = "d2310353-8088-4ba0-9ea3-18278e6f168a",//"b6f6aa88-d405-4921-85c2-e1a4bd2162cd",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("canadianhome")),
@@ -694,6 +696,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EnerTech Home Services H.V.A.C OTHER RENTAL AGREEMENT",
                 ExternalTemplateId = "37c64c0e-5de3-4e78-a931-683e3b735ec5",//"36301cc8-07b1-4205-a96e-e9e647e7e110",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("enertech")),
@@ -706,6 +709,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EFFICIENCY STANDARDS - HVAC RENTAL",
                 ExternalTemplateId = "ad0280c0-1312-4a29-96ac-ef6a69e29b98",//"567ece58-44ab-45f8-8085-6a6e68457e0e",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("efficiency")),
@@ -732,6 +736,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "Eco Energy Rental App 3-18-15",
                 ExternalTemplateId = "0153d9ad-7d65-4c8b-9322-a594686529ba",//"c68e3bf5-b6c5-4291-9392-82102371948b",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
@@ -754,6 +759,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "AB",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "EEHS - Rental App - Alberta 2-22-16",
                 ExternalTemplateId = "5a46958f-2697-4042-8e3b-b7de9bed3864", //"67b4cff0-d95c-43ed-9696-1b9c7fa2d1f3",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("ecoenergy")),
@@ -766,6 +772,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "Apex Home Services Rental Agreement",
                 ExternalTemplateId = "74b92c48-9b15-4bf3-9caf-0b5afdf8ba97",//"598be4b6-855b-4684-a0ee-fb5c83eb1eeb",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Apex")),
@@ -778,6 +785,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "OSS RENTAL AGREEMENT - EGD 7-8-16",
                 ExternalTemplateId = "a1abda2a-c1ef-46ff-b15c-2617b25e7013", //"a7ef2bce-abfb-4643-8133-884b19f0b354",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario")),
@@ -790,6 +798,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "OGSI RENTAL AGREEMENT - EGD 6-23-16",
                 ExternalTemplateId = "2c252e19-8341-4ab2-8618-04bcf3d4ebfe", //"6af6000b-6079-4ffd-970c-41bfb1639e5c",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("Ontario Green")),
@@ -802,6 +811,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "ELHC RENTAL AGREEMENT - EGD 5-11-2016",
                 ExternalTemplateId = "5e362fbc-2ba0-43ed-882b-8ffe10f26379",//"dc11e414-b7c6-4f9a-bdaf-7e09c8c79f63",
                 Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("EcoLife")),
@@ -889,6 +899,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (ON) loan agreement August 2016",
                 ExternalDealerName = "lifetimewater",
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
@@ -924,6 +935,7 @@ namespace DealnetPortal.DataAccess.Migrations
             template = new AgreementTemplate()
             {
                 State = "ON",
+                AgreementType = AgreementType.LoanApplication,
                 TemplateName = "EcoHome (ON) loan agreement August 2016",
                 ExternalDealerName = "phphome",
                 ExternalTemplateId = "687661a4-0b53-4816-ac55-9523b6f255f5",
@@ -1399,7 +1411,8 @@ namespace DealnetPortal.DataAccess.Migrations
             List<AgreementTemplate> templates = new List<AgreementTemplate>();
 
             var template = new AgreementTemplate()
-            {                
+            {
+                AgreementType = AgreementType.RentalApplication,
                 TemplateName = "ONE DEALER Completion Certificate - Rental",
                 Application = applications.FirstOrDefault(x => x.Id == OdiAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == OdiAppId)?.Id,
