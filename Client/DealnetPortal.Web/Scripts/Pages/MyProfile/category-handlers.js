@@ -27,6 +27,7 @@
 
                 state.categorySecondId++;
             }
+            $(this).val("");
         }
     }
 
