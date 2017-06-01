@@ -32,7 +32,6 @@
             dispatch(createAction(clientActions.SET_COMMENT, e.target.value));
         });
 
-
         // action handlers
         $('#improvment-equipment').on('change', function() {
             var equipmentValue = $(this).val();
