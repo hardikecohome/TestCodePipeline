@@ -769,7 +769,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
                 : new string[] { "20-Credit Review" };
 
-            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue))
+            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue && u.))
                 return false;
 
             var contract = _dbContext.Contracts
