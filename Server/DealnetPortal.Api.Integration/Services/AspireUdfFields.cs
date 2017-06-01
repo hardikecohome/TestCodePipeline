@@ -41,6 +41,17 @@ namespace DealnetPortal.Api.Integration.Services
         public static string CustomerType = "Customer Type";
 
         public static string DeferralType = "Deferral Type";
-        public static string RequestedTerm = "Requested Term";        
+        public static string RequestedTerm = "Requested Term";
+
+        public static string DealerSalesRep = "Dealer Sales Rep";
+        public static string LeadSource = "LeadSource";        
+
+        public static string PaymentType = "Payment Type";
+        public static string EnbridgeGasAccountNumber = "Enbridge Gas Account Number";
+
+        public static string Residence = "Residence";
+        public static string ExistingCustomer = "Existing Customer";
+
+        public static string DefaultAddressCountry = "CAN";
     }
 }
