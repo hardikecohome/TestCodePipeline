@@ -220,6 +220,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
                 .ForMember(x => x.EstimatedMoveInDate, d => d.MapFrom(src => src.EstimatedMoveInDate))
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo));
+            //cfg.CreateMap<NewCustomerViewModel, NewCustomerDTO>()
+            //    .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwner));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -451,7 +453,8 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<CommentDTO, CommentViewModel>();
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
             .ForMember(x => x.DocumentId, d => d.MapFrom(src => src.Id))
-            .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)));
+            .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)))
+            .ForMember(x => x.LastUpdateTime, d => d.MapFrom(src => src.CreationDate));
 
             cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
             cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()

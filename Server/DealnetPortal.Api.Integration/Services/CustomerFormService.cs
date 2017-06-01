@@ -24,6 +24,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -144,23 +145,130 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                bool isCustomerCreator = false;
-                var dealerId = customerFormData.DealerId ??
-                               _dealerRepository.GetUserIdByName(customerFormData.DealerName);
-                //for creation contract from 
-                if (dealerId != null && _dealerRepository.GetUserRoles(dealerId).Contains(UserRole.CustomerCreator.ToString()))
-                {
-                    isCustomerCreator = true;
-                }
-                // will not wait end of this operation
-                if (!isCustomerCreator)
-                {
-                    var noWarning = SendCustomerContractCreationNotifications(customerFormData,
+                var noWarning = SendCustomerContractCreationNotifications(customerFormData,
                         contractCreationRes.Item1);
-                }
             }
 
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
+        }
+
+        public Tuple<IList<CustomerContractInfoDTO>, IList<Alert>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData)
+        {
+            var alerts = new List<Alert>();
+            IList<CustomerContractInfoDTO> submitResults = null;
+
+            if (customerFormData?.SelectedServices?.Any() != true)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.ContractCreateFailed,
+                    Header = "Request doesn't contain improvements",
+                    Message = "Request doesn't contain improvements"
+                });
+            }
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                var dealerId = _dealerRepository.GetUserIdByName(customerFormData?.DealerName);
+                if (!string.IsNullOrEmpty(dealerId))
+                {
+                    IList<Contract> newContracts = null;
+                    try
+                    {
+                        var fst = true;
+                        newContracts =
+                            customerFormData?.SelectedServices?.Select(
+                                eqType =>
+                                {
+                                    var cId = fst ? customerFormData.PrecreatedContractId : null;
+                                    fst = false;
+                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer, cId, eqType,
+                                        customerFormData.CustomerComment);
+                                    // mark as created by customer
+                                    c.IsCreatedByCustomer = true;                                    
+                                    return c;
+                                }).ToList();
+                        _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        var errorMsg =
+                                $"Cannot create contract from customer wallet request";
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Warning, //?
+                            Code = ErrorCodes.ContractCreateFailed,
+                            Header = ErrorConstants.ContractCreateFailed,
+                            Message = errorMsg
+                        });
+                        _loggingService.LogError(errorMsg, ex);
+                    }
+
+                    //Credit check
+                    newContracts?.ForEach(c =>
+                        {
+                            //Do credit check only for new contract (not updated from CW)
+                            if (c.ContractState < ContractState.CreditContirmed)
+                            {
+                                //Start credit check for this contract                            
+                                var creditCheckAlerts = new List<Alert>();
+                                var initAlerts = _contractService.InitiateCreditCheck(c.Id, dealerId);
+                                if (initAlerts?.Any() ?? false)
+                                {
+                                    creditCheckAlerts.AddRange(initAlerts);
+                                }
+                                var checkResult = _contractService.GetCreditCheckResult(c.Id, dealerId);
+                                if (checkResult != null)
+                                {
+                                    creditCheckAlerts.AddRange(checkResult.Item2);                                        
+                                }
+                                if (creditCheckAlerts.Any())
+                                {
+                                    alerts.AddRange(creditCheckAlerts);                                    
+                                }
+                            }                            
+                        });
+
+
+                    if (newContracts?.Any() == true)
+                    {                     
+                        newContracts.ForEach(c =>
+                        {
+                            c.IsNewlyCreated = true;
+                            c.IsCreatedByCustomer = true;
+                        });
+                        _unitOfWork.Save();
+
+                        submitResults = newContracts.Select(c => GetCustomerContractInfo(c.Id, customerFormData.DealerName)).ToList();
+                        
+                        newContracts.ForEach(c =>
+                        {
+                            if (_contractRepository.IsContractUnassignable(c.Id))
+                            {
+                                var nowait = _mailService.SendNotifyMailNoDealerAcceptLead(c);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    var errorMsg = $"Cannot get dealer {customerFormData?.DealerName} from database";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Code = ErrorCodes.CantGetUserFromDb,
+                        Message = errorMsg,
+                        Header = "Cannot get dealer from database"
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            if (alerts.Any(a => a.Type == AlertType.Error))
+            {
+                _loggingService.LogError("Cannot create contract by customer loan form request");
+            }
+            return new Tuple<IList<CustomerContractInfoDTO>, IList<Alert>>(submitResults, alerts);
         }
 
         public CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName)
@@ -230,125 +338,79 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerId = _dealerRepository.GetUserIdByName(customerFormData.DealerName);
             if (!string.IsNullOrEmpty(dealerId))
             {
-                Contract contract = null;
-                //update or create a brand new contract
-                if (customerFormData.PrecreatedContractId.HasValue)
+                Contract contract = _contractRepository.CreateContract(dealerId); 
+                _unitOfWork.Save();
+                _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
+
+                var contractData = new ContractDataDTO()
                 {
-                    contract = _contractRepository.GetContract(customerFormData.PrecreatedContractId.Value, dealerId);
-                    if (contract != null && contract.PrimaryCustomer.AccountId == customerFormData.PrimaryCustomer.AccountId)
+                    PrimaryCustomer = customerFormData.PrimaryCustomer,
+                    //HomeOwners = new List<Customer> { customer },
+                    DealerId = dealerId,
+                    Id = contract.Id
+                };
+                _unitOfWork.Save();
+
+                if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
+                    !string.IsNullOrEmpty(customerFormData.CustomerComment))
+                {
+                    try
                     {
-                        _loggingService.LogInfo($"Selected contract [{contract.Id}] for update by customer loan form request for {customerFormData.DealerName} dealer");
+                        _customerFormRepository.AddCustomerContractData(contract.Id,
+                            $"{Resources.Resources.CommentFromCustomer}:",
+                            customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        contract = null;
+                        var errorMsg =
+                            $"Cannot update contract {contract.Id} from customer loan form with customer form data";
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Warning, //?
+                            Code = ErrorCodes.ContractCreateFailed,
+                            Header = "Cannot update contract",
+                            Message = errorMsg
+                        });
+                        _loggingService.LogWarning(errorMsg);
                     }
                 }
-                if (contract == null)
+                //Start credit check for this contract
+                var creditCheckRes = await Task.Run(() =>
                 {
-                    contract = _contractRepository.CreateContract(dealerId);
-                    _unitOfWork.Save();
-                    _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
+                    var creditCheckAlerts = new List<Alert>();
+                    var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
+                    if (initAlerts?.Any() ?? false)
+                    {
+                        creditCheckAlerts.AddRange(initAlerts);
+                    }
+                    var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
+                    if (checkResult != null)
+                    {
+                        creditCheckAlerts.AddRange(checkResult.Item2);
+                        return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
+                    }
+                    return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
+                }).ConfigureAwait(false);
+
+                // mark as created by customer
+                contract.IsCreatedByCustomer = true;
+                contract.IsNewlyCreated = true;
+                contract.CreateOperator = null;
+                _unitOfWork.Save();
+
+                if (creditCheckRes?.Item2?.Any() ?? false)
+                {
+                    alerts.AddRange(creditCheckRes.Item2);
                 }
+                
+                submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
 
-                if (contract != null)
-                {                                        
-                    //var customer = Mapper.Map<Customer>(customerFormData.PrimaryCustomer);
-                    var contractData = new ContractDataDTO()
-                    {
-                        PrimaryCustomer = customerFormData.PrimaryCustomer,
-                        //HomeOwners = new List<Customer> { customer },
-                        DealerId = dealerId,
-                        Id = contract.Id
-                    };
-                    if (!string.IsNullOrEmpty(customerFormData.SelectedServiceType))
-                    {
-                        contractData.Equipment = new EquipmentInfoDTO()
-                        {
-                            NewEquipment =
-                                new List<NewEquipmentDTO> {new NewEquipmentDTO() {Type = customerFormData.SelectedServiceType}}
-                        };
-                    }
-
-                    //add coment from customer
-                    if (!string.IsNullOrEmpty(customerFormData.CustomerComment))
-                    {                        
-                        try
-                        {
-                            if (!string.IsNullOrEmpty(customerFormData.SelectedService))
-                            {
-                                //if customerFormData.SelectedService - comes from customer form 
-                                _customerFormRepository.AddCustomerContractData(contract.Id,
-                                    $"{Resources.Resources.CommentFromCustomer}:",
-                                    customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
-                            }
-                            else 
-                            if (!string.IsNullOrEmpty(customerFormData.SelectedServiceType))
-                            {
-                                contractData = new ContractDataDTO()
-                                {
-                                    Id = contract.Id,
-                                    Details = new ContractDetailsDTO()
-                                    {
-                                        Notes = customerFormData.CustomerComment
-                                    }
-                                };
-                            }
-                            _unitOfWork.Save();
-                            _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
-                        }
-                        catch (Exception ex)
-                        {
-                            var errorMsg =
-                                $"Cannot update contract {contract.Id} from customer loan form with customer form data";
-                            alerts.Add(new Alert()
-                            {
-                                Type = AlertType.Warning, //?
-                                Code = ErrorCodes.ContractCreateFailed,
-                                Header = "Cannot update contract",
-                                Message = errorMsg
-                            });
-                            _loggingService.LogWarning(errorMsg);
-                        }                        
-                    }                               
-
-                    //Do credit check only for new contract (not updated from CW)
-                    if (contract.ContractState < ContractState.CreditContirmed)
-                    {
-                        //Start credit check for this contract
-                        var creditCheckRes = await Task.Run(() =>
-                        {
-                            var creditCheckAlerts = new List<Alert>();
-                            var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
-                            if (initAlerts?.Any() ?? false)
-                            {
-                                creditCheckAlerts.AddRange(initAlerts);
-                            }
-                            var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
-                            if (checkResult != null)
-                            {
-                                creditCheckAlerts.AddRange(checkResult.Item2);
-                                return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
-                            }
-                            return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
-                        }).ConfigureAwait(false);
-                        if (creditCheckRes?.Item2?.Any() ?? false)
-                        {
-                            alerts.AddRange(creditCheckRes.Item2);
-                        }
-                    }
-
-                    // mark as created by customer
-                    contract.IsCreatedByCustomer = true;
-                    contract.IsNewlyCreated = true;
-
-                    _unitOfWork.Save();
-                    submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
-                    if (_contractRepository.IsContractUnassignable(contract.Id))
-                    {
-                        await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
-                    }
-                }                
+                if (_contractRepository.IsContractUnassignable(contract.Id))
+                {
+                    await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                }
             }
             else
             {
@@ -405,6 +467,72 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError(errorMsg, ex);
                 }
             }
+        }
+
+        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, int? contractId = null, string equipmentType = null, string customerComment = null)
+        {
+            Contract contract = null;
+            //update or create a brand new contract
+            if (contractId.HasValue)
+            {
+                contract = _contractRepository.GetContract(contractId.Value, contractOwnerId);
+                if (contract != null && (contract.PrimaryCustomer.AccountId == primaryCustomer.AccountId || (contract.PrimaryCustomer.Emails?.Any(e => e.EmailAddress == primaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) == true)))
+                {
+                    _loggingService.LogInfo($"Selected contract [{contract.Id}] for update by customer loan form request for {contractOwnerId} dealer");
+                }
+                else
+                {
+                    contract = null;
+                }
+            }
+            if (contract == null)
+            {
+                contract = _contractRepository.CreateContract(contractOwnerId);
+                _unitOfWork.Save();
+                _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {contractOwnerId} dealer");
+            }
+
+            if (contract != null)
+            {
+                var contractDataDto = new ContractDataDTO()
+                {
+                    PrimaryCustomer = primaryCustomer,
+                    //HomeOwners = new List<Customer> { customer },
+                    DealerId = contractOwnerId,
+                    Id = contract.Id,
+                    Equipment = !string.IsNullOrEmpty(equipmentType)
+                        ? new EquipmentInfoDTO()
+                        {
+                            NewEquipment =
+                                new List<NewEquipmentDTO> {new NewEquipmentDTO() {Type = equipmentType}}
+                        }
+                        : null,
+                    Details = !string.IsNullOrEmpty(customerComment)
+                        ? new ContractDetailsDTO() {Notes = customerComment}
+                        : null
+
+                };
+                var contractData = Mapper.Map<ContractData>(contractDataDto);
+                if (!string.IsNullOrEmpty(primaryCustomer.AccountId))
+                {
+                    contractData.PrimaryCustomer.AccountId = primaryCustomer.AccountId;
+                    var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
+                    if (updatedContract != null)
+                    {
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+
+                        //update customers on aspire
+                        if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                        {
+                            _contractService.UpdateContractData(new ContractDataDTO() {Id = contractData.Id},
+                                contractOwnerId);
+                        }
+                    }
+                }
+            }
+
+            return contract;
         }
     }
 }

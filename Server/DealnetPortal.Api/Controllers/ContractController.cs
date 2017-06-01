@@ -493,6 +493,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("SubmitCustomerServiceRequest")]
+        [HttpPost]
+        [AllowAnonymous]
+        public IHttpActionResult SubmitCustomerServiceRequest(CustomerServiceRequestDTO customerServiceRequest)
+        {
+            try
+            {
+                var submitResult = CustomerFormService.CustomerServiceRequest(customerServiceRequest);
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCustomerContractInfo")]
         [HttpGet]
         // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}

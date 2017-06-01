@@ -133,8 +133,18 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> GetLeads()
         {
             var contracts = (await _contractServiceAgent.GetLeads()).OrderByDescending(x => x.LastUpdateTime).ToList();
-            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);           
-
+            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
+            //aftermap installation address postalCode
+            contracts.Where(c => c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress)).ForEach(
+                c =>
+                {
+                    var cVms = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
+                    if (cVms != null)
+                    {
+                        var substring = c.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode.Substring(0, 3);
+                        cVms.PostalCode = $"{substring?.ToUpperInvariant()}***";
+                    }                    
+                });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
@@ -78,38 +79,51 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             };
 
-            if (await _customerWalletServiceAgent.CheckUser(registerCustomer.RegisterInfo.Email).ConfigureAwait(false))
-            {
-                _loggingService.LogInfo($"Customer {registerCustomer.RegisterInfo.Email} already registered on Customer Wallet");
-                registerCustomer.TransactionInfo.UserName = registerCustomer.RegisterInfo.Email;
-                var submitAlerts = await _customerWalletServiceAgent.CreateTransaction(registerCustomer.TransactionInfo);
-                if (submitAlerts?.Any() ?? false)
+            try
+            {            
+                if (await _customerWalletServiceAgent.CheckUser(registerCustomer.RegisterInfo.Email).ConfigureAwait(false))
                 {
-                    alerts.AddRange(submitAlerts);
+                    _loggingService.LogInfo($"Customer {registerCustomer.RegisterInfo.Email} already registered on Customer Wallet");
+                    registerCustomer.TransactionInfo.UserName = registerCustomer.RegisterInfo.Email;
+                    var submitAlerts = await _customerWalletServiceAgent.CreateTransaction(registerCustomer.TransactionInfo);
+                    if (submitAlerts?.Any() ?? false)
+                    {
+                        alerts.AddRange(submitAlerts);
+                    }
+                    if (alerts.Any(a => a.Type == AlertType.Error))
+                    {
+                        _loggingService.LogInfo($"Failed to create a new transaction for {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
+                    }
                 }
-                if (alerts.Any(a => a.Type == AlertType.Error))
-                {
-                    _loggingService.LogInfo($"Failed to create a new transaction for {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
-                }
-            }
-            else
-            {
-                _loggingService.LogInfo($"Registration new {registerCustomer.RegisterInfo.Email} customer on CustomerWallet portal");
-                var submitAlerts = await _customerWalletServiceAgent.RegisterCustomer(registerCustomer);
-                if (submitAlerts?.Any() ?? false)
-                {
-                    alerts.AddRange(submitAlerts);
-                }
-                if (alerts.Any(a => a.Type == AlertType.Error))
-                {
-                    _loggingService.LogInfo($"Failed to register new {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
-                }
-                //send email notification for DEAL-1490
                 else
                 {
-                    await _mailService.SendInviteLinkToCustomer(contract, randomPassword);
+                    _loggingService.LogInfo($"Registration new {registerCustomer.RegisterInfo.Email} customer on CustomerWallet portal");
+                    var submitAlerts = await _customerWalletServiceAgent.RegisterCustomer(registerCustomer);
+                    if (submitAlerts?.Any() ?? false)
+                    {
+                        alerts.AddRange(submitAlerts);
+                    }
+                    if (alerts.Any(a => a.Type == AlertType.Error))
+                    {
+                        _loggingService.LogInfo($"Failed to register new {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
+                    }
+                    //send email notification for DEAL-1490
+                    else
+                    {
+                        await _mailService.SendInviteLinkToCustomer(contract, randomPassword);
+                    }
                 }
-            }            
+            }
+            catch (HttpRequestException ex)
+            {
+                _loggingService.LogError("Cannot send request to CustomerWallet", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Cannot send request to CustomerWallet",
+                    Message = ex.ToString()
+                });
+            }
 
             return alerts;
         }

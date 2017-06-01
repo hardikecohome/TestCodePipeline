@@ -1162,7 +1162,7 @@
     <value>Previous Address Information</value>
   </data>
   <data name="ReadyForAudit" xml:space="preserve">
-    <value>Ready for Audit</value>
+    <value>Request to Fund</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
