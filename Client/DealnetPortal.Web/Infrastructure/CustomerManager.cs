@@ -50,44 +50,28 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> AddAsync(NewCustomerViewModel customer)
         {
-            var newCustomerDto = new NewCustomerDTO();
-            Mapper.Map(customer, newCustomerDto);
-
+            var newCustomerDto = Mapper.Map<NewCustomerDTO>(customer);
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
             newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
+            var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
+            newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
+            newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;            
+            var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
+            mainAddress.AddressType = customer.IsLiveInCurrentAddress ? AddressType.InstallationAddress : AddressType.MainAddress;
+            newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
 
-            if (customer.IsLiveInCurrentAddress)
-            {
-                var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
-                mainAddress.AddressType = AddressType.MainAddress;
-                newCustomerDto.PrimaryCustomer.Locations.Add(mainAddress);
-            }
-            else 
-            {
-                var previousMainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
-                previousMainAddress.AddressType = AddressType.PreviousAddress;
-                newCustomerDto.PrimaryCustomer.Locations.Add(previousMainAddress);
-
-                if (!customer.IsUnknownAddress)
-                {
-                    var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
-                    improvmentAddress.AddressType = AddressType.MainAddress;
-                    newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
-                }
-            }
-           
             if (customer.IsLessThenSix && customer.HomeOwner.PreviousAddressInformation?.City != null)
             {
                 var previousAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.PreviousAddressInformation);
                 previousAddress.AddressType = AddressType.PreviousAddress;
                 newCustomerDto.PrimaryCustomer.Locations.Add(previousAddress);
-            }
-
-            var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
-            newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
-            newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
-            newCustomerDto.PrimaryCustomer.PreferredContactMethod = customer.HomeOwnerContactInfo.PreferredContactMethod;
-
+            }            
+            if (!customer.IsLiveInCurrentAddress && !customer.IsUnknownAddress && !string.IsNullOrEmpty(customer.ImprovmentLocation?.City))
+            {
+                var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
+                improvmentAddress.AddressType = AddressType.InstallationAddress;
+                newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
+            }                        
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }
 

@@ -1183,6 +1183,8 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
+                //move installation address to main address for MB contracts reassign
+
                 var updatedContract = _contractRepository.AssignContract(contractId, newContractOwnerId);
                 if (updatedContract != null)
                 {
