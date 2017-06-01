@@ -18,9 +18,8 @@ namespace DealnetPortal.Api
         {
             GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
             _backgroundSchedulerService = new BackgroundSchedulerService();
-            var t = int.Parse(ConfigurationManager.AppSettings["LeadExpiredMinutes"]);
             RecurringJob.AddOrUpdate(() =>
-            _backgroundSchedulerService.CheckExpiredLeads(DateTime.Now, t),
+            _backgroundSchedulerService.CheckExpiredLeads(DateTime.Now, int.Parse(ConfigurationManager.AppSettings["LeadExpiredMinutes"])),
                 Cron.MinuteInterval(int.Parse(ConfigurationManager.AppSettings["CheckPeriodMinutes"])));
 
             app.UseHangfireDashboard();

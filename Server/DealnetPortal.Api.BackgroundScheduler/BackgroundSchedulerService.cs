@@ -26,9 +26,9 @@ namespace DealnetPortal.Api.BackgroundScheduler
             try
             {
                 var contracts = _contractRepository.GetExpiredContracts(expiredDateTime);
-                //foreach (var contract in contracts)
+                foreach (var contract in contracts)
                 {
-                    _mailService.SendNotifyMailNoDealerAcceptedLead12H(contracts.FirstOrDefault());
+                    _mailService.SendNotifyMailNoDealerAcceptedLead12H(contract);
                 }
             }
             catch (Exception ex)

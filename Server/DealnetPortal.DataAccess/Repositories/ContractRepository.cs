@@ -823,7 +823,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
-                .Where(c => c.CreationTime <= expiredDate).ToList();
+                .Where(c => c.CreationTime <= expiredDate && 
+                string.IsNullOrEmpty(c.DealerId) &&
+                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.MainAddress) &&
+                c.Equipment.NewEquipment.Any()).ToList();
         }
         #endregion
 
