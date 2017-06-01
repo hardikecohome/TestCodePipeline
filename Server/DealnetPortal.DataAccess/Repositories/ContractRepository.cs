@@ -228,23 +228,21 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contract != null)
             {
                 if (contract.IsCreatedByBroker == true)
-                {
-                    var locations = contract.PrimaryCustomer.Locations.ToList();
-                    if (locations.Exists(l => l.AddressType == AddressType.InstallationAddress))
+                {                    
+                    if (contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null)
                     {
-                        var mainLoc = locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
+                        var mainLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
                         if (mainLoc != null)
                         {
-                            locations.Remove(mainLoc);
+                            _dbContext.Entry(mainLoc).State = EntityState.Deleted;                                                        
                         }
                         //?
-                        var installLoc = locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
+                        var installLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
                         if (installLoc != null)
                         {
                             installLoc.AddressType = AddressType.MainAddress;                            
                         }
                     }
-                    AddOrUpdateCustomerLocations(contract.PrimaryCustomer, locations);
                 }
 
                 var dealer = GetDealer(newContractOwnerId);
