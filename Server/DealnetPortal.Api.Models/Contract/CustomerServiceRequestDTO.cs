@@ -10,7 +10,6 @@ namespace DealnetPortal.Api.Models.Contract
     public class CustomerServiceRequestDTO
     {
         public CustomerDTO PrimaryCustomer { get; set; }
-        public bool? AllowCommunicate { get; set; }
         public string CustomerComment { get; set; }
         public IList<ServiceRequestDTO> ServiceRequests { get; set; }
     }
