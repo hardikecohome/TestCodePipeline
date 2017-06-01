@@ -222,6 +222,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\Startup.Scheduler.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
@@ -380,6 +381,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Api.BackgroundScheduler\DealnetPortal.Api.BackgroundScheduler.csproj">
+      <Project>{5B19A2C3-CECB-42F2-8B54-C04FD3DE8C83}</Project>
+      <Name>DealnetPortal.Api.BackgroundScheduler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">
       <Project>{23FA957A-A9DE-4929-9FFD-603BAE271FBA}</Project>
       <Name>DealnetPortal.Api.Common</Name>

@@ -444,7 +444,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public async Task SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
+        public void SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
         {
             string equipment = contract.Equipment.NewEquipment?.First().Description.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
@@ -498,7 +498,7 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = string.Format(Resources.Resources.NoDealersMatchingCustomerLead, equipment, location?.PostalCode ?? string.Empty);
             try
             {
-                await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+                _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
             }
             catch (Exception ex)
             {

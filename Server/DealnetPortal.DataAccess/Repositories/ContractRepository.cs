@@ -15,8 +15,6 @@ namespace DealnetPortal.DataAccess.Repositories
 {
     public class ContractRepository : BaseRepository, IContractRepository
     {
-
-
         public ContractRepository(IDatabaseFactory databaseFactory) : base(databaseFactory)
         {
         }
@@ -769,7 +767,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
                 : new string[] { "20-Credit Review" };
 
-            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue && u.))
+            if (_dbContext.Users.Any(u => !u.DealerProfileId.HasValue))
                 return false;
 
             var contract = _dbContext.Contracts
@@ -794,6 +792,16 @@ namespace DealnetPortal.DataAccess.Repositories
                                                                 contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
         }
 
+        public IList<Contract> GetExpiredContracts(DateTime expiredDate)
+        {
+            return _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Where(c => c.CreationTime <= expiredDate).ToList();
+        }
         #endregion
 
         #region Private
