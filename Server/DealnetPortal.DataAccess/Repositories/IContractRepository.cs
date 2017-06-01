@@ -143,6 +143,8 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>List of Equipment Type</returns>
         IList<EquipmentType> GetEquipmentTypes();
 
+        EquipmentType GetEquipmentTypeInfo(string type);
+
         /// <summary>
         /// Get Document Types list
         /// </summary>

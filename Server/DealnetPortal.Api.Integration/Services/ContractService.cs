@@ -1190,8 +1190,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     _unitOfWork.Save();
                     var dealer = Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(updatedContract.Dealer.UserName));
-                    var nowaitSend = _mailService.SendCustomerDealerAcceptLead(updatedContract, dealer);
-                    await _aspireService.UpdateContractCustomer(contractId, newContractOwnerId);
+                    var nowait = _mailService.SendCustomerDealerAcceptLead(updatedContract, dealer);
+                    var nowaitAspire =  _aspireService.UpdateContractCustomer(contractId, newContractOwnerId);
                 }
                 else
                 {

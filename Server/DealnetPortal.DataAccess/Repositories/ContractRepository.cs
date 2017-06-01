@@ -526,6 +526,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.EquipmentTypes.ToList();
         }
 
+        public EquipmentType GetEquipmentTypeInfo(string type)
+        {
+            return _dbContext.EquipmentTypes.FirstOrDefault(et => et.Type == type);
+        }
+
         public IList<DocumentType> GetDocumentTypes()
         {
             return _dbContext.DocumentTypes.ToList();

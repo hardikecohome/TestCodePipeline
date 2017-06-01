@@ -34,10 +34,12 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IEmailService _emailService;
         private readonly ILoggingService _loggingService;
+        private readonly IContractRepository _contractRepository;
 
-        public MailService(IEmailService emailService, ILoggingService loggingService)
+        public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService)
         {
             _emailService = emailService;
+            _contractRepository = contractRepository;
             _loggingService = loggingService;
         }
 
@@ -279,7 +281,8 @@ namespace DealnetPortal.Api.Integration.Services
         {
             string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             var contract = succededContracts.First();
-            string services = string.Join(",", succededContracts.Select(i => i.Equipment.NewEquipment.First().Description.ToLower()));
+            string services = string.Join(",", succededContracts.Select(i => (i.Equipment.NewEquipment.First()?.Description ?? 
+                _contractRepository.GetEquipmentTypeInfo(i.Equipment.NewEquipment.First()?.Type)?.Description)?.ToLower()));
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string hashLogin = SecurityUtils.Hash(customerEmail);
             string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
@@ -332,7 +335,7 @@ namespace DealnetPortal.Api.Integration.Services
             string customerEmail = contract.PrimaryCustomer.Emails?.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
-            string services = contract.Equipment.NewEquipment != null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => i.Description.ToLower())) : string.Empty;
+            string services = contract.Equipment.NewEquipment != null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => (i.Description ?? _contractRepository.GetEquipmentTypeInfo(i?.Type)?.Description)?.ToLower())) : string.Empty;
             string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
             string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
 
