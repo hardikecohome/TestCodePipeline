@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +16,7 @@ namespace DealnetPortal.Web.Models
     public class ExistingDocument
     {
         public int DocumentId { get; set; }
+        public DateTime? LastUpdateTime { get; set; }
 
         public int DocumentTypeId { get; set; }
         public string DocumentName { get; set; }

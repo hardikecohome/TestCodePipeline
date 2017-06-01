@@ -468,7 +468,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
                             };
 
-                            var submitString = "Ready For Audit";
+                            var submitString = "Request to Fund";
                             var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
                             request.Payload.Documents = new List<Document>()
                             {
@@ -783,6 +783,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 TransactionId = contract.Details?.TransactionId
             };
+
+            var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
+
             if (contract.Equipment != null)
             {
                 var equipments = newEquipments ?? contract.Equipment.NewEquipment;
@@ -797,7 +800,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication ? eq.Cost?.ToString(CultureInfo.InvariantCulture) 
+                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture) 
                                                                                                     : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
