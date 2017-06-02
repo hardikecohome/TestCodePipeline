@@ -581,6 +581,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<JsonResult> CheckContractAgreement(int contractId)
         {            
             var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+
             return Json(result.Item1);
         }
 

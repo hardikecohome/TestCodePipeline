@@ -10,8 +10,7 @@
                     @Resources.SeeContractDetails
                 </a>
                 @*<a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="dealnet-info-link">*@
-                <a href="#" onclick="checkPrintedContract('@Url.Action("CheckContractAgreement", "NewRental", new {@contractId = Model.ContractId})', '@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})');"
-                   class="dealnet-info-link">
+                <a href="#" id="print-button" class="dealnet-info-link disabled">
                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
                 </a>
 
@@ -126,4 +125,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/agreement-submit-success")
+  <script type="text/javascript">
+    var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.ContractId})';
+    var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.ContractId})';
+  </script>
 }
