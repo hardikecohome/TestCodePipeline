@@ -11,7 +11,7 @@ namespace DealnetPortal.Api.BackgroundScheduler
     {
         private readonly IContractRepository _contractRepository;
         private readonly IMailService _mailService;
-        private ILoggingService _loggingService;
+        private readonly ILoggingService _loggingService;
 
         public BackgroundSchedulerService()
         {
@@ -22,6 +22,7 @@ namespace DealnetPortal.Api.BackgroundScheduler
 
         public void CheckExpiredLeads(DateTime currentDateTime, int minutesPeriod)
         {
+            _loggingService.LogInfo($"Checking expired leads started at {DateTime.Now}.");
             var expiredDateTime = currentDateTime.AddMinutes(-minutesPeriod);
             try
             {
@@ -30,11 +31,13 @@ namespace DealnetPortal.Api.BackgroundScheduler
                 {
                     _mailService.SendNotifyMailNoDealerAcceptedLead12H(contract);
                 }
+                _loggingService.LogInfo($"Checking expired leads finished at {DateTime.Now}. There are {contracts.Count} expired contracts");
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Error in CheckExpiredLeads", ex);
             }
+            _loggingService.LogInfo($"Checking expired leads finished at {DateTime.Now}.");
         }
     }
 }
