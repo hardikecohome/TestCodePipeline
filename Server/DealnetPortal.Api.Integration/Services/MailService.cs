@@ -555,7 +555,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
             body.AppendLine("</ul>");
             body.AppendLine("</div>");
-            var expireperiod = ConfigurationManager.AppSettings["LeadExpiredMinutes"]; 
+
+            var expireperiod = int.Parse(ConfigurationManager.AppSettings["LeadExpiredMinutes"])/60; 
 
             var subject = string.Format(Resources.Resources.CustomerLeadHasNotBeenAcceptedByAnyDealerFor, expireperiod, equipment, location?.PostalCode ?? string.Empty);
             try
