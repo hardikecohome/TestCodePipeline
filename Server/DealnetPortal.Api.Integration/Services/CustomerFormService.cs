@@ -343,6 +343,7 @@ namespace DealnetPortal.Api.Integration.Services
                     DealerId = dealerId,
                     Id = contract.Id
                 };
+                _contractService.UpdateContractData(contractData, dealerId);
                 _unitOfWork.Save();
 
                 if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
