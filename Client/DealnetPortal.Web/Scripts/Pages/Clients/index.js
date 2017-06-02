@@ -120,12 +120,23 @@
             displayPreviousAddress: state.lessThanSix,
             activePanel: state.activePanel,
             displayImprovmentOtherAddress: state.improvmentOtherAddress,
+            displayNewAddress: state.displayNewAddress
         };
     })(function (props) {
         if (props.activePanel === 'basic-information') {
             $('#basic-information').addClass('active-panel');
         } else {
             $('#basic-information').removeClass('active-panel');
+        }
+
+        if (props.displayNewAddress) {
+            if ($('#new-home-address').is(':hidden')) {
+                $('#new-home-address').show();
+            }
+        } else {
+            if (!$('#new-home-address').is(':hidden')) {
+                $('#new-home-address').hide();
+            }
         }
 
         $('#IsLiveInCurrentAddress').val(!props.displayImprovmentOtherAddress);

@@ -1,13 +1,25 @@
-﻿function checkPrintedContract(checkUrl, downloadUrl) {
+﻿function printContract(downloadUrl) {
+    var url = downloadUrl;
+
+    return function(e) {
+        window.location = url;
+    }
+}
+
+function togglePrintButton(checkUrl) {
     $.ajax({
         type: "POST",
         url: checkUrl,
         success: function (json) {
             if (json == true) {
-                $('#print-error-message').hide();
-                window.location = downloadUrl;
+                if($('#print-button').is('.disabled'))
+                {
+                    $('#print-button').removeClass('disabled');
+                }
             } else {
-                $('#print-error-message').show();
+                if (!$('#print-button').is('.disabled')) {
+                    $('#print-button').addClass('disabled'); 
+                }
             }
         },
         error: function (xhr, status, p3) {

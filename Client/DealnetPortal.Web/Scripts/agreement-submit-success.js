@@ -1,4 +1,9 @@
-﻿function submitEmailsAsync(url, form) {
+﻿$(function() {
+    togglePrintButton(checkUrl);
+    $('#print-button').on('click', printContract(downloadUrl));
+});
+
+function submitEmailsAsync(url, form) {
     form.validate();
     if (!form.valid()) {
         return;

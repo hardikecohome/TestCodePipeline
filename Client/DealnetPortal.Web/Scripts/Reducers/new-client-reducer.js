@@ -41,7 +41,8 @@
         improvmentProvince: '',
         improvmentPostalCode: '', 
         improvmentMoveInDate: '',
-        isChanged: false
+        isChanged: false,
+        displayNewAddress: true
     };
 
     var setFormField = function (field) {
@@ -91,7 +92,8 @@
             improvmentProvince: '',
             improvmentPostalCode: '',
             improvmentMoveInDate: '',
-            unknownAddress: action.payload
+            unknownAddress: action.payload,
+            displayNewAddress: !state.displayNewAddress
         }
     }
 
