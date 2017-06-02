@@ -756,7 +756,7 @@ namespace DealnetPortal.Api.Integration.Services
                     account.ClientId = c.AccountId;
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, portalDescriber).ToList();                
+                account.UDFs = GetCustomerUdfs(c, contract, location, portalDescriber).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -981,6 +981,14 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.SalesRep
                     });
                 }
+                if (contract.Equipment.EstimatedInstallationDate.HasValue)
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EstimatedMoveInDate,
+                        Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
             }
 
             if (contract?.PaymentInfo != null)
@@ -1037,7 +1045,7 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string portalDescriber)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Contract contract, Location mainLocation, string portalDescriber)
         {
             var udfList = new List<UDF>();
             if (!string.IsNullOrEmpty(portalDescriber))
@@ -1203,7 +1211,15 @@ namespace DealnetPortal.Api.Integration.Services
                             Value = "Y"
                         });
                 }
-            }            
+            }
+            if (contract?.Equipment?.EstimatedInstallationDate != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EstimatedMoveInDate,
+                    Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                });
+            }
 
             return udfList;
         }
