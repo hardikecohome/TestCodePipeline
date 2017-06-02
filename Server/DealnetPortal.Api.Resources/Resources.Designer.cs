@@ -286,6 +286,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer lead has not been accepted by any dealer for {0}h (type: {1}, postal code: {2}).
+        /// </summary>
+        public static string CustomerLeadHasNotBeenAcceptedByAnyDealerFor {
+            get {
+                return ResourceManager.GetString("CustomerLeadHasNotBeenAcceptedByAnyDealerFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {

@@ -555,8 +555,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
             body.AppendLine("</ul>");
             body.AppendLine("</div>");
+            var expireperiod = ConfigurationManager.AppSettings["LeadExpiredMinutes"]; 
 
-            var subject = string.Format(Resources.Resources.NoDealersMatchingCustomerLead, equipment, location?.PostalCode ?? string.Empty);
+            var subject = string.Format(Resources.Resources.CustomerLeadHasNotBeenAcceptedByAnyDealerFor, expireperiod, equipment, location?.PostalCode ?? string.Empty);
             try
             {
                 _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());

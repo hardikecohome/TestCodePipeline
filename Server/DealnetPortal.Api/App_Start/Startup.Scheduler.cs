@@ -16,14 +16,22 @@ namespace DealnetPortal.Api
 
         public void ConfigurationScheduler(IAppBuilder app)
         {
-            GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
-            _backgroundSchedulerService = new BackgroundSchedulerService();
-            RecurringJob.AddOrUpdate(() =>
-            _backgroundSchedulerService.CheckExpiredLeads(DateTime.Now, int.Parse(ConfigurationManager.AppSettings["LeadExpiredMinutes"])),
-                Cron.MinuteInterval(int.Parse(ConfigurationManager.AppSettings["CheckPeriodMinutes"])));
+            try
+            {
+                GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
+                _backgroundSchedulerService = new BackgroundSchedulerService();
+                RecurringJob.AddOrUpdate(() =>
+                _backgroundSchedulerService.CheckExpiredLeads(DateTime.Now, int.Parse(ConfigurationManager.AppSettings["LeadExpiredMinutes"])),
+                    Cron.MinuteInterval(int.Parse(ConfigurationManager.AppSettings["CheckPeriodMinutes"])));
 
-            app.UseHangfireDashboard();
-            app.UseHangfireServer();
+                app.UseHangfireDashboard();
+                app.UseHangfireServer();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            
         }
     }
 }
