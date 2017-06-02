@@ -61,18 +61,20 @@
     });
 
     //If opened switch language dropdown, hide it when click anywhere accept opened dropdown
-    $('html').on('click touchstart touchend', function (event) {
+    $('html').on('click touchstart', function (event) {
       if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
         $('.lang-switcher').removeClass('open')
       }
+    });
 
-      if ($('body').is('.ios-device') && $('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker').length == 0) {
-          if ($(event.target).children('input.acrive-datePicker-input').length === 0) {
-              $('#ui-datepicker-div').hide();
-              $('.acrive-datePicker-input').blur();
-              $('.acrive-datePicker-input').removeAttr('readonly');
-              $('.acrive-datePicker-input').removeClass('acrive-datePicker-input');
-          }
+    $('body.ios-device').on('touchend', function (event) {
+      if ($('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker, .ui-datepicker-header').length == 0) {
+        if ($(event.target).children('input.acrive-datePicker-input').length === 0) {
+          $('#ui-datepicker-div').hide();
+          $('.acrive-datePicker-input').blur();
+          $('.acrive-datePicker-input').removeAttr('readonly');
+          $('.acrive-datePicker-input').removeClass('acrive-datePicker-input');
+        }
       }
     });
 
