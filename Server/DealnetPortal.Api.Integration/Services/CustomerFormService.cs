@@ -152,7 +152,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
         }
 
-        public Tuple<IList<CustomerContractInfoDTO>, IList<Alert>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData)
+        public async Task<Tuple<IList<CustomerContractInfoDTO>, IList<Alert>>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData)
         {
             var alerts = new List<Alert>();
             IList<CustomerContractInfoDTO> submitResults = null;
@@ -246,7 +246,7 @@ namespace DealnetPortal.Api.Integration.Services
                         newContracts.FirstOrDefault()?.PrimaryCustomer.Locations
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null)
                     {
-                        _mailService.SendHomeImprovementMailToCustomer(newContracts);
+                        await _mailService.SendHomeImprovementMailToCustomer(newContracts).ConfigureAwait(false);
                     }
 
                     newContracts.ForEach(c =>

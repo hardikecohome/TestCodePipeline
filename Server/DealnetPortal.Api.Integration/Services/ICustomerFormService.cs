@@ -18,7 +18,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData);
 
-        Tuple<IList<CustomerContractInfoDTO>, IList<Alert>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData);
+        Task<Tuple<IList<CustomerContractInfoDTO>, IList<Alert>>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData);
 
         CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName);
     }
