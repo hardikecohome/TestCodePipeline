@@ -45,19 +45,15 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var profile = Mapper.Map<DealerProfile>(dealerProfile);
-                var userNeedUpdate = profile.Id == 0;
                 var newProfile = _dealerRepository.UpdateDealerProfile(profile);
                 if (newProfile != null)
                 {
-                   
+
                     _unitOfWork.Save();
-                    if (userNeedUpdate)
-                    {
-                        var dealer = _contractRepository.GetDealer(newProfile.DealerId);
-                        dealer.DealerProfileId = newProfile.Id;
-                        _dealerRepository.UpdateDealer(dealer);
-                        _unitOfWork.Save();
-                    }
+                    var dealer = _contractRepository.GetDealer(newProfile.DealerId);
+                    dealer.DealerProfileId = newProfile.Id;
+                    _dealerRepository.UpdateDealer(dealer);
+                    _unitOfWork.Save();
                 }
                 else
                 {
