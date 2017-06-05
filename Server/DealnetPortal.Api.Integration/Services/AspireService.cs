@@ -1184,7 +1184,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
 
                     Name = AspireUdfFields.AllowCommunicate,
-                    Value = customer.AllowCommunicate == false ? "N" : "Y"
+                    Value = customer.AllowCommunicate == false ? "0" : "1"
                 });
 
             if (customer.PreferredContactMethod.HasValue)
