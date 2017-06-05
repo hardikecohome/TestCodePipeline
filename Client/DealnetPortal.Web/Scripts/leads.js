@@ -178,12 +178,15 @@ function addLead(id, transactionId) {
                 if (json.isError) {
                     hideLoader();
                     $('.success-message').hide();
-                    alert(translations['ErrorWhileUpdatingData']);
+                    $("#error-msg-text").html(json.Errors);
+                    $('#section-before-table').append($('#leads-error-message'));
+                    $('#section-before-table #leads-error-message').show();
                 } else if (json.isSuccess) {
                     hideLoader();
                     var template = $('#success-message-template').html();
                     $('#lead-msg').html(template.replace('{1}', transactionId));
 
+                    $('#leads-error-message').hide();
                     $('#section-before-table').append($('#msg-lead-accepted'));
                     $('#section-before-table #msg-lead-accepted').show();
                     removeLead(id);

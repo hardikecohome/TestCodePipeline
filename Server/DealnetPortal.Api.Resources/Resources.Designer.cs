@@ -997,6 +997,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This lead can not be assigned to you.
+        /// </summary>
+        public static string ThisLeadCannotBeAssignedToYou {
+            get {
+                return ResourceManager.GetString("ThisLeadCannotBeAssignedToYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaction ID.
         /// </summary>
         public static string TransactionId {

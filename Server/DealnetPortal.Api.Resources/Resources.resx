@@ -508,4 +508,7 @@
   <data name="CustomerLeadHasNotBeenAcceptedByAnyDealerFor" xml:space="preserve">
     <value>Customer lead has not been accepted by any dealer for {0}h (type: {1}, postal code: {2})</value>
   </data>
+  <data name="ThisLeadCannotBeAssignedToYou" xml:space="preserve">
+    <value>This lead can not be assigned to you</value>
+  </data>
 </root>

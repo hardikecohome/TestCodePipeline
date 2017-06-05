@@ -1195,7 +1195,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var errorMsg = "Cannot reasign contract";
+                    var errorMsg = Resources.Resources.ThisLeadCannotBeAssignedToYou;
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,

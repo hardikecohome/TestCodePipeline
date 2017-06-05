@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Policy;
+using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
@@ -219,12 +221,13 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = _dbContext.Contracts
                .Include(x => x.Equipment.NewEquipment)
                .Include(x => x.PrimaryCustomer)
+               .Include(x => x.Dealer.Claims)
                .Include(c => c.PrimaryCustomer.Locations)
                .FirstOrDefault(x => x.Id == contractId);            
 
             if (contract != null)
             {
-                if (contract.IsCreatedByBroker == true)
+                if (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true)
                 {                    
                     if (contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null)
                     {
@@ -244,11 +247,12 @@ namespace DealnetPortal.DataAccess.Repositories
 
                 var dealer = GetDealer(newContractOwnerId);
 
-                if (dealer != null)
+                if (dealer != null && (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true))
                 {
                     contract.DealerId = dealer.Id;
                     contract.IsNewlyCreated = true;
                     contract.IsCreatedByBroker = false;
+                    contract.IsCreatedByCustomer = false;
                     contract.LastUpdateTime = DateTime.Now;
 
                     _dbContext.Entry(contract).State = EntityState.Modified;

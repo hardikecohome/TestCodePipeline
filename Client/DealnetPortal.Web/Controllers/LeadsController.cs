@@ -29,10 +29,10 @@ namespace DealnetPortal.Web.Controllers
         public async Task<JsonResult> AcceptLead(int id)
         {
             var result = await _contractServiceAgent.AssignContract(id);
-
-            if (result.Any(x => x.Type == AlertType.Error))
+            var errors = result.Where(x => x.Type == AlertType.Error).Select(a => a.Message).ToList();
+            if (errors.Any())
             {
-                return GetErrorJson();
+                return Json(new { Errors = errors, isError = true}, JsonRequestBehavior.AllowGet);
             }
 
             return GetSuccessJson();
