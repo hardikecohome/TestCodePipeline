@@ -52,6 +52,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             var newCustomerDto = Mapper.Map<NewCustomerDTO>(customer);
             newCustomerDto.PrimaryCustomer = Mapper.Map<CustomerDTO>(customer.HomeOwner);
+            newCustomerDto.PrimaryCustomer.PreferredContactMethod = customer.HomeOwnerContactInfo.PreferredContactMethod;
             newCustomerDto.PrimaryCustomer.Locations = new List<LocationDTO>();
 
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
