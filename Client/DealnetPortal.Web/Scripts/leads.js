@@ -64,7 +64,7 @@ function showTable() {
 					    { "data": "CustomerComment", className: 'customer-cell' },
 					    {// this is Actions Column
 					        "render": function (sdata, type, row) {
-                                return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="$50.00 fee will be applied to your account" id = "lead'+row.Id+'"  onclick="addLead(' + row.Id + ', '+ row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
+					            return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="' + translations['PreApprovedLoanValueFeeWillBeApplied'] + '" id = "lead' + row.Id + '"  onclick="addLead(' + row.Id + ', ' + row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
 					        },
 					        className: 'controls-cell accept-cell',
 					        orderable: false
