@@ -185,12 +185,11 @@ function addLead(id, transactionId) {
                     hideLoader();
                     var template = $('#success-message-template').html();
                     $('#lead-msg').html(template.replace('{1}', transactionId));
-
                     $('#leads-error-message').hide();
                     $('#section-before-table').append($('#msg-lead-accepted'));
                     $('#section-before-table #msg-lead-accepted').show();
-                    removeLead(id);
                 }
+                removeLead(id);
 
                 $('.modal').modal('hide');
             }

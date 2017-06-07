@@ -1195,7 +1195,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var errorMsg = Resources.Resources.ThisLeadCannotBeAssignedToYou;
+                    var errorMsg = Resources.Resources.UnfortunatelyThisLeadIsNoLongerAvailable;
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
@@ -1208,7 +1208,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Failed to remove contract", ex);
+                _loggingService.LogError("Failed to assign contract", ex);
                 alerts.Add(new Alert()
                 {
                     Type = AlertType.Error,

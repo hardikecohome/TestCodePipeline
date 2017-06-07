@@ -997,15 +997,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This lead can not be assigned to you.
-        /// </summary>
-        public static string ThisLeadCannotBeAssignedToYou {
-            get {
-                return ResourceManager.GetString("ThisLeadCannotBeAssignedToYou", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Transaction ID.
         /// </summary>
         public static string TransactionId {
@@ -1029,6 +1020,15 @@ namespace DealnetPortal.Api.Resources {
         public static string TypeOfApplication {
             get {
                 return ResourceManager.GetString("TypeOfApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfortunately this lead is no longer available.
+        /// </summary>
+        public static string UnfortunatelyThisLeadIsNoLongerAvailable {
+            get {
+                return ResourceManager.GetString("UnfortunatelyThisLeadIsNoLongerAvailable", resourceCulture);
             }
         }
         
