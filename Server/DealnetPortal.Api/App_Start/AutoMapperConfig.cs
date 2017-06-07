@@ -294,7 +294,7 @@ namespace DealnetPortal.Api.App_Start
                .ForMember(d => d.Dealer, s => s.Ignore());
             mapperConfig.CreateMap<CustomerDTO, Customer>()
                 .ForMember(x => x.Sin, s => s.ResolveUsing(src => string.IsNullOrWhiteSpace(src.Sin) ? null : src.Sin))
-                .ForMember(x => x.DriverLicenseNumber, s => s.ResolveUsing(src => string.IsNullOrWhiteSpace(src.DriverLicenseNumber) ? null : src.Sin))
+                .ForMember(x => x.DriverLicenseNumber, s => s.ResolveUsing(src => string.IsNullOrWhiteSpace(src.DriverLicenseNumber) ? null : src.DriverLicenseNumber))
                 .ForMember(x => x.PreferredContactMethod, s => s.MapFrom(m => m.PreferredContactMethod))
                 .ForMember(x => x.AccountId, d => d.Ignore());
 

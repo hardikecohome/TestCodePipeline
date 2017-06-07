@@ -227,7 +227,7 @@ function removeContract() {
             method: 'post',
             success: function (result) {
                 if (result.isSuccess) {
-                    table.row(tr).remove().draw();
+                    table.row(tr).remove().draw(false);
                 } else if (result.isError) {
                     alert(translations['Error']);
                 }

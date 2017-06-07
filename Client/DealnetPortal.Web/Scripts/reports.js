@@ -175,7 +175,7 @@ function showTable() {
             recalculateTotalForSelected();
         });
         $(".filter-button").click(function () {
-            table.draw(false);
+            table.draw();
         });
         $('#clear-filters').click(function () {
             $('.filter-input').val("");
