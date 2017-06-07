@@ -406,13 +406,13 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 body.AppendLine($"<p {pStyle}>{addres}</p>");
             }
-            if (dealer.Phones.Any())
+            if (dealer.Phones?.FirstOrDefault()!=null)
             {
                 body.AppendLine($"<p {pStyle}>{Resources.Resources.Phone}: {dealer.Phones.First().PhoneNum}</p>");
             }
-            if (!string.IsNullOrEmpty(contract.Dealer.Email))
+            if (dealer.Emails?.FirstOrDefault() !=null)
             {
-                body.AppendLine($"<p {pStyle}>{Resources.Resources.Mail}: {contract.Dealer.Email}</p>");
+                body.AppendLine($"<p {pStyle}>{Resources.Resources.Mail}: {dealer.Emails.FirstOrDefault().EmailAddress}</p>");
             }
             body.AppendLine("<br />");
             body.AppendLine("<br />");
