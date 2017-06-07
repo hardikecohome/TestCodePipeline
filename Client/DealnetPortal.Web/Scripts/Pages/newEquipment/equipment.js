@@ -1,6 +1,6 @@
 ﻿module.exports('equipment', function (require) {
 
-    var state = require('rate-cards').state;
+    var state = require('state').state;
     var equipmentTemplateFactory = require('equipment-template');
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
     var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
@@ -46,25 +46,10 @@
             var nextEquipment = $('#new-equipment-' + nextId);
             if (!nextEquipment.length) { break; }
 
-            var labels = nextEquipment.find('label');
-            labels.each(function () {
-                $(this).attr('for', $(this).attr('for').replace('NewEquipment_' + nextId, 'NewEquipment_' + nextId - 1));
-            });
-            var inputs = nextEquipment.find('input, select, textarea');
-            inputs.each(function () {
-                $(this).attr('id', $(this).attr('id').replace('NewEquipment_' + nextId, 'NewEquipment_' + (nextId - 1)));
-                $(this).attr('name', $(this).attr('name').replace('NewEquipment[' + nextId, 'NewEquipment[' + (nextId - 1)));
-            });
-            var spans = nextEquipment.find('span');
-            spans.each(function () {
-                var valFor = $(this).attr('data-valmsg-for');
-                if (valFor == null) { return; }
-                $(this).attr('data-valmsg-for', valFor.replace('NewEquipment[' + nextId, 'NewEquipment[' + (nextId - 1)));
-            });
-            nextEquipment.find('.equipment-number').text('№' + nextId);
-            var removeButton = nextEquipment.find('#addequipment-remove-' + nextId);
-            removeButton.attr('id', 'addequipment-remove-' + (nextId - 1));
-            nextEquipment.attr('id', 'new-equipment-' + (nextId - 1));
+            updateLabelIndex(nextEquipment, nextId);
+            updateInputIndex(nextEquipment, nextId);
+            updateValidationIndex(nextEquipment, nextId);
+            updateButtonIndex(nextEquipment, nextId);
 
             state.equipments[nextId].id = (nextId - 1).toString();
             state.equipments[nextId - 1] = state.equipments[nextId];
@@ -105,6 +90,39 @@
             recalculateValuesAndRender();
         }
     };
+
+    function updateLabelIndex(selector, index) {
+        var labels = selector.find('label');
+        labels.each(function () {
+            $(this).attr('for', $(this).attr('for').replace('NewEquipment_' + index, 'NewEquipment_' + index - 1));
+        });
+    }
+
+    function updateInputIndex(selector, index) {
+        var inputs = selector.find('input, select, textarea');
+
+        inputs.each(function () {
+            $(this).attr('id', $(this).attr('id').replace('NewEquipment_' + index, 'NewEquipment_' + (index - 1)));
+            $(this).attr('name', $(this).attr('name').replace('NewEquipment[' + index, 'NewEquipment[' + (index - 1)));
+        });
+    }
+
+    function updateValidationIndex(selector, index) {
+        var spans = selector.find('span');
+
+        spans.each(function () {
+            var valFor = $(this).attr('data-valmsg-for');
+            if (valFor == null) { return; }
+            $(this).attr('data-valmsg-for', valFor.replace('NewEquipment[' + index, 'NewEquipment[' + (index - 1)));
+        });
+    }
+
+    function updateButtonIndex(selector, index) {
+        selector.find('.equipment-number').text('№' + index);
+        var removeButton = selector.find('#addequipment-remove-' + index);
+        removeButton.attr('id', 'addequipment-remove-' + (index - 1));
+        selector.attr('id', 'new-equipment-' + (index - 1));
+    }
 
     var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
 

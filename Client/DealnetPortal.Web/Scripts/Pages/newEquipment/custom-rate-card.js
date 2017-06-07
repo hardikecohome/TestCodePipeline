@@ -1,42 +1,42 @@
 ﻿module.exports('custom-rate-card', function (require) {
     var setters = require('value-setters');
-
-    var setValidationOnCustomRateCard = function() {
-        $('#CustomYCostVal').rules('add', {
-            number: true,
-            minlength: 0
-        });
-
-        $('#CustomAFee').rules('add', {
-            number: true,
-            minlength: 0
-        });
-
-        $('#CustomCRate').rules('add', {
-            required: true,
-            minlength: 1,
-            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-
-        $('#CustomAmortTerm').rules('add', {
-            required: true,
-            minlength: 1,
-            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-
-        $('#CustomLoanTerm').rules('add', {
-            required: true,
-            minlength: 1,
-            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-    }
+    var state = require('state').state;
 
     var validateOnSelect = function () {
         var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm'].every(function (field) {
             return $("#" + field).valid();
         });
 
-        return isValid;
+        if (isValid) { return true; }
+
+        var panel = $(this).parent();
+        $.grep(panel.find('input[type="text"]'), function (inp) {
+            var input = $(inp);
+            if (input.val() === '' && !(input.is('#CustomYCostVal') || input.is('#CustomAFee'))) {
+                input.addClass('input-validation-error');
+            }
+        });
+
+        return false;
+    }
+
+    var submitCustomRateCard = function (event, option) {
+
+        if ($('#amortLoanTermError').is(':visible')) {
+            event.preventDefault();
+        }
+
+        var customSlicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
+
+        $('#AmortizationTerm').val(state[option].AmortizationTerm);
+        $('#LoanTerm').val(state[option].LoanTerm);
+        $('#CustomerRate').val(state[option].CustomerRate);
+        $('#AdminFee').val(state[option].AdminFee);
+        $('#total-monthly-payment').val(customSlicedTotalMPayment);
+        if (state[option].DeferralPeriod === '')
+            $('#LoanDeferralType').val(state[option].DeferralPeriod);
+
+        $('#SelectedRateCardId').val(0);
     }
 
     // custom option
@@ -69,14 +69,42 @@
             }
         }
     }
+
     function numericHandler() {
-        // Remove invalid characters
         var sanitized = $(this).val().replace(/[^0-9]/g, '');
-        // Update value
         $(this).val(sanitized);
     }
 
+    $('#CustomYCostVal').rules('add', {
+        number: true,
+        minlength: 0
+    });
+
+    $('#CustomAFee').rules('add', {
+        number: true,
+        minlength: 0
+    });
+
+    $('#CustomCRate').rules('add', {
+        required: true,
+        minlength: 1,
+        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+    });
+
+    $('#CustomAmortTerm').rules('add', {
+        required: true,
+        minlength: 1,
+        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+    });
+
+    $('#CustomLoanTerm').rules('add', {
+        required: true,
+        minlength: 1,
+        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+    });
+
     return {
-        setValidationOnCustomRateCard: setValidationOnCustomRateCard
+        validateOnSelect: validateOnSelect,
+        submitCustomRateCard: submitCustomRateCard
     }
 })

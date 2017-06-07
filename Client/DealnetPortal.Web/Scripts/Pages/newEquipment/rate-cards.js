@@ -9,7 +9,10 @@
     var totalBorrowingCost = require('financial-functions').totalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
     var tax = require('financial-functions').tax;
+    var rateCardBlock = require('rate-cards-ui');
+
     var constants = require('state').constants;
+    var state = require('state').state;
 
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -17,6 +20,44 @@
         return function (id) {
             return obj.hasOwnProperty(id) ? obj[id] : '';
         };
+    };
+
+    var submitRateCard = function (option) {
+        if (option === 'Deferral') {
+            $('#LoanDeferralType').val($('#DeferralPeriodDropdown').val());
+        } else {
+            $('#LoanDeferralType').val('0');
+        }
+
+        //remove percentage symbol
+        var amortizationTerm = $('#' + option + 'AmortizationDropdown').val();
+        var loanTerm = amortizationTerm;
+
+        var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
+        var slicedAdminFee = $('#' + option + 'AFee').text().substring(1);
+        var slicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
+        var cards = sessionStorage.getItem(state.contractId + option);
+        if (cards !== null) {
+            var cardType = $.grep(constants.rateCards, function(c) { return c.name === option; })[0].id;
+
+            var filtred = $.grep($.parseJSON(cards),
+                function(v) {
+                    return v.CardType === cardType &&
+                        v.AmortizationTerm === Number(amortizationTerm) &&
+                        v.AdminFee === Number(slicedAdminFee) &&
+                        v.CustomerRate === Number(slicedCustomerRate);
+                })[0];
+
+            if (filtred !== undefined) {
+                $('#SelectedRateCardId').val(filtred.Id);
+            }
+        }
+
+        $('#AmortizationTerm').val(amortizationTerm);
+        $('#LoanTerm').val(loanTerm);
+        $('#total-monthly-payment').val(slicedTotalMPayment);
+        $('#CustomerRate').val(slicedCustomerRate);
+        $('#AdminFee').val(slicedAdminFee);
     };
 
     var equipmentSum = function (equipments) {
@@ -39,6 +80,7 @@
             $('#totalPrice').text('-');
         }
     };
+
     var togglePromoLabel = function(option) {
         var isPromo = state[option.name].IsPromo;
         if (isPromo) {
@@ -339,54 +381,8 @@
         });
     }
 
-    var setValidationOnCustomRateCard = function () {
-        $('#CustomYCostVal').rules('add', {
-            number: true,
-            minlength: 0
-        });
-
-        $('#CustomAFee').rules('add', {
-            number: true,
-            minlength: 0
-        });
-
-        $('#CustomCRate').rules('add', {
-            required: true,
-            minlength: 1,
-            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-
-        $('#CustomAmortTerm').rules('add', {
-            required: true,
-            minlength: 1,
-            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-
-        $('#CustomLoanTerm').rules('add', {
-            required: true,
-            minlength: 1,
-            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-    }
-
     function renderRateCardUi(isNewContract) {
-        setValidationOnCustomRateCard();
-
-        if (isNewContract) {
-            $('#rateCardsBlock').show('slow', function () {
-                $('#loanRateCardToggle').find('i.glyphicon')
-                    .removeClass('glyphicon-chevron-right')
-                    .addClass('glyphicon-chevron-down');
-            });
-
-
-        } else {
-            $('#rateCardsBlock').hide('slow', function () {
-                $('#loanRateCardToggle').find('i.glyphicon')
-                    .removeClass('glyphicon-chevron-down')
-                    .addClass('glyphicon-chevron-right');
-            });
-        }
+        rateCardBlock.toggle(isNewContract);
 
         if ($('#SelectedRateCardId').val() === "") {
             state.selectedCardId = null;
@@ -400,10 +396,10 @@
     }
 
     return {
-        state: state,
         initializeRateCards: initializeRateCards,
         recalculateValuesAndRender: recalculateValuesAndRender,
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
+        submitRateCard: submitRateCard
     }
 })
