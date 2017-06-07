@@ -9,48 +9,7 @@
     var totalBorrowingCost = require('financial-functions').totalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
     var tax = require('financial-functions').tax;
-
-    var contractId;
-    var selectedCardId;
-    var isInialized = false;
-    var isNewContract = true;
-    var rateCards = [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }];
-    var requiredCustomRateCardField = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'];
-    var customDeferralPeriods = [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }];
-    var numberFields = ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'AdminFee'];
-    var notCero = ['equipmentSum', 'LoanTerm', 'AmortizationTerm'];
-
-    window.state = {
-        agreementType: 0,
-        equipments: { },
-        tax: taxRate,
-        downPayment: 0,
-        rentalMPayment: 0,
-        Custom: {
-            LoanTerm: '',
-            AmortizationTerm: '',
-            DeferralPeriod: 0,
-            CustomerRate: '',
-            yourCost: '',
-            AdminFee: 0
-        }
-    };
-
-    var validateOnSelect = function() {
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm'].every(function (field) {
-            return $("#" + field).valid();
-        });
-
-        return isValid;
-    }
-
-    var validateCustomRateCardOnSubmit = function () {
-        var isValid = requiredCustomRateCardField.every(function (field) {
-            return $("#" + field).valid();
-        });
-
-        return isValid;
-    }
+    var constants = require('state').constants;
 
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -94,13 +53,13 @@
     }
 
     var setBasicValues = function () {
-        rateCards.forEach(function (option) {
-            var items = $.parseJSON(sessionStorage.getItem(contractId + option.name));
+        constants.rateCards.forEach(function (option) {
+            var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
 
-            if ((selectedCardId !== null && selectedCardId !== '0') && !isInialized) {
+            if ((state.selectedCardId !== null && state.selectedCardId !== '0') && !state.isInitialized) {
                 var selectedCard = $.grep(items,
                     function(card) {
-                        return card.Id === Number(selectedCardId);
+                        return card.Id === Number(state.selectedCardId);
                     })[0];
 
                 if (selectedCard !== null && selectedCard !== undefined) {
@@ -119,17 +78,17 @@
                     $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
                     $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
                     $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
-                    isInialized = true;
+                    state.isInitialized = true;
                 } else {
                     calculateRateCardValues(option, items);
                 }
             } else {
-                if (option.name === 'Custom' && !isInialized && !isNewContract) {
+                if (option.name === 'Custom' && !state.isInitialized && !state.isNewContract) {
                     $('#CustomLoanTerm').val($('#LoanTerm').val());
                     state[option.name].LoanTerm = Number($('#LoanTerm').val());
                     $('#CustomAmortTerm').val($('#AmortizationTerm').val());
                     state[option.name].AmortizationTerm = Number($('#AmortizationTerm').val());
-                    var deferralPeriod = $.grep(customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
+                    var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
                     $('#CustomDeferralPeriod').val(deferralPeriod === undefined ? 0 : deferralPeriod.val);
                     state[option.name].DeferralPeriod = deferralPeriod === undefined ? 0 : deferralPeriod.val;
                     $('#CustomCRate').val($('#CustomerRate').val());
@@ -140,23 +99,23 @@
                     state[option.name].yourCost = 0;
                     toggleSelectedRateCard('#CustomLoanTerm');
 
-                    isInialized = true;
+                    state.isInitialized = true;
                 } else {
                     calculateRateCardValues(option, items);
                 }
             }
         });
-        selectedCardId = null;
+        //constants.selectedCardId = null;
     }
 
     var renderOption = function (option, data, isRenderDropdowns) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
-        var validateNumber = numberFields.every(function (field) {
+        var validateNumber = constants.numberFields.every(function (field) {
             var result = typeof data[field] === 'number';
             return result;
         });
 
-        var validateNotEmpty = notCero.every(function (field) {
+        var validateNotEmpty = constants.notCero.every(function (field) {
             return data[field] !== 0;
         });
 
@@ -203,14 +162,13 @@
     };
 
     var recalculateValuesAndRender = function (options, isRenderDropdowns) {
-        var optionsToCompute;
+        var optionsToCompute = constants.rateCards;
         var renderDropdowns = isRenderDropdowns === undefined ? true : isRenderDropdowns;
 
         if (options !== undefined && options.length > 0) {
             optionsToCompute = options;
-        } else {
-            optionsToCompute = rateCards;
         }
+        
         var eSum = equipmentSum(state.equipments);
 
         setBasicValues();
@@ -277,13 +235,13 @@
     };
 
     function renderDropdownValues(option, totalAmountFinanced, isRenderDropdowns) {
-        var totalCash = 1000;
+        var totalCash = constants.minimumLoanValue;
         if (totalAmountFinanced > 1000) {
             totalCash = totalAmountFinanced;
         }
 
         if (isRenderDropdowns) {
-            var items = $.parseJSON(sessionStorage.getItem(contractId + option));
+            var items = $.parseJSON(sessionStorage.getItem(state.contractId + option));
             var dropdownValues;
             if (option === 'Deferral') {
                 var dealerCost = state[option].DealerCost;
@@ -307,7 +265,7 @@
 
     function calculateRateCardValues(option, items) {
         //minimum loan value
-        var totalCash = 1000;
+        var totalCash = constants.minimumLoanValue;
         var totalAmountFinanced = +$('#' + option.name + 'TAFinanced').text().substring(1);
 
         if (!isNaN(totalAmountFinanced)) {
@@ -349,22 +307,23 @@
     }
 
     var initializeRateCards = function (id, cards) {
-        contractId = id;
-        isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
+        state.contractId = id;
+        state.isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
 
-        renderRateCardUi(isNewContract);
+        renderRateCardUi(state.isNewContract);
 
-        rateCards.forEach(function (option) {
-            if (sessionStorage.getItem(contractId + option.name) === null) {
+        constants.rateCards.forEach(function (option) {
+            if (sessionStorage.getItem(state.contractId + option.name) === null) {
                 var filtred = $.grep(cards,
                     function (card) {
                         return card.CardType === option.id;
                     });
-                sessionStorage.setItem(contractId + option.name, JSON.stringify(filtred));
+                sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
             }
 
             setHandlers(option);
         });
+
         recalculateValuesAndRender([], true);
     }
 
@@ -377,6 +336,36 @@
             $(this).prop('selected', true);
 
             recalculateValuesAndRender([], false);
+        });
+    }
+
+    var setValidationOnCustomRateCard = function () {
+        $('#CustomYCostVal').rules('add', {
+            number: true,
+            minlength: 0
+        });
+
+        $('#CustomAFee').rules('add', {
+            number: true,
+            minlength: 0
+        });
+
+        $('#CustomCRate').rules('add', {
+            required: true,
+            minlength: 1,
+            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+        });
+
+        $('#CustomAmortTerm').rules('add', {
+            required: true,
+            minlength: 1,
+            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+        });
+
+        $('#CustomLoanTerm').rules('add', {
+            required: true,
+            minlength: 1,
+            regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
         });
     }
 
@@ -400,44 +389,14 @@
         }
 
         if ($('#SelectedRateCardId').val() === "") {
-            selectedCardId = null;
+            state.selectedCardId = null;
         } else {
-            selectedCardId = $('#SelectedRateCardId').val();
+            state.selectedCardId = $('#SelectedRateCardId').val();
         }
 
-        if (isNewContract && selectedCardId === null) {
+        if (state.isNewContract && state.selectedCardId === null) {
             $('#submit').addClass('disabled');
         }
-    }
-
-    function setValidationOnCustomRateCard() {
-      $('#CustomYCostVal').rules('add', {
-        number: true,
-        minlength: 0
-        });
-
-      $('#CustomAFee').rules('add', {
-        number: true,
-        minlength: 0
-        });
-
-      $('#CustomCRate').rules('add', {
-                required: true,
-                minlength: 1,
-                regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-
-      $('#CustomAmortTerm').rules('add', {
-                required: true,
-                minlength: 1,
-                regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
-
-      $('#CustomLoanTerm').rules('add', {
-                required: true,
-                minlength: 1,
-                regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
-        });
     }
 
     return {
@@ -446,9 +405,5 @@
         recalculateValuesAndRender: recalculateValuesAndRender,
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
-        rateCards: rateCards,
-        idToValue: idToValue,
-        validateCustomRateCard : validateCustomRateCardOnSubmit,
-        validateOnSelect : validateOnSelect
     }
 })

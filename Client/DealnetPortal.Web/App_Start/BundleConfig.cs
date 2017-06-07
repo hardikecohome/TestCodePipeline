@@ -171,7 +171,9 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/newEquipment/template.js")
                 .Include("~/Scripts/Pages/newEquipment/equipment.js")
                 .Include("~/Scripts/Pages/newEquipment/value-setters.js")
+                .Include("~/Scripts/Pages/newEquipment/custom-rate-card.js")
                 .Include("~/Scripts/Pages/newEquipment/index.js")
+                .Include("~/Scripts/Pages/newEquipment/state.js")
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")

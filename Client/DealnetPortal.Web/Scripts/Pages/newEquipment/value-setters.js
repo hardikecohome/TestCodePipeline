@@ -1,6 +1,7 @@
 ﻿module.exports('value-setters', function (require) {
 
-    var state = require('rate-cards').state;
+    var state = require('state').state;
+
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
     var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
     var recalculateRentalTaxAndPrice = require('rate-cards').recalculateRentalTaxAndPrice;

@@ -121,11 +121,12 @@
     var isCalculationValid = false;
   </script>
   <script type="text/javascript">
-    configInitialized.then(function() {
+    configInitialized.then(function () {
+      module.require('rate-cards-ui'); 
       module.require('rate-cards').initializeRateCards(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
       module.require('new-equipment');
-      module.require('rate-cards-ui');
       module.require('equipment');
+      module.require('custom-rate-card');
     });
   </script>
 }

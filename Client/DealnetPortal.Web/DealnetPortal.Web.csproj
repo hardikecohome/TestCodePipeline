@@ -816,10 +816,12 @@
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
     <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
+    <Content Include="Scripts\Pages\newEquipment\custom-rate-card.js" />
     <Content Include="Scripts\Pages\newEquipment\equipment.js" />
     <Content Include="Scripts\Pages\newEquipment\index.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards-ui.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards.js" />
+    <Content Include="Scripts\Pages\newEquipment\state.js" />
     <Content Include="Scripts\Pages\newEquipment\template.js" />
     <Content Include="Scripts\Pages\newEquipment\value-setters.js" />
     <Content Include="Scripts\standalone-calculator.js" />

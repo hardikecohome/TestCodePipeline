@@ -1,15 +1,12 @@
 ﻿module.exports('new-equipment',
     function(require) {
-        var state = require('rate-cards').state;
-        var rateCards = require('rate-cards').rateCards;
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
-        var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
-        var recalculateRentalTaxAndPrice = require('rate-cards').recalculateRentalTaxAndPrice;
-        var validateCustomRateCard = require('rate-cards').validateCustomRateCard;
-        var validateOnSelect = require('rate-cards').validateOnSelect;
-        var idToValue = require('rate-cards').idToValue;
         var setters = require('value-setters');
         var equipment = require('equipment');
+
+        var constants = require('state').constants;
+        var state = require('state').state;
+
         // setters
 
         var submitForm = function (event) {
@@ -28,11 +25,6 @@
                     } else {
                         if (option === 'Custom') {
                             if ($('#amortLoanTermError').is(':visible')) {
-                                event.preventDefault();
-                            }
-
-                            if (!validateCustomRateCard()) {
-                                $.validator().showErrors();
                                 event.preventDefault();
                             }
 
@@ -63,7 +55,7 @@
                             var contractId = $('#ContractId').val();
                             var cards = sessionStorage.getItem(contractId + option);
                             if (cards !== null) {
-                                var cardType = $.grep(rateCards, function (c) { return c.name === option; })[0].id;
+                                var cardType = $.grep(constants.rateCards, function (c) { return c.name === option; })[0].id;
 
                                 var filtred = $.grep($.parseJSON(cards),
                                     function (v) {
@@ -94,26 +86,6 @@
             }
         }
 
-        function validateLoanAmortTerm() {
-            var amortTerm = state['Custom'].AmortizationTerm;
-            var loanTerm = state['Custom'].LoanTerm;
-            if (typeof amortTerm == 'number' && typeof loanTerm == 'number') {
-                if (loanTerm > amortTerm) {
-                    if ($('#amortLoanTermError').is(':hidden')) {
-                        $('#amortLoanTermError').show();
-                        $('#amortLoanTermError').parent().find('input[type="text"]')
-                            .addClass('input-validation-error');
-                    }
-                } else {
-                    if ($('#amortLoanTermError').is(':visible')) {
-                        $('#amortLoanTermError').hide();
-                        $('#amortLoanTermError').parent().find('input[type="text"]')
-                            .removeClass('input-validation-error');
-                    }
-                }
-            }
-        }
-
         // submit
         $('#equipment-form').submit(submitForm);
 
@@ -124,6 +96,7 @@
         $('#total-monthly-payment').on('change', setters.setRentalMPayment);
 
         $('.btn-select-card').on('click', function () {
+            $(this).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
             recalculateValuesAndRender([], false);
             var option = $(this).parent().find('#hidden-option').text();
             if (option === 'Custom' && !validateOnSelect()) {
@@ -142,14 +115,6 @@
                 });
             }
         });
-
-        // custom option
-        $('#CustomLoanTerm').on('change', setters.setLoanTerm('Custom'));
-        $('#CustomAmortTerm').on('change', setters.setAmortTerm('Custom'));
-        $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
-        $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
-        $('#CustomYCostVal').on('change', setters.setYourCost('Custom'));
-        $('#CustomAFee').on('change', setters.setAdminFee('Custom'));
 
         // deferral
         $('#deferralLATerm').on('change', function(e) {

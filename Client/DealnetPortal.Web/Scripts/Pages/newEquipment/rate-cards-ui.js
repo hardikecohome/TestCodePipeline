@@ -20,7 +20,6 @@
 
         $('.btn-select-card').on('click',
             function () {
-                $(this).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
                 return false;
             });
         $('#typeOfAgreementSelect').on('change',
