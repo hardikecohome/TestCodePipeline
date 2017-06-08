@@ -44,6 +44,10 @@
     <Reference Include="DealnetPortal.Utilities">
       <HintPath>..\..\lib\DealnetPortal.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Practices.Unity.dll</HintPath>
@@ -67,16 +71,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDealerServiceAgent.cs" />
+    <Compile Include="DealerServiceAgent.cs" />
     <Compile Include="ContractServiceAgent.cs" />
     <Compile Include="DictionaryServiceAgent.cs" />
     <Compile Include="IContractServiceAgent.cs" />
     <Compile Include="ITransientHttpApiClient.cs" />
     <Compile Include="IDictionaryServiceAgent.cs" />
     <Compile Include="IStorageServiceAgent.cs" />
-    <Compile Include="Managers\ISecurityManager.cs" />
-    <Compile Include="Managers\ISettingsManager.cs" />
-    <Compile Include="Managers\SecurityManager.cs" />
-    <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="ScanProcessingServiceAgent.cs" />
     <Compile Include="IScanProcessingServiceAgent.cs" />
     <Compile Include="IUserManagementServiceAgent.cs" />

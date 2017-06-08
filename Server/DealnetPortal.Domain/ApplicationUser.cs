@@ -40,6 +40,8 @@ namespace DealnetPortal.Domain
         [ForeignKey("CustomerLinkId")]
         public virtual CustomerLink CustomerLink { get; set; }
 
+        public int? DealerProfileId { get; set; }
+
         public int? TierId { get; set; }
         [ForeignKey("TierId")]
         public virtual Tier Tier { get; set; }

@@ -1,3 +1,6 @@
+body.modal-open .ui-datepicker{
+  z-index: 1051 !important;
+}
 .ui-datepicker {
   font: 14px @usual-font-family;
   &.ui-widget-content{
@@ -5,9 +8,14 @@
     padding: 10px 10px 5px;
     border-radius: 4px;
     width: 320px;
-    z-index: 1060 !important;
+    z-index: 50 !important;
     @media @mobile {
       width: 290px;
+    }
+  }
+  &.cards-datepicker{
+    @media @mobile {
+      margin-left: -15px;
     }
   }
   table{
@@ -210,10 +218,10 @@ html.ie9{
 
 
 /*Datepicker for mobile devices*/
-body.hasDatepicker{
+body.bodyHasDatepicker{
   position: relative;
 }
-body.hasDatepicker .navbar-fixed-side{
+body.bodyHasDatepicker .navbar-fixed-side{
   position: absolute;
 }
 .ui-datepicker-title{

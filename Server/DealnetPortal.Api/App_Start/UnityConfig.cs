@@ -2,6 +2,7 @@ using System.Configuration;
 using System.Web.Hosting;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
+using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.ServiceAgents;
@@ -61,8 +62,13 @@ namespace DealnetPortal.Api
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
             container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["EcoreApiUrl"]));
+            container.RegisterType<IHttpApiClient, HttpApiClient>("CustomerWalletClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["CustomerWalletApiUrl"]));
+
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
+
+            container.RegisterType<ICustomerWalletServiceAgent, CustomerWalletServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("CustomerWalletClient")));
+            container.RegisterType<ICustomerWalletService, CustomerWalletService>();
 
             var queryFolderName = ConfigurationManager.AppSettings["QueriesFolder"] ?? "Queries";
             var queryFolder = HostingEnvironment.MapPath($"~/{queryFolderName}") ?? queryFolderName;
@@ -71,12 +77,17 @@ namespace DealnetPortal.Api
             container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
                 new InjectionConstructor(System.Configuration.ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
             container.RegisterType<IAspireStorageReader, AspireStorageReader>();
+            container.RegisterType<IUsersService, UsersService>();
 
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));
             container.RegisterType<ISignatureEngine, DocuSignSignatureEngine>();
             container.RegisterType<IPdfEngine, PdfSharpEngine>();
-            
-            
+            //container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
+            container.RegisterType<ISignatureService, SignatureService>();
+            container.RegisterType<IMailService, MailService>();
+            container.RegisterType<IEmailService, EmailService>();
+            container.RegisterType<IDealerService, DealerService>();
+            container.RegisterType<IBackgroundSchedulerService, BackgroundSchedulerService>();
 
         }
     }

@@ -50,6 +50,14 @@
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Hangfire.Core, Version=1.6.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.6.12\lib\net45\Hangfire.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.6.12\lib\net45\Hangfire.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
@@ -214,6 +222,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\Startup.Scheduler.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
@@ -246,6 +255,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\DealerController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -268,6 +279,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\emails\customer-notification-email.html" />
+    <Content Include="Content\emails\images\icon-email.png" />
+    <Content Include="Content\emails\images\icon-phone.png" />
     <Content Include="Content\emails\images\icon-success.png" />
     <Content Include="Content\images\home-page%402x.png" />
     <Content Include="Content\images\home-page%403x.png" />
@@ -292,6 +305,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Queries\DealerRoleInformation.sql" />
     <Content Include="Queries\FindCustomer.sql" />
     <Content Include="Queries\GetCustomerById.sql" />
     <Content Include="Queries\GetDealerDeals.dev.sql">
@@ -367,6 +381,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DealnetPortal.Api.BackgroundScheduler\DealnetPortal.Api.BackgroundScheduler.csproj">
+      <Project>{5B19A2C3-CECB-42F2-8B54-C04FD3DE8C83}</Project>
+      <Name>DealnetPortal.Api.BackgroundScheduler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">
       <Project>{23FA957A-A9DE-4929-9FFD-603BAE271FBA}</Project>
       <Name>DealnetPortal.Api.Common</Name>

@@ -1,17 +1,15 @@
-﻿using System;
+﻿using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.ServiceAgent;
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize(Roles = "Dealer")]
     public class ReportsController : Controller
     {
         private readonly IContractServiceAgent _contractServiceAgent;

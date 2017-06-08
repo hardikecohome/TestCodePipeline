@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Policy;
+using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
@@ -18,6 +21,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
         }
 
+        #region Public
         public Contract CreateContract(string contractOwnerId)
         {
             Contract contract = null;
@@ -50,6 +54,66 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
                 .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();
+            return contracts;
+        }
+
+        public IList<Contract> GetDealerLeads(string userId)
+        {
+            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
+                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
+                : new string[] {"20-Credit Review"};
+            //var aspireCreditReviewState = ConfigurationManager.AppSettings["CreditReviewStatus"] ?? "20-Credit Review";
+            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
+            var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
+            var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
+            var pcList = dealerProfile?.Areas.Select(e => e.PostalCode);
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)
+                .Where(c => (c.IsCreatedByBroker == true
+                || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
+                c.Equipment.NewEquipment.Any() &&
+                c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress) &&
+                (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
+            if (eqList!=null && eqList.Any())
+            {
+                contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment?.NewEquipment?.FirstOrDefault()?.Type)).ToList();
+            }
+            if (pcList!=null && pcList.Any())
+            {
+                contracts = contracts.Where(c => pcList.Any(pc => 
+                    c.PrimaryCustomer.Locations?.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress)?.PostalCode.Contains(pc) ?? false)).ToList();
+            }
+             
+            return contracts;
+        }
+
+        /// <summary>
+        /// Get contract created by an user (dealer)
+        /// </summary>
+        /// <param name="ownerUserId">user Id</param>
+        /// <returns>List of contracts</returns>
+        public IList<Contract> GetContractsCreatedByUser(string userId)
+        {
+            var user = GetUserById(userId);
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)
+                .Where(c => c.CreateOperator == user.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList();
             return contracts;
         }
 
@@ -148,6 +212,56 @@ namespace DealnetPortal.DataAccess.Repositories
                     c =>
                         c.Id == contractId &&
                         (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
+        }
+
+        public Contract AssignContract(int contractId, string newContractOwnerId)
+        {
+            var updated = false;
+
+            var contract = _dbContext.Contracts
+               .Include(x => x.Equipment.NewEquipment)
+               .Include(x => x.PrimaryCustomer)
+               .Include(x => x.Dealer.Claims)
+               .Include(c => c.PrimaryCustomer.Locations)
+               .FirstOrDefault(x => x.Id == contractId);            
+
+            if (contract != null)
+            {
+                if (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true)
+                {                    
+                    if (contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null)
+                    {
+                        var mainLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
+                        if (mainLoc != null)
+                        {
+                            _dbContext.Entry(mainLoc).State = EntityState.Deleted;                                                        
+                        }
+                        //?
+                        var installLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
+                        if (installLoc != null)
+                        {
+                            installLoc.AddressType = AddressType.MainAddress;                            
+                        }
+                    }
+                }
+
+                var dealer = GetDealer(newContractOwnerId);
+
+                if (dealer != null && (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true))
+                {
+                    contract.DealerId = dealer.Id;
+                    contract.IsNewlyCreated = true;
+                    contract.IsCreatedByBroker = false;
+                    contract.IsCreatedByCustomer = false;
+                    contract.LastUpdateTime = DateTime.Now;
+
+                    _dbContext.Entry(contract).State = EntityState.Modified;
+
+                    updated = true;
+                }
+            }
+
+            return updated ? contract : null;
         }
 
         public bool DeleteContract(string contractOwnerId, int contractId)
@@ -361,11 +475,15 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         dbCustomer.AllowCommunicate = customerInfo.AllowCommunicate;
                     }
-                    if (customerInfo.DriverLicenseNumber != null)
+                    if (customerInfo.PreferredContactMethod.HasValue)
+                    {
+                        dbCustomer.PreferredContactMethod = customerInfo.PreferredContactMethod;
+                    }
+                    if (!string.IsNullOrWhiteSpace(customerInfo.DriverLicenseNumber))
                     {
                         dbCustomer.DriverLicenseNumber = customerInfo.DriverLicenseNumber;
                     }
-                    if (customerInfo.Sin != null)
+                    if (!string.IsNullOrWhiteSpace(customerInfo.Sin))
                     {
                         dbCustomer.Sin = customerInfo.Sin;
                     }
@@ -405,6 +523,11 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<EquipmentType> GetEquipmentTypes()
         {
             return _dbContext.EquipmentTypes.ToList();
+        }
+
+        public EquipmentType GetEquipmentTypeInfo(string type)
+        {
+            return _dbContext.EquipmentTypes.FirstOrDefault(et => et.Type == type);
         }
 
         public IList<DocumentType> GetDocumentTypes()
@@ -666,6 +789,61 @@ namespace DealnetPortal.DataAccess.Repositories
             return cmmntId;
         }
 
+        public bool IsContractUnassignable(int contractId)
+        {
+            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
+                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
+                : new string[] { "20-Credit Review" };
+            var mortgageBrokerRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.MortgageBroker.ToString())?.Id;
+            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
+
+            if (_dbContext.Users.Any(u => u.DealerProfileId == null &&
+            !u.Roles.Select(r => r.RoleId).ToList().Contains(mortgageBrokerRoleId.ToString()) &&
+            !u.Roles.Select(r => r.RoleId).ToList().Contains(contractCreatorRoleId.ToString()) &&
+            !string.IsNullOrEmpty(u.AspireLogin)))
+                return false;
+
+            var contract = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.Dealer.Roles)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .SingleOrDefault(c => c.Id == contractId);
+            if (contract == null)
+            {
+                return false;
+            }
+            if (contract.ContractState < ContractState.CreditContirmed || creditReviewStates.Contains(contract.Details.Status))
+            {
+                return false;
+            }
+            var contractEquipment = contract?.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
+            var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode;
+            return !_dbContext.DealerProfiles.Any(dp => dp.Equipments.Any(e => e.Equipment.Type == contractEquipment)
+                                                        && dp.Areas.Any(a => a.PostalCode.Length <= contractPostalCode.Length &&
+                                                            contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
+        }
+
+        public IList<Contract> GetExpiredContracts(DateTime expiredDate)
+        {
+            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
+
+            return _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.Dealer.Roles)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Where(c => c.CreationTime <= expiredDate && 
+                (c.IsCreatedByBroker==true || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId)) &&
+                c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.InstallationAddress) &&
+                c.Equipment.NewEquipment.Any()).ToList();
+        }
+        #endregion
+
+        #region Private
         private bool CheckContractAccess(int contractId, string contractOwnerId)
         {
             return _dbContext.Contracts
@@ -1142,5 +1320,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
             return true;
         }
+        #endregion
+
     }
 }

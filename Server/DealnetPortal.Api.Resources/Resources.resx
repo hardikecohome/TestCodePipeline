@@ -661,4 +661,97 @@
   <data name="NoInterest" xml:space="preserve">
     <value>No Interest</value>
   </data>
+  <data name="Congratulations" xml:space="preserve">
+    <value>Congratulations</value>
+  </data>
+  <data name="Hi" xml:space="preserve">
+    <value>Hi</value>
+  </data>
+  <data name="InCaseOfQuestionsPleaseContact" xml:space="preserve">
+    <value>In case of questions please contact</value>
+  </data>
+  <data name="OnThe" xml:space="preserve">
+    <value>on the</value>
+  </data>
+  <data name="PleaseSignInUsingYourEmailAddressAndFollowingPassword" xml:space="preserve">
+    <value>Please sign in using your email address and following password</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="ThanksForYourInterestInHomeImprovementService" xml:space="preserve">
+    <value>Thanks for your interest in home improvement service</value>
+  </data>
+  <data name="WeAreNowLookingForheBest" xml:space="preserve">
+    <value>We’re now looking for the best home professional in your area - selected contractor will contact you soon.</value>
+  </data>
+  <data name="YouCanViewYourAccountOn" xml:space="preserve">
+    <value>You can view your account on</value>
+  </data>
+  <data name="YouHaveBeen" xml:space="preserve">
+    <value>You have been</value>
+  </data>
+  <data name="WeFoundHomeProfessionalForYour" xml:space="preserve">
+    <value>We found home professional for your home improvement project</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>for</value>
+  </data>
+  <data name="IfYouHaveQuestionsToHomeProfessionalPleaseContact" xml:space="preserve">
+    <value>If you have any question to home professional please contact</value>
+  </data>
+  <data name="InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact" xml:space="preserve">
+    <value>In case remarks about selected home professionals please contact</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Mail</value>
+  </data>
+  <data name="WeAreLookingForTheBestProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>We’re looking for the best professional for your home improvement project</value>
+  </data>
+  <data name="WillContactYouSoonText" xml:space="preserve">
+    <value>will contact you soon</value>
+  </data>
+  <data name="WeFoundHomeProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>We found home professional for your home improvement project</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Client’s comment</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Contact information</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="HomeImprovementType" xml:space="preserve">
+    <value>Home improvement type</value>
+  </data>
+  <data name="MobilePhone" xml:space="preserve">
+    <value>Mobile phone</value>
+  </data>
+  <data name="NoDealersMatchingCustomerLead" xml:space="preserve">
+    <value>No dealers matching customer lead (type: {0}, postal code: {1})</value>
+  </data>
+  <data name="PreferredContactMethod" xml:space="preserve">
+    <value>Preferred contact method</value>
+  </data>
+  <data name="ThereAreNoDealersMatchingFollowingLead" xml:space="preserve">
+    <value>There are no dealers matching following lead</value>
+  </data>
+  <data name="TransactionId" xml:space="preserve">
+    <value>Transaction ID</value>
+  </data>
+  <data name="FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h" xml:space="preserve">
+    <value>Following lead has not been accepted by any dealer for {0}h</value>
+  </data>
+  <data name="CustomerLeadHasNotBeenAcceptedByAnyDealerFor" xml:space="preserve">
+    <value>Customer lead has not been accepted by any dealer for {0}h (type: {1}, postal code: {2})</value>
+  </data>
+  <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
+    <value>Unfortunately this lead is no longer available</value>
+  </data>
 </root>

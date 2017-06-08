@@ -33,6 +33,9 @@ namespace DealnetPortal.Web.Models
         public string PaymentType { get; set; }
         public bool IsNewlyCreated { get; set; }
         public bool IsCreatedByCustomer { get; set; }
+        public string PostalCode { get; set; }
+        public string PreApprovalAmount { get; set; }
+        public string CustomerComment { get; set; }
         public bool IsInternal { get; set; }
     }
 }

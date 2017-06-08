@@ -67,6 +67,17 @@
       }
     });
 
+    $('body.ios-device').on('touchend', function (event) {
+      if ($('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker, .ui-datepicker-header').length == 0) {
+        if ($(event.target).children('input.acrive-datePicker-input').length === 0) {
+          $('#ui-datepicker-div').hide();
+          $('.acrive-datePicker-input').blur();
+          $('.acrive-datePicker-input').removeAttr('readonly');
+          $('.acrive-datePicker-input').removeClass('acrive-datePicker-input');
+        }
+      }
+    });
+
     //Apply function placeholder for ie browsers
     $("input, textarea").placeholder();
 
@@ -293,7 +304,7 @@
         currentTab.parents('.documents-pills-item').addClass('active');
       });
     }
-      $('.customer-loan-form-panel .panel-heading').on('click', function(){
+      $('.customer-loan-form-panel .panel-heading, .accordion-panels-hold .panel-heading').on('click', function(){
         panelCollapsed($(this));
       });
 
@@ -465,26 +476,30 @@ function has_scrollbar(elem, className)
 }
 
 function inputDateFocus(input){
-  input.on('click touchend', function(){
-    if(viewport().width < 768)
-    {
-      if($('body').not('.hasDatepicker')){
-        $('body').addClass('hasDatepicker');
-      }
-    }
-  }).on('focus', function(){
+
+input.on('focus', function(){
     setTimeout(customDPSelect, 0);
     if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
       $(this).blur()
         .addClass('focus');
+    } else {
+        if (!$(this).hasClass('acrive-datePicker-input')) {
+            $(this).addClass('acrive-datePicker-input');
+            $(this).attr('readonly', 'readonly');
+            if (!$('#ui-datepicker-div').is(':visible')) {
+                $('#ui-datepicker-div').show();
+            }
+        }
     }
   });
 }
 
 function onDateSelect(input){
   input
-    .removeClass('focus');
-  $('body').removeClass('hasDatepicker');
+    .removeClass('focus')
+    .removeClass('acrive-datePicker-input')
+    .removeAttr('readonly', 'readonly');
+  $('body').removeClass('bodyHasDatepicker');
 }
 
 function documentsColHeight(){
@@ -558,8 +573,8 @@ function resetDataTablesExpandedRows(table){
 function redrawDataTablesSvgIcons(){
   /*Redraw svg icons inside dataTable only for ie browsers*/
   if(detectIE()){
-    if($('.dataTable .edit-control a').length > 0){
-      $('.edit-control a').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
+    if($('.dataTable .edit-control a, .dataTable a.icon-link.icon-edit').length > 0){
+      $('.edit-control a, a.icon-link.icon-edit').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
     }
     if($('.dataTable .checkbox-icon').length > 0){
       $('.checkbox-icon').html('<svg aria-hidden="true" class="icon icon-checked"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-checked"></use></svg>');
@@ -570,8 +585,11 @@ function redrawDataTablesSvgIcons(){
     if($('.dataTable .contract-controls a.export-item').length > 0){
       $('.contract-controls a.export-item').html('<svg aria-hidden="true" class="icon icon-excel"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-excel"></use></svg>');
     }
-    if ($('.dataTable .remove-control a').length > 0) {
-        $('.remove-control a').html('<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg>');
+    if ($('.dataTable .remove-control a, .dataTable a.icon-link.icon-remove').length > 0) {
+        $('.remove-control a, a.icon-link.icon-remove').html('<svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-trash"></use></svg>');
+    }
+    if ($('.dataTable a.link-accepted').length > 0) {
+        $('a.link-accepted').html('<svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg>');
     }
   }
 }
@@ -661,7 +679,7 @@ function addIconsToFields(fields){
   fields.each(function(){
     //var fieldParent = $(this).parent('.control-group:not(.date-group):not(.control-group-pass)');
     var fieldParent = $(this).parent('.control-group').not(fieldDateParent).not(fieldPassParent);
-    if(!$(this).is(".dealnet-disabled-input") && $(this).attr("type") !== "hidden"){
+    if(!$(this).is(".dealnet-disabled-input") && !$(this).is(".form-control-not-clear") && $(this).attr("type") !== "hidden"){
       if(fieldParent.children('.clear-input').length === 0){
         fieldParent.append(iconClearField);
       }

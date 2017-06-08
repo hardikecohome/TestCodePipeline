@@ -1,37 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
-using DealnetPortal.Api.Common.Constants;
+﻿using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Web.Common.Constants;
-using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
+
 using Microsoft.Practices.ObjectBuilder2;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Controllers
-{    
-    [AuthFromContext]
+{
+    [Authorize(Roles = "Dealer")]
     public class NewRentalController : UpdateDataController
     {
         private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent; 
@@ -51,16 +43,26 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContractEdit(int contractId)
         {
             var contractResult = await _contractServiceAgent.GetContract(contractId);
+
             if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
+                var isNewlyCreated = contractResult.Item1.IsNewlyCreated;
+
                 if (contractResult.Item1.IsNewlyCreated == true)
                 {
-                    var noWarning = _contractServiceAgent.NotifyContractEdit(contractId);
+                    var result = await _contractServiceAgent.NotifyContractEdit(contractId);
+
+                    if (result.All(c => c.Type != AlertType.Error))
+                    {
+                        isNewlyCreated = false;
+                    }
                 }
-                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && contractResult.Item1.IsNewlyCreated != true)
+
+                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
+
                 if (contractResult.Item1.ContractState >= ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
                 {
                     return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
@@ -475,6 +477,7 @@ namespace DealnetPortal.Web.Controllers
                         ContractId = emails.ContractId,
                         Emails = emls
                     };
+
                     await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] { customer });
                 }
             }
@@ -649,6 +652,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<JsonResult> CheckContractAgreement(int contractId)
         {            
             var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+
             return Json(result.Item1);
         }
 

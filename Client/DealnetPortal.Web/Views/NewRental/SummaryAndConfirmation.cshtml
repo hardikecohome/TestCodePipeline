@@ -8,6 +8,12 @@
     var noNaming = Resources.No;
     var provinces = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
 }
+<style>
+  .pac-container {
+    z-index: 100000 !important;
+  }
+</style>
+
 <div id="label-steps">
     <div class="dealnet-action-link">@Resources.NewApplication</div> >
 </div>
@@ -2186,8 +2192,6 @@
     @*translations['TotalCostGreaterThanAmount'] = "@Resources.TotalCostGreaterThanAmount";*@
 }
 
-<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
-
 @section scripts
 {
     <script type="text/javascript">
@@ -2206,9 +2210,10 @@
         }
         @*var creditAmount = @Model.EquipmentInfo.CreditAmount;*@
     </script>
-
-    @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
+    @Scripts.Render("~/bundles/summary-and-confirmation")
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -2230,7 +2235,6 @@
             }
         });
     </script>
-    @Scripts.Render("~/bundles/summary-and-confirmation")
 
     @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
     {
@@ -2244,5 +2248,4 @@
             var recalculateTotalCash = false;
         </script>
     }
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
 }

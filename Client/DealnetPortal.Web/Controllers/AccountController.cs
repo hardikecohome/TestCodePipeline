@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
-using DealnetPortal.Api.Common.Constants;
+﻿using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
-using DealnetPortal.Web.Common;
-using DealnetPortal.Web.Common.Culture;
-using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
+
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -115,7 +107,7 @@ namespace DealnetPortal.Web.Controllers
 
         // POST: /Account/LogOff
         [HttpGet]
-        [AuthFromContext]
+        [Authorize]
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {

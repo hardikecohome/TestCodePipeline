@@ -3,8 +3,26 @@ body:not(.tablet-device):not(.mobile-device){
     td, th {
       &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell){
         width: 40% !important;
+        min-width: 60px;
         @media @desktop-lg-up {
           width: 15% !important;
+        }
+        @media @tablet-only {
+          width: 38% !important;
+        }
+        @media @mobile {
+          width: 55% !important;
+        }
+      }
+    }
+  }
+  .dataTable.my-leads-table {
+    td, th {
+      &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell){
+        width: 25% !important;
+        min-width: 90px;
+        @media @desktop-lg-up {
+          width: 22% !important;
         }
         @media @tablet-only {
           width: 38% !important;
@@ -27,6 +45,14 @@ body:not(.tablet-device):not(.mobile-device){
         &.customer-cell{
           min-width: 60px;
         }
+      }
+  }
+}
+.dataTable.my-leads-table{
+    th, td{
+      @media @mobile{
+       width: 32%;
+       min-width: 80px;
       }
   }
 }

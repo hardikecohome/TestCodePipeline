@@ -20,11 +20,17 @@ namespace DealnetPortal.Api.Integration.Services
     {
         ContractDTO CreateContract(string contractOwnerId);
 
+        Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer);
+
         IList<ContractDTO> GetContracts(string contractOwnerId);
 
         int GetCustomersContractsCount(string contractOwnerId);
 
         IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId);
+
+        IList<ContractDTO> GetDealerLeads(string userId);
+
+        IList<ContractDTO> GetCreatedContracts(string userId);
 
         ContractDTO GetContract(int contractId, string contractOwnerId);
 
@@ -56,7 +62,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
 
-        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetEquipmentTypes();        
+        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetDealerEquipmentTypes(string dealerId);        
 
         //IList<EquipmentTypeDTO> GetDocumentTypes();
 
@@ -70,8 +76,10 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<int?, IList<Alert>> AddComment(CommentDTO comment, string contractOwnerId);
 
-        IList<Alert> RemoveComment(int commentId, string contractOwnerId);
+        IList<Alert> RemoveComment(int commentId, string contractOwnerId);        
 
         IList<Alert> RemoveContract(int documentId, string contractOwnerId);
+
+        Task<IList<Alert>> AssignContract(int contractId, string newContractOwnerId);
     }
 }

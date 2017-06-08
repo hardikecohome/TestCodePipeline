@@ -13,6 +13,9 @@
   display: inline-block;
   text-align: left;
   vertical-align: middle;
+  #capture-buttons{
+    max-width: 100%;
+  }
 }
 
 .modal.modal-wide {
@@ -51,6 +54,22 @@
   }
   .nav-tabs > li.active > a, .nav-tabs > li > a:hover{
     font-family: @usual-font-family;
+  }
+}
+
+.modal{
+  &.modal-leads{
+    .modal-title{
+      text-align: left;
+    }
+    .modal-content{
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+  }
+  .modal-leads-content{
+    margin-top: 20px;
   }
 }
 

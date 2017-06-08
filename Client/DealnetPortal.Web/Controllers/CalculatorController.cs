@@ -1,13 +1,13 @@
-﻿using System.Linq;
+﻿using DealnetPortal.Web.Models;
+using DealnetPortal.Web.ServiceAgent;
+
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Models;
-using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize(Roles = "Dealer")]
     public class CalculatorController : Controller
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;

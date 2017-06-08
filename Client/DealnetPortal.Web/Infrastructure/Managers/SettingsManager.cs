@@ -3,9 +3,9 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Services;
+using DealnetPortal.Web.ServiceAgent;
 
-
-namespace DealnetPortal.Web.ServiceAgent.Managers
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class SettingsManager : ISettingsManager
     {

@@ -2,9 +2,8 @@
 using System.Security.Principal;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Web.Common.Security;
 
-namespace DealnetPortal.Web.ServiceAgent.Managers
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     /// <summary>
     /// Security manager - encapsulates all security concerns for web-application

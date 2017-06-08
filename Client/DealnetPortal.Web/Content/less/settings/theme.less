@@ -83,6 +83,9 @@
 .main-heading{
   .dealnet-large-header;
   margin-bottom: 30px;
+  &.customer-heading{
+    margin-bottom: 20px;
+  }
 }
 .sub-heading{
   .dealnet-middle-header;
@@ -215,10 +218,11 @@
 }
 
 .pac-container {
-    z-index: 1051 !important;
+    z-index: 50 !important;
 }
 body.modal-open .pac-container{
   position: fixed !important;
+  z-index: 1052 !important;
 }
 
 .text-semibold{

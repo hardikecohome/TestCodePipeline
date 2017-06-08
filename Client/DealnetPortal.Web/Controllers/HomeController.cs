@@ -1,24 +1,20 @@
-﻿using System;
+﻿using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Models;
+using DealnetPortal.Web.ServiceAgent;
+
+using Microsoft.Practices.ObjectBuilder2;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Utilities;
-using DealnetPortal.Web.Common.Culture;
-using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Models;
-using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IContractServiceAgent _contractServiceAgent;
@@ -37,7 +33,14 @@ namespace DealnetPortal.Web.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.LangSwitcherAvailable = true;
+            TempData["LangSwitcherAvailable"] = true;
+            if (User.IsInRole("MortgageBroker"))
+            {
+                //just change only for MB release 1.0.6
+                TempData["LangSwitcherAvailable"] = false;
+
+                return RedirectToAction("MyClients", "MortgageBroker");
+            }
             return View();
         }
         
@@ -124,6 +127,25 @@ namespace DealnetPortal.Web.Controllers
             }
 
             return this.Json(contractsVms, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetLeads()
+        {
+            var contracts = (await _contractServiceAgent.GetLeads()).OrderByDescending(x => x.LastUpdateTime).ToList();
+            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
+            //aftermap installation address postalCode
+            contracts.Where(c => c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress)).ForEach(
+                c =>
+                {
+                    var cVms = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
+                    if (cVms != null)
+                    {
+                        var substring = c.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode.Substring(0, 3);
+                        cVms.PostalCode = $"{substring?.ToUpperInvariant()}***";
+                    }                    
+                });
+            return Json(contractsVms, JsonRequestBehavior.AllowGet);
         }
     }
 }

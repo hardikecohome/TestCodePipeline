@@ -28,9 +28,10 @@ namespace DealnetPortal.Api.Controllers
         private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageReader AspireStorageReader { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
+        private IContractService _contractService { get; set; }
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -38,6 +39,7 @@ namespace DealnetPortal.Api.Controllers
             SettingsRepository = settingsRepository;
             AspireStorageReader = aspireStorageReader;
             CustomerFormService = customerFormService;
+            _contractService = contractService;
         }             
 
         [Route("DocumentTypes")]
@@ -69,9 +71,38 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("EquipmentTypes")]
+        [Authorize]
+        [Route("DealerEquipmentTypes")]
         [HttpGet]
-        public IHttpActionResult GetEquipmentTypes()
+        public IHttpActionResult GetDealerEquipmentTypes()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var result = _contractService.GetDealerEquipmentTypes(LoggedInUser?.UserId);
+                if (result == null)
+                {
+                    var errorMsg = "Cannot retrieve Equipment Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Equipment Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AllEquipmentTypes")]
+        [HttpGet]
+        public IHttpActionResult GetAllEquipmentTypes()
         {
             var alerts = new List<Alert>();
             try

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AspireDb\Contract.cs" />
+    <Compile Include="Models\AspireDb\DealerRoleEntity.cs" />
     <Compile Include="Models\AspireDb\DropDownItem.cs" />
     <Compile Include="Models\AspireDb\Entity.cs" />
     <Compile Include="Models\AspireDb\GenericSubDealer.cs" />

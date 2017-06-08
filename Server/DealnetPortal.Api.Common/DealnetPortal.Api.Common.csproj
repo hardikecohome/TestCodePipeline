@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -51,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\PersistentDescriptionAttribute.cs" />
+    <Compile Include="Constants\ClaimNames.cs" />
     <Compile Include="Constants\ErrorCodes.cs" />
     <Compile Include="Constants\ErrorConstants.cs" />
     <Compile Include="Enumeration\AddressType.cs" />
@@ -66,15 +70,19 @@
     <Compile Include="Enumeration\LanguageCode.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
+    <Compile Include="Enumeration\PreferredContactMethod.cs" />
     <Compile Include="Enumeration\RateCardType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\SettingType.cs" />
     <Compile Include="Enumeration\SignatureRole.cs" />
     <Compile Include="Enumeration\SignatureStatus.cs" />
+    <Compile Include="Enumeration\UserRole.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Helpers\DomainCodesHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\HttpResponseHelpers.cs" />
     <Compile Include="Helpers\LoanCalculator.cs" />
+    <Compile Include="Helpers\RandomPassword.cs" />
     <Compile Include="Helpers\ResourceHelper.cs" />
     <Compile Include="Helpers\SecurityUtils.cs" />
     <Compile Include="Helpers\StringHelper.cs" />

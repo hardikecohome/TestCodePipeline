@@ -72,11 +72,31 @@
     <Reference Include="log4net">
       <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -95,6 +115,10 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -122,6 +146,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -204,8 +229,11 @@
     <Compile Include="Controllers\CustomerFormController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\LeadsController.cs" />
+    <Compile Include="Controllers\MortgageBrokerController.cs" />
     <Compile Include="Controllers\MyDealsController.cs" />
     <Compile Include="Controllers\NewRentalController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ShareableLinkController.cs" />
@@ -218,9 +246,20 @@
     <Compile Include="Infrastructure\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
+    <Compile Include="Infrastructure\AuthorizedHttpClient.cs" />
+    <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
+    <Compile Include="Infrastructure\ClaimsProvider.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
-    <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
+    <Compile Include="Infrastructure\CustomerManager.cs" />
+    <Compile Include="Infrastructure\ICustomerManager.cs" />
+    <Compile Include="Infrastructure\IProfileManager.cs" />
+    <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
+    <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
+    <Compile Include="Infrastructure\Managers\OwinSecurityManager.cs" />
+    <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
+    <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
+    <Compile Include="Infrastructure\ProfileManager.cs" />
     <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
@@ -233,11 +272,15 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
     <Compile Include="Models\CertificateInformationViewModel.cs" />
+    <Compile Include="Models\ClientsInformationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
+    <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
+    <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
+    <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
@@ -252,8 +295,11 @@
     <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
     <Compile Include="Models\Validation\CheckHomeOwnerAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\jquery-ui.css" />
+    <Content Include="Content\css\jquery-ui.theme.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -427,15 +473,18 @@
     <Content Include="Content\images\logos\logo-smart-home-w%402x.png" />
     <Content Include="Content\images\logos\logo-smart-home-w%403x.png" />
     <Content Include="Content\images\logos\logo-smart-home-w.png" />
+    <Content Include="Content\images\recaptcha.jpg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
     <Content Include="Content\images\sprite\delete-name.svg" />
     <Content Include="Content\images\sprite\get-location.svg" />
+    <Content Include="Content\images\sprite\icon-accept-lead.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
     <Content Include="Content\images\sprite\icon-audio.svg" />
     <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
+    <Content Include="Content\images\sprite\icon-decline-circle.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-email2.svg" />
@@ -450,8 +499,13 @@
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
     <Content Include="Content\images\sprite\icon-info-well.svg" />
     <Content Include="Content\images\sprite\icon-info.svg" />
+    <Content Include="Content\images\sprite\icon-list-request.svg" />
+    <Content Include="Content\images\sprite\icon-maneger-sales-agent.svg" />
+    <Content Include="Content\images\sprite\icon-my-account-one-persone.svg" />
+    <Content Include="Content\images\sprite\icon-my-account.svg" />
     <Content Include="Content\images\sprite\icon-my-deals-side.svg" />
     <Content Include="Content\images\sprite\icon-mydeals-btn.svg" />
+    <Content Include="Content\images\sprite\icon-new-customer.svg" />
     <Content Include="Content\images\sprite\icon-new-rental-side.svg" />
     <Content Include="Content\images\sprite\icon-pdf.svg" />
     <Content Include="Content\images\sprite\icon-phone.svg" />
@@ -459,12 +513,16 @@
     <Content Include="Content\images\sprite\icon-print.svg" />
     <Content Include="Content\images\sprite\icon-rate-card.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
+    <Content Include="Content\images\sprite\icon-remove-cross.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
+    <Content Include="Content\images\sprite\icon-shareable-link.svg" />
+    <Content Include="Content\images\sprite\icon-success-gray-circle.svg" />
     <Content Include="Content\images\sprite\icon-successfully.svg" />
     <Content Include="Content\images\sprite\icon-successfully1.svg" />
+    <Content Include="Content\images\sprite\icon-tooltip-info.svg" />
     <Content Include="Content\images\sprite\icon-trash.svg" />
     <Content Include="Content\images\sprite\icon-upload.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
@@ -625,6 +683,8 @@
     <Content Include="favicon_Life_Time.ico" />
     <Content Include="favicon_Smart_Home.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Actions\customer.js" />
+    <Content Include="Scripts\Actions\new-client-actions.js" />
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
@@ -693,6 +753,7 @@
     <Content Include="Content\less\pages\shareable-link.less" />
     <Content Include="Content\less\pages\customer-loan-form.less" />
     <Content Include="Content\less\pages\customer-loan-success-page.less" />
+    <Content Include="Content\less\components\accordion-panel.less" />
     <Content Include="Content\files\Help.pdf" />
     <Content Include="Content\less\pages\rate-cards.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
@@ -704,7 +765,11 @@
     <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
-    <Content Include="Scripts\customer-form.js" />
+    <Content Include="Scripts\Pages\Clients\index.js" />
+    <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
+    <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
+    <Content Include="Scripts\Pages\Clients\new-client-store.js" />
+    <Content Include="Scripts\Pages\customer-form.js" />
     <Content Include="Scripts\customer-validation.js" />
     <Content Include="Scripts\datejs.js" />
     <Content Include="Scripts\credit-check.js" />
@@ -812,9 +877,23 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\leads.js" />
     <Content Include="Scripts\loan-calculator.js" />
     <Content Include="Scripts\Logger\logdebug.js" />
     <Content Include="Scripts\Logger\log.js" />
+    <Content Include="Scripts\my-customers.js" />
+    <Content Include="Scripts\Pages\MyProfile\form-handlers.js" />
+    <Content Include="Scripts\Pages\MyProfile\index.js" />
+    <Content Include="Scripts\Pages\MyProfile\category-handlers.js" />
+    <Content Include="Scripts\Pages\MyProfile\category-template.js" />
+    <Content Include="Scripts\Pages\MyProfile\my-profile-state.js" />
+    <Content Include="Scripts\Pages\MyProfile\postalCode-template.js" />
+    <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
+    <Content Include="Scripts\Pages\Clients\new-client.js" />
+    <Content Include="Scripts\Reducers\customer.js" />
+    <Content Include="Scripts\Reducers\new-client-reducer.js" />
+    <Content Include="Scripts\Selectors\customer.js" />
+    <Content Include="Scripts\Selectors\new-client-selectors.js" />
     <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
     <Content Include="Scripts\Pages\newEquipment\custom-rate-card.js" />
     <Content Include="Scripts\Pages\newEquipment\equipment.js" />
@@ -864,6 +943,15 @@
     <Content Include="Scripts\Vendor\globalize\globalize\plural.js" />
     <Content Include="Scripts\Vendor\globalize\globalize\relative-time.js" />
     <Content Include="Scripts\Vendor\globalize\globalize\unit.js" />
+    <Content Include="Scripts\Views\agreement.js" />
+    <Content Include="Scripts\Views\Clients\address-information.js" />
+    <Content Include="Scripts\Views\Clients\basic-information.js" />
+    <Content Include="Scripts\Views\Clients\client-consents.js" />
+    <Content Include="Scripts\Views\Clients\contact-information.js" />
+    <Content Include="Scripts\Views\Clients\home-improvments.js" />
+    <Content Include="Scripts\Views\contact-info.js" />
+    <Content Include="Scripts\Views\installation-address.js" />
+    <Content Include="Scripts\Views\your-info.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -874,7 +962,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
@@ -911,6 +1001,14 @@
     <Content Include="Views\CustomerForm\Index.cshtml" />
     <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
     <Content Include="Views\Info\AnonymousError.cshtml" />
+    <Content Include="Views\MortgageBroker\NewClient.cshtml" />
+    <Content Include="Views\MortgageBroker\MyClients.cshtml" />
+    <Content Include="Views\MortgageBroker\CustomerCreationSuccess.cshtml" />
+    <Content Include="Views\Leads\Index.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Shared\Profile\_PostalCode.cshtml" />
+    <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
+    <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
     <Content Include="Views\Calculator\Index_new.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
@@ -935,13 +1033,13 @@
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
-    <Folder Include="Views\Rentals\" />
-    <Folder Include="Views\Settings\" />
     <Folder Include="Views\UpdateData\" />
     <Folder Include="Views\Update\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

@@ -157,9 +157,15 @@ namespace DealnetPortal.Web.Infrastructure
             }
             equipmentInfo.Notes = contractResult.Item1.Details?.Notes;
 
-            var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(contractResult.Item1.PrimaryCustomer.Locations.First(
-                        l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
-            if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
+            var mainAddressProvince = contractResult.Item1.PrimaryCustomer.Locations
+                .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
+
+            if (mainAddressProvince != null)
+            {
+                var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvince)).Item1;
+                if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
+            }
+
             equipmentInfo.CreditAmount = contractResult.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;

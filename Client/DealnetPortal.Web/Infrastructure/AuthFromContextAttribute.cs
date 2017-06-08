@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
 using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.ServiceAgent.Managers;
+using DealnetPortal.Web.Infrastructure.Managers;
 
 namespace DealnetPortal.Web.Infrastructure
 {

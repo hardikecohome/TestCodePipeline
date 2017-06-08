@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -24,6 +25,20 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="ownerUserId">user Id</param>
         /// <returns>List of contracts</returns>
         IList<Contract> GetContracts(string ownerUserId);
+
+        /// <summary>
+        /// Get contract offers for a user (dealer)
+        /// </summary>
+        /// <param name="ownerUserId">user Id</param>
+        /// <returns>List of contracts</returns>
+        IList<Contract> GetDealerLeads(string userId);
+
+        /// <summary>
+        /// Get contract created by an user (dealer)
+        /// </summary>
+        /// <param name="userId">user Id</param>
+        /// <returns>List of contracts</returns>
+        IList<Contract> GetContractsCreatedByUser(string userId);
 
         /// <summary>
         /// Get count of customers user contracts list
@@ -129,6 +144,8 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>List of Equipment Type</returns>
         IList<EquipmentType> GetEquipmentTypes();
 
+        EquipmentType GetEquipmentTypeInfo(string type);
+
         /// <summary>
         /// Get Document Types list
         /// </summary>
@@ -182,5 +199,17 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <param name="ownerUserId"></param>
         /// <returns>number of updated sub-dealers</returns>
         int UpdateSubDealersHierarchyByRelatedTransactions(IEnumerable<string> transactionIds, string ownerUserId);
+
+        /// <summary>
+        /// resign contract to another dealer
+        /// </summary>
+        /// <param name="contractId">contractId</param>
+        /// <param name="newContractOwnerId">new dealer id</param>
+        /// <returns></returns>
+        Contract AssignContract(int contractId, string newContractOwnerId);
+
+        bool IsContractUnassignable(int contractId);
+
+        IList<Contract> GetExpiredContracts(DateTime expiredDate);
     }
 }

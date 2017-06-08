@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using DealnetPortal.Api.Common.Enumeration;
+﻿using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Utilities;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize]
     public class ShareableLinkController : UpdateController
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
@@ -32,6 +29,7 @@ namespace DealnetPortal.Web.Controllers
             return View(customerLink);
         }
 
+        [Authorize(Roles = "Dealer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> Index(ShareableLinkViewModel customerLink)

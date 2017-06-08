@@ -21,6 +21,7 @@ using DealnetPortal.Web.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -75,9 +76,12 @@ namespace DealnetPortal.Web.ServiceAgent
                             response.Content.ReadAsStringAsync().Result);
 
                     if (!results.ContainsKey("access_token"))
-                        return null;
+                        return null;                    
 
                     var claims = new List<Claim>();
+
+                    claims.Add(new Claim("access_token", results["access_token"]));
+
                     string returnedName;
                     if (results.TryGetValue("userName", out returnedName))
                     {
@@ -87,8 +91,27 @@ namespace DealnetPortal.Web.ServiceAgent
                     {
                         claims.Add(new Claim(ClaimTypes.Name, userName));
                     }
+                    //string userId;
+                    //if (results.TryGetValue("userId", out userId))
+                    //{
+                    //    claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
+                    //}                    
 
-                    var identity = new UserIdentity(claims) {Token = results["access_token"]};
+                    if (results.ContainsKey("roles"))
+                    {
+                        results["roles"].Split(':').ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r)));
+                    }
+
+                    results.Where(r => r.Key.Contains("claim:")).ForEach(c =>
+                    {                        
+                        var claimType = c.Key.Substring("claim:".Length);
+                        if (!string.IsNullOrEmpty(claimType))
+                        {
+                            claims.Add(new Claim(claimType, c.Value));
+                        }
+                    });
+                    
+                    var identity = new UserIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie) {Token = results["access_token"]};
                     user = new UserPrincipal(identity);
                 }
                 else
@@ -127,9 +150,11 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="principal">user</param>
         public void SetAuthorizationHeader(IPrincipal principal)
         {
+            var token = (principal?.Identity as UserIdentity)?.Token ?? (principal?.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
+
             //Set Authorization header
             Client.Client.DefaultRequestHeaders.Authorization =
-               new AuthenticationHeaderValue("Bearer", ((UserIdentity)principal?.Identity)?.Token ?? string.Empty);
+               new AuthenticationHeaderValue("Bearer", token ?? string.Empty);
         }
 
         public bool IsAutorizated()

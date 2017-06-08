@@ -468,7 +468,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
                             };
 
-                            var submitString = "Ready For Audit";
+                            var submitString = "Request to Fund";
                             var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
                             request.Payload.Documents = new List<Document>()
                             {
@@ -679,30 +679,8 @@ namespace DealnetPortal.Api.Integration.Services
                         Lastname = c.LastName,
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     },
-                    UDFs = new List<UDF>()
-                    {                        
-                        new UDF()
-                        {
-
-                            Name = "Authorized Consent",
-                            Value = "Y"
-                        }                        
-                    }
                 };
-
-                if (!string.IsNullOrEmpty(portalDescriber))
-                {
-                    if (account.UDFs == null)
-                    {
-                        account.UDFs = new List<UDF>();
-                    }
-                    account.UDFs.Add(new UDF()
-                    {
-                        Name = "Lead Source",
-                        Value = portalDescriber
-                    });
-                }
-
+                
                 var location = c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
                                       c.Locations?.FirstOrDefault();
                 if (location == null)
@@ -729,13 +707,7 @@ namespace DealnetPortal.Api.Integration.Services
                         StreetName = location.Street,
                         SuiteNo = location.Unit,
                         StreetNo = string.Empty
-                    };
-
-                    account.UDFs.Add(new UDF()
-                    {
-                        Name = "Residence",
-                        Value = location.ResidenceType == ResidenceType.Own ? "O" : "R" //<!—other value is R for rent  and O for own-->
-                    });
+                    };                    
                 }
                 
                 if (c.Phones?.Any() ?? false)
@@ -784,13 +756,7 @@ namespace DealnetPortal.Api.Integration.Services
                     account.ClientId = c.AccountId;
                 } 
                 
-                account.UDFs.Add(
-                    new UDF()
-                    {
-
-                        Name = "Existing Customer",
-                        Value = string.IsNullOrEmpty(account.ClientId) ? "N" : "Y" // ???
-                    });
+                account.UDFs = GetCustomerUdfs(c, contract, location, portalDescriber).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -817,6 +783,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 TransactionId = contract.Details?.TransactionId
             };
+
+            var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
+
             if (contract.Equipment != null)
             {
                 var equipments = newEquipments ?? contract.Equipment.NewEquipment;
@@ -831,7 +800,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication ? eq.Cost?.ToString(CultureInfo.InvariantCulture) 
+                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture) 
                                                                                                     : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
@@ -845,97 +814,10 @@ namespace DealnetPortal.Api.Integration.Services
 
                 application.ContractType = contract.Equipment?.AgreementType == AgreementType.LoanApplication
                     ? "LOAN"
-                    : "RENTAL";                
+                    : "RENTAL";
 
-                application.UDFs = new List<UDF>()
-                {
-                    new UDF()
-                    {
-                        Name = "Requested Term",
-                        Value = contract.Equipment.RequestedTerm.ToString()
-                    },
-                    new UDF()
-                    {
-                        Name = "Deferral Type",
-                        Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
-                    }
-                };
-
-                if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
-                {
-                    application.UDFs.Add(new UDF()
-                    {
-                        Name = "Dealer Sales Rep",
-                        Value = contract.Equipment.SalesRep
-                    });
-                }
-            }
-            if (contract.PaymentInfo != null)
-            {
-                var udfs = new List<UDF>();                
-                udfs.Add(new UDF()
-                {
-                    Name = "Payment Type",
-                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "PAD"
-                });
-                if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
-                    (!string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount) ||
-                    !string.IsNullOrEmpty(contract.PaymentInfo?.MeterNumber)))
-                {
-                    udfs.Add(new UDF()
-                    {
-                        Name = "Enbridge Gas Account Number",
-                        Value = contract.PaymentInfo.EnbridgeGasDistributionAccount ?? contract.PaymentInfo.MeterNumber
-                    });
-                }
-
-                if (application.UDFs == null)
-                {
-                    application.UDFs = new List<UDF>();
-                }
-                application.UDFs.AddRange(udfs);
-            }
-
-            if (!string.IsNullOrEmpty(contract.ExternalSubDealerId))
-            {
-                try
-                {                
-                    var subDealers =
-                        _aspireStorageReader.GetSubDealersList(contract.Dealer.AspireLogin ?? contract.Dealer.UserName);
-                    var sbd = subDealers?.FirstOrDefault(sd => sd.SubmissionValue == contract.ExternalSubDealerId);
-                    if (sbd != null)
-                    {
-                        if (application.UDFs == null)
-                        {
-                            application.UDFs = new List<UDF>();
-                        }
-                        application.UDFs.Add(new UDF()
-                        {
-                            Name = sbd.DealerName,
-                            Value = sbd.SubmissionValue
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //we can get error here from Aspire DB
-                    _loggingService.LogError("Failed to get subdealers from Aspire", ex);
-                }
-            }
-
-            var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];
-            if (!string.IsNullOrEmpty(portalDescriber))
-            {
-                if (application.UDFs == null)
-                {
-                    application.UDFs = new List<UDF>();
-                }
-                application.UDFs.Add(new UDF()
-                {
-                     Name = "LeadSource",
-                     Value = portalDescriber
-                });
-            }
+                application.UDFs = GetApplicationUdfs(contract).ToList();                    
+            }                                    
 
             return application;
         }
@@ -1073,6 +955,273 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return checkResult;
+        }
+
+        private IList<UDF> GetApplicationUdfs(Domain.Contract contract)
+        {
+            var udfList = new List<UDF>();
+            if (contract?.Equipment != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.DeferralType,
+                    Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RequestedTerm,
+                    Value = contract.Equipment.RequestedTerm.ToString()
+                });
+
+                if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.DealerSalesRep,
+                        Value = contract.Equipment.SalesRep
+                    });
+                }
+                if (contract.Equipment.EstimatedInstallationDate.HasValue)
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EstimatedMoveInDate,
+                        Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
+            }
+
+            if (contract?.PaymentInfo != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PaymentType,
+                    Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "PAD"
+                });
+                if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
+                    (!string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount) ||
+                    !string.IsNullOrEmpty(contract.PaymentInfo?.MeterNumber)))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EnbridgeGasAccountNumber,
+                        Value = contract.PaymentInfo.EnbridgeGasDistributionAccount ?? contract.PaymentInfo.MeterNumber
+                    });
+                }
+            }
+
+            if (!string.IsNullOrEmpty(contract?.ExternalSubDealerId))
+            {
+                try
+                {
+                    var subDealers =
+                        _aspireStorageReader.GetSubDealersList(contract.Dealer.AspireLogin ?? contract.Dealer.UserName);
+                    var sbd = subDealers?.FirstOrDefault(sd => sd.SubmissionValue == contract.ExternalSubDealerId);
+                    if (sbd != null)
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = sbd.DealerName,
+                            Value = sbd.SubmissionValue
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //we can get error here from Aspire DB
+                    _loggingService.LogError("Failed to get subdealers from Aspire", ex);
+                }
+            }
+            var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];
+            if (!string.IsNullOrEmpty(portalDescriber))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.LeadSource,
+                    Value = portalDescriber
+                });
+            }
+
+            return udfList;
+        }
+
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Contract contract, Location mainLocation, string portalDescriber)
+        {
+            var udfList = new List<UDF>();
+            if (!string.IsNullOrEmpty(portalDescriber))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.LeadSource,
+                    Value = portalDescriber
+                });
+            }
+            if (mainLocation != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.Residence,
+                    Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
+                    //<!—other value is R for rent  and O for own-->
+                });
+            }
+            udfList.Add(
+                new UDF()
+                {
+
+                    Name = AspireUdfFields.AuthorizedConsent,
+                    Value = "Y"
+                });
+            udfList.Add(
+                new UDF()
+                {
+
+                    Name = AspireUdfFields.ExistingCustomer,
+                    Value = string.IsNullOrEmpty(customer.AccountId) ? "N" : "Y" // ???
+                });
+
+            var previousAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
+            if (previousAddress != null)
+            {
+                udfList.AddRange(new UDF[]
+                {
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.PreviousAddress,
+                        Value = previousAddress.Street
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.PreviousAddressCity,
+                        Value = previousAddress.City
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.PreviousAddressPostalCode,
+                        Value = previousAddress.PostalCode
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.PreviousAddressState,
+                        Value = previousAddress.State.ToProvinceCode()
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.PreviousAddressCountry,
+                        Value = AspireUdfFields.DefaultAddressCountry
+                    },
+                });
+            }
+
+            var installationAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
+            if (installationAddress != null)
+            {
+                udfList.AddRange(new UDF[]
+                {
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.InstallationAddress,
+                        Value = installationAddress.Street
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.InstallationAddressCity,
+                        Value = installationAddress.City
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.InstallationAddressPostalCode,
+                        Value = installationAddress.PostalCode
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.InstallationAddressState,
+                        Value = installationAddress.State.ToProvinceCode()
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.InstallationAddressCountry,
+                        Value = AspireUdfFields.DefaultAddressCountry
+                    },
+                });
+            }
+
+            var mailingAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MailAddress);
+            if (mailingAddress != null)
+            {
+                udfList.AddRange(new UDF[]
+                {
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.MailingAddress,
+                        Value = mailingAddress.Street
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.MailingAddressCity,
+                        Value = mailingAddress.City
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.MailingAddressPostalCode,
+                        Value = mailingAddress.PostalCode
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.MailingAddressState,
+                        Value = mailingAddress.State.ToProvinceCode()
+                    },
+                    new UDF()
+                    {
+                        Name = AspireUdfFields.MailingAddressCountry,
+                        Value = AspireUdfFields.DefaultAddressCountry
+                    },
+                });
+            }
+
+            udfList.Add(
+                new UDF()
+                {
+
+                    Name = AspireUdfFields.AllowCommunicate,
+                    Value = customer.AllowCommunicate == false ? "0" : "1"
+                });
+
+            if (customer.PreferredContactMethod.HasValue)
+            {
+                string contactMethod = null;
+                switch (customer.PreferredContactMethod)
+                {
+                    case PreferredContactMethod.Email:
+                        contactMethod = AspireUdfFields.ContactViaEmail;
+                        break;
+                    case PreferredContactMethod.Phone:
+                        contactMethod = AspireUdfFields.ContactViaPhone;
+                        break;
+                    case PreferredContactMethod.Text:
+                        contactMethod = AspireUdfFields.ContactViaText;
+                        break;                        
+                }
+                if (contactMethod != null)
+                {
+                    udfList.Add(
+                        new UDF()
+                        {
+                            Name = contactMethod,
+                            Value = "Y"
+                        });
+                }
+            }
+            if (contract?.Equipment?.EstimatedInstallationDate != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EstimatedMoveInDate,
+                    Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                });
+            }
+
+            return udfList;
         }
     }
 }

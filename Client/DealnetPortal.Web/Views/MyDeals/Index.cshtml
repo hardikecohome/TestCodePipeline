@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-4">
                         <div class="form-group">
-                            <label for="">@Resources.ApplicationSubmittedBy</label>
+                            <label for="">@Resources.ApplicationCreatedBy</label>
                             <div class="control-group">
                                 <select class="form-control filter-input" id="created-by">
                                     <option value="">- @Resources.NotSelected -</option>
@@ -138,7 +138,6 @@
     translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
 }
 
-<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
 @section Styles
 {
     @Styles.Render("~/bundles/data-tables-content")
@@ -147,7 +146,8 @@
 @section scripts
 {
     <script type="text/javascript">
-        var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+        var itemsUrl = '@Url.Action("GetWorkItems", "Home")'; 
+
         var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
     </script>
 

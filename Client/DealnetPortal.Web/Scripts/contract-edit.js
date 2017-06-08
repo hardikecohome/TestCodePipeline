@@ -1,5 +1,7 @@
 ﻿configInitialized
     .then(function () {
+        togglePrintButton(checkUrl);
+        $('#print-button').on('click', printContract(downloadUrl));
 
         $('.date-input').each(assignDatepicker);
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
@@ -269,6 +271,8 @@ function auditConfirmModal() {
     dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {
         submitAllDocumentsUploaded();
+
+        ga('send', 'event', 'Button', 'Click', 'SendDocuments');
     });
 }
 

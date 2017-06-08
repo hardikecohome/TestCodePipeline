@@ -1473,4 +1473,7 @@
   <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
     <value>Votre demande de financement a été soumise.</value>
   </data>
+  <data name="CreditCheckProceedSuccessfully" xml:space="preserve">
+    <value>Credit check processed successfully.</value>
+  </data>
 </root>

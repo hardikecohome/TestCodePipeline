@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
@@ -6,8 +7,9 @@ using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Common.Services;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.ServiceAgent.Managers;
+using Microsoft.Owin.Security;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -46,22 +48,28 @@ namespace DealnetPortal.Web.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<IHttpApiClient, HttpApiClient>(new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
+            container.RegisterType<IHttpApiClient, AuthorizedHttpClient>(
+                new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"], new ResolvedParameter<IAuthenticationManager>()));
             container.RegisterType<IHttpApiClient, HttpApiClient>("AnonymousClient", new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
             container.RegisterType<ITransientHttpApiClient, TransientHttpApiClient>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>(), new ResolvedParameter<IHttpApiClient>("AnonymousClient")));
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
+            container.RegisterType<IDealerServiceAgent, DealerServiceAgent>();
             container.RegisterType<ICultureManager, CultureManager>();
             container.RegisterType<CultureSetterManager>();
-            container.RegisterType<ISecurityManager, SecurityManager>(new InjectionConstructor(typeof(ISecurityServiceAgent), typeof(IUserManagementServiceAgent), typeof(ILoggingService), ApplicationSettingsManager.PortalType));
+            container.RegisterType<ISecurityManager, OwinSecurityManager>(new InjectionConstructor(typeof(ISecurityServiceAgent), typeof(IUserManagementServiceAgent), typeof(ILoggingService), ApplicationSettingsManager.PortalType));
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IScanProcessingServiceAgent, ScanProcessingServiceAgent>();
-            container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
             container.RegisterType<IDictionaryServiceAgent, DictionaryServiceAgent>();
             container.RegisterType<IContractManager, ContractManager>();
             container.RegisterType<ICacheService, MemoryCacheService>();
             container.RegisterType<ISettingsManager, SettingsManager>();
+            container.RegisterType<ICustomerManager, CustomerManager>();
+            container.RegisterType<IProfileManager, ProfileManager>();
+
+            container.RegisterType<IAuthenticationManager>(
+                new InjectionFactory(o => HttpContext.Current?.Request.GetOwinContext().Authentication));
         }
     }
 }

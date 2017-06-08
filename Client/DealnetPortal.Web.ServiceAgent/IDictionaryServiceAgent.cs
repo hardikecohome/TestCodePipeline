@@ -14,10 +14,16 @@ namespace DealnetPortal.Web.ServiceAgent
     public interface IDictionaryServiceAgent
     {
         /// <summary>
-        /// Get Equipment Types list
+        /// Get Dealer Equipment Types list
         /// </summary>
         /// <returns>List of Equipment Type</returns>
         Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetEquipmentTypes();
+        
+        /// <summary>
+        /// Get Equipment Types list
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetAllEquipmentTypes();
 
         /// <summary>
         /// Get Province Tax Rate

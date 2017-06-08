@@ -84,6 +84,11 @@ namespace DealnetPortal.Domain
         /// true, if it's a contract created by customer
         /// </summary>
         public bool? IsCreatedByCustomer { get; set; }
+
+        /// <summary>
+        /// true, if it's a contract created by mortgage broker
+        /// </summary>
+        public bool? IsCreatedByBroker { get; set; }
         /// <summary>
         /// true, if it's a new contract created by customer and isn't edited by dealer
         /// </summary>

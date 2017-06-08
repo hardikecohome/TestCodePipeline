@@ -20,6 +20,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         //CustomerDTO FindCustomer(CustomerDTO customer);
 
-        Entity FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode);        
+        Entity FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode);
+
+        DealerRoleEntity GetDealerRoleInfo(string dealerUserName);
     }
 }

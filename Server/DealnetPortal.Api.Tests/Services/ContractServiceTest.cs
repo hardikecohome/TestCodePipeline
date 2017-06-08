@@ -20,16 +20,18 @@ namespace DealnetPortal.Api.Tests.Services
         private IUnitOfWork _unitOfWork;
         private ILoggingService _loggingService;
         private IAspireService _aspireService;
+        private ICustomerWalletService _customerWalletService;
         private IAspireStorageReader _aspireStorageReader;
         private ISignatureService _signatureService;
         private IMailService _mailService;
+        private IDealerRepository _dealerRepository;
 
         [TestInitialize]
         public void Intialize()
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
-            _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, _signatureService, _mailService, _loggingService);
+            //_contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, _signatureService, _mailService, _loggingService);
         }
 
         private void SetupMocks()
@@ -41,6 +43,8 @@ namespace DealnetPortal.Api.Tests.Services
             Mock<IMailService> mailServiceMock = new Mock<IMailService>();
             Mock<IAspireService> aspireServiceMock = new Mock<IAspireService>();
             Mock<IAspireStorageReader> aspireStorageServiceMock = new Mock<IAspireStorageReader>();
+            Mock<ICustomerWalletService> customerWalletServiceMock = new Mock<ICustomerWalletService>();
+            Mock<IDealerRepository> dealerRepositoryMock = new Mock<IDealerRepository>();
 
             contractRepositoryMock.Setup(s => s.CreateContract(It.IsAny<string>())).Returns(
                 new Contract()
@@ -67,6 +71,8 @@ namespace DealnetPortal.Api.Tests.Services
             _signatureService = signatureServiceMock.Object;
             _mailService = mailServiceMock.Object;
             _aspireStorageReader = aspireStorageServiceMock.Object;
+            _customerWalletService = customerWalletServiceMock.Object;
+            _dealerRepository = dealerRepositoryMock.Object;
         }
 
         [TestMethod]

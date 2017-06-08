@@ -90,37 +90,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             return null;            
         }
-
-        //public Contract GetDealById(int transactionId)
-        //{
-        //    string sqlStatement = @"SELECT transaction#, Deal_Status, Contract_Type_Code, Last_Update_Date, Last_Update_Time,
-		      //                          Term, [Amount Financed], Equipment_Description, Equipment_Type, Customer_name, [Customer ID]
-        //                              FROM sample_mydeals (NOLOCK)                                    
-								//	  where transaction# = {0};";
-        //    sqlStatement = string.Format(sqlStatement, transactionId);
-        //    var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
-        //    if (list?.Any() ?? false)
-        //    {
-        //        if (!string.IsNullOrEmpty(list[0].PrimaryCustomer?.AccountId))
-        //        {
-        //            try
-        //            {                    
-        //                var customer = GetCustomerById(list[0].PrimaryCustomer?.AccountId);
-        //                if (customer != null)
-        //                {
-        //                    list[0].PrimaryCustomer = customer;
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                _loggingService.LogError($"Cannot get customer {list[0].PrimaryCustomer?.AccountId} from Aspire", ex);
-        //            }
-        //        }
-        //        return list[0];
-        //    }
-        //    return null;
-        //}
-
+        
         public Entity GetCustomerById(string customerId)
         {           
             string sqlStatement = _queriesStorage.GetQuery("GetCustomerById");
@@ -139,16 +109,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogWarning("Cannot get GetCustomerById query for request");
             }
             return null;
-        }
-
-        //public CustomerDTO FindCustomer(CustomerDTO customer)
-        //{
-        //    var dob = customer?.DateOfBirth ?? new DateTime();
-        //    var postalCode =
-        //        customer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
-        //        customer?.Locations?.FirstOrDefault()?.PostalCode;
-        //    return FindCustomer(customer?.FirstName, customer?.LastName, dob, postalCode?.Replace(" ", ""));           
-        //}
+        }        
 
         public Entity FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode)
         {            
@@ -166,6 +127,26 @@ namespace DealnetPortal.Api.Integration.Services
             else
             {
                 _loggingService.LogWarning("Cannot get FindCustomer query for request");
+            }
+            return null;
+        }
+
+        public DealerRoleEntity GetDealerRoleInfo(string dealerUserName)
+        {
+            string sqlStatement = _queriesStorage.GetQuery("DealerRoleInformation");
+
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                sqlStatement = string.Format(sqlStatement, dealerUserName);
+                var list = GetListFromQuery(sqlStatement, _databaseService, ReadDealerRoleInfoItem);
+                if (list?.Any() ?? false)
+                {
+                    return list[0];
+                }
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get DealerRoleInformation query for request");
             }
             return null;
         }
@@ -285,7 +266,7 @@ namespace DealnetPortal.Api.Integration.Services
                 userEntity.EmailAddress = ConvertFromDbVal<string>(dr["email_addr"]);
 
                 var postalCode = ConvertFromDbVal<string>(dr["postal_code"]);
-                if (!string.IsNullOrEmpty(userEntity.PostalCode))
+                if (!string.IsNullOrEmpty(postalCode))
                 {
                     userEntity.PostalCode = postalCode;
                     userEntity.City = ConvertFromDbVal<string>(dr["city"]);
@@ -330,11 +311,51 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 catch (Exception ex)
                 {       
-                    _loggingService.LogError("Cannot read dealer info record from Aspire DB", ex);             
+                    _loggingService.LogError("Cannot read dealer info record from Aspire DB", ex);
                 }
             }
 
             return dealerCustomerInfo;
+        }
+
+        private DealerRoleEntity ReadDealerRoleInfoItem(IDataReader dr)
+        {
+            var dealerEntity = ReadDealerInfoItem(dr);
+            if (dealerEntity != null)
+            {
+                try
+                {                    
+                    var dealerInfo = new DealerRoleEntity()
+                    {
+                        FirstName = dealerEntity.FirstName,
+                        LastName = dealerEntity.LastName,
+                        Name = dealerEntity.Name,
+                        ParentUserName = dealerEntity.ParentUserName,
+                        EntityId = dealerEntity.EntityId,
+                        DateOfBirth = dealerEntity.DateOfBirth,
+                        EmailAddress = dealerEntity.EmailAddress,
+                        PostalCode = dealerEntity.PostalCode,
+                        City = dealerEntity.City,
+                        State = dealerEntity.State,
+                        Street = dealerEntity.Street,
+                        PhoneNum = dealerEntity.PhoneNum
+                    };
+
+                    dealerInfo.ProductType = ConvertFromDbVal<string>(dr["Product_Type"]);
+                    dealerInfo.ChannelType = ConvertFromDbVal<string>(dr["Channel_Type"]);
+                    dealerInfo.Ratecard = ConvertFromDbVal<string>(dr["ratecard"]);
+                    dealerInfo.Role = ConvertFromDbVal<string>(dr["Role"]);
+                    dealerInfo.UserId = ConvertFromDbVal<string>(dr["user_id"]);
+
+                    return dealerInfo;
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError("Cannot read dealer-role info from Aspire DB", ex);
+                    return null;
+                }
+            }
+            return null;
         }
 
         public static T ConvertFromDbVal<T>(object obj)

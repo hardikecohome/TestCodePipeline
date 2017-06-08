@@ -28,6 +28,7 @@ namespace DealnetPortal.Api.Providers
     {
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
+        private readonly IUsersService _usersService;
         private readonly ILoggingService _loggingService;
         private readonly string _publicClientId;
         private AuthType _authType;
@@ -36,6 +37,7 @@ namespace DealnetPortal.Api.Providers
         {
             _aspireService = (IAspireService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
             _aspireStorageReader = (IAspireStorageReader)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireStorageReader));
+            _usersService = (IUsersService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
             _loggingService = (ILoggingService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
 
             if (publicClientId == null)
@@ -104,7 +106,32 @@ namespace DealnetPortal.Api.Providers
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
+            var claims = _usersService.GetUserClaims(user.Id);            
+
+            if (claims?.Any() ?? false)
+            {
+                oAuthIdentity.AddClaims(claims);
+                cookiesIdentity.AddClaims(claims);
+            }
+            //update user roles
+            if (claims?.Any() ?? false)
+            {
+                var roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray();
+                if (roles.Any())
+                {
+                    try
+                    {
+                        await userManager.AddToRolesAsync(user.Id, roles);
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService?.LogError($"Cannot set roles for user [{user.UserName}]", ex);
+                    }
+                }
+            }
+            userManager.GetRoles(user.Id)?.ForEach(r => claims?.Add(new Claim(ClaimTypes.Role, r)));
+
+            AuthenticationProperties properties = CreateProperties(user.UserName, claims);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
@@ -151,12 +178,25 @@ namespace DealnetPortal.Api.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
+        public static AuthenticationProperties CreateProperties(string userName, IEnumerable<Claim> claims = null)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
                 { "userName", userName }
             };
+            claims?.Where(c => c.Type != ClaimTypes.Role).ForEach(claim =>
+            {
+                data.Add($"claim:{claim.Type}", claim.Value);
+            });
+            if (claims?.Any(c => c.Type == ClaimTypes.NameIdentifier) ?? false)
+            {
+                data.Add("userId", claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            }
+            var roles = string.Join(":", claims?.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray());
+            if (!string.IsNullOrEmpty(roles))
+            {
+                data.Add("roles", roles);
+            }
             return new AuthenticationProperties(data);
         }
 
@@ -176,36 +216,10 @@ namespace DealnetPortal.Api.Providers
 
                 if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
                 {
-                    //get user info from aspire DB
-                    DealerDTO aspireDealerInfo = null;
-                    try
-                    {
-                        aspireDealerInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(context.UserName));
-                    }
-                    catch (Exception ex)
-                    {
-                        aspireDealerInfo = null;
-                        var errorMsg = $"Cannot connect to aspire database for get [{context.UserName}] info";
-                        _loggingService?.LogWarning(errorMsg);
-                        alerts.Add(new Alert()
-                        {
-                            Code = ErrorCodes.AspireDatabaseConnectionFailed,
-                            Header = errorMsg,
-                            Type = AlertType.Warning,                                      
-                            Message = ex.ToString()
-                        });
-                    }
-
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
                     var applicationId = context.OwinContext.Get<string>("portalId");
-
                     var oldUser = await userManager.FindByNameAsync(context.UserName);
-
-                    var parentUser = !string.IsNullOrEmpty(aspireDealerInfo?.ParentDealerUserName)
-                        ? await userManager.FindByNameAsync(aspireDealerInfo.ParentDealerUserName)
-                        : null;
-
+                 
                     if (oldUser != null)
                     {
                         //update password for existing aspire user
@@ -213,14 +227,7 @@ namespace DealnetPortal.Api.Providers
                             context.Password);
                         if (updateRes.Succeeded)
                         {
-                            oldUser.AspirePassword = context.Password;
-
-                            if (parentUser != null)
-                            {
-                                oldUser.ParentDealer = parentUser;
-                                oldUser.ParentDealerId = parentUser.Id;
-                            }
-
+                            oldUser.AspirePassword = context.Password;                            
                             updateRes = await userManager.UpdateAsync(oldUser);
                             if (updateRes.Succeeded)
                             {
@@ -232,7 +239,6 @@ namespace DealnetPortal.Api.Providers
                     }
                     else
                     {
-
                         var newUser = new ApplicationUser()
                         {
                             UserName = context.UserName,
@@ -242,13 +248,7 @@ namespace DealnetPortal.Api.Providers
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
                             AspirePassword = context.Password
-                        };
-
-                        if (parentUser != null)
-                        {
-                            newUser.ParentDealer = parentUser;
-                            newUser.ParentDealerId = parentUser.Id;
-                        }
+                        };                        
 
                         try
                         {
@@ -265,6 +265,13 @@ namespace DealnetPortal.Api.Providers
                             user = null;
                         }
                     }
+
+                    var syncAlerts = await _usersService.SyncAspireUser(user);
+                    if (syncAlerts?.Any() ?? false)
+                    {
+                        outAlerts.AddRange(syncAlerts);
+                    }
+
                 }
                 else
                 {
@@ -273,6 +280,6 @@ namespace DealnetPortal.Api.Providers
                 }
             }
             return new Tuple<ApplicationUser, IList<Alert>>(user, outAlerts);
-        }
+        }        
     }
 }

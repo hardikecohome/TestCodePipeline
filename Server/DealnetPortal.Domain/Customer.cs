@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
 {
@@ -41,5 +42,7 @@ namespace DealnetPortal.Domain
         public string AccountId { get; set; }
 
         public bool? AllowCommunicate { get; set; }
+
+        public PreferredContactMethod? PreferredContactMethod { get; set; }
     }
 }

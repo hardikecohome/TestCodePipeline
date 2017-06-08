@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract
 {
@@ -21,5 +22,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string DriverLicenseNumber { get; set; }
 
         public bool? AllowCommunicate { get; set; }
+
+        public PreferredContactMethod? PreferredContactMethod { get; set; }
     }
 }

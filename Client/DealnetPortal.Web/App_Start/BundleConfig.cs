@@ -148,15 +148,83 @@ namespace DealnetPortal.Web
                     "~/Content/datatables/css/dataTables.bootstrap.css",
                     "~/Content/datatables/css/responsive.bootstrap.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/customer-form")
-                .Include("~/Scripts/datejs.js")
+            bundles.Add(new ScriptBundle("~/bundles/customer-form").Include(
+                "~/Scripts/datejs.js",
+                "~/Scripts/Modules/index.js",
+                "~/Scripts/Logger/logdebug.js",
+                "~/Scripts/Pages/customer-form.js",
+                "~/Scripts/Reducers/customer.js",
+                "~/Scripts/Actions/customer.js",
+                "~/Scripts/Selectors/customer.js",
+                "~/Scripts/Views/agreement.js",
+                "~/Scripts/Views/contact-info.js",
+                "~/Scripts/Views/your-info.js",
+                "~/Scripts/Views/installation-address.js",
+                "~/Scripts/Utils/functionUtils.js",
+                "~/Scripts/Utils/logMiddleware.js",
+                "~/Scripts/Utils/objectUtils.js",
+                "~/Scripts/Utils/redux.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/new-client")
+                .Include(
+                "~/Scripts/general-address-autocomplete.js",
+                "~/Scripts/BasicInfo/DlScanning/dl-scanning.js",
+                "~/Scripts/camera-capturing.js",
+                "~/Scripts/datejs.js",
+                "~/Scripts/Modules/index.js",
+                "~/Scripts/Logger/logdebug.js",
+                "~/Scripts/Selectors/new-client-selectors.js",
+                "~/Scripts/Pages/Clients/index.js",
+                "~/Scripts/Pages/Clients/new-client-autocomplete.js",
+                "~/Scripts/Pages/Clients/new-client-flow.js",
+                "~/Scripts/Pages/Clients/new-client-store.js",
+                "~/Scripts/Reducers/new-client-reducer.js",
+                "~/Scripts/Actions/new-client-actions.js",
+                "~/Scripts/Views/Clients/basic-information.js",
+                "~/Scripts/Views/Clients/address-information.js",
+                "~/Scripts/Views/Clients/contact-information.js",
+                "~/Scripts/Views/Clients/home-improvments.js",
+                "~/Scripts/Views/Clients/client-consents.js",
+                "~/Scripts/Utils/functionUtils.js",
+                "~/Scripts/Utils/logMiddleware.js",
+                "~/Scripts/Utils/objectUtils.js",
+                "~/Scripts/Utils/redux.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/new-client-mobile")
+                .Include(
+                    "~/Scripts/general-address-autocomplete.js",
+                    "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js",
+                    "~/Scripts/camera-capturing.js",
+                    "~/Scripts/datejs.js",
+                    "~/Scripts/Modules/index.js",
+                    "~/Scripts/Logger/logdebug.js",
+                    "~/Scripts/Selectors/new-client-selectors.js",
+                    "~/Scripts/Pages/Clients/index.js",
+                    "~/Scripts/Pages/Clients/new-client-autocomplete.js",
+                    "~/Scripts/Pages/Clients/new-client-flow.js",
+                    "~/Scripts/Pages/Clients/new-client-store.js",
+                    "~/Scripts/Reducers/new-client-reducer.js",
+                    "~/Scripts/Actions/new-client-actions.js",
+                    "~/Scripts/Views/Clients/basic-information.js",
+                    "~/Scripts/Views/Clients/address-information.js",
+                    "~/Scripts/Views/Clients/contact-information.js",
+                    "~/Scripts/Views/Clients/home-improvments.js",
+                    "~/Scripts/Views/Clients/client-consents.js",
+                    "~/Scripts/Utils/functionUtils.js",
+                    "~/Scripts/Utils/logMiddleware.js",
+                    "~/Scripts/Utils/objectUtils.js",
+                    "~/Scripts/Utils/redux.js"));
+            bundles.Add(new ScriptBundle("~/bundles/my-profile")
+                .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Logger/log.js")
-                .Include("~/Scripts/customer-form.js")
-                .Include("~/Scripts/Utils/functionUtils.js")
-                .Include("~/Scripts/Utils/logMiddleware.js")
-                .Include("~/Scripts/Utils/objectUtils.js")
-                .Include("~/Scripts/Utils/redux.js")
+                .Include("~/Scripts/Pages/MyProfile/index.js")
+                .Include("~/Scripts/Pages/MyProfile/form-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-handlers.js")
+                .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")
+                .Include("~/Scripts/Pages/MyProfile/postalCode-template.js")
+                .Include("~/Scripts/Pages/MyProfile/category-template.js")
+                .Include("~/Scripts/jquery.form.js")
             );
 
             bundles.Add(new ScriptBundle("~/bundles/new-equipment-information")

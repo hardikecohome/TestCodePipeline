@@ -105,6 +105,38 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetDealerLeads")]
+        [HttpGet]
+        public IHttpActionResult GetDealerLeads()
+        {
+            try
+            {
+                var contractsOffers = ContractService.GetDealerLeads(LoggedInUser.UserId);
+                return Ok(contractsOffers);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts offers for the User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetCreatedContracts")]
+        [HttpGet]
+        public IHttpActionResult GetCreatedContracts()
+        {
+            try
+            {
+                var contractsOffers = ContractService.GetCreatedContracts(LoggedInUser.UserId);
+                return Ok(contractsOffers);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts created by User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("CreateContract")]
         [HttpPut]
         public IHttpActionResult CreateContract()
@@ -463,6 +495,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("SubmitCustomerServiceRequest")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> SubmitCustomerServiceRequest(CustomerServiceRequestDTO customerServiceRequest)
+        {
+            try
+            {
+                var submitResult = await CustomerFormService.CustomerServiceRequest(customerServiceRequest).ConfigureAwait(false);
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCustomerContractInfo")]
         [HttpGet]
         // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}
@@ -480,6 +528,35 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("CreateContractForCustomer")]
+        [HttpPost]
+        public async Task<IHttpActionResult> CreateContractForCustomer(NewCustomerDTO customerFormData)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var creationResult = await ContractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
+
+                if (creationResult.Item1 == null)
+                {
+                    alerts.AddRange(creationResult.Item2);
+                }
+
+                return Ok(creationResult);
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.ContractCreateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
+        }                
+
         [Route("RemoveContract")]
         [HttpPost]
         public IHttpActionResult RemoveContract(int contractId)
@@ -487,6 +564,22 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = ContractService.RemoveContract(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AssignContract")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AssignContract(int contractId)
+        {
+            try
+            {
+                var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId).ConfigureAwait(false);
+
                 return Ok(result);
             }
             catch (Exception ex)

@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using AutoMapper;
-using dotless.Core.Parser.Tree;
-using DealnetPortal.Api.Common.Enumeration;
+﻿using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -90,7 +88,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1, hashDealerName = customerForm.HashDealerName, culture = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["culture"]?.ToString() });
+            return RedirectToAction("AgreementSubmitSuccess", new { contractId = submitResult.Item1?.ContractId, hashDealerName = customerForm.HashDealerName, culture = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["culture"]?.ToString() });
         }
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string hashDealerName, string culture)

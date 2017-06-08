@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Enums;
+﻿using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
-using DealnetPortal.Web.ServiceAgent;
+
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [AuthFromContext]
+    [Authorize(Roles = "Dealer")]
     public class UpdateDataController : UpdateController
     {
         private readonly IContractManager _contractManager;
