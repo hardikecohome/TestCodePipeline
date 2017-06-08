@@ -127,7 +127,8 @@ namespace DealnetPortal.Web.Infrastructure
             }
 
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
-            equipmentInfo.DealerTier = await _contractServiceAgent.GetDealerTier();
+            var dealerTier = await _contractServiceAgent.GetDealerTier();
+            equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
 
             return equipmentInfo;
         }
