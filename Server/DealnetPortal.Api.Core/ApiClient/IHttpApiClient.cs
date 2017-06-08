@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -66,6 +67,9 @@ namespace DealnetPortal.Api.Core.ApiClient
         Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
             CancellationToken cancellationToken = new CancellationToken());
 
+        Task<T2> PostAsyncWithAuth<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader,
+            CancellationToken cancellationToken = new CancellationToken());
+
         /// <summary>
         /// Perform a get operation against a uri.
         /// </summary>
@@ -82,6 +86,8 @@ namespace DealnetPortal.Api.Core.ApiClient
         /// <param name="requestUri">Uri of resource</param>
         /// <returns>Model or resource from the Get operation against the uri.</returns>
         T Get<T>(string requestUri);
+
+        Task<T> GetAsyncWithAuth<T>(string requestUri, AuthenticationHeaderValue authenticationHeader, CancellationToken cancellationToken = new CancellationToken());        
 
         /// <summary>
         /// Perform a put operation against a uri.
@@ -103,6 +109,9 @@ namespace DealnetPortal.Api.Core.ApiClient
         /// <param name="cancellationToken">Allows clients to cancel a request.</param>
         /// <returns>Model or resource from the Post operation against the uri.</returns>
         Task<T2> PutAsync<T1, T2>(string requestUri, T1 content,
+            CancellationToken cancellationToken = new CancellationToken());
+
+        Task<T2> PutAsyncWithAuth<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader,
             CancellationToken cancellationToken = new CancellationToken());
     }
 }
