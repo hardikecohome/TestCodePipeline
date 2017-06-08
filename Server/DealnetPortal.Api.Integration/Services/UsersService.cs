@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -27,12 +28,17 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILoggingService _loggingService;
         private readonly ISettingsRepository _settingsRepository;
+        private readonly IRateCardsRepository _rateCardsRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, ISettingsRepository settingsRepository)
+        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, ISettingsRepository settingsRepository,
+            IRateCardsRepository rateCardsRepository, IUnitOfWork unitOfWork)
         {
             _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
             _settingsRepository = settingsRepository;
+            _rateCardsRepository = rateCardsRepository;
+            _unitOfWork = unitOfWork;
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(databaseFactory.Get()));
         }        
 
@@ -86,6 +92,19 @@ namespace DealnetPortal.Api.Integration.Services
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
+                    }
+                    if (!string.IsNullOrEmpty(aspireDealerInfo.Ratecard) && user.Tier?.Name != aspireDealerInfo.Ratecard)
+                    {
+                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo);
+                        if (tierAlerts.Any())
+                        {
+                            alerts.AddRange(tierAlerts);
+                        }
+                    }
+                    var dealerEmail = aspireDealerInfo.Emails?.FirstOrDefault()?.EmailAddress;
+                    if (!string.IsNullOrEmpty(dealerEmail) && dealerEmail != user.Email)
+                    {
+                        await _userManager.SetEmailAsync(user.Id, dealerEmail);                        
                     }
                 }                
             }
@@ -199,6 +218,38 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Error during getting user role from Aspire, for an user {userId}");
             }
             return alerts;
-        }        
+        }
+
+        private IList<Alert> UpdateUserTier(string userId, DealerDTO aspireUser)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
+                if (tier != null)
+                {
+                    var user = _userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
+                    if (user != null)
+                    {
+                        user.Tier = tier;
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Error during update user tier",
+                    Message = $"Error during update user tier for an user {userId}"
+                });
+                _loggingService.LogError($"Error during update user tier for an user {userId}", ex);
+            }
+
+            return alerts;
+        }
     }
 }
