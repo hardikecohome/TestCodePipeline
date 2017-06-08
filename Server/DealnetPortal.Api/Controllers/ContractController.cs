@@ -27,12 +27,14 @@ namespace DealnetPortal.Api.Controllers
     {
         private IContractService ContractService { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
+        private IRateCardsService RateCardsService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService)
+        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService)
             : base(loggingService)
         {
             ContractService = contractService;
             CustomerFormService = customerFormService;
+            RateCardsService = rateCardsService;
         }
 
         // GET: api/Contract
@@ -579,6 +581,23 @@ namespace DealnetPortal.Api.Controllers
                 var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId).ConfigureAwait(false);
 
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier()
+        {
+            try
+            {
+                var submitResult = RateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
+
+                return Ok(submitResult);
             }
             catch (Exception ex)
             {

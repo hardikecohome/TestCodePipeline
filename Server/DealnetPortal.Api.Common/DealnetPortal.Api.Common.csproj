@@ -71,6 +71,7 @@
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
     <Compile Include="Enumeration\PreferredContactMethod.cs" />
+    <Compile Include="Enumeration\RateCardType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\SettingType.cs" />
     <Compile Include="Enumeration\SignatureRole.cs" />

@@ -1,0 +1,76 @@
+﻿@using DealnetPortal.Api.Common.Enumeration
+@model RateCardType
+
+@{
+    var amortizationSelectList = ((Dictionary<RateCardType, SelectList>)ViewBag.AmortizationTerm).Where(x => x.Key == Model).SelectMany(x => x.Value);
+}
+
+
+<div class="rate-card table-mode">
+  <div class="rate-card-header equal-height-row-1">
+    <span class="promo-label hidden" id="FixedRatePromo">Promo</span>
+    <h4 class="rate-card-title">FIXED RATE</h4>
+  </div>
+  <hr>
+  <div class="equal-height-row-2">
+    <div class="form-group">
+      <label>Loan/Amortization Term</label>
+      @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
+    </div>
+  </div>
+  <div class="equal-height-row-3">
+    <div class="rate-card-notify">
+      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+      180 month amortization is available only on loans over $5,000
+    </div>
+  </div>
+  <div class="equal-height-row-4">
+    <div class="row form-group">
+      <div class="col-xs-6">Customer Rate</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateCRate"></div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Your Cost</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateYCostVal"></div>
+    </div>
+  </div>
+  <hr>
+  <div class="">
+    <div class="row form-group align-middle">
+      <div class="col-xs-6">Admin Fee</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateAFee"></div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Monthly Payment</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateMPayment">-</div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Cost of Borrowing</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateCBorrowing">-</div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Your Cost</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateYCost">-</div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Total Amount Financed</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateTAFinanced">-</div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Total of All Monthly Payments</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateTMPayments">-</div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateRBalance">-</div>
+    </div>
+    <div class="row form-group">
+      <div class="col-xs-6">Total Obligation</div>
+      <div class="col-xs-6 text-right text-semibold" id="FixedRateTObligation">-</div>
+    </div>
+  </div>
+  <div id="hidden-option" class="hidden">FixedRate</div>
+  <button class="btn dealnet-button dealnet-success-button btn-select-card">
+    Select
+  </button>
+</div>

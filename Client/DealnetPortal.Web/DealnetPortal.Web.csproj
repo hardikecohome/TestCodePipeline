@@ -252,6 +252,7 @@
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\CustomerManager.cs" />
+    <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
     <Compile Include="Infrastructure\ICustomerManager.cs" />
     <Compile Include="Infrastructure\IProfileManager.cs" />
     <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
@@ -511,6 +512,7 @@
     <Content Include="Content\images\sprite\icon-phone.svg" />
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
+    <Content Include="Content\images\sprite\icon-rate-card.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
     <Content Include="Content\images\sprite\icon-remove-cross.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
@@ -754,6 +756,7 @@
     <Content Include="Content\less\pages\customer-loan-success-page.less" />
     <Content Include="Content\less\components\accordion-panel.less" />
     <Content Include="Content\files\Help.pdf" />
+    <Content Include="Content\less\pages\rate-cards.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -892,6 +895,17 @@
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
     <Content Include="Scripts\Selectors\new-client-selectors.js" />
+    <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
+    <Content Include="Scripts\Pages\newEquipment\custom-rate-card.js" />
+    <Content Include="Scripts\Pages\newEquipment\equipment.js" />
+    <Content Include="Scripts\Pages\newEquipment\index.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards-ui.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards.js" />
+    <Content Include="Scripts\Pages\newEquipment\state.js" />
+    <Content Include="Scripts\Pages\newEquipment\template.js" />
+    <Content Include="Scripts\Pages\newEquipment\value-setters.js" />
+    <Content Include="Scripts\standalone-calculator.js" />
+    <Content Include="Scripts\Utils\financial-functions.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -908,9 +922,16 @@
     <Content Include="Scripts\Utils\functionUtils.js" />
     <Content Include="Scripts\Modules\index.js" />
     <Content Include="Scripts\Utils\logMiddleware.js" />
+    <Content Include="Scripts\Utils\numberUtils.js" />
     <Content Include="Scripts\Utils\objectUtils.js" />
     <Content Include="Scripts\Utils\redux.js" />
     <Content Include="Scripts\vc-scanning.js" />
+    <Content Include="Scripts\Vendor\angular\angular-touch.js" />
+    <Content Include="Scripts\Vendor\angular\angular.js" />
+    <Content Include="Scripts\Vendor\angular\angular-animate.js" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap-csp.css" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap.js" />
     <Content Include="Scripts\Vendor\cldr\cldr.js" />
     <Content Include="Scripts\Vendor\cldr\cldr\event.js" />
     <Content Include="Scripts\Vendor\cldr\cldr\supplemental.js" />
@@ -965,8 +986,6 @@
     <Content Include="Views\Stub\CreditCheck.cshtml" />
     <Content Include="Views\Stub\MyDeals.cshtml" />
     <Content Include="Views\Stub\Reports.cshtml" />
-    <Content Include="Views\NewRental\CreditCheckConfirmation.cshtml" />
-    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\NewRental\ContactAndPaymentInfo.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\NewRental\CreditCheck.cshtml" />
@@ -979,7 +998,6 @@
     <Content Include="Views\Reports\Contracts.cshtml" />
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
-    <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\ShareableLink\Index.cshtml" />
     <Content Include="Views\CustomerForm\Index.cshtml" />
     <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
@@ -992,6 +1010,22 @@
     <Content Include="Views\Shared\Profile\_PostalCode.cshtml" />
     <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
+    <Content Include="Views\Calculator\Index_new.cshtml" />
+    <Content Include="Views\NewRental\RateCard.cshtml" />
+    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
+    <Content Include="Views\NewRental\AdditionalEquipmentInformation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_Rental.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_Loan.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialRental.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialLoan.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NewEquipments.cshtml" />
+    <Content Include="Views\Calculator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

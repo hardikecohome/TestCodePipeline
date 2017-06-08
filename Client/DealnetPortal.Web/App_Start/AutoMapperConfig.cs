@@ -15,6 +15,7 @@ using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.MyProfile;
+using DealnetPortal.Web.Models.Enumeration;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 
@@ -222,6 +223,16 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo));
             //cfg.CreateMap<NewCustomerViewModel, NewCustomerDTO>()
             //    .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwner));
+            //New Version
+          
+            cfg.CreateMap<EquipmentInformationViewModelNew, EquipmentInfoDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
+                .ForMember(x => x.ValueOfDeal, d => d.Ignore())
+                .ForMember(x => x.InstallationDate, d => d.Ignore())
+                .ForMember(x => x.InstallerFirstName, d => d.Ignore())
+                .ForMember(x => x.InstallerLastName, d => d.Ignore())
+                .ForMember(x => x.RateCardId, s=>s.MapFrom( d=>d.SelectedRateCardId))
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -438,6 +449,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
+
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
@@ -491,6 +503,18 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList));
             cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
 
+
+            //New Version
+            cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModelNew>()
+                .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.SelectedRateCardId, d => d.MapFrom(o => o.RateCardId))
+                .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
+                .ForMember(x => x.CreditAmount, d => d.Ignore())
+                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType.ConvertTo<LoanDeferralType>() : 0))
+                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.FullUpdate, d => d.Ignore())
+                .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
+                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
         }
 
 

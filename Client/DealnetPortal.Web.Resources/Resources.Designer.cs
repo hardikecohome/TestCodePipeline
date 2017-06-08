@@ -70,7 +70,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to On acceptance of lead a ${0} fee will be applied to your account..
+        ///   Looks up a localized string similar to On acceptance of lead {0} fee will be applied to your account as a lead fee..
         /// </summary>
         public static string AcceptanceOfLeadFeeAppliedToYourAccount {
             get {
@@ -1447,6 +1447,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Defferal.
+        /// </summary>
+        public static string Defferal {
+            get {
+                return ResourceManager.GetString("Defferal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Define your equipment/service.
         /// </summary>
         public static string DefineYourEquipmentService {
@@ -1839,6 +1848,15 @@ namespace DealnetPortal.Web.Resources {
         public static string FirstNameIncorrectFormat {
             get {
                 return ResourceManager.GetString("FirstNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fixed Rate.
+        /// </summary>
+        public static string FixedRate {
+            get {
+                return ResourceManager.GetString("FixedRate", resourceCulture);
             }
         }
         
@@ -2743,6 +2761,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Interest.
+        /// </summary>
+        public static string NoInterest {
+            get {
+                return ResourceManager.GetString("NoInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No matching records found.
         /// </summary>
         public static string NoMatchingRecordsFound {
@@ -3027,6 +3054,24 @@ namespace DealnetPortal.Web.Resources {
         public static string PreApprovedFor {
             get {
                 return ResourceManager.GetString("PreApprovedFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1% of pre-approved loan value.
+        /// </summary>
+        public static string PreApprovedLoanValueFee {
+            get {
+                return ResourceManager.GetString("PreApprovedLoanValueFee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1% of pre-approved loan value will be applied to your account as a lead fee.
+        /// </summary>
+        public static string PreApprovedLoanValueFeeWillBeApplied {
+            get {
+                return ResourceManager.GetString("PreApprovedLoanValueFeeWillBeApplied", resourceCulture);
             }
         }
         

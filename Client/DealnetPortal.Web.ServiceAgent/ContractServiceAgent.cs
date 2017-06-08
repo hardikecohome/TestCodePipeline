@@ -534,5 +534,18 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<TierDTO> GetDealerTier()
+        {
+            try
+            {
+                return await Client.GetAsync<TierDTO>($"{_fullUri}/GetDealerTier");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove contract", ex);
+                throw;
+            }
+        }
     }
 }

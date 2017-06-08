@@ -24,3 +24,12 @@ function checkHomeOwner() {
     });
     return isHomeOwner;
 };
+
+function checkCreditAgree() {
+    if ($("#additional1-section").data('active')) {
+        return $('#agreement-checkbox1').prop('checked') && $('#agreement-checkbox').prop('checked') ? true: false;
+    } else {
+        return $('#agreement-checkbox').prop('checked') ? true : false;
+    }
+    
+}

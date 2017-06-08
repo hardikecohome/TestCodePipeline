@@ -1,0 +1,33 @@
+﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+<div class="row rental-element">
+    <div class="col-md-3">
+        <br>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TotalMonthlyPayment)
+            <div class="control-group has-addon-left">
+                <div class="control-group-addon">$</div>
+                @Html.TextBoxFor(m => m.TotalMonthlyPayment, new {@class = "form-control dealnet-input", id = "total-monthly-payment", type = "text", placeholder = Resources.TotalMonthlyPayment})
+                @Html.ValidationMessageFor(m => m.TotalMonthlyPayment, "", new {@class = "text-danger"})
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+
+<div class="row rental-element">
+    <div class="col-md-6">
+        <div class="row form-group">
+            <div class="col-md-5 col-xs-8">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>
+            <div class="col-md-3 col-xs-4 text-right text-semibold">
+                $ <span id="rentalTax">-</span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-5 col-xs-8">@Resources.TotalMonthlyPaymentWithTaxes</div>
+            <div class="col-md-3 col-xs-4 text-right text-semibold">
+                $ <span id="rentalTMPayment">-</span>
+            </div>
+        </div>
+    </div>
+</div>
