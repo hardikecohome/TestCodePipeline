@@ -106,10 +106,12 @@ function showTable() {
             $('#clear-filters-mobile').on('click', clearFilters);
 
           $('.dataTables_filter input[type="search"]').attr('placeholder','Requested service, customer comment');
-          $('.link-accepted').popover({
-            placement : 'left',
-            template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
-          });
+          if($('body').not('.tablet-device').not('.mobile-device').length > 0){
+            $('.link-accepted').popover({
+              placement : 'left',
+              template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
+            });
+          }
         });
 
     function clearFilters() {
