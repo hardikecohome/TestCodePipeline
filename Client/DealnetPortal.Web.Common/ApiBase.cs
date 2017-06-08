@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using DealnetPortal.Api.Core.ApiClient;
+using DealnetPortal.Web.Common.Security;
 using Microsoft.Owin.Security;
 
 namespace DealnetPortal.Web.Common
@@ -11,16 +14,22 @@ namespace DealnetPortal.Web.Common
         protected readonly string _fullUri;
         protected readonly IAuthenticationManager _authenticationManager;
 
-        public ApiBase(IHttpApiClient client, string controllerName, IAuthenticationManager authenticationManager)
+        public ApiBase(IHttpApiClient client, string controllerName)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
 
             Client = client;
 
-            _authenticationManager = authenticationManager;
+            _authenticationManager = null;
             _uri = controllerName;
             _fullUri = string.Format("{0}/{1}", Client.Client.BaseAddress, _uri);
+        }
+
+        public ApiBase(IHttpApiClient client, string controllerName, IAuthenticationManager authenticationManager)
+            : this(client, controllerName)
+        {                        
+            _authenticationManager = authenticationManager;
         }
 
         /// <summary>
@@ -34,7 +43,9 @@ namespace DealnetPortal.Web.Common
             {
                 if (_authenticationManager?.User != null)
                 {
-                    
+                    var token = (_authenticationManager?.User?.Identity as UserIdentity)?.Token ?? (_authenticationManager?.User?.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
+                    //return Authorization header
+                    return new AuthenticationHeaderValue("Bearer", token ?? string.Empty);
                 }
                 return null;
             }
