@@ -235,11 +235,20 @@
             initAgreement(customerFormStore);
 
             var form = $('#mainForm');
-            $('#submit').on('click', function (e) {
+            form.submit(function (e) {
+                $('#submit').prop('disabled', true);
+
+                if (!form.valid()) {
+                    e.preventDefault();
+                    $('#submit').prop('disabled', false);
+                }
+
                 dispatch(createAction(customerActions.SUBMIT));
                 var errors = getErrors(customerFormStore.getState());
+
                 if (errors.length > 0 && form.valid()) {
                     e.preventDefault();
+                    $('#submit').prop('disabled', false);
                 }
             });
 
