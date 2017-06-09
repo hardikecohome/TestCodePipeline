@@ -62,11 +62,15 @@ namespace DealnetPortal.DataAccess.Repositories
             var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
                 : new string[] {"20-Credit Review"};
-            //var aspireCreditReviewState = ConfigurationManager.AppSettings["CreditReviewStatus"] ?? "20-Credit Review";
+            
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
             var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
             var pcList = dealerProfile?.Areas.Select(e => e.PostalCode);
+            if (eqList?.FirstOrDefault() == null || pcList?.FirstOrDefault() == null)
+            {
+                return new List<Contract>();
+            }
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
