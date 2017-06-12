@@ -55,7 +55,7 @@ function showTable() {
                         },
                         "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
                         "sZeroRecords": translations['NoMatchingRecordsFound'],
-                        "sEmptyTable": translations['LeadsNoMatchingRecordsFound']
+                        "sEmptyTable": isCompletedProfile  ? translations['NoMatchingRecordsFound'] : translations['LeadsNoMatchingRecordsFound']
                     },
                     columns: [
 					    { "data": "Date", className: 'date-cell expanded-cell' },

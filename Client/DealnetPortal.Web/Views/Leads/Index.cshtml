@@ -109,7 +109,9 @@
 @section scripts
 {
     <script type="text/javascript">
-        var itemsUrl = '@Url.Action("GetLeads", "Home")';
+      var itemsUrl = '@Url.Action("GetLeads", "Home")';
+      var isCompletedProfile = '@ViewBag.IsCompletedProfile' === 'True' ? true : false;
+
     </script>
 
     @Scripts.Render("~/bundles/data-tables-scripts")
