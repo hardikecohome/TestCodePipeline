@@ -1547,4 +1547,7 @@
   <data name="PreApprovedLoanValueFeeWillBeApplied" xml:space="preserve">
     <value>1% of pre-approved loan value will be applied to your account as a lead fee</value>
   </data>
+  <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
+    <value>Please configure your profile in order to view leads</value>
+  </data>
 </root>
