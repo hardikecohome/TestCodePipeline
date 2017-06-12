@@ -316,8 +316,15 @@
                     $('#submit').addClass('disabled');
                     $('#submit').parent().popover();
                 } else {
-                    $('#submit').removeClass('disabled');
-                    $('#submit').parent().popover('destroy');
+                    if ($('#mainForm').valid()) {
+                        $('#submit').removeClass('disabled');
+                        $('#submit').parent().popover('destroy');
+                    } else {
+                        if (!$('#submit').is(':disabled')) {
+                            $('#submit').addClass('disabled');
+                            $('#submit').parent().popover();
+                        }
+                    }
                 }
             });
         });
