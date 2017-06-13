@@ -293,25 +293,11 @@
                 return err;
             };
 
-            $('form').on('keyup change', 'input, select, textarea', function () {
-                var isValid = $('#mainForm').validate().checkForm();
-                if ($('#submit').hasClass('disabled')) {
-                    if (isValid) {
-                        $('#submit').removeClass('disabled');
-                        $('#submit').parent().popover('destroy');
-                    }
-                } else {
-                    if (!isValid) {
-                        $('#submit').addClass('disabled');
-                        $('#submit').parent().popover();
-                    }
-                }
-            });
-
             observeCustomerFormStore(function (state) {
                 return {
                     errors: getErrors(state),
-                    displaySubmitErrors: state.displaySubmitErrors
+                    displaySubmitErrors: state.displaySubmitErrors,
+                    state: state
                 }
             })(function (props) {
                 $('#yourInfoErrors').empty();

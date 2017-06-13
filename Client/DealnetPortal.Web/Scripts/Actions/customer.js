@@ -34,5 +34,6 @@
         SET_PADDRESS: 'set_paddress',
         SET_COMMENT: 'set_comment',
         SET_EMAIL: 'set_email',
+        SET_BUSINESS_PHONE: 'set_business_phone'
     };
 });
