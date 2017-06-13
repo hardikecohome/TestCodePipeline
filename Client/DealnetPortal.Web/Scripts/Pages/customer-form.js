@@ -145,7 +145,7 @@
 
     var setAutocomplete = function(streetElmId, cityElmId) {
         var extendCommonOpts = extendObj({
-            componentRestrictions: { country: 'ca' },
+            componentRestrictions: { country: 'ca' }
         });
 
         var streetElm = document.getElementById(streetElmId);
@@ -257,7 +257,7 @@
                 return {
                     displayInstallation: state.displayInstallation,
                     displayContactInfo: state.displayContactInfo,
-                    activePanel: state.activePanel,
+                    activePanel: state.activePanel
                 };
             })(function (props) {
                 if (props.activePanel === 'yourInfo') {
@@ -293,10 +293,25 @@
                 return err;
             };
 
+            $('form').on('keyup change', 'input, select, textarea', function () {
+                var isValid = $('#mainForm').validate().checkForm();
+                if ($('#submit').hasClass('disabled')) {
+                    if (isValid) {
+                        $('#submit').removeClass('disabled');
+                        $('#submit').parent().popover('destroy');
+                    }
+                } else {
+                    if (!isValid) {
+                        $('#submit').addClass('disabled');
+                        $('#submit').parent().popover();
+                    }
+                }
+            });
+
             observeCustomerFormStore(function (state) {
                 return {
                     errors: getErrors(state),
-                    displaySubmitErrors: state.displaySubmitErrors,
+                    displaySubmitErrors: state.displaySubmitErrors
                 }
             })(function (props) {
                 $('#yourInfoErrors').empty();
@@ -320,7 +335,7 @@
                         $('#submit').removeClass('disabled');
                         $('#submit').parent().popover('destroy');
                     } else {
-                        if (!$('#submit').is(':disabled')) {
+                        if (!$('#submit').hasClass('disabled')) {
                             $('#submit').addClass('disabled');
                             $('#submit').parent().popover();
                         }
