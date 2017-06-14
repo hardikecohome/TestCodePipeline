@@ -5,7 +5,9 @@
         public static string NumberOfEmployee = "Number Of Employee";
         public static string AuthorizedConsent = "Authorized Consent";
         public static string OptIn = "Opt In";
-        public static string HomeOwner = "HomeOwner";        
+        public static string HomeOwner = "HomeOwner";
+        public static string HomeImprovementType = "Home Improvement Type";
+        public static string PrefferedInstallationDate = "Preffered Installation Date";
         //Installation Address
         public static string InstallationAddress = "Installation Address";
         public static string InstallationAddressCity = "Installation Address City";
@@ -24,6 +26,10 @@
         public static string PreviousAddressCountry = "Previous Address Country";
         public static string PreviousAddressPostalCode = "Previous Address Postal Code";
         public static string PreviousAddressState = "Previous Address State";
+        //Phones
+        public static string HomePhoneNumber = "Home Phone Number";
+        public static string MobilePhoneNumber = "Mobile Phone Number";
+        public static string BusinessPhoneNumber = "Business Phone Number";
 
         public static string EstimatedMoveInDate = "Estimated move in date";
 
