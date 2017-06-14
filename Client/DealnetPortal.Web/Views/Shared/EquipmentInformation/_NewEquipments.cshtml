@@ -9,7 +9,7 @@
         <span class="equipment-number">№@(i + 1)</span>
         @if (i > 0)
         {
-            <div class="additional-remove">
+            <div class="additional-remove" id="addequipment-remove-@(i)">
                 <i class="glyphicon glyphicon-remove"></i>
             </div>
         }
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-xs-12">
             <div class="form-group">
                 @Html.LabelFor(m => m.NewEquipment[i].Cost)
                 <div class="control-group has-addon-left">

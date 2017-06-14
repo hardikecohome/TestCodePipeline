@@ -104,7 +104,9 @@ namespace DealnetPortal.Api.Integration.Services
                     var dealerEmail = aspireDealerInfo.Emails?.FirstOrDefault()?.EmailAddress;
                     if (!string.IsNullOrEmpty(dealerEmail) && dealerEmail != user.Email)
                     {
-                        await _userManager.SetEmailAsync(user.Id, dealerEmail);                        
+                        await _userManager.SetEmailAsync(user.Id, dealerEmail);
+                        user.EmailConfirmed = true;
+                        await _userManager.UpdateAsync(user);
                     }
                 }                
             }

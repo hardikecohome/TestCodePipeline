@@ -17,11 +17,17 @@
 
                 if (isValid) {
                     rateCardBlock.hide();
+                } else {
+                    if (!$("#submit").hasClass('disabled')) {
+                        $('#submit').addClass('disabled');
+                        $('#submit').parent().popover();
+                    }
                 }
             } else {
                 rateCardBlock.hide();
             }
         }
+
         var submitForm = function (event) {
             var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
             if (agreementType === "0") {

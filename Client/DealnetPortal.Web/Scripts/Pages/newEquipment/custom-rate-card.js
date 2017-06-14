@@ -58,14 +58,19 @@
 
     function validateCustomRateCardOnInput() {
         var submit = $('#submit');
+        var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
+            ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
+            : '';
 
-        if (!validateOnSelect()) {
+        if (!validateOnSelect() && selectedRateCard === 'Custom') {
             if (!submit.hasClass('disabled')) {
                 submit.addClass('disabled');
+                submit.parent().popover();
             }
         } else {
-            if (submit.hasClass('disabled')) {
+            if (submit.hasClass('disabled') && selectedRateCard === 'Custom') {
                 submit.removeClass('disabled');
+                submit.parent().popover('destroy');
             }
         }
     }
