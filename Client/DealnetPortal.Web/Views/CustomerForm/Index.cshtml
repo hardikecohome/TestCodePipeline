@@ -178,7 +178,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @for = "postalCode", @class = "mandatory-field" })
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", placeholder = "12345", id = "postalCode" })
+                                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = "postalCode" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -251,7 +251,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @for = "ppostalCode", @class = "mandatory-field" })
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input", placeholder = "12345", id = "ppostalCode" })
+                                        @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = "ppostalCode" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
