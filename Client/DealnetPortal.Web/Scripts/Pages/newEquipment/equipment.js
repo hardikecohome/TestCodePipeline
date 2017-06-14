@@ -25,6 +25,10 @@
         newTemplate.find('.equipment-cost').on('change', updateCost);
         newTemplate.find('#addequipment-remove-' + id).on('click', removeEquipment);
 
+        customizeSelect();
+        toggleClearInputIcon($(newTemplate).find('textarea, input'));
+        resetPlacehoder($(newTemplate).find('textarea, input'));
+
         $('#new-equipments').append(newTemplate);
 
         resetFormValidator("#equipment-form");
@@ -72,6 +76,11 @@
         }
 
         $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
+        customizeSelect();
+        //if not first equipment add handler (first equipment should always be visible)
+        if (i > 0) {
+            $('#addequipment-remove-' + i).on('click', removeEquipment);
+        }
     }
 
     function resetFormValidator(formId) {

@@ -1556,4 +1556,10 @@
   <data name="PreApprovedLoanValueFeeWillBeApplied" xml:space="preserve">
     <value>1% of pre-approved loan value will be applied to your account as a lead fee</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>French</value>
+  </data>
 </root>
