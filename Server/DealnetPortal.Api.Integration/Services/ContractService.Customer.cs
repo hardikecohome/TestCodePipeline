@@ -75,6 +75,9 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
                     }
+
+                    //try to submit deal in Aspire
+                    await _aspireService.SubmitDeal(contractResult.Item1.Id, contractOwnerId);
                 }
 
                 //if all aspire opertaion is failed

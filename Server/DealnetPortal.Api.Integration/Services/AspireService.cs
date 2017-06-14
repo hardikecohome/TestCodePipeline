@@ -801,7 +801,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture) 
+                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture) 
                                                                                                     : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
