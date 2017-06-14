@@ -69,4 +69,5 @@
 
         var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
         state.agreementType = Number(agreementType);
+
     });

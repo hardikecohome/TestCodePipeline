@@ -63,40 +63,6 @@
         }
     }
 
-    var slickRateCards = function() {
-        if (viewport().width <= 1023) {
-            $('.rate-cards-container').not('.slick-initialized').not('.one-rate-card').slick({
-                infinite: false,
-                dots: true,
-                speed: 300,
-                slidesToShow: 4,
-                slidesToScroll: 4,
-                responsive: [
-                    {
-                        breakpoint: 1024,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 2,
-                            infinite: false
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            infinite: false
-                        }
-                    }
-                ]
-            });
-        } else {
-            if ($('.rate-cards-container').is('.slick-initialized')) {
-                $('.rate-cards-container').slick("unslick");
-            }
-        }
-    }
-
     var highlightCard = function() {
         $(this).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
 
@@ -114,10 +80,10 @@
         $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
 
         setHeight();
-        slickRateCards();
+        carouselRateCards();
 
         $(window).resize(function () {
-            slickRateCards();
+            carouselRateCards()
             setHeight();
         });
     });
@@ -128,4 +94,82 @@
         toggle: toggleRateCardBlock,
         highlightCard: highlightCard
     };
-})
+});
+
+
+function  carouselRateCards(){
+    var windowWidth = $(window).width();
+    var paginationItems;
+    var targetSlides;
+    if (windowWidth >= 1024) {
+        paginationItems = 4;
+        targetSlides = 0;
+    } else if (windowWidth >= 768) {
+        paginationItems = 2;
+        targetSlides = 2;
+    }else {
+        console.log('adfads')
+        paginationItems = 1;
+        targetSlides = 1;
+    }
+    var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
+
+    jcarousel
+      .on('jcarousel:reload jcarousel:create', function () {
+          var carousel = $(this),
+            width = carousel.innerWidth(),
+            windowWidth = $(window).width();
+
+          if (windowWidth >= 1024) {
+              width = width / 4;
+          } else if (windowWidth >= 768) {
+              width = width / 2;
+          }else {
+              width = width / 1;
+          }
+
+          carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+      })
+      .jcarousel();
+
+    $('.jcarousel-control-prev')
+      .jcarouselControl({
+          target: '-='+targetSlides
+      });
+
+    $('.jcarousel-control-next')
+      .jcarouselControl({
+          target: '+='+targetSlides
+      });
+
+    $('.jcarousel-pagination')
+      .on('jcarouselpagination:active', 'a', function() {
+          $(this).addClass('active');
+          if($(this).is(':first-child')){
+              $('.jcarousel-control-prev').addClass('disabled');
+          }else{
+              $('.jcarousel-control-prev').removeClass('disabled');
+          }
+          if($(this).is(':last-child')){
+              $('.jcarousel-control-next').addClass('disabled');
+          }else{
+              $('.jcarousel-control-next').removeClass('disabled');
+          }
+
+      })
+      .on('jcarouselpagination:inactive', 'a', function() {
+          $(this).removeClass('active');
+      })
+      .on('click', function(e) {
+          e.preventDefault();
+      })
+      .jcarouselPagination({
+          perPage: paginationItems,
+          item: function(page) {
+              return '<a href="#' + page + '">' + page + '</a>';
+          }
+      });
+
+
+
+}

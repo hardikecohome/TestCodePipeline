@@ -82,6 +82,30 @@
     }
   }
   &.one-rate-card{
+    &.jcarousel-wrapper{
+      margin-left: 0;
+      margin-right: 0;
+      padding-top: 0;
+      .jcarousel{
+        margin: 0 -5px;
+        padding: 5px;
+        width: auto;
+        ul{
+          max-width: 100%;
+          li{
+            display: block;
+            width: 100%;
+            padding: 0;
+          }
+        }
+      }
+    }
+    .jcarousel-controls{
+      display: none;
+    }
+    li:not(:last-child){
+      display: none;
+    }
     .rate-card:not(.shown-card){
       display: none;
     }
@@ -118,10 +142,7 @@
   padding: 15px;
   background: #fff;
   border-radius: 4px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
-  &.checked{
-    box-shadow: 0 0 6px 0 @btn-success-bg;
-  }
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
   .rate-card-title{
     text-transform: uppercase;
   }
@@ -214,10 +235,3 @@
   max-width: 770px;
 }
 
-.financing-arrow {
-    color: #61c53c;
-    font-size: 12px;
-}
-.financing-arrow :hover {
-                    cursor: pointer; 
-                 }

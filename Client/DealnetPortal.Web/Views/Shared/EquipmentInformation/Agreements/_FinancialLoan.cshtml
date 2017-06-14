@@ -1,14 +1,21 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
 
-<div class="rate-cards-container rate-card-grid row loan-element" id="rateCardsBlock">
-  @if (ViewBag.CardTypes != null)
-  {
-    foreach (var rateCard in (List<RateCardType>) ViewBag.CardTypes)
-    {
-      @Html.Partial("EquipmentInformation/_" + rateCard, rateCard)
-    }
-  }
-
-  @Html.Partial("EquipmentInformation/_CustomRateCard")
-
+<div class="jcarousel-wrapper rate-cards-container steps-carousel loan-element" id="rateCardsBlock">
+    <div class="jcarousel">
+      <ul>
+        @if (ViewBag.CardTypes != null)
+        {
+        foreach (var rateCard in (List<RateCardType>) ViewBag.CardTypes)
+          {
+          @Html.Partial("EquipmentInformation/_" + rateCard, rateCard)
+          }
+        }
+        @Html.Partial("EquipmentInformation/_CustomRateCard")
+      </ul>
+      <div class="jcarousel-controls">
+        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+        <p class="jcarousel-pagination"></p>
+        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+      </div>
+  </div>
 </div>
