@@ -185,6 +185,10 @@ namespace DealnetPortal.Api.Integration.Services
                                         customerFormData.CustomerComment);
                                     // mark as created by customer
                                     c.IsCreatedByCustomer = true;
+                                    //check role of a dealer
+                                    c.IsCreatedByBroker = _dealerRepository.GetUserRoles(dealerId)
+                                        .Contains(UserRole.MortgageBroker.ToString());                                    
+
                                     return c;
                                 }
                                 return null;
