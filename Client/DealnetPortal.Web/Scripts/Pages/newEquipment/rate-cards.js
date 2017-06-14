@@ -95,6 +95,9 @@
     }
 
     var setBasicValues = function () {
+        var downPayment = $('#downPayment').val();
+        state.downPayment = downPayment ? +downPayment : 0;
+
         constants.rateCards.forEach(function (option) {
             var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
 
@@ -167,6 +170,7 @@
         if (selectedRateCard !== '') {
             if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
+                $('#submit').parent().popover('destroy');
             }
         }
         if (notNan && validateNumber && validateNotEmpty) {
@@ -392,6 +396,9 @@
 
         if (state.isNewContract && state.selectedCardId === null) {
             $('#submit').addClass('disabled');
+            $('#submit').parent().popover();
+        } else {
+            $('#submit').parent().popover('destroy');
         }
     }
 
