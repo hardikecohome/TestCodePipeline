@@ -7,6 +7,10 @@
                     .removeClass('glyphicon-chevron-right')
                     .addClass('glyphicon-chevron-down');
             });
+
+        if (!$('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').addClass('hidden');
+        }
     }
 
     var hideRateCardBlock = function () {
@@ -16,6 +20,10 @@
                     .removeClass('glyphicon-chevron-down')
                     .addClass('glyphicon-chevron-right');
             });
+
+        if ($('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').removeClass('hidden');
+        }
     }
 
     var toggleRateCardBlock = function(isOpenCondition) {
@@ -46,18 +54,24 @@
 
             if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
                 $('#submit').addClass('disabled');
+                $('#submit').parent().popover();
             }
 
             $('#loanRateCardToggle').show();
             $('.rental-element').hide();
-            $('.loan-element').show();
+
+            if ($('#rateCardsBlock').find('div.checked').length) {
+                $('#paymentInfo').show();
+            } else {
+                $('#rateCardsBlock').show();
+            }
         } else {
             //If rental is chosen
             if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
+                $('#submit').parent().popover('destroy');
             }
             setHeight();
-            $('#loanRateCardToggle').hide();
             $('.rental-element').show();
             $('.loan-element').hide();
         }

@@ -95,7 +95,7 @@ function showTable() {
             });
             $('#expand-table-filter').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
-                table.draw(false);
+                table.draw();
             });
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
