@@ -1476,4 +1476,10 @@
   <data name="CreditCheckProceedSuccessfully" xml:space="preserve">
     <value>Credit check processed successfully.</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>Anglais</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Françias</value>
+  </data>
 </root>
