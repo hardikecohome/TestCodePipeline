@@ -28,6 +28,11 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly ISettingsRepository _settingsRepository;
 
+        #region constants
+        private const string MB_ROLE_CONFIG_KEY = "AspireMortgageBrokerRole";
+        private const string DEFAULT_MB_ROLE = "Mortgage Brokers";
+        #endregion
+
         public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, ISettingsRepository settingsRepository)
         {
             _aspireStorageReader = aspireStorageReader;
@@ -73,7 +78,6 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 aspireDealerInfo =
                     AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(user.UserName));
-                    //AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(user.UserName));
 
                 if (aspireDealerInfo != null)
                 {
@@ -106,6 +110,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        #region private
         private async Task<IList<Alert>> UpdateUserParent(string userId, DealerDTO aspireUser)
         {
             var alerts = new List<Alert>();
@@ -146,9 +151,12 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             if (!string.IsNullOrEmpty(aspireUser.Role))
             {
-                var mbRole = ConfigurationManager.AppSettings["AspireMortgageBrokerRole"] ?? "Broker";                
+                var mbRoles = ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY] != null
+                    ? ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray()
+                    : new string[] { DEFAULT_MB_ROLE };
+                //var mbRole = ConfigurationManager.AppSettings["AspireMortgageBrokerRole"] ?? "Broker";                
                 var rolesToSet = new List<string>();
-                if (aspireUser.Role == mbRole)
+                if (mbRoles.Contains(aspireUser.Role))
                 {
                     rolesToSet.Add(UserRole.MortgageBroker.ToString());                    
                 }
@@ -199,6 +207,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Error during getting user role from Aspire, for an user {userId}");
             }
             return alerts;
-        }        
+        }
+        #endregion
     }
 }

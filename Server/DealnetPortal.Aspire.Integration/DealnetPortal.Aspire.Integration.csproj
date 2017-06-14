@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AspireUdfFields.cs" />
     <Compile Include="Models\AspireDb\Contract.cs" />
     <Compile Include="Models\AspireDb\DealerRoleEntity.cs" />
     <Compile Include="Models\AspireDb\DropDownItem.cs" />

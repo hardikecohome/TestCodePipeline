@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Api.Integration.Services
+﻿namespace DealnetPortal.Aspire.Integration.Constants
 {
-    static class AspireUdfFields
+    public static class AspireUdfFields
     {
         public static string NumberOfEmployee = "Number Of Employee";
         public static string AuthorizedConsent = "Authorized Consent";

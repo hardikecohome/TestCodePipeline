@@ -12,6 +12,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Constants;
 using DealnetPortal.Aspire.Integration.Models;
 using DealnetPortal.Aspire.Integration.ServiceAgents;
 using DealnetPortal.DataAccess;
