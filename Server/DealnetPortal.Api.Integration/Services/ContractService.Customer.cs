@@ -76,8 +76,15 @@ namespace DealnetPortal.Api.Integration.Services
                         aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
                     }
 
-                    //try to submit deal in Aspire
-                    await _aspireService.SubmitDeal(contractResult.Item1.Id, contractOwnerId);
+                    try
+                    {
+                        //try to submit deal in Aspire
+                        await _aspireService.SubmitDeal(contractResult.Item1.Id, contractOwnerId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService.LogError($"Cannot submit deal {contractResult.Item1.Id} in Aspire", ex);
+                    }
                 }
 
                 //if all aspire opertaion is failed
