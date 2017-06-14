@@ -232,7 +232,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional Applicant is home owner..
+        ///   Looks up a localized string similar to Additional Applicant is a home owner.
         /// </summary>
         public static string AdditionalIsHomeOwner {
             get {
@@ -646,7 +646,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Borrower is home owner..
+        ///   Looks up a localized string similar to Borrower is a home owner.
         /// </summary>
         public static string BorrowerIsHomeOwner {
             get {

@@ -1077,7 +1077,7 @@
     <value>2 Months</value>
   </data>
   <data name="AdditionalIsHomeOwner" xml:space="preserve">
-    <value>Additional Applicant is home owner.</value>
+    <value>Additional Applicant is a home owner</value>
   </data>
   <data name="AddToComparison" xml:space="preserve">
     <value>Add to Comparison</value>
@@ -1095,7 +1095,7 @@
     <value>Borrower Information</value>
   </data>
   <data name="BorrowerIsHomeOwner" xml:space="preserve">
-    <value>Borrower is home owner.</value>
+    <value>Borrower is a home owner</value>
   </data>
   <data name="Calculator" xml:space="preserve">
     <value>Calculator</value>

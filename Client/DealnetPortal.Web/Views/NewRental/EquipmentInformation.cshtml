@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 <div id="label-steps">
@@ -119,6 +120,7 @@
   <script type="text/javascript">
     var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
     var isCalculationValid = false;
+    var onlyCustomCard = '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false;
   </script>
   <script type="text/javascript">
     configInitialized.then(function () {

@@ -104,6 +104,9 @@
     }
 
     $(document).ready(function () {
+        if (onlyCustomCard) {
+            $('#rateCardsBlock').addClass('one-rate-card');
+        }
         $('#loanRateCardToggle').click(function () {
             toggleRateCardBlock(!$('#rateCardsBlock').is(':visible'));
         });
