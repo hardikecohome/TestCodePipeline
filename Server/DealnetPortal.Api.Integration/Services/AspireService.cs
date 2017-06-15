@@ -12,6 +12,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Constants;
 using DealnetPortal.Aspire.Integration.Models;
 using DealnetPortal.Aspire.Integration.ServiceAgents;
 using DealnetPortal.DataAccess;
@@ -800,7 +801,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture) 
+                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture) 
                                                                                                     : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
@@ -985,8 +986,16 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     udfList.Add(new UDF()
                     {
-                        Name = AspireUdfFields.EstimatedMoveInDate,
+                        Name = AspireUdfFields.PrefferedInstallationDate,
                         Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
+                if (contract.Equipment.NewEquipment?.Any() == true)
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.HomeImprovementType,
+                        Value = contract.Equipment.NewEquipment.First().Type
                     });
                 }
             }
@@ -1179,13 +1188,38 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            udfList.Add(
-                new UDF()
+            customer.Phones?.ForEach(p =>
+            {
+                switch (p.PhoneType)
                 {
+                    case PhoneType.Home:
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.HomePhoneNumber,
+                            Value = p.PhoneNum
+                        });
+                        break;
+                    case PhoneType.Cell:
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.MobilePhoneNumber,
+                            Value = p.PhoneNum
+                        });
+                        break;
+                    case PhoneType.Business:
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.BusinessPhoneNumber,
+                            Value = p.PhoneNum
+                        });
+                        break;                    
+                }
+            });
 
-                    Name = AspireUdfFields.AllowCommunicate,
-                    Value = customer.AllowCommunicate == false ? "0" : "1"
-                });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.AllowCommunicate, Value = customer.AllowCommunicate == false ? "0" : "1"
+            });
 
             if (customer.PreferredContactMethod.HasValue)
             {
@@ -1200,24 +1234,21 @@ namespace DealnetPortal.Api.Integration.Services
                         break;
                     case PreferredContactMethod.Text:
                         contactMethod = AspireUdfFields.ContactViaText;
-                        break;                        
+                        break;
                 }
                 if (contactMethod != null)
                 {
-                    udfList.Add(
-                        new UDF()
-                        {
-                            Name = contactMethod,
-                            Value = "Y"
-                        });
+                    udfList.Add(new UDF()
+                    {
+                        Name = contactMethod, Value = "Y"
+                    });
                 }
             }
             if (contract?.Equipment?.EstimatedInstallationDate != null)
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.EstimatedMoveInDate,
-                    Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    Name = AspireUdfFields.EstimatedMoveInDate, Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                 });
             }
 

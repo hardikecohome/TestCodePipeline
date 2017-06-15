@@ -145,7 +145,7 @@
 
     var setAutocomplete = function(streetElmId, cityElmId) {
         var extendCommonOpts = extendObj({
-            componentRestrictions: { country: 'ca' },
+            componentRestrictions: { country: 'ca' }
         });
 
         var streetElm = document.getElementById(streetElmId);
@@ -235,11 +235,20 @@
             initAgreement(customerFormStore);
 
             var form = $('#mainForm');
-            $('#submit').on('click', function (e) {
+            form.submit(function (e) {
+                $('#submit').prop('disabled', true);
+
+                if (!form.valid()) {
+                    e.preventDefault();
+                    $('#submit').prop('disabled', false);
+                }
+
                 dispatch(createAction(customerActions.SUBMIT));
                 var errors = getErrors(customerFormStore.getState());
+
                 if (errors.length > 0 && form.valid()) {
                     e.preventDefault();
+                    $('#submit').prop('disabled', false);
                 }
             });
 
@@ -248,7 +257,7 @@
                 return {
                     displayInstallation: state.displayInstallation,
                     displayContactInfo: state.displayContactInfo,
-                    activePanel: state.activePanel,
+                    activePanel: state.activePanel
                 };
             })(function (props) {
                 if (props.activePanel === 'yourInfo') {
@@ -288,6 +297,7 @@
                 return {
                     errors: getErrors(state),
                     displaySubmitErrors: state.displaySubmitErrors,
+                    state: state
                 }
             })(function (props) {
                 $('#yourInfoErrors').empty();
@@ -307,8 +317,15 @@
                     $('#submit').addClass('disabled');
                     $('#submit').parent().popover();
                 } else {
-                    $('#submit').removeClass('disabled');
-                    $('#submit').parent().popover('destroy');
+                    if ($('#mainForm').valid()) {
+                        $('#submit').removeClass('disabled');
+                        $('#submit').parent().popover('destroy');
+                    } else {
+                        if (!$('#submit').hasClass('disabled')) {
+                            $('#submit').addClass('disabled');
+                            $('#submit').parent().popover();
+                        }
+                    }
                 }
             });
         });

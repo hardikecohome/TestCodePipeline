@@ -75,7 +75,7 @@ namespace DealnetPortal.Api.Integration.Services
                     AspireStatus = contract.Details.Status,
                     AspireTransactionId = contract.Details.TransactionId,
                     EquipmentType = contract.Equipment?.NewEquipment?.FirstOrDefault()?.Type,
-                    IsIncomplete = contract.Equipment?.NewEquipment == null || !contract.Equipment.NewEquipment.Any() || customer.Locations.All(l => l.AddressType != AddressType.MainAddress),
+                    IsIncomplete = contract.Equipment?.NewEquipment == null || !contract.Equipment.NewEquipment.Any() || customer.Locations.All(l => l.AddressType != AddressType.InstallationAddress),
                     UpdateTime = DateTime.Now
                 }
             };

@@ -1562,6 +1562,9 @@
   <data name="French" xml:space="preserve">
     <value>French</value>
   </data>
+  <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
+    <value>Please configure your profile in order to view leads</value>
+  </data>
   <data name="CannotBeLongerThan" xml:space="preserve">
     <value>{0} cannot be longer than {1}.</value>
   </data>

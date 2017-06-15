@@ -32,6 +32,7 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerFormRepository _customerFormRepository;
+        private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IMailService _mailService;
         private readonly ISettingsRepository _settingsRepository;
@@ -42,11 +43,12 @@ namespace DealnetPortal.Api.Integration.Services
 
         public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository,
             IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IContractService contractService,
-            ILoggingService loggingService, IMailService mailService, IAspireStorageReader aspireStorageReader)
+            ILoggingService loggingService, IMailService mailService, IAspireService aspireService, IAspireStorageReader aspireStorageReader)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
             _dealerRepository = dealerRepository;
+            _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;
             _settingsRepository = settingsRepository;
             _mailService = mailService;
@@ -185,6 +187,10 @@ namespace DealnetPortal.Api.Integration.Services
                                         customerFormData.CustomerComment);
                                     // mark as created by customer
                                     c.IsCreatedByCustomer = true;
+                                    //check role of a dealer
+                                    c.IsCreatedByBroker = _dealerRepository.GetUserRoles(dealerId)
+                                        .Contains(UserRole.MortgageBroker.ToString());                                    
+
                                     return c;
                                 }
                                 return null;
@@ -228,6 +234,20 @@ namespace DealnetPortal.Api.Integration.Services
                         if (creditCheckAlerts.Any())
                         {
                             alerts.AddRange(creditCheckAlerts);
+                        }
+
+                        try
+                        {                        
+                            //try to submit deal in Aspire
+                            var submitAlerts = _aspireService.SubmitDeal(c.Id, c.DealerId).GetAwaiter().GetResult();
+                            if (submitAlerts?.Any() == true)
+                            {
+                                alerts.AddRange(submitAlerts);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _loggingService.LogError($"Cannot submit deal {c.Id} in Aspire", ex);
                         }
                     }
                 });

@@ -8,6 +8,7 @@
         birthday: '',
         street: '',
         unit: '',
+        sin: '',
         city: '',
         province: '',
         postalCode: '',
@@ -25,10 +26,11 @@
         cellPhone: '',
         email: '',
         comment: '',
-       captchaCode: config.reCaptchaEnabled ? '' : 'empty' ,
+        businessPhone: '',
+        captchaCode: config.reCaptchaEnabled ? '' : 'empty' ,
         creditAgreement: false,
         contactAgreement: false,
-        lessThanSix: false,
+        lessThanSix: false
     };
 
     var setFormField = function (field) {
@@ -51,6 +53,7 @@
     reducerObj[customerActions.SET_STREET] = setFormField('street');
     reducerObj[customerActions.SET_UNIT] = setFormField('unit');
     reducerObj[customerActions.SET_CITY] = setFormField('city');
+    reducerObj[customerActions.SET_SIN] = setFormField('sin');
     reducerObj[customerActions.SET_PROVINCE] = setFormField('province');
     reducerObj[customerActions.SET_POSTAL_CODE] = setFormField('postalCode');
     reducerObj[customerActions.CLEAR_ADDRESS] = function() {
@@ -140,6 +143,7 @@
     reducerObj[customerActions.SET_CAPTCHA_CODE] = setFormField('captchaCode');
     reducerObj[customerActions.SET_PHONE] = setFormField('phone');
     reducerObj[customerActions.SET_CELL_PHONE] = setFormField('cellPhone');
+    reducerObj[customerActions.SET_BUSINESS_PHONE] = setFormField('businessPhone');
     reducerObj[customerActions.SET_COMMENT] = setFormField('comment');
     reducerObj[customerActions.SET_EMAIL] = setFormField('email');
 

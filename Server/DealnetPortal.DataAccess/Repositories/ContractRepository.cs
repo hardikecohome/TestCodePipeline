@@ -62,11 +62,15 @@ namespace DealnetPortal.DataAccess.Repositories
             var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
                 : new string[] {"20-Credit Review"};
-            //var aspireCreditReviewState = ConfigurationManager.AppSettings["CreditReviewStatus"] ?? "20-Credit Review";
+            
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
             var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
             var pcList = dealerProfile?.Areas.Select(e => e.PostalCode);
+            if (eqList?.FirstOrDefault() == null || pcList?.FirstOrDefault() == null)
+            {
+                return new List<Contract>();
+            }
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -88,8 +92,10 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             if (pcList!=null && pcList.Any())
             {
-                contracts = contracts.Where(c => pcList.Any(pc => 
-                    c.PrimaryCustomer.Locations?.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress)?.PostalCode.Contains(pc) ?? false)).ToList();
+                contracts = contracts.Where(c => pcList.Any(pc => c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress).PostalCode.Length >= pc.Length &&
+                c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();
+                //contracts = contracts.Where(c => pcList.Any(pc => 
+                //    c.PrimaryCustomer.Locations?.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress)?.PostalCode.Contains(pc) ?? false)).ToList();
             }
              
             return contracts;

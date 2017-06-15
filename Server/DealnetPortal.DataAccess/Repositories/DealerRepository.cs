@@ -59,8 +59,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 return profile;
             }
             profile.Id = dbProfile.Id;
-            UpdateProfileEquipments(profile, dbProfile.Equipments);
-            UpdateProfileArears(profile, dbProfile.Areas);
+            UpdateProfileEquipments(profile, dbProfile.Equipments.ToList());
+            UpdateProfileArears(profile, dbProfile.Areas.ToList());
 
             return dbProfile;
         }
@@ -74,7 +74,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             if (profile.Equipments == null)
             {
-                _dbContext.DealerEquipments.ForEach(e => _dbContext.DealerEquipments.Remove(e));
+                dbEquipments.ForEach(e => _dbContext.DealerEquipments.Remove(e));
             }
             else
             {
@@ -106,7 +106,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             if (profile.Areas == null)
             {
-                _dbContext.DealerArears.ForEach(ar=> _dbContext.DealerArears.Remove(ar));
+                dbArears.ForEach(ar=> _dbContext.DealerArears.Remove(ar));
             }
             else
             {
