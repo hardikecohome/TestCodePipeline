@@ -5,10 +5,7 @@
                         string.IsNullOrEmpty(Model.City) ||
                         string.IsNullOrEmpty(Model.Province) ||
                         string.IsNullOrEmpty(Model.PostalCode));
-    var isContactSection = !(string.IsNullOrEmpty(Model.DealerName) &&
-                           string.IsNullOrEmpty(Model.Phone) &&
-                           string.IsNullOrEmpty(Model.Email) &&
-                           !isFullAddress);
+    var isContactSection = !(string.IsNullOrEmpty(Model.Phone) && string.IsNullOrEmpty(Model.Email));
 }
 
 <div class="customer-loan-success-page align-middle-section">
@@ -50,7 +47,7 @@
                             </a>
                         </div>
                     }
-                    @if (!string.IsNullOrEmpty(Model.Phone))
+                    @if (!string.IsNullOrEmpty(Model.Email))
                     {
                         <div>
                             <a href="mailto:@Model.Email"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span> @Model.Email</span></a>
