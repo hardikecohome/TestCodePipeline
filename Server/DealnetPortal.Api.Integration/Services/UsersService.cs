@@ -36,7 +36,8 @@ namespace DealnetPortal.Api.Integration.Services
         private const string DEFAULT_MB_ROLE = "Mortgage Brokers";
         #endregion
 
-        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, ISettingsRepository settingsRepository)
+        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
+            ISettingsRepository settingsRepository, IUnitOfWork unitOfWork)
         {
             _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
@@ -104,13 +105,14 @@ namespace DealnetPortal.Api.Integration.Services
                             alerts.AddRange(tierAlerts);
                         }
                     }
-                    var dealerEmail = aspireDealerInfo.Emails?.FirstOrDefault()?.EmailAddress;
-                    if (!string.IsNullOrEmpty(dealerEmail) && dealerEmail != user.Email)
-                    {
-                        await _userManager.SetEmailAsync(user.Id, dealerEmail);
-                        user.EmailConfirmed = true;
-                        await _userManager.UpdateAsync(user);
-                    }
+                    //currently email update isn't work correctly
+                    //var dealerEmail = aspireDealerInfo.Emails?.FirstOrDefault()?.EmailAddress;
+                    //if (!string.IsNullOrEmpty(dealerEmail) && dealerEmail != user.Email)
+                    //{
+                    //    await _userManager.SetEmailAsync(user.Id, dealerEmail);
+                    //    user.EmailConfirmed = true;
+                    //    await _userManager.UpdateAsync(user);
+                    //}
                 }                
             }
             catch (Exception ex)
