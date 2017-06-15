@@ -736,6 +736,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} cannot be longer than {1}..
+        /// </summary>
+        public static string CannotBeLongerThan {
+            get {
+                return ResourceManager.GetString("CannotBeLongerThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot get contract agreement for Print.
         /// </summary>
         public static string CannotGetAgreementForPrint {
