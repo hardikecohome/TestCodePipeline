@@ -1034,7 +1034,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                     formFields.Add(new FormField()
                     {
-                        FieldType = FieldType.CheckBox,
+                        FieldType = FieldType.Text,
                         Name = PdfFormFields.EquipmentMonthlyRental,
                         Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
                     });
