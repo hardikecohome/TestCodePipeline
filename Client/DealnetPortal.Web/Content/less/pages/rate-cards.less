@@ -137,12 +137,18 @@
     left: 0;
   }
 }
-
+.financing-arrow{
+  color: @btn-success-bg;
+  cursor: pointer;
+}
 .rate-card{
   padding: 15px;
   background: #fff;
   border-radius: 4px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  &.checked{
+    box-shadow: 0 0 6px 0 @btn-success-bg;
+  }
   .rate-card-title{
     text-transform: uppercase;
   }
