@@ -2617,6 +2617,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Months.
+        /// </summary>
+        public static string Months {
+            get {
+                return ResourceManager.GetString("Months", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} must be at least {2} characters long..
         /// </summary>
         public static string MustBeAtLeastLong {
