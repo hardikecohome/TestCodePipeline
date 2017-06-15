@@ -70,7 +70,7 @@
     @if (wasAcceptedResource.Length >= 2)
     {
         @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
-    } 
+    }
 </div>
 
 <table id="work-items-table" class="display responsive my-deals-table my-leads-table " width="100%">
@@ -93,6 +93,7 @@
     translations['Show'] = "@Resources.Show";
     translations['Entries'] = "@Resources.Entries";
     translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+    translations['LeadsNoMatchingRecordsFound'] = "@Resources.LeadsNoMatchingRecordsFound";
     translations['Leads'] = "@Resources.Leads";
     translations['AcceptLead'] = "@Resources.AcceptLead";
     translations['AreYouSure'] = "@Resources.AreYouSure";
@@ -108,7 +109,9 @@
 @section scripts
 {
     <script type="text/javascript">
-        var itemsUrl = '@Url.Action("GetLeads", "Home")';
+      var itemsUrl = '@Url.Action("GetLeads", "Home")';
+      var isCompletedProfile = '@ViewBag.IsCompletedProfile' === 'True' ? true : false;
+
     </script>
 
     @Scripts.Render("~/bundles/data-tables-scripts")
