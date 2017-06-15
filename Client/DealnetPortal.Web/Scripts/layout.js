@@ -85,6 +85,11 @@
       .parents('.dealnet-sidebar-item')
       .addClass('dealnet-sidebar-item-selected');
 
+      // NewApplication has multiple steps with different window.location.pathname,
+      // but New Application navigation should be active on each step.
+    if (window.location.pathname.indexOf('NewApplication') !== -1) {
+        $('#sidebar-item-newrental').addClass('dealnet-sidebar-item-selected');
+    }
 
     $(document).on('show.bs.modal', function () {
       saveScrollPosition();
