@@ -77,8 +77,14 @@
         }
     }
 
-    var highlightCard = function() {
-        $(this).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
+    var highlightCard = function () {
+
+        $(this).parents('.rate-card')
+            .addClass('checked')
+            .parents('li')
+            .siblings()
+            .find('div')
+            .removeClass('checked');
 
         return false;
     }
