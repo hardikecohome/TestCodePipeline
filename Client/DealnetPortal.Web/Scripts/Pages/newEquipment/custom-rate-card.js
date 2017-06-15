@@ -76,7 +76,13 @@
     }
 
     function numericHandler() {
-        var sanitized = $(this).val().replace(/[^0-9]/g, '');
+        // Remove invalid characters
+        var sanitized = $(this).val().replace(/[^-.0-9]/g, '');
+        // Remove non-leading minus signs
+        sanitized = sanitized.replace(/(.)-+/g, '$1');
+        // Remove the first point if there is more than one
+        sanitized = sanitized.replace(/\.(?=.*\.)/g, '');
+
         $(this).val(sanitized);
     }
 

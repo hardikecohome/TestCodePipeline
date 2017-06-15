@@ -874,6 +874,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.Contract = contract;
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
+
                 if (string.IsNullOrEmpty(equipmentInfo.SalesRep))
                 {
                     equipmentInfo.SalesRep = dbEquipment.SalesRep;
@@ -909,10 +910,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (equipmentInfo.AdminFee == null)
                 {
                     equipmentInfo.AdminFee = dbEquipment.AdminFee;
-                }
-                if (equipmentInfo.DownPayment == null)
-                {
-                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
                 }
                 if (equipmentInfo.ValueOfDeal == null)
                 {
