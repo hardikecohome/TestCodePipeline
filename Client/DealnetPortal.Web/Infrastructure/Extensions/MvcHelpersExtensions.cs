@@ -15,7 +15,7 @@ namespace DealnetPortal.Web.Infrastructure.Extensions
                 .GroupBy(type => type.CardType, val => new { Amortization = Convert.ToInt32(val.AmortizationTerm), Loan = Convert.ToInt32(val.LoanTerm) })
                 .ToDictionary(k => k.Key, v =>
                 {
-                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.Amortization.ToString(), Text = $"{value.Loan} / {value.Amortization}"});
+                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.Amortization.ToString(), Text = $"{value.Loan} / {value.Amortization}" });
 
                     return new SelectList(distincted, "Value", "Text");
                 });
@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.Infrastructure.Extensions
                 .GroupBy(type => type.CardType, val => Convert.ToInt32(val.DeferralPeriod))
                 .ToDictionary(k => k.Key, v =>
                 {
-                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.ToString(), Text = value + " " + Resources.Resources.Month });
+                    var distincted = v.Distinct().Select(value => new SelectListItem { Value = value.ToString(), Text = value + " " + (value == 1 ? Resources.Resources.Month : Resources.Resources.Months) });
 
                     return new SelectList(distincted, "Value", "Text");
                 });
