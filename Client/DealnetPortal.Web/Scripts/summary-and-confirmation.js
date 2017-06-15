@@ -80,7 +80,7 @@ function checkTotalMonthlyPayment() {
         }
     });
     if (!checkCalculationValidity(sum)) {
-        $('#new-equipment-validation-message').text("<span>" + translations['TotalMonthlyPaymentMustBeGreaterZero'] + "</span>");
+        $('#new-equipment-validation-message').html("<span>" + translations['TotalMonthlyPaymentMustBeGreaterZero'] + "</span>");
         return false;
     }
     return true;
