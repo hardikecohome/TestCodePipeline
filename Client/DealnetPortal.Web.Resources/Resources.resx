@@ -1562,4 +1562,7 @@
   <data name="French" xml:space="preserve">
     <value>French</value>
   </data>
+  <data name="CannotBeLongerThan" xml:space="preserve">
+    <value>{0} cannot be longer than {1}.</value>
+  </data>
 </root>

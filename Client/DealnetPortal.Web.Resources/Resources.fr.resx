@@ -1482,4 +1482,7 @@
   <data name="French" xml:space="preserve">
     <value>Françias</value>
   </data>
+  <data name="CannotBeLongerThan" xml:space="preserve">
+    <value>{0} ne peut pas dépasser {1}.</value>
+  </data>
 </root>
