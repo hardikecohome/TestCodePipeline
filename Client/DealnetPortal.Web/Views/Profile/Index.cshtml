@@ -76,7 +76,7 @@
           <label for="">@Resources.PostalCode</label>
           <div class="control-group">
             @Html.HiddenFor(x => x.PostalCodes[0].Id)
-            @Html.TextBoxFor(x => x.PostalCodes[0].PostalCode, new { @class = "form-control postal-code", placeholder = "12345" })
+            @Html.TextBoxFor(x => x.PostalCodes[0].PostalCode, new { @class = "form-control postal-code form-control-not-clear", placeholder = "12345" })
             @Html.ValidationMessageFor(x => x.PostalCodes[0].PostalCode, "", new { @class = "text-danger" })
           </div>
         </div>
