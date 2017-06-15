@@ -1485,4 +1485,7 @@
   <data name="CannotBeLongerThan" xml:space="preserve">
     <value>{0} ne peut pas dépasser {1}.</value>
   </data>
+  <data name="Months" xml:space="preserve">
+    <value>Mois</value>
+  </data>
 </root>
