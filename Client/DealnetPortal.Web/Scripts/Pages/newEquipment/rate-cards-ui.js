@@ -40,6 +40,36 @@
         row.height(maxHeight);
     }
 
+    var updateEquipmentCosts = function (agreementType) {
+        if (agreementType === "Loan") {
+            $(".equipment-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", false).parents('.equipment-cost-col').show();
+                input[0].form && input.rules("add", "required");
+            });
+            $(".monthly-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", true).parents('.monthly-cost-col').hide();
+                input[0].form && input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
+            });
+        } else {
+            $(".equipment-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", true).parents('.equipment-cost-col').hide();
+                input[0].form && input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
+            });
+            $(".monthly-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", false).parents('.monthly-cost-col').show();
+                input[0].form && input.rules("add", "required");
+            });
+        }
+    }
+
     var setHeight = function() {
         setEqualHeightRows($(".equal-height-row-1"));
         setEqualHeightRows($(".equal-height-row-2"));
@@ -48,7 +78,8 @@
     }
 
     var onAgreemntSelect = function () {
-        if ($(this).find("option:selected").text() === "Loan") {
+        var agreementType = $(this).find("option:selected").text();
+        if (agreementType === "Loan") {
             //If loan is chosen
             setHeight();
 
@@ -57,7 +88,7 @@
                 $('#submit').parent().popover();
             }
 
-            $('#loanRateCardToggle').show();
+            $('#loanRateCardToggle, .downpayment-row').show();
             $('.rental-element').hide();
 
             if ($('#rateCardsBlock').find('div.checked').length) {
@@ -65,6 +96,7 @@
             } else {
                 $('#rateCardsBlock').show();
             }
+            $('#equipment-form').off('change', '.monthly-cost');
         } else {
             //If rental is chosen
             if ($("#submit").hasClass('disabled')) {
@@ -73,8 +105,20 @@
             }
             setHeight();
             $('.rental-element').show();
-            $('.loan-element').hide();
+            $('.loan-element, .downpayment-row').hide();
+
+            $('#equipment-form').on('change', '.monthly-cost', function () {
+                var value = 0;
+                $.each($('.monthly-cost'), function () {
+                    var $this = $(this);
+                    if ($this[0].form) {
+                        value += parseFloat($this.val());
+                    }
+                });
+                $('#total-monthly-payment').val(value).change();
+            });
         }
+        updateEquipmentCosts(agreementType);
     }
 
     var highlightCard = function () {
