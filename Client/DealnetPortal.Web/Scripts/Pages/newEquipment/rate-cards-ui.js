@@ -1,12 +1,13 @@
 ﻿module.exports('rate-cards-ui', function () {
 
     var showRateCardBlock = function () {
-        $('#rateCardsBlock').show('slow',
-            function () {
-                $('#loanRateCardToggle').find('i.glyphicon')
-                    .removeClass('glyphicon-chevron-right')
-                    .addClass('glyphicon-chevron-down');
-            });
+        $('#rateCardsBlock').addClass('opened')
+                            .removeClass('closed');
+
+        $('#loanRateCardToggle').find('i.glyphicon')
+          .removeClass('glyphicon-chevron-right')
+          .addClass('glyphicon-chevron-down');
+
 
         if (!$('#paymentInfo').hasClass('hidden')) {
             $('#paymentInfo').addClass('hidden');
@@ -14,12 +15,12 @@
     }
 
     var hideRateCardBlock = function () {
-        $('#rateCardsBlock').hide('slow',
-            function () {
-                $('#loanRateCardToggle').find('i.glyphicon')
-                    .removeClass('glyphicon-chevron-down')
-                    .addClass('glyphicon-chevron-right');
-            });
+        $('#rateCardsBlock').removeClass('opened')
+                            .addClass('closed');
+
+        $('#loanRateCardToggle').find('i.glyphicon')
+          .removeClass('glyphicon-chevron-down')
+          .addClass('glyphicon-chevron-right');
 
         if ($('#paymentInfo').hasClass('hidden')) {
             $('#paymentInfo').removeClass('hidden');
@@ -57,13 +58,14 @@
                 $('#submit').parent().popover();
             }
 
-            $('#loanRateCardToggle').show();
+            $('#loanRateCardToggle').addClass();
             $('.rental-element').hide();
 
             if ($('#rateCardsBlock').find('div.checked').length) {
                 $('#paymentInfo').show();
             } else {
-                $('#rateCardsBlock').show();
+                $('#rateCardsBlock').addClass('opened')
+                  .removeClass('closed');
             }
         } else {
             //If rental is chosen
@@ -72,7 +74,8 @@
                 $('#submit').parent().popover('destroy');
             }
             setHeight();
-            $('.rental-element').show();
+            $('.rental-element').addClass('opened')
+              .removeClass('closed');
             $('.loan-element').hide();
         }
     }
@@ -94,7 +97,7 @@
             $('#rateCardsBlock').addClass('one-rate-card');
         }
         $('#loanRateCardToggle').click(function () {
-            toggleRateCardBlock(!$('#rateCardsBlock').is(':visible'));
+            toggleRateCardBlock($('#rateCardsBlock').is('.closed'));
         });
 
         $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
@@ -128,7 +131,6 @@ function  carouselRateCards(){
         paginationItems = 2;
         targetSlides = 2;
     }else {
-        console.log('adfads')
         paginationItems = 1;
         targetSlides = 1;
     }
