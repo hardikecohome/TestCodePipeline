@@ -45,5 +45,7 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public int ContractId { get; set; }
 
         public int? RateCardId { get; set; }
+
+        public double? DealerCost { get; set; }
     }
 }
