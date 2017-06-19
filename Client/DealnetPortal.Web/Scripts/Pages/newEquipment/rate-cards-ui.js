@@ -116,7 +116,9 @@
                 $.each($('.monthly-cost'), function () {
                     var $this = $(this);
                     if ($this[0].form) {
-                        value += parseFloat($this.val());
+                        var temp = parseFloat($this.val());
+                        if (!isNaN(temp))
+                            value += temp;
                     }
                 });
                 $('#total-monthly-payment').val(value).change();
