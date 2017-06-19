@@ -1488,4 +1488,13 @@
   <data name="Months" xml:space="preserve">
     <value>Mois</value>
   </data>
+  <data name="YourRate" xml:space="preserve">
+    <value>Votre taux</value>
+  </data>
+  <data name="YourRateIncorrectFormat" xml:space="preserve">
+    <value>Votre taux est en format incorrect</value>
+  </data>
+  <data name="CustomerOrYourCostRequired" xml:space="preserve">
+    <value>Le taux du client ou votre coût est requis</value>
+  </data>
 </root>

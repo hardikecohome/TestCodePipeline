@@ -75,10 +75,4 @@
 
         var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
         state.agreementType = Number(agreementType);
-
-        $('#equipment-form').on('keypress','.equipment-cost, .monthly-cost', function (e) {
-            if (e.which < 48 || e.which > 57) {
-                e.preventDefault();
-            }
-        });
     });

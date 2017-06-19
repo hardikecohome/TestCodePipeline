@@ -12,7 +12,8 @@
                         <div class="form-group">
                             <label for="">Loan Term</label>
                             <div class="control-group">
-                                <input type="text" class="form-control" id="CustomLoanTerm">
+                                <input type="text" class="form-control" name="CustomLoanTerm" id="CustomLoanTerm">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomLoanTerm" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -21,7 +22,8 @@
 
                             <label for="">Amort. Term</label>
                             <div class="control-group">
-                                <input type="text" class="form-control" id="CustomAmortTerm">
+                                <input type="text" class="form-control" name="CustomAmortTerm" id="CustomAmortTerm">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomAmortTerm" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -46,8 +48,9 @@
                         <div class="form-group">
                             <label for="">Customer Rate</label>
                             <div class="control-group has-addon-right">
-                                <input type="text" class="form-control" id="CustomCRate"/>
+                                <input type="text" class="form-control rate-group" name="CustomCRate" id="CustomCRate"/>
                                 <div class="control-group-addon">%</div>
+                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomCRate" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -55,8 +58,9 @@
                         <div class="form-group">
                             <label for="">Your Cost</label>
                             <div class="control-group has-addon-right">
-                                <input type="text" class="form-control" id="CustomYCostVal"/>
+                                <input type="text" class="form-control rate-group" name="CustomYCostVal" id="CustomYCostVal"/>
                                 <div class="control-group-addon">%</div>
+                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomYCostVal" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -71,7 +75,8 @@
                     <div class="col-xs-6 control-cell">
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
-                            <input type="text" class="form-control dealnet-input" id="CustomAFee">
+                            <input type="text" class="form-control dealnet-input" name="CustomAFee" id="CustomAFee">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="CustomAFee" data-valmsg-replace="true"></span>
                         </div>
                     </div>
                 </div>
@@ -106,6 +111,6 @@
             </div>
         </div>
         <div id="hidden-option" class="hidden">Custom</div>
-        <button class="btn dealnet-button dealnet-success-button btn-select-card">Select</button>
+        <button type="button" class="btn dealnet-button dealnet-success-button btn-select-card">Select</button>
     </div>
 </li>

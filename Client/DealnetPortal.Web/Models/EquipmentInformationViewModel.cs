@@ -56,12 +56,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public int? RequestedTerm { get; set; }
 
         [Range(0, 999, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LoanTermMustBe3Max")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LoanTermIncorrectFormat")]
+        [RegularExpression(@"^[1-9]\d{0,2}$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LoanTermIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "LoanTerm")]
         public int? LoanTerm { get; set; }
 
         [Range(0, 999, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AmortizationTermMustBe3Max")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AmortizationTermIncorrectFormat")]
+        [RegularExpression(@"^[1-9]\d{0,2}$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AmortizationTermIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AmortizationTerm")]
         public int? AmortizationTerm { get; set; }
 
@@ -74,6 +74,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [RegularExpression(@"(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CustomerRateIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomerRatePercentage")]
         public double? CustomerRate { get; set; }
+
+        [RegularExpression(@"(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "YourRateIncorrectFormat")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "YourRate")]
+        public double? DealerRate { get; set; }
 
         [RegularExpression(@"(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AdminFeeIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AdminFee")]
