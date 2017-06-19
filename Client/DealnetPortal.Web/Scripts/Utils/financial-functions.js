@@ -20,7 +20,7 @@
         };
 
         var yourCost = function (data) {
-            var yCost = data.yourCost;
+            var yCost = data.DealerCost;
 
             return yCost * totalAmountFinanced(data) / 100;
         }

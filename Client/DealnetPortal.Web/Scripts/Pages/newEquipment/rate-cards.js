@@ -300,11 +300,20 @@
                 });
             }
 
+            var selectedValues = $('#' + option + 'AmortizationDropdown option:selected').text().split('/');
+            var amortTerm = +(selectedValues[1]);
+
             var options = $('#' + option + 'AmortizationDropdown');
             options.empty();
 
             $.each(dropdownValues, function (item) {
-                options.append($("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm));
+                var optionTemplate = $("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm);
+
+                if (option === 'Deferral' && dropdownValues[item].AmortizationTerm === amortTerm) {
+                    optionTemplate.attr('selected', 'selected');
+                }
+
+                options.append(optionTemplate);
             });
         }
     }
