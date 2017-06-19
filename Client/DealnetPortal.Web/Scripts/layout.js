@@ -59,10 +59,12 @@
        }
       );
 
-
-    $('*').on('focus', function(){
+/*
+    $('*:not(.div-datepicker)').on('focus click', function(){
       $('.div-datepicker').removeClass('opened');
     });
+*/
+
 
     if (customerDealsCountUrl) {
         $.ajax({
