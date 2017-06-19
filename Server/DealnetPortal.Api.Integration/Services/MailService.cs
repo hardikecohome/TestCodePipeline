@@ -27,6 +27,7 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
+using DealnetPortal.Api.Models.Notification;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -35,6 +36,11 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IEmailService _emailService;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
+        private readonly ISmsSubscriptionService _smsSubscriptionServive = new SmsSubscriptionService();
+        private readonly IPersonalizedMessageService _personalizedMessageService = new PersonalizedMessageService(ConfigurationManager.AppSettings["SMSENDPOINT"],
+                                                                                                                     ConfigurationManager.AppSettings["SMSAPIKEY"]);
+        private readonly IMailСhimpService _mailChimpService = new MailChimpService(ConfigurationManager.AppSettings["MailChimpApiKey"]);
+
 
         public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService)
         {
@@ -267,9 +273,38 @@ namespace DealnetPortal.Api.Integration.Services
 
             var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            MailChimpMember member = new MailChimpMember()
+            {
+                Email = customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+                FirstName = customerFormData.PrimaryCustomer.FirstName,
+                LastName = customerFormData.PrimaryCustomer.LastName,
+                address = new MemberAddress()
+                {
+                    Street = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Street,
+                    Unit = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Unit,
+                    City = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().City,
+                    State = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().State,
+                    PostalCode = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
+                },
+                CreditAmount = (decimal)customerFormData.Details.CreditAmount,
+                ApplicationStatus = customerFormData.ContractState.ToString(),
+                TemporaryPassword = password,
+                EquipmentInfoRequired = "Required",
+                OneTimeLink = domain +"/invite/"+ hashLogin 
+                //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
+            };
+
             try
             {
-                await _emailService.SendAsync(mail);
+              //  await _emailService.SendAsync(mail);
+              // Hardik SMS trigger for subscription request
+                var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
+                                                                                customerFormData.PrimaryCustomer.Id.ToString(),
+                                                                              "Broker",
+                                                                            ConfigurationManager.AppSettings["SubscriptionRef"]);
+                // Hardik MailChimp trigger for subscription request
+                await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
+                //var q = await _mailChimpService.SendUpdateNotification(customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress);
             }
             catch (Exception ex)
             {
@@ -317,9 +352,34 @@ namespace DealnetPortal.Api.Integration.Services
 
             var subject = $"{Resources.Resources.WeAreLookingForTheBestProfessionalForYourHomeImprovementProject}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            //Hardik Update MailChimp Home Improvement type
+            MailChimpMember member = new MailChimpMember()
+            {
+                Email = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+                FirstName = contract.PrimaryCustomer.FirstName,
+                LastName = contract.PrimaryCustomer.LastName,
+                address = new MemberAddress()
+                {
+                    Street = contract.PrimaryCustomer.Locations.FirstOrDefault().Street,
+                    Unit = contract.PrimaryCustomer.Locations.FirstOrDefault().Unit,
+                    City = contract.PrimaryCustomer.Locations.FirstOrDefault().City,
+                    State = contract.PrimaryCustomer.Locations.FirstOrDefault().State,
+                    PostalCode = contract.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
+                },
+                CreditAmount = (decimal)contract.Details.CreditAmount,
+                ApplicationStatus = contract.ContractState.ToString(),
+                // TemporaryPassword = password,
+                EquipmentInfoRequired = "Updated"
+                //EquipmentInfoRequired = (contract.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
+            };
             try
             {
-                await _emailService.SendAsync(mail);
+                // await _emailService.SendAsync(mail);
+                // Hardik Mailchimp trigger to update Equipment type
+                await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
+                
+                var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+
             }
             catch (Exception ex)
             {
@@ -365,9 +425,33 @@ namespace DealnetPortal.Api.Integration.Services
 
             var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            MailChimpMember member = new MailChimpMember()
+            {
+                Email = customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+                FirstName = customerFormData.PrimaryCustomer.FirstName,
+                LastName = customerFormData.PrimaryCustomer.LastName,
+                address = new MemberAddress()
+                {
+                    Street = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Street,
+                    Unit = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Unit,
+                    City = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().City,
+                    State = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().State,
+                    PostalCode = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
+                },
+                CreditAmount = (decimal)customerFormData.Details.CreditAmount,
+                ApplicationStatus = customerFormData.ContractState.ToString(),
+                //TemporaryPassword = password,
+               // EquipmentInfoRequired = "Required"
+                //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
+            };
+
             try
             {
-                await _emailService.SendAsync(mail);
+               // await _emailService.SendAsync(mail);
+                //Hardik MailChimp Trigger to update CreditAmount
+                await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
+                var result = await _personalizedMessageService.SendMessage(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+
             }
             catch (Exception ex)
             {
@@ -432,7 +516,11 @@ namespace DealnetPortal.Api.Integration.Services
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             try
             {
-                await _emailService.SendAsync(mail);
+                //Need to plug mailchimp 
+                //await _emailService.SendAsync(mail);
+
+                var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+
             }
             catch (Exception ex)
             {
