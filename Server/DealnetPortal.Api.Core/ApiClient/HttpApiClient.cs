@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Helpers;
+using Newtonsoft.Json;
 
 namespace DealnetPortal.Api.Core.ApiClient
 {
@@ -113,10 +114,13 @@ namespace DealnetPortal.Api.Core.ApiClient
         {
             try
             {
-                var request = new HttpRequestMessage();
-                var formatter = new MediaTypeFormatter[] {new JsonMediaTypeFormatter()};
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] {new JsonMediaTypeFormatter()};
                 request.Content = new ObjectContent<T1>(content, new JsonMediaTypeFormatter());
-                request.Method = HttpMethod.Post;
                 if (authenticationHeader != null)
                 {
                     request.Headers.Authorization = authenticationHeader;
@@ -178,9 +182,12 @@ namespace DealnetPortal.Api.Core.ApiClient
         {
             try
             {
-                var request = new HttpRequestMessage();
-                var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
-                request.Method = HttpMethod.Get;                
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter()};
                 if (authenticationHeader != null)
                 {
                     request.Headers.Authorization = authenticationHeader;
@@ -252,10 +259,13 @@ namespace DealnetPortal.Api.Core.ApiClient
         {
             try
             {
-                var request = new HttpRequestMessage();
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Put,
+                    RequestUri = new Uri(requestUri)
+                };
                 var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
                 request.Content = new ObjectContent<T1>(content, new JsonMediaTypeFormatter());
-                request.Method = HttpMethod.Put;
                 if (authenticationHeader != null)
                 {
                     request.Headers.Authorization = authenticationHeader;

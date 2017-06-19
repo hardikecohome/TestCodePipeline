@@ -69,7 +69,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     }
 
                     SetUser(result.Item1);
-                    _securityService.SetAuthorizationHeader(result.Item1);
+                    //_securityService.SetAuthorizationHeader(result.Item1);
                 }
                 catch (Exception ex)
                 {

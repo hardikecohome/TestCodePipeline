@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
@@ -15,25 +17,27 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Web.Common;
+using Microsoft.Owin.Security;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Contract.EquipmentInformation;
 
-    public class ContractServiceAgent : TransientApiBase, IContractServiceAgent
+    public class ContractServiceAgent : ApiBase, IContractServiceAgent
     {
         private const string ContractApi = "Contract";
         private readonly ILoggingService _loggingService;
 
-        public ContractServiceAgent(ITransientHttpApiClient client, ILoggingService loggingService)
-            : base(client, ContractApi)
+        public ContractServiceAgent(IHttpApiClient client, ILoggingService loggingService, IAuthenticationManager authenticationManager)
+            : base(client, ContractApi, authenticationManager)
         {
             _loggingService = loggingService;
         }
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContract()
         {
-            return await Client.PutAsync<string, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContract", "");
+            return await Client.PutAsyncWithAuth<string, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContract", "", AuthenticationHeader);
         }
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> GetContract(int contractId)
@@ -41,7 +45,7 @@ namespace DealnetPortal.Web.ServiceAgent
             var alerts = new List<Alert>();
             try
             {
-                var contract = await Client.GetAsync<ContractDTO>($"{_fullUri}/{contractId}");
+                var contract = await Client.GetAsyncWithAuth<ContractDTO>($"{_fullUri}/{contractId}", AuthenticationHeader);
                 return new Tuple<ContractDTO, IList<Alert>>(contract, alerts);
             }
             catch (Exception ex)
@@ -60,8 +64,8 @@ namespace DealnetPortal.Web.ServiceAgent
         public async Task<IList<ContractDTO>> GetContracts()
         {
             try
-            {            
-                return await Client.GetAsync<IList<ContractDTO>>(_fullUri);
+            {                
+                return await Client.GetAsyncWithAuth<IList<ContractDTO>>(_fullUri, AuthenticationHeader);             
             }
             catch (Exception ex)
             {
@@ -75,7 +79,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetCreatedContracts");
+                return await Client.GetAsyncWithAuth<IList<ContractDTO>>($"{_fullUri}/GetCreatedContracts", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -88,7 +92,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {            
-                return await Client.GetAsync<int>($"{_fullUri}/GetCustomersContractsCount");
+                return await Client.GetAsyncWithAuth<int>($"{_fullUri}/GetCustomersContractsCount", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -101,7 +105,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetCompletedContracts");
+                return await Client.GetAsyncWithAuth<IList<ContractDTO>>($"{_fullUri}/GetCompletedContracts", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -114,7 +118,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<IList<ContractDTO>>($"{_fullUri}/GetDealerLeads");
+                return await Client.GetAsyncWithAuth<IList<ContractDTO>>($"{_fullUri}/GetDealerLeads", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -128,7 +132,7 @@ namespace DealnetPortal.Web.ServiceAgent
             var alerts = new List<Alert>();
             try
             {
-                var contracts = await Client.PostAsync<IEnumerable<int>, IList<ContractDTO>>($"{_fullUri}/GetContracts", ids);
+                var contracts = await Client.PostAsyncWithAuth<IEnumerable<int>, IList<ContractDTO>>($"{_fullUri}/GetContracts", ids, AuthenticationHeader);
                 return new Tuple<IList<ContractDTO>, IList<Alert>>(contracts, alerts);
             }
             catch (Exception ex)
@@ -150,8 +154,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PutAsync<string, IList<Alert>>(
-                            $"{_fullUri}/NotifyContractEdit?contractId={contractId}", "");
+                        Client.PutAsyncWithAuth<string, IList<Alert>>(
+                            $"{_fullUri}/NotifyContractEdit?contractId={contractId}", "", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -165,7 +169,7 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return
-                    await Client.PutAsync<ContractDataDTO, IList<Alert>>($"{_fullUri}/UpdateContractData", contractData);
+                    await Client.PutAsyncWithAuth<ContractDataDTO, IList<Alert>>($"{_fullUri}/UpdateContractData", contractData, AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -179,7 +183,7 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return
-                    await Client.PutAsync<CustomerDataDTO[], IList<Alert>>($"{_fullUri}/UpdateCustomerData", customers);
+                    await Client.PutAsyncWithAuth<CustomerDataDTO[], IList<Alert>>($"{_fullUri}/UpdateCustomerData", customers, AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -208,8 +212,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PutAsync<string, IList<Alert>>(
-                            $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "");
+                        Client.PutAsyncWithAuth<string, IList<Alert>>(
+                            $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -223,7 +227,7 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return
-                    await Client.PutAsync<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/InitiateDigitalSignature", signatureUsers);
+                    await Client.PutAsyncWithAuth<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/InitiateDigitalSignature", signatureUsers, AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -238,8 +242,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PostAsync<string, Tuple<CreditCheckDTO, IList<Alert>>>(
-                            $"{_fullUri}/SubmitContract?contractId={contractId}", "");               
+                        Client.PostAsyncWithAuth<string, Tuple<CreditCheckDTO, IList<Alert>>>(
+                            $"{_fullUri}/SubmitContract?contractId={contractId}", "", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -254,8 +258,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.GetAsync<Tuple<CreditCheckDTO, IList<Alert>>>(
-                            $"{_fullUri}/GetCreditCheckResult?contractId={contractId}");
+                        Client.GetAsyncWithAuth<Tuple<CreditCheckDTO, IList<Alert>>>(
+                            $"{_fullUri}/GetCreditCheckResult?contractId={contractId}", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -270,8 +274,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.GetAsync<Tuple<AgreementDocument, IList<Alert>>>(
-                            $"{_fullUri}/GetContractAgreement?contractId={contractId}");
+                        Client.GetAsyncWithAuth<Tuple<AgreementDocument, IList<Alert>>>(
+                            $"{_fullUri}/GetContractAgreement?contractId={contractId}", AuthenticationHeader);
             }
             catch (Exception ex)
             {
@@ -286,8 +290,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PutAsync<InstallationCertificateDataDTO, IList<Alert>>(
-                            $"{_fullUri}/UpdateInstallationData", installationCertificateData);
+                        Client.PutAsyncWithAuth<InstallationCertificateDataDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateInstallationData", installationCertificateData, AuthenticationHeader);
             }
             catch (Exception ex)
             {
