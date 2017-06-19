@@ -883,6 +883,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.AgreementType = dbEquipment.AgreementType;
                 }
+                if (equipmentInfo.DownPayment == null)
+                {
+                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
+                }
                 if (equipmentInfo.CustomerRate == null)
                 {
                     equipmentInfo.CustomerRate = dbEquipment.CustomerRate;
