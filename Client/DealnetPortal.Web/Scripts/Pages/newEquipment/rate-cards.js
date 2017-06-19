@@ -140,8 +140,8 @@
                     state[option.name].CustomerRate = Number($('#CustomerRate').val());
                     $('#CustomAFee').val($('#AdminFee').val());
                     state[option.name].AdminFee = Number($('#AdminFee').val());
-                    $('#CustomYCost').val(0);
-                    state[option.name].yourCost = 0;
+                    $('#CustomYCost').val($('#DealerRate').val());
+                    state[option.name].yourCost = Number($('#DealerRate').val());
                     toggleSelectedRateCard('#CustomLoanTerm');
 
                     state.isInitialized = true;
@@ -307,7 +307,7 @@
             if (option === 'Deferral') {
                 var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 
-                if (deferralPeriod != null && deferralPeriod !== '') {
+                if (deferralPeriod != null && deferralPeriod.val !== 0) {
                     $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
                 }
             }

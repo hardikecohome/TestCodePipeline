@@ -1267,6 +1267,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer Rate or Your Cost is Required.
+        /// </summary>
+        public static string CustomerOrYourCostRequired {
+            get {
+                return ResourceManager.GetString("CustomerOrYourCostRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer Rate is in incorrect format.
         /// </summary>
         public static string CustomerRateIncorrectFormat {
@@ -4359,6 +4368,24 @@ namespace DealnetPortal.Web.Resources {
         public static string YourInformation {
             get {
                 return ResourceManager.GetString("YourInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Rate.
+        /// </summary>
+        public static string YourRate {
+            get {
+                return ResourceManager.GetString("YourRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Rate is in incorrect format.
+        /// </summary>
+        public static string YourRateIncorrectFormat {
+            get {
+                return ResourceManager.GetString("YourRateIncorrectFormat", resourceCulture);
             }
         }
         

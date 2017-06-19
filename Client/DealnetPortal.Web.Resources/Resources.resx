@@ -1571,4 +1571,13 @@
   <data name="Months" xml:space="preserve">
     <value>Months</value>
   </data>
+  <data name="YourRate" xml:space="preserve">
+    <value>Your Rate</value>
+  </data>
+  <data name="YourRateIncorrectFormat" xml:space="preserve">
+    <value>Your Rate is in incorrect format</value>
+  </data>
+  <data name="CustomerOrYourCostRequired" xml:space="preserve">
+    <value>Customer Rate or Your Cost is Required</value>
+  </data>
 </root>
