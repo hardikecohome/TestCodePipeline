@@ -266,7 +266,6 @@ namespace DealnetPortal.Api.Integration.Services
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
                     // send each equipment separately using same call for avoid Aspire issue
-
                     for (int i = 0; i < (contract.Equipment?.NewEquipment?.Count ?? 1); i++)
                     {
                         var eqToUpdate = (contract.Equipment?.NewEquipment?.Any() ?? false)
@@ -344,6 +343,99 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogInfo($"Contract [{contractId}] submitted to Aspire successfully with transaction Id [{contract?.Details.TransactionId}]");
             }       
+
+            return alerts;
+        }
+
+
+        public async Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract != null)
+            {
+                DealUploadRequest request = new DealUploadRequest();
+
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = new RequestHeader()
+                    {
+                        From = new From()
+                        {
+                            AccountNumber = userResult.Item1.UserId,
+                            Password = userResult.Item1.Password
+                        }
+                    };
+                    request.Payload = new Payload()
+                    {
+                        Lease = new Lease()
+                        {
+                            Application = GetSimpleContractApplication(contract)
+                        }
+                    };
+
+                    try
+                    {
+                        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+
+                        var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
+                        DealUploadResponse response = null;
+
+                        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) ==
+                            aspireRequestTask)
+                        {
+                            response = await aspireRequestTask.ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            throw new TimeoutException("External system operation has timed out.");
+                        }
+
+                        var rAlerts = AnalyzeResponse(response, contract);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = ErrorConstants.AspireConnectionFailed,
+                            Type = AlertType.Error,
+                            Message = ex.ToString()
+                        });
+                        _loggingService.LogError("Failed to communicate with Aspire", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
+            }
+
+            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Contract [{contractId}] submitted to Aspire successfully with transaction Id [{contract?.Details.TransactionId}]");
+            }
 
             return alerts;
         }
@@ -588,7 +680,9 @@ namespace DealnetPortal.Api.Integration.Services
 
 
             return alerts;
-        }        
+        }
+
+        #region private      
 
         private Tuple<RequestHeader, IList<Alert>> GetAspireUser(string contractOwnerId)
         {
@@ -643,17 +737,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         private string GetTransactionId(Domain.Contract contract)
         {
-            return contract?.Details?.TransactionId;
-
-            //InitRequestPayload(request);
-            //if (!string.IsNullOrEmpty(contract.Details?.TransactionId))
-            //{
-            //    if (request.Payload.Lease.Application == null)
-            //    {
-            //        request.Payload.Lease.Application = new Application();
-            //    }
-            //    request.Payload.Lease.Application.TransactionId = contract.Details.TransactionId;
-            //}
+            return contract?.Details?.TransactionId;            
         }
 
         private List<Account> GetCustomersInfo(Domain.Contract contract)
@@ -815,10 +899,39 @@ namespace DealnetPortal.Api.Integration.Services
 
                 application.ContractType = contract.Equipment?.AgreementType == AgreementType.LoanApplication
                     ? "LOAN"
-                    : "RENTAL";
+                    : "RENTAL";                
+            }
+            application.UDFs = GetApplicationUdfs(contract).ToList();
 
-                application.UDFs = GetApplicationUdfs(contract).ToList();                    
-            }                                    
+            return application;
+        }
+
+        /// <summary>
+        /// UDFs and some basic info only
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        private Application GetSimpleContractApplication(Domain.Contract contract)
+        {
+            var application = new Application()
+            {
+                TransactionId = contract.Details?.TransactionId,                
+            };
+
+            if (contract.Equipment != null)
+            {                
+                application.AmtRequested = contract.Equipment.AmortizationTerm?.ToString();
+                application.TermRequested = contract.Equipment.RequestedTerm.ToString();
+
+                application.ContractType = contract.Equipment?.AgreementType == AgreementType.LoanApplication
+                    ? "LOAN"
+                    : "RENTAL";                
+            }
+
+            application.Notes = contract.Details?.Notes ?? contract.Equipment?.Notes;
+            //TODO: Implement finance program selection
+            application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
+            application.UDFs = GetApplicationUdfs(contract).ToList();
 
             return application;
         }
@@ -1254,5 +1367,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             return udfList;
         }
+
+        #endregion
     }
 }

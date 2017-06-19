@@ -238,8 +238,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                         try
                         {                        
-                            //try to submit deal in Aspire
-                            var submitAlerts = _aspireService.SubmitDeal(c.Id, c.DealerId).GetAwaiter().GetResult();
+                            //try to send UDFs to Aspire
+                            var submitAlerts = _aspireService.SendDealUDFs(c.Id, c.DealerId).GetAwaiter().GetResult();
                             if (submitAlerts?.Any() == true)
                             {
                                 alerts.AddRange(submitAlerts);

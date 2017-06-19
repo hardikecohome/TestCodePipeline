@@ -158,16 +158,39 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
+                    Task.Run(
+                        async () =>
+                        {
+                            if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                            {
+                                var aspireAlerts = await
+                                    _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);                                
+                            }
+                            if (contract.Equipment.NewEquipment?.Any() == true &&
+                                updatedContract.ContractState != ContractState.Completed &&
+                                updatedContract.ContractState != ContractState.SentToAudit)
+                            {
+                                var aspireAlerts = await
+                                    _aspireService.SendDealUDFs(contract.Id, contractOwnerId);
+                            }
+                        });
                     //update customers on aspire
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
-                    {
-                        var aspireAlerts =
-                            _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
-                        //if (aspireAlerts?.Any() ?? false)
-                        //{
-                        //    alerts.AddRange(aspireAlerts);
-                        //}
-                    }
+                    //if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                    //{
+                    //    var aspireAlerts =
+                    //        _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
+                    //    //if (aspireAlerts?.Any() ?? false)
+                    //    //{
+                    //    //    alerts.AddRange(aspireAlerts);
+                    //    //}
+                    //}
+                    //if (contract.Equipment.NewEquipment?.Any() == true &&
+                    //    updatedContract.ContractState != ContractState.Completed &&
+                    //    updatedContract.ContractState != ContractState.SentToAudit)
+                    //{
+                        
+                    //}
+
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
                         var contractDTO = Mapper.Map<ContractDTO>(updatedContract);

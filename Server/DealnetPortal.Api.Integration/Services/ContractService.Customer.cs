@@ -79,7 +79,7 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         //try to submit deal in Aspire
-                        await _aspireService.SubmitDeal(contractResult.Item1.Id, contractOwnerId);
+                        await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
                     }
                     catch (Exception ex)
                     {

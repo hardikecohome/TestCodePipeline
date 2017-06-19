@@ -28,6 +28,14 @@ namespace DealnetPortal.Api.Integration.Services
         /// <returns></returns>
         Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId);
 
+        /// <summary>
+        /// Submit deal without equipment information - send UDFs only
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <param name="contractOwnerId"></param>
+        /// <returns></returns>
+        Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId);
+
         Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
