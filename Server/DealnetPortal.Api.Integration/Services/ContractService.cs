@@ -85,32 +85,9 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetContracts(string contractOwnerId)
         {
             var contractDTOs = new List<ContractDTO>();
-
-            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
-
-            if (aspireDeals?.Any() ?? false)
-            {
-                // update dealer-sub dealers hierarchy
-                var transactionIds = aspireDeals.Select(d => d.Details?.TransactionId).ToArray();
-                var updatedDealers = _contractRepository.UpdateSubDealersHierarchyByRelatedTransactions(transactionIds,
-                    contractOwnerId);
-                if (updatedDealers > 0)
-                {
-                    try
-                    {
-                        _loggingService.LogInfo(
-                            $"Updating relashionships for {updatedDealers} SubDealers or Sales Agents");
-                        _unitOfWork.Save();
-                    }
-                    catch (Exception ex)
-                    {
-                        _loggingService.LogError("Cannot update Sub-dealers and Sales agents hierarchy", ex);
-                    }
-                }
-            }
-
             var contracts = _contractRepository.GetContracts(contractOwnerId);
 
+            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);                        
             if (aspireDeals?.Any() ?? false)
             {
                 var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
